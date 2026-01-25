@@ -8,7 +8,7 @@ export default defineConfig({
     output: 'src/client',
     plugins: [
         {
-            baseUrl: LOCAL_URL,
+            baseUrl: PROD_URL,
             name: '@hey-api/client-fetch',
         },
     ],
