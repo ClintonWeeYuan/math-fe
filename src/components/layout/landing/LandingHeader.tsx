@@ -1,14 +1,6 @@
 import { Button } from '@/components/ui/button.tsx'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '@/components/auth/AuthContext.tsx'
-import {
-    NavigationMenu,
-    NavigationMenuContent,
-    NavigationMenuItem,
-    NavigationMenuLink,
-    NavigationMenuList,
-    NavigationMenuTrigger,
-} from '@radix-ui/react-navigation-menu'
 
 const MENU_ITEMS: { text: string; link: string }[] = [
     {
@@ -60,27 +52,5 @@ export function LandingHeader() {
                 )}
             </div>
         </div>
-    )
-}
-
-function ListItem({
-    title,
-    children,
-    href,
-    ...props
-}: React.ComponentPropsWithoutRef<'li'> & { href: string }) {
-    return (
-        <li {...props}>
-            <NavigationMenuLink asChild>
-                <Link to={href}>
-                    <div className="flex flex-col gap-1 text-sm">
-                        <div className="leading-none font-medium">{title}</div>
-                        <div className="text-muted-foreground line-clamp-2">
-                            {children}
-                        </div>
-                    </div>
-                </Link>
-            </NavigationMenuLink>
-        </li>
     )
 }
