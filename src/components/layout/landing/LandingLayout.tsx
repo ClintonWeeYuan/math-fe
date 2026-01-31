@@ -7,7 +7,7 @@ interface Props {
 
 export function LandingLayout({ children }: Props) {
     return (
-        <main>
+        <main className="w-screen">
             <LandingHeader />
             {children}
         </main>
