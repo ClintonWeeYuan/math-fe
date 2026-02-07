@@ -179,6 +179,20 @@ export type CreateLevelBody = {
 };
 
 /**
+ * CreateOptionBody
+ */
+export type CreateOptionBody = {
+    /**
+     * Value
+     */
+    value: string;
+    /**
+     * Iscorrect
+     */
+    isCorrect?: boolean;
+};
+
+/**
  * CreatePaperBody
  */
 export type CreatePaperBody = {
@@ -329,6 +343,28 @@ export type LevelWithSyllabus = {
      */
     name: string;
     syllabus: BaseSyllabus;
+};
+
+/**
+ * OptionResponse
+ */
+export type OptionResponse = {
+    /**
+     * Id
+     */
+    id: string;
+    /**
+     * Questionid
+     */
+    questionId: string;
+    /**
+     * Value
+     */
+    value: string;
+    /**
+     * Iscorrect
+     */
+    isCorrect: boolean;
 };
 
 /**
@@ -487,6 +523,20 @@ export type Syllabus = {
      * Papervariants
      */
     paperVariants: Array<PaperVariant>;
+};
+
+/**
+ * UpdateOptionBody
+ */
+export type UpdateOptionBody = {
+    /**
+     * Value
+     */
+    value?: string | null;
+    /**
+     * Iscorrect
+     */
+    isCorrect?: boolean | null;
 };
 
 /**
@@ -954,6 +1004,135 @@ export type GetQuestionsByPaperInstanceQuestionsPaperInstancePaperInstanceIdGetR
 };
 
 export type GetQuestionsByPaperInstanceQuestionsPaperInstancePaperInstanceIdGetResponse = GetQuestionsByPaperInstanceQuestionsPaperInstancePaperInstanceIdGetResponses[keyof GetQuestionsByPaperInstanceQuestionsPaperInstancePaperInstanceIdGetResponses];
+
+export type GetQuestionOptionsQuestionsQuestionIdOptionsGetData = {
+    body?: never;
+    path: {
+        /**
+         * Question Id
+         */
+        question_id: string;
+    };
+    query?: never;
+    url: '/questions/{question_id}/options';
+};
+
+export type GetQuestionOptionsQuestionsQuestionIdOptionsGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type GetQuestionOptionsQuestionsQuestionIdOptionsGetError = GetQuestionOptionsQuestionsQuestionIdOptionsGetErrors[keyof GetQuestionOptionsQuestionsQuestionIdOptionsGetErrors];
+
+export type GetQuestionOptionsQuestionsQuestionIdOptionsGetResponses = {
+    /**
+     * Response Get Question Options Questions  Question Id  Options Get
+     * Successful Response
+     */
+    200: Array<OptionResponse>;
+};
+
+export type GetQuestionOptionsQuestionsQuestionIdOptionsGetResponse = GetQuestionOptionsQuestionsQuestionIdOptionsGetResponses[keyof GetQuestionOptionsQuestionsQuestionIdOptionsGetResponses];
+
+export type CreateOptionQuestionsQuestionIdOptionPostData = {
+    body: CreateOptionBody;
+    path: {
+        /**
+         * Question Id
+         */
+        question_id: string;
+    };
+    query?: never;
+    url: '/questions/{question_id}/option';
+};
+
+export type CreateOptionQuestionsQuestionIdOptionPostErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type CreateOptionQuestionsQuestionIdOptionPostError = CreateOptionQuestionsQuestionIdOptionPostErrors[keyof CreateOptionQuestionsQuestionIdOptionPostErrors];
+
+export type CreateOptionQuestionsQuestionIdOptionPostResponses = {
+    /**
+     * Successful Response
+     */
+    200: OptionResponse;
+};
+
+export type CreateOptionQuestionsQuestionIdOptionPostResponse = CreateOptionQuestionsQuestionIdOptionPostResponses[keyof CreateOptionQuestionsQuestionIdOptionPostResponses];
+
+export type DeleteOptionQuestionsQuestionIdOptionOptionIdDeleteData = {
+    body?: never;
+    path: {
+        /**
+         * Question Id
+         */
+        question_id: string;
+        /**
+         * Option Id
+         */
+        option_id: string;
+    };
+    query?: never;
+    url: '/questions/{question_id}/option/{option_id}';
+};
+
+export type DeleteOptionQuestionsQuestionIdOptionOptionIdDeleteErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type DeleteOptionQuestionsQuestionIdOptionOptionIdDeleteError = DeleteOptionQuestionsQuestionIdOptionOptionIdDeleteErrors[keyof DeleteOptionQuestionsQuestionIdOptionOptionIdDeleteErrors];
+
+export type DeleteOptionQuestionsQuestionIdOptionOptionIdDeleteResponses = {
+    /**
+     * Successful Response
+     */
+    200: OptionResponse;
+};
+
+export type DeleteOptionQuestionsQuestionIdOptionOptionIdDeleteResponse = DeleteOptionQuestionsQuestionIdOptionOptionIdDeleteResponses[keyof DeleteOptionQuestionsQuestionIdOptionOptionIdDeleteResponses];
+
+export type UpdateOptionQuestionsQuestionIdOptionOptionIdPatchData = {
+    body: UpdateOptionBody;
+    path: {
+        /**
+         * Question Id
+         */
+        question_id: string;
+        /**
+         * Option Id
+         */
+        option_id: string;
+    };
+    query?: never;
+    url: '/questions/{question_id}/option/{option_id}';
+};
+
+export type UpdateOptionQuestionsQuestionIdOptionOptionIdPatchErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type UpdateOptionQuestionsQuestionIdOptionOptionIdPatchError = UpdateOptionQuestionsQuestionIdOptionOptionIdPatchErrors[keyof UpdateOptionQuestionsQuestionIdOptionOptionIdPatchErrors];
+
+export type UpdateOptionQuestionsQuestionIdOptionOptionIdPatchResponses = {
+    /**
+     * Successful Response
+     */
+    200: OptionResponse;
+};
+
+export type UpdateOptionQuestionsQuestionIdOptionOptionIdPatchResponse = UpdateOptionQuestionsQuestionIdOptionOptionIdPatchResponses[keyof UpdateOptionQuestionsQuestionIdOptionOptionIdPatchResponses];
 
 export type GetAllSyllabusSyllabusGetData = {
     body?: never;

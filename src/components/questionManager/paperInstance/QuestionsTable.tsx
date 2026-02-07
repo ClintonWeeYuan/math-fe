@@ -13,6 +13,7 @@ import type { TopicByLevel } from '@/components/questionManager/UploadQuestion.t
 import { UpdateQuestionDialog } from '@/components/questionManager/paperInstance/UpdateQuestionDialog.tsx'
 import { DownloadButton } from '@/components/common/DownloadButton.tsx'
 import type { QuestionResponse } from '@/client'
+import { QuestionOptionsDialog } from '@/components/questionManager/paperInstance/QuestionOptionsDialog.tsx'
 
 type Props = {
     questions: QuestionResponse[]
@@ -65,6 +66,12 @@ export const QuestionsTable = ({
                                 paperInstanceId={paperInstanceId}
                                 topicsByLevel={topicsByLevel}
                             />
+                            {question.type === 'multiple_choice' && (
+                                <QuestionOptionsDialog
+                                    currentQuestion={question}
+                                />
+                            )}
+
                             <DownloadButton
                                 fileUrl={question.answerUrl}
                                 fileName={`${question.paperVariant.year}-Paper ${question.paper.name}-Q${question.number}.html`}

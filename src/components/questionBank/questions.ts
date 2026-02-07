@@ -28,5 +28,6 @@ export const QUESTIONS: QuestionResponse[] = [
         paperVariant: { id: '123', name: 'Mock', year: 2012 },
         marks: 5,
         status: 'NONE',
+        type: 'default',
     },
 ]
