@@ -1,36 +1,46 @@
 import { Button } from '@/components/ui/button.tsx'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '@/components/auth/AuthContext.tsx'
-
-const MENU_ITEMS: { text: string; link: string }[] = [
-    {
-        text: 'Subjects',
-        link: '/',
-    },
-    {
-        text: 'Pricing',
-        link: '/',
-    },
-    {
-        text: 'About',
-        link: '/',
-    },
-]
+import { useGetSubjectsLink } from '@/components/routing/useGetSubjectsLink.ts'
+import { useMemo } from 'react'
 
 export function LandingHeader() {
     const navigate = useNavigate()
     const { user } = useAuth()
+    const subjectLink = useGetSubjectsLink()
+
+    const MENU_ITEMS: { text: string; link: string }[] = useMemo(
+        () => [
+            {
+                text: 'Subjects',
+                link: subjectLink,
+            },
+            {
+                text: 'Pricing',
+                link: '/',
+            },
+            {
+                text: 'About',
+                link: '/',
+            },
+        ],
+        [subjectLink]
+    )
 
     return (
         <div className="flex px-2 md:px-12 py-4 md:py-8 items-center justify-between">
-            <div className="flex items-center">
-                <img
-                    src="/logo-1.png"
-                    alt="Logo"
-                    className="w-[50px] xl:w-[70px]"
-                />{' '}
-                <span className="text-md md:text-xl font-bold">JomExam</span>
-            </div>
+            <Link to="/">
+                <div className="flex items-center cursor-pointer">
+                    <img
+                        src="/logo-1.png"
+                        alt="Logo"
+                        className="w-[50px] xl:w-[70px]"
+                    />{' '}
+                    <span className="text-md md:text-xl font-bold">
+                        JomExam
+                    </span>
+                </div>
+            </Link>
             <div className="flex justify-between items-center">
                 {MENU_ITEMS.map((item) => (
                     <Link

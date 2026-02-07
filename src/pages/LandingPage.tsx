@@ -23,7 +23,7 @@ export function LandingPage() {
                     <div className="flex flex-col-reverse md:flex-row">
                         <Button
                             className="xl:py-6 cursor-pointer"
-                            onClick={() => navigate('questions')}
+                            onClick={() => navigate('subjects')}
                         >
                             Start practising now!
                         </Button>

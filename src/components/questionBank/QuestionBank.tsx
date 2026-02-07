@@ -18,15 +18,17 @@ import {
 import { PaginationContent } from '@/components/ui/pagination.tsx'
 import { useFiltersFromSearchParams } from '@/hooks/useFiltersFromSearchParams.ts'
 
-const ADD_MATH_SUBJECT_ID = '00246712-44e0-415e-aa87-d0e8c70e94d9'
+type Props = {
+    subjectId: string
+}
 
-export function QuestionBank() {
+export function QuestionBank({ subjectId }: Props) {
     const { topics, difficulty, papers, page, setFilterSearchParams } =
         useFiltersFromSearchParams()
 
     const { data, isLoading, isFetching } =
         useGetPaginatedQuestionsBySubjectQuery({
-            subjectId: ADD_MATH_SUBJECT_ID,
+            subjectId,
             page,
             size: 5,
             topics,
@@ -39,7 +41,7 @@ export function QuestionBank() {
     const questions = data?.items
 
     const { data: subject } = useGetSubjectQuery({
-        subjectId: '00246712-44e0-415e-aa87-d0e8c70e94d9',
+        subjectId,
     })
 
     const formattedTopics = useMemo(() => {
@@ -119,7 +121,7 @@ export function QuestionBank() {
             <div className="flex flex-col w-full max-w-[1000px] grow gap-2">
                 <div className="mb-4">
                     <h2 className="text-2xl font-semibold mb">
-                        SPM Additional Maths
+                        {subject?.name}
                     </h2>
                     <span className="text-md text-gray-400 my-2">
                         Practise with real exam questions to boost your
@@ -175,7 +177,7 @@ export function QuestionBank() {
                             questions={questionList}
                             questionFilters={{
                                 page,
-                                subjectId: ADD_MATH_SUBJECT_ID,
+                                subjectId,
                                 topics,
                                 difficulty,
                             }}

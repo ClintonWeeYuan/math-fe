@@ -17,6 +17,7 @@ import { VerificationPage } from '@/pages/Auth/VerificationPage.tsx'
 import { MoreInfoFormPage } from '@/pages/Auth/MoreInfoFormPage.tsx'
 import { useEffect } from 'react'
 import { LandingPage } from '@/pages/LandingPage.tsx'
+import SubjectsPage from '@/pages/SubjectsPage.tsx'
 
 function App() {
     useEffect(() => {
@@ -42,7 +43,11 @@ function App() {
         <>
             <Routes>
                 <Route path="" element={<LandingPage />} />
-                <Route path="questions" element={<QuestionBankPage />} />
+                <Route path="subjects" element={<SubjectsPage />} />
+                <Route
+                    path="questions/:subjectId"
+                    element={<QuestionBankPage />}
+                />
                 <Route path="v2" element={<QuestionBankPageV2 />} />
                 <Route path="v2/:topicId" element={<QuestionByTopicPage />} />
                 <Route path="admin/login" element={<AdminLoginPage />} />
