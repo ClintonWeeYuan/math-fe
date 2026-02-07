@@ -4,15 +4,15 @@ import { useAuth } from '@/components/auth/AuthContext.tsx'
 
 const MENU_ITEMS: { text: string; link: string }[] = [
     {
+        text: 'Subjects',
+        link: '/',
+    },
+    {
+        text: 'Pricing',
+        link: '/',
+    },
+    {
         text: 'About',
-        link: '/',
-    },
-    {
-        text: 'Plans',
-        link: '/',
-    },
-    {
-        text: 'Page',
         link: '/',
     },
 ]

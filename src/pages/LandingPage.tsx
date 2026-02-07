@@ -9,13 +9,16 @@ export function LandingPage() {
             <div className="px-4 md:px-[50px] xl:px-[150px] mt-4 md:mt-10 w-full">
                 <div className="flex flex-col justify-center w-full">
                     <p className="text-3xl md:text-6xl font-bold mb-6">
-                        Turn Your B into an A in SPM Maths — <br />
-                        One Question at a Time
+                        Master Your SPM Exams <br />
+                        <span className="" style={{ color: '#799ED1' }}>
+                            with Interactive Practice{' '}
+                        </span>
                     </p>
-                    <p className="text-sm text-slate-500 mb-4 md:mb-12">
-                        Exam-aligned Maths practice designed to build
-                        confidence, accuracy, and consistency — with more
-                        subjects coming soon.
+                    <p className="text-sm md:text-lg text-slate-500 mb-4 md:mb-12">
+                        Choose your subject, select topics, pick difficulty
+                        levels, and practice unlimited questions to ace your SPM
+                        exams across Mathematics, Additional Mathematics,
+                        Science subjects, and more.
                     </p>
                     <div className="flex flex-col-reverse md:flex-row">
                         <Button
