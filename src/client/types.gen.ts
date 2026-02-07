@@ -139,6 +139,11 @@ export type BodyConvertLatexConverterPost = {
      * Marks allocated for this question
      */
     marks?: number | null;
+    /**
+     * Question Type
+     * Type of question
+     */
+    question_type: 'default' | 'multiple_choice';
 };
 
 /**
@@ -434,6 +439,10 @@ export type QuestionResponse = {
      * Status
      */
     status?: 'COMPLETED' | 'NONE' | null;
+    /**
+     * Type
+     */
+    type: 'default' | 'multiple_choice';
 };
 
 /**

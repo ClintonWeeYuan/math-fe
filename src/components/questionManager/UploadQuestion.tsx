@@ -33,7 +33,7 @@ import { BACKEND_URL, cn } from '@/lib/utils.ts'
 import axios from 'axios'
 import { useQueryClient } from '@tanstack/react-query'
 import Dropzone from 'react-dropzone'
-import type { PaperInstance, BaseTopic } from '@/client'
+import type { PaperInstance, BaseTopic, QuestionResponse } from '@/client'
 
 type Inputs = {
     file: FileList
@@ -41,6 +41,7 @@ type Inputs = {
     topicIds: string[]
     number: number
     marks: number | undefined
+    questionType: QuestionResponse['type']
 }
 
 export type TopicByLevel = {
@@ -79,6 +80,7 @@ export const UploadQuestion = ({ paperInstance, topicsByLevel }: Props) => {
             topicIds: [],
             number: undefined,
             marks: undefined,
+            questionType: 'default',
         },
     })
 
@@ -99,6 +101,7 @@ export const UploadQuestion = ({ paperInstance, topicsByLevel }: Props) => {
 
         formData.append('title', title)
         formData.append('number', data.number.toString())
+        formData.append('question_type', data.questionType)
         if (data.marks != undefined) {
             formData.append('marks', data.marks.toString())
         }
@@ -166,6 +169,45 @@ export const UploadQuestion = ({ paperInstance, topicsByLevel }: Props) => {
                             />
                         </div>
 
+                        <div className="col-span-1">
+                            <FormField
+                                control={form.control}
+                                name="questionType"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Question Type</FormLabel>
+                                        <FormControl>
+                                            <Select
+                                                onValueChange={(e) =>
+                                                    field.onChange(e)
+                                                }
+                                                defaultValue="default"
+                                            >
+                                                <SelectTrigger className="w-full">
+                                                    <SelectValue />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectGroup>
+                                                        <SelectItem value="default">
+                                                            Default
+                                                        </SelectItem>
+                                                        <SelectItem value="multiple_choice">
+                                                            Multiple Choice
+                                                        </SelectItem>
+                                                    </SelectGroup>
+                                                </SelectContent>
+                                            </Select>
+                                        </FormControl>
+                                        <FormDescription>
+                                            Marks allocated for this question
+                                            (not required)
+                                        </FormDescription>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+
                         {/* Marks Allocated Input */}
                         <div className="col-span-1">
                             <FormField
@@ -192,17 +234,12 @@ export const UploadQuestion = ({ paperInstance, topicsByLevel }: Props) => {
                         </div>
                         {/* Topic Input */}
                         <div className="col-span-1">
-                            <label
-                                htmlFor="topic"
-                                className="block text-sm font-medium text-gray-700 mb-2"
-                            >
-                                Topic
-                            </label>
                             <FormField
                                 control={form.control}
                                 name="topicIds"
                                 render={({ field }) => (
                                     <FormItem>
+                                        <FormLabel>Topic</FormLabel>
                                         <FormControl>
                                             <MultiSelectGroup
                                                 className="mb-4"
