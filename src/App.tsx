@@ -18,6 +18,7 @@ import { MoreInfoFormPage } from '@/pages/Auth/MoreInfoFormPage.tsx'
 import { useEffect } from 'react'
 import { LandingPage } from '@/pages/LandingPage.tsx'
 import SubjectsPage from '@/pages/SubjectsPage.tsx'
+import { QuestionBankPageV3 } from '@/pages/v3/QuestionBankPageV3.tsx'
 
 function App() {
     useEffect(() => {
@@ -49,6 +50,10 @@ function App() {
                     element={<QuestionBankPage />}
                 />
                 <Route path="v2" element={<QuestionBankPageV2 />} />
+                <Route
+                    path="questions/v2/:subjectId"
+                    element={<QuestionBankPageV3 />}
+                />
                 <Route path="v2/:topicId" element={<QuestionByTopicPage />} />
                 <Route path="admin/login" element={<AdminLoginPage />} />
                 <Route path="/auth">

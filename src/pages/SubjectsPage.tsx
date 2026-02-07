@@ -28,11 +28,13 @@ interface Subject {
     color: string
     gradient: string
     topics: Topic[]
+    url: string
 }
 
 export const subjectsPage: Subject[] = [
     {
         id: '8d4a1938-789f-4c57-96b2-1c079941a59e',
+        url: '/questions/v2/8d4a1938-789f-4c57-96b2-1c079941a59e',
         name: 'Mathematics',
         description: 'Master fundamental mathematics concepts for SPM',
         icon: Calculator,
@@ -114,6 +116,7 @@ export const subjectsPage: Subject[] = [
         ],
     },
     {
+        url: '/questions/00246712-44e0-415e-aa87-d0e8c70e94d9',
         id: '00246712-44e0-415e-aa87-d0e8c70e94d9',
         name: 'Add Math',
         description: 'Advanced mathematical concepts and techniques',
@@ -356,10 +359,7 @@ export default function SubjectsPage() {
                             const Icon = subject.icon
 
                             return (
-                                <Link
-                                    key={subject.id}
-                                    to={`/questions/${subject.id}`}
-                                >
+                                <Link key={subject.id} to={subject.url}>
                                     <Card className="h-full cursor-pointer transition-all hover:shadow-xl hover:scale-105 group">
                                         <CardHeader>
                                             <div
