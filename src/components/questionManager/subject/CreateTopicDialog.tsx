@@ -55,7 +55,6 @@ export const CreateTopicDialog = ({ subjectId, levels }: Props) => {
     })
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log({ values })
         await mutateAsync({
             name: values.name,
             levelId: values.levelId ?? null,

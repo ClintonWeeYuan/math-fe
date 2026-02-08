@@ -31,8 +31,6 @@ export function SubjectPage() {
         subjectId: subjectId ?? '',
     })
 
-    console.log({ subjectId, paperInstances, data })
-
     return (
         <AdminLayout>
             <div className="mt-8">
