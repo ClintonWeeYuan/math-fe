@@ -29,7 +29,7 @@ import {
 } from '@/components/ui/form.tsx'
 import { Input } from '@/components/ui/input.tsx'
 import type { Difficulty } from '@/lib/types.ts'
-import { BACKEND_URL, cn } from '@/lib/utils.ts'
+import { cn } from '@/lib/utils.ts'
 import axios from 'axios'
 import { useQueryClient } from '@tanstack/react-query'
 import Dropzone from 'react-dropzone'
@@ -111,12 +111,16 @@ export const UploadQuestion = ({ paperInstance, topicsByLevel }: Props) => {
 
         try {
             // Simulate API call
-            await axios.post(`${BACKEND_URL}/converter`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-                timeout: 60_000,
-            })
+            await axios.post(
+                'https://joyful-vitality-production.up.railway.app/converter',
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                    timeout: 60_000,
+                }
+            )
 
             await queryClient.invalidateQueries({
                 queryKey: ['question', paperInstance?.id],
