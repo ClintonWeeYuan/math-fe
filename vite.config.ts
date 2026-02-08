@@ -14,4 +14,9 @@ export default defineConfig({
     optimizeDeps: {
         include: ['react-math-keyboard', 'mathquill4keyboard'],
     },
+    build: {
+        commonjsOptions: {
+            include: [/react-math-keyboard/, /node_modules/],
+        },
+    },
 })
