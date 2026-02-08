@@ -102,6 +102,7 @@ export const UploadQuestion = ({ paperInstance, topicsByLevel }: Props) => {
         formData.append('title', title)
         formData.append('number', data.number.toString())
         formData.append('question_type', data.questionType)
+
         if (data.marks != undefined) {
             formData.append('marks', data.marks.toString())
         }
@@ -181,7 +182,7 @@ export const UploadQuestion = ({ paperInstance, topicsByLevel }: Props) => {
                                                 onValueChange={(e) =>
                                                     field.onChange(e)
                                                 }
-                                                defaultValue="default"
+                                                value={field.value}
                                             >
                                                 <SelectTrigger className="w-full">
                                                     <SelectValue />
