@@ -10,7 +10,8 @@ import { Card, CardContent } from '@/components/ui/card.tsx'
 import { Checkbox } from '@/components/ui/checkbox.tsx'
 import { Label } from '@/components/ui/label.tsx'
 import { Pencil, Trash2, Check, X } from 'lucide-react'
-// import MathInput from 'react-math-keyboard'
+import MathInput from 'react-math-keyboard'
+
 import { BlockMath } from 'react-katex'
 
 type Props = {
@@ -150,7 +151,7 @@ const QuestionOptionsContent = ({ currentQuestion }: Props) => {
                                                 className="h-8"
                                             />
                                         ) : (
-                                            <p
+                                            <div
                                                 className={`text-sm ${
                                                     option.isCorrect
                                                         ? 'font-semibold text-green-700'
@@ -160,7 +161,7 @@ const QuestionOptionsContent = ({ currentQuestion }: Props) => {
                                                 <BlockMath
                                                     math={option.value}
                                                 />
-                                            </p>
+                                            </div>
                                         )}
                                     </div>
 
@@ -233,11 +234,11 @@ const QuestionOptionsContent = ({ currentQuestion }: Props) => {
             <div className="border-t pt-4 space-y-2">
                 <Label htmlFor="new-option">Add New Option</Label>
                 <div className="flex gap-2">
-                    {/*<MathInput*/}
-                    {/*    divisionFormat="obelus"*/}
-                    {/*    numericToolbarKeys={[]}*/}
-                    {/*    setValue={setNewOptionValue}*/}
-                    {/*/>*/}
+                    <MathInput
+                        divisionFormat="obelus"
+                        numericToolbarKeys={[]}
+                        setValue={setNewOptionValue}
+                    />
                     {/*<Input*/}
                     {/*    id="new-option"*/}
                     {/*    placeholder="Enter option value..."*/}
