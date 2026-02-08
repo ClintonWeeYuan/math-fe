@@ -10,9 +10,9 @@ import { Card, CardContent } from '@/components/ui/card.tsx'
 import { Checkbox } from '@/components/ui/checkbox.tsx'
 import { Label } from '@/components/ui/label.tsx'
 import { Pencil, Trash2, Check, X } from 'lucide-react'
-import MathInput from 'react-math-keyboard'
 
 import { BlockMath } from 'react-katex'
+import Mathfield from '@/components/questionBank/v3/MathField.tsx'
 
 type Props = {
     currentQuestion: QuestionResponse
@@ -234,11 +234,25 @@ const QuestionOptionsContent = ({ currentQuestion }: Props) => {
             <div className="border-t pt-4 space-y-2">
                 <Label htmlFor="new-option">Add New Option</Label>
                 <div className="flex gap-2">
-                    <MathInput
-                        divisionFormat="obelus"
-                        numericToolbarKeys={[]}
-                        setValue={setNewOptionValue}
+                    <Mathfield
+                        value={newOptionValue}
+                        onChange={(value) => {
+                            console.log({ value })
+                            setNewOptionValue(value)
+                        }}
+                        style={{
+                            width: '100%',
+                            padding: '8px',
+                            borderRadius: '8px',
+                            border: '1px solid rgba(0, 0, 0, .3)',
+                            boxShadow: '0 0 8px rgba(0, 0, 0, .2)',
+                        }}
                     />
+                    {/*<MathInput*/}
+                    {/*    divisionFormat="obelus"*/}
+                    {/*    numericToolbarKeys={[]}*/}
+                    {/*    setValue={setNewOptionValue}*/}
+                    {/*/>*/}
                     {/*<Input*/}
                     {/*    id="new-option"*/}
                     {/*    placeholder="Enter option value..."*/}

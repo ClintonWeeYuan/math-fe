@@ -12,12 +12,4 @@ export default defineConfig({
             '@': path.resolve(__dirname, './src'),
         },
     },
-    optimizeDeps: {
-        include: ['react-math-keyboard', 'mathquill4keyboard'],
-    },
-    build: {
-        commonjsOptions: {
-            include: [/react-math-keyboard/, /node_modules/],
-        },
-    },
 })
