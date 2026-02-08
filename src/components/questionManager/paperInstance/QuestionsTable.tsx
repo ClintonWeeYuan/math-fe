@@ -13,7 +13,7 @@ import type { TopicByLevel } from '@/components/questionManager/UploadQuestion.t
 import { UpdateQuestionDialog } from '@/components/questionManager/paperInstance/UpdateQuestionDialog.tsx'
 import { DownloadButton } from '@/components/common/DownloadButton.tsx'
 import type { QuestionResponse } from '@/client'
-import { QuestionOptionsDialog } from '@/components/questionManager/paperInstance/QuestionOptionsDialog.tsx'
+import { QuestionOptionsButton } from '@/components/questionManager/paperInstance/QuestionOptionsButton.tsx'
 
 type Props = {
     questions: QuestionResponse[]
@@ -67,7 +67,7 @@ export const QuestionsTable = ({
                                 topicsByLevel={topicsByLevel}
                             />
                             {question.type === 'multiple_choice' && (
-                                <QuestionOptionsDialog
+                                <QuestionOptionsButton
                                     currentQuestion={question}
                                 />
                             )}

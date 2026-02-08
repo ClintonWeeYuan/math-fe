@@ -116,6 +116,9 @@ importers:
       react-katex:
         specifier: ^3.1.0
         version: 3.1.0(prop-types@15.8.1)(react@19.1.0)
+      react-math-keyboard:
+        specifier: ^2.0.12
+        version: 2.0.12(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react-router-dom:
         specifier: ^7.6.2
         version: 7.6.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -2540,6 +2543,9 @@ packages:
     resolution: {integrity: sha512-rg9zJN+G4n2nfJl5MW3BMygZX56zKPNVEYYqq7adpmMh4Jn2QNEwhvQlFy6jPVdcod7txZtKHWnyZiA3a0zP7A==}
     hasBin: true
 
+  jquery@3.7.1:
+    resolution: {integrity: sha512-m4avr8yL8kmFN8psrbFFFmB/If14iN5o9nw/NgnnM+kybDJpRsAynV2BsfpTYrTRysYUdADVD7CkUUizgkpLfg==}
+
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
 
@@ -2724,6 +2730,9 @@ packages:
   math-intrinsics@1.1.0:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
     engines: {node: '>= 0.4'}
+
+  mathquill4keyboard@0.10.10:
+    resolution: {integrity: sha512-J6NTVxiTnAfLE2ykAKYAMAh17wBs6b9fV7GrgLDdAyrWGcJlZRNbVEv1Lu/hq+8CC00+ZLkKH1r1hazpPWeOFQ==}
 
   mdurl@2.0.0:
     resolution: {integrity: sha512-Lf+9+2r+Tdp5wXDXC4PcIBjTDtq4UKjCPMQhKIuzpJNW0b96kVqSwW0bT7FhRSfmAiFYgP+SCRvdrDozfh0U5w==}
@@ -2989,6 +2998,12 @@ packages:
   rc9@2.1.2:
     resolution: {integrity: sha512-btXCnMmRIBINM2LDZoEmOogIZU7Qe7zn4BpomSKZ/ykbLObuBdvG+mFq11DL6fjH1DRwHhrlgtYWG96bJiC7Cg==}
 
+  react-device-detect@2.2.3:
+    resolution: {integrity: sha512-buYY3qrCnQVlIFHrC5UcUoAj7iANs/+srdkwsnNjI7anr3Tt7UY6MqNxtMLlr0tMBied0O49UZVK8XKs3ZIiPw==}
+    peerDependencies:
+      react: '>= 0.14.0'
+      react-dom: '>= 0.14.0'
+
   react-dom@16.14.0:
     resolution: {integrity: sha512-1gCeQXDLoIqMgqD3IO2Ah9bnf0w9kzhwN5q4FGnHZ67hBm9yePzB5JJAIQCc8x3pFnNlwFq4RidZggNAAkzWWw==}
     peerDependencies:
@@ -3024,6 +3039,12 @@ packages:
     peerDependencies:
       prop-types: ^15.8.1
       react: '>=15.3.2 <20'
+
+  react-math-keyboard@2.0.12:
+    resolution: {integrity: sha512-GPW3lnYkK0WlhsqgCs0+2mq/5JIn3b9fpzCOmKzDmRNN6MUr95wP3V6sGQPui8PIb5OtAs2n38tJsOvA5SNR1A==}
+    peerDependencies:
+      react: '>=18.2.0'
+      react-dom: '>=18.2.0'
 
   react-refresh@0.17.0:
     resolution: {integrity: sha512-z6F7K9bV85EfseRCp2bzrpyQ0Gkw1uLoCel9XBVWPg/TjRj94SkJzUTGfOa4bs7iJvBWtQG0Wq7wnI0syw3EBQ==}
@@ -3249,6 +3270,10 @@ packages:
   typescript@5.8.3:
     resolution: {integrity: sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ==}
     engines: {node: '>=14.17'}
+    hasBin: true
+
+  ua-parser-js@1.0.41:
+    resolution: {integrity: sha512-LbBDqdIC5s8iROCUjMbW1f5dJQTEFB1+KO9ogbvlb3nm9n4YHa5p4KTvFPWvh2Hs8gZMBuiB1/8+pdfe/tDPug==}
     hasBin: true
 
   uc.micro@2.1.0:
@@ -5846,6 +5871,8 @@ snapshots:
 
   jiti@2.4.2: {}
 
+  jquery@3.7.1: {}
+
   js-tokens@4.0.0: {}
 
   js-yaml@4.1.0:
@@ -6015,6 +6042,8 @@ snapshots:
       uc.micro: 2.1.0
 
   math-intrinsics@1.1.0: {}
+
+  mathquill4keyboard@0.10.10: {}
 
   mdurl@2.0.0: {}
 
@@ -6352,6 +6381,12 @@ snapshots:
       defu: 6.1.4
       destr: 2.0.5
 
+  react-device-detect@2.2.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
+    dependencies:
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
+      ua-parser-js: 1.0.41
+
   react-dom@16.14.0(react@16.14.0):
     dependencies:
       loose-envify: 1.4.0
@@ -6389,6 +6424,14 @@ snapshots:
       katex: 0.16.22
       prop-types: 15.8.1
       react: 19.1.0
+
+  react-math-keyboard@2.0.12(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
+    dependencies:
+      jquery: 3.7.1
+      mathquill4keyboard: 0.10.10
+      react: 19.1.0
+      react-device-detect: 2.2.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      react-dom: 19.1.0(react@19.1.0)
 
   react-refresh@0.17.0: {}
 
@@ -6620,6 +6663,8 @@ snapshots:
       - supports-color
 
   typescript@5.8.3: {}
+
+  ua-parser-js@1.0.41: {}
 
   uc.micro@2.1.0: {}
 

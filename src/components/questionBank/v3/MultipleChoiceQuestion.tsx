@@ -1,6 +1,7 @@
 import type { QuestionResponse } from '@/client'
 import useGetQuestionOptionQuery from '@/hooks/questionOptions/useGetQuestionOptionsQuery.ts'
 import { MemoizedHtmlBlock } from '@/components/questionBank/HtmlBlock.tsx'
+import { BlockMath } from 'react-katex'
 
 type Props = {
     question: QuestionResponse
@@ -14,7 +15,9 @@ export function MultipleChoiceQuestion({ question }: Props) {
     if (options === undefined) {
         return (
             <div className="flex items-center justify-center p-12">
-                <div className="animate-pulse text-gray-500">Loading options...</div>
+                <div className="animate-pulse text-gray-500">
+                    Loading options...
+                </div>
             </div>
         )
     }
@@ -22,7 +25,10 @@ export function MultipleChoiceQuestion({ question }: Props) {
     return (
         <div className="space-y-6">
             <div className="bg-white rounded-lg shadow-sm p-6">
-                <MemoizedHtmlBlock src={question.questionUrl} onClick={() => {}} />
+                <MemoizedHtmlBlock
+                    src={question.questionUrl}
+                    onClick={() => {}}
+                />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -36,7 +42,7 @@ export function MultipleChoiceQuestion({ question }: Props) {
                                 {String.fromCharCode(65 + index)}
                             </div>
                             <div className="flex-1 text-gray-700 group-hover:text-gray-900">
-                                {option.value}
+                                <BlockMath math={option.value} />
                             </div>
                         </div>
                     </button>
