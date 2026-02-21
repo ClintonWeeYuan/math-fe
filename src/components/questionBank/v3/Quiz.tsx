@@ -1,15 +1,17 @@
 import useGetPaginatedQuestionsBySubjectQuery from '@/hooks/useGetPaginatedQuestionsBySubjectQuery.ts'
 import { useParams } from 'react-router-dom'
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { MultipleChoiceQuestion } from './MultipleChoiceQuestion'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useFiltersFromSearchParams } from '@/hooks/useFiltersFromSearchParams'
 import { LoadingPage } from '@/components/common/FullLoadingPage'
+import type { QuestionStatus } from '@/components/questionBank/v3/types.ts'
 
 export function QuizPage() {
     const { subjectId } = useParams()
     const [currentIndex, setCurrentIndex] = useState(0)
     const { topics, difficulty } = useFiltersFromSearchParams()
+    const [questionStatus, setQuestionStatus] = useState<QuestionStatus[]>([])
 
     const { data: questions, isLoading } =
         useGetPaginatedQuestionsBySubjectQuery({
@@ -20,6 +22,17 @@ export function QuizPage() {
             topics: topics ?? [],
             size: 10,
         })
+
+    useEffect(() => {
+        if (
+            questions?.items?.length !== undefined &&
+            questions?.items?.length > 0
+        ) {
+            setQuestionStatus(
+                new Array(questions?.items?.length).fill('pending')
+            )
+        }
+    }, [questions?.items?.length])
 
     if (isLoading) {
         return <LoadingPage />
@@ -35,9 +48,11 @@ export function QuizPage() {
         )
     }
     const currentQuestion = questions.items[currentIndex]
-    const totalQuestions = questions.items.length
+    const questionCount = questions.items.length
+
     const isFirst = currentIndex === 0
-    const isLast = currentIndex === totalQuestions - 1
+    const isLast = currentIndex === questionCount - 1
+    const shouldBlock = questionStatus[currentIndex] === 'pending'
 
     const goToPrevious = () => {
         if (!isFirst) setCurrentIndex(currentIndex - 1)
@@ -46,6 +61,7 @@ export function QuizPage() {
     const goToNext = () => {
         if (!isLast) setCurrentIndex(currentIndex + 1)
     }
+
     return (
         <div className="min-h-screen w-full bg-gradient-to-br from-blue-50 to-indigo-100 py-8 px-4">
             <div className="max-w-4xl mx-auto">
@@ -60,7 +76,7 @@ export function QuizPage() {
                         </span>
                         <span className="text-sm text-gray-400">of</span>
                         <span className="text-lg font-bold text-gray-700">
-                            {totalQuestions}
+                            {questionCount}
                         </span>
                     </div>
                 </div>
@@ -70,6 +86,14 @@ export function QuizPage() {
                     <MultipleChoiceQuestion
                         question={currentQuestion}
                         key={currentQuestion.id}
+                        index={currentIndex}
+                        setQuestionStatus={({ questionIndex, status }) => {
+                            setQuestionStatus((prev) => {
+                                const copy = [...prev]
+                                copy[questionIndex] = status
+                                return copy
+                            })
+                        }}
                     />
                 </div>
 
@@ -104,7 +128,7 @@ export function QuizPage() {
 
                     <button
                         onClick={goToNext}
-                        disabled={isLast}
+                        disabled={isLast || shouldBlock}
                         className="group flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-sm hover:shadow-md transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:shadow-sm disabled:hover:bg-blue-600"
                     >
                         <span className="font-medium">Next</span>
