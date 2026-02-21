@@ -1,11 +1,12 @@
 import useGetPaginatedQuestionsBySubjectQuery from '@/hooks/useGetPaginatedQuestionsBySubjectQuery.ts'
 import { useParams } from 'react-router-dom'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { MultipleChoiceQuestion } from './MultipleChoiceQuestion'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useFiltersFromSearchParams } from '@/hooks/useFiltersFromSearchParams'
 import { LoadingPage } from '@/components/common/FullLoadingPage'
 import type { QuestionStatus } from '@/components/questionBank/v3/types.ts'
+import { Progress } from '@/components/questionBank/v3/Progress.tsx'
 
 export function QuizPage() {
     const { subjectId } = useParams()
@@ -62,25 +63,23 @@ export function QuizPage() {
         if (!isLast) setCurrentIndex(currentIndex + 1)
     }
 
+    const correctCount = questionStatus.filter((s) => s === 'correct').length
+    const incorrectCount = questionStatus.filter(
+        (s) => s === 'incorrect'
+    ).length
+
     return (
         <div className="min-h-screen w-full bg-gradient-to-br from-blue-50 to-indigo-100 py-8 px-4">
-            <div className="max-w-4xl mx-auto">
-                {/* Header with question counter */}
-                <div className="mb-6 text-center">
-                    <div className="inline-flex items-center gap-2 bg-white px-6 py-3 rounded-full shadow-md">
-                        <span className="text-sm font-medium text-gray-600">
-                            Question
-                        </span>
-                        <span className="text-lg font-bold text-blue-600">
-                            {currentIndex + 1}
-                        </span>
-                        <span className="text-sm text-gray-400">of</span>
-                        <span className="text-lg font-bold text-gray-700">
-                            {questionCount}
-                        </span>
-                    </div>
-                </div>
-
+            <div className="max-w-6xl mx-auto">
+                <Progress
+                    correctCount={correctCount}
+                    questionCount={questionCount}
+                    incorrectCount={incorrectCount}
+                    questions={questions.items}
+                    setCurrentIndex={setCurrentIndex}
+                    questionStatus={questionStatus}
+                    currentIndex={currentIndex}
+                />
                 {/* Question content */}
                 <div className="mb-6">
                     <MultipleChoiceQuestion
@@ -109,22 +108,6 @@ export function QuizPage() {
                             Previous
                         </span>
                     </button>
-
-                    {/* Progress dots */}
-                    <div className="flex gap-2">
-                        {questions.items.map((_, index) => (
-                            <button
-                                key={index}
-                                onClick={() => setCurrentIndex(index)}
-                                className={`w-2.5 h-2.5 rounded-full transition-all ${
-                                    index === currentIndex
-                                        ? 'bg-blue-600 w-8'
-                                        : 'bg-gray-300 hover:bg-gray-400'
-                                }`}
-                                aria-label={`Go to question ${index + 1}`}
-                            />
-                        ))}
-                    </div>
 
                     <button
                         onClick={goToNext}

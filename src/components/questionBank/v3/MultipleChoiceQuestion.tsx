@@ -101,7 +101,7 @@ export function MultipleChoiceQuestion({
             <div className="flex gap-6 items-start">
                 {/* Left column: question + options */}
                 <div className="flex-1 min-w-0 space-y-6">
-                    <div className="bg-white rounded-lg shadow-sm p-6">
+                    <div className="bg-white rounded-lg shadow-sm p-6 overflow-x-auto no-scrollbar">
                         <MemoizedHtmlBlock
                             src={question.questionUrl}
                             onClick={() => {}}
@@ -127,7 +127,7 @@ export function MultipleChoiceQuestion({
                                     >
                                         {String.fromCharCode(65 + index)}
                                     </div>
-                                    <div className="flex-1 text-gray-700 group-hover:text-gray-900">
+                                    <div className="flex-1 text-gray-700 group-hover:text-gray-900 overflow-x-auto no-scrollbar">
                                         <BlockMath math={option.value} />
                                     </div>
                                 </div>
@@ -229,7 +229,7 @@ export function MultipleChoiceQuestion({
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.55, duration: 0.3 }}
                         onClick={handleWrongDismiss}
-                        className="px-8 py-2.5 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-full transition-colors"
+                        className="cursor-pointer px-8 py-2.5 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-full transition-colors"
                     >
                         Try Again
                     </motion.button>
@@ -329,7 +329,7 @@ export function MultipleChoiceQuestion({
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.65, duration: 0.3 }}
                         onClick={() => setShowSuccess(false)}
-                        className="px-8 py-2.5 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-full transition-colors"
+                        className="cursor-pointer px-8 py-2.5 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-full transition-colors"
                     >
                         Continue
                     </motion.button>

@@ -1,4 +1,3 @@
-import { Card, CardHeader, CardTitle } from '@/components/ui/card'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useState } from 'react'
 import { CalculatorIcon } from 'lucide-react'
