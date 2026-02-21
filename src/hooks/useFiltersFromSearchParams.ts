@@ -1,7 +1,7 @@
 import { useSearchParams } from 'react-router-dom'
 import { useMemo } from 'react'
 
-const FILTERS = {
+export const FILTERS = {
     TOPIC: 'topics',
     DIFFICULTY: 'difficulty',
     PAPER: 'papers',

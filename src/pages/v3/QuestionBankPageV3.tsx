@@ -1,98 +1,168 @@
-import useGetPaginatedQuestionsBySubjectQuery from '@/hooks/useGetPaginatedQuestionsBySubjectQuery.ts'
-import { useParams } from 'react-router-dom'
-import { MultipleChoiceQuestion } from '@/components/questionBank/v3/MultipleChoiceQuestion.tsx'
+import { Card, CardHeader, CardTitle } from '@/components/ui/card'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useState } from 'react'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { CalculatorIcon } from 'lucide-react'
+import useGetSubjectQuery from '@/hooks/useGetSubjectQuery'
+import { useMemo } from 'react'
+import { type BaseLevel, type BaseTopic } from '@/client'
+import { LandingLayout } from '@/components/layout/landing/LandingLayout'
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select'
+import { Button } from '@/components/ui/button'
+
+type TopicsByLevel = Record<string, BaseTopic[]>
 
 export function QuestionBankPageV3() {
     const { subjectId } = useParams()
-    const [currentIndex, setCurrentIndex] = useState(0)
 
-    const { data: questions } = useGetPaginatedQuestionsBySubjectQuery({
-        subjectId: subjectId ?? '',
-        page: 1,
-        papers: [],
-        difficulty: [],
-        topics: [],
-        size: 5,
-    })
-
-    if (!questions || questions.items.length === 0) {
+    const { data: subject } = useGetSubjectQuery({ subjectId: subjectId ?? '' })
+    const topicsByLevel = useMemo<TopicsByLevel>(() => {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
-                <div className="text-gray-500 text-lg">No questions available</div>
-            </div>
+            subject?.topics.reduce((acc, curr) => {
+                if (curr.level == undefined) {
+                    return acc
+                }
+                if (!(curr.level?.id in acc)) {
+                    acc[curr.level.id] = []
+                }
+
+                acc[curr.level.id].push(curr)
+                return acc
+            }, {} as TopicsByLevel) ?? {}
         )
-    }
+    }, [subject])
 
-    const currentQuestion = questions.items[currentIndex]
-    const totalQuestions = questions.items.length
-    const isFirst = currentIndex === 0
-    const isLast = currentIndex === totalQuestions - 1
+    const levels = useMemo(() => {
+        return Object.values(topicsByLevel)
+            .map((topics) => {
+                return topics[0]?.level
+            })
+            .filter((level): level is BaseLevel => level !== undefined)
+            .sort((levelA, levelB) => levelA.name.localeCompare(levelB?.name))
+    }, [topicsByLevel])
 
-    const goToPrevious = () => {
-        if (!isFirst) setCurrentIndex(currentIndex - 1)
-    }
+    const [topics, setTopics] = useState<Set<string>>(new Set([]))
+    const [level, setLevel] = useState<string | null>(null)
+    const availableTopics = useMemo(() => {
+        if (topicsByLevel == null || level == null) {
+            return []
+        }
 
-    const goToNext = () => {
-        if (!isLast) setCurrentIndex(currentIndex + 1)
+        return topicsByLevel[level] ?? []
+    }, [topicsByLevel, level])
+
+    const navigate = useNavigate()
+
+    const startQuiz = () => {
+        const params = new URLSearchParams()
+        const topicsArray = Array.from(topics)
+        if (topicsArray.length > 0) {
+            params.set('topics', topicsArray.join(','))
+        }
+        const url = `/questions/v2/${subject?.id}/quiz?${params.toString()}`
+        navigate(url)
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8 px-4">
-            <div className="max-w-4xl mx-auto">
-                {/* Header with question counter */}
-                <div className="mb-6 text-center">
-                    <div className="inline-flex items-center gap-2 bg-white px-6 py-3 rounded-full shadow-md">
-                        <span className="text-sm font-medium text-gray-600">Question</span>
-                        <span className="text-lg font-bold text-blue-600">{currentIndex + 1}</span>
-                        <span className="text-sm text-gray-400">of</span>
-                        <span className="text-lg font-bold text-gray-700">{totalQuestions}</span>
+        <LandingLayout>
+            <div className="min-h-screen px-10">
+                <div className="flex space-x-2 mb-4">
+                    <div
+                        className={`h-20 w-20 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500  flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}
+                    >
+                        <CalculatorIcon className="h-12 w-12 text-white" />
+                    </div>
+                    <div className="flex flex-col space-y-2">
+                        <span className="text-3xl font-semibold">
+                            SPM Mathematics
+                        </span>
+                        <span className="text-gray-500">
+                            Choose a topic and difficulty level to start
+                            practising
+                        </span>
                     </div>
                 </div>
 
-                {/* Question content */}
-                <div className="mb-6">
-                    <MultipleChoiceQuestion question={currentQuestion} key={currentQuestion.id} />
-                </div>
-
-                {/* Navigation buttons */}
-                <div className="flex items-center justify-between gap-4">
-                    <button
-                        onClick={goToPrevious}
-                        disabled={isFirst}
-                        className="group flex items-center gap-2 px-6 py-3 bg-white border-2 border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:shadow-sm"
-                    >
-                        <ChevronLeft className="w-5 h-5 text-gray-600 group-hover:text-blue-600 transition-colors" />
-                        <span className="font-medium text-gray-700 group-hover:text-gray-900">Previous</span>
-                    </button>
-
-                    {/* Progress dots */}
-                    <div className="flex gap-2">
-                        {questions.items.map((_, index) => (
-                            <button
-                                key={index}
-                                onClick={() => setCurrentIndex(index)}
-                                className={`w-2.5 h-2.5 rounded-full transition-all ${
-                                    index === currentIndex
-                                        ? 'bg-blue-600 w-8'
-                                        : 'bg-gray-300 hover:bg-gray-400'
-                                }`}
-                                aria-label={`Go to question ${index + 1}`}
-                            />
-                        ))}
+                <div className="mb-4">
+                    <span className="block text-2xl font-semibold mb-4">
+                        Select level
+                    </span>
+                    <div>
+                        <Select onValueChange={(val) => setLevel(val)}>
+                            <SelectTrigger className="w-[180px]">
+                                <SelectValue placeholder="Level" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    {levels.map((level) => (
+                                        <SelectItem value={level.id}>
+                                            {level.name}
+                                        </SelectItem>
+                                    ))}
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
                     </div>
+                </div>
+                {level !== null && (
+                    <div className="mb-6">
+                        <div className="block  mb-4">
+                            <span className="text-2xl font-semibold mr-4">
+                                Select topic
+                            </span>
 
-                    <button
-                        onClick={goToNext}
-                        disabled={isLast}
-                        className="group flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-sm hover:shadow-md transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:shadow-sm disabled:hover:bg-blue-600"
+                            {topics.size > 0 && (
+                                <span>({topics.size} topics selected)</span>
+                            )}
+                        </div>
+                        <div className="grid grid-cols-4 gap-x-4 gap-y-8">
+                            {availableTopics.map((topic) => {
+                                const isTopicActive = topics.has(topic.id)
+                                return (
+                                    <Card
+                                        onClick={() =>
+                                            setTopics((prev) => {
+                                                const newSet = new Set([
+                                                    ...prev,
+                                                ])
+                                                if (isTopicActive) {
+                                                    newSet.delete(topic.id)
+                                                } else {
+                                                    newSet.add(topic.id)
+                                                }
+
+                                                return newSet
+                                            })
+                                        }
+                                        className={`h-full cursor-pointer transition-all ${topics.has(topic.id) && 'border border-blue-400'} hover:shadow-xl hover:scale-105 group`}
+                                    >
+                                        <CardHeader>
+                                            <CardTitle className="text-2xl">
+                                                {topic.name}
+                                            </CardTitle>
+                                        </CardHeader>
+                                    </Card>
+                                )
+                            })}
+                        </div>
+                    </div>
+                )}
+                <div className="w-full flex justify-center">
+                    <Button
+                        size="lg"
+                        className="text-xl px-8 py-6 cursor-pointer"
+                        onClick={startQuiz}
                     >
-                        <span className="font-medium">Next</span>
-                        <ChevronRight className="w-5 h-5" />
-                    </button>
+                        Start Quiz
+                    </Button>
                 </div>
             </div>
-        </div>
+        </LandingLayout>
     )
 }

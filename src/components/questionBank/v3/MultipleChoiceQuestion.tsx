@@ -37,7 +37,7 @@ export function MultipleChoiceQuestion({ question }: Props) {
                         key={option.id}
                         className="group relative bg-white hover:bg-blue-50 border-2 border-gray-200 hover:border-blue-400 rounded-xl p-6 text-left transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-0.5"
                     >
-                        <div className="flex items-start gap-4">
+                        <div className="flex items-center gap-4">
                             <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gray-100 group-hover:bg-blue-100 flex items-center justify-center font-semibold text-gray-600 group-hover:text-blue-600 transition-colors">
                                 {String.fromCharCode(65 + index)}
                             </div>

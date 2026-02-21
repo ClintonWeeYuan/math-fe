@@ -7,7 +7,7 @@ type Props = {
 
 export type Paper = { id: string; name: string }
 
-export default function wuseGetSubjectQuery({ subjectId }: Props) {
+export default function useGetSubjectQuery({ subjectId }: Props) {
     return useQuery({
         queryFn: async () =>
             (
