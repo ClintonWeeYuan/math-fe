@@ -59,8 +59,16 @@ const QuestionOptionsContent = ({ currentQuestion }: Props) => {
 
     const handleAddOption = async () => {
         if (!newOptionValue.trim()) return
+        if (options === undefined) {
+            return
+        }
+        const nextPositionNumber =
+            Math.max(...options.map((option) => option.position)) + 1
 
-        await addOption({ optionValue: newOptionValue })
+        await addOption({
+            optionValue: newOptionValue,
+            position: nextPositionNumber,
+        })
         setNewOptionValue('')
     }
 
@@ -99,7 +107,7 @@ const QuestionOptionsContent = ({ currentQuestion }: Props) => {
     }
 
     const isPending = isAddingOption || isUpdatingOption || isRemovingOption
-
+    console.log({ options })
     return (
         <>
             <div className="flex-1 overflow-y-auto space-y-3 py-4">
@@ -237,7 +245,6 @@ const QuestionOptionsContent = ({ currentQuestion }: Props) => {
                     <Mathfield
                         value={newOptionValue}
                         onChange={(value) => {
-                            console.log({ value })
                             setNewOptionValue(value)
                         }}
                         style={{
@@ -248,23 +255,6 @@ const QuestionOptionsContent = ({ currentQuestion }: Props) => {
                             boxShadow: '0 0 8px rgba(0, 0, 0, .2)',
                         }}
                     />
-                    {/*<MathInput*/}
-                    {/*    divisionFormat="obelus"*/}
-                    {/*    numericToolbarKeys={[]}*/}
-                    {/*    setValue={setNewOptionValue}*/}
-                    {/*/>*/}
-                    {/*<Input*/}
-                    {/*    id="new-option"*/}
-                    {/*    placeholder="Enter option value..."*/}
-                    {/*    value={newOptionValue}*/}
-                    {/*    onChange={(e) => setNewOptionValue(e.target.value)}*/}
-                    {/*    onKeyDown={(e) => {*/}
-                    {/*        if (e.key === 'Enter') {*/}
-                    {/*            handleAddOption()*/}
-                    {/*        }*/}
-                    {/*    }}*/}
-                    {/*    disabled={isPending}*/}
-                    {/*/>*/}
                     <Button
                         onClick={handleAddOption}
                         onMouseDown={(e) => e.preventDefault()}

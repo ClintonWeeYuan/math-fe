@@ -7,13 +7,14 @@ type Props = {
 
 type MutationFunctionProps = {
     optionValue: string
+    position: number
 }
 
 export default function useAddQuestionOptionMutation({ questionId }: Props) {
     const queryClient = useQueryClient()
 
     return useMutation({
-        mutationFn: async ({ optionValue }: MutationFunctionProps) =>
+        mutationFn: async ({ optionValue, position }: MutationFunctionProps) =>
             (
                 await createOptionQuestionsQuestionIdOptionPost({
                     path: {
@@ -22,6 +23,7 @@ export default function useAddQuestionOptionMutation({ questionId }: Props) {
                     body: {
                         isCorrect: false,
                         value: optionValue,
+                        position,
                     },
                 })
             ).data,
