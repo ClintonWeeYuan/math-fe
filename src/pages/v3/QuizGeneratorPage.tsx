@@ -15,10 +15,11 @@ import {
     SelectValue,
 } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
+import { SelectTopics } from '@/components/questionBank/v3/SelectTopics.tsx'
 
 type TopicsByLevel = Record<string, BaseTopic[]>
 
-export function QuestionBankPageV3() {
+export function QuizGeneratorPage() {
     const { subjectId } = useParams()
 
     const { data: subject } = useGetSubjectQuery({ subjectId: subjectId ?? '' })
@@ -121,36 +122,11 @@ export function QuestionBankPageV3() {
                                 <span>({topics.size} topics selected)</span>
                             )}
                         </div>
-                        <div className="grid grid-cols-4 gap-x-4 gap-y-8">
-                            {availableTopics.map((topic) => {
-                                const isTopicActive = topics.has(topic.id)
-                                return (
-                                    <Card
-                                        onClick={() =>
-                                            setTopics((prev) => {
-                                                const newSet = new Set([
-                                                    ...prev,
-                                                ])
-                                                if (isTopicActive) {
-                                                    newSet.delete(topic.id)
-                                                } else {
-                                                    newSet.add(topic.id)
-                                                }
-
-                                                return newSet
-                                            })
-                                        }
-                                        className={`h-full cursor-pointer transition-all ${topics.has(topic.id) && 'border border-blue-400'} hover:shadow-xl hover:scale-105 group`}
-                                    >
-                                        <CardHeader>
-                                            <CardTitle className="text-2xl">
-                                                {topic.name}
-                                            </CardTitle>
-                                        </CardHeader>
-                                    </Card>
-                                )
-                            })}
-                        </div>
+                        <SelectTopics
+                            availableTopics={availableTopics}
+                            selectedTopics={topics}
+                            setTopics={setTopics}
+                        />
                     </div>
                 )}
                 <div className="w-full flex justify-center">

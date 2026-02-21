@@ -9,15 +9,14 @@ import { LoadingPage } from '@/components/common/FullLoadingPage'
 export function QuizPage() {
     const { subjectId } = useParams()
     const [currentIndex, setCurrentIndex] = useState(0)
-    const { topics, difficulty, papers, page, setFilterSearchParams } =
-        useFiltersFromSearchParams()
+    const { topics, difficulty } = useFiltersFromSearchParams()
 
     const { data: questions, isLoading } =
         useGetPaginatedQuestionsBySubjectQuery({
             subjectId: subjectId ?? '',
             page: 1,
             papers: [],
-            difficulty: [],
+            difficulty,
             topics: topics ?? [],
             size: 10,
         })
