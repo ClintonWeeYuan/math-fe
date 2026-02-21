@@ -190,6 +190,10 @@ export type CreateOptionBody = {
      * Iscorrect
      */
     isCorrect?: boolean;
+    /**
+     * Position
+     */
+    position?: number;
 };
 
 /**
@@ -365,6 +369,10 @@ export type OptionResponse = {
      * Iscorrect
      */
     isCorrect: boolean;
+    /**
+     * Position
+     */
+    position: number;
 };
 
 /**
