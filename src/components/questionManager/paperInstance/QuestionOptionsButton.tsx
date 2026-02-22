@@ -63,7 +63,9 @@ const QuestionOptionsContent = ({ currentQuestion }: Props) => {
             return
         }
         const nextPositionNumber =
-            Math.max(...options.map((option) => option.position)) + 1
+            options.length === 0
+                ? 0
+                : Math.max(...options.map((option) => option.position)) + 1
 
         await addOption({
             optionValue: newOptionValue,
