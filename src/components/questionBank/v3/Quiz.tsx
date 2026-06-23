@@ -14,7 +14,7 @@ export function QuizPage() {
     const { topics, difficulty } = useFiltersFromSearchParams()
     const [questionStatus, setQuestionStatus] = useState<QuestionStatus[]>([])
 
-    const { data: questions, isLoading } =
+    const { data: questions, isLoading, isError } =
         useGetPaginatedQuestionsBySubjectQuery({
             subjectId: subjectId ?? '',
             page: 1,
@@ -37,6 +37,16 @@ export function QuizPage() {
 
     if (isLoading) {
         return <LoadingPage />
+    }
+
+    if (isError) {
+        return (
+            <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+                <div className="text-red-500 text-lg">
+                    Something went wrong loading questions. Please try again.
+                </div>
+            </div>
+        )
     }
 
     if (!questions || questions.items.length === 0) {

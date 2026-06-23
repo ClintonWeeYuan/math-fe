@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "generate-api": "npx @hey-api/openapi-ts"
+    "generate-api": "npx @hey-api/openapi-ts",
+    "test": "vitest run"
   },
   "dependencies": {
     "@hookform/error-message": "^2.0.1",
@@ -64,20 +65,26 @@
     "@eslint/js": "^9.25.0",
     "@hey-api/openapi-ts": "^0.84.3",
     "@originjs/vite-plugin-commonjs": "^1.0.3",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "@types/react-katex": "^3.0.4",
     "@types/react-latex": "^2.0.3",
     "@types/reveal.js": "^5.2.0",
     "@vitejs/plugin-react": "^4.4.1",
+    "@vitest/ui": "^4.1.9",
     "eslint": "^9.25.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
+    "happy-dom": "^20.10.6",
     "prettier": "^3.5.3",
     "tw-animate-css": "^1.3.4",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.30.1",
-    "vite": "^6.3.5"
+    "vite": "^6.3.5",
+    "vitest": "^4.1.9"
   }
 }

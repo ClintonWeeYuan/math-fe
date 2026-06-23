@@ -25,7 +25,10 @@ export function MultipleChoiceQuestion({
     setQuestionStatus,
     index,
 }: Props) {
-    const { data: options } = useGetQuestionOptionQuery({
+    const {
+        data: options,
+        isError: isOptionsError,
+    } = useGetQuestionOptionQuery({
         questionId: question.id,
     })
     const [selectedId, setSelectedId] = useState<string | null>(null)
@@ -33,6 +36,16 @@ export function MultipleChoiceQuestion({
     const [showSuccess, setShowSuccess] = useState(false)
     const [showWrong, setShowWrong] = useState(false)
     const [locked, setLocked] = useState(false)
+
+    if (isOptionsError) {
+        return (
+            <div className="flex items-center justify-center p-12">
+                <div className="text-red-500">
+                    Failed to load answer options. Please try again.
+                </div>
+            </div>
+        )
+    }
 
     if (options === undefined) {
         return (
