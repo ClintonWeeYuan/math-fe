@@ -7,9 +7,14 @@ type Props = {
     text: string
 } & React.ComponentProps<'button'>
 
-export function LoadingButton({ isLoading, text, ...buttonProps }: Props) {
+export function LoadingButton({
+    isLoading,
+    text,
+    disabled,
+    ...buttonProps
+}: Props) {
     return (
-        <Button type="submit" {...buttonProps}>
+        <Button type="submit" disabled={isLoading || disabled} {...buttonProps}>
             {isLoading ? <Loader2Icon className="animate-spin" /> : text}
         </Button>
     )

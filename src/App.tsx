@@ -9,8 +9,6 @@ import { AdminQuestionBankPage } from '@/pages/Admin/AdminQuestionBankPage.tsx'
 import { InteractiveQuestionPage } from '@/pages/InteractiveQuestionPage.tsx'
 import { AdminLoginPage } from '@/pages/Auth/AdminLoginPage.tsx'
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute.tsx'
-import { QuestionBankPageV2 } from '@/pages/v2/QuestionBankPageV2.tsx'
-import { QuestionByTopicPage } from '@/pages/v2/QuestionByTopicPage.tsx'
 import { SignupPage } from '@/pages/Auth/SignupPage.tsx'
 import { LoginPage } from '@/pages/Auth/LoginPage.tsx'
 import { VerificationPage } from '@/pages/Auth/VerificationPage.tsx'
@@ -50,7 +48,6 @@ function App() {
                     path="questions/:subjectId"
                     element={<QuestionBankPage />}
                 />
-                <Route path="v2" element={<QuestionBankPageV2 />} />
                 <Route
                     path="questions/v2/:subjectId"
                     element={<QuizGeneratorPage />}
@@ -59,7 +56,6 @@ function App() {
                     path="questions/v2/:subjectId/quiz"
                     element={<QuizPage />}
                 />
-                <Route path="v2/:topicId" element={<QuestionByTopicPage />} />
                 <Route path="admin/login" element={<AdminLoginPage />} />
                 <Route path="/auth">
                     <Route path="signup" element={<SignupPage />} />
