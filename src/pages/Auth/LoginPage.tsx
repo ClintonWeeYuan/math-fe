@@ -16,7 +16,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormErrorMessage } from '@/components/common/FormErrorMessage.tsx'
 import { useLoginMutation } from '@/components/auth/useLoginMutation.ts'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { toast } from 'sonner'
 import { useAuth } from '@/components/auth/AuthContext.tsx'
 
@@ -30,6 +30,8 @@ type Schema = z.infer<typeof SCHEMA>
 export const LoginPage: React.FC = () => {
     const [showPassword, setShowPassword] = useState(false)
     const navigate = useNavigate()
+    const location = useLocation()
+    const from = (location.state as { from?: Location })?.from?.pathname ?? '/'
     const { login: handleLogin } = useAuth()
     const { mutate: login, isPending } = useLoginMutation({
         onSuccess: (data) => {
@@ -38,10 +40,8 @@ export const LoginPage: React.FC = () => {
                     user: data.user,
                     token: data.token,
                     callback: () => {
-                        toast.success(
-                            'Login successful! Redirecting to main page...'
-                        )
-                        navigate('/')
+                        toast.success('Login successful!')
+                        navigate(from, { replace: true })
                     },
                 })
             }

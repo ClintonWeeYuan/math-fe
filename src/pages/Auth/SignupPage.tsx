@@ -41,7 +41,7 @@ const USER_CATEGORIES = [
 ] as const satisfies UserSignup['category'][]
 
 const SCHEMA = z.object({
-    name: z.string(),
+    name: z.string().min(1, 'Please enter your name'),
     email: z.string().email('Please enter a valid email'),
     password: z
         .string()
@@ -233,7 +233,7 @@ export const SignupPage: React.FC = () => {
                                 {isPending ? (
                                     <div className="flex items-center space-x-2">
                                         <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                                        <span>Signing in...</span>
+                                        <span>Signing up...</span>
                                     </div>
                                 ) : (
                                     <div className="flex items-center space-x-2">

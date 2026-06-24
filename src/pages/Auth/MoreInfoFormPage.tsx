@@ -35,25 +35,27 @@ import useGetLevelsQuery from '@/hooks/useGetLevelsQuery.ts'
 import { toast } from 'sonner'
 
 const MALAYSIA_STATES = [
-    'SARAWAK',
-    'SABAH',
-    'TERRENGGANU',
+    'JOHOR',
     'KEDAH',
     'KELANTAN',
-    'SELANGOR',
-    'JOHOR',
+    'KUALA LUMPUR',
     'MELAKA',
     'NEGERI SEMBILAN',
+    'PAHANG',
     'PENANG',
     'PERAK',
-    'PAHANG',
     'PERLIS',
+    'PUTRAJAYA',
+    'SABAH',
+    'SARAWAK',
+    'SELANGOR',
+    'TERENGGANU',
 ] as const satisfies UserMoreInfoForm['state'][]
 
 const SCHEMA = z.object({
-    school: z.string(),
+    school: z.string().min(1, 'Please enter your school name'),
     state: z.enum(MALAYSIA_STATES),
-    level: z.string(),
+    level: z.string().min(1, 'Please select your level'),
 })
 
 type Schema = z.infer<typeof SCHEMA>
@@ -179,7 +181,7 @@ export function MoreInfoFormPage() {
                                     />
                                     <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                                 </div>
-                                <FormErrorMessage errors={errors} name="name" />
+                                <FormErrorMessage errors={errors} name="school" />
                             </div>
                         </CardContent>
 

@@ -19,6 +19,7 @@ import SubjectsPage from '@/pages/SubjectsPage.tsx'
 import { QuizGeneratorPage } from '@/pages/v3/QuizGeneratorPage.tsx'
 import { QuizPage } from './components/questionBank/v3/Quiz'
 import { AboutPage } from '@/pages/AboutPage.tsx'
+import { StudentProtectedRoute } from '@/components/auth/StudentProtectedRoute.tsx'
 
 function App() {
     useEffect(() => {
@@ -50,14 +51,16 @@ function App() {
                     path="questions/:subjectId"
                     element={<QuestionBankPage />}
                 />
-                <Route
-                    path="questions/v2/:subjectId"
-                    element={<QuizGeneratorPage />}
-                />
-                <Route
-                    path="questions/v2/:subjectId/quiz"
-                    element={<QuizPage />}
-                />
+                <Route element={<StudentProtectedRoute />}>
+                    <Route
+                        path="questions/v2/:subjectId"
+                        element={<QuizGeneratorPage />}
+                    />
+                    <Route
+                        path="questions/v2/:subjectId/quiz"
+                        element={<QuizPage />}
+                    />
+                </Route>
                 <Route path="admin/login" element={<AdminLoginPage />} />
                 <Route path="/auth">
                     <Route path="signup" element={<SignupPage />} />
