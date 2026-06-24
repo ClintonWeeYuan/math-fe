@@ -18,6 +18,7 @@ import { LandingPage } from '@/pages/LandingPage.tsx'
 import SubjectsPage from '@/pages/SubjectsPage.tsx'
 import { QuizGeneratorPage } from '@/pages/v3/QuizGeneratorPage.tsx'
 import { QuizPage } from './components/questionBank/v3/Quiz'
+import { AboutPage } from '@/pages/AboutPage.tsx'
 
 function App() {
     useEffect(() => {
@@ -43,6 +44,7 @@ function App() {
         <>
             <Routes>
                 <Route path="" element={<LandingPage />} />
+                <Route path="about" element={<AboutPage />} />
                 <Route path="subjects" element={<SubjectsPage />} />
                 <Route
                     path="questions/:subjectId"
