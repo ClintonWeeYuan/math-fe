@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge'
 import { ArrowRight, Calculator, TrendingUp } from 'lucide-react'
 import type { ElementType } from 'react'
 import { LandingLayout } from '@/components/layout/landing/LandingLayout.tsx'
+import useGetTopicsBySubjectQuery from '@/hooks/useGetTopicsBySubjectQuery.ts'
 
 interface Topic {
     id: string
@@ -338,6 +339,15 @@ export const subjectsPage: Subject[] = [
     // },
 ]
 
+function TopicCountBadge({ subjectId }: { subjectId: string }) {
+    const { data: topics, isLoading } = useGetTopicsBySubjectQuery(subjectId)
+    return (
+        <Badge variant="secondary">
+            {isLoading ? '...' : (topics?.length ?? 0)} topics
+        </Badge>
+    )
+}
+
 export default function SubjectsPage() {
     return (
         <LandingLayout>
@@ -376,10 +386,7 @@ export default function SubjectsPage() {
                                         </CardHeader>
                                         <CardContent>
                                             <div className="flex items-center justify-between">
-                                                <Badge variant="secondary">
-                                                    {subject.topics.length}{' '}
-                                                    topics
-                                                </Badge>
+                                                <TopicCountBadge subjectId={subject.id} />
                                                 <ArrowRight className="h-5 w-5 text-slate-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all" />
                                             </div>
                                         </CardContent>

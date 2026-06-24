@@ -16,12 +16,8 @@ export function LandingHeader() {
                 link: subjectLink,
             },
             {
-                text: 'Pricing',
-                link: '/',
-            },
-            {
                 text: 'About',
-                link: '/',
+                link: '/about',
             },
         ],
         [subjectLink]
