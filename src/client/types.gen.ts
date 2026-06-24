@@ -650,7 +650,7 @@ export type UserMoreInfoForm = {
     /**
      * State
      */
-    state: 'SARAWAK' | 'SABAH' | 'TERRENGGANU' | 'KEDAH' | 'KELANTAN' | 'SELANGOR' | 'JOHOR' | 'MELAKA' | 'NEGERI SEMBILAN' | 'PENANG' | 'PERAK' | 'PAHANG' | 'PERLIS';
+    state: 'JOHOR' | 'KEDAH' | 'KELANTAN' | 'KUALA LUMPUR' | 'MELAKA' | 'NEGERI SEMBILAN' | 'PAHANG' | 'PENANG' | 'PERAK' | 'PERLIS' | 'PUTRAJAYA' | 'SABAH' | 'SARAWAK' | 'SELANGOR' | 'TERENGGANU';
     /**
      * Level
      */
