@@ -1,18 +1,21 @@
 import useGetPaginatedQuestionsBySubjectQuery from '@/hooks/useGetPaginatedQuestionsBySubjectQuery.ts'
-import { useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useEffect, useMemo, useState } from 'react'
 import { MultipleChoiceQuestion } from './MultipleChoiceQuestion'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Trophy } from 'lucide-react'
 import { useFiltersFromSearchParams } from '@/hooks/useFiltersFromSearchParams'
 import { LoadingPage } from '@/components/common/FullLoadingPage'
 import type { QuestionStatus } from '@/components/questionBank/v3/types.ts'
 import { Progress } from '@/components/questionBank/v3/Progress.tsx'
+import { QuizSummaryDialog } from '@/components/questionBank/v3/QuizSummaryDialog.tsx'
 
 export function QuizPage() {
     const { subjectId } = useParams()
+    const navigate = useNavigate()
     const [currentIndex, setCurrentIndex] = useState(0)
     const { topics, difficulty } = useFiltersFromSearchParams()
     const [questionStatus, setQuestionStatus] = useState<QuestionStatus[]>([])
+    const [showSummary, setShowSummary] = useState(false)
 
     const { data: questions, isLoading, isError } =
         useGetPaginatedQuestionsBySubjectQuery({
@@ -34,6 +37,27 @@ export function QuizPage() {
             )
         }
     }, [questions?.items?.length])
+
+    const topicStats = useMemo(() => {
+        const statsByTopic = new Map<string, { correct: number; total: number }>()
+        questions?.items?.forEach((question, index) => {
+            const status = questionStatus[index]
+            if (status === undefined || status === 'pending') return
+            question.topics.forEach((topic) => {
+                const entry = statsByTopic.get(topic.name) ?? {
+                    correct: 0,
+                    total: 0,
+                }
+                entry.total += 1
+                if (status === 'correct') entry.correct += 1
+                statsByTopic.set(topic.name, entry)
+            })
+        })
+        return Array.from(statsByTopic.entries()).map(([name, stats]) => ({
+            name,
+            ...stats,
+        }))
+    }, [questions?.items, questionStatus])
 
     if (isLoading) {
         return <LoadingPage />
@@ -119,16 +143,39 @@ export function QuizPage() {
                         </span>
                     </button>
 
-                    <button
-                        onClick={goToNext}
-                        disabled={isLast || shouldBlock}
-                        className="group flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-sm hover:shadow-md transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:shadow-sm disabled:hover:bg-blue-600"
-                    >
-                        <span className="font-medium">Next</span>
-                        <ChevronRight className="w-5 h-5" />
-                    </button>
+                    {isLast ? (
+                        <button
+                            onClick={() => setShowSummary(true)}
+                            disabled={shouldBlock}
+                            className="group flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-sm hover:shadow-md transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:shadow-sm disabled:hover:bg-blue-600"
+                        >
+                            <span className="font-medium">
+                                View Results
+                            </span>
+                            <Trophy className="w-5 h-5" />
+                        </button>
+                    ) : (
+                        <button
+                            onClick={goToNext}
+                            disabled={shouldBlock}
+                            className="group flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-sm hover:shadow-md transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:shadow-sm disabled:hover:bg-blue-600"
+                        >
+                            <span className="font-medium">Next</span>
+                            <ChevronRight className="w-5 h-5" />
+                        </button>
+                    )}
                 </div>
             </div>
+
+            <QuizSummaryDialog
+                open={showSummary}
+                onOpenChange={setShowSummary}
+                correctCount={correctCount}
+                questionCount={questionCount}
+                topicStats={topicStats}
+                onBackToHome={() => navigate('/')}
+                onPracticeMore={() => navigate(`/questions/v2/${subjectId}`)}
+            />
         </div>
     )
 }
