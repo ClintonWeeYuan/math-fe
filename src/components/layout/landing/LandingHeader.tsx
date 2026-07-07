@@ -16,6 +16,10 @@ export function LandingHeader() {
                 link: subjectLink,
             },
             {
+                text: 'ESAT & TMUA',
+                link: '/esat-tmua',
+            },
+            {
                 text: 'About',
                 link: '/about',
             },
@@ -40,6 +44,7 @@ export function LandingHeader() {
             <div className="flex justify-between items-center">
                 {MENU_ITEMS.map((item) => (
                     <Link
+                        key={item.text}
                         className="mx-8 hover:text-blue-700 hidden md:block"
                         to={item.link}
                     >

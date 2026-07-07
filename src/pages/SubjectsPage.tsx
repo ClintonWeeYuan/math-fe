@@ -348,55 +348,62 @@ function TopicCountBadge({ subjectId }: { subjectId: string }) {
     )
 }
 
-export default function SubjectsPage() {
+function SubjectsGrid() {
     return (
-        <LandingLayout>
-            <div className="container mx-auto px-4 py-12">
-                <div className="max-w-6xl mx-auto">
-                    <div className="text-center mb-12">
-                        <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-                            Choose Your Subject
-                        </h1>
-                        <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-                            Select a subject to start practicing. Each subject
-                            has comprehensive topics aligned with the SPM
-                            syllabus.
-                        </p>
-                    </div>
+        <div className="container mx-auto px-4 py-12">
+            <div className="max-w-6xl mx-auto">
+                <div className="text-center mb-12">
+                    <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+                        Choose Your Subject
+                    </h1>
+                    <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+                        Select a subject to start practicing. Each subject
+                        has comprehensive topics aligned with the SPM
+                        syllabus.
+                    </p>
+                </div>
 
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {subjectsPage.map((subject) => {
-                            const Icon = subject.icon
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {subjectsPage.map((subject) => {
+                        const Icon = subject.icon
 
-                            return (
-                                <Link key={subject.id} to={subject.url}>
-                                    <Card className="h-full cursor-pointer transition-all hover:shadow-xl hover:scale-105 group">
-                                        <CardHeader>
-                                            <div
-                                                className={`h-16 w-16 rounded-xl bg-gradient-to-br ${subject.gradient} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}
-                                            >
-                                                <Icon className="h-8 w-8 text-white" />
-                                            </div>
-                                            <CardTitle className="text-2xl">
-                                                {subject.name}
-                                            </CardTitle>
-                                            <CardDescription className="text-base">
-                                                {subject.description}
-                                            </CardDescription>
-                                        </CardHeader>
-                                        <CardContent>
-                                            <div className="flex items-center justify-between">
-                                                <TopicCountBadge subjectId={subject.id} />
-                                                <ArrowRight className="h-5 w-5 text-slate-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all" />
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                </Link>
-                            )
-                        })}
-                    </div>
+                        return (
+                            <Link key={subject.id} to={subject.url}>
+                                <Card className="h-full cursor-pointer transition-all hover:shadow-xl hover:scale-105 group">
+                                    <CardHeader>
+                                        <div
+                                            className={`h-16 w-16 rounded-xl bg-gradient-to-br ${subject.gradient} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}
+                                        >
+                                            <Icon className="h-8 w-8 text-white" />
+                                        </div>
+                                        <CardTitle className="text-2xl">
+                                            {subject.name}
+                                        </CardTitle>
+                                        <CardDescription className="text-base">
+                                            {subject.description}
+                                        </CardDescription>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className="flex items-center justify-between">
+                                            <TopicCountBadge subjectId={subject.id} />
+                                            <ArrowRight className="h-5 w-5 text-slate-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all" />
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            </Link>
+                        )
+                    })}
                 </div>
             </div>
+        </div>
+    )
+}
+
+export default function SubjectsPage({ embedded }: { embedded?: boolean }) {
+    if (embedded) return <SubjectsGrid />
+    return (
+        <LandingLayout>
+            <SubjectsGrid />
         </LandingLayout>
     )
 }
