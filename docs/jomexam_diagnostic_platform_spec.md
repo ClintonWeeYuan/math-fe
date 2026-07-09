@@ -24,8 +24,11 @@ one `.env`, the live production database is the only database. Every schema chan
 to prod unless a throwaway local Postgres or a manually-created Supabase branch is used to test it
 first. Treat that as mandatory, not optional, given there's no other safety net.
 
-**Status:** Stage 0 audit complete (§8). Schema design in progress, informed by its findings —
-see the naming-collision and RLS notes in §3.
+**Status:** Stage 0 audit complete (§8). **Stage 1 schema migration complete and merged** — built,
+reviewed across three rounds (missing FK indexes, a missing FK entirely on
+`diagnostic_question_events.question_id`, and a deliberate decision not to index it further —
+see §3 and §10), matches the shipped migration exactly. Stage 2 (admin auth enforcement) is next,
+not yet started.
 
 ---
 
@@ -129,12 +132,15 @@ create table diagnostic_questions (
   created_at timestamptz default now()
 );
 
--- One student's attempt
+-- One student's attempt. student_id -> public.users(id) confirmed correct during Stage 1
+-- by querying the live schema directly: user_info.user_id and user_question.user_id both
+-- reference public.users(id) with ON DELETE CASCADE — matched here for the same reason
+-- (a deleted user's exam history shouldn't be left as orphaned data). diagnostic_set_id
+-- is left NO ACTION (the default) — deleting a set should never silently destroy the
+-- attempt history taken against it.
 create table diagnostic_attempts (
   id uuid primary key default gen_random_uuid(),
-  student_id uuid not null references public.users(id),  -- confirm during Stage 1: this is the
-                                         -- identity table the audit found JWTs are matched
-                                         -- against; not Supabase's built-in auth.users
+  student_id uuid not null references public.users(id) on delete cascade,
   diagnostic_set_id uuid not null references diagnostic_sets(id),
   status text not null default 'in_progress',  -- in_progress|submitted|timed_out|abandoned
   started_at timestamptz not null default now(),
@@ -145,10 +151,19 @@ create table diagnostic_attempts (
   created_at timestamptz default now()
 );
 
--- Per-question response + rolled-up timing (fast to read for the report)
+-- Postgres only auto-indexes primary keys and unique constraints, never plain FK
+-- columns — both of these need an explicit index or every per-student and
+-- per-set lookup does a full table scan once this table has real rows in it.
+create index on diagnostic_attempts (student_id);
+create index on diagnostic_attempts (diagnostic_set_id);
+
+-- Per-question response + rolled-up timing (fast to read for the report).
+-- attempt_id cascades (meaningless without its parent attempt); question_id is
+-- NO ACTION, same reasoning as diagnostic_set_id above — never silently destroy
+-- response history by deleting a question.
 create table diagnostic_responses (
   id uuid primary key default gen_random_uuid(),
-  attempt_id uuid not null references diagnostic_attempts(id),
+  attempt_id uuid not null references diagnostic_attempts(id) on delete cascade,
   question_id uuid not null references diagnostic_questions(id),
   question_order_index int not null,
   selected_option text,
@@ -160,19 +175,32 @@ create table diagnostic_responses (
   unique (attempt_id, question_id)
 );
 
+-- unique(attempt_id, question_id) above only gives a usable index when attempt_id
+-- is the leftmost column being filtered on — question_id-only lookups (e.g. §6's
+-- cohort-average-per-question queries: "all responses for this question across
+-- every attempt") need their own separate index.
+create index on diagnostic_responses (question_id);
+
 -- Fine-grained event log — the raw material for time-management pattern analysis,
 -- not just totals. This is what lets you answer "did they panic and rush the last 10
--- questions" rather than just "question 35 took 40 seconds."
+-- questions" rather than just "question 35 took 40 seconds." attempt_id cascades for
+-- the same reason as diagnostic_responses; question_id is a real FK (NO ACTION) too —
+-- an earlier draft of this table left question_id unconstrained, which would have let
+-- a bug in event-ingestion code silently log against a question that doesn't exist.
 create table diagnostic_question_events (
   id bigint generated always as identity primary key,
-  attempt_id uuid not null references diagnostic_attempts(id),
-  question_id uuid not null,
+  attempt_id uuid not null references diagnostic_attempts(id) on delete cascade,
+  question_id uuid not null references diagnostic_questions(id),
   event_type text not null,   -- enter|exit|flag|unflag|answer_change|blur|focus
   server_ts timestamptz not null default now(),
   client_ts timestamptz       -- stored for comparison/anomaly detection, never trusted alone
 );
 
 create index on diagnostic_question_events (attempt_id, server_ts);
+-- No separate question_id index here: every described query pattern against this
+-- table filters by attempt_id first (it's a per-session event log), which the index
+-- above already covers. Add one later only if a genuine "all events for this
+-- question, across every attempt" query pattern actually shows up.
 ```
 
 **Row-Level Security — deliberately not the containment mechanism here.** The original draft of
@@ -485,7 +513,7 @@ before merge as the only safety net that exists, because it is.
 | Stage | What happens | Repo(s) | Exposure |
 |---|---|---|---|
 | **0. Audit** | §8 — backend complete, frontend checklist still to run | Backend done; Frontend next | none — no code changes |
-| **1. Schema** | New `diagnostic_`-prefixed tables from §3, as a raw SQL migration. Test against a throwaway local Postgres or a manually-created Supabase branch first — there's no other safety net (§8, finding 5) | Backend (`math-be`) | none — no UI yet, tables empty |
+| **1. Schema** ✅ | New `diagnostic_`-prefixed tables from §3, as a raw SQL migration, tested against a throwaway local Postgres. **Complete and merged** — three review rounds: added three missing FK indexes (Postgres doesn't auto-index FK columns); caught and fixed a missing FK entirely on `diagnostic_question_events.question_id`; deliberately declined a further index on that same column — it's the highest-write-volume table in the schema with no described query pattern that needs one, unlike the other three | Backend (`math-be`) | none — no UI yet, tables empty |
 | **2. Admin auth enforcement** | The `require_admin` FastAPI dependency from §9 — its own small, security-critical PR, reviewed alone, before any route uses it | Backend (`math-be`) | none — no routes depend on it yet |
 | **3. Admin tool** | §9's CRUD + bulk-import endpoints (backend) and the `/admin/questions` UI with KaTeX preview (frontend), gated by Stage 2. Test the bulk-import path against the real `esat_mathsii_bulk_import.json`, not a synthetic file | Backend + Frontend (`math-fe`) | you only |
 | **4. Exam-taking UI** | §2 + §4 — attempt-creation, deadline-check, and event-ingestion endpoints (backend), the exam screen itself (frontend), reachable only via a direct unlisted URL, tested against the ESAT Maths II 27-question set | Backend + Frontend | you + family/collaborator only |
@@ -498,9 +526,10 @@ Each stage should be small enough to review in one sitting before moving to the 
 actual point of staging, more than the specific boundaries drawn above. If a stage starts feeling
 too big to review confidently in one pass, that's the signal to split it further, not push through.
 
-**Starting next:** the backend audit (Stage 0) is done — its findings are folded into §3, §5, §8,
-and §9 above. Two things can happen in parallel now: run the frontend half of Stage 0 (checklist
-at the end of §8) in a `math-fe` session, and/or start Stage 1 in a `math-be` session, since Stage
-1 doesn't depend on anything the frontend audit would find. Stage 2 (admin auth) can follow
-immediately after Stage 1 in the same backend repo, before touching the frontend at all.
+**Starting next:** Stage 1 is done. Two things can happen in parallel now: start Stage 2 (admin
+auth enforcement, §9) in the same `math-be` session — it doesn't depend on anything the frontend
+audit would find — and/or run the frontend half of Stage 0 (checklist at the end of §8) in a
+`math-fe` session, since that's still outstanding and Stage 3 will need it. Stage 3 (the admin
+tool itself) shouldn't start until Stage 2 is reviewed and merged on its own, per §9's note that
+it's security-critical enough to deserve independent review rather than being bundled in.
 
