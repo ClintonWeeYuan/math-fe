@@ -24,12 +24,21 @@ one `.env`, the live production database is the only database. Every schema chan
 to prod unless a throwaway local Postgres or a manually-created Supabase branch is used to test it
 first. Treat that as mandatory, not optional, given there's no other safety net.
 
-**Status:** Stage 0 audit complete (§8). **Stage 1 schema migration complete and merged** — built,
-reviewed across three rounds (missing FK indexes, a missing FK entirely on
+**Status:** Stage 0 audit complete both repos (§8). **Stage 1 schema migration complete and
+merged** — built, reviewed across three rounds (missing FK indexes, a missing FK entirely on
 `diagnostic_question_events.question_id`, and a deliberate decision not to index it further —
-see §3 and §10), matches the shipped migration exactly. **Stage 2 (admin auth enforcement)
-complete and merged** — the `require_admin` FastAPI dependency exists and is fully tested, but
-deliberately wired into zero routes so far (see §10). Stage 3 (the admin tool itself) is next.
+see §3 and §10), matches the shipped migration exactly, and confirmed directly against the live
+production database (5 tables, correct FKs, `status` column, `diagnostic-content` bucket private
+and confirmed, all at 0 rows). **Stage 2 (admin auth enforcement) complete and merged** — the
+`require_admin` FastAPI dependency exists and is fully tested, but deliberately wired into zero
+routes so far (see §10). **Stage 3 backend half complete and merged** —
+`feature/diagnostic-admin-tool` in `math-be`: CRUD + bulk-import endpoints gated by `require_admin`,
+the `diagram_svg`→Storage and `source_ref`→UUID translations, and a fix tracking the bulk-import
+seed file in git (was untracked — caught by a test hitting `FileNotFoundError` in a fresh
+worktree). Both failure-mode edge cases (unknown `source_ref`, mid-import Storage upload failure)
+proven with adversarial tests, not just asserted — confirmed no partial/broken rows in either
+case, full cleanup via one shared mechanism. **Stage 3 frontend half not yet started** — reuses
+the confirmed `AuthContext.tsx` `isAdmin` pattern and the already-present KaTeX dependency (§8).
 
 ---
 
@@ -108,6 +117,17 @@ create table diagnostic_sets (
   time_limit_minutes int not null,
   question_ids uuid[] not null,   -- ordered; defines question sequence
   is_free boolean default false,  -- powers your free-tier vs paid-tier split directly
+  status text not null default 'draft', -- 'draft' | 'published' — added during Stage 3 review:
+                                         -- the original Stage 1 migration had no equivalent to
+                                         -- diagnostic_questions.status, so a set was a fully-live
+                                         -- row the moment it existed, even one bulk-imported
+                                         -- referencing still-draft questions. A set can now stay
+                                         -- draft regardless of the status of the questions it
+                                         -- references — that's what makes referencing draft
+                                         -- questions a non-issue rather than something the
+                                         -- import path needs to validate against. Only
+                                         -- 'published' sets should ever be shown to students
+                                         -- (Stage 4).
   created_at timestamptz default now()
 );
 
@@ -413,19 +433,23 @@ No code was changed during this audit.
 
 ---
 
-**Frontend repo audit — still to run, same idea, separate session:**
+**Frontend repo audit — completed findings.**
 
-> Before we build anything, audit this codebase and report back — don't change any code yet.
-> Specifically:
-> 1. Is there an existing `/admin` area or any admin-gated pages, even partial or unused?
-> 2. Is there any existing question-authoring UI, even partial or unused?
-> 3. Is a LaTeX/math rendering library already a dependency (KaTeX, MathJax, react-katex, etc.)?
-> 4. How does this app currently read the logged-in user's role/permissions (e.g. from the
->    OpenAPI client's response shape), so the future `/admin/questions` gate can reuse it rather
->    than inventing a second way to check the same thing?
-> 5. Is this repo on GitHub? What's the deployment setup (Vercel, or something else)?
->
-> Summarise findings before we decide anything else.
+**1–2. Existing `/admin` area and question-authoring UI?** Yes to both — a full admin area and an
+`UploadQuestion.tsx`/Manager tool already exist, but they operate on `public.questions` (the SPM
+Math table, LaTeX-zip → HTML conversion, pre-rendered files). Confirmed during Stage 3 planning:
+not reusable as-is for `diagnostic_questions`, which has a genuinely different shape (LaTeX stem
+rendered live, JSONB options, no file upload except the optional diagram). `/admin/questions` for
+the diagnostic platform is new UI, not an extension of the existing tool.
+
+**3. LaTeX rendering library?** Yes — KaTeX is already a dependency. No new library needed for
+Stage 3's stem/option preview pane.
+
+**4. Existing role-check pattern?** `AuthContext.tsx`'s `isAdmin`. Stage 3's frontend PR should
+gate the `/admin/questions` route through this directly, rather than introducing a second way to
+check the same thing.
+
+**5. GitHub + deployment?** Same story as the backend — Docker on Railway, not Vercel.
 
 ---
 
@@ -443,10 +467,12 @@ this as its own small, security-critical PR reviewed on its own, *before* any ad
 built on top of it, not bundled into the same change. Getting this wrong silently (e.g. checking
 the role client-side only) would let any authenticated user hit admin endpoints directly.
 
-**Route & access:** an isolated `/admin/questions` area in the frontend repo (`math-fe`), calling
-FastAPI endpoints in the backend repo (`math-be`) that are gated by the dependency above. The
-frontend-side check is a UX nicety (hide the nav link, redirect if not admin) — the enforcement
-that actually matters is server-side. Deliberately not linked from any student-facing navigation.
+**Route & access:** an isolated `/admin/questions` area in the frontend repo (`math-fe`), gated by
+the existing `AuthContext.tsx`'s `isAdmin` (confirmed by the frontend audit, §8 — reuse it, don't
+introduce a second way to check the same thing), calling FastAPI endpoints in the backend repo
+(`math-be`) gated by `require_admin` (§9, Stage 2). The frontend-side check is a UX nicety (hide
+the nav link, redirect if not admin) — the enforcement that actually matters is server-side.
+Deliberately not linked from any student-facing navigation.
 
 **Question form fields:**
 - Topic code (e.g. `MM1.6`) — dropdown, sourced from a small reference table rather than
@@ -511,12 +537,14 @@ here specifically because **there is no CI and no staging environment** — a me
 straight to the one production database and the Railway deployment. Treat local/manual testing
 before merge as the only safety net that exists, because it is.
 
+✅ complete and merged · 🔶 in progress · unmarked = not yet started
+
 | Stage | What happens | Repo(s) | Exposure |
 |---|---|---|---|
 | **0. Audit** | §8 — backend complete, frontend checklist still to run | Backend done; Frontend next | none — no code changes |
 | **1. Schema** ✅ | New `diagnostic_`-prefixed tables from §3, as a raw SQL migration, tested against a throwaway local Postgres. **Complete and merged** — three review rounds: added three missing FK indexes (Postgres doesn't auto-index FK columns); caught and fixed a missing FK entirely on `diagnostic_question_events.question_id`; deliberately declined a further index on that same column — it's the highest-write-volume table in the schema with no described query pattern that needs one, unlike the other three | Backend (`math-be`) | none — no UI yet, tables empty |
 | **2. Admin auth enforcement** ✅ | The `require_admin` FastAPI dependency from §9. **Complete and merged** — plain-string comparison against `user_type` (confirmed no enum anywhere in the codebase, no mismatch risk); confirmed fresh-from-DB on every request, not JWT-embedded, so revoking admin access takes effect on the very next request; review caught that the original tests called the dependency directly and never actually resolved the `Depends()` chain, missing a real distinction (missing header → 403 from `HTTPBearer` itself; invalid token → 401 from existing logic) — fixed with full-chain `TestClient` tests before merge. Deliberately wired into **zero routes** — that's Stage 3 | Backend (`math-be`) | none — no routes depend on it yet |
-| **3. Admin tool** | §9's CRUD + bulk-import endpoints (backend) and the `/admin/questions` UI with KaTeX preview (frontend), gated by Stage 2. Test the bulk-import path against the real `esat_mathsii_bulk_import.json`, not a synthetic file | Backend + Frontend (`math-fe`) | you only |
+| **3. Admin tool** 🔶 | §9's CRUD + bulk-import endpoints. **Backend half complete and merged** (`feature/diagnostic-admin-tool`, `math-be`). Building against the real `esat_mathsii_bulk_import.json` (not a synthetic file) surfaced three real gaps, all resolved: the seed file itself wasn't tracked in git; `diagram_svg` (raw SVG) needs uploading to the new `diagnostic-content` bucket and storing as `diagram_path`, not a direct field copy; `question_order`'s `source_ref` strings need translating into generated UUIDs before the set row is created. Both the `source_ref`-mismatch and mid-import Storage-upload-failure cases proven with adversarial tests — no broken/partial rows in either case, one shared cleanup path. Also surfaced the missing `diagnostic_sets.status` column, now added (§3). **Frontend half not started** — `/admin/questions` with KaTeX preview, gated by the confirmed `AuthContext.tsx` `isAdmin` | Backend done; Frontend (`math-fe`) next | you only |
 | **4. Exam-taking UI** | §2 + §4 — attempt-creation, deadline-check, and event-ingestion endpoints (backend), the exam screen itself (frontend), reachable only via a direct unlisted URL, tested against the ESAT Maths II 27-question set | Backend + Frontend | you + family/collaborator only |
 | **5. Scoring + report** | §6 — server-side scoring that never leaks `correct_option` mid-attempt (backend), the Skills Radar report screen (frontend), tested end-to-end against the Stage 4 test attempts | Backend + Frontend | you + family/collaborator only |
 | **6. Anti-copy layer** | §5 — signed-URL diagram serving and watermark data (backend), copy/print deterrents and watermark rendering (frontend). Added last since it's the most likely source of false-positive UX bugs and is easiest to debug once the core flow is already proven stable | Backend + Frontend | you + family/collaborator only |
