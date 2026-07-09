@@ -27,8 +27,9 @@ first. Treat that as mandatory, not optional, given there's no other safety net.
 **Status:** Stage 0 audit complete (§8). **Stage 1 schema migration complete and merged** — built,
 reviewed across three rounds (missing FK indexes, a missing FK entirely on
 `diagnostic_question_events.question_id`, and a deliberate decision not to index it further —
-see §3 and §10), matches the shipped migration exactly. Stage 2 (admin auth enforcement) is next,
-not yet started.
+see §3 and §10), matches the shipped migration exactly. **Stage 2 (admin auth enforcement)
+complete and merged** — the `require_admin` FastAPI dependency exists and is fully tested, but
+deliberately wired into zero routes so far (see §10). Stage 3 (the admin tool itself) is next.
 
 ---
 
@@ -514,7 +515,7 @@ before merge as the only safety net that exists, because it is.
 |---|---|---|---|
 | **0. Audit** | §8 — backend complete, frontend checklist still to run | Backend done; Frontend next | none — no code changes |
 | **1. Schema** ✅ | New `diagnostic_`-prefixed tables from §3, as a raw SQL migration, tested against a throwaway local Postgres. **Complete and merged** — three review rounds: added three missing FK indexes (Postgres doesn't auto-index FK columns); caught and fixed a missing FK entirely on `diagnostic_question_events.question_id`; deliberately declined a further index on that same column — it's the highest-write-volume table in the schema with no described query pattern that needs one, unlike the other three | Backend (`math-be`) | none — no UI yet, tables empty |
-| **2. Admin auth enforcement** | The `require_admin` FastAPI dependency from §9 — its own small, security-critical PR, reviewed alone, before any route uses it | Backend (`math-be`) | none — no routes depend on it yet |
+| **2. Admin auth enforcement** ✅ | The `require_admin` FastAPI dependency from §9. **Complete and merged** — plain-string comparison against `user_type` (confirmed no enum anywhere in the codebase, no mismatch risk); confirmed fresh-from-DB on every request, not JWT-embedded, so revoking admin access takes effect on the very next request; review caught that the original tests called the dependency directly and never actually resolved the `Depends()` chain, missing a real distinction (missing header → 403 from `HTTPBearer` itself; invalid token → 401 from existing logic) — fixed with full-chain `TestClient` tests before merge. Deliberately wired into **zero routes** — that's Stage 3 | Backend (`math-be`) | none — no routes depend on it yet |
 | **3. Admin tool** | §9's CRUD + bulk-import endpoints (backend) and the `/admin/questions` UI with KaTeX preview (frontend), gated by Stage 2. Test the bulk-import path against the real `esat_mathsii_bulk_import.json`, not a synthetic file | Backend + Frontend (`math-fe`) | you only |
 | **4. Exam-taking UI** | §2 + §4 — attempt-creation, deadline-check, and event-ingestion endpoints (backend), the exam screen itself (frontend), reachable only via a direct unlisted URL, tested against the ESAT Maths II 27-question set | Backend + Frontend | you + family/collaborator only |
 | **5. Scoring + report** | §6 — server-side scoring that never leaks `correct_option` mid-attempt (backend), the Skills Radar report screen (frontend), tested end-to-end against the Stage 4 test attempts | Backend + Frontend | you + family/collaborator only |
@@ -526,10 +527,11 @@ Each stage should be small enough to review in one sitting before moving to the 
 actual point of staging, more than the specific boundaries drawn above. If a stage starts feeling
 too big to review confidently in one pass, that's the signal to split it further, not push through.
 
-**Starting next:** Stage 1 is done. Two things can happen in parallel now: start Stage 2 (admin
-auth enforcement, §9) in the same `math-be` session — it doesn't depend on anything the frontend
-audit would find — and/or run the frontend half of Stage 0 (checklist at the end of §8) in a
-`math-fe` session, since that's still outstanding and Stage 3 will need it. Stage 3 (the admin
-tool itself) shouldn't start until Stage 2 is reviewed and merged on its own, per §9's note that
-it's security-critical enough to deserve independent review rather than being bundled in.
+**Starting next:** Stage 2 is done. Stage 3 (the admin tool itself, §9) is next in `math-be` +
+`math-fe` together — the CRUD and bulk-import endpoints now have `require_admin` to gate them
+against, and the bulk-import path should be tested against the real
+`esat_mathsii_bulk_import.json`, not a synthetic file. Worth checking first whether the frontend
+half of Stage 0 (checklist at the end of §8) has run yet — if not, do that first in a `math-fe`
+session, since Stage 3's frontend work depends on knowing what's already there (existing LaTeX
+libraries, any partial admin UI) more than Stage 1 or 2 did.
 
