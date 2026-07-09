@@ -21,6 +21,9 @@ import { QuizPage } from './components/questionBank/v3/Quiz'
 import { AboutPage } from '@/pages/AboutPage.tsx'
 import { EsatTmuaPage } from '@/pages/EsatTmuaPage.tsx'
 import { StudentProtectedRoute } from '@/components/auth/StudentProtectedRoute.tsx'
+import { DiagnosticQuestionsListPage } from '@/pages/Admin/Diagnostic/DiagnosticQuestionsListPage.tsx'
+import { DiagnosticQuestionCreatePage } from '@/pages/Admin/Diagnostic/DiagnosticQuestionCreatePage.tsx'
+import { DiagnosticQuestionEditPage } from '@/pages/Admin/Diagnostic/DiagnosticQuestionEditPage.tsx'
 
 function App() {
     useEffect(() => {
@@ -89,6 +92,18 @@ function App() {
                     <Route
                         path="interactive"
                         element={<InteractiveQuestionPage />}
+                    />
+                    <Route
+                        path="admin/questions"
+                        element={<DiagnosticQuestionsListPage />}
+                    />
+                    <Route
+                        path="admin/questions/new"
+                        element={<DiagnosticQuestionCreatePage />}
+                    />
+                    <Route
+                        path="admin/questions/:questionId"
+                        element={<DiagnosticQuestionEditPage />}
                     />
                 </Route>
             </Routes>

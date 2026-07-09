@@ -10,7 +10,13 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar'
 
-import { Inbox, LucideCodesandbox, PencilIcon, Settings } from 'lucide-react'
+import {
+    FlaskConical,
+    Inbox,
+    LucideCodesandbox,
+    PencilIcon,
+    Settings,
+} from 'lucide-react'
 import { useAuth } from '@/components/auth/AuthContext.tsx'
 import { Button } from '@/components/ui/button.tsx'
 import { useNavigate } from 'react-router-dom'
@@ -35,6 +41,11 @@ const ITEMS = [
         title: 'Interactive',
         url: '/interactive',
         icon: PencilIcon,
+    },
+    {
+        title: 'Diagnostic Questions',
+        url: '/admin/questions',
+        icon: FlaskConical,
     },
 ]
 

@@ -2,7 +2,7 @@
 
 import { type Client, formDataBodySerializer, type Options as Options2, type TDataShape } from './client';
 import { client } from './client.gen';
-import type { ConvertLatexConverterPostData, ConvertLatexConverterPostErrors, ConvertLatexConverterPostResponses, CreateLevelLevelsPostData, CreateLevelLevelsPostErrors, CreateLevelLevelsPostResponses, CreateOptionQuestionsQuestionIdOptionPostData, CreateOptionQuestionsQuestionIdOptionPostErrors, CreateOptionQuestionsQuestionIdOptionPostResponses, CreatePaperInstancePapersInstancePostData, CreatePaperInstancePapersInstancePostErrors, CreatePaperInstancePapersInstancePostResponses, CreatePaperPapersPostData, CreatePaperPapersPostErrors, CreatePaperPapersPostResponses, CreatePaperVariantPapersVariantPostData, CreatePaperVariantPapersVariantPostErrors, CreatePaperVariantPapersVariantPostResponses, CreateSubjectSubjectsPostData, CreateSubjectSubjectsPostErrors, CreateSubjectSubjectsPostResponses, CreateSyllabusSyllabusPostData, CreateSyllabusSyllabusPostErrors, CreateSyllabusSyllabusPostResponses, CreateTopicTopicsPostData, CreateTopicTopicsPostErrors, CreateTopicTopicsPostResponses, DeleteLevelLevelsLevelIdDeleteData, DeleteLevelLevelsLevelIdDeleteErrors, DeleteLevelLevelsLevelIdDeleteResponses, DeleteOptionQuestionsQuestionIdOptionOptionIdDeleteData, DeleteOptionQuestionsQuestionIdOptionOptionIdDeleteErrors, DeleteOptionQuestionsQuestionIdOptionOptionIdDeleteResponses, DeletePaperPapersInstanceInstanceIdDeleteData, DeletePaperPapersInstanceInstanceIdDeleteErrors, DeletePaperPapersInstanceInstanceIdDeleteResponses, DeletePaperPapersPaperIdDeleteData, DeletePaperPapersPaperIdDeleteErrors, DeletePaperPapersPaperIdDeleteResponses, DeleteQuestionQuestionsQuestionIdDeleteData, DeleteQuestionQuestionsQuestionIdDeleteErrors, DeleteQuestionQuestionsQuestionIdDeleteResponses, DeleteTopicTopicsTopicIdDeleteData, DeleteTopicTopicsTopicIdDeleteErrors, DeleteTopicTopicsTopicIdDeleteResponses, DeleteVariantPapersVariantVariantIdDeleteData, DeleteVariantPapersVariantVariantIdDeleteErrors, DeleteVariantPapersVariantVariantIdDeleteResponses, GetAllLevelsLevelsGetData, GetAllLevelsLevelsGetResponses, GetAllSyllabusSyllabusGetData, GetAllSyllabusSyllabusGetResponses, GetCurrentUserUsersCurrentGetData, GetCurrentUserUsersCurrentGetResponses, GetHintChatHintPostData, GetHintChatHintPostErrors, GetHintChatHintPostResponses, GetPaperInstancePapersInstanceInstanceIdGetData, GetPaperInstancePapersInstanceInstanceIdGetErrors, GetPaperInstancePapersInstanceInstanceIdGetResponses, GetPaperInstancesBySubjectIdPapersInstanceSubjectSubjectIdGetData, GetPaperInstancesBySubjectIdPapersInstanceSubjectSubjectIdGetErrors, GetPaperInstancesBySubjectIdPapersInstanceSubjectSubjectIdGetResponses, GetQuestionOptionsQuestionsQuestionIdOptionsGetData, GetQuestionOptionsQuestionsQuestionIdOptionsGetErrors, GetQuestionOptionsQuestionsQuestionIdOptionsGetResponses, GetQuestionQuestionsQuestionIdGetData, GetQuestionQuestionsQuestionIdGetErrors, GetQuestionQuestionsQuestionIdGetResponses, GetQuestionsByPaperInstanceQuestionsPaperInstancePaperInstanceIdGetData, GetQuestionsByPaperInstanceQuestionsPaperInstancePaperInstanceIdGetErrors, GetQuestionsByPaperInstanceQuestionsPaperInstancePaperInstanceIdGetResponses, GetQuestionsBySubjectPaginatedQuestionsSubjectPaginatedSubjectIdGetData, GetQuestionsBySubjectPaginatedQuestionsSubjectPaginatedSubjectIdGetErrors, GetQuestionsBySubjectPaginatedQuestionsSubjectPaginatedSubjectIdGetResponses, GetQuestionsBySubjectQuestionsSubjectSubjectIdGetData, GetQuestionsBySubjectQuestionsSubjectSubjectIdGetErrors, GetQuestionsBySubjectQuestionsSubjectSubjectIdGetResponses, GetQuestionsByTopicQuestionsTopicsTopicIdGetData, GetQuestionsByTopicQuestionsTopicsTopicIdGetErrors, GetQuestionsByTopicQuestionsTopicsTopicIdGetResponses, GetSubjectSubjectsSubjectIdGetData, GetSubjectSubjectsSubjectIdGetErrors, GetSubjectSubjectsSubjectIdGetResponses, GetSyllabusSyllabusSyllabusIdGetData, GetSyllabusSyllabusSyllabusIdGetErrors, GetSyllabusSyllabusSyllabusIdGetResponses, GetTopicsBySubjectTopicsSubjectIdGetData, GetTopicsBySubjectTopicsSubjectIdGetErrors, GetTopicsBySubjectTopicsSubjectIdGetResponses, LoginUsersLoginPostData, LoginUsersLoginPostErrors, LoginUsersLoginPostResponses, MoreInfoUsersMoreInfoPostData, MoreInfoUsersMoreInfoPostErrors, MoreInfoUsersMoreInfoPostResponses, ResendVerificationUsersResendVerificationPostData, ResendVerificationUsersResendVerificationPostErrors, ResendVerificationUsersResendVerificationPostResponses, RootGetData, RootGetResponses, SetQuestionStatusQuestionsSetStatusPostData, SetQuestionStatusQuestionsSetStatusPostErrors, SetQuestionStatusQuestionsSetStatusPostResponses, SignupUsersPostData, SignupUsersPostErrors, SignupUsersPostResponses, UpdateOptionQuestionsQuestionIdOptionOptionIdPatchData, UpdateOptionQuestionsQuestionIdOptionOptionIdPatchErrors, UpdateOptionQuestionsQuestionIdOptionOptionIdPatchResponses, UpdateQuestionQuestionsQuestionIdPatchData, UpdateQuestionQuestionsQuestionIdPatchErrors, UpdateQuestionQuestionsQuestionIdPatchResponses, UpdateTopicTopicsTopicIdPatchData, UpdateTopicTopicsTopicIdPatchErrors, UpdateTopicTopicsTopicIdPatchResponses, VerifyEmailUsersVerifyPostData, VerifyEmailUsersVerifyPostErrors, VerifyEmailUsersVerifyPostResponses } from './types.gen';
+import type { BulkImportDiagnosticQuestionsDiagnosticQuestionsBulkImportPostData, BulkImportDiagnosticQuestionsDiagnosticQuestionsBulkImportPostErrors, BulkImportDiagnosticQuestionsDiagnosticQuestionsBulkImportPostResponses, ConvertLatexConverterPostData, ConvertLatexConverterPostErrors, ConvertLatexConverterPostResponses, CreateDiagnosticQuestionDiagnosticQuestionsPostData, CreateDiagnosticQuestionDiagnosticQuestionsPostErrors, CreateDiagnosticQuestionDiagnosticQuestionsPostResponses, CreateLevelLevelsPostData, CreateLevelLevelsPostErrors, CreateLevelLevelsPostResponses, CreateOptionQuestionsQuestionIdOptionPostData, CreateOptionQuestionsQuestionIdOptionPostErrors, CreateOptionQuestionsQuestionIdOptionPostResponses, CreatePaperInstancePapersInstancePostData, CreatePaperInstancePapersInstancePostErrors, CreatePaperInstancePapersInstancePostResponses, CreatePaperPapersPostData, CreatePaperPapersPostErrors, CreatePaperPapersPostResponses, CreatePaperVariantPapersVariantPostData, CreatePaperVariantPapersVariantPostErrors, CreatePaperVariantPapersVariantPostResponses, CreateSubjectSubjectsPostData, CreateSubjectSubjectsPostErrors, CreateSubjectSubjectsPostResponses, CreateSyllabusSyllabusPostData, CreateSyllabusSyllabusPostErrors, CreateSyllabusSyllabusPostResponses, CreateTopicTopicsPostData, CreateTopicTopicsPostErrors, CreateTopicTopicsPostResponses, DeleteDiagnosticQuestionDiagnosticQuestionsQuestionIdDeleteData, DeleteDiagnosticQuestionDiagnosticQuestionsQuestionIdDeleteErrors, DeleteDiagnosticQuestionDiagnosticQuestionsQuestionIdDeleteResponses, DeleteLevelLevelsLevelIdDeleteData, DeleteLevelLevelsLevelIdDeleteErrors, DeleteLevelLevelsLevelIdDeleteResponses, DeleteOptionQuestionsQuestionIdOptionOptionIdDeleteData, DeleteOptionQuestionsQuestionIdOptionOptionIdDeleteErrors, DeleteOptionQuestionsQuestionIdOptionOptionIdDeleteResponses, DeletePaperPapersInstanceInstanceIdDeleteData, DeletePaperPapersInstanceInstanceIdDeleteErrors, DeletePaperPapersInstanceInstanceIdDeleteResponses, DeletePaperPapersPaperIdDeleteData, DeletePaperPapersPaperIdDeleteErrors, DeletePaperPapersPaperIdDeleteResponses, DeleteQuestionQuestionsQuestionIdDeleteData, DeleteQuestionQuestionsQuestionIdDeleteErrors, DeleteQuestionQuestionsQuestionIdDeleteResponses, DeleteTopicTopicsTopicIdDeleteData, DeleteTopicTopicsTopicIdDeleteErrors, DeleteTopicTopicsTopicIdDeleteResponses, DeleteVariantPapersVariantVariantIdDeleteData, DeleteVariantPapersVariantVariantIdDeleteErrors, DeleteVariantPapersVariantVariantIdDeleteResponses, GetAllLevelsLevelsGetData, GetAllLevelsLevelsGetResponses, GetAllSyllabusSyllabusGetData, GetAllSyllabusSyllabusGetResponses, GetCurrentUserUsersCurrentGetData, GetCurrentUserUsersCurrentGetResponses, GetDiagnosticQuestionDiagnosticQuestionsQuestionIdGetData, GetDiagnosticQuestionDiagnosticQuestionsQuestionIdGetErrors, GetDiagnosticQuestionDiagnosticQuestionsQuestionIdGetResponses, GetDiagnosticSetDiagnosticSetsSetIdGetData, GetDiagnosticSetDiagnosticSetsSetIdGetErrors, GetDiagnosticSetDiagnosticSetsSetIdGetResponses, GetHintChatHintPostData, GetHintChatHintPostErrors, GetHintChatHintPostResponses, GetPaperInstancePapersInstanceInstanceIdGetData, GetPaperInstancePapersInstanceInstanceIdGetErrors, GetPaperInstancePapersInstanceInstanceIdGetResponses, GetPaperInstancesBySubjectIdPapersInstanceSubjectSubjectIdGetData, GetPaperInstancesBySubjectIdPapersInstanceSubjectSubjectIdGetErrors, GetPaperInstancesBySubjectIdPapersInstanceSubjectSubjectIdGetResponses, GetQuestionOptionsQuestionsQuestionIdOptionsGetData, GetQuestionOptionsQuestionsQuestionIdOptionsGetErrors, GetQuestionOptionsQuestionsQuestionIdOptionsGetResponses, GetQuestionQuestionsQuestionIdGetData, GetQuestionQuestionsQuestionIdGetErrors, GetQuestionQuestionsQuestionIdGetResponses, GetQuestionsByPaperInstanceQuestionsPaperInstancePaperInstanceIdGetData, GetQuestionsByPaperInstanceQuestionsPaperInstancePaperInstanceIdGetErrors, GetQuestionsByPaperInstanceQuestionsPaperInstancePaperInstanceIdGetResponses, GetQuestionsBySubjectPaginatedQuestionsSubjectPaginatedSubjectIdGetData, GetQuestionsBySubjectPaginatedQuestionsSubjectPaginatedSubjectIdGetErrors, GetQuestionsBySubjectPaginatedQuestionsSubjectPaginatedSubjectIdGetResponses, GetQuestionsBySubjectQuestionsSubjectSubjectIdGetData, GetQuestionsBySubjectQuestionsSubjectSubjectIdGetErrors, GetQuestionsBySubjectQuestionsSubjectSubjectIdGetResponses, GetQuestionsByTopicQuestionsTopicsTopicIdGetData, GetQuestionsByTopicQuestionsTopicsTopicIdGetErrors, GetQuestionsByTopicQuestionsTopicsTopicIdGetResponses, GetSubjectSubjectsSubjectIdGetData, GetSubjectSubjectsSubjectIdGetErrors, GetSubjectSubjectsSubjectIdGetResponses, GetSyllabusSyllabusSyllabusIdGetData, GetSyllabusSyllabusSyllabusIdGetErrors, GetSyllabusSyllabusSyllabusIdGetResponses, GetTopicsBySubjectTopicsSubjectIdGetData, GetTopicsBySubjectTopicsSubjectIdGetErrors, GetTopicsBySubjectTopicsSubjectIdGetResponses, ListDiagnosticQuestionsDiagnosticQuestionsGetData, ListDiagnosticQuestionsDiagnosticQuestionsGetErrors, ListDiagnosticQuestionsDiagnosticQuestionsGetResponses, ListDiagnosticSetsDiagnosticSetsGetData, ListDiagnosticSetsDiagnosticSetsGetErrors, ListDiagnosticSetsDiagnosticSetsGetResponses, LoginUsersLoginPostData, LoginUsersLoginPostErrors, LoginUsersLoginPostResponses, MoreInfoUsersMoreInfoPostData, MoreInfoUsersMoreInfoPostErrors, MoreInfoUsersMoreInfoPostResponses, ResendVerificationUsersResendVerificationPostData, ResendVerificationUsersResendVerificationPostErrors, ResendVerificationUsersResendVerificationPostResponses, RootGetData, RootGetResponses, SetQuestionStatusQuestionsSetStatusPostData, SetQuestionStatusQuestionsSetStatusPostErrors, SetQuestionStatusQuestionsSetStatusPostResponses, SignupUsersPostData, SignupUsersPostErrors, SignupUsersPostResponses, UpdateDiagnosticQuestionDiagnosticQuestionsQuestionIdPatchData, UpdateDiagnosticQuestionDiagnosticQuestionsQuestionIdPatchErrors, UpdateDiagnosticQuestionDiagnosticQuestionsQuestionIdPatchResponses, UpdateOptionQuestionsQuestionIdOptionOptionIdPatchData, UpdateOptionQuestionsQuestionIdOptionOptionIdPatchErrors, UpdateOptionQuestionsQuestionIdOptionOptionIdPatchResponses, UpdateQuestionQuestionsQuestionIdPatchData, UpdateQuestionQuestionsQuestionIdPatchErrors, UpdateQuestionQuestionsQuestionIdPatchResponses, UpdateTopicTopicsTopicIdPatchData, UpdateTopicTopicsTopicIdPatchErrors, UpdateTopicTopicsTopicIdPatchResponses, VerifyEmailUsersVerifyPostData, VerifyEmailUsersVerifyPostErrors, VerifyEmailUsersVerifyPostResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -508,16 +508,153 @@ export const getCurrentUserUsersCurrentGet = <ThrowOnError extends boolean = fal
 };
 
 /**
- * Get Hint
+ * List Diagnostic Questions
  */
-export const getHintChatHintPost = <ThrowOnError extends boolean = false>(options: Options<GetHintChatHintPostData, ThrowOnError>) => {
-    return (options.client ?? client).post<GetHintChatHintPostResponses, GetHintChatHintPostErrors, ThrowOnError>({
-        url: '/chat/hint',
+export const listDiagnosticQuestionsDiagnosticQuestionsGet = <ThrowOnError extends boolean = false>(options?: Options<ListDiagnosticQuestionsDiagnosticQuestionsGetData, ThrowOnError>) => {
+    return (options?.client ?? client).get<ListDiagnosticQuestionsDiagnosticQuestionsGetResponses, ListDiagnosticQuestionsDiagnosticQuestionsGetErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
+        url: '/diagnostic/questions',
+        ...options
+    });
+};
+
+/**
+ * Create Diagnostic Question
+ */
+export const createDiagnosticQuestionDiagnosticQuestionsPost = <ThrowOnError extends boolean = false>(options: Options<CreateDiagnosticQuestionDiagnosticQuestionsPostData, ThrowOnError>) => {
+    return (options.client ?? client).post<CreateDiagnosticQuestionDiagnosticQuestionsPostResponses, CreateDiagnosticQuestionDiagnosticQuestionsPostErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
+        url: '/diagnostic/questions',
         ...options,
         headers: {
             'Content-Type': 'application/json',
             ...options.headers
         }
+    });
+};
+
+/**
+ * Delete Diagnostic Question
+ */
+export const deleteDiagnosticQuestionDiagnosticQuestionsQuestionIdDelete = <ThrowOnError extends boolean = false>(options: Options<DeleteDiagnosticQuestionDiagnosticQuestionsQuestionIdDeleteData, ThrowOnError>) => {
+    return (options.client ?? client).delete<DeleteDiagnosticQuestionDiagnosticQuestionsQuestionIdDeleteResponses, DeleteDiagnosticQuestionDiagnosticQuestionsQuestionIdDeleteErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
+        url: '/diagnostic/questions/{question_id}',
+        ...options
+    });
+};
+
+/**
+ * Get Diagnostic Question
+ */
+export const getDiagnosticQuestionDiagnosticQuestionsQuestionIdGet = <ThrowOnError extends boolean = false>(options: Options<GetDiagnosticQuestionDiagnosticQuestionsQuestionIdGetData, ThrowOnError>) => {
+    return (options.client ?? client).get<GetDiagnosticQuestionDiagnosticQuestionsQuestionIdGetResponses, GetDiagnosticQuestionDiagnosticQuestionsQuestionIdGetErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
+        url: '/diagnostic/questions/{question_id}',
+        ...options
+    });
+};
+
+/**
+ * Update Diagnostic Question
+ */
+export const updateDiagnosticQuestionDiagnosticQuestionsQuestionIdPatch = <ThrowOnError extends boolean = false>(options: Options<UpdateDiagnosticQuestionDiagnosticQuestionsQuestionIdPatchData, ThrowOnError>) => {
+    return (options.client ?? client).patch<UpdateDiagnosticQuestionDiagnosticQuestionsQuestionIdPatchResponses, UpdateDiagnosticQuestionDiagnosticQuestionsQuestionIdPatchErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
+        url: '/diagnostic/questions/{question_id}',
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+        }
+    });
+};
+
+/**
+ * Bulk Import Diagnostic Questions
+ * Matches the shape of supabase/seed-data/esat_mathsii_bulk_import.json:
+ * a diagnostic_set (with question_order as source_refs, since real ids
+ * don't exist yet) plus a list of questions (each carrying a
+ * diagram_svg — raw SVG source, not a diagram_path — uploaded to the
+ * diagnostic-content bucket here and translated on the way in).
+ *
+ * Best-effort cleanup on partial failure: this isn't a single DB
+ * transaction (supabase-py issues separate REST calls per table), so if
+ * insertion fails partway through, already-inserted rows from this
+ * import are deleted before the error is raised, rather than left as
+ * orphaned draft data with no completing diagnostic_set.
+ */
+export const bulkImportDiagnosticQuestionsDiagnosticQuestionsBulkImportPost = <ThrowOnError extends boolean = false>(options: Options<BulkImportDiagnosticQuestionsDiagnosticQuestionsBulkImportPostData, ThrowOnError>) => {
+    return (options.client ?? client).post<BulkImportDiagnosticQuestionsDiagnosticQuestionsBulkImportPostResponses, BulkImportDiagnosticQuestionsDiagnosticQuestionsBulkImportPostErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
+        url: '/diagnostic/questions/bulk-import',
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+        }
+    });
+};
+
+/**
+ * List Diagnostic Sets
+ */
+export const listDiagnosticSetsDiagnosticSetsGet = <ThrowOnError extends boolean = false>(options?: Options<ListDiagnosticSetsDiagnosticSetsGetData, ThrowOnError>) => {
+    return (options?.client ?? client).get<ListDiagnosticSetsDiagnosticSetsGetResponses, ListDiagnosticSetsDiagnosticSetsGetErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
+        url: '/diagnostic/sets',
+        ...options
+    });
+};
+
+/**
+ * Get Diagnostic Set
+ */
+export const getDiagnosticSetDiagnosticSetsSetIdGet = <ThrowOnError extends boolean = false>(options: Options<GetDiagnosticSetDiagnosticSetsSetIdGetData, ThrowOnError>) => {
+    return (options.client ?? client).get<GetDiagnosticSetDiagnosticSetsSetIdGetResponses, GetDiagnosticSetDiagnosticSetsSetIdGetErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
+        url: '/diagnostic/sets/{set_id}',
+        ...options
     });
 };
 
@@ -528,5 +665,19 @@ export const rootGet = <ThrowOnError extends boolean = false>(options?: Options<
     return (options?.client ?? client).get<RootGetResponses, unknown, ThrowOnError>({
         url: '/',
         ...options
+    });
+};
+
+/**
+ * Get Hint
+ */
+export const getHintChatHintPost = <ThrowOnError extends boolean = false>(options: Options<GetHintChatHintPostData, ThrowOnError>) => {
+    return (options.client ?? client).post<GetHintChatHintPostResponses, GetHintChatHintPostErrors, ThrowOnError>({
+        url: '/chat/hint',
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+        }
     });
 };
