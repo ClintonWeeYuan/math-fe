@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { updateDiagnosticQuestionDiagnosticQuestionsQuestionIdPatch } from '@/client'
 import type { UpdateDiagnosticQuestionBody } from '@/client'
+import { getAuthHeaders } from '@/lib/authHeaders.ts'
 
 type Props = {
     questionId: string
@@ -15,6 +16,7 @@ export default function useUpdateDiagnosticQuestionMutation({ questionId }: Prop
                 await updateDiagnosticQuestionDiagnosticQuestionsQuestionIdPatch({
                     path: { question_id: questionId },
                     body,
+                    headers: getAuthHeaders(),
                 })
             ).data,
         onSuccess: () => {

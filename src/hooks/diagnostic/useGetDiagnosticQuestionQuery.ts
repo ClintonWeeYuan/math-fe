@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { getDiagnosticQuestionDiagnosticQuestionsQuestionIdGet } from '@/client'
+import { getAuthHeaders } from '@/lib/authHeaders.ts'
 
 type Props = {
     questionId: string
@@ -16,6 +17,7 @@ export default function useGetDiagnosticQuestionQuery({
             (
                 await getDiagnosticQuestionDiagnosticQuestionsQuestionIdGet({
                     path: { question_id: questionId },
+                    headers: getAuthHeaders(),
                 })
             ).data,
         enabled,

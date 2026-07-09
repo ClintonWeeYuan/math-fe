@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { listDiagnosticQuestionsDiagnosticQuestionsGet } from '@/client'
+import { getAuthHeaders } from '@/lib/authHeaders.ts'
 
 type Props = {
     status?: 'draft' | 'published'
@@ -19,6 +20,7 @@ export default function useListDiagnosticQuestionsQuery({
                         status,
                         topic_code: topicCode,
                     },
+                    headers: getAuthHeaders(),
                 })
             ).data,
     })

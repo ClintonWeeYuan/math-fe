@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { createDiagnosticQuestionDiagnosticQuestionsPost } from '@/client'
 import type { CreateDiagnosticQuestionBody } from '@/client'
+import { getAuthHeaders } from '@/lib/authHeaders.ts'
 
 export default function useCreateDiagnosticQuestionMutation() {
     const queryClient = useQueryClient()
@@ -10,6 +11,7 @@ export default function useCreateDiagnosticQuestionMutation() {
             (
                 await createDiagnosticQuestionDiagnosticQuestionsPost({
                     body,
+                    headers: getAuthHeaders(),
                 })
             ).data,
         onSuccess: () =>
