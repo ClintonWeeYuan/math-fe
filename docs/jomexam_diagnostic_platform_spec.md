@@ -31,14 +31,39 @@ see §3 and §10), matches the shipped migration exactly, and confirmed directly
 production database (5 tables, correct FKs, `status` column, `diagnostic-content` bucket private
 and confirmed, all at 0 rows). **Stage 2 (admin auth enforcement) complete and merged** — the
 `require_admin` FastAPI dependency exists and is fully tested, but deliberately wired into zero
-routes so far (see §10). **Stage 3 backend half complete and merged** —
-`feature/diagnostic-admin-tool` in `math-be`: CRUD + bulk-import endpoints gated by `require_admin`,
-the `diagram_svg`→Storage and `source_ref`→UUID translations, and a fix tracking the bulk-import
-seed file in git (was untracked — caught by a test hitting `FileNotFoundError` in a fresh
-worktree). Both failure-mode edge cases (unknown `source_ref`, mid-import Storage upload failure)
-proven with adversarial tests, not just asserted — confirmed no partial/broken rows in either
-case, full cleanup via one shared mechanism. **Stage 3 frontend half not yet started** — reuses
-the confirmed `AuthContext.tsx` `isAdmin` pattern and the already-present KaTeX dependency (§8).
+routes so far (see §10).
+
+**Stage 3 (admin tool) complete** — both repos, three PRs:
+
+- `feature/diagnostic-admin-tool` (`math-be`, merged): CRUD + bulk-import endpoints gated by
+  `require_admin`, the `diagram_svg`→Storage and `source_ref`→UUID translations, a fix tracking
+  the bulk-import seed file in git (was untracked — caught by a test hitting `FileNotFoundError`
+  in a fresh worktree), and the missing `diagnostic_sets.status` column (added, §3). Both the
+  `source_ref`-mismatch and mid-import Storage-upload-failure cases proven with adversarial tests
+  — no partial/broken rows in either case, one shared cleanup path.
+- `feature/diagnostic-question-diagram-upload` (`math-be`, merged): extended diagram support —
+  originally bulk-import-only — to the single-question create/update endpoints, plus a new
+  `POST /diagnostic/questions/{question_id}/diagram` upload endpoint. All three call sites share
+  one `_upload_diagram_content` helper rather than each re-implementing the Storage call. Proven,
+  not asserted: the omit/replace/clear semantics on update are driven by Pydantic's
+  `exclude_unset`/`model_fields_set` (distinguishing "not sent" from "explicitly sent as null"),
+  and a mid-upload 404 on the new endpoint deletes the orphaned file rather than leaving it — the
+  automated test asserts the delete call, and a live check independently confirmed the file is
+  actually gone from Storage afterward.
+- `feature/diagnostic-questions-admin-ui` (`math-fe`, approved, final push pending): the
+  `/admin/questions` list/create/edit pages and `DiagnosticQuestionForm`, gated by the existing
+  `AuthContext.tsx` `isAdmin` (§8) with no second check introduced, using the already-present
+  KaTeX dependency for the stem/option preview. A live, authenticated click-through (throwaway
+  admin user, real click-through of list → create → edit → bulk-import, cleaned up after) ran as
+  its own step *before* the diagram field was built, per §10's staging principle, and caught a
+  real bug the component tests couldn't see — a missing-Authorization-header 403 on list — fixed
+  before diagram work started. Two design decisions worth preserving, both documented in §9:
+  removing the currently-correct option clears correctness entirely rather than auto-selecting a
+  replacement, and the two-step diagram upload (create/update, then a separate upload call) is
+  sequential, not fire-and-forget — both exist because this is a content-authoring tool where a
+  silently-recovered "looks fine" state is worse than a visible one.
+
+**Stage 4 (exam-taking UI) is next**, not yet started.
 
 ---
 
@@ -60,10 +85,26 @@ the confirmed `AuthContext.tsx` `isAdmin` pattern and the already-present KaTeX 
   this is an explicit `if` check in the handler, not something RLS or the database enforces (see
   the RLS note in §3).
 - **submitted / timed_out**: attempt is locked (no further writes accepted), scoring runs, report
-  is generated.
-- **abandoned**: attempt exists but student closed the tab and never returned. Worth tracking
-  separately from "timed_out" — it's a different signal (they gave up vs. ran out of time), and
-  matters if you ever want to follow up with agents/parents about drop-off.
+  is generated. `timed_out` specifically is detected lazily, as a side effect of the deadline
+  check Stage 4 already needs for every write (§4's timing note above) — the first request that
+  arrives after `server_deadline_at` has passed, on an attempt still `in_progress`, transitions it
+  to `timed_out` and triggers scoring there. Not a separate feature; the same guard clause that
+  rejects late writes is what performs the transition.
+- **abandoned**: exists as a schema value, **deliberately not yet wired to any code path** (a
+  Stage 4 decision, not an oversight). The reasoning: unlike `timed_out`, there's no server-side
+  event that signals abandonment directly — a student closing the tab and never returning looks
+  identical, from the server's perspective, to one who's merely thinking. Distinguishing "gave up"
+  from "stuck on one question" is a real product judgement call (what gap counts as abandonment?)
+  that deserves an actual answer informed by real usage data, not a threshold picked under Stage 4
+  time pressure. Deferring costs nothing: §4's event log already captures the exact raw material
+  (`enter`/`exit`/`blur`/`focus` with real timestamps) needed to reconstruct this classification
+  retroactively, whenever the threshold gets decided. One known gap worth carrying forward, not
+  worth solving now: because `timed_out` is detected lazily (above), an attempt nobody ever
+  returns to — truly abandoned, forever — never gets touched again, so the check that would flip
+  it to `timed_out` never runs either, and it sits at `in_progress` indefinitely. Harmless to the
+  exam experience itself; only matters once there's enough real volume that "how many students are
+  mid-exam right now" needs to be a trustworthy query, at which point either a scheduled sweep or
+  the `abandoned` classification above should land together.
 
 ---
 
@@ -487,13 +528,39 @@ Deliberately not linked from any student-facing navigation.
 - Options (A–E, or more — see the ESAT Maths II set's Q13 for a real 7-option case), same
   LaTeX-enabled treatment, correct-option selector, plus a free-text misconception field per
   incorrect option.
-- Diagram — upload an image file (or paste an SVG, which is how the current question bank's
-  diagrams were generated via matplotlib) to the new `diagnostic-content` Storage bucket, mirroring
-  exactly how the existing `questions` bucket already handles this (private bucket, signed URL
-  generated at read time). No new infrastructure pattern — reuses working code.
+- Diagram — **as built**: two modes, paste-SVG or image upload, on both create and edit, backed
+  by a single `_upload_diagram_content` helper shared across bulk-import, create, update, and a
+  dedicated `POST /diagnostic/questions/{question_id}/diagram` endpoint — one implementation of
+  the Storage call, not four. Storage itself mirrors the existing `questions` bucket exactly
+  (private, signed URL at read time) in a new `diagnostic-content` bucket. On update, omit/replace
+  /clear are three genuinely distinct states (leave untouched / set new content / remove
+  entirely), driven by whether the field was sent at all, not just whether it's empty.
+- Options (A–E, or more — see the ESAT Maths II set's Q13 for a real 7-option case), same
+  LaTeX-enabled treatment, correct-option selector, plus a free-text misconception field per
+  incorrect option.
 - Status — `draft` / `published`, so a half-finished question never risks appearing in a live
   diagnostic set. Only `published` questions should be selectable when assembling a
   `diagnostic_sets.question_ids` list.
+
+**Design decisions worth preserving** (both made during Stage 3's build, both deliberate rather
+than incidental — worth understanding *why* before changing either):
+
+- **Removing the currently-correct option does not auto-select a replacement.** It clears
+  correctness entirely and shows a persistent, in-form warning (not just a submit-time toast) for
+  as long as nothing is marked correct. The tempting alternative — auto-picking a fallback so the
+  form always looks valid — was deliberately rejected: this is a content-authoring tool, and a
+  wrong answer key silently going live because the form always shows *something* as correct is a
+  worse failure mode than an obvious, hard-to-miss warning. The backend still independently
+  rejects a submission with zero or multiple correct options as a second layer, not a replacement
+  for the in-form signal.
+- **Diagram upload (create/update, then a separate file-upload call) is sequential, not
+  fire-and-forget.** The two calls don't share a database transaction — they can't, one's Postgres
+  and one's Storage — so if the first succeeds and the second fails, the row already exists with
+  no diagram. Rather than navigating away immediately and surfacing the failure as a toast on a
+  screen the admin's no longer looking at, the flow waits for the upload to resolve: on failure,
+  the admin lands on the edit page for the row that actually exists (not back on a blank create
+  form, which would risk a duplicate row on retry), sees an inline error, and can retry the upload
+  directly through the same path a normal upload uses — not a special-cased retry mechanism.
 
 **Bulk import (worth prioritising early):** you already have ~100 fully-authored, verified MM1/MM8
 questions from earlier batches, plus a fully tagged and verified 27-question ESAT Maths II paper —
@@ -544,7 +611,7 @@ before merge as the only safety net that exists, because it is.
 | **0. Audit** | §8 — backend complete, frontend checklist still to run | Backend done; Frontend next | none — no code changes |
 | **1. Schema** ✅ | New `diagnostic_`-prefixed tables from §3, as a raw SQL migration, tested against a throwaway local Postgres. **Complete and merged** — three review rounds: added three missing FK indexes (Postgres doesn't auto-index FK columns); caught and fixed a missing FK entirely on `diagnostic_question_events.question_id`; deliberately declined a further index on that same column — it's the highest-write-volume table in the schema with no described query pattern that needs one, unlike the other three | Backend (`math-be`) | none — no UI yet, tables empty |
 | **2. Admin auth enforcement** ✅ | The `require_admin` FastAPI dependency from §9. **Complete and merged** — plain-string comparison against `user_type` (confirmed no enum anywhere in the codebase, no mismatch risk); confirmed fresh-from-DB on every request, not JWT-embedded, so revoking admin access takes effect on the very next request; review caught that the original tests called the dependency directly and never actually resolved the `Depends()` chain, missing a real distinction (missing header → 403 from `HTTPBearer` itself; invalid token → 401 from existing logic) — fixed with full-chain `TestClient` tests before merge. Deliberately wired into **zero routes** — that's Stage 3 | Backend (`math-be`) | none — no routes depend on it yet |
-| **3. Admin tool** 🔶 | §9's CRUD + bulk-import endpoints. **Backend half complete and merged** (`feature/diagnostic-admin-tool`, `math-be`). Building against the real `esat_mathsii_bulk_import.json` (not a synthetic file) surfaced three real gaps, all resolved: the seed file itself wasn't tracked in git; `diagram_svg` (raw SVG) needs uploading to the new `diagnostic-content` bucket and storing as `diagram_path`, not a direct field copy; `question_order`'s `source_ref` strings need translating into generated UUIDs before the set row is created. Both the `source_ref`-mismatch and mid-import Storage-upload-failure cases proven with adversarial tests — no broken/partial rows in either case, one shared cleanup path. Also surfaced the missing `diagnostic_sets.status` column, now added (§3). **Frontend half not started** — `/admin/questions` with KaTeX preview, gated by the confirmed `AuthContext.tsx` `isAdmin` | Backend done; Frontend (`math-fe`) next | you only |
+| **3. Admin tool** ✅ | §9's CRUD + bulk-import endpoints, plus single-question diagram support and the `/admin/questions` UI. **Complete** — three PRs across both repos (`feature/diagnostic-admin-tool`, `feature/diagnostic-question-diagram-upload` in `math-be`; `feature/diagnostic-questions-admin-ui` in `math-fe`). Full detail in the status block at the top of this document — notably, a live authenticated click-through caught a real auth-header bug before the diagram field was even built, and two deliberate design decisions (no auto-recovery on removing the correct option; sequential not fire-and-forget diagram upload) are documented in §9 | Backend + Frontend (`math-fe`) | you only |
 | **4. Exam-taking UI** | §2 + §4 — attempt-creation, deadline-check, and event-ingestion endpoints (backend), the exam screen itself (frontend), reachable only via a direct unlisted URL, tested against the ESAT Maths II 27-question set | Backend + Frontend | you + family/collaborator only |
 | **5. Scoring + report** | §6 — server-side scoring that never leaks `correct_option` mid-attempt (backend), the Skills Radar report screen (frontend), tested end-to-end against the Stage 4 test attempts | Backend + Frontend | you + family/collaborator only |
 | **6. Anti-copy layer** | §5 — signed-URL diagram serving and watermark data (backend), copy/print deterrents and watermark rendering (frontend). Added last since it's the most likely source of false-positive UX bugs and is easiest to debug once the core flow is already proven stable | Backend + Frontend | you + family/collaborator only |
@@ -555,11 +622,11 @@ Each stage should be small enough to review in one sitting before moving to the 
 actual point of staging, more than the specific boundaries drawn above. If a stage starts feeling
 too big to review confidently in one pass, that's the signal to split it further, not push through.
 
-**Starting next:** Stage 2 is done. Stage 3 (the admin tool itself, §9) is next in `math-be` +
-`math-fe` together — the CRUD and bulk-import endpoints now have `require_admin` to gate them
-against, and the bulk-import path should be tested against the real
-`esat_mathsii_bulk_import.json`, not a synthetic file. Worth checking first whether the frontend
-half of Stage 0 (checklist at the end of §8) has run yet — if not, do that first in a `math-fe`
-session, since Stage 3's frontend work depends on knowing what's already there (existing LaTeX
-libraries, any partial admin UI) more than Stage 1 or 2 did.
+**Starting next:** Stage 3 is done. Stage 4 (exam-taking UI, §2 + §4) is next — the student-facing
+side, reachable only via a direct unlisted URL initially, tested against the ESAT Maths II
+27-question set (now genuinely importable end-to-end, having been the real test case for all of
+Stage 3). This is the first stage where the timing/flagging event log (§4) and the
+server-authoritative deadline enforcement (§1) actually get built, not just designed — worth
+re-reading both sections fresh before starting, since they were written before any of Stage 1–3's
+findings existed.
 
