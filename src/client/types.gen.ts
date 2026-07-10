@@ -147,6 +147,16 @@ export type BodyConvertLatexConverterPost = {
 };
 
 /**
+ * Body_upload_diagnostic_question_diagram_diagnostic_questions__question_id__diagram_post
+ */
+export type BodyUploadDiagnosticQuestionDiagramDiagnosticQuestionsQuestionIdDiagramPost = {
+    /**
+     * File
+     */
+    file: Blob | File;
+};
+
+/**
  * BulkImportOption
  */
 export type BulkImportOption = {
@@ -335,6 +345,10 @@ export type CreateDiagnosticQuestionBody = {
      * Status
      */
     status?: 'draft' | 'published';
+    /**
+     * Diagramsvg
+     */
+    diagramSvg?: string | null;
 };
 
 /**
@@ -824,6 +838,10 @@ export type UpdateDiagnosticQuestionBody = {
      * Status
      */
     status?: 'draft' | 'published' | null;
+    /**
+     * Diagramsvg
+     */
+    diagramSvg?: string | null;
 };
 
 /**
@@ -2274,6 +2292,36 @@ export type UpdateDiagnosticQuestionDiagnosticQuestionsQuestionIdPatchResponses 
 };
 
 export type UpdateDiagnosticQuestionDiagnosticQuestionsQuestionIdPatchResponse = UpdateDiagnosticQuestionDiagnosticQuestionsQuestionIdPatchResponses[keyof UpdateDiagnosticQuestionDiagnosticQuestionsQuestionIdPatchResponses];
+
+export type UploadDiagnosticQuestionDiagramDiagnosticQuestionsQuestionIdDiagramPostData = {
+    body: BodyUploadDiagnosticQuestionDiagramDiagnosticQuestionsQuestionIdDiagramPost;
+    path: {
+        /**
+         * Question Id
+         */
+        question_id: string;
+    };
+    query?: never;
+    url: '/diagnostic/questions/{question_id}/diagram';
+};
+
+export type UploadDiagnosticQuestionDiagramDiagnosticQuestionsQuestionIdDiagramPostErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type UploadDiagnosticQuestionDiagramDiagnosticQuestionsQuestionIdDiagramPostError = UploadDiagnosticQuestionDiagramDiagnosticQuestionsQuestionIdDiagramPostErrors[keyof UploadDiagnosticQuestionDiagramDiagnosticQuestionsQuestionIdDiagramPostErrors];
+
+export type UploadDiagnosticQuestionDiagramDiagnosticQuestionsQuestionIdDiagramPostResponses = {
+    /**
+     * Successful Response
+     */
+    200: DiagnosticQuestionResponse;
+};
+
+export type UploadDiagnosticQuestionDiagramDiagnosticQuestionsQuestionIdDiagramPostResponse = UploadDiagnosticQuestionDiagramDiagnosticQuestionsQuestionIdDiagramPostResponses[keyof UploadDiagnosticQuestionDiagramDiagnosticQuestionsQuestionIdDiagramPostResponses];
 
 export type BulkImportDiagnosticQuestionsDiagnosticQuestionsBulkImportPostData = {
     body: BulkImportRequest;

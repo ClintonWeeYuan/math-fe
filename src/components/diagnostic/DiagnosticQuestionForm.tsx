@@ -1,5 +1,5 @@
 import { useForm, useFieldArray, Controller } from 'react-hook-form'
-import { useEffect } from 'react'
+import { useEffect, useState, type ChangeEvent } from 'react'
 import {
     Select,
     SelectContent,
@@ -34,6 +34,22 @@ export type DiagnosticQuestionFormValues = {
     stem: string
     options: OptionField[]
     status: 'draft' | 'published'
+    // Paste-SVG mode. diagramSvgTouched tracks whether the admin interacted
+    // with this field at all this session (typed into it, or clicked
+    // "Remove diagram") — on update, omitting the key entirely (untouched)
+    // must leave the existing diagram alone, which is a different outcome
+    // from sending an explicit empty/null value (which clears it). See
+    // getDiagramSvgForUpdate below — this mirrors the backend's own
+    // omit-vs-explicit-null distinction (UpdateDiagnosticQuestionBody's
+    // diagram_svg, gated by "diagram_svg" in update_data after
+    // exclude_unset) exactly, on the frontend side of the same contract.
+    diagramSvg: string
+    diagramSvgTouched: boolean
+    // Upload-image mode, entirely separate from the JSON body — handled by
+    // the pages via a second request to POST .../{id}/diagram after
+    // create/update succeeds, since a file can't ride along in the same
+    // JSON payload as diagramSvg.
+    diagramFile: File | null
 }
 
 /**
@@ -49,6 +65,34 @@ export function getCorrectOptionLabel(
     values: DiagnosticQuestionFormValues
 ): string | null {
     return values.options.find((o) => o.isCorrect)?.label ?? null
+}
+
+/**
+ * For create: there's no existing diagram to preserve, so the only
+ * question is whether one was provided at all — matches the backend's
+ * own `if body.diagram_svg:` truthiness check on create.
+ */
+export function getDiagramSvgForCreate(
+    values: DiagnosticQuestionFormValues
+): string | undefined {
+    return values.diagramSvg.trim() === '' ? undefined : values.diagramSvg
+}
+
+/**
+ * For update: omitted (untouched) must leave the existing diagram alone,
+ * distinct from an explicit empty value (clears it) — the three-way
+ * distinction the backend's UpdateDiagnosticQuestionBody.diagram_svg
+ * itself enforces via exclude_unset. Returning undefined here means the
+ * caller must NOT include the key in the request body at all (spreading
+ * `{ ...(x !== undefined ? { diagramSvg: x } : {}) }`), not send it as
+ * literally `undefined`, which would serialize away in JSON.stringify
+ * anyway but the distinction matters for callers to get right.
+ */
+export function getDiagramSvgForUpdate(
+    values: DiagnosticQuestionFormValues
+): string | null | undefined {
+    if (!values.diagramSvgTouched) return undefined
+    return values.diagramSvg.trim() === '' ? null : values.diagramSvg
 }
 
 type Props = {
@@ -77,6 +121,9 @@ function defaultValues(
                 { label: 'B', text: '', isCorrect: false, misconception: '' },
             ],
             status: 'draft',
+            diagramSvg: '',
+            diagramSvgTouched: false,
+            diagramFile: null,
         }
     }
     return {
@@ -92,6 +139,9 @@ function defaultValues(
             misconception: o.misconception ?? '',
         })),
         status: initialData.status,
+        diagramSvg: '',
+        diagramSvgTouched: false,
+        diagramFile: null,
     }
 }
 
@@ -104,6 +154,7 @@ export function DiagnosticQuestionForm({
     const form = useForm<DiagnosticQuestionFormValues>({
         defaultValues: defaultValues(initialData),
     })
+    const [diagramMode, setDiagramMode] = useState<'svg' | 'upload'>('svg')
 
     useEffect(() => {
         form.reset(defaultValues(initialData))
@@ -121,6 +172,25 @@ export function DiagnosticQuestionForm({
     const stem = form.watch('stem')
     const options = form.watch('options')
     const hasCorrectOption = options.some((o) => o.isCorrect)
+    const diagramSvg = form.watch('diagramSvg')
+    const diagramSvgTouched = form.watch('diagramSvgTouched')
+    const diagramFile = form.watch('diagramFile')
+    // Untouched + no new file + an existing diagram on the record: show the
+    // current diagram (from the last save) rather than a blank editor, so
+    // the admin can see what's there before deciding to change it.
+    const showExistingDiagram =
+        !diagramSvgTouched && !diagramFile && !!initialData?.diagramUrl
+
+    function handleRemoveDiagram() {
+        form.setValue('diagramSvg', '')
+        form.setValue('diagramSvgTouched', true)
+        form.setValue('diagramFile', null)
+        setDiagramMode('svg')
+    }
+
+    function handleDiagramFileChange(e: ChangeEvent<HTMLInputElement>) {
+        form.setValue('diagramFile', e.target.files?.[0] ?? null)
+    }
 
     function handleAddOption() {
         append({
@@ -379,6 +449,102 @@ export function DiagnosticQuestionForm({
                         </CardContent>
                     </Card>
                 ))}
+            </div>
+
+            <div className="flex flex-col gap-3">
+                <div className="flex items-center justify-between">
+                    <label className="text-sm font-medium">
+                        Diagram (optional)
+                    </label>
+                    {(showExistingDiagram || diagramSvgTouched || diagramFile) && (
+                        <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            onClick={handleRemoveDiagram}
+                        >
+                            <Trash2 className="w-4 h-4" /> Remove diagram
+                        </Button>
+                    )}
+                </div>
+
+                {showExistingDiagram && initialData?.diagramUrl && (
+                    <div className="rounded-md border p-3 bg-gray-50">
+                        <img
+                            src={initialData.diagramUrl}
+                            alt="Current diagram"
+                            className="max-h-64"
+                        />
+                    </div>
+                )}
+
+                {!showExistingDiagram && (
+                    <>
+                        <div className="flex gap-2">
+                            <Button
+                                type="button"
+                                variant={diagramMode === 'svg' ? 'default' : 'outline'}
+                                size="sm"
+                                onClick={() => setDiagramMode('svg')}
+                            >
+                                Paste SVG
+                            </Button>
+                            <Button
+                                type="button"
+                                variant={
+                                    diagramMode === 'upload' ? 'default' : 'outline'
+                                }
+                                size="sm"
+                                onClick={() => setDiagramMode('upload')}
+                            >
+                                Upload image
+                            </Button>
+                        </div>
+
+                        {diagramMode === 'svg' && (
+                            <div className="grid grid-cols-2 gap-4">
+                                <Textarea
+                                    rows={6}
+                                    placeholder="<svg ...>...</svg>"
+                                    {...form.register('diagramSvg', {
+                                        onChange: () =>
+                                            form.setValue(
+                                                'diagramSvgTouched',
+                                                true
+                                            ),
+                                    })}
+                                />
+                                <div className="rounded-md border p-3 bg-gray-50 text-sm overflow-auto">
+                                    {diagramSvg ? (
+                                        <div
+                                            dangerouslySetInnerHTML={{
+                                                __html: diagramSvg,
+                                            }}
+                                        />
+                                    ) : (
+                                        <span className="text-gray-400">
+                                            Preview
+                                        </span>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+
+                        {diagramMode === 'upload' && (
+                            <Input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleDiagramFileChange}
+                            />
+                        )}
+
+                        {diagramFile && (
+                            <span className="text-sm text-gray-500">
+                                Selected: {diagramFile.name}
+                            </span>
+                        )}
+                    </>
+                )}
             </div>
 
             <div>

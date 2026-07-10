@@ -1,17 +1,26 @@
-import { useNavigate, useParams } from 'react-router-dom'
+import { useState } from 'react'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { AdminLayout } from '@/components/layout/AdminLayout.tsx'
 import { LoadingPage } from '@/components/common/FullLoadingPage.tsx'
+import { Button } from '@/components/ui/button.tsx'
 import {
     DiagnosticQuestionForm,
     getCorrectOptionLabel,
+    getDiagramSvgForUpdate,
     type DiagnosticQuestionFormValues,
 } from '@/components/diagnostic/DiagnosticQuestionForm.tsx'
 import useGetDiagnosticQuestionQuery from '@/hooks/diagnostic/useGetDiagnosticQuestionQuery.ts'
 import useUpdateDiagnosticQuestionMutation from '@/hooks/diagnostic/useUpdateDiagnosticQuestionMutation.ts'
+import useUploadDiagnosticQuestionDiagramMutation from '@/hooks/diagnostic/useUploadDiagnosticQuestionDiagramMutation.ts'
 import { toast } from 'sonner'
+
+type LocationState = {
+    diagramUploadError?: string
+}
 
 export function DiagnosticQuestionEditPage() {
     const navigate = useNavigate()
+    const location = useLocation()
     const { questionId } = useParams()
     const { data: question, isLoading } = useGetDiagnosticQuestionQuery({
         questionId: questionId ?? '',
@@ -19,13 +28,50 @@ export function DiagnosticQuestionEditPage() {
     const { mutate: updateQuestion, isPending } = useUpdateDiagnosticQuestionMutation(
         { questionId: questionId ?? '' }
     )
+    const { mutateAsync: uploadDiagram, isPending: isUploadingDiagram } =
+        useUploadDiagnosticQuestionDiagramMutation()
 
-    function handleSubmit(values: DiagnosticQuestionFormValues) {
+    // Set directly from a redirect after a failed upload-on-create (see
+    // DiagnosticQuestionCreatePage), or from attemptDiagramUpload below when
+    // a retry on this same page fails again. Cleared on successful upload.
+    const [diagramUploadError, setDiagramUploadError] = useState<string | null>(
+        (location.state as LocationState | null)?.diagramUploadError ?? null
+    )
+    // The file a failed upload needs to retry against — kept separately from
+    // react-hook-form's state so the "Retry upload" button works without the
+    // admin having to re-pick the file or re-submit the whole form.
+    const [pendingDiagramFile, setPendingDiagramFile] = useState<File | null>(
+        null
+    )
+
+    async function attemptDiagramUpload(file: File) {
+        if (!questionId) return
+        try {
+            await uploadDiagram({ file, questionId })
+            setDiagramUploadError(null)
+            setPendingDiagramFile(null)
+            toast.success('Question updated.')
+            navigate('/admin/questions')
+        } catch (error) {
+            const message =
+                error instanceof Error ? error.message : 'Diagram upload failed.'
+            setPendingDiagramFile(file)
+            setDiagramUploadError(message)
+            toast.error(
+                'Question saved, but the diagram upload failed — retry below.'
+            )
+            // Deliberately no navigate() here: the admin stays on this exact
+            // form, with the file still available to retry immediately.
+        }
+    }
+
+    async function handleSubmit(values: DiagnosticQuestionFormValues) {
         const correctOption = getCorrectOptionLabel(values)
         if (!correctOption) {
             toast.error('Mark one option as the correct answer.')
             return
         }
+        const diagramSvg = getDiagramSvgForUpdate(values)
 
         updateQuestion(
             {
@@ -42,9 +88,20 @@ export function DiagnosticQuestionEditPage() {
                 correctOption,
                 difficultyTag: values.difficultyTag,
                 status: values.status,
+                // Omitting the key entirely (not sending `diagramSvg:
+                // undefined`) is what preserves the existing diagram —
+                // matches the backend's exclude_unset contract exactly.
+                ...(diagramSvg !== undefined ? { diagramSvg } : {}),
             },
             {
-                onSuccess: () => {
+                onSuccess: async () => {
+                    if (values.diagramFile) {
+                        // Sequential, not fire-and-forget: don't navigate or
+                        // report final success until the upload itself has
+                        // actually resolved.
+                        await attemptDiagramUpload(values.diagramFile)
+                        return
+                    }
                     toast.success('Question updated.')
                     navigate('/admin/questions')
                 },
@@ -52,6 +109,12 @@ export function DiagnosticQuestionEditPage() {
                     toast.error(`Failed to update question: ${error.message}`),
             }
         )
+    }
+
+    function handleRetryDiagramUpload() {
+        if (pendingDiagramFile) {
+            void attemptDiagramUpload(pendingDiagramFile)
+        }
     }
 
     if (isLoading) {
@@ -64,10 +127,30 @@ export function DiagnosticQuestionEditPage() {
                 <h1 className="text-2xl font-semibold mb-6">
                     Edit Diagnostic Question
                 </h1>
+                {diagramUploadError && (
+                    <div
+                        role="alert"
+                        className="mb-6 flex items-center justify-between gap-4 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-800"
+                    >
+                        <span>
+                            The question was saved, but the diagram upload
+                            failed: {diagramUploadError}
+                        </span>
+                        <Button
+                            type="button"
+                            size="sm"
+                            variant="outline"
+                            onClick={handleRetryDiagramUpload}
+                            disabled={!pendingDiagramFile || isUploadingDiagram}
+                        >
+                            {isUploadingDiagram ? 'Retrying...' : 'Retry upload'}
+                        </Button>
+                    </div>
+                )}
                 <DiagnosticQuestionForm
                     initialData={question}
                     onSubmit={handleSubmit}
-                    isSubmitting={isPending}
+                    isSubmitting={isPending || isUploadingDiagram}
                     submitLabel="Save changes"
                 />
             </div>
