@@ -147,6 +147,151 @@ export type BodyConvertLatexConverterPost = {
 };
 
 /**
+ * Body_upload_diagnostic_question_diagram_diagnostic_questions__question_id__diagram_post
+ */
+export type BodyUploadDiagnosticQuestionDiagramDiagnosticQuestionsQuestionIdDiagramPost = {
+    /**
+     * File
+     */
+    file: Blob | File;
+};
+
+/**
+ * BulkImportOption
+ */
+export type BulkImportOption = {
+    /**
+     * Label
+     */
+    label: string;
+    /**
+     * Text
+     */
+    text: string;
+    /**
+     * Iscorrect
+     */
+    isCorrect?: boolean;
+    /**
+     * Misconception
+     */
+    misconception?: string | null;
+};
+
+/**
+ * BulkImportQuestion
+ */
+export type BulkImportQuestion = {
+    /**
+     * Sourceref
+     */
+    sourceRef: string;
+    /**
+     * Topiccode
+     */
+    topicCode: string;
+    /**
+     * Coreskillprimary
+     */
+    coreSkillPrimary: string;
+    /**
+     * Coreskillsecondary
+     */
+    coreSkillSecondary?: string | null;
+    /**
+     * Difficultytag
+     */
+    difficultyTag?: string | null;
+    /**
+     * Stem
+     */
+    stem: string;
+    /**
+     * Options
+     */
+    options: Array<BulkImportOption>;
+    /**
+     * Correctoption
+     */
+    correctOption: string;
+    /**
+     * Diagramsvg
+     */
+    diagramSvg?: string | null;
+    /**
+     * Status
+     */
+    status?: 'draft' | 'published';
+    /**
+     * Note
+     */
+    note?: string | null;
+};
+
+/**
+ * BulkImportRequest
+ */
+export type BulkImportRequest = {
+    diagnosticSet: BulkImportSetMeta;
+    /**
+     * Questions
+     */
+    questions: Array<BulkImportQuestion>;
+};
+
+/**
+ * BulkImportResponse
+ */
+export type BulkImportResponse = {
+    /**
+     * Issuccess
+     */
+    isSuccess: boolean;
+    /**
+     * Message
+     */
+    message: string;
+    /**
+     * Diagnosticsetid
+     */
+    diagnosticSetId: string;
+    /**
+     * Questionids
+     */
+    questionIds: Array<string>;
+    /**
+     * Questioncount
+     */
+    questionCount: number;
+};
+
+/**
+ * BulkImportSetMeta
+ */
+export type BulkImportSetMeta = {
+    /**
+     * Title
+     */
+    title: string;
+    /**
+     * Description
+     */
+    description?: string | null;
+    /**
+     * Timelimitminutes
+     */
+    timeLimitMinutes: number;
+    /**
+     * Isfree
+     */
+    isFree?: boolean;
+    /**
+     * Questionorder
+     */
+    questionOrder: Array<string>;
+};
+
+/**
  * ConversionResponse
  */
 export type ConversionResponse = {
@@ -162,6 +307,48 @@ export type ConversionResponse = {
      * Message
      */
     message: string;
+};
+
+/**
+ * CreateDiagnosticQuestionBody
+ */
+export type CreateDiagnosticQuestionBody = {
+    /**
+     * Topiccode
+     */
+    topicCode: string;
+    /**
+     * Coreskillprimary
+     */
+    coreSkillPrimary: string;
+    /**
+     * Coreskillsecondary
+     */
+    coreSkillSecondary?: string | null;
+    /**
+     * Stem
+     */
+    stem: string;
+    /**
+     * Options
+     */
+    options: Array<DiagnosticOption>;
+    /**
+     * Correctoption
+     */
+    correctOption: string;
+    /**
+     * Difficultytag
+     */
+    difficultyTag?: string | null;
+    /**
+     * Status
+     */
+    status?: 'draft' | 'published';
+    /**
+     * Diagramsvg
+     */
+    diagramSvg?: string | null;
 };
 
 /**
@@ -297,6 +484,116 @@ export type CreateTopicBody = {
 };
 
 /**
+ * DiagnosticOption
+ */
+export type DiagnosticOption = {
+    /**
+     * Label
+     */
+    label: string;
+    /**
+     * Text
+     */
+    text: string;
+    /**
+     * Iscorrect
+     */
+    isCorrect?: boolean;
+    /**
+     * Misconception
+     */
+    misconception?: string | null;
+};
+
+/**
+ * DiagnosticQuestionResponse
+ */
+export type DiagnosticQuestionResponse = {
+    /**
+     * Id
+     */
+    id: string;
+    /**
+     * Topiccode
+     */
+    topicCode: string;
+    /**
+     * Coreskillprimary
+     */
+    coreSkillPrimary: string;
+    /**
+     * Coreskillsecondary
+     */
+    coreSkillSecondary?: string | null;
+    /**
+     * Stem
+     */
+    stem: string;
+    /**
+     * Options
+     */
+    options: Array<DiagnosticOption>;
+    /**
+     * Correctoption
+     */
+    correctOption: string;
+    /**
+     * Diagramurl
+     */
+    diagramUrl?: string | null;
+    /**
+     * Difficultytag
+     */
+    difficultyTag?: string | null;
+    /**
+     * Status
+     */
+    status: 'draft' | 'published';
+    /**
+     * Createdat
+     */
+    createdAt: string;
+};
+
+/**
+ * DiagnosticSetResponse
+ */
+export type DiagnosticSetResponse = {
+    /**
+     * Id
+     */
+    id: string;
+    /**
+     * Title
+     */
+    title: string;
+    /**
+     * Description
+     */
+    description?: string | null;
+    /**
+     * Timelimitminutes
+     */
+    timeLimitMinutes: number;
+    /**
+     * Questionids
+     */
+    questionIds: Array<string>;
+    /**
+     * Isfree
+     */
+    isFree: boolean;
+    /**
+     * Status
+     */
+    status: 'draft' | 'published';
+    /**
+     * Createdat
+     */
+    createdAt: string;
+};
+
+/**
  * HTTPValidationError
  */
 export type HttpValidationError = {
@@ -304,34 +601,6 @@ export type HttpValidationError = {
      * Detail
      */
     detail?: Array<ValidationError>;
-};
-
-/**
- * HintRequest
- */
-export type HintRequest = {
-    /**
-     * Question
-     */
-    question: string;
-    /**
-     * Questionid
-     */
-    questionId: string;
-};
-
-/**
- * HintResponse
- */
-export type HintResponse = {
-    /**
-     * Hint
-     */
-    hint: string;
-    /**
-     * Level
-     */
-    level?: number;
 };
 
 /**
@@ -534,6 +803,48 @@ export type Syllabus = {
 };
 
 /**
+ * UpdateDiagnosticQuestionBody
+ */
+export type UpdateDiagnosticQuestionBody = {
+    /**
+     * Topiccode
+     */
+    topicCode?: string | null;
+    /**
+     * Coreskillprimary
+     */
+    coreSkillPrimary?: string | null;
+    /**
+     * Coreskillsecondary
+     */
+    coreSkillSecondary?: string | null;
+    /**
+     * Stem
+     */
+    stem?: string | null;
+    /**
+     * Options
+     */
+    options?: Array<DiagnosticOption> | null;
+    /**
+     * Correctoption
+     */
+    correctOption?: string | null;
+    /**
+     * Difficultytag
+     */
+    difficultyTag?: string | null;
+    /**
+     * Status
+     */
+    status?: 'draft' | 'published' | null;
+    /**
+     * Diagramsvg
+     */
+    diagramSvg?: string | null;
+};
+
+/**
  * UpdateOptionBody
  */
 export type UpdateOptionBody = {
@@ -719,6 +1030,34 @@ export type ValidationError = {
      * Error Type
      */
     type: string;
+};
+
+/**
+ * HintRequest
+ */
+export type HintRequest = {
+    /**
+     * Question
+     */
+    question: string;
+    /**
+     * Questionid
+     */
+    questionId: string;
+};
+
+/**
+ * HintResponse
+ */
+export type HintResponse = {
+    /**
+     * Hint
+     */
+    hint: string;
+    /**
+     * Level
+     */
+    level?: number;
 };
 
 export type ConvertLatexConverterPostData = {
@@ -1806,6 +2145,284 @@ export type GetCurrentUserUsersCurrentGetResponses = {
 
 export type GetCurrentUserUsersCurrentGetResponse = GetCurrentUserUsersCurrentGetResponses[keyof GetCurrentUserUsersCurrentGetResponses];
 
+export type ListDiagnosticQuestionsDiagnosticQuestionsGetData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Status
+         */
+        status?: 'draft' | 'published' | null;
+        /**
+         * Topic Code
+         */
+        topic_code?: string | null;
+    };
+    url: '/diagnostic/questions';
+};
+
+export type ListDiagnosticQuestionsDiagnosticQuestionsGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type ListDiagnosticQuestionsDiagnosticQuestionsGetError = ListDiagnosticQuestionsDiagnosticQuestionsGetErrors[keyof ListDiagnosticQuestionsDiagnosticQuestionsGetErrors];
+
+export type ListDiagnosticQuestionsDiagnosticQuestionsGetResponses = {
+    /**
+     * Response List Diagnostic Questions Diagnostic Questions Get
+     * Successful Response
+     */
+    200: Array<DiagnosticQuestionResponse>;
+};
+
+export type ListDiagnosticQuestionsDiagnosticQuestionsGetResponse = ListDiagnosticQuestionsDiagnosticQuestionsGetResponses[keyof ListDiagnosticQuestionsDiagnosticQuestionsGetResponses];
+
+export type CreateDiagnosticQuestionDiagnosticQuestionsPostData = {
+    body: CreateDiagnosticQuestionBody;
+    path?: never;
+    query?: never;
+    url: '/diagnostic/questions';
+};
+
+export type CreateDiagnosticQuestionDiagnosticQuestionsPostErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type CreateDiagnosticQuestionDiagnosticQuestionsPostError = CreateDiagnosticQuestionDiagnosticQuestionsPostErrors[keyof CreateDiagnosticQuestionDiagnosticQuestionsPostErrors];
+
+export type CreateDiagnosticQuestionDiagnosticQuestionsPostResponses = {
+    /**
+     * Successful Response
+     */
+    200: DiagnosticQuestionResponse;
+};
+
+export type CreateDiagnosticQuestionDiagnosticQuestionsPostResponse = CreateDiagnosticQuestionDiagnosticQuestionsPostResponses[keyof CreateDiagnosticQuestionDiagnosticQuestionsPostResponses];
+
+export type DeleteDiagnosticQuestionDiagnosticQuestionsQuestionIdDeleteData = {
+    body?: never;
+    path: {
+        /**
+         * Question Id
+         */
+        question_id: string;
+    };
+    query?: never;
+    url: '/diagnostic/questions/{question_id}';
+};
+
+export type DeleteDiagnosticQuestionDiagnosticQuestionsQuestionIdDeleteErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type DeleteDiagnosticQuestionDiagnosticQuestionsQuestionIdDeleteError = DeleteDiagnosticQuestionDiagnosticQuestionsQuestionIdDeleteErrors[keyof DeleteDiagnosticQuestionDiagnosticQuestionsQuestionIdDeleteErrors];
+
+export type DeleteDiagnosticQuestionDiagnosticQuestionsQuestionIdDeleteResponses = {
+    /**
+     * Successful Response
+     */
+    200: unknown;
+};
+
+export type GetDiagnosticQuestionDiagnosticQuestionsQuestionIdGetData = {
+    body?: never;
+    path: {
+        /**
+         * Question Id
+         */
+        question_id: string;
+    };
+    query?: never;
+    url: '/diagnostic/questions/{question_id}';
+};
+
+export type GetDiagnosticQuestionDiagnosticQuestionsQuestionIdGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type GetDiagnosticQuestionDiagnosticQuestionsQuestionIdGetError = GetDiagnosticQuestionDiagnosticQuestionsQuestionIdGetErrors[keyof GetDiagnosticQuestionDiagnosticQuestionsQuestionIdGetErrors];
+
+export type GetDiagnosticQuestionDiagnosticQuestionsQuestionIdGetResponses = {
+    /**
+     * Successful Response
+     */
+    200: DiagnosticQuestionResponse;
+};
+
+export type GetDiagnosticQuestionDiagnosticQuestionsQuestionIdGetResponse = GetDiagnosticQuestionDiagnosticQuestionsQuestionIdGetResponses[keyof GetDiagnosticQuestionDiagnosticQuestionsQuestionIdGetResponses];
+
+export type UpdateDiagnosticQuestionDiagnosticQuestionsQuestionIdPatchData = {
+    body: UpdateDiagnosticQuestionBody;
+    path: {
+        /**
+         * Question Id
+         */
+        question_id: string;
+    };
+    query?: never;
+    url: '/diagnostic/questions/{question_id}';
+};
+
+export type UpdateDiagnosticQuestionDiagnosticQuestionsQuestionIdPatchErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type UpdateDiagnosticQuestionDiagnosticQuestionsQuestionIdPatchError = UpdateDiagnosticQuestionDiagnosticQuestionsQuestionIdPatchErrors[keyof UpdateDiagnosticQuestionDiagnosticQuestionsQuestionIdPatchErrors];
+
+export type UpdateDiagnosticQuestionDiagnosticQuestionsQuestionIdPatchResponses = {
+    /**
+     * Successful Response
+     */
+    200: DiagnosticQuestionResponse;
+};
+
+export type UpdateDiagnosticQuestionDiagnosticQuestionsQuestionIdPatchResponse = UpdateDiagnosticQuestionDiagnosticQuestionsQuestionIdPatchResponses[keyof UpdateDiagnosticQuestionDiagnosticQuestionsQuestionIdPatchResponses];
+
+export type UploadDiagnosticQuestionDiagramDiagnosticQuestionsQuestionIdDiagramPostData = {
+    body: BodyUploadDiagnosticQuestionDiagramDiagnosticQuestionsQuestionIdDiagramPost;
+    path: {
+        /**
+         * Question Id
+         */
+        question_id: string;
+    };
+    query?: never;
+    url: '/diagnostic/questions/{question_id}/diagram';
+};
+
+export type UploadDiagnosticQuestionDiagramDiagnosticQuestionsQuestionIdDiagramPostErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type UploadDiagnosticQuestionDiagramDiagnosticQuestionsQuestionIdDiagramPostError = UploadDiagnosticQuestionDiagramDiagnosticQuestionsQuestionIdDiagramPostErrors[keyof UploadDiagnosticQuestionDiagramDiagnosticQuestionsQuestionIdDiagramPostErrors];
+
+export type UploadDiagnosticQuestionDiagramDiagnosticQuestionsQuestionIdDiagramPostResponses = {
+    /**
+     * Successful Response
+     */
+    200: DiagnosticQuestionResponse;
+};
+
+export type UploadDiagnosticQuestionDiagramDiagnosticQuestionsQuestionIdDiagramPostResponse = UploadDiagnosticQuestionDiagramDiagnosticQuestionsQuestionIdDiagramPostResponses[keyof UploadDiagnosticQuestionDiagramDiagnosticQuestionsQuestionIdDiagramPostResponses];
+
+export type BulkImportDiagnosticQuestionsDiagnosticQuestionsBulkImportPostData = {
+    body: BulkImportRequest;
+    path?: never;
+    query?: never;
+    url: '/diagnostic/questions/bulk-import';
+};
+
+export type BulkImportDiagnosticQuestionsDiagnosticQuestionsBulkImportPostErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type BulkImportDiagnosticQuestionsDiagnosticQuestionsBulkImportPostError = BulkImportDiagnosticQuestionsDiagnosticQuestionsBulkImportPostErrors[keyof BulkImportDiagnosticQuestionsDiagnosticQuestionsBulkImportPostErrors];
+
+export type BulkImportDiagnosticQuestionsDiagnosticQuestionsBulkImportPostResponses = {
+    /**
+     * Successful Response
+     */
+    200: BulkImportResponse;
+};
+
+export type BulkImportDiagnosticQuestionsDiagnosticQuestionsBulkImportPostResponse = BulkImportDiagnosticQuestionsDiagnosticQuestionsBulkImportPostResponses[keyof BulkImportDiagnosticQuestionsDiagnosticQuestionsBulkImportPostResponses];
+
+export type ListDiagnosticSetsDiagnosticSetsGetData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Status
+         */
+        status?: 'draft' | 'published' | null;
+    };
+    url: '/diagnostic/sets';
+};
+
+export type ListDiagnosticSetsDiagnosticSetsGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type ListDiagnosticSetsDiagnosticSetsGetError = ListDiagnosticSetsDiagnosticSetsGetErrors[keyof ListDiagnosticSetsDiagnosticSetsGetErrors];
+
+export type ListDiagnosticSetsDiagnosticSetsGetResponses = {
+    /**
+     * Response List Diagnostic Sets Diagnostic Sets Get
+     * Successful Response
+     */
+    200: Array<DiagnosticSetResponse>;
+};
+
+export type ListDiagnosticSetsDiagnosticSetsGetResponse = ListDiagnosticSetsDiagnosticSetsGetResponses[keyof ListDiagnosticSetsDiagnosticSetsGetResponses];
+
+export type GetDiagnosticSetDiagnosticSetsSetIdGetData = {
+    body?: never;
+    path: {
+        /**
+         * Set Id
+         */
+        set_id: string;
+    };
+    query?: never;
+    url: '/diagnostic/sets/{set_id}';
+};
+
+export type GetDiagnosticSetDiagnosticSetsSetIdGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type GetDiagnosticSetDiagnosticSetsSetIdGetError = GetDiagnosticSetDiagnosticSetsSetIdGetErrors[keyof GetDiagnosticSetDiagnosticSetsSetIdGetErrors];
+
+export type GetDiagnosticSetDiagnosticSetsSetIdGetResponses = {
+    /**
+     * Successful Response
+     */
+    200: DiagnosticSetResponse;
+};
+
+export type GetDiagnosticSetDiagnosticSetsSetIdGetResponse = GetDiagnosticSetDiagnosticSetsSetIdGetResponses[keyof GetDiagnosticSetDiagnosticSetsSetIdGetResponses];
+
+export type RootGetData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/';
+};
+
+export type RootGetResponses = {
+    /**
+     * Successful Response
+     */
+    200: unknown;
+};
+
 export type GetHintChatHintPostData = {
     body: HintRequest;
     path?: never;
@@ -1830,17 +2447,3 @@ export type GetHintChatHintPostResponses = {
 };
 
 export type GetHintChatHintPostResponse = GetHintChatHintPostResponses[keyof GetHintChatHintPostResponses];
-
-export type RootGetData = {
-    body?: never;
-    path?: never;
-    query?: never;
-    url: '/';
-};
-
-export type RootGetResponses = {
-    /**
-     * Successful Response
-     */
-    200: unknown;
-};
