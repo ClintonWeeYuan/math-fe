@@ -50,8 +50,9 @@ routes so far (see §10).
   and a mid-upload 404 on the new endpoint deletes the orphaned file rather than leaving it — the
   automated test asserts the delete call, and a live check independently confirmed the file is
   actually gone from Storage afterward.
-- `feature/diagnostic-questions-admin-ui` (`math-fe`, approved, final push pending): the
-  `/admin/questions` list/create/edit pages and `DiagnosticQuestionForm`, gated by the existing
+- `feature/diagnostic-questions-admin-ui` (`math-fe`, merged as "PR 0" ahead of Stage 4 frontend
+  work — see below, this branch sat pushed-but-never-opened-as-a-PR for a real gap in how long):
+  the `/admin/questions` list/create/edit pages and `DiagnosticQuestionForm`, gated by the existing
   `AuthContext.tsx` `isAdmin` (§8) with no second check introduced, using the already-present
   KaTeX dependency for the stem/option preview. A live, authenticated click-through (throwaway
   admin user, real click-through of list → create → edit → bulk-import, cleaned up after) ran as
@@ -63,7 +64,62 @@ routes so far (see §10).
   sequential, not fire-and-forget — both exist because this is a content-authoring tool where a
   silently-recovered "looks fine" state is worse than a visible one.
 
-**Stage 4 (exam-taking UI) is next**, not yet started.
+**Stage 4 (exam-taking UI) in progress.** Backend fully complete — four PRs, all merged to
+`math-be` `main`:
+
+- **Attempt lifecycle** (`#5`): publish mechanism (`PATCH /diagnostic/sets/{set_id}` — closes a
+  real Stage 3 gap, `status` existed with no way to change it), the field-trimmed preview endpoint
+  with deliberate draft/nonexistent-look-identical 404s, and the concurrency-safe idempotent
+  create-or-resume attempt lifecycle (§1) — the partial unique index proven against genuine
+  multi-process parallelism, not asyncio interleaving. 403-not-404 for ownership mismatches,
+  decided deliberately (§1).
+- **Per-question response upsert** (`#5`): real `INSERT ... ON CONFLICT DO UPDATE` against Stage
+  1's existing unique constraint — PostgREST's partial-merge semantics verified directly against
+  the live database, not trusted from docs. `is_correct` structurally absent from the response
+  model, not just carefully omitted. A composed-checks edge case (a write arriving exactly at the
+  deadline boundary) traced through the code and proven live in both directions.
+- **Event-batch ingestion** (`#6`): batch array, one call per client flush, all-or-nothing
+  set-membership validation, a 30-second grace period (events are additive, so a short grace period
+  is safe — provenance of that number documented in-code after an earlier mix-up conflating a real
+  prior decision with an invented figure).
+- **Submit** (`#7`): idempotent on already-`submitted`, strict (no grace period) on the deadline —
+  reasoned as additive-vs-destructive: a late event only adds analytics, a late submit would
+  overwrite a meaningful `timed_out` with `submitted`, erasing the finished-vs-ran-out distinction
+  §1's statuses exist to record.
+
+Frontend in progress, `math-fe`:
+
+- **PR 0** (`feature/diagnostic-questions-admin-ui`, merged): landing the Stage 3 admin UI branch
+  above, which had been pushed but never actually opened as a GitHub PR — discovered while
+  grounding the Stage 4 frontend planning pass against real code, not assumption.
+- **PR 1** (`#11`, merged): the core exam screen — instructions/agreement → idempotent start →
+  stable `/diagnostic/attempts/{attemptId}` URL → single-question rendering (reusing `LatexText`,
+  confirmed genuinely shared with the admin preview, no extraction needed) → question navigator
+  with synchronous colour derivation from one shared query-cache source of truth → answer/flag
+  upsert with optimistic UI and clean 409-to-closed-view handling → free navigation → full
+  reload/reconnect rehydration (§7's crash-tolerance, actually built). Every behaviour live-verified
+  against the real deployed backend, not just unit-tested, including the specific free-navigation
+  and reload cases.
+- **PR 2** (timer + deadline + auto-submit) — in progress: always-visible countdown derived from
+  `serverDeadlineAt` (client displays, server stays authoritative, no clock-skew correction — a
+  named, deliberate limitation since nothing depends on display precision), recompute-from-deadline
+  ticking (not a decrementing counter, to survive backgrounded-tab throttling), auto-submit-once at
+  zero treating 200 and 409 identically as terminal. Explicit non-goal, stated deliberately: this
+  does not try to guarantee submission for backgrounded/closed tabs — the server's lazy-timeout
+  remains that backstop, consistent with §1.
+
+**A real gap found and tracked, not yet fixed — belongs in Stage 7, not blocking Stage 4:** the
+diagnostic routes are unlisted (not in nav, not in the current sitemap, UUID-gated, non-JS crawlers
+see only an auth-redirect shell) but **not crawler-invisible** — `robots.txt` is a permissive
+catch-all with no `Disallow`, and the CSR SPA's single static `index.html` serves a global
+`index, follow` meta tag to every route including diagnostic ones. Investigated to the actual fix
+location, correcting an initial wrong guess along the way: `robots.txt`/`sitemap.xml` are **not**
+externally managed by the deploy pipeline as first assumed — production serves the SPA fallback for
+both paths because the build generates neither file — so the fix is a `math-fe` change
+(`public/robots.txt` with `Disallow: /diagnostic/`, plus per-route `noindex` meta), not an infra
+one. Risk today is low (nothing published, unguessable UUIDs, auth-gated) but real, since nothing
+currently stops a future sitemap regen from silently including these routes. See §5 for the
+`Disallow`/`noindex` detail; Stage 7 in §10 now names this explicitly alongside anti-copy.
 
 ---
 
@@ -73,23 +129,49 @@ routes so far (see §10).
 [Landing/instructions] → [in_progress] → [submitted | timed_out | abandoned] → [report]
 ```
 
-- **Landing/instructions**: shows time limit, question count, an agreement checkbox ("I won't
-  reproduce or share this content") before the attempt starts. This checkbox is what gives the
-  traceability layer (§5) legal teeth later.
-- **in_progress**: the timer starts server-side the moment the attempt row is created — a FastAPI
-  endpoint sets `server_deadline_at = now() + time_limit` and returns it to the client. The client
-  displays a countdown calculated from this, but the **FastAPI backend, not the client, is the
-  source of truth** for when time is up. Never trust a client-reported "time's up" — a student
-  could pause their laptop clock or edit local JS state. On every answer/flag/navigation request,
-  the FastAPI route handler re-checks `now() < server_deadline_at` before accepting the write —
-  this is an explicit `if` check in the handler, not something RLS or the database enforces (see
-  the RLS note in §3).
+- **Landing/instructions**: `GET /diagnostic/sets/{set_id}/preview` — any authenticated user, but
+  only for a set that's actually `published`; a draft or nonexistent set returns an identical 404
+  either way, deliberately, rather than confirming a draft set's existence to a non-admin caller.
+  Returns only `title`/`description`/`time_limit_minutes`/`question_count` — never the question
+  IDs themselves. Shows the agreement checkbox ("I won't reproduce or share this content") before
+  the attempt starts; this checkbox is what gives the traceability layer (§5) legal teeth later.
+  Publishing itself is `PATCH /diagnostic/sets/{set_id}` (admin-only) — this closes a real gap
+  from Stage 3: `diagnostic_sets.status` existed in the schema with no way to actually change it.
+- **in_progress**: `POST /diagnostic/attempts` is **idempotent create-or-resume** — if the student
+  already has an `in_progress` attempt for this set, it's returned as-is rather than creating a
+  second one; the agreement checkbox is only enforced on genuine creation, not on a resume. This
+  is what actually implements the crash-tolerant Option B decided in §7 (a refresh or dropped
+  connection lands back in the same attempt, clock unaffected) — together with
+  `GET /diagnostic/attempts/{attempt_id}` for full state rehydration on reconnect. A mismatched
+  owner on either endpoint returns **403, not 404** — decided deliberately, not defaulted: the
+  usual justification for 404-over-403 (don't confirm a resource exists to someone probing an
+  enumerable ID space) doesn't really apply to UUIDs a student's own client legitimately holds,
+  and 403 is more debuggable when something's actually gone wrong (e.g. a frontend bug holding a
+  stale attempt ID after a retake).
+
+  Create-or-resume is concurrency-safe **at the database level**, not just in application logic —
+  a partial unique index (`diagnostic_attempts_one_in_progress_per_student_set`, on
+  `(student_id, diagnostic_set_id) where status = 'in_progress'`, see §3) is what actually
+  prevents two simultaneous requests from both creating an `in_progress` row; the handler catches
+  the resulting unique-violation and returns the winning row rather than erroring. This was proven
+  against genuine OS-level parallelism (multiple worker processes, not just async interleaving
+  within one) — ten simultaneous requests, ten identical `200`s with the same `attempt_id`, one
+  row in the database afterward.
+
+  The timer itself: starts server-side the moment the attempt row is created — the same endpoint
+  sets `server_deadline_at = now() + time_limit` and returns it to the client. The client displays
+  a countdown calculated from this, but the **FastAPI backend, not the client, is the source of
+  truth** for when time is up. Never trust a client-reported "time's up" — a student could pause
+  their laptop clock or edit local JS state. On every answer/flag/navigation request, the FastAPI
+  route handler re-checks `now() < server_deadline_at` before accepting the write — this is an
+  explicit `if` check in the handler, not something RLS or the database enforces (see the RLS note
+  in §3).
 - **submitted / timed_out**: attempt is locked (no further writes accepted), scoring runs, report
-  is generated. `timed_out` specifically is detected lazily, as a side effect of the deadline
-  check Stage 4 already needs for every write (§4's timing note above) — the first request that
-  arrives after `server_deadline_at` has passed, on an attempt still `in_progress`, transitions it
-  to `timed_out` and triggers scoring there. Not a separate feature; the same guard clause that
-  rejects late writes is what performs the transition.
+  is generated. `timed_out` specifically is detected lazily, as a side effect of the same deadline
+  check above — the first request that arrives after `server_deadline_at` has passed, on an
+  attempt still `in_progress`, transitions it to `timed_out` and triggers scoring there. Not a
+  separate feature; the same guard clause that rejects late writes is what performs the
+  transition.
 - **abandoned**: exists as a schema value, **deliberately not yet wired to any code path** (a
   Stage 4 decision, not an oversight). The reasoning: unlike `timed_out`, there's no server-side
   event that signals abandonment directly — a student closing the tab and never returning looks
@@ -218,6 +300,18 @@ create table diagnostic_attempts (
 -- per-set lookup does a full table scan once this table has real rows in it.
 create index on diagnostic_attempts (student_id);
 create index on diagnostic_attempts (diagnostic_set_id);
+
+-- Added during Stage 4: the create-or-resume logic in POST /diagnostic/attempts (§1) needs
+-- to be safe under real concurrency (a double-click, a retry from a flaky connection), not
+-- just correct when called once. Application code alone can't close a check-then-insert race
+-- — this partial unique index is what actually enforces "at most one in_progress attempt per
+-- student per set," with the handler catching the resulting unique-violation and returning
+-- the winning row instead of erroring. Proven against genuine OS-level parallelism (multiple
+-- worker processes, not async interleaving within one): ten simultaneous requests, ten
+-- identical 200s with the same attempt_id, one row in the database afterward.
+create unique index diagnostic_attempts_one_in_progress_per_student_set
+  on diagnostic_attempts (student_id, diagnostic_set_id)
+  where status = 'in_progress';
 
 -- Per-question response + rolled-up timing (fast to read for the report).
 -- attempt_id cascades (meaningless without its parent attempt); question_id is
@@ -359,6 +453,23 @@ entirely, and (b) make anything that does leak traceable back to a specific stud
 there's no web API that grants this level of control, and time spent chasing it won't move the
 needle. Put that time into the watermarking instead.
 
+**A related but genuinely separate concern, found during Stage 4: crawl-gating.** Anti-copy above
+is about deterring a *student* from redistributing content they can already legitimately see.
+Crawl-gating is about stopping *search engines* from indexing the diagnostic routes at all — a
+different threat, worth not conflating with the above. Investigated during Stage 4's frontend
+build: the diagnostic routes are unlisted (not in nav, not in the sitemap, UUID-gated, non-JS
+crawlers see only an auth-redirect shell) but not crawler-invisible — `robots.txt` is a permissive
+catch-all with no `Disallow`, and the CSR SPA's one static `index.html` serves a global
+`index, follow` meta to every route, diagnostic included. The fix, once investigated to the actual
+file location rather than guessed at: `math-fe/public/robots.txt` with `Disallow: /diagnostic/`
+(Vite copies `public/` → `dist/`, so this becomes a real served file — production currently serves
+neither `robots.txt` nor `sitemap.xml` at all, just the SPA fallback, since the build generates
+neither), plus per-route `noindex` meta on the diagnostic routes specifically (needs per-route head
+management added to what's currently a single static head for the whole SPA). Low risk today
+(nothing published, UUIDs unguessable, auth-gated) but real — nothing currently stops a future
+sitemap regeneration from silently including these routes. Scheduled for Stage 7 alongside
+anti-copy (§10), not before — no reason to block Stage 4/5 on it given the current risk is low.
+
 ---
 
 ## 6. Post-exam report — reuses what's already built
@@ -406,7 +517,9 @@ the event log from §4:
   forfeiting a student's entire attempt over a dropped wifi connection — which is a genuine risk
   in a 60–90 minute browser session and would otherwise generate support headaches. This is a
   one-line policy difference in how "reconnect" is handled, not a structural change either way, so
-  it's easy to flip later if Option A turns out to matter more to you in practice.
+  it's easy to flip later if Option A turns out to matter more to you in practice. **Now built**:
+  §1's `POST /diagnostic/attempts` (idempotent create-or-resume) and
+  `GET /diagnostic/attempts/{attempt_id}` (state rehydration) are Option B's actual implementation.
 - **Retakes allowed, same `diagnostic_set`, new `diagnostic_attempts` row each time**, all old
   attempts stay queryable — this was already how §3 was structured, so no schema change. Worth
   adding explicitly to the report screen once there's more than one attempt: a simple "compare to
@@ -524,7 +637,10 @@ Deliberately not linked from any student-facing navigation.
   roots...`), rendered live via **KaTeX** (lighter and faster than MathJax, and the standard choice
   for this kind of content) in a preview pane right next to the input, so you see exactly what a
   student will see before publishing — not a separate, possibly-inconsistent preview
-  implementation, but the *same* rendering component the exam screen itself uses.
+  implementation, but the *same* rendering component the exam screen itself uses. **Confirmed true
+  during Stage 4**: `LatexText` (built for this admin preview in Stage 3) turned out to be genuinely
+  reusable as-is — no admin/form coupling, no extraction needed — and is now the same component the
+  real exam screen renders questions with.
 - Options (A–E, or more — see the ESAT Maths II set's Q13 for a real 7-option case), same
   LaTeX-enabled treatment, correct-option selector, plus a free-text misconception field per
   incorrect option.
@@ -595,14 +711,30 @@ SPM Math product, or anything else already live. The `diagnostic_` table prefix 
 that server logic goes through FastAPI, the codebase's one existing server-side pattern, are both
 in service of this same principle.
 
-Practically, ask Claude Code to work in a **git worktree on a feature branch**, committing and
-opening a **draft pull request** rather than pushing to `main` — this is built into how Claude
-Code's background/agent workflow already operates, so it's a matter of asking for it, not building
-tooling for it. This applies **per repo** — two branches, two PRs, reviewed independently. You (or
-your technical collaborator) review both before anything merges. This matters more than usual
-here specifically because **there is no CI and no staging environment** — a merged PR goes
-straight to the one production database and the Railway deployment. Treat local/manual testing
-before merge as the only safety net that exists, because it is.
+Practically, ask Claude Code to work in a **git worktree on a feature branch**. Note this
+corrects an earlier assumption in this spec: committing and pushing a branch does **not**
+automatically open a pull request on GitHub — those are separate actions, and a pushed branch on
+its own only produces a "create a new PR" link (GitHub's `pull/new/<branch>` URL pattern), not an
+actual PR object. This gap surfaced during Stage 4: two pieces of already-reviewed, approved work
+sat as pushed-but-not-formally-opened branches until asked about directly. **Standing rule now:**
+after each piece of work is approved here, run `gh pr create --draft` targeting `main` — every
+approved change gets an actual PR object with a real description on GitHub, not just a pushed
+branch and a create-PR link. This applies **per repo** — two branches, two PRs, reviewed
+independently. You (or your technical collaborator) review both before anything merges. This
+matters more than usual here specifically because **there is no CI and no staging environment** —
+a merged PR goes straight to the one production database and the Railway deployment. Treat
+local/manual testing before merge as the only safety net that exists, because it is.
+
+**Operational note, learned the hard way during Stage 4:** when stopping a background dev/test
+server between verification runs, use an explicit `kill -9 <PID>` (looked up via `lsof` or an
+echoed PID), never job-control syntax like `kill %1`. Job references resolve against the current
+shell's job table, and each separate tool call can start in a state where that reference doesn't
+resolve the way it would in one continuous interactive shell — the practical effect is the "kill"
+silently does nothing, the old server keeps running and squatting on the port, and every
+subsequent request in that verification round silently hits stale pre-fix code while looking like
+a fresh run. This produced a real false result during Stage 4 (a fix that appeared not to work,
+because the test was unknowingly exercising the old server) before being caught by checking what
+was actually listening on the port rather than trusting the surprising result.
 
 ✅ complete and merged · 🔶 in progress · unmarked = not yet started
 
@@ -612,11 +744,11 @@ before merge as the only safety net that exists, because it is.
 | **1. Schema** ✅ | New `diagnostic_`-prefixed tables from §3, as a raw SQL migration, tested against a throwaway local Postgres. **Complete and merged** — three review rounds: added three missing FK indexes (Postgres doesn't auto-index FK columns); caught and fixed a missing FK entirely on `diagnostic_question_events.question_id`; deliberately declined a further index on that same column — it's the highest-write-volume table in the schema with no described query pattern that needs one, unlike the other three | Backend (`math-be`) | none — no UI yet, tables empty |
 | **2. Admin auth enforcement** ✅ | The `require_admin` FastAPI dependency from §9. **Complete and merged** — plain-string comparison against `user_type` (confirmed no enum anywhere in the codebase, no mismatch risk); confirmed fresh-from-DB on every request, not JWT-embedded, so revoking admin access takes effect on the very next request; review caught that the original tests called the dependency directly and never actually resolved the `Depends()` chain, missing a real distinction (missing header → 403 from `HTTPBearer` itself; invalid token → 401 from existing logic) — fixed with full-chain `TestClient` tests before merge. Deliberately wired into **zero routes** — that's Stage 3 | Backend (`math-be`) | none — no routes depend on it yet |
 | **3. Admin tool** ✅ | §9's CRUD + bulk-import endpoints, plus single-question diagram support and the `/admin/questions` UI. **Complete** — three PRs across both repos (`feature/diagnostic-admin-tool`, `feature/diagnostic-question-diagram-upload` in `math-be`; `feature/diagnostic-questions-admin-ui` in `math-fe`). Full detail in the status block at the top of this document — notably, a live authenticated click-through caught a real auth-header bug before the diagram field was even built, and two deliberate design decisions (no auto-recovery on removing the correct option; sequential not fire-and-forget diagram upload) are documented in §9 | Backend + Frontend (`math-fe`) | you only |
-| **4. Exam-taking UI** | §2 + §4 — attempt-creation, deadline-check, and event-ingestion endpoints (backend), the exam screen itself (frontend), reachable only via a direct unlisted URL, tested against the ESAT Maths II 27-question set | Backend + Frontend | you + family/collaborator only |
+| **4. Exam-taking UI** 🔶 | §2 + §4. **Backend fully complete** — four PRs merged (attempt lifecycle, response upsert, event ingestion, submit); full detail in the status block at the top of this document. **Frontend in progress**: PR 0 (landing the Stage 3 admin UI, which had sat pushed-but-never-PR'd) and PR 1 (core exam screen — instructions, start, single-question render, navigator, answer/flag, free nav, reload/reconnect) both merged; PR 2 (timer + deadline + auto-submit) building now. Still ahead: review/submit screen (PR 3/4 of the frontend breakdown). Reachable only via a direct unlisted URL (not crawler-invisible yet — see §5 and Stage 7 below), tested against the ESAT Maths II 27-question set | Backend + Frontend | you + family/collaborator only |
 | **5. Scoring + report** | §6 — server-side scoring that never leaks `correct_option` mid-attempt (backend), the Skills Radar report screen (frontend), tested end-to-end against the Stage 4 test attempts | Backend + Frontend | you + family/collaborator only |
-| **6. Anti-copy layer** | §5 — signed-URL diagram serving and watermark data (backend), copy/print deterrents and watermark rendering (frontend). Added last since it's the most likely source of false-positive UX bugs and is easiest to debug once the core flow is already proven stable | Backend + Frontend | you + family/collaborator only |
-| **7. Soft launch** | Link the diagnostic from the real site, but only to a small controlled group — existing students, or one agent's referrals | Frontend | limited real users |
-| **8. Public launch** | Linked from main navigation | Frontend | everyone |
+| **6. Soft launch** | Link the diagnostic from the real site, but only to a small controlled group — existing students, or one agent's referrals. **Moved ahead of the anti-copy layer, deliberately** — a soft launch to 2–3 trusted people carries almost none of the leakage risk the anti-copy layer exists to address, and getting real usage and feedback sooner is worth more right now than sequencing strictly by build order | Frontend | limited real users |
+| **7. Anti-copy layer + crawl-gating** | §5 — signed-URL diagram serving and watermark data (backend), copy/print deterrents and watermark rendering (frontend), **plus the crawl-gating fix found during Stage 4**: `math-fe/public/robots.txt` with `Disallow: /diagnostic/`, and per-route `noindex` meta on diagnostic routes (needs per-route head management added to the CSR SPA's currently-single static head). Now built *after* a small trusted group is already using the real thing, informed by whatever that actually surfaces, rather than gating real usage on it | Backend + Frontend | limited real users |
+| **8. Public launch** | Linked from main navigation — this is where the anti-copy layer's absence would actually matter, so it lands before this stage, not before Stage 6 | Frontend | everyone |
 
 Each stage should be small enough to review in one sitting before moving to the next — that's the
 actual point of staging, more than the specific boundaries drawn above. If a stage starts feeling
