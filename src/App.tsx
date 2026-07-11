@@ -24,6 +24,8 @@ import { StudentProtectedRoute } from '@/components/auth/StudentProtectedRoute.t
 import { DiagnosticQuestionsListPage } from '@/pages/Admin/Diagnostic/DiagnosticQuestionsListPage.tsx'
 import { DiagnosticQuestionCreatePage } from '@/pages/Admin/Diagnostic/DiagnosticQuestionCreatePage.tsx'
 import { DiagnosticQuestionEditPage } from '@/pages/Admin/Diagnostic/DiagnosticQuestionEditPage.tsx'
+import { SetInstructionsPage } from '@/pages/Diagnostic/SetInstructionsPage.tsx'
+import { ExamPage } from '@/pages/Diagnostic/ExamPage.tsx'
 
 function App() {
     useEffect(() => {
@@ -64,6 +66,14 @@ function App() {
                     <Route
                         path="questions/v2/:subjectId/quiz"
                         element={<QuizPage />}
+                    />
+                    <Route
+                        path="diagnostic/sets/:setId"
+                        element={<SetInstructionsPage />}
+                    />
+                    <Route
+                        path="diagnostic/attempts/:attemptId"
+                        element={<ExamPage />}
                     />
                 </Route>
                 <Route path="admin/login" element={<AdminLoginPage />} />
