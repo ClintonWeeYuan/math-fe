@@ -1,5 +1,5 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor, within } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { ExamPage } from './ExamPage'
 import type { DiagnosticAttemptStateResponse } from '@/client'
@@ -19,8 +19,13 @@ vi.mock('@/hooks/diagnostic/useSubmitAttemptMutation.ts', () => ({
 }))
 const mockRecordEvent = vi.fn()
 const mockFlush = vi.fn()
+const mockFlushBeforeSubmit = vi.fn(() => Promise.resolve(true))
 vi.mock('@/hooks/diagnostic/useEventCapture.ts', () => ({
-    default: () => ({ recordEvent: mockRecordEvent, flush: mockFlush }),
+    default: () => ({
+        recordEvent: mockRecordEvent,
+        flush: mockFlush,
+        flushBeforeSubmit: mockFlushBeforeSubmit,
+    }),
 }))
 vi.mock('react-router-dom', async () => {
     const actual =
@@ -40,8 +45,11 @@ function state(
             id: 'att-1',
             diagnosticSetId: 'set-1',
             status: 'in_progress',
-            startedAt: '2026-07-11T00:00:00Z',
-            serverDeadlineAt: '2026-07-11T01:00:00Z',
+            // Relative to now so the (un-mocked) timer doesn't expire during
+            // tests that aren't about expiry. Tests that DO exercise expiry
+            // override serverDeadlineAt with a past timestamp.
+            startedAt: new Date(Date.now() - 60_000).toISOString(),
+            serverDeadlineAt: new Date(Date.now() + 60 * 60_000).toISOString(),
             submittedAt: null,
             agreedToTerms: true,
             totalScore: null,
@@ -73,6 +81,8 @@ describe('ExamPage', () => {
         mockSubmit.mockReset()
         mockRecordEvent.mockReset()
         mockFlush.mockReset()
+        mockFlushBeforeSubmit.mockReset()
+        mockFlushBeforeSubmit.mockResolvedValue(true)
     })
 
     it('renders the question UI for an in_progress attempt', () => {
@@ -206,5 +216,51 @@ describe('ExamPage', () => {
         renderExam()
         expect(mockFlush).toHaveBeenCalled()
         expect(mockSubmit).toHaveBeenCalledTimes(1)
+    })
+
+    it('opens the review dialog with counts derived from the shared response state', () => {
+        // Fixture: 3 questions, one response (qc answered B + flagged) ->
+        // answered 1/3, flagged 1, unanswered 2 — the same source the
+        // navigator colours from.
+        mockUseGetAttemptStateQuery.mockReturnValue({ data: state(), isLoading: false, isError: false })
+        renderExam()
+        fireEvent.click(screen.getByRole('button', { name: /Finish exam/i }))
+
+        const dialog = screen.getByRole('dialog')
+        expect(within(dialog).getByText('Submit your diagnostic?')).toBeInTheDocument()
+        expect(within(dialog).getByText('/3')).toBeInTheDocument() // answered X/3
+        expect(within(dialog).getByText(/2 unanswered questions/i)).toBeInTheDocument()
+    })
+
+    it('confirming submit records the final exit, awaits the blocking flush, then submits', async () => {
+        mockUseGetAttemptStateQuery.mockReturnValue({ data: state(), isLoading: false, isError: false })
+        renderExam()
+        fireEvent.click(screen.getByRole('button', { name: /Finish exam/i }))
+        const dialog = screen.getByRole('dialog')
+        fireEvent.click(within(dialog).getByRole('button', { name: /^Submit$/ }))
+
+        // Records an exit for the current question (qa) before submitting.
+        expect(mockRecordEvent).toHaveBeenCalledWith('qa', 'exit')
+        // The blocking pre-submit flush runs, and submit only after it settles.
+        expect(mockFlushBeforeSubmit).toHaveBeenCalledTimes(1)
+        await waitFor(() => expect(mockSubmit).toHaveBeenCalledTimes(1))
+    })
+
+    it('submits even if the pre-submit flush reports failure (never traps the student)', async () => {
+        mockFlushBeforeSubmit.mockResolvedValue(false)
+        mockUseGetAttemptStateQuery.mockReturnValue({ data: state(), isLoading: false, isError: false })
+        renderExam()
+        fireEvent.click(screen.getByRole('button', { name: /Finish exam/i }))
+        fireEvent.click(within(screen.getByRole('dialog')).getByRole('button', { name: /^Submit$/ }))
+
+        await waitFor(() => expect(mockSubmit).toHaveBeenCalledTimes(1))
+    })
+
+    it('"Keep working" dismisses the dialog without submitting', () => {
+        mockUseGetAttemptStateQuery.mockReturnValue({ data: state(), isLoading: false, isError: false })
+        renderExam()
+        fireEvent.click(screen.getByRole('button', { name: /Finish exam/i }))
+        fireEvent.click(screen.getByRole('button', { name: /Keep working/i }))
+        expect(mockSubmit).not.toHaveBeenCalled()
     })
 })

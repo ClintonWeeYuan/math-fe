@@ -90,6 +90,40 @@ describe('useEventCapture', () => {
         expect(mockIngest.mock.calls[1][0].body.events[0].eventType).toBe('answer_change')
     })
 
+    it('flushBeforeSubmit drains the buffer in one shot when the send succeeds', async () => {
+        mockIngest.mockResolvedValue(ok())
+        const { result } = renderHook(() =>
+            useEventCapture({ attemptId: ATTEMPT_ID, currentQuestionId: 'q1' })
+        )
+        act(() => result.current.recordEvent('q1', 'exit'))
+        let drained: boolean | undefined
+        await act(async () => {
+            drained = await result.current.flushBeforeSubmit()
+        })
+        expect(drained).toBe(true)
+        expect(mockIngest).toHaveBeenCalledTimes(1)
+    })
+
+    it('flushBeforeSubmit retries a failing send up to the bound, then reports failure', async () => {
+        // Always fails — flushBeforeSubmit should try 3 times and return
+        // false (the caller then submits anyway rather than trapping the
+        // student).
+        mockIngest.mockResolvedValue(fail())
+        const { result } = renderHook(() =>
+            useEventCapture({ attemptId: ATTEMPT_ID, currentQuestionId: 'q1' })
+        )
+        act(() => result.current.recordEvent('q1', 'exit'))
+        let drained: boolean | undefined
+        await act(async () => {
+            const p = result.current.flushBeforeSubmit()
+            // Advance through the inter-attempt backoffs.
+            await vi.advanceTimersByTimeAsync(1000)
+            drained = await p
+        })
+        expect(drained).toBe(false)
+        expect(mockIngest).toHaveBeenCalledTimes(3)
+    })
+
     it('passes keepalive on a forced keepalive flush (unload path)', async () => {
         mockIngest.mockResolvedValue(ok())
         const { result } = renderHook(() =>

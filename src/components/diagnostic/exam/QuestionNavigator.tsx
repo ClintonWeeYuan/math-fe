@@ -3,6 +3,7 @@ import type {
     StudentDiagnosticQuestionResponse,
 } from '@/client'
 import { cn } from '@/lib/utils.ts'
+import { isAnswered, isFlagged } from '@/lib/diagnosticResponseSummary.ts'
 
 type Props = {
     questions: StudentDiagnosticQuestionResponse[]
@@ -27,10 +28,8 @@ export function QuestionNavigator({ questions, responses, currentIndex, onJump }
             <div className="grid grid-cols-5 gap-2">
                 {questions.map((question, index) => {
                     const response = byQuestionId.get(question.id)
-                    const answered =
-                        response?.selectedOption !== undefined &&
-                        response?.selectedOption !== null
-                    const flagged = response?.isFlagged ?? false
+                    const answered = isAnswered(response)
+                    const flagged = isFlagged(response)
                     const isCurrent = index === currentIndex
 
                     return (
