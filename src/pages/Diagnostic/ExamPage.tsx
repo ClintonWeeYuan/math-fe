@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { LoadingPage } from '@/components/common/FullLoadingPage.tsx'
 import { Button } from '@/components/ui/button.tsx'
@@ -6,10 +6,12 @@ import { QuestionNavigator } from '@/components/diagnostic/exam/QuestionNavigato
 import { QuestionPane } from '@/components/diagnostic/exam/QuestionPane.tsx'
 import { AttemptClosedView } from '@/components/diagnostic/exam/AttemptClosedView.tsx'
 import { ExamTimer } from '@/components/diagnostic/exam/ExamTimer.tsx'
+import { ReviewDialog } from '@/components/diagnostic/exam/ReviewDialog.tsx'
 import useGetAttemptStateQuery from '@/hooks/diagnostic/useGetAttemptStateQuery.ts'
 import useUpsertResponseMutation from '@/hooks/diagnostic/useUpsertResponseMutation.ts'
 import useSubmitAttemptMutation from '@/hooks/diagnostic/useSubmitAttemptMutation.ts'
 import useEventCapture from '@/hooks/diagnostic/useEventCapture.ts'
+import { summarizeResponses } from '@/lib/diagnosticResponseSummary.ts'
 
 /**
  * The exam screen. Owns the single source of truth (the attempt-state
@@ -24,6 +26,14 @@ export function ExamPage() {
     const { attemptId } = useParams()
     const navigate = useNavigate()
     const [currentIndex, setCurrentIndex] = useState(0)
+    const [reviewOpen, setReviewOpen] = useState(false)
+    // Set only by the manual-submit path, so the enter/exit effect's
+    // cleanup skips its own exit (already recorded + flushed explicitly
+    // before the lock). Reset on submit failure so a failed manual submit
+    // doesn't suppress subsequent navigation exits. The auto-submit path
+    // never sets it — its cleanup exit still fires and lands within the
+    // timed_out grace window.
+    const examEndingRef = useRef(false)
 
     const { data: state, isLoading, isError } = useGetAttemptStateQuery({
         attemptId: attemptId ?? '',
@@ -31,9 +41,8 @@ export function ExamPage() {
     const { mutate: upsertResponse } = useUpsertResponseMutation({
         attemptId: attemptId ?? '',
     })
-    const { mutate: submitAttempt } = useSubmitAttemptMutation({
-        attemptId: attemptId ?? '',
-    })
+    const { mutate: submitAttempt, isPending: isSubmitting } =
+        useSubmitAttemptMutation({ attemptId: attemptId ?? '' })
 
     // Computed before the early returns so the event-capture hooks below
     // stay unconditional (rules of hooks). currentQuestionId is undefined
@@ -46,7 +55,7 @@ export function ExamPage() {
     const currentQuestionId =
         inProgress && questions.length > 0 ? questions[boundedIndex].id : undefined
 
-    const { recordEvent, flush } = useEventCapture({
+    const { recordEvent, flush, flushBeforeSubmit } = useEventCapture({
         attemptId: attemptId ?? '',
         currentQuestionId,
     })
@@ -66,7 +75,13 @@ export function ExamPage() {
         if (currentQuestionId === undefined) return
         recordEvent(currentQuestionId, 'enter')
         void flush()
-        return () => recordEvent(currentQuestionId, 'exit')
+        return () => {
+            // On a manual submit the final exit was already recorded and
+            // flushed before the lock, so skip this one to avoid a
+            // duplicate that would arrive post-lock (no grace) and fail.
+            if (examEndingRef.current) return
+            recordEvent(currentQuestionId, 'exit')
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentQuestionId])
 
@@ -129,6 +144,28 @@ export function ExamPage() {
         submitAttempt()
     }
 
+    async function handleManualSubmit() {
+        // A manually-submitted attempt becomes 'submitted', which has NO
+        // post-lock grace window (unlike timed_out) — so the final exit and
+        // whatever else is buffered must land BEFORE the submit locks it.
+        examEndingRef.current = true
+        recordEvent(currentQuestion.id, 'exit')
+        // Blocking, bounded-retry flush (distinct from the fire-and-forget
+        // flushes everywhere else). We submit regardless of its result:
+        // losing a few seconds of analytics must never trap a student
+        // unable to finish their exam over an events-ingestion blip.
+        await flushBeforeSubmit()
+        submitAttempt(undefined, {
+            onError: () => {
+                // Submit failed — the attempt is still in_progress, so let
+                // navigation exits resume being recorded.
+                examEndingRef.current = false
+            },
+        })
+    }
+
+    const summary = summarizeResponses(questions, state.responses)
+
     return (
         <div className="mx-auto mt-8 grid max-w-5xl grid-cols-1 gap-8 px-4 md:grid-cols-[1fr_220px]">
             <div className="flex flex-col gap-6">
@@ -172,7 +209,22 @@ export function ExamPage() {
                     currentIndex={boundedIndex}
                     onJump={setCurrentIndex}
                 />
+                <Button
+                    type="button"
+                    className="w-full"
+                    onClick={() => setReviewOpen(true)}
+                >
+                    Finish exam
+                </Button>
             </aside>
+
+            <ReviewDialog
+                open={reviewOpen}
+                onOpenChange={setReviewOpen}
+                summary={summary}
+                onConfirm={handleManualSubmit}
+                isSubmitting={isSubmitting}
+            />
         </div>
     )
 }

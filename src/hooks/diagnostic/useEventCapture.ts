@@ -87,6 +87,27 @@ export default function useEventCapture({
         }
     }, [])
 
+    // A genuinely blocking flush for the one call site that needs it:
+    // manual submit (PR 4). A submitted attempt has NO post-lock grace
+    // window (unlike timed_out), so the buffer — including the final exit
+    // recorded just before — must land BEFORE the submit locks it. Unlike
+    // every other flush here (fire-and-forget `void flush()`), this is
+    // awaited: bounded retry so a network blip at the moment of submit
+    // gets another shot, then it returns whether the buffer drained. The
+    // caller submits regardless of the result — losing a few seconds of
+    // analytics must never trap a student unable to finish their exam.
+    const flushBeforeSubmit = useCallback(
+        async (maxAttempts = 3): Promise<boolean> => {
+            for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
+                await flush({ force: true })
+                if (bufferRef.current.length === 0) return true
+                await new Promise((resolve) => setTimeout(resolve, 300))
+            }
+            return bufferRef.current.length === 0
+        },
+        [flush]
+    )
+
     // Periodic flush — every few seconds (§4).
     useEffect(() => {
         const id = setInterval(() => void flush(), FLUSH_INTERVAL_MS)
@@ -123,5 +144,5 @@ export default function useEventCapture({
         return () => window.removeEventListener('pagehide', onPageHide)
     }, [flush])
 
-    return { recordEvent, flush }
+    return { recordEvent, flush, flushBeforeSubmit }
 }
