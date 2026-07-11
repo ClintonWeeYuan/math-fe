@@ -2,7 +2,7 @@
 
 import { type Client, formDataBodySerializer, type Options as Options2, type TDataShape } from './client';
 import { client } from './client.gen';
-import type { BulkImportDiagnosticQuestionsDiagnosticQuestionsBulkImportPostData, BulkImportDiagnosticQuestionsDiagnosticQuestionsBulkImportPostErrors, BulkImportDiagnosticQuestionsDiagnosticQuestionsBulkImportPostResponses, ConvertLatexConverterPostData, ConvertLatexConverterPostErrors, ConvertLatexConverterPostResponses, CreateDiagnosticQuestionDiagnosticQuestionsPostData, CreateDiagnosticQuestionDiagnosticQuestionsPostErrors, CreateDiagnosticQuestionDiagnosticQuestionsPostResponses, CreateLevelLevelsPostData, CreateLevelLevelsPostErrors, CreateLevelLevelsPostResponses, CreateOptionQuestionsQuestionIdOptionPostData, CreateOptionQuestionsQuestionIdOptionPostErrors, CreateOptionQuestionsQuestionIdOptionPostResponses, CreatePaperInstancePapersInstancePostData, CreatePaperInstancePapersInstancePostErrors, CreatePaperInstancePapersInstancePostResponses, CreatePaperPapersPostData, CreatePaperPapersPostErrors, CreatePaperPapersPostResponses, CreatePaperVariantPapersVariantPostData, CreatePaperVariantPapersVariantPostErrors, CreatePaperVariantPapersVariantPostResponses, CreateSubjectSubjectsPostData, CreateSubjectSubjectsPostErrors, CreateSubjectSubjectsPostResponses, CreateSyllabusSyllabusPostData, CreateSyllabusSyllabusPostErrors, CreateSyllabusSyllabusPostResponses, CreateTopicTopicsPostData, CreateTopicTopicsPostErrors, CreateTopicTopicsPostResponses, DeleteDiagnosticQuestionDiagnosticQuestionsQuestionIdDeleteData, DeleteDiagnosticQuestionDiagnosticQuestionsQuestionIdDeleteErrors, DeleteDiagnosticQuestionDiagnosticQuestionsQuestionIdDeleteResponses, DeleteLevelLevelsLevelIdDeleteData, DeleteLevelLevelsLevelIdDeleteErrors, DeleteLevelLevelsLevelIdDeleteResponses, DeleteOptionQuestionsQuestionIdOptionOptionIdDeleteData, DeleteOptionQuestionsQuestionIdOptionOptionIdDeleteErrors, DeleteOptionQuestionsQuestionIdOptionOptionIdDeleteResponses, DeletePaperPapersInstanceInstanceIdDeleteData, DeletePaperPapersInstanceInstanceIdDeleteErrors, DeletePaperPapersInstanceInstanceIdDeleteResponses, DeletePaperPapersPaperIdDeleteData, DeletePaperPapersPaperIdDeleteErrors, DeletePaperPapersPaperIdDeleteResponses, DeleteQuestionQuestionsQuestionIdDeleteData, DeleteQuestionQuestionsQuestionIdDeleteErrors, DeleteQuestionQuestionsQuestionIdDeleteResponses, DeleteTopicTopicsTopicIdDeleteData, DeleteTopicTopicsTopicIdDeleteErrors, DeleteTopicTopicsTopicIdDeleteResponses, DeleteVariantPapersVariantVariantIdDeleteData, DeleteVariantPapersVariantVariantIdDeleteErrors, DeleteVariantPapersVariantVariantIdDeleteResponses, GetAllLevelsLevelsGetData, GetAllLevelsLevelsGetResponses, GetAllSyllabusSyllabusGetData, GetAllSyllabusSyllabusGetResponses, GetCurrentUserUsersCurrentGetData, GetCurrentUserUsersCurrentGetResponses, GetDiagnosticQuestionDiagnosticQuestionsQuestionIdGetData, GetDiagnosticQuestionDiagnosticQuestionsQuestionIdGetErrors, GetDiagnosticQuestionDiagnosticQuestionsQuestionIdGetResponses, GetDiagnosticSetDiagnosticSetsSetIdGetData, GetDiagnosticSetDiagnosticSetsSetIdGetErrors, GetDiagnosticSetDiagnosticSetsSetIdGetResponses, GetHintChatHintPostData, GetHintChatHintPostErrors, GetHintChatHintPostResponses, GetPaperInstancePapersInstanceInstanceIdGetData, GetPaperInstancePapersInstanceInstanceIdGetErrors, GetPaperInstancePapersInstanceInstanceIdGetResponses, GetPaperInstancesBySubjectIdPapersInstanceSubjectSubjectIdGetData, GetPaperInstancesBySubjectIdPapersInstanceSubjectSubjectIdGetErrors, GetPaperInstancesBySubjectIdPapersInstanceSubjectSubjectIdGetResponses, GetQuestionOptionsQuestionsQuestionIdOptionsGetData, GetQuestionOptionsQuestionsQuestionIdOptionsGetErrors, GetQuestionOptionsQuestionsQuestionIdOptionsGetResponses, GetQuestionQuestionsQuestionIdGetData, GetQuestionQuestionsQuestionIdGetErrors, GetQuestionQuestionsQuestionIdGetResponses, GetQuestionsByPaperInstanceQuestionsPaperInstancePaperInstanceIdGetData, GetQuestionsByPaperInstanceQuestionsPaperInstancePaperInstanceIdGetErrors, GetQuestionsByPaperInstanceQuestionsPaperInstancePaperInstanceIdGetResponses, GetQuestionsBySubjectPaginatedQuestionsSubjectPaginatedSubjectIdGetData, GetQuestionsBySubjectPaginatedQuestionsSubjectPaginatedSubjectIdGetErrors, GetQuestionsBySubjectPaginatedQuestionsSubjectPaginatedSubjectIdGetResponses, GetQuestionsBySubjectQuestionsSubjectSubjectIdGetData, GetQuestionsBySubjectQuestionsSubjectSubjectIdGetErrors, GetQuestionsBySubjectQuestionsSubjectSubjectIdGetResponses, GetQuestionsByTopicQuestionsTopicsTopicIdGetData, GetQuestionsByTopicQuestionsTopicsTopicIdGetErrors, GetQuestionsByTopicQuestionsTopicsTopicIdGetResponses, GetSubjectSubjectsSubjectIdGetData, GetSubjectSubjectsSubjectIdGetErrors, GetSubjectSubjectsSubjectIdGetResponses, GetSyllabusSyllabusSyllabusIdGetData, GetSyllabusSyllabusSyllabusIdGetErrors, GetSyllabusSyllabusSyllabusIdGetResponses, GetTopicsBySubjectTopicsSubjectIdGetData, GetTopicsBySubjectTopicsSubjectIdGetErrors, GetTopicsBySubjectTopicsSubjectIdGetResponses, ListDiagnosticQuestionsDiagnosticQuestionsGetData, ListDiagnosticQuestionsDiagnosticQuestionsGetErrors, ListDiagnosticQuestionsDiagnosticQuestionsGetResponses, ListDiagnosticSetsDiagnosticSetsGetData, ListDiagnosticSetsDiagnosticSetsGetErrors, ListDiagnosticSetsDiagnosticSetsGetResponses, LoginUsersLoginPostData, LoginUsersLoginPostErrors, LoginUsersLoginPostResponses, MoreInfoUsersMoreInfoPostData, MoreInfoUsersMoreInfoPostErrors, MoreInfoUsersMoreInfoPostResponses, ResendVerificationUsersResendVerificationPostData, ResendVerificationUsersResendVerificationPostErrors, ResendVerificationUsersResendVerificationPostResponses, RootGetData, RootGetResponses, SetQuestionStatusQuestionsSetStatusPostData, SetQuestionStatusQuestionsSetStatusPostErrors, SetQuestionStatusQuestionsSetStatusPostResponses, SignupUsersPostData, SignupUsersPostErrors, SignupUsersPostResponses, UpdateDiagnosticQuestionDiagnosticQuestionsQuestionIdPatchData, UpdateDiagnosticQuestionDiagnosticQuestionsQuestionIdPatchErrors, UpdateDiagnosticQuestionDiagnosticQuestionsQuestionIdPatchResponses, UpdateOptionQuestionsQuestionIdOptionOptionIdPatchData, UpdateOptionQuestionsQuestionIdOptionOptionIdPatchErrors, UpdateOptionQuestionsQuestionIdOptionOptionIdPatchResponses, UpdateQuestionQuestionsQuestionIdPatchData, UpdateQuestionQuestionsQuestionIdPatchErrors, UpdateQuestionQuestionsQuestionIdPatchResponses, UpdateTopicTopicsTopicIdPatchData, UpdateTopicTopicsTopicIdPatchErrors, UpdateTopicTopicsTopicIdPatchResponses, UploadDiagnosticQuestionDiagramDiagnosticQuestionsQuestionIdDiagramPostData, UploadDiagnosticQuestionDiagramDiagnosticQuestionsQuestionIdDiagramPostErrors, UploadDiagnosticQuestionDiagramDiagnosticQuestionsQuestionIdDiagramPostResponses, VerifyEmailUsersVerifyPostData, VerifyEmailUsersVerifyPostErrors, VerifyEmailUsersVerifyPostResponses } from './types.gen';
+import type { BulkImportDiagnosticQuestionsDiagnosticQuestionsBulkImportPostData, BulkImportDiagnosticQuestionsDiagnosticQuestionsBulkImportPostErrors, BulkImportDiagnosticQuestionsDiagnosticQuestionsBulkImportPostResponses, ConvertLatexConverterPostData, ConvertLatexConverterPostErrors, ConvertLatexConverterPostResponses, CreateDiagnosticQuestionDiagnosticQuestionsPostData, CreateDiagnosticQuestionDiagnosticQuestionsPostErrors, CreateDiagnosticQuestionDiagnosticQuestionsPostResponses, CreateLevelLevelsPostData, CreateLevelLevelsPostErrors, CreateLevelLevelsPostResponses, CreateOptionQuestionsQuestionIdOptionPostData, CreateOptionQuestionsQuestionIdOptionPostErrors, CreateOptionQuestionsQuestionIdOptionPostResponses, CreatePaperInstancePapersInstancePostData, CreatePaperInstancePapersInstancePostErrors, CreatePaperInstancePapersInstancePostResponses, CreatePaperPapersPostData, CreatePaperPapersPostErrors, CreatePaperPapersPostResponses, CreatePaperVariantPapersVariantPostData, CreatePaperVariantPapersVariantPostErrors, CreatePaperVariantPapersVariantPostResponses, CreateSubjectSubjectsPostData, CreateSubjectSubjectsPostErrors, CreateSubjectSubjectsPostResponses, CreateSyllabusSyllabusPostData, CreateSyllabusSyllabusPostErrors, CreateSyllabusSyllabusPostResponses, CreateTopicTopicsPostData, CreateTopicTopicsPostErrors, CreateTopicTopicsPostResponses, DeleteDiagnosticQuestionDiagnosticQuestionsQuestionIdDeleteData, DeleteDiagnosticQuestionDiagnosticQuestionsQuestionIdDeleteErrors, DeleteDiagnosticQuestionDiagnosticQuestionsQuestionIdDeleteResponses, DeleteLevelLevelsLevelIdDeleteData, DeleteLevelLevelsLevelIdDeleteErrors, DeleteLevelLevelsLevelIdDeleteResponses, DeleteOptionQuestionsQuestionIdOptionOptionIdDeleteData, DeleteOptionQuestionsQuestionIdOptionOptionIdDeleteErrors, DeleteOptionQuestionsQuestionIdOptionOptionIdDeleteResponses, DeletePaperPapersInstanceInstanceIdDeleteData, DeletePaperPapersInstanceInstanceIdDeleteErrors, DeletePaperPapersInstanceInstanceIdDeleteResponses, DeletePaperPapersPaperIdDeleteData, DeletePaperPapersPaperIdDeleteErrors, DeletePaperPapersPaperIdDeleteResponses, DeleteQuestionQuestionsQuestionIdDeleteData, DeleteQuestionQuestionsQuestionIdDeleteErrors, DeleteQuestionQuestionsQuestionIdDeleteResponses, DeleteTopicTopicsTopicIdDeleteData, DeleteTopicTopicsTopicIdDeleteErrors, DeleteTopicTopicsTopicIdDeleteResponses, DeleteVariantPapersVariantVariantIdDeleteData, DeleteVariantPapersVariantVariantIdDeleteErrors, DeleteVariantPapersVariantVariantIdDeleteResponses, GetAllLevelsLevelsGetData, GetAllLevelsLevelsGetResponses, GetAllSyllabusSyllabusGetData, GetAllSyllabusSyllabusGetResponses, GetAttemptStateDiagnosticAttemptsAttemptIdGetData, GetAttemptStateDiagnosticAttemptsAttemptIdGetErrors, GetAttemptStateDiagnosticAttemptsAttemptIdGetResponses, GetCurrentUserUsersCurrentGetData, GetCurrentUserUsersCurrentGetResponses, GetDiagnosticQuestionDiagnosticQuestionsQuestionIdGetData, GetDiagnosticQuestionDiagnosticQuestionsQuestionIdGetErrors, GetDiagnosticQuestionDiagnosticQuestionsQuestionIdGetResponses, GetDiagnosticSetDiagnosticSetsSetIdGetData, GetDiagnosticSetDiagnosticSetsSetIdGetErrors, GetDiagnosticSetDiagnosticSetsSetIdGetResponses, GetHintChatHintPostData, GetHintChatHintPostErrors, GetHintChatHintPostResponses, GetPaperInstancePapersInstanceInstanceIdGetData, GetPaperInstancePapersInstanceInstanceIdGetErrors, GetPaperInstancePapersInstanceInstanceIdGetResponses, GetPaperInstancesBySubjectIdPapersInstanceSubjectSubjectIdGetData, GetPaperInstancesBySubjectIdPapersInstanceSubjectSubjectIdGetErrors, GetPaperInstancesBySubjectIdPapersInstanceSubjectSubjectIdGetResponses, GetQuestionOptionsQuestionsQuestionIdOptionsGetData, GetQuestionOptionsQuestionsQuestionIdOptionsGetErrors, GetQuestionOptionsQuestionsQuestionIdOptionsGetResponses, GetQuestionQuestionsQuestionIdGetData, GetQuestionQuestionsQuestionIdGetErrors, GetQuestionQuestionsQuestionIdGetResponses, GetQuestionsByPaperInstanceQuestionsPaperInstancePaperInstanceIdGetData, GetQuestionsByPaperInstanceQuestionsPaperInstancePaperInstanceIdGetErrors, GetQuestionsByPaperInstanceQuestionsPaperInstancePaperInstanceIdGetResponses, GetQuestionsBySubjectPaginatedQuestionsSubjectPaginatedSubjectIdGetData, GetQuestionsBySubjectPaginatedQuestionsSubjectPaginatedSubjectIdGetErrors, GetQuestionsBySubjectPaginatedQuestionsSubjectPaginatedSubjectIdGetResponses, GetQuestionsBySubjectQuestionsSubjectSubjectIdGetData, GetQuestionsBySubjectQuestionsSubjectSubjectIdGetErrors, GetQuestionsBySubjectQuestionsSubjectSubjectIdGetResponses, GetQuestionsByTopicQuestionsTopicsTopicIdGetData, GetQuestionsByTopicQuestionsTopicsTopicIdGetErrors, GetQuestionsByTopicQuestionsTopicsTopicIdGetResponses, GetSubjectSubjectsSubjectIdGetData, GetSubjectSubjectsSubjectIdGetErrors, GetSubjectSubjectsSubjectIdGetResponses, GetSyllabusSyllabusSyllabusIdGetData, GetSyllabusSyllabusSyllabusIdGetErrors, GetSyllabusSyllabusSyllabusIdGetResponses, GetTopicsBySubjectTopicsSubjectIdGetData, GetTopicsBySubjectTopicsSubjectIdGetErrors, GetTopicsBySubjectTopicsSubjectIdGetResponses, IngestDiagnosticEventsDiagnosticAttemptsAttemptIdEventsPostData, IngestDiagnosticEventsDiagnosticAttemptsAttemptIdEventsPostErrors, IngestDiagnosticEventsDiagnosticAttemptsAttemptIdEventsPostResponses, ListDiagnosticQuestionsDiagnosticQuestionsGetData, ListDiagnosticQuestionsDiagnosticQuestionsGetErrors, ListDiagnosticQuestionsDiagnosticQuestionsGetResponses, ListDiagnosticSetsDiagnosticSetsGetData, ListDiagnosticSetsDiagnosticSetsGetErrors, ListDiagnosticSetsDiagnosticSetsGetResponses, LoginUsersLoginPostData, LoginUsersLoginPostErrors, LoginUsersLoginPostResponses, MoreInfoUsersMoreInfoPostData, MoreInfoUsersMoreInfoPostErrors, MoreInfoUsersMoreInfoPostResponses, PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetData, PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetErrors, PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetResponses, ResendVerificationUsersResendVerificationPostData, ResendVerificationUsersResendVerificationPostErrors, ResendVerificationUsersResendVerificationPostResponses, RootGetData, RootGetResponses, SetQuestionStatusQuestionsSetStatusPostData, SetQuestionStatusQuestionsSetStatusPostErrors, SetQuestionStatusQuestionsSetStatusPostResponses, SignupUsersPostData, SignupUsersPostErrors, SignupUsersPostResponses, StartOrResumeAttemptDiagnosticAttemptsPostData, StartOrResumeAttemptDiagnosticAttemptsPostErrors, StartOrResumeAttemptDiagnosticAttemptsPostResponses, SubmitAttemptDiagnosticAttemptsAttemptIdSubmitPostData, SubmitAttemptDiagnosticAttemptsAttemptIdSubmitPostErrors, SubmitAttemptDiagnosticAttemptsAttemptIdSubmitPostResponses, UpdateDiagnosticQuestionDiagnosticQuestionsQuestionIdPatchData, UpdateDiagnosticQuestionDiagnosticQuestionsQuestionIdPatchErrors, UpdateDiagnosticQuestionDiagnosticQuestionsQuestionIdPatchResponses, UpdateDiagnosticSetDiagnosticSetsSetIdPatchData, UpdateDiagnosticSetDiagnosticSetsSetIdPatchErrors, UpdateDiagnosticSetDiagnosticSetsSetIdPatchResponses, UpdateOptionQuestionsQuestionIdOptionOptionIdPatchData, UpdateOptionQuestionsQuestionIdOptionOptionIdPatchErrors, UpdateOptionQuestionsQuestionIdOptionOptionIdPatchResponses, UpdateQuestionQuestionsQuestionIdPatchData, UpdateQuestionQuestionsQuestionIdPatchErrors, UpdateQuestionQuestionsQuestionIdPatchResponses, UpdateTopicTopicsTopicIdPatchData, UpdateTopicTopicsTopicIdPatchErrors, UpdateTopicTopicsTopicIdPatchResponses, UploadDiagnosticQuestionDiagramDiagnosticQuestionsQuestionIdDiagramPostData, UploadDiagnosticQuestionDiagramDiagnosticQuestionsQuestionIdDiagramPostErrors, UploadDiagnosticQuestionDiagramDiagnosticQuestionsQuestionIdDiagramPostResponses, UpsertDiagnosticResponseDiagnosticAttemptsAttemptIdResponsesQuestionIdPatchData, UpsertDiagnosticResponseDiagnosticAttemptsAttemptIdResponsesQuestionIdPatchErrors, UpsertDiagnosticResponseDiagnosticAttemptsAttemptIdResponsesQuestionIdPatchResponses, VerifyEmailUsersVerifyPostData, VerifyEmailUsersVerifyPostErrors, VerifyEmailUsersVerifyPostResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -508,6 +508,20 @@ export const getCurrentUserUsersCurrentGet = <ThrowOnError extends boolean = fal
 };
 
 /**
+ * Get Hint
+ */
+export const getHintChatHintPost = <ThrowOnError extends boolean = false>(options: Options<GetHintChatHintPostData, ThrowOnError>) => {
+    return (options.client ?? client).post<GetHintChatHintPostResponses, GetHintChatHintPostErrors, ThrowOnError>({
+        url: '/chat/hint',
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+        }
+    });
+};
+
+/**
  * List Diagnostic Questions
  */
 export const listDiagnosticQuestionsDiagnosticQuestionsGet = <ThrowOnError extends boolean = false>(options?: Options<ListDiagnosticQuestionsDiagnosticQuestionsGetData, ThrowOnError>) => {
@@ -686,25 +700,194 @@ export const getDiagnosticSetDiagnosticSetsSetIdGet = <ThrowOnError extends bool
 };
 
 /**
+ * Update Diagnostic Set
+ */
+export const updateDiagnosticSetDiagnosticSetsSetIdPatch = <ThrowOnError extends boolean = false>(options: Options<UpdateDiagnosticSetDiagnosticSetsSetIdPatchData, ThrowOnError>) => {
+    return (options.client ?? client).patch<UpdateDiagnosticSetDiagnosticSetsSetIdPatchResponses, UpdateDiagnosticSetDiagnosticSetsSetIdPatchErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
+        url: '/diagnostic/sets/{set_id}',
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+        }
+    });
+};
+
+/**
+ * Preview Diagnostic Set
+ * The landing/instructions screen (§2) — any authenticated student,
+ * not just admin, but only for a set that's actually published. An
+ * unpublished (or nonexistent) set looks identical here — 404 either
+ * way, rather than confirming a draft set's existence to a non-admin
+ * caller.
+ */
+export const previewDiagnosticSetDiagnosticSetsSetIdPreviewGet = <ThrowOnError extends boolean = false>(options: Options<PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetData, ThrowOnError>) => {
+    return (options.client ?? client).get<PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetResponses, PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
+        url: '/diagnostic/sets/{set_id}/preview',
+        ...options
+    });
+};
+
+/**
+ * Start Or Resume Attempt
+ * Start-and-resume are the same operation (§7): if the student already
+ * has an in_progress attempt for this set, hand that back unchanged —
+ * the clock never stopped, so there's nothing to "resume" beyond
+ * reloading where things stand. Only genuinely creates a new row when
+ * there's no active one, which is also where the agreement-checkbox and
+ * published-set checks live, since neither applies to just reloading an
+ * attempt that already exists.
+ */
+export const startOrResumeAttemptDiagnosticAttemptsPost = <ThrowOnError extends boolean = false>(options: Options<StartOrResumeAttemptDiagnosticAttemptsPostData, ThrowOnError>) => {
+    return (options.client ?? client).post<StartOrResumeAttemptDiagnosticAttemptsPostResponses, StartOrResumeAttemptDiagnosticAttemptsPostErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
+        url: '/diagnostic/attempts',
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+        }
+    });
+};
+
+/**
+ * Get Attempt State
+ * Rehydrates the exam screen after a refresh/reconnect (§7) — the
+ * attempt's own status/deadline, every response recorded so far, and the
+ * (sanitized) question content, all in one call.
+ */
+export const getAttemptStateDiagnosticAttemptsAttemptIdGet = <ThrowOnError extends boolean = false>(options: Options<GetAttemptStateDiagnosticAttemptsAttemptIdGetData, ThrowOnError>) => {
+    return (options.client ?? client).get<GetAttemptStateDiagnosticAttemptsAttemptIdGetResponses, GetAttemptStateDiagnosticAttemptsAttemptIdGetErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
+        url: '/diagnostic/attempts/{attempt_id}',
+        ...options
+    });
+};
+
+/**
+ * Upsert Diagnostic Response
+ * Records an answer selection and/or flag toggle for one question in
+ * an in-progress attempt (§2, §4). Deliberately accepts nothing time- or
+ * view-related — total_time_seconds and view_count are both computed
+ * server-side from the event log at submission, never trusted from the
+ * client here.
+ *
+ * Genuinely idempotent under concurrency: diagnostic_responses rows are
+ * never pre-created (Stage 1's unique(attempt_id, question_id)
+ * constraint already exists, so this is a real INSERT ... ON CONFLICT
+ * DO UPDATE, not a select-then-write — no repeat of the race PR 1 found
+ * and fixed on diagnostic_attempts).
+ */
+export const upsertDiagnosticResponseDiagnosticAttemptsAttemptIdResponsesQuestionIdPatch = <ThrowOnError extends boolean = false>(options: Options<UpsertDiagnosticResponseDiagnosticAttemptsAttemptIdResponsesQuestionIdPatchData, ThrowOnError>) => {
+    return (options.client ?? client).patch<UpsertDiagnosticResponseDiagnosticAttemptsAttemptIdResponsesQuestionIdPatchResponses, UpsertDiagnosticResponseDiagnosticAttemptsAttemptIdResponsesQuestionIdPatchErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
+        url: '/diagnostic/attempts/{attempt_id}/responses/{question_id}',
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+        }
+    });
+};
+
+/**
+ * Ingest Diagnostic Events
+ * Client-side batched events (§4) — one call per flush (every few
+ * seconds, or on navigation), not one call per event. This endpoint
+ * only appends raw rows to diagnostic_question_events;
+ * total_time_seconds/view_count are computed later, at submission, by
+ * aggregating the full stored event log — never touched here, not even
+ * incrementally.
+ *
+ * Ownership + status checks apply once per batch, not once per event
+ * (matching PATCH .../responses/{question_id}) — but unlike that
+ * endpoint, a just-timed-out attempt still accepts events within a
+ * grace period (_attempt_accepts_event_batch), since these are
+ * analytics only.
+ */
+export const ingestDiagnosticEventsDiagnosticAttemptsAttemptIdEventsPost = <ThrowOnError extends boolean = false>(options: Options<IngestDiagnosticEventsDiagnosticAttemptsAttemptIdEventsPostData, ThrowOnError>) => {
+    return (options.client ?? client).post<IngestDiagnosticEventsDiagnosticAttemptsAttemptIdEventsPostResponses, IngestDiagnosticEventsDiagnosticAttemptsAttemptIdEventsPostErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
+        url: '/diagnostic/attempts/{attempt_id}/events',
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+        }
+    });
+};
+
+/**
+ * Submit Attempt
+ * Locks an attempt the student chose to finish (§1). Answers and
+ * flags already landed incrementally via PATCH .../responses, so there's
+ * no body — this only flips status to 'submitted' and stamps
+ * submitted_at. Deliberately does NOT score: total_score / per-response
+ * is_correct are Stage 5, computed later from the stored responses and
+ * event log.
+ *
+ * Strict on the deadline, unlike event ingestion's grace period, and
+ * for a different reason: an event is additive analytics (a late one
+ * only adds data), but submit is a state transition — accepting a late
+ * one would overwrite a meaningful 'timed_out' with 'submitted',
+ * erasing the did-they-finish-vs-ran-out distinction §1's statuses
+ * exist to record. _get_owned_attempt runs _apply_lazy_timeout first,
+ * so an attempt whose deadline has passed already reads 'timed_out' by
+ * the time the guard below sees it, and a buzzer-beater that arrives
+ * late is server-authoritatively too late (§1: the backend, not a
+ * client-reported timestamp, is the source of truth).
+ */
+export const submitAttemptDiagnosticAttemptsAttemptIdSubmitPost = <ThrowOnError extends boolean = false>(options: Options<SubmitAttemptDiagnosticAttemptsAttemptIdSubmitPostData, ThrowOnError>) => {
+    return (options.client ?? client).post<SubmitAttemptDiagnosticAttemptsAttemptIdSubmitPostResponses, SubmitAttemptDiagnosticAttemptsAttemptIdSubmitPostErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
+        url: '/diagnostic/attempts/{attempt_id}/submit',
+        ...options
+    });
+};
+
+/**
  * Root
  */
 export const rootGet = <ThrowOnError extends boolean = false>(options?: Options<RootGetData, ThrowOnError>) => {
     return (options?.client ?? client).get<RootGetResponses, unknown, ThrowOnError>({
         url: '/',
         ...options
-    });
-};
-
-/**
- * Get Hint
- */
-export const getHintChatHintPost = <ThrowOnError extends boolean = false>(options: Options<GetHintChatHintPostData, ThrowOnError>) => {
-    return (options.client ?? client).post<GetHintChatHintPostResponses, GetHintChatHintPostErrors, ThrowOnError>({
-        url: '/chat/hint',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
     });
 };

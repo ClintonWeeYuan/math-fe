@@ -484,6 +484,64 @@ export type CreateTopicBody = {
 };
 
 /**
+ * DiagnosticAttemptResponse
+ */
+export type DiagnosticAttemptResponse = {
+    /**
+     * Id
+     */
+    id: string;
+    /**
+     * Diagnosticsetid
+     */
+    diagnosticSetId: string;
+    /**
+     * Status
+     */
+    status: 'in_progress' | 'submitted' | 'timed_out' | 'abandoned';
+    /**
+     * Startedat
+     */
+    startedAt: string;
+    /**
+     * Serverdeadlineat
+     */
+    serverDeadlineAt: string;
+    /**
+     * Submittedat
+     */
+    submittedAt?: string | null;
+    /**
+     * Agreedtoterms
+     */
+    agreedToTerms: boolean;
+    /**
+     * Totalscore
+     */
+    totalScore?: number | null;
+};
+
+/**
+ * DiagnosticAttemptStateResponse
+ * Returned by both POST /diagnostic/attempts (start-or-resume) and GET
+ * /diagnostic/attempts/{id} (rehydrate) — same shape either way, since a
+ * resumed attempt's initial state and a reconnect's rehydrated state are
+ * the same question the frontend is asking: 'where do things stand right
+ * now.'
+ */
+export type DiagnosticAttemptStateResponse = {
+    attempt: DiagnosticAttemptResponse;
+    /**
+     * Questions
+     */
+    questions: Array<StudentDiagnosticQuestionResponse>;
+    /**
+     * Responses
+     */
+    responses: Array<DiagnosticResponseState>;
+};
+
+/**
  * DiagnosticOption
  */
 export type DiagnosticOption = {
@@ -503,6 +561,24 @@ export type DiagnosticOption = {
      * Misconception
      */
     misconception?: string | null;
+};
+
+/**
+ * DiagnosticQuestionEvent
+ */
+export type DiagnosticQuestionEvent = {
+    /**
+     * Questionid
+     */
+    questionId: string;
+    /**
+     * Eventtype
+     */
+    eventType: 'enter' | 'exit' | 'flag' | 'unflag' | 'answer_change' | 'blur' | 'focus';
+    /**
+     * Clientts
+     */
+    clientTs?: string | null;
 };
 
 /**
@@ -556,6 +632,64 @@ export type DiagnosticQuestionResponse = {
 };
 
 /**
+ * DiagnosticResponseState
+ * Per-question progress so far, for rehydrating the exam screen after
+ * a refresh/reconnect (§7) — no is_correct, never populated until the
+ * attempt is scored (Stage 5), and even then never sent mid-attempt.
+ */
+export type DiagnosticResponseState = {
+    /**
+     * Questionid
+     */
+    questionId: string;
+    /**
+     * Questionorderindex
+     */
+    questionOrderIndex: number;
+    /**
+     * Selectedoption
+     */
+    selectedOption?: string | null;
+    /**
+     * Isflagged
+     */
+    isFlagged?: boolean;
+    /**
+     * Viewcount
+     */
+    viewCount?: number;
+};
+
+/**
+ * DiagnosticSetPreviewResponse
+ * Landing/instructions screen, before an attempt exists (§2) — only
+ * what's needed to decide to start, nothing about the questions
+ * themselves.
+ */
+export type DiagnosticSetPreviewResponse = {
+    /**
+     * Id
+     */
+    id: string;
+    /**
+     * Title
+     */
+    title: string;
+    /**
+     * Description
+     */
+    description?: string | null;
+    /**
+     * Timelimitminutes
+     */
+    timeLimitMinutes: number;
+    /**
+     * Questioncount
+     */
+    questionCount: number;
+};
+
+/**
  * DiagnosticSetResponse
  */
 export type DiagnosticSetResponse = {
@@ -601,6 +735,56 @@ export type HttpValidationError = {
      * Detail
      */
     detail?: Array<ValidationError>;
+};
+
+/**
+ * HintRequest
+ */
+export type HintRequest = {
+    /**
+     * Question
+     */
+    question: string;
+    /**
+     * Questionid
+     */
+    questionId: string;
+};
+
+/**
+ * HintResponse
+ */
+export type HintResponse = {
+    /**
+     * Hint
+     */
+    hint: string;
+    /**
+     * Level
+     */
+    level?: number;
+};
+
+/**
+ * IngestDiagnosticEventsBody
+ * One call per client-side flush (every few seconds, or on
+ * navigation) — not one call per event (§4).
+ */
+export type IngestDiagnosticEventsBody = {
+    /**
+     * Events
+     */
+    events: Array<DiagnosticQuestionEvent>;
+};
+
+/**
+ * IngestDiagnosticEventsResponse
+ */
+export type IngestDiagnosticEventsResponse = {
+    /**
+     * Acceptedcount
+     */
+    acceptedCount: number;
 };
 
 /**
@@ -773,6 +957,59 @@ export type SetCompletionResponse = {
 };
 
 /**
+ * StartAttemptBody
+ */
+export type StartAttemptBody = {
+    /**
+     * Diagnosticsetid
+     */
+    diagnosticSetId: string;
+    /**
+     * Agreedtoterms
+     */
+    agreedToTerms?: boolean;
+};
+
+/**
+ * StudentDiagnosticOption
+ */
+export type StudentDiagnosticOption = {
+    /**
+     * Label
+     */
+    label: string;
+    /**
+     * Text
+     */
+    text: string;
+};
+
+/**
+ * StudentDiagnosticQuestionResponse
+ * The exam-screen view of a question — no correct_option, no
+ * per-option is_correct/misconception. Scoring is server-side only
+ * (§3); this is what makes sure a client can never see it mid-attempt.
+ */
+export type StudentDiagnosticQuestionResponse = {
+    /**
+     * Id
+     */
+    id: string;
+    /**
+     * Stem
+     */
+    stem: string;
+    /**
+     * Options
+     */
+    options: Array<StudentDiagnosticOption>;
+    /**
+     * Diagramurl
+     */
+    diagramUrl?: string | null;
+};
+
+/**
  * Syllabus
  */
 export type Syllabus = {
@@ -845,6 +1082,32 @@ export type UpdateDiagnosticQuestionBody = {
 };
 
 /**
+ * UpdateDiagnosticSetBody
+ */
+export type UpdateDiagnosticSetBody = {
+    /**
+     * Title
+     */
+    title?: string | null;
+    /**
+     * Description
+     */
+    description?: string | null;
+    /**
+     * Timelimitminutes
+     */
+    timeLimitMinutes?: number | null;
+    /**
+     * Isfree
+     */
+    isFree?: boolean | null;
+    /**
+     * Status
+     */
+    status?: 'draft' | 'published' | null;
+};
+
+/**
  * UpdateOptionBody
  */
 export type UpdateOptionBody = {
@@ -897,6 +1160,26 @@ export type UpdateTopicBody = {
      * Sortorder
      */
     sortOrder?: number | null;
+};
+
+/**
+ * UpsertDiagnosticResponseBody
+ * Both fields optional (exclude_unset governs the write, same
+ * omit/explicit-null convention as UpdateDiagnosticQuestionBody) so a
+ * flag-only toggle doesn't require resending the current answer and
+ * vice versa. Deliberately no total_time_seconds or view_count field —
+ * both are computed server-side from the event log at submission (§4),
+ * never accepted from the client on this endpoint.
+ */
+export type UpsertDiagnosticResponseBody = {
+    /**
+     * Selectedoption
+     */
+    selectedOption?: string | null;
+    /**
+     * Isflagged
+     */
+    isFlagged?: boolean | null;
 };
 
 /**
@@ -1030,34 +1313,6 @@ export type ValidationError = {
      * Error Type
      */
     type: string;
-};
-
-/**
- * HintRequest
- */
-export type HintRequest = {
-    /**
-     * Question
-     */
-    question: string;
-    /**
-     * Questionid
-     */
-    questionId: string;
-};
-
-/**
- * HintResponse
- */
-export type HintResponse = {
-    /**
-     * Hint
-     */
-    hint: string;
-    /**
-     * Level
-     */
-    level?: number;
 };
 
 export type ConvertLatexConverterPostData = {
@@ -2145,6 +2400,31 @@ export type GetCurrentUserUsersCurrentGetResponses = {
 
 export type GetCurrentUserUsersCurrentGetResponse = GetCurrentUserUsersCurrentGetResponses[keyof GetCurrentUserUsersCurrentGetResponses];
 
+export type GetHintChatHintPostData = {
+    body: HintRequest;
+    path?: never;
+    query?: never;
+    url: '/chat/hint';
+};
+
+export type GetHintChatHintPostErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type GetHintChatHintPostError = GetHintChatHintPostErrors[keyof GetHintChatHintPostErrors];
+
+export type GetHintChatHintPostResponses = {
+    /**
+     * Successful Response
+     */
+    200: HintResponse;
+};
+
+export type GetHintChatHintPostResponse = GetHintChatHintPostResponses[keyof GetHintChatHintPostResponses];
+
 export type ListDiagnosticQuestionsDiagnosticQuestionsGetData = {
     body?: never;
     path?: never;
@@ -2409,6 +2689,215 @@ export type GetDiagnosticSetDiagnosticSetsSetIdGetResponses = {
 
 export type GetDiagnosticSetDiagnosticSetsSetIdGetResponse = GetDiagnosticSetDiagnosticSetsSetIdGetResponses[keyof GetDiagnosticSetDiagnosticSetsSetIdGetResponses];
 
+export type UpdateDiagnosticSetDiagnosticSetsSetIdPatchData = {
+    body: UpdateDiagnosticSetBody;
+    path: {
+        /**
+         * Set Id
+         */
+        set_id: string;
+    };
+    query?: never;
+    url: '/diagnostic/sets/{set_id}';
+};
+
+export type UpdateDiagnosticSetDiagnosticSetsSetIdPatchErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type UpdateDiagnosticSetDiagnosticSetsSetIdPatchError = UpdateDiagnosticSetDiagnosticSetsSetIdPatchErrors[keyof UpdateDiagnosticSetDiagnosticSetsSetIdPatchErrors];
+
+export type UpdateDiagnosticSetDiagnosticSetsSetIdPatchResponses = {
+    /**
+     * Successful Response
+     */
+    200: DiagnosticSetResponse;
+};
+
+export type UpdateDiagnosticSetDiagnosticSetsSetIdPatchResponse = UpdateDiagnosticSetDiagnosticSetsSetIdPatchResponses[keyof UpdateDiagnosticSetDiagnosticSetsSetIdPatchResponses];
+
+export type PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetData = {
+    body?: never;
+    path: {
+        /**
+         * Set Id
+         */
+        set_id: string;
+    };
+    query?: never;
+    url: '/diagnostic/sets/{set_id}/preview';
+};
+
+export type PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetError = PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetErrors[keyof PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetErrors];
+
+export type PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetResponses = {
+    /**
+     * Successful Response
+     */
+    200: DiagnosticSetPreviewResponse;
+};
+
+export type PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetResponse = PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetResponses[keyof PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetResponses];
+
+export type StartOrResumeAttemptDiagnosticAttemptsPostData = {
+    body: StartAttemptBody;
+    path?: never;
+    query?: never;
+    url: '/diagnostic/attempts';
+};
+
+export type StartOrResumeAttemptDiagnosticAttemptsPostErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type StartOrResumeAttemptDiagnosticAttemptsPostError = StartOrResumeAttemptDiagnosticAttemptsPostErrors[keyof StartOrResumeAttemptDiagnosticAttemptsPostErrors];
+
+export type StartOrResumeAttemptDiagnosticAttemptsPostResponses = {
+    /**
+     * Successful Response
+     */
+    200: DiagnosticAttemptStateResponse;
+};
+
+export type StartOrResumeAttemptDiagnosticAttemptsPostResponse = StartOrResumeAttemptDiagnosticAttemptsPostResponses[keyof StartOrResumeAttemptDiagnosticAttemptsPostResponses];
+
+export type GetAttemptStateDiagnosticAttemptsAttemptIdGetData = {
+    body?: never;
+    path: {
+        /**
+         * Attempt Id
+         */
+        attempt_id: string;
+    };
+    query?: never;
+    url: '/diagnostic/attempts/{attempt_id}';
+};
+
+export type GetAttemptStateDiagnosticAttemptsAttemptIdGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type GetAttemptStateDiagnosticAttemptsAttemptIdGetError = GetAttemptStateDiagnosticAttemptsAttemptIdGetErrors[keyof GetAttemptStateDiagnosticAttemptsAttemptIdGetErrors];
+
+export type GetAttemptStateDiagnosticAttemptsAttemptIdGetResponses = {
+    /**
+     * Successful Response
+     */
+    200: DiagnosticAttemptStateResponse;
+};
+
+export type GetAttemptStateDiagnosticAttemptsAttemptIdGetResponse = GetAttemptStateDiagnosticAttemptsAttemptIdGetResponses[keyof GetAttemptStateDiagnosticAttemptsAttemptIdGetResponses];
+
+export type UpsertDiagnosticResponseDiagnosticAttemptsAttemptIdResponsesQuestionIdPatchData = {
+    body: UpsertDiagnosticResponseBody;
+    path: {
+        /**
+         * Attempt Id
+         */
+        attempt_id: string;
+        /**
+         * Question Id
+         */
+        question_id: string;
+    };
+    query?: never;
+    url: '/diagnostic/attempts/{attempt_id}/responses/{question_id}';
+};
+
+export type UpsertDiagnosticResponseDiagnosticAttemptsAttemptIdResponsesQuestionIdPatchErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type UpsertDiagnosticResponseDiagnosticAttemptsAttemptIdResponsesQuestionIdPatchError = UpsertDiagnosticResponseDiagnosticAttemptsAttemptIdResponsesQuestionIdPatchErrors[keyof UpsertDiagnosticResponseDiagnosticAttemptsAttemptIdResponsesQuestionIdPatchErrors];
+
+export type UpsertDiagnosticResponseDiagnosticAttemptsAttemptIdResponsesQuestionIdPatchResponses = {
+    /**
+     * Successful Response
+     */
+    200: DiagnosticResponseState;
+};
+
+export type UpsertDiagnosticResponseDiagnosticAttemptsAttemptIdResponsesQuestionIdPatchResponse = UpsertDiagnosticResponseDiagnosticAttemptsAttemptIdResponsesQuestionIdPatchResponses[keyof UpsertDiagnosticResponseDiagnosticAttemptsAttemptIdResponsesQuestionIdPatchResponses];
+
+export type IngestDiagnosticEventsDiagnosticAttemptsAttemptIdEventsPostData = {
+    body: IngestDiagnosticEventsBody;
+    path: {
+        /**
+         * Attempt Id
+         */
+        attempt_id: string;
+    };
+    query?: never;
+    url: '/diagnostic/attempts/{attempt_id}/events';
+};
+
+export type IngestDiagnosticEventsDiagnosticAttemptsAttemptIdEventsPostErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type IngestDiagnosticEventsDiagnosticAttemptsAttemptIdEventsPostError = IngestDiagnosticEventsDiagnosticAttemptsAttemptIdEventsPostErrors[keyof IngestDiagnosticEventsDiagnosticAttemptsAttemptIdEventsPostErrors];
+
+export type IngestDiagnosticEventsDiagnosticAttemptsAttemptIdEventsPostResponses = {
+    /**
+     * Successful Response
+     */
+    200: IngestDiagnosticEventsResponse;
+};
+
+export type IngestDiagnosticEventsDiagnosticAttemptsAttemptIdEventsPostResponse = IngestDiagnosticEventsDiagnosticAttemptsAttemptIdEventsPostResponses[keyof IngestDiagnosticEventsDiagnosticAttemptsAttemptIdEventsPostResponses];
+
+export type SubmitAttemptDiagnosticAttemptsAttemptIdSubmitPostData = {
+    body?: never;
+    path: {
+        /**
+         * Attempt Id
+         */
+        attempt_id: string;
+    };
+    query?: never;
+    url: '/diagnostic/attempts/{attempt_id}/submit';
+};
+
+export type SubmitAttemptDiagnosticAttemptsAttemptIdSubmitPostErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type SubmitAttemptDiagnosticAttemptsAttemptIdSubmitPostError = SubmitAttemptDiagnosticAttemptsAttemptIdSubmitPostErrors[keyof SubmitAttemptDiagnosticAttemptsAttemptIdSubmitPostErrors];
+
+export type SubmitAttemptDiagnosticAttemptsAttemptIdSubmitPostResponses = {
+    /**
+     * Successful Response
+     */
+    200: DiagnosticAttemptStateResponse;
+};
+
+export type SubmitAttemptDiagnosticAttemptsAttemptIdSubmitPostResponse = SubmitAttemptDiagnosticAttemptsAttemptIdSubmitPostResponses[keyof SubmitAttemptDiagnosticAttemptsAttemptIdSubmitPostResponses];
+
 export type RootGetData = {
     body?: never;
     path?: never;
@@ -2422,28 +2911,3 @@ export type RootGetResponses = {
      */
     200: unknown;
 };
-
-export type GetHintChatHintPostData = {
-    body: HintRequest;
-    path?: never;
-    query?: never;
-    url: '/chat/hint';
-};
-
-export type GetHintChatHintPostErrors = {
-    /**
-     * Validation Error
-     */
-    422: HttpValidationError;
-};
-
-export type GetHintChatHintPostError = GetHintChatHintPostErrors[keyof GetHintChatHintPostErrors];
-
-export type GetHintChatHintPostResponses = {
-    /**
-     * Successful Response
-     */
-    200: HintResponse;
-};
-
-export type GetHintChatHintPostResponse = GetHintChatHintPostResponses[keyof GetHintChatHintPostResponses];
