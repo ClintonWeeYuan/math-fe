@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { LoadingPage } from '@/components/common/FullLoadingPage.tsx'
 import { Button } from '@/components/ui/button.tsx'
@@ -9,6 +9,7 @@ import { ExamTimer } from '@/components/diagnostic/exam/ExamTimer.tsx'
 import useGetAttemptStateQuery from '@/hooks/diagnostic/useGetAttemptStateQuery.ts'
 import useUpsertResponseMutation from '@/hooks/diagnostic/useUpsertResponseMutation.ts'
 import useSubmitAttemptMutation from '@/hooks/diagnostic/useSubmitAttemptMutation.ts'
+import useEventCapture from '@/hooks/diagnostic/useEventCapture.ts'
 
 /**
  * The exam screen. Owns the single source of truth (the attempt-state
@@ -34,6 +35,41 @@ export function ExamPage() {
         attemptId: attemptId ?? '',
     })
 
+    // Computed before the early returns so the event-capture hooks below
+    // stay unconditional (rules of hooks). currentQuestionId is undefined
+    // whenever the attempt isn't in_progress, so the enter/exit effect
+    // naturally fires the final exit when the status flips to terminal.
+    const inProgress = state?.attempt.status === 'in_progress'
+    const questions = state?.questions ?? []
+    const boundedIndex =
+        questions.length > 0 ? Math.min(currentIndex, questions.length - 1) : 0
+    const currentQuestionId =
+        inProgress && questions.length > 0 ? questions[boundedIndex].id : undefined
+
+    const { recordEvent, flush } = useEventCapture({
+        attemptId: attemptId ?? '',
+        currentQuestionId,
+    })
+
+    // Declared BEFORE the enter/exit effect so, on a true unmount (leaving
+    // the page), React runs the enter/exit cleanup first (recording the
+    // final exit) and this forced keepalive flush second — sending it.
+    useEffect(() => {
+        return () => void flush({ force: true, keepalive: true })
+    }, [flush])
+
+    // enter on arrival (+ flush-on-navigation: the flush sends this enter
+    // plus the previous question's exit recorded in the prior cleanup),
+    // exit on leaving. Keyed on currentQuestionId so it fires on nav and on
+    // the in_progress→terminal transition (currentQuestionId → undefined).
+    useEffect(() => {
+        if (currentQuestionId === undefined) return
+        recordEvent(currentQuestionId, 'enter')
+        void flush()
+        return () => recordEvent(currentQuestionId, 'exit')
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentQuestionId])
+
     if (isLoading) return <LoadingPage />
 
     if (isError || !state) {
@@ -58,11 +94,9 @@ export function ExamPage() {
         return <AttemptClosedView attempt={state.attempt} />
     }
 
-    const questions = state.questions
     const responseByQuestionId = new Map(
         state.responses.map((r) => [r.questionId, r])
     )
-    const boundedIndex = Math.min(currentIndex, questions.length - 1)
     const currentQuestion = questions[boundedIndex]
     const currentResponse = responseByQuestionId.get(currentQuestion.id)
 
@@ -74,13 +108,25 @@ export function ExamPage() {
             questionId: currentQuestion.id,
             body: { selectedOption: label },
         })
+        recordEvent(currentQuestion.id, 'answer_change')
     }
 
     function handleToggleFlag() {
+        const willBeFlagged = !(currentResponse?.isFlagged ?? false)
         upsertResponse({
             questionId: currentQuestion.id,
-            body: { isFlagged: !(currentResponse?.isFlagged ?? false) },
+            body: { isFlagged: willBeFlagged },
         })
+        recordEvent(currentQuestion.id, willBeFlagged ? 'flag' : 'unflag')
+    }
+
+    function handleExpire() {
+        // Flush what's buffered promptly at exam-end so it lands while the
+        // attempt is still in_progress (accepted outright); the final exit,
+        // recorded when the status flips to timed_out, then lands within
+        // the backend's 30s post-timeout grace via the periodic flush.
+        void flush()
+        submitAttempt()
     }
 
     return (
@@ -118,7 +164,7 @@ export function ExamPage() {
             <aside className="flex flex-col gap-4 md:sticky md:top-8 md:self-start">
                 <ExamTimer
                     serverDeadlineAt={state.attempt.serverDeadlineAt}
-                    onExpire={() => submitAttempt()}
+                    onExpire={handleExpire}
                 />
                 <QuestionNavigator
                     questions={questions}

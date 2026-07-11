@@ -17,6 +17,11 @@ vi.mock('@/hooks/diagnostic/useUpsertResponseMutation.ts', () => ({
 vi.mock('@/hooks/diagnostic/useSubmitAttemptMutation.ts', () => ({
     default: () => ({ mutate: mockSubmit }),
 }))
+const mockRecordEvent = vi.fn()
+const mockFlush = vi.fn()
+vi.mock('@/hooks/diagnostic/useEventCapture.ts', () => ({
+    default: () => ({ recordEvent: mockRecordEvent, flush: mockFlush }),
+}))
 vi.mock('react-router-dom', async () => {
     const actual =
         await vi.importActual<typeof import('react-router-dom')>('react-router-dom')
@@ -66,6 +71,8 @@ describe('ExamPage', () => {
         mockUseGetAttemptStateQuery.mockReset()
         mockMutate.mockReset()
         mockSubmit.mockReset()
+        mockRecordEvent.mockReset()
+        mockFlush.mockReset()
     })
 
     it('renders the question UI for an in_progress attempt', () => {
@@ -160,5 +167,44 @@ describe('ExamPage', () => {
             questionId: 'qa',
             body: { isFlagged: true },
         })
+    })
+
+    it('records an answer_change event when an answer is selected', () => {
+        mockUseGetAttemptStateQuery.mockReturnValue({ data: state(), isLoading: false, isError: false })
+        renderExam()
+        fireEvent.click(screen.getByRole('radio', { name: /a1/i }))
+        expect(mockRecordEvent).toHaveBeenCalledWith('qa', 'answer_change')
+    })
+
+    it('records flag on flagging and unflag on unflagging', () => {
+        // Q3 starts flagged (isFlagged true in the fixture) — go there and
+        // toggle it off, expecting an unflag event.
+        mockUseGetAttemptStateQuery.mockReturnValue({ data: state(), isLoading: false, isError: false })
+        renderExam()
+
+        // Q1 (unflagged) -> flag.
+        fireEvent.click(screen.getByRole('button', { name: /Flag for review/i }))
+        expect(mockRecordEvent).toHaveBeenCalledWith('qa', 'flag')
+
+        // Jump to Q3 (flagged) -> unflag.
+        fireEvent.click(screen.getByRole('button', { name: /Question 3/i }))
+        fireEvent.click(screen.getByRole('button', { name: /^Flagged$/ }))
+        expect(mockRecordEvent).toHaveBeenCalledWith('qc', 'unflag')
+    })
+
+    it('flushes buffered events before auto-submitting at timer expiry', () => {
+        mockUseGetAttemptStateQuery.mockReturnValue({
+            data: state({
+                attempt: {
+                    ...state().attempt,
+                    serverDeadlineAt: new Date(Date.now() - 1000).toISOString(),
+                },
+            }),
+            isLoading: false,
+            isError: false,
+        })
+        renderExam()
+        expect(mockFlush).toHaveBeenCalled()
+        expect(mockSubmit).toHaveBeenCalledTimes(1)
     })
 })
