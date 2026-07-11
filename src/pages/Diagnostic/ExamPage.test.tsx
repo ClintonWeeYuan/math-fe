@@ -6,12 +6,16 @@ import type { DiagnosticAttemptStateResponse } from '@/client'
 
 const mockUseGetAttemptStateQuery = vi.fn()
 const mockMutate = vi.fn()
+const mockSubmit = vi.fn()
 
 vi.mock('@/hooks/diagnostic/useGetAttemptStateQuery.ts', () => ({
     default: (...args: unknown[]) => mockUseGetAttemptStateQuery(...args),
 }))
 vi.mock('@/hooks/diagnostic/useUpsertResponseMutation.ts', () => ({
     default: () => ({ mutate: mockMutate }),
+}))
+vi.mock('@/hooks/diagnostic/useSubmitAttemptMutation.ts', () => ({
+    default: () => ({ mutate: mockSubmit }),
 }))
 vi.mock('react-router-dom', async () => {
     const actual =
@@ -61,6 +65,7 @@ describe('ExamPage', () => {
     beforeEach(() => {
         mockUseGetAttemptStateQuery.mockReset()
         mockMutate.mockReset()
+        mockSubmit.mockReset()
     })
 
     it('renders the question UI for an in_progress attempt', () => {
@@ -68,6 +73,29 @@ describe('ExamPage', () => {
         renderExam()
         expect(screen.getByText('First question')).toBeInTheDocument()
         expect(screen.getByText('Question 1 of 3')).toBeInTheDocument()
+    })
+
+    it('renders the always-visible countdown timer during an in_progress attempt', () => {
+        mockUseGetAttemptStateQuery.mockReturnValue({ data: state(), isLoading: false, isError: false })
+        renderExam()
+        expect(screen.getByRole('timer')).toBeInTheDocument()
+    })
+
+    it('auto-submits when the timer expires (deadline already past on mount)', () => {
+        // A deadline in the past: ExamTimer fires onExpire on mount, which
+        // must call the submit mutation exactly once.
+        mockUseGetAttemptStateQuery.mockReturnValue({
+            data: state({
+                attempt: {
+                    ...state().attempt,
+                    serverDeadlineAt: new Date(Date.now() - 1000).toISOString(),
+                },
+            }),
+            isLoading: false,
+            isError: false,
+        })
+        renderExam()
+        expect(mockSubmit).toHaveBeenCalledTimes(1)
     })
 
     it('renders the closed view (not the question UI) for a timed_out attempt — the status switch', () => {

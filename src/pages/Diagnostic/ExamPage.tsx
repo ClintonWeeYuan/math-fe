@@ -5,8 +5,10 @@ import { Button } from '@/components/ui/button.tsx'
 import { QuestionNavigator } from '@/components/diagnostic/exam/QuestionNavigator.tsx'
 import { QuestionPane } from '@/components/diagnostic/exam/QuestionPane.tsx'
 import { AttemptClosedView } from '@/components/diagnostic/exam/AttemptClosedView.tsx'
+import { ExamTimer } from '@/components/diagnostic/exam/ExamTimer.tsx'
 import useGetAttemptStateQuery from '@/hooks/diagnostic/useGetAttemptStateQuery.ts'
 import useUpsertResponseMutation from '@/hooks/diagnostic/useUpsertResponseMutation.ts'
+import useSubmitAttemptMutation from '@/hooks/diagnostic/useSubmitAttemptMutation.ts'
 
 /**
  * The exam screen. Owns the single source of truth (the attempt-state
@@ -26,6 +28,9 @@ export function ExamPage() {
         attemptId: attemptId ?? '',
     })
     const { mutate: upsertResponse } = useUpsertResponseMutation({
+        attemptId: attemptId ?? '',
+    })
+    const { mutate: submitAttempt } = useSubmitAttemptMutation({
         attemptId: attemptId ?? '',
     })
 
@@ -110,7 +115,11 @@ export function ExamPage() {
                 </div>
             </div>
 
-            <aside className="md:sticky md:top-8 md:self-start">
+            <aside className="flex flex-col gap-4 md:sticky md:top-8 md:self-start">
+                <ExamTimer
+                    serverDeadlineAt={state.attempt.serverDeadlineAt}
+                    onExpire={() => submitAttempt()}
+                />
                 <QuestionNavigator
                     questions={questions}
                     responses={state.responses}
