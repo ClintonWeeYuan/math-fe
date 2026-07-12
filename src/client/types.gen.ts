@@ -632,6 +632,32 @@ export type DiagnosticQuestionResponse = {
 };
 
 /**
+ * DiagnosticReportResponse
+ * The post-exam report (§6): Skills Radar (always all seven skills),
+ * the flagged-and-never-revisited question ids, and per-question timing.
+ * Only available once the attempt is terminal (submitted/timed_out).
+ */
+export type DiagnosticReportResponse = {
+    attempt: DiagnosticAttemptResponse;
+    /**
+     * Answeredcount
+     */
+    answeredCount: number;
+    /**
+     * Skillsradar
+     */
+    skillsRadar: Array<SkillScore>;
+    /**
+     * Flaggedneverrevisited
+     */
+    flaggedNeverRevisited: Array<string>;
+    /**
+     * Perquestiontime
+     */
+    perQuestionTime: Array<PerQuestionTime>;
+};
+
+/**
  * DiagnosticResponseState
  * Per-question progress so far, for rehydrating the exam screen after
  * a refresh/reconnect (§7) — no is_correct, never populated until the
@@ -895,6 +921,31 @@ export type PaperVariant = {
 };
 
 /**
+ * PerQuestionTime
+ * Pacing data for one question: engaged seconds and how many times the
+ * student navigated (back) to it — two distinct pacing signals (§6). Read
+ * in question_order_index order, this list is the pacing curve.
+ */
+export type PerQuestionTime = {
+    /**
+     * Questionid
+     */
+    questionId: string;
+    /**
+     * Questionorderindex
+     */
+    questionOrderIndex: number;
+    /**
+     * Totaltimeseconds
+     */
+    totalTimeSeconds: number;
+    /**
+     * Viewcount
+     */
+    viewCount: number;
+};
+
+/**
  * QuestionResponse
  */
 export type QuestionResponse = {
@@ -954,6 +1005,23 @@ export type SetCompletionResponse = {
      * Message
      */
     message: string;
+};
+
+/**
+ * SkillScore
+ * One Skills Radar axis. score is null when this paper tests nothing
+ * tagged with the skill (Σweight == 0) — 'not assessed', distinct from a
+ * genuine low score.
+ */
+export type SkillScore = {
+    /**
+     * Skill
+     */
+    skill: string;
+    /**
+     * Score
+     */
+    score?: number | null;
 };
 
 /**
@@ -2897,6 +2965,36 @@ export type SubmitAttemptDiagnosticAttemptsAttemptIdSubmitPostResponses = {
 };
 
 export type SubmitAttemptDiagnosticAttemptsAttemptIdSubmitPostResponse = SubmitAttemptDiagnosticAttemptsAttemptIdSubmitPostResponses[keyof SubmitAttemptDiagnosticAttemptsAttemptIdSubmitPostResponses];
+
+export type GetAttemptReportDiagnosticAttemptsAttemptIdReportGetData = {
+    body?: never;
+    path: {
+        /**
+         * Attempt Id
+         */
+        attempt_id: string;
+    };
+    query?: never;
+    url: '/diagnostic/attempts/{attempt_id}/report';
+};
+
+export type GetAttemptReportDiagnosticAttemptsAttemptIdReportGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type GetAttemptReportDiagnosticAttemptsAttemptIdReportGetError = GetAttemptReportDiagnosticAttemptsAttemptIdReportGetErrors[keyof GetAttemptReportDiagnosticAttemptsAttemptIdReportGetErrors];
+
+export type GetAttemptReportDiagnosticAttemptsAttemptIdReportGetResponses = {
+    /**
+     * Successful Response
+     */
+    200: DiagnosticReportResponse;
+};
+
+export type GetAttemptReportDiagnosticAttemptsAttemptIdReportGetResponse = GetAttemptReportDiagnosticAttemptsAttemptIdReportGetResponses[keyof GetAttemptReportDiagnosticAttemptsAttemptIdReportGetResponses];
 
 export type RootGetData = {
     body?: never;

@@ -26,6 +26,7 @@ import { DiagnosticQuestionCreatePage } from '@/pages/Admin/Diagnostic/Diagnosti
 import { DiagnosticQuestionEditPage } from '@/pages/Admin/Diagnostic/DiagnosticQuestionEditPage.tsx'
 import { SetInstructionsPage } from '@/pages/Diagnostic/SetInstructionsPage.tsx'
 import { ExamPage } from '@/pages/Diagnostic/ExamPage.tsx'
+import { DiagnosticReportPage } from '@/pages/Diagnostic/DiagnosticReportPage.tsx'
 
 function App() {
     useEffect(() => {
@@ -74,6 +75,10 @@ function App() {
                     <Route
                         path="diagnostic/attempts/:attemptId"
                         element={<ExamPage />}
+                    />
+                    <Route
+                        path="diagnostic/attempts/:attemptId/report"
+                        element={<DiagnosticReportPage />}
                     />
                 </Route>
                 <Route path="admin/login" element={<AdminLoginPage />} />
