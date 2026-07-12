@@ -116,16 +116,18 @@ describe('DiagnosticReportPage', () => {
         expect(screen.queryByText('1/3 correct')).not.toBeInTheDocument()
     })
 
-    it('renders all seven skills, with "not assessed" distinct from a low score', () => {
+    it('renders the Skills Radar, with "not assessed" distinct from a low score', () => {
         mockUseReport.mockReturnValue({ data: report(), isLoading: false, error: null })
         renderPage()
-        for (const s of ['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7']) {
-            expect(screen.getByText(s)).toBeInTheDocument()
-        }
-        expect(screen.getByText('67%')).toBeInTheDocument() // S1
-        expect(screen.getByText('0%')).toBeInTheDocument() // S2 assessed, scored 0
-        // S3–S7 are "not assessed" (five of them), not rendered as 0%.
-        expect(screen.getAllByText(/not assessed by this paper/i)).toHaveLength(5)
+        // The radar's accessible table carries the per-skill data: all seven
+        // skills, S1 scored, S3 "Not assessed" (not 0%).
+        const table = screen.getByRole('table')
+        expect(within(table).getAllByRole('rowheader')).toHaveLength(7)
+        const s1 = within(table).getByRole('rowheader', { name: 'S1' }).closest('tr')!
+        expect(within(s1).getByRole('cell')).toHaveTextContent('67%')
+        const s3 = within(table).getByRole('rowheader', { name: 'S3' }).closest('tr')!
+        expect(within(s3).getByRole('cell')).toHaveTextContent('Not assessed')
+        expect(within(s3).getByRole('cell')).not.toHaveTextContent('0%')
     })
 
     it('names flagged-never-revisited questions by position', () => {

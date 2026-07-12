@@ -7,11 +7,8 @@ import useGetAttemptReportQuery, {
     AttemptReportError,
 } from '@/hooks/diagnostic/useGetAttemptReportQuery.ts'
 import useGetSetPreviewQuery from '@/hooks/diagnostic/useGetSetPreviewQuery.ts'
-import {
-    formatDuration,
-    questionLabelByIdFrom,
-    skillPercent,
-} from '@/lib/diagnosticReport.ts'
+import { formatDuration, questionLabelByIdFrom } from '@/lib/diagnosticReport.ts'
+import { SkillsRadar } from '@/components/diagnostic/report/SkillsRadar.tsx'
 
 /**
  * Post-exam report screen (§6). Its own route/query, reached from the
@@ -108,43 +105,8 @@ export function DiagnosticReportPage() {
             <section className="flex flex-col gap-3">
                 <h2 className="text-xl font-medium">Skills</h2>
                 <Card>
-                    <CardContent className="flex flex-col gap-3 pt-6">
-                        {report.skillsRadar.map((s) => {
-                            const percent = skillPercent(s.score)
-                            return (
-                                <div
-                                    key={s.skill}
-                                    className="grid grid-cols-[3rem_1fr_3rem] items-center gap-3"
-                                >
-                                    <span className="text-sm font-medium">{s.skill}</span>
-                                    {percent === null ? (
-                                        <>
-                                            <span className="text-sm italic text-gray-400">
-                                                Not assessed by this paper
-                                            </span>
-                                            <span />
-                                        </>
-                                    ) : (
-                                        <>
-                                            <div className="h-2 rounded-full bg-gray-100">
-                                                <div
-                                                    className="h-2 rounded-full bg-emerald-500"
-                                                    style={{ width: `${percent}%` }}
-                                                    role="meter"
-                                                    aria-valuenow={percent}
-                                                    aria-valuemin={0}
-                                                    aria-valuemax={100}
-                                                    aria-label={`${s.skill} score`}
-                                                />
-                                            </div>
-                                            <span className="text-right text-sm tabular-nums text-gray-600">
-                                                {percent}%
-                                            </span>
-                                        </>
-                                    )}
-                                </div>
-                            )
-                        })}
+                    <CardContent className="pt-6">
+                        <SkillsRadar skills={report.skillsRadar} />
                     </CardContent>
                 </Card>
             </section>
