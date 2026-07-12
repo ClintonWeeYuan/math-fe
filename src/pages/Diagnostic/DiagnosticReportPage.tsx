@@ -1,0 +1,209 @@
+import { useNavigate, useParams } from 'react-router-dom'
+import { LoadingPage } from '@/components/common/FullLoadingPage.tsx'
+import { Button } from '@/components/ui/button.tsx'
+import { Card, CardContent } from '@/components/ui/card.tsx'
+import { Badge } from '@/components/ui/badge.tsx'
+import useGetAttemptReportQuery, {
+    AttemptReportError,
+} from '@/hooks/diagnostic/useGetAttemptReportQuery.ts'
+import useGetSetPreviewQuery from '@/hooks/diagnostic/useGetSetPreviewQuery.ts'
+import {
+    formatDuration,
+    questionLabelByIdFrom,
+    skillPercent,
+} from '@/lib/diagnosticReport.ts'
+
+/**
+ * Post-exam report screen (§6). Its own route/query, reached from the
+ * terminal exam view's "View your report" CTA (or directly, later). Turns
+ * the report endpoint's three deliverables into a screen: the accuracy-
+ * over-attempted headline, the Skills Radar (all seven skills; "not
+ * assessed" is distinct from a low score), the flagged-and-never-revisited
+ * call-out, and the per-question pacing list.
+ *
+ * PR 1 renders these plainly (labelled rows/bars); the SVG Skills Radar and
+ * pacing curve are PR 2, layered over this same already-flowing data.
+ */
+export function DiagnosticReportPage() {
+    const { attemptId } = useParams()
+    const navigate = useNavigate()
+
+    const {
+        data: report,
+        isLoading,
+        error,
+    } = useGetAttemptReportQuery({ attemptId: attemptId ?? '' })
+
+    // Completion denominator: the set's full question count. Sourced from
+    // the existing preview query rather than duplicated into the report —
+    // enabled only once we know the set from the report.
+    const { data: preview } = useGetSetPreviewQuery({
+        setId: report?.attempt.diagnosticSetId ?? '',
+        enabled: report !== undefined,
+    })
+
+    if (isLoading) return <LoadingPage />
+
+    // Still in progress: the endpoint 409s. Offer to resume, not an error.
+    if (error instanceof AttemptReportError && error.status === 409) {
+        return (
+            <div className="mx-auto mt-16 flex max-w-md flex-col items-center gap-4 text-center">
+                <h1 className="text-2xl font-semibold">Your exam isn&apos;t finished</h1>
+                <p className="text-gray-600">
+                    This diagnostic is still in progress, so there&apos;s no report
+                    yet. Head back to finish it.
+                </p>
+                <Button onClick={() => navigate(`/diagnostic/attempts/${attemptId}`)}>
+                    Resume exam
+                </Button>
+            </div>
+        )
+    }
+
+    if (error || !report) {
+        return (
+            <div className="mx-auto mt-16 flex max-w-md flex-col items-center gap-4 text-center">
+                <h1 className="text-2xl font-semibold">Report not available</h1>
+                <p className="text-gray-600">
+                    This report couldn&apos;t be loaded. It may not exist or may not
+                    be yours.
+                </p>
+                <Button variant="outline" onClick={() => navigate('/')}>
+                    Back to home
+                </Button>
+            </div>
+        )
+    }
+
+    const totalScore = report.attempt.totalScore ?? 0
+    const { answeredCount } = report
+    const labelById = questionLabelByIdFrom(report.perQuestionTime)
+    const pacing = [...report.perQuestionTime].sort(
+        (a, b) => a.questionOrderIndex - b.questionOrderIndex
+    )
+
+    return (
+        <div className="mx-auto mt-12 flex max-w-2xl flex-col gap-6 px-4">
+            <h1 className="text-3xl font-semibold">Your diagnostic report</h1>
+
+            {/* Accuracy over *attempted*, kept separate from completion — an
+                unanswered question is never counted as wrong. */}
+            <Card>
+                <CardContent className="flex flex-col gap-1 pt-6">
+                    <span className="text-3xl font-semibold">
+                        {answeredCount === 0
+                            ? 'No questions answered'
+                            : `${totalScore}/${answeredCount} correct`}
+                    </span>
+                    <span className="text-sm text-gray-500">
+                        {answeredCount > 0 && 'of questions attempted · '}
+                        {preview
+                            ? `${answeredCount}/${preview.questionCount} attempted`
+                            : `${answeredCount} attempted`}
+                    </span>
+                </CardContent>
+            </Card>
+
+            {/* Skills Radar — all seven skills; null = not assessed. */}
+            <section className="flex flex-col gap-3">
+                <h2 className="text-xl font-medium">Skills</h2>
+                <Card>
+                    <CardContent className="flex flex-col gap-3 pt-6">
+                        {report.skillsRadar.map((s) => {
+                            const percent = skillPercent(s.score)
+                            return (
+                                <div
+                                    key={s.skill}
+                                    className="grid grid-cols-[3rem_1fr_3rem] items-center gap-3"
+                                >
+                                    <span className="text-sm font-medium">{s.skill}</span>
+                                    {percent === null ? (
+                                        <>
+                                            <span className="text-sm italic text-gray-400">
+                                                Not assessed by this paper
+                                            </span>
+                                            <span />
+                                        </>
+                                    ) : (
+                                        <>
+                                            <div className="h-2 rounded-full bg-gray-100">
+                                                <div
+                                                    className="h-2 rounded-full bg-emerald-500"
+                                                    style={{ width: `${percent}%` }}
+                                                    role="meter"
+                                                    aria-valuenow={percent}
+                                                    aria-valuemin={0}
+                                                    aria-valuemax={100}
+                                                    aria-label={`${s.skill} score`}
+                                                />
+                                            </div>
+                                            <span className="text-right text-sm tabular-nums text-gray-600">
+                                                {percent}%
+                                            </span>
+                                        </>
+                                    )}
+                                </div>
+                            )
+                        })}
+                    </CardContent>
+                </Card>
+            </section>
+
+            {/* Flagged and never revisited — a concrete pacing failure mode. */}
+            <section className="flex flex-col gap-3">
+                <h2 className="text-xl font-medium">Flagged &amp; never revisited</h2>
+                <Card>
+                    <CardContent className="pt-6">
+                        {report.flaggedNeverRevisited.length === 0 ? (
+                            <p className="text-sm text-gray-500">
+                                You went back to every question you flagged — nice.
+                            </p>
+                        ) : (
+                            <div className="flex flex-wrap gap-2">
+                                {report.flaggedNeverRevisited.map((id) => (
+                                    <Badge key={id} variant="secondary">
+                                        {labelById.get(id) ?? 'Question'}
+                                    </Badge>
+                                ))}
+                            </div>
+                        )}
+                    </CardContent>
+                </Card>
+            </section>
+
+            {/* Pacing — time per question across the sequence. */}
+            <section className="flex flex-col gap-3">
+                <h2 className="text-xl font-medium">Time per question</h2>
+                <Card>
+                    <CardContent className="flex flex-col gap-2 pt-6">
+                        {pacing.map((t) => (
+                            <div
+                                key={t.questionId}
+                                className="flex items-center justify-between text-sm"
+                            >
+                                <span>
+                                    {labelById.get(t.questionId) ??
+                                        `Question ${t.questionOrderIndex + 1}`}
+                                </span>
+                                <span className="text-gray-600 tabular-nums">
+                                    {formatDuration(t.totalTimeSeconds)}
+                                    {t.viewCount > 1 && (
+                                        <span className="ml-2 text-gray-400">
+                                            {t.viewCount} visits
+                                        </span>
+                                    )}
+                                </span>
+                            </div>
+                        ))}
+                    </CardContent>
+                </Card>
+            </section>
+
+            <div>
+                <Button variant="outline" onClick={() => navigate('/')}>
+                    Back to home
+                </Button>
+            </div>
+        </div>
+    )
+}

@@ -27,12 +27,23 @@ export function AttemptClosedView({ attempt }: Props) {
             </h1>
             <p className="text-gray-600">
                 {timedOut
-                    ? 'The time limit for this diagnostic has passed, so it was submitted automatically. Your report will be available once scoring is added.'
-                    : 'Your answers have been submitted. Your report will be available once scoring is added.'}
+                    ? 'The time limit for this diagnostic has passed, so it was submitted automatically.'
+                    : 'Your answers have been submitted.'}{' '}
+                Your report is ready.
             </p>
-            <Button type="button" variant="outline" onClick={() => navigate('/')}>
-                Back to home
-            </Button>
+            <div className="flex gap-3">
+                <Button
+                    type="button"
+                    onClick={() =>
+                        navigate(`/diagnostic/attempts/${attempt.id}/report`)
+                    }
+                >
+                    View your report
+                </Button>
+                <Button type="button" variant="outline" onClick={() => navigate('/')}>
+                    Back to home
+                </Button>
+            </div>
         </div>
     )
 }
