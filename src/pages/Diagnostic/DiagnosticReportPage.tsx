@@ -7,8 +7,9 @@ import useGetAttemptReportQuery, {
     AttemptReportError,
 } from '@/hooks/diagnostic/useGetAttemptReportQuery.ts'
 import useGetSetPreviewQuery from '@/hooks/diagnostic/useGetSetPreviewQuery.ts'
-import { formatDuration, questionLabelByIdFrom } from '@/lib/diagnosticReport.ts'
+import { questionLabelByIdFrom } from '@/lib/diagnosticReport.ts'
 import { SkillsRadar } from '@/components/diagnostic/report/SkillsRadar.tsx'
+import { PacingCurve } from '@/components/diagnostic/report/PacingCurve.tsx'
 
 /**
  * Post-exam report screen (§6). Its own route/query, reached from the
@@ -75,9 +76,6 @@ export function DiagnosticReportPage() {
     const totalScore = report.attempt.totalScore ?? 0
     const { answeredCount } = report
     const labelById = questionLabelByIdFrom(report.perQuestionTime)
-    const pacing = [...report.perQuestionTime].sort(
-        (a, b) => a.questionOrderIndex - b.questionOrderIndex
-    )
 
     return (
         <div className="mx-auto mt-12 flex max-w-2xl flex-col gap-6 px-4">
@@ -133,30 +131,15 @@ export function DiagnosticReportPage() {
                 </Card>
             </section>
 
-            {/* Pacing — time per question across the sequence. */}
+            {/* Pacing — time per question across the paper sequence. */}
             <section className="flex flex-col gap-3">
                 <h2 className="text-xl font-medium">Time per question</h2>
                 <Card>
-                    <CardContent className="flex flex-col gap-2 pt-6">
-                        {pacing.map((t) => (
-                            <div
-                                key={t.questionId}
-                                className="flex items-center justify-between text-sm"
-                            >
-                                <span>
-                                    {labelById.get(t.questionId) ??
-                                        `Question ${t.questionOrderIndex + 1}`}
-                                </span>
-                                <span className="text-gray-600 tabular-nums">
-                                    {formatDuration(t.totalTimeSeconds)}
-                                    {t.viewCount > 1 && (
-                                        <span className="ml-2 text-gray-400">
-                                            {t.viewCount} visits
-                                        </span>
-                                    )}
-                                </span>
-                            </div>
-                        ))}
+                    <CardContent className="pt-6">
+                        <PacingCurve
+                            perQuestionTime={report.perQuestionTime}
+                            questionCount={preview?.questionCount}
+                        />
                     </CardContent>
                 </Card>
             </section>

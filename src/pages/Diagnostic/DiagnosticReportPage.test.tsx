@@ -121,7 +121,7 @@ describe('DiagnosticReportPage', () => {
         renderPage()
         // The radar's accessible table carries the per-skill data: all seven
         // skills, S1 scored, S3 "Not assessed" (not 0%).
-        const table = screen.getByRole('table')
+        const table = screen.getByRole('table', { name: /skills radar/i })
         expect(within(table).getAllByRole('rowheader')).toHaveLength(7)
         const s1 = within(table).getByRole('rowheader', { name: 'S1' }).closest('tr')!
         expect(within(s1).getByRole('cell')).toHaveTextContent('67%')
@@ -138,13 +138,20 @@ describe('DiagnosticReportPage', () => {
         expect(within(flagged).getByText('Question 2')).toBeInTheDocument()
     })
 
-    it('lists per-question pacing with durations and revisit counts', () => {
+    it('renders the pacing curve, zero-filling the paper to the set size', () => {
         mockUseReport.mockReturnValue({ data: report(), isLoading: false, error: null })
         renderPage()
-        const pacing = screen.getByText('Time per question').closest('section')!
-        expect(within(pacing).getByText('0:15')).toBeInTheDocument() // qa 15s
-        expect(within(pacing).getByText('1:05')).toBeInTheDocument() // qb 65s
-        expect(within(pacing).getByText(/2 visits/)).toBeInTheDocument() // qa viewCount 2
+        // Fixture: qa (15s, 2 visits), qb (65s); set has 3 questions, so Q3
+        // was never reached — the curve spans the whole paper via the
+        // set-preview question count.
+        const table = screen.getByRole('table', { name: /time per question/i })
+        const q1 = within(table).getByRole('rowheader', { name: 'Question 1' }).closest('tr')!
+        expect(within(q1).getAllByRole('cell')[0]).toHaveTextContent('0:15')
+        expect(within(q1).getAllByRole('cell')[1]).toHaveTextContent('2')
+        const q2 = within(table).getByRole('rowheader', { name: 'Question 2' }).closest('tr')!
+        expect(within(q2).getAllByRole('cell')[0]).toHaveTextContent('1:05')
+        const q3 = within(table).getByRole('rowheader', { name: 'Question 3' }).closest('tr')!
+        expect(within(q3).getAllByRole('cell')[0]).toHaveTextContent('Not reached')
     })
 
     it('handles a zero-answer attempt without a nonsense 0/0', () => {
