@@ -33,6 +33,12 @@ vi.mock('@/hooks/diagnostic/useGetDiagnosticQuestionQuery.ts', () => ({
     }),
 }))
 
+vi.mock('@/hooks/diagnostic/useTopicCodeOptions.ts', () => ({
+    // The combobox's option list is irrelevant to these tests (they're about
+    // the two-step diagram upload); stubbed so the page doesn't need a
+    // QueryClientProvider just to render.
+    default: () => [],
+}))
 vi.mock('@/hooks/diagnostic/useUpdateDiagnosticQuestionMutation.ts', () => ({
     default: () => ({
         mutate: mockUpdateMutate,

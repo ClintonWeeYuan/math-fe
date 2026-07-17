@@ -6,12 +6,14 @@ import {
     getDiagramSvgForCreate,
     type DiagnosticQuestionFormValues,
 } from '@/components/diagnostic/DiagnosticQuestionForm.tsx'
+import useTopicCodeOptions from '@/hooks/diagnostic/useTopicCodeOptions.ts'
 import useCreateDiagnosticQuestionMutation from '@/hooks/diagnostic/useCreateDiagnosticQuestionMutation.ts'
 import useUploadDiagnosticQuestionDiagramMutation from '@/hooks/diagnostic/useUploadDiagnosticQuestionDiagramMutation.ts'
 import { toast } from 'sonner'
 
 export function DiagnosticQuestionCreatePage() {
     const navigate = useNavigate()
+    const topicCodeOptions = useTopicCodeOptions()
     const { mutate: createQuestion, isPending } =
         useCreateDiagnosticQuestionMutation()
     const { mutateAsync: uploadDiagram, isPending: isUploadingDiagram } =
@@ -88,6 +90,7 @@ export function DiagnosticQuestionCreatePage() {
                     New Diagnostic Question
                 </h1>
                 <DiagnosticQuestionForm
+                    topicCodeOptions={topicCodeOptions}
                     onSubmit={handleSubmit}
                     isSubmitting={isPending || isUploadingDiagram}
                     submitLabel="Create question"
