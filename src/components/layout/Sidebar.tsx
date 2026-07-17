@@ -13,6 +13,7 @@ import {
 import {
     FlaskConical,
     Inbox,
+    Layers,
     LucideCodesandbox,
     PencilIcon,
     Settings,
@@ -46,6 +47,11 @@ const ITEMS = [
         title: 'Diagnostic Questions',
         url: '/admin/questions',
         icon: FlaskConical,
+    },
+    {
+        title: 'Diagnostic Sets',
+        url: '/admin/sets',
+        icon: Layers,
     },
 ]
 

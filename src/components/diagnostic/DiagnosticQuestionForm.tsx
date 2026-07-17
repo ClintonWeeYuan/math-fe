@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button.tsx'
 import { Card, CardContent } from '@/components/ui/card.tsx'
 import { Plus, Trash2 } from 'lucide-react'
 import { LatexText } from '@/components/diagnostic/LatexText.tsx'
+import { Combobox } from '@/components/ui/combobox.tsx'
 import type { DiagnosticQuestionResponse } from '@/client'
 
 const CORE_SKILLS = ['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7'] as const
@@ -100,6 +101,14 @@ type Props = {
     onSubmit: (values: DiagnosticQuestionFormValues) => void
     isSubmitting: boolean
     submitLabel: string
+    /**
+     * Topic codes already in use, offered in the topic-code combobox so the
+     * common case is picking an existing one rather than retyping it (a typo
+     * silently mis-tags a question). Passed in rather than fetched here so
+     * this stays a presentational form; a new code can always be typed, so an
+     * empty list degrades to free entry rather than blocking.
+     */
+    topicCodeOptions?: string[]
 }
 
 function labelForIndex(index: number): string {
@@ -150,6 +159,7 @@ export function DiagnosticQuestionForm({
     onSubmit,
     isSubmitting,
     submitLabel,
+    topicCodeOptions = [],
 }: Props) {
     const form = useForm<DiagnosticQuestionFormValues>({
         defaultValues: defaultValues(initialData),
@@ -235,10 +245,23 @@ export function DiagnosticQuestionForm({
         >
             <div className="grid grid-cols-2 gap-4">
                 <div className="flex flex-col gap-1.5">
-                    <label className="text-sm font-medium">Topic code</label>
-                    <Input
-                        placeholder="e.g. MM1.6"
-                        {...form.register('topicCode', { required: true })}
+                    <label className="text-sm font-medium" htmlFor="topic-code">
+                        Topic code
+                    </label>
+                    <Controller
+                        control={form.control}
+                        name="topicCode"
+                        rules={{ required: true }}
+                        render={({ field }) => (
+                            <Combobox
+                                id="topic-code"
+                                value={field.value || null}
+                                onChange={(v) => field.onChange(v ?? '')}
+                                options={topicCodeOptions}
+                                placeholder="e.g. MM1.6"
+                                searchPlaceholder="Search or type a new topic code…"
+                            />
+                        )}
                     />
                 </div>
 

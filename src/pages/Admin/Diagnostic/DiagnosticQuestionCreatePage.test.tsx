@@ -1,5 +1,6 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { setTopicCode } from '@/test/setTopicCode.ts'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { DiagnosticQuestionCreatePage } from './DiagnosticQuestionCreatePage'
 
@@ -15,6 +16,12 @@ vi.mock('react-router-dom', async () => {
     return { ...actual, useNavigate: () => mockNavigate }
 })
 
+vi.mock('@/hooks/diagnostic/useTopicCodeOptions.ts', () => ({
+    // The combobox's option list is irrelevant to these tests (they're about
+    // the two-step diagram upload); stubbed so the page doesn't need a
+    // QueryClientProvider just to render.
+    default: () => [],
+}))
 vi.mock('@/hooks/diagnostic/useCreateDiagnosticQuestionMutation.ts', () => ({
     default: () => ({
         mutate: mockCreateMutate,
@@ -43,9 +50,7 @@ function renderCreatePage() {
 }
 
 function fillRequiredFields() {
-    fireEvent.change(screen.getByPlaceholderText(/e.g. MM1.6/i), {
-        target: { value: 'MM1.1' },
-    })
+    setTopicCode('MM1.1')
     const combo = screen
         .getAllByRole('combobox')
         .find((c) => c.textContent?.includes('Select a skill'))!

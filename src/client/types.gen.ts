@@ -286,6 +286,10 @@ export type BulkImportSetMeta = {
      */
     isFree?: boolean;
     /**
+     * Subject
+     */
+    subject?: string | null;
+    /**
      * Questionorder
      */
     questionOrder: Array<string>;
@@ -748,6 +752,10 @@ export type DiagnosticSetResponse = {
      */
     status: 'draft' | 'published';
     /**
+     * Subject
+     */
+    subject?: string | null;
+    /**
      * Createdat
      */
     createdAt: string;
@@ -1173,6 +1181,10 @@ export type UpdateDiagnosticSetBody = {
      * Status
      */
     status?: 'draft' | 'published' | null;
+    /**
+     * Subject
+     */
+    subject?: string | null;
 };
 
 /**

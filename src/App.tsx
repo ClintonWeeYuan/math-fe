@@ -22,6 +22,7 @@ import { AboutPage } from '@/pages/AboutPage.tsx'
 import { EsatTmuaPage } from '@/pages/EsatTmuaPage.tsx'
 import { StudentProtectedRoute } from '@/components/auth/StudentProtectedRoute.tsx'
 import { DiagnosticQuestionsListPage } from '@/pages/Admin/Diagnostic/DiagnosticQuestionsListPage.tsx'
+import { DiagnosticSetsListPage } from '@/pages/Admin/Diagnostic/DiagnosticSetsListPage.tsx'
 import { DiagnosticQuestionCreatePage } from '@/pages/Admin/Diagnostic/DiagnosticQuestionCreatePage.tsx'
 import { DiagnosticQuestionEditPage } from '@/pages/Admin/Diagnostic/DiagnosticQuestionEditPage.tsx'
 import { SetInstructionsPage } from '@/pages/Diagnostic/SetInstructionsPage.tsx'
@@ -120,6 +121,7 @@ function App() {
                         path="admin/questions/:questionId"
                         element={<DiagnosticQuestionEditPage />}
                     />
+                    <Route path="admin/sets" element={<DiagnosticSetsListPage />} />
                 </Route>
             </Routes>
         </>

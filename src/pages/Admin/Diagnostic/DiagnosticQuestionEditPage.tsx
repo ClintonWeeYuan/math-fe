@@ -9,6 +9,7 @@ import {
     getDiagramSvgForUpdate,
     type DiagnosticQuestionFormValues,
 } from '@/components/diagnostic/DiagnosticQuestionForm.tsx'
+import useTopicCodeOptions from '@/hooks/diagnostic/useTopicCodeOptions.ts'
 import useGetDiagnosticQuestionQuery from '@/hooks/diagnostic/useGetDiagnosticQuestionQuery.ts'
 import useUpdateDiagnosticQuestionMutation from '@/hooks/diagnostic/useUpdateDiagnosticQuestionMutation.ts'
 import useUploadDiagnosticQuestionDiagramMutation from '@/hooks/diagnostic/useUploadDiagnosticQuestionDiagramMutation.ts'
@@ -20,6 +21,7 @@ type LocationState = {
 
 export function DiagnosticQuestionEditPage() {
     const navigate = useNavigate()
+    const topicCodeOptions = useTopicCodeOptions()
     const location = useLocation()
     const { questionId } = useParams()
     const { data: question, isLoading } = useGetDiagnosticQuestionQuery({
@@ -148,6 +150,7 @@ export function DiagnosticQuestionEditPage() {
                     </div>
                 )}
                 <DiagnosticQuestionForm
+                    topicCodeOptions={topicCodeOptions}
                     initialData={question}
                     onSubmit={handleSubmit}
                     isSubmitting={isPending || isUploadingDiagram}

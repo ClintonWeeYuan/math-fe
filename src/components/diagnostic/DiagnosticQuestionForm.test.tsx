@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
+import { setTopicCode } from '@/test/setTopicCode.ts'
 import {
     DiagnosticQuestionForm,
     getCorrectOptionLabel,
@@ -199,10 +200,7 @@ describe('DiagnosticQuestionForm', () => {
             />
         )
 
-        fireEvent.change(
-            screen.getByPlaceholderText(/e.g. MM1.6/i),
-            { target: { value: 'MM1.1' } }
-        )
+        setTopicCode('MM1.1')
         fireEvent.click(screen.getByText('Create'))
 
         // Required-field validation (core skill, stem, option text all
