@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { updateDiagnosticSetDiagnosticSetsSetIdPatch } from '@/client'
 import type { UpdateDiagnosticSetBody } from '@/client'
 import { getAuthHeaders } from '@/lib/authHeaders.ts'
+import { toDiagnosticApiError } from '@/lib/diagnosticApiError.ts'
 
 type Props = {
     setId: string
@@ -14,15 +15,6 @@ type Props = {
  * untouched — an explicit null on `subject` is a deliberate "uncategorise",
  * not the same as omitting it.
  */
-export class UpdateDiagnosticSetError extends Error {
-    status?: number
-    constructor(status?: number) {
-        super(`Failed to update set${status ? ` (${status})` : ''}`)
-        this.name = 'UpdateDiagnosticSetError'
-        this.status = status
-    }
-}
-
 export default function useUpdateDiagnosticSetMutation({ setId }: Props) {
     const queryClient = useQueryClient()
 
@@ -40,7 +32,7 @@ export default function useUpdateDiagnosticSetMutation({ setId }: Props) {
             // has changed. Caught in live testing, where an expired token
             // produced exactly that lie. Throw so onError is what runs.
             if (result.error !== undefined) {
-                throw new UpdateDiagnosticSetError(result.response?.status)
+                throw toDiagnosticApiError(result, 'Failed to update set')
             }
             return result.data
         },

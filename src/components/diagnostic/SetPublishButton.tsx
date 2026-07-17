@@ -33,10 +33,10 @@ export function SetPublishButton({ set }: Props) {
         updateSet(
             { status: published ? 'draft' : 'published' },
             {
-                onError: () =>
-                    toast.error(
-                        published ? 'Failed to unpublish set' : 'Failed to publish set'
-                    ),
+                // Surface the backend's message verbatim — the publish gate's
+                // 409 names exactly why (empty set, or the still-draft
+                // questions) so the admin knows what to fix.
+                onError: (err) => toast.error(err.message),
                 onSuccess: () =>
                     toast.success(published ? 'Set unpublished' : 'Set published'),
             }
