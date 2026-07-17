@@ -63,7 +63,7 @@ export function EditSetDialog({ set, open, onOpenChange, onSaved }: Props) {
             },
             {
                 onSuccess: () => onSaved(),
-                onError: () => toast.error('Failed to update set'),
+                onError: (err) => toast.error(err.message),
             }
         )
     }

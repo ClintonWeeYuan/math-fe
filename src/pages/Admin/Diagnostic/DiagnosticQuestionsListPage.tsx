@@ -26,7 +26,10 @@ export function DiagnosticQuestionsListPage() {
     function handleDelete(id: string) {
         if (!confirm('Delete this question? This cannot be undone.')) return
         deleteQuestion(id, {
-            onError: () => toast.error('Failed to delete question'),
+            // Surface the backend's message — PR C's 409 names the sets that
+            // still hold this question, so the admin knows to unlink it first.
+            onError: (err) => toast.error(err.message),
+            onSuccess: () => toast.success('Question deleted'),
         })
     }
 

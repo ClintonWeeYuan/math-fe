@@ -356,6 +356,40 @@ export type CreateDiagnosticQuestionBody = {
 };
 
 /**
+ * CreateDiagnosticSetBody
+ * Compose a set by hand (§3), as an alternative to bulk import. Lands
+ * as draft. question_ids may be empty — a set is created loose and filled
+ * later; the ≥1-question rule is enforced at the publish gate, not here.
+ * Order is the question sequence.
+ */
+export type CreateDiagnosticSetBody = {
+    /**
+     * Title
+     */
+    title: string;
+    /**
+     * Description
+     */
+    description?: string | null;
+    /**
+     * Timelimitminutes
+     */
+    timeLimitMinutes: number;
+    /**
+     * Isfree
+     */
+    isFree?: boolean;
+    /**
+     * Subject
+     */
+    subject?: string | null;
+    /**
+     * Questionids
+     */
+    questionIds?: Array<string>;
+};
+
+/**
  * CreateLevelBody
  */
 export type CreateLevelBody = {
@@ -1185,6 +1219,10 @@ export type UpdateDiagnosticSetBody = {
      * Subject
      */
     subject?: string | null;
+    /**
+     * Questionids
+     */
+    questionIds?: Array<string> | null;
 };
 
 /**
@@ -2738,6 +2776,31 @@ export type ListDiagnosticSetsDiagnosticSetsGetResponses = {
 };
 
 export type ListDiagnosticSetsDiagnosticSetsGetResponse = ListDiagnosticSetsDiagnosticSetsGetResponses[keyof ListDiagnosticSetsDiagnosticSetsGetResponses];
+
+export type CreateDiagnosticSetDiagnosticSetsPostData = {
+    body: CreateDiagnosticSetBody;
+    path?: never;
+    query?: never;
+    url: '/diagnostic/sets';
+};
+
+export type CreateDiagnosticSetDiagnosticSetsPostErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type CreateDiagnosticSetDiagnosticSetsPostError = CreateDiagnosticSetDiagnosticSetsPostErrors[keyof CreateDiagnosticSetDiagnosticSetsPostErrors];
+
+export type CreateDiagnosticSetDiagnosticSetsPostResponses = {
+    /**
+     * Successful Response
+     */
+    201: DiagnosticSetResponse;
+};
+
+export type CreateDiagnosticSetDiagnosticSetsPostResponse = CreateDiagnosticSetDiagnosticSetsPostResponses[keyof CreateDiagnosticSetDiagnosticSetsPostResponses];
 
 export type GetDiagnosticSetDiagnosticSetsSetIdGetData = {
     body?: never;

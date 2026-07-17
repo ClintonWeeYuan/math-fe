@@ -23,6 +23,8 @@ import { EsatTmuaPage } from '@/pages/EsatTmuaPage.tsx'
 import { StudentProtectedRoute } from '@/components/auth/StudentProtectedRoute.tsx'
 import { DiagnosticQuestionsListPage } from '@/pages/Admin/Diagnostic/DiagnosticQuestionsListPage.tsx'
 import { DiagnosticSetsListPage } from '@/pages/Admin/Diagnostic/DiagnosticSetsListPage.tsx'
+import { DiagnosticSetCreatePage } from '@/pages/Admin/Diagnostic/DiagnosticSetCreatePage.tsx'
+import { DiagnosticSetQuestionsPage } from '@/pages/Admin/Diagnostic/DiagnosticSetQuestionsPage.tsx'
 import { DiagnosticQuestionCreatePage } from '@/pages/Admin/Diagnostic/DiagnosticQuestionCreatePage.tsx'
 import { DiagnosticQuestionEditPage } from '@/pages/Admin/Diagnostic/DiagnosticQuestionEditPage.tsx'
 import { SetInstructionsPage } from '@/pages/Diagnostic/SetInstructionsPage.tsx'
@@ -122,6 +124,11 @@ function App() {
                         element={<DiagnosticQuestionEditPage />}
                     />
                     <Route path="admin/sets" element={<DiagnosticSetsListPage />} />
+                    <Route path="admin/sets/new" element={<DiagnosticSetCreatePage />} />
+                    <Route
+                        path="admin/sets/:setId/questions"
+                        element={<DiagnosticSetQuestionsPage />}
+                    />
                 </Route>
             </Routes>
         </>

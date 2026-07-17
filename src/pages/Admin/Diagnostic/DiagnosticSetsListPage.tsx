@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { AdminLayout } from '@/components/layout/AdminLayout.tsx'
 import { Badge } from '@/components/ui/badge.tsx'
@@ -29,6 +30,7 @@ import type { DiagnosticSetResponse } from '@/client'
  * not appearing.
  */
 export function DiagnosticSetsListPage() {
+    const navigate = useNavigate()
     const { data: sets, isLoading } = useListDiagnosticSetsQuery()
     const [editing, setEditing] = useState<DiagnosticSetResponse | null>(null)
 
@@ -39,9 +41,9 @@ export function DiagnosticSetsListPage() {
             <div className="mt-8 flex flex-col gap-6">
                 <div className="flex items-center justify-between">
                     <h1 className="text-2xl font-semibold">Diagnostic Sets</h1>
-                    <span className="text-sm text-gray-500">
-                        Sets are created by bulk import
-                    </span>
+                    <Button onClick={() => navigate('/admin/sets/new')}>
+                        Create set
+                    </Button>
                 </div>
 
                 {isLoading && <p className="text-gray-500">Loading…</p>}
@@ -111,6 +113,17 @@ export function DiagnosticSetsListPage() {
                                                 </TableCell>
                                                 <TableCell className="text-right">
                                                     <div className="flex justify-end gap-2">
+                                                        <Button
+                                                            variant="outline"
+                                                            size="sm"
+                                                            onClick={() =>
+                                                                navigate(
+                                                                    `/admin/sets/${s.id}/questions`
+                                                                )
+                                                            }
+                                                        >
+                                                            Questions
+                                                        </Button>
                                                         <Button
                                                             variant="outline"
                                                             size="sm"

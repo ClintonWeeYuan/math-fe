@@ -18,6 +18,13 @@ vi.mock('@/components/layout/AdminLayout.tsx', () => ({
 }))
 vi.mock('sonner', () => ({ toast: { error: vi.fn(), success: vi.fn() } }))
 
+const mockNavigate = vi.fn()
+vi.mock('react-router-dom', async () => {
+    const actual =
+        await vi.importActual<typeof import('react-router-dom')>('react-router-dom')
+    return { ...actual, useNavigate: () => mockNavigate }
+})
+
 function set(over: Partial<DiagnosticSetResponse> = {}): DiagnosticSetResponse {
     return {
         id: 'set-1',
