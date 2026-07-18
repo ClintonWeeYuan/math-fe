@@ -1,5 +1,6 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent, within } from '@testing-library/react'
+import { MemoryRouter } from 'react-router-dom'
 import { DiagnosticSetReviewPage } from './DiagnosticSetReviewPage'
 import type { DiagnosticQuestionResponse, DiagnosticSetResponse } from '@/client'
 
@@ -78,15 +79,26 @@ describe('DiagnosticSetReviewPage', () => {
 
     it('renders the questions in the set order, not the source order', () => {
         mockGetSet.mockReturnValue({ data: set(), isLoading: false })
-        render(<DiagnosticSetReviewPage />)
+        render(<MemoryRouter><DiagnosticSetReviewPage /></MemoryRouter>)
         const cards = screen.getAllByText(/stem$/).map((n) => n.textContent)
         // set.questionIds is [qb, qa] -> second stem before first stem.
         expect(cards).toEqual(['second stem', 'first stem'])
     })
 
+    it('links each question to its own edit page', () => {
+        mockGetSet.mockReturnValue({ data: set(), isLoading: false })
+        render(<MemoryRouter><DiagnosticSetReviewPage /></MemoryRouter>)
+        // set.questionIds is [qb, qa] -> Q1 is qb, Q2 is qa. Each Edit link
+        // points at that exact question, so an admin can jump straight to
+        // (e.g.) Physics Q12 to replace its diagram.
+        const editLinks = screen.getAllByRole('link', { name: /edit/i })
+        expect(editLinks[0]).toHaveAttribute('href', '/admin/questions/qb')
+        expect(editLinks[1]).toHaveAttribute('href', '/admin/questions/qa')
+    })
+
     it('marks the correct option (which the student view hides)', () => {
         mockGetSet.mockReturnValue({ data: set({ questionIds: ['qa'] }), isLoading: false })
-        render(<DiagnosticSetReviewPage />)
+        render(<MemoryRouter><DiagnosticSetReviewPage /></MemoryRouter>)
         const correct = screen.getByText('right').closest('li')!
         expect(within(correct).getByText('correct')).toBeInTheDocument()
         // the wrong option is not marked
@@ -95,7 +107,7 @@ describe('DiagnosticSetReviewPage', () => {
 
     it('offers "Publish all questions" only when some are draft, and bulk-publishes on click', () => {
         mockGetSet.mockReturnValue({ data: set(), isLoading: false }) // qb is draft
-        render(<DiagnosticSetReviewPage />)
+        render(<MemoryRouter><DiagnosticSetReviewPage /></MemoryRouter>)
         const btn = screen.getByRole('button', { name: /publish all questions/i })
         fireEvent.click(btn)
         expect(mockBulkPublish.mock.calls[0][0]).toEqual({
@@ -109,7 +121,7 @@ describe('DiagnosticSetReviewPage', () => {
             data: set({ questionIds: ['qa'] }), // qa is published
             isLoading: false,
         })
-        render(<DiagnosticSetReviewPage />)
+        render(<MemoryRouter><DiagnosticSetReviewPage /></MemoryRouter>)
         expect(
             screen.queryByRole('button', { name: /publish all questions/i })
         ).not.toBeInTheDocument()
