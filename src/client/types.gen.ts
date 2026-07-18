@@ -296,6 +296,33 @@ export type BulkImportSetMeta = {
 };
 
 /**
+ * BulkQuestionStatusBody
+ * Publish (or unpublish) several questions in one call — powers the
+ * 'publish all questions in this set' action, so an admin doesn't edit 27
+ * questions one at a time to get a set past its publish gate.
+ */
+export type BulkQuestionStatusBody = {
+    /**
+     * Questionids
+     */
+    questionIds: Array<string>;
+    /**
+     * Status
+     */
+    status: 'draft' | 'published';
+};
+
+/**
+ * BulkQuestionStatusResponse
+ */
+export type BulkQuestionStatusResponse = {
+    /**
+     * Updatedcount
+     */
+    updatedCount: number;
+};
+
+/**
  * ConversionResponse
  */
 export type ConversionResponse = {
@@ -2602,6 +2629,31 @@ export type CreateDiagnosticQuestionDiagnosticQuestionsPostResponses = {
 };
 
 export type CreateDiagnosticQuestionDiagnosticQuestionsPostResponse = CreateDiagnosticQuestionDiagnosticQuestionsPostResponses[keyof CreateDiagnosticQuestionDiagnosticQuestionsPostResponses];
+
+export type BulkSetQuestionStatusDiagnosticQuestionsBulkStatusPostData = {
+    body: BulkQuestionStatusBody;
+    path?: never;
+    query?: never;
+    url: '/diagnostic/questions/bulk-status';
+};
+
+export type BulkSetQuestionStatusDiagnosticQuestionsBulkStatusPostErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type BulkSetQuestionStatusDiagnosticQuestionsBulkStatusPostError = BulkSetQuestionStatusDiagnosticQuestionsBulkStatusPostErrors[keyof BulkSetQuestionStatusDiagnosticQuestionsBulkStatusPostErrors];
+
+export type BulkSetQuestionStatusDiagnosticQuestionsBulkStatusPostResponses = {
+    /**
+     * Successful Response
+     */
+    200: BulkQuestionStatusResponse;
+};
+
+export type BulkSetQuestionStatusDiagnosticQuestionsBulkStatusPostResponse = BulkSetQuestionStatusDiagnosticQuestionsBulkStatusPostResponses[keyof BulkSetQuestionStatusDiagnosticQuestionsBulkStatusPostResponses];
 
 export type DeleteDiagnosticQuestionDiagnosticQuestionsQuestionIdDeleteData = {
     body?: never;

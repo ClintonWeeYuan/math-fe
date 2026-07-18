@@ -12,6 +12,10 @@ vi.mock('@/hooks/diagnostic/useListDiagnosticSetsQuery.ts', () => ({
 vi.mock('@/hooks/diagnostic/useUpdateDiagnosticSetMutation.ts', () => ({
     default: () => ({ mutate: mockUpdateMutate, isPending: false }),
 }))
+vi.mock('@/hooks/diagnostic/useBulkSetQuestionStatusMutation.ts', () => ({
+    // The publish button pulls this in for its smart-retry path.
+    default: () => ({ mutateAsync: vi.fn(), isPending: false }),
+}))
 vi.mock('@/components/layout/AdminLayout.tsx', () => ({
     // The sidebar pulls in auth/router context that isn't what's under test.
     AdminLayout: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
