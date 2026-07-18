@@ -118,6 +118,17 @@ export function DiagnosticSetsListPage() {
                                                             size="sm"
                                                             onClick={() =>
                                                                 navigate(
+                                                                    `/admin/sets/${s.id}/preview`
+                                                                )
+                                                            }
+                                                        >
+                                                            Review
+                                                        </Button>
+                                                        <Button
+                                                            variant="outline"
+                                                            size="sm"
+                                                            onClick={() =>
+                                                                navigate(
                                                                     `/admin/sets/${s.id}/questions`
                                                                 )
                                                             }
