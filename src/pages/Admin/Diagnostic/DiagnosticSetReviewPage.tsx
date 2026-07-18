@@ -1,5 +1,5 @@
-import { useNavigate, useParams } from 'react-router-dom'
-import { Check } from 'lucide-react'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Check, Pencil } from 'lucide-react'
 import { toast } from 'sonner'
 import { AdminLayout } from '@/components/layout/AdminLayout.tsx'
 import { Badge } from '@/components/ui/badge.tsx'
@@ -125,6 +125,20 @@ export function DiagnosticSetReviewPage() {
                                 {q.status === 'draft' && (
                                     <Badge variant="secondary">draft</Badge>
                                 )}
+                                {/* Jump straight to this exact question to edit it
+                                    (e.g. replace an inaccurate diagram). A Link, so
+                                    cmd/middle-click opens it in a new tab and keeps
+                                    this numbered review as the index. */}
+                                <Button
+                                    asChild
+                                    variant="ghost"
+                                    size="sm"
+                                    className="ml-auto"
+                                >
+                                    <Link to={`/admin/questions/${q.id}`}>
+                                        <Pencil className="h-4 w-4" /> Edit
+                                    </Link>
+                                </Button>
                             </div>
 
                             <div className="text-gray-900">
