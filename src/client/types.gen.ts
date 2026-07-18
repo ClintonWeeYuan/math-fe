@@ -2854,6 +2854,34 @@ export type CreateDiagnosticSetDiagnosticSetsPostResponses = {
 
 export type CreateDiagnosticSetDiagnosticSetsPostResponse = CreateDiagnosticSetDiagnosticSetsPostResponses[keyof CreateDiagnosticSetDiagnosticSetsPostResponses];
 
+export type DeleteDiagnosticSetDiagnosticSetsSetIdDeleteData = {
+    body?: never;
+    path: {
+        /**
+         * Set Id
+         */
+        set_id: string;
+    };
+    query?: never;
+    url: '/diagnostic/sets/{set_id}';
+};
+
+export type DeleteDiagnosticSetDiagnosticSetsSetIdDeleteErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type DeleteDiagnosticSetDiagnosticSetsSetIdDeleteError = DeleteDiagnosticSetDiagnosticSetsSetIdDeleteErrors[keyof DeleteDiagnosticSetDiagnosticSetsSetIdDeleteErrors];
+
+export type DeleteDiagnosticSetDiagnosticSetsSetIdDeleteResponses = {
+    /**
+     * Successful Response
+     */
+    200: unknown;
+};
+
 export type GetDiagnosticSetDiagnosticSetsSetIdGetData = {
     body?: never;
     path: {

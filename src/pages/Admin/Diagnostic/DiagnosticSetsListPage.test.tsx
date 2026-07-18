@@ -16,6 +16,10 @@ vi.mock('@/hooks/diagnostic/useBulkSetQuestionStatusMutation.ts', () => ({
     // The publish button pulls this in for its smart-retry path.
     default: () => ({ mutateAsync: vi.fn(), isPending: false }),
 }))
+const mockDeleteSet = vi.fn()
+vi.mock('@/hooks/diagnostic/useDeleteDiagnosticSetMutation.ts', () => ({
+    default: () => ({ mutate: mockDeleteSet }),
+}))
 vi.mock('@/components/layout/AdminLayout.tsx', () => ({
     // The sidebar pulls in auth/router context that isn't what's under test.
     AdminLayout: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
@@ -48,6 +52,7 @@ describe('DiagnosticSetsListPage', () => {
     beforeEach(() => {
         mockUseListSets.mockReset()
         mockUpdateMutate.mockReset()
+        mockDeleteSet.mockReset()
     })
 
     it('tells you where sets come from when there are none', () => {
@@ -93,6 +98,24 @@ describe('DiagnosticSetsListPage', () => {
 
         fireEvent.click(screen.getByRole('button', { name: 'Publish' }))
         expect(mockUpdateMutate.mock.calls[0][0]).toEqual({ status: 'published' })
+    })
+
+    it('deletes a set after confirmation', () => {
+        vi.stubGlobal('confirm', vi.fn(() => true))
+        mockUseListSets.mockReturnValue({ data: [set()], isLoading: false })
+        render(<DiagnosticSetsListPage />)
+        fireEvent.click(screen.getByRole('button', { name: 'Delete' }))
+        expect(mockDeleteSet).toHaveBeenCalledWith('set-1', expect.anything())
+        vi.unstubAllGlobals()
+    })
+
+    it('does not delete when the confirmation is declined', () => {
+        vi.stubGlobal('confirm', vi.fn(() => false))
+        mockUseListSets.mockReturnValue({ data: [set()], isLoading: false })
+        render(<DiagnosticSetsListPage />)
+        fireEvent.click(screen.getByRole('button', { name: 'Delete' }))
+        expect(mockDeleteSet).not.toHaveBeenCalled()
+        vi.unstubAllGlobals()
     })
 
     it('opens the edit dialog with the set loaded', () => {

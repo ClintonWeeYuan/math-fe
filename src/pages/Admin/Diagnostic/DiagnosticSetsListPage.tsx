@@ -13,6 +13,7 @@ import {
     TableRow,
 } from '@/components/ui/table.tsx'
 import useListDiagnosticSetsQuery from '@/hooks/diagnostic/useListDiagnosticSetsQuery.ts'
+import useDeleteDiagnosticSetMutation from '@/hooks/diagnostic/useDeleteDiagnosticSetMutation.ts'
 import { groupSetsBySubject } from '@/lib/diagnosticSubjects.ts'
 import { EditSetDialog } from '@/components/diagnostic/EditSetDialog.tsx'
 import { SetPublishButton } from '@/components/diagnostic/SetPublishButton.tsx'
@@ -32,7 +33,25 @@ import type { DiagnosticSetResponse } from '@/client'
 export function DiagnosticSetsListPage() {
     const navigate = useNavigate()
     const { data: sets, isLoading } = useListDiagnosticSetsQuery()
+    const { mutate: deleteSet } = useDeleteDiagnosticSetMutation()
     const [editing, setEditing] = useState<DiagnosticSetResponse | null>(null)
+
+    function handleDelete(s: DiagnosticSetResponse) {
+        if (
+            !confirm(
+                `Delete "${s.title}"? This can't be undone. (Its questions ` +
+                    `aren't deleted — they may belong to other sets.)`
+            )
+        ) {
+            return
+        }
+        deleteSet(s.id, {
+            onSuccess: () => toast.success('Set deleted'),
+            // The 409 for a set students have taken names the reason (unpublish
+            // instead) — surface it verbatim.
+            onError: (err) => toast.error(err.message),
+        })
+    }
 
     const groups = groupSetsBySubject(sets ?? [])
 
@@ -143,6 +162,14 @@ export function DiagnosticSetsListPage() {
                                                             Edit
                                                         </Button>
                                                         <SetPublishButton set={s} />
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="sm"
+                                                            className="text-red-600 hover:text-red-700"
+                                                            onClick={() => handleDelete(s)}
+                                                        >
+                                                            Delete
+                                                        </Button>
                                                     </div>
                                                 </TableCell>
                                             </TableRow>
