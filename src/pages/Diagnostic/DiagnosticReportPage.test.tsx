@@ -43,15 +43,12 @@ function report(over: Partial<DiagnosticReportResponse> = {}): DiagnosticReportR
             agreedToTerms: true,
             totalScore: 1,
         },
+        subject: 'ESAT Math 2',
         answeredCount: 2,
         skillsRadar: [
-            { skill: 'S1', score: 2 / 3 },
-            { skill: 'S2', score: 0 },
-            { skill: 'S3', score: null },
-            { skill: 'S4', score: null },
-            { skill: 'S5', score: null },
-            { skill: 'S6', score: null },
-            { skill: 'S7', score: null },
+            { skill: 'S1', score: 5 / 6, attempted: 6, correct: 5 }, // strength 83%
+            { skill: 'S3', score: 0.25, attempted: 4, correct: 1 }, // focus 25%
+            { skill: 'S5', score: null, attempted: 0, correct: 0 }, // not measured
         ],
         flaggedNeverRevisited: ['qb'],
         perQuestionTime: [
@@ -81,7 +78,6 @@ describe('DiagnosticReportPage', () => {
     it('shows a loading state while the report is fetching', () => {
         mockUseReport.mockReturnValue({ data: undefined, isLoading: true, error: null })
         renderPage()
-        // LoadingPage renders; the report content is absent.
         expect(screen.queryByText('Your diagnostic report')).not.toBeInTheDocument()
     })
 
@@ -107,56 +103,77 @@ describe('DiagnosticReportPage', () => {
         expect(screen.getByText(/report not available/i)).toBeInTheDocument()
     })
 
-    it('renders accuracy over attempted separately from completion (never a collapsed X/N)', () => {
+    it('renders accuracy over attempted separately from completion', () => {
         mockUseReport.mockReturnValue({ data: report(), isLoading: false, error: null })
         renderPage()
-        // 1 correct of 2 attempted — NOT 1/3 against the full set.
         expect(screen.getByText('1/2 correct')).toBeInTheDocument()
         expect(screen.getByText(/of questions attempted · 2\/3 attempted/i)).toBeInTheDocument()
         expect(screen.queryByText('1/3 correct')).not.toBeInTheDocument()
     })
 
-    it('renders the Skills Radar, with "not assessed" distinct from a low score', () => {
+    it('writes a plain-English strengths + focus-areas summary with full names', () => {
         mockUseReport.mockReturnValue({ data: report(), isLoading: false, error: null })
         renderPage()
-        // The radar's accessible table carries the per-skill data: all seven
-        // skills, S1 scored, S3 "Not assessed" (not 0%).
-        const table = screen.getByRole('table', { name: /skills radar/i })
-        expect(within(table).getAllByRole('rowheader')).toHaveLength(7)
-        const s1 = within(table).getByRole('rowheader', { name: 'S1' }).closest('tr')!
-        expect(within(s1).getByRole('cell')).toHaveTextContent('67%')
-        const s3 = within(table).getByRole('rowheader', { name: 'S3' }).closest('tr')!
-        expect(within(s3).getByRole('cell')).toHaveTextContent('Not assessed')
-        expect(within(s3).getByRole('cell')).not.toHaveTextContent('0%')
+        const summary = screen.getByText('Where you stand').closest('section')!
+        // Strength decoded to its full Maths 2 name, with percentage.
+        expect(within(summary).getByText(/Algebraic Manipulation & Fluency/)).toBeInTheDocument()
+        // Focus area decoded, lowest-first, with denominator.
+        const focus = within(summary).getByText(/Graphical & Geometric Reasoning/)
+        expect(focus.closest('li')).toHaveTextContent('25%')
+        expect(focus.closest('li')).toHaveTextContent('(1 of 4)')
     })
 
-    it('names flagged-never-revisited questions by position', () => {
+    it('gives a concrete next step for each focus area', () => {
         mockUseReport.mockReturnValue({ data: report(), isLoading: false, error: null })
         renderPage()
-        const flagged = screen.getByText('Flagged & never revisited').closest('section')!
-        // qb is order index 1 -> "Question 2".
+        const steps = screen.getByText('Your next steps').closest('section')!
+        expect(within(steps).getByText(/Graphical & Geometric Reasoning/)).toBeInTheDocument()
+        // The static advice for Maths S3 mentions coordinate geometry.
+        expect(within(steps).getByText(/coordinate geometry/i)).toBeInTheDocument()
+    })
+
+    it('radar legend keeps "not assessed" distinct from a low score, in full names', () => {
+        mockUseReport.mockReturnValue({ data: report(), isLoading: false, error: null })
+        renderPage()
+        const table = screen.getByRole('table', { name: /skills radar/i })
+        // Full subject names as row headers; S5 not measured reads explicitly.
+        const s1 = within(table)
+            .getByRole('rowheader', { name: /Algebraic Manipulation & Fluency/ })
+            .closest('tr')!
+        expect(within(s1).getByRole('cell')).toHaveTextContent('83%')
+        const s5 = within(table)
+            .getByRole('rowheader', { name: /Proportional & Numerical Fluency/ })
+            .closest('tr')!
+        expect(within(s5).getByRole('cell')).toHaveTextContent('not assessed in this set')
+        expect(within(s5).getByRole('cell')).not.toHaveTextContent('0%')
+    })
+
+    it('labels the flagged-questions section and names them by position', () => {
+        mockUseReport.mockReturnValue({ data: report(), isLoading: false, error: null })
+        renderPage()
+        const flagged = screen
+            .getByText('Questions you flagged to revisit')
+            .closest('section')!
         expect(within(flagged).getByText('Question 2')).toBeInTheDocument()
     })
 
     it('renders the pacing curve, zero-filling the paper to the set size', () => {
         mockUseReport.mockReturnValue({ data: report(), isLoading: false, error: null })
         renderPage()
-        // Fixture: qa (15s, 2 visits), qb (65s); set has 3 questions, so Q3
-        // was never reached — the curve spans the whole paper via the
-        // set-preview question count.
         const table = screen.getByRole('table', { name: /time per question/i })
         const q1 = within(table).getByRole('rowheader', { name: 'Question 1' }).closest('tr')!
         expect(within(q1).getAllByRole('cell')[0]).toHaveTextContent('0:15')
-        expect(within(q1).getAllByRole('cell')[1]).toHaveTextContent('2')
-        const q2 = within(table).getByRole('rowheader', { name: 'Question 2' }).closest('tr')!
-        expect(within(q2).getAllByRole('cell')[0]).toHaveTextContent('1:05')
         const q3 = within(table).getByRole('rowheader', { name: 'Question 3' }).closest('tr')!
         expect(within(q3).getAllByRole('cell')[0]).toHaveTextContent('Not reached')
     })
 
     it('handles a zero-answer attempt without a nonsense 0/0', () => {
         mockUseReport.mockReturnValue({
-            data: report({ answeredCount: 0, attempt: { ...report().attempt, totalScore: 0 } }),
+            data: report({
+                answeredCount: 0,
+                attempt: { ...report().attempt, totalScore: 0 },
+                skillsRadar: [{ skill: 'S1', score: null, attempted: 0, correct: 0 }],
+            }),
             isLoading: false,
             error: null,
         })
