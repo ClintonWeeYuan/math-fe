@@ -3485,6 +3485,36 @@ export type GetAttemptDetailDiagnosticAdminAttemptsAttemptIdDetailGetResponses =
 
 export type GetAttemptDetailDiagnosticAdminAttemptsAttemptIdDetailGetResponse = GetAttemptDetailDiagnosticAdminAttemptsAttemptIdDetailGetResponses[keyof GetAttemptDetailDiagnosticAdminAttemptsAttemptIdDetailGetResponses];
 
+export type GetAttemptReportAdminDiagnosticAdminAttemptsAttemptIdReportGetData = {
+    body?: never;
+    path: {
+        /**
+         * Attempt Id
+         */
+        attempt_id: string;
+    };
+    query?: never;
+    url: '/diagnostic/admin/attempts/{attempt_id}/report';
+};
+
+export type GetAttemptReportAdminDiagnosticAdminAttemptsAttemptIdReportGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type GetAttemptReportAdminDiagnosticAdminAttemptsAttemptIdReportGetError = GetAttemptReportAdminDiagnosticAdminAttemptsAttemptIdReportGetErrors[keyof GetAttemptReportAdminDiagnosticAdminAttemptsAttemptIdReportGetErrors];
+
+export type GetAttemptReportAdminDiagnosticAdminAttemptsAttemptIdReportGetResponses = {
+    /**
+     * Successful Response
+     */
+    200: DiagnosticReportResponse;
+};
+
+export type GetAttemptReportAdminDiagnosticAdminAttemptsAttemptIdReportGetResponse = GetAttemptReportAdminDiagnosticAdminAttemptsAttemptIdReportGetResponses[keyof GetAttemptReportAdminDiagnosticAdminAttemptsAttemptIdReportGetResponses];
+
 export type RootGetData = {
     body?: never;
     path?: never;

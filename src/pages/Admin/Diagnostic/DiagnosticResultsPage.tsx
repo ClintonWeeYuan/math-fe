@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Download } from 'lucide-react'
 import { AdminLayout } from '@/components/layout/AdminLayout.tsx'
 import { Badge } from '@/components/ui/badge.tsx'
@@ -42,6 +43,7 @@ function statusVariant(status: AdminAttemptResultRow['status']) {
  * table, and a click-through drill-in to a student's per-question answers.
  */
 export function DiagnosticResultsPage() {
+    const navigate = useNavigate()
     const { data, isLoading } = useAdminResultsQuery()
     const rows = data?.rows ?? []
 
@@ -54,8 +56,9 @@ export function DiagnosticResultsPage() {
                     <div>
                         <h1 className="text-2xl font-semibold">Results</h1>
                         <p className="text-sm text-gray-500">
-                            Every attempt across all students. Click a row to see
-                            the per-question breakdown.
+                            Every attempt across all students. Click a row for the
+                            per-question breakdown, or open the student&apos;s full
+                            report.
                         </p>
                     </div>
                     <Button
@@ -89,6 +92,7 @@ export function DiagnosticResultsPage() {
                                 <TableHead className="text-right">Answered</TableHead>
                                 <TableHead className="text-right">Time</TableHead>
                                 <TableHead>Started</TableHead>
+                                <TableHead />
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -118,6 +122,24 @@ export function DiagnosticResultsPage() {
                                         {fmtTime(r.totalTimeSeconds)}
                                     </TableCell>
                                     <TableCell>{fmtDate(r.startedAt)}</TableCell>
+                                    <TableCell className="text-right">
+                                        {(r.status === 'submitted' ||
+                                            r.status === 'timed_out') && (
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={(e) => {
+                                                    e.stopPropagation()
+                                                    navigate(
+                                                        `/admin/attempts/${r.attemptId}/report`,
+                                                        { state: { studentEmail: r.studentEmail } }
+                                                    )
+                                                }}
+                                            >
+                                                View report
+                                            </Button>
+                                        )}
+                                    </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
