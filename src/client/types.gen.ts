@@ -863,12 +863,17 @@ export type DiagnosticQuestionResponse = {
 
 /**
  * DiagnosticReportResponse
- * The post-exam report (§6): Skills Radar (always all seven skills),
- * the flagged-and-never-revisited question ids, and per-question timing.
- * Only available once the attempt is terminal (submitted/timed_out).
+ * The post-exam report (§6): Skills Radar (the skills this set actually
+ * assesses, in S1–S7 order), the flagged-and-never-revisited question ids,
+ * and per-question timing. Only available once the attempt is terminal
+ * (submitted/timed_out).
  */
 export type DiagnosticReportResponse = {
     attempt: DiagnosticAttemptResponse;
+    /**
+     * Subject
+     */
+    subject?: string | null;
     /**
      * Answeredcount
      */
@@ -1275,9 +1280,11 @@ export type SkillLabelsResponse = {
 
 /**
  * SkillScore
- * One Skills Radar axis. score is null when this paper tests nothing
- * tagged with the skill (Σweight == 0) — 'not assessed', distinct from a
- * genuine low score.
+ * One Skills Radar axis, on a primary-skill basis. score = correct /
+ * attempted over the questions whose *primary* skill is this one; it is
+ * null when attempted == 0 — 'not measured in this set', which the report
+ * must show distinctly from a real 0%. attempted/correct are integer counts
+ * so the report can show the denominator ('0 of 4') and flag small samples.
  */
 export type SkillScore = {
     /**
@@ -1288,6 +1295,14 @@ export type SkillScore = {
      * Score
      */
     score?: number | null;
+    /**
+     * Attempted
+     */
+    attempted?: number;
+    /**
+     * Correct
+     */
+    correct?: number;
     /**
      * Label
      */

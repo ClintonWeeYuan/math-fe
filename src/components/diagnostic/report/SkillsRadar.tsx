@@ -1,42 +1,40 @@
 import type { SkillScore } from '@/client'
 import { radarLayout } from '@/lib/skillsRadarGeometry.ts'
 import { skillPercent } from '@/lib/diagnosticReport.ts'
+import { skillName } from '@/lib/diagnosticSkillFrameworks.ts'
 
 type Props = {
     skills: SkillScore[]
+    /** The set's subject, used to decode S1–S7 into full names in the legend. */
+    subject?: string | null
     size?: number
 }
 
 /**
- * The Skills Radar (§6). A heptagon of the seven core skills, each axis
- * carrying a dot at its score — except a *not-assessed* axis (null score),
+ * The Skills Radar (§6). A polygon over the skills this set assesses, each axis
+ * carrying a dot at its score — except a *not-measured* axis (null score),
  * which gets no dot and a muted, dashed spoke, and the connecting outline
- * breaks around it (see radarSegments) so no edge implies a value where
- * there's no data. Assessed-but-zero still plots a real dot at the centre,
- * keeping the null-vs-zero distinction in the geometry, not just the label.
+ * breaks around it so no edge implies a value where there's no data.
+ * Assessed-but-zero still plots a real dot at the centre, keeping the
+ * not-measured-vs-0% distinction in the geometry, not just the label.
  *
- * The SVG is decorative (aria-hidden); the data reaches assistive tech
- * through the visually-hidden <table>, a real semantic element so
- * "present" and "usable" can't drift apart.
+ * The SVG (decorative, aria-hidden) keeps compact codes; the legend beneath it
+ * is the real semantic table — full subject names, the percentage with its
+ * denominator, and an explicit "not assessed in this set" for null axes.
  */
-export function SkillsRadar({ skills, size = 300 }: Props) {
+export function SkillsRadar({ skills, subject, size = 300 }: Props) {
     const { center, axes, rings, segments } = radarLayout(skills, { size, padding: 36 })
 
     const dotByIndex = (i: number) => axes[i].dot
-
-    // Extra horizontal room in the viewBox so the left/right axis labels
-    // (which extend outward from their spoke tips) aren't clipped, without
-    // shrinking the radar itself.
     const marginX = 52
 
     return (
-        <figure className="m-0 flex flex-col items-center">
+        <figure className="m-0 flex flex-col items-center gap-4">
             <svg
                 aria-hidden="true"
                 viewBox={`${-marginX} 0 ${size + marginX * 2} ${size}`}
                 className="w-full max-w-[22rem]"
             >
-                {/* grid rings */}
                 {rings.map((points, i) => (
                     <polygon
                         key={`ring-${i}`}
@@ -46,7 +44,6 @@ export function SkillsRadar({ skills, size = 300 }: Props) {
                     />
                 ))}
 
-                {/* spokes — dashed + muted for not-assessed axes */}
                 {axes.map((axis) => (
                     <line
                         key={`spoke-${axis.skill}`}
@@ -64,7 +61,6 @@ export function SkillsRadar({ skills, size = 300 }: Props) {
                     />
                 ))}
 
-                {/* connecting outline — only between adjacent assessed axes */}
                 {segments.map(([i, j]) => {
                     const a = dotByIndex(i)
                     const b = dotByIndex(j)
@@ -83,7 +79,6 @@ export function SkillsRadar({ skills, size = 300 }: Props) {
                     )
                 })}
 
-                {/* data dots — assessed axes only */}
                 {axes.map((axis) =>
                     axis.dot ? (
                         <circle
@@ -96,12 +91,9 @@ export function SkillsRadar({ skills, size = 300 }: Props) {
                     ) : null
                 )}
 
-                {/* axis labels: the per-subject skill name (falling back to
-                    the bare code when this subject has none) + percent, or a
-                    muted "n/a" */}
+                {/* axis labels stay compact — full names live in the legend */}
                 {axes.map((axis, i) => {
                     const percent = skillPercent(skills[i].score)
-                    const name = skills[i].label ?? axis.skill
                     return (
                         <text
                             key={`label-${axis.skill}`}
@@ -116,7 +108,7 @@ export function SkillsRadar({ skills, size = 300 }: Props) {
                             }
                             fontSize={11}
                         >
-                            <tspan fontWeight={600}>{name}</tspan>
+                            <tspan fontWeight={600}>{axis.skill}</tspan>
                             <tspan dx={4} fontSize={10}>
                                 {percent === null ? 'n/a' : `${percent}%`}
                             </tspan>
@@ -125,22 +117,39 @@ export function SkillsRadar({ skills, size = 300 }: Props) {
                 })}
             </svg>
 
-            {/* Accessible equivalent — the SVG carries no data to AT. */}
-            <table className="sr-only">
-                <caption>Skills radar — score per core skill</caption>
-                <thead>
-                    <tr>
-                        <th scope="col">Skill</th>
-                        <th scope="col">Score</th>
-                    </tr>
-                </thead>
+            {/* Legend — the semantic, sighted-and-AT-shared representation:
+                full name per code, percentage with denominator, and an explicit
+                not-measured note kept distinct from a real 0%. */}
+            <table className="w-full text-sm">
+                <caption className="sr-only">
+                    Skills radar — score per core skill
+                </caption>
                 <tbody>
                     {skills.map((s) => {
                         const percent = skillPercent(s.score)
+                        const notMeasured = percent === null
                         return (
-                            <tr key={s.skill}>
-                                <th scope="row">{s.label ?? s.skill}</th>
-                                <td>{percent === null ? 'Not assessed' : `${percent}%`}</td>
+                            <tr key={s.skill} className="border-t border-gray-100 dark:border-gray-800">
+                                <th scope="row" className="py-1.5 pr-3 text-left font-normal">
+                                    {skillName(subject, s.skill)}
+                                    {skillName(subject, s.skill) !== s.skill && (
+                                        <span className="text-gray-400"> ({s.skill})</span>
+                                    )}
+                                </th>
+                                <td className="py-1.5 text-right whitespace-nowrap">
+                                    {notMeasured ? (
+                                        <span className="text-gray-400 dark:text-gray-500">
+                                            not assessed in this set
+                                        </span>
+                                    ) : (
+                                        <>
+                                            <span className="font-medium">{percent}%</span>{' '}
+                                            <span className="text-gray-400">
+                                                ({s.correct ?? 0}/{s.attempted ?? 0})
+                                            </span>
+                                        </>
+                                    )}
+                                </td>
                             </tr>
                         )
                     })}
