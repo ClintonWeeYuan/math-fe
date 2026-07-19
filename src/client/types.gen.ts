@@ -24,6 +24,171 @@ export type AccountVerificationResponse = {
 };
 
 /**
+ * AdminAttemptDetailResponse
+ * The per-question breakdown of a single attempt for the admin drill-in,
+ * with enough header context (who / which set) to read on its own.
+ */
+export type AdminAttemptDetailResponse = {
+    /**
+     * Attemptid
+     */
+    attemptId: string;
+    /**
+     * Studentemail
+     */
+    studentEmail?: string | null;
+    /**
+     * Settitle
+     */
+    setTitle?: string | null;
+    /**
+     * Subject
+     */
+    subject?: string | null;
+    /**
+     * Status
+     */
+    status: 'in_progress' | 'submitted' | 'timed_out' | 'abandoned';
+    /**
+     * Totalscore
+     */
+    totalScore?: number | null;
+    /**
+     * Rows
+     */
+    rows: Array<AdminAttemptDetailRow>;
+};
+
+/**
+ * AdminAttemptDetailRow
+ * One question within an attempt, as an admin drilling in sees it: what
+ * the student picked vs. the correct option, whether it was right, and the
+ * per-question pacing (time, views, flag).
+ */
+export type AdminAttemptDetailRow = {
+    /**
+     * Questionorderindex
+     */
+    questionOrderIndex: number;
+    /**
+     * Questionid
+     */
+    questionId: string;
+    /**
+     * Stem
+     */
+    stem?: string | null;
+    /**
+     * Topiccode
+     */
+    topicCode?: string | null;
+    /**
+     * Coreskillprimary
+     */
+    coreSkillPrimary?: string | null;
+    /**
+     * Selectedoption
+     */
+    selectedOption?: string | null;
+    /**
+     * Correctoption
+     */
+    correctOption?: string | null;
+    /**
+     * Iscorrect
+     */
+    isCorrect?: boolean | null;
+    /**
+     * Totaltimeseconds
+     */
+    totalTimeSeconds: number;
+    /**
+     * Viewcount
+     */
+    viewCount: number;
+    /**
+     * Isflagged
+     */
+    isFlagged: boolean;
+};
+
+/**
+ * AdminAttemptResultRow
+ * One attempt in the admin results table — a student's sitting of a set,
+ * enriched with who took it (email; public.users has no name) and which set
+ * (title + subject), so an admin can collect and compare results across
+ * everyone who attempted a diagnostic. total_time_seconds is the engaged
+ * time summed over the attempt's responses; answered_count / question_count
+ * give completion.
+ */
+export type AdminAttemptResultRow = {
+    /**
+     * Attemptid
+     */
+    attemptId: string;
+    /**
+     * Studentid
+     */
+    studentId: string;
+    /**
+     * Studentemail
+     */
+    studentEmail?: string | null;
+    /**
+     * Setid
+     */
+    setId: string;
+    /**
+     * Settitle
+     */
+    setTitle?: string | null;
+    /**
+     * Subject
+     */
+    subject?: string | null;
+    /**
+     * Status
+     */
+    status: 'in_progress' | 'submitted' | 'timed_out' | 'abandoned';
+    /**
+     * Totalscore
+     */
+    totalScore?: number | null;
+    /**
+     * Answeredcount
+     */
+    answeredCount: number;
+    /**
+     * Questioncount
+     */
+    questionCount: number;
+    /**
+     * Startedat
+     */
+    startedAt: string;
+    /**
+     * Submittedat
+     */
+    submittedAt?: string | null;
+    /**
+     * Totaltimeseconds
+     */
+    totalTimeSeconds: number;
+};
+
+/**
+ * AdminAttemptResultsResponse
+ * Every attempt, newest first — the source for the admin results table
+ * and its CSV export.
+ */
+export type AdminAttemptResultsResponse = {
+    /**
+     * Rows
+     */
+    rows: Array<AdminAttemptResultRow>;
+};
+
+/**
  * BaseLevel
  */
 export type BaseLevel = {
@@ -3258,6 +3423,52 @@ export type UpdateSkillLabelsDiagnosticSkillLabelsPutResponses = {
 };
 
 export type UpdateSkillLabelsDiagnosticSkillLabelsPutResponse = UpdateSkillLabelsDiagnosticSkillLabelsPutResponses[keyof UpdateSkillLabelsDiagnosticSkillLabelsPutResponses];
+
+export type ListAttemptResultsDiagnosticAdminResultsGetData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/diagnostic/admin/results';
+};
+
+export type ListAttemptResultsDiagnosticAdminResultsGetResponses = {
+    /**
+     * Successful Response
+     */
+    200: AdminAttemptResultsResponse;
+};
+
+export type ListAttemptResultsDiagnosticAdminResultsGetResponse = ListAttemptResultsDiagnosticAdminResultsGetResponses[keyof ListAttemptResultsDiagnosticAdminResultsGetResponses];
+
+export type GetAttemptDetailDiagnosticAdminAttemptsAttemptIdDetailGetData = {
+    body?: never;
+    path: {
+        /**
+         * Attempt Id
+         */
+        attempt_id: string;
+    };
+    query?: never;
+    url: '/diagnostic/admin/attempts/{attempt_id}/detail';
+};
+
+export type GetAttemptDetailDiagnosticAdminAttemptsAttemptIdDetailGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type GetAttemptDetailDiagnosticAdminAttemptsAttemptIdDetailGetError = GetAttemptDetailDiagnosticAdminAttemptsAttemptIdDetailGetErrors[keyof GetAttemptDetailDiagnosticAdminAttemptsAttemptIdDetailGetErrors];
+
+export type GetAttemptDetailDiagnosticAdminAttemptsAttemptIdDetailGetResponses = {
+    /**
+     * Successful Response
+     */
+    200: AdminAttemptDetailResponse;
+};
+
+export type GetAttemptDetailDiagnosticAdminAttemptsAttemptIdDetailGetResponse = GetAttemptDetailDiagnosticAdminAttemptsAttemptIdDetailGetResponses[keyof GetAttemptDetailDiagnosticAdminAttemptsAttemptIdDetailGetResponses];
 
 export type RootGetData = {
     body?: never;

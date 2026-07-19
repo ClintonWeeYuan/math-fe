@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/sidebar'
 
 import {
+    BarChart3,
     FlaskConical,
     FolderTree,
     Inbox,
@@ -64,6 +65,11 @@ const ITEMS = [
         title: 'Skill Labels',
         url: '/admin/skills',
         icon: Tags,
+    },
+    {
+        title: 'Results',
+        url: '/admin/results',
+        icon: BarChart3,
     },
 ]
 
