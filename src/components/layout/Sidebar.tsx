@@ -12,6 +12,7 @@ import {
 
 import {
     FlaskConical,
+    FolderTree,
     Inbox,
     Layers,
     LucideCodesandbox,
@@ -52,6 +53,11 @@ const ITEMS = [
         title: 'Diagnostic Sets',
         url: '/admin/sets',
         icon: Layers,
+    },
+    {
+        title: 'Subjects',
+        url: '/admin/subjects',
+        icon: FolderTree,
     },
 ]
 
