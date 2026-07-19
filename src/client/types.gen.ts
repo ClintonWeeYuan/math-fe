@@ -1077,6 +1077,38 @@ export type SetCompletionResponse = {
 };
 
 /**
+ * SkillLabel
+ * One (subject, skill code) → human name mapping. skillCode is one of
+ * CORE_SKILLS; label is a non-empty display name within that subject.
+ */
+export type SkillLabel = {
+    /**
+     * Skillcode
+     */
+    skillCode: string;
+    /**
+     * Label
+     */
+    label: string;
+};
+
+/**
+ * SkillLabelsResponse
+ * All labels for one subject, as a flat list. A subject with no labels
+ * yet returns an empty list — the report then shows bare codes.
+ */
+export type SkillLabelsResponse = {
+    /**
+     * Subject
+     */
+    subject: string;
+    /**
+     * Labels
+     */
+    labels: Array<SkillLabel>;
+};
+
+/**
  * SkillScore
  * One Skills Radar axis. score is null when this paper tests nothing
  * tagged with the skill (Σweight == 0) — 'not assessed', distinct from a
@@ -1091,6 +1123,10 @@ export type SkillScore = {
      * Score
      */
     score?: number | null;
+    /**
+     * Label
+     */
+    label?: string | null;
 };
 
 /**
@@ -1286,6 +1322,23 @@ export type UpdateQuestionBody = {
      * Marks
      */
     marks?: number | null;
+};
+
+/**
+ * UpdateSkillLabelsBody
+ * Bulk-set a subject's labels in one call (the Skills screen saves all
+ * seven at once). Each entry's skillCode must be in CORE_SKILLS; a blank
+ * label clears that code for the subject (deletes the row).
+ */
+export type UpdateSkillLabelsBody = {
+    /**
+     * Subject
+     */
+    subject: string;
+    /**
+     * Labels
+     */
+    labels: Array<SkillLabel>;
 };
 
 /**
@@ -3150,6 +3203,61 @@ export type GetAttemptReportDiagnosticAttemptsAttemptIdReportGetResponses = {
 };
 
 export type GetAttemptReportDiagnosticAttemptsAttemptIdReportGetResponse = GetAttemptReportDiagnosticAttemptsAttemptIdReportGetResponses[keyof GetAttemptReportDiagnosticAttemptsAttemptIdReportGetResponses];
+
+export type GetSkillLabelsDiagnosticSkillLabelsGetData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * Subject
+         */
+        subject: string;
+    };
+    url: '/diagnostic/skill-labels';
+};
+
+export type GetSkillLabelsDiagnosticSkillLabelsGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type GetSkillLabelsDiagnosticSkillLabelsGetError = GetSkillLabelsDiagnosticSkillLabelsGetErrors[keyof GetSkillLabelsDiagnosticSkillLabelsGetErrors];
+
+export type GetSkillLabelsDiagnosticSkillLabelsGetResponses = {
+    /**
+     * Successful Response
+     */
+    200: SkillLabelsResponse;
+};
+
+export type GetSkillLabelsDiagnosticSkillLabelsGetResponse = GetSkillLabelsDiagnosticSkillLabelsGetResponses[keyof GetSkillLabelsDiagnosticSkillLabelsGetResponses];
+
+export type UpdateSkillLabelsDiagnosticSkillLabelsPutData = {
+    body: UpdateSkillLabelsBody;
+    path?: never;
+    query?: never;
+    url: '/diagnostic/skill-labels';
+};
+
+export type UpdateSkillLabelsDiagnosticSkillLabelsPutErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type UpdateSkillLabelsDiagnosticSkillLabelsPutError = UpdateSkillLabelsDiagnosticSkillLabelsPutErrors[keyof UpdateSkillLabelsDiagnosticSkillLabelsPutErrors];
+
+export type UpdateSkillLabelsDiagnosticSkillLabelsPutResponses = {
+    /**
+     * Successful Response
+     */
+    200: SkillLabelsResponse;
+};
+
+export type UpdateSkillLabelsDiagnosticSkillLabelsPutResponse = UpdateSkillLabelsDiagnosticSkillLabelsPutResponses[keyof UpdateSkillLabelsDiagnosticSkillLabelsPutResponses];
 
 export type RootGetData = {
     body?: never;
