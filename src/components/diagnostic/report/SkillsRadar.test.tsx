@@ -70,4 +70,22 @@ describe('SkillsRadar', () => {
         const { container } = render(<SkillsRadar skills={skills([0.5, null, null, null, null, null, null])} />)
         expect(container.querySelector('svg')).toHaveAttribute('aria-hidden', 'true')
     })
+
+    it('shows the per-subject label where present, falling back to the code', () => {
+        const withLabels: SkillScore[] = [
+            { skill: 'S1', score: 0.5, label: 'Mechanics' },
+            { skill: 'S2', score: 0.5, label: null }, // no label -> bare code
+            { skill: 'S3', score: null, label: 'Waves' }, // labelled even if unassessed
+            { skill: 'S4', score: null, label: null },
+            { skill: 'S5', score: null, label: null },
+            { skill: 'S6', score: null, label: null },
+            { skill: 'S7', score: null, label: null },
+        ]
+        render(<SkillsRadar skills={withLabels} />)
+        const table = screen.getByRole('table')
+        // Labelled rows use the name as the row header; unlabelled keep the code.
+        expect(within(table).getByRole('rowheader', { name: 'Mechanics' })).toBeInTheDocument()
+        expect(within(table).getByRole('rowheader', { name: 'Waves' })).toBeInTheDocument()
+        expect(within(table).getByRole('rowheader', { name: 'S2' })).toBeInTheDocument()
+    })
 })
