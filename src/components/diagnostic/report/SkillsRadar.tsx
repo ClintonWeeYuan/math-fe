@@ -96,9 +96,12 @@ export function SkillsRadar({ skills, size = 300 }: Props) {
                     ) : null
                 )}
 
-                {/* axis labels: skill code + percent, or a muted "n/a" */}
+                {/* axis labels: the per-subject skill name (falling back to
+                    the bare code when this subject has none) + percent, or a
+                    muted "n/a" */}
                 {axes.map((axis, i) => {
                     const percent = skillPercent(skills[i].score)
+                    const name = skills[i].label ?? axis.skill
                     return (
                         <text
                             key={`label-${axis.skill}`}
@@ -113,7 +116,7 @@ export function SkillsRadar({ skills, size = 300 }: Props) {
                             }
                             fontSize={11}
                         >
-                            <tspan fontWeight={600}>{axis.skill}</tspan>
+                            <tspan fontWeight={600}>{name}</tspan>
                             <tspan dx={4} fontSize={10}>
                                 {percent === null ? 'n/a' : `${percent}%`}
                             </tspan>
@@ -136,7 +139,7 @@ export function SkillsRadar({ skills, size = 300 }: Props) {
                         const percent = skillPercent(s.score)
                         return (
                             <tr key={s.skill}>
-                                <th scope="row">{s.skill}</th>
+                                <th scope="row">{s.label ?? s.skill}</th>
                                 <td>{percent === null ? 'Not assessed' : `${percent}%`}</td>
                             </tr>
                         )
