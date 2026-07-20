@@ -1208,6 +1208,43 @@ export type PerQuestionTime = {
 };
 
 /**
+ * PublishedDiagnosticSet
+ * One published set on the public diagnostics listing — enough to show a
+ * card and link through to its start screen. Public (no auth), so it carries
+ * no question ids or other internals, only published sets are returned.
+ */
+export type PublishedDiagnosticSet = {
+    /**
+     * Id
+     */
+    id: string;
+    /**
+     * Title
+     */
+    title: string;
+    /**
+     * Subject
+     */
+    subject?: string | null;
+    /**
+     * Description
+     */
+    description?: string | null;
+    /**
+     * Timelimitminutes
+     */
+    timeLimitMinutes: number;
+    /**
+     * Questioncount
+     */
+    questionCount: number;
+    /**
+     * Isfree
+     */
+    isFree: boolean;
+};
+
+/**
  * QuestionResponse
  */
 export type QuestionResponse = {
@@ -3109,6 +3146,23 @@ export type CreateDiagnosticSetDiagnosticSetsPostResponses = {
 };
 
 export type CreateDiagnosticSetDiagnosticSetsPostResponse = CreateDiagnosticSetDiagnosticSetsPostResponses[keyof CreateDiagnosticSetDiagnosticSetsPostResponses];
+
+export type ListPublishedDiagnosticSetsDiagnosticSetsPublishedGetData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/diagnostic/sets/published';
+};
+
+export type ListPublishedDiagnosticSetsDiagnosticSetsPublishedGetResponses = {
+    /**
+     * Response List Published Diagnostic Sets Diagnostic Sets Published Get
+     * Successful Response
+     */
+    200: Array<PublishedDiagnosticSet>;
+};
+
+export type ListPublishedDiagnosticSetsDiagnosticSetsPublishedGetResponse = ListPublishedDiagnosticSetsDiagnosticSetsPublishedGetResponses[keyof ListPublishedDiagnosticSetsDiagnosticSetsPublishedGetResponses];
 
 export type DeleteDiagnosticSetDiagnosticSetsSetIdDeleteData = {
     body?: never;

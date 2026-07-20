@@ -16,8 +16,8 @@ export function EsatTmuaPage() {
 
                 {/* Eyebrow */}
                 <div className="mb-5">
-                    <span className="inline-block bg-amber-50 text-amber-700 text-xs md:text-sm font-medium px-4 py-1.5 rounded-full border border-amber-200">
-                        Coming soon
+                    <span className="inline-block bg-emerald-50 text-emerald-700 text-xs md:text-sm font-medium px-4 py-1.5 rounded-full border border-emerald-200">
+                        Free diagnostics — now live
                     </span>
                 </div>
 
@@ -26,12 +26,21 @@ export function EsatTmuaPage() {
                     <span style={{ color: '#799ED1' }}>preparation.</span>
                 </p>
 
-                <p className="text-lg md:text-xl text-slate-500 mb-10 leading-relaxed max-w-2xl">
+                <p className="text-lg md:text-xl text-slate-500 mb-8 leading-relaxed max-w-2xl">
                     Free diagnostic questions for the Engineering and Science
                     Admissions Test (ESAT) and the Test of Mathematics for
                     University Admission (TMUA) — mapped to specific skills, so
                     you know exactly where to focus.
                 </p>
+
+                <div className="mb-12">
+                    <Button
+                        className="cursor-pointer font-medium"
+                        onClick={() => navigate('/diagnostics')}
+                    >
+                        Start a free diagnostic →
+                    </Button>
+                </div>
 
                 <div className="grid md:grid-cols-2 gap-6 mb-12">
                     <div className="bg-slate-50 border border-slate-100 rounded-xl p-6">
