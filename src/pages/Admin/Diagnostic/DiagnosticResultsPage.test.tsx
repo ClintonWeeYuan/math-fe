@@ -7,10 +7,15 @@ import type { AdminAttemptResultRow } from '@/client'
 const mockResults = vi.fn()
 const mockDownload = vi.fn()
 const mockNavigate = vi.fn()
+const mockDelete = vi.fn()
 
 vi.mock('@/hooks/diagnostic/useAdminResultsQuery.ts', () => ({
     default: () => mockResults(),
 }))
+vi.mock('@/hooks/diagnostic/useBulkDeleteAttemptsMutation.ts', () => ({
+    default: () => ({ mutate: mockDelete, isPending: false }),
+}))
+vi.mock('sonner', () => ({ toast: { success: vi.fn(), error: vi.fn() } }))
 vi.mock('@/lib/diagnosticResultsCsv.ts', () => ({
     downloadResultsCsv: (rows: unknown) => mockDownload(rows),
 }))
@@ -49,6 +54,7 @@ describe('DiagnosticResultsPage', () => {
     beforeEach(() => {
         mockDownload.mockReset()
         mockNavigate.mockReset()
+        mockDelete.mockReset()
     })
 
     it('renders one row per attempt with student, score and completion', () => {
@@ -104,5 +110,44 @@ describe('DiagnosticResultsPage', () => {
         renderPage()
         expect(screen.getByText(/No attempts yet/i)).toBeInTheDocument()
         expect(screen.getByRole('button', { name: /Download CSV/i })).toBeDisabled()
+    })
+
+    it('multi-select delete: selecting rows shows the bar and deletes on confirm', () => {
+        vi.stubGlobal('confirm', vi.fn(() => true))
+        mockResults.mockReturnValue({
+            data: { rows: [row(), row({ attemptId: 'a2', studentEmail: 'two@x.com' })] },
+            isLoading: false,
+        })
+        renderPage()
+        // No bar until something is selected.
+        expect(screen.queryByRole('button', { name: /Delete selected/i })).not.toBeInTheDocument()
+
+        fireEvent.click(screen.getByRole('checkbox', { name: /Select result for one@x.com/i }))
+        expect(screen.getByText('1 selected')).toBeInTheDocument()
+
+        fireEvent.click(screen.getByRole('button', { name: /Delete selected/i }))
+        expect(mockDelete).toHaveBeenCalledTimes(1)
+        expect(mockDelete.mock.calls[0][0]).toEqual(['a1'])
+        vi.unstubAllGlobals()
+    })
+
+    it('does not delete when the confirm is declined', () => {
+        vi.stubGlobal('confirm', vi.fn(() => false))
+        mockResults.mockReturnValue({ data: { rows: [row()] }, isLoading: false })
+        renderPage()
+        fireEvent.click(screen.getByRole('checkbox', { name: /Select result for one@x.com/i }))
+        fireEvent.click(screen.getByRole('button', { name: /Delete selected/i }))
+        expect(mockDelete).not.toHaveBeenCalled()
+        vi.unstubAllGlobals()
+    })
+
+    it('select-all header checkbox selects every row', () => {
+        mockResults.mockReturnValue({
+            data: { rows: [row(), row({ attemptId: 'a2' })] },
+            isLoading: false,
+        })
+        renderPage()
+        fireEvent.click(screen.getByRole('checkbox', { name: /Select all results/i }))
+        expect(screen.getByText('2 selected')).toBeInTheDocument()
     })
 })
