@@ -29,7 +29,6 @@ import { DiagnosticSetReviewPage } from '@/pages/Admin/Diagnostic/DiagnosticSetR
 import { DiagnosticSubjectsPage } from '@/pages/Admin/Diagnostic/DiagnosticSubjectsPage.tsx'
 import { DiagnosticResultsPage } from '@/pages/Admin/Diagnostic/DiagnosticResultsPage.tsx'
 import { DiagnosticAdminReportPage } from '@/pages/Admin/Diagnostic/DiagnosticAdminReportPage.tsx'
-import { DiagnosticSkillsPage } from '@/pages/Admin/Diagnostic/DiagnosticSkillsPage.tsx'
 import { DiagnosticQuestionCreatePage } from '@/pages/Admin/Diagnostic/DiagnosticQuestionCreatePage.tsx'
 import { DiagnosticQuestionEditPage } from '@/pages/Admin/Diagnostic/DiagnosticQuestionEditPage.tsx'
 import { SetInstructionsPage } from '@/pages/Diagnostic/SetInstructionsPage.tsx'
@@ -135,7 +134,6 @@ function App() {
                         path="admin/attempts/:attemptId/report"
                         element={<DiagnosticAdminReportPage />}
                     />
-                    <Route path="admin/skills" element={<DiagnosticSkillsPage />} />
                     <Route path="admin/sets/new" element={<DiagnosticSetCreatePage />} />
                     <Route
                         path="admin/sets/:setId/questions"
