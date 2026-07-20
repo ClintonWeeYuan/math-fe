@@ -19,7 +19,6 @@ import {
     LucideCodesandbox,
     PencilIcon,
     Settings,
-    Tags,
 } from 'lucide-react'
 import { useAuth } from '@/components/auth/AuthContext.tsx'
 import { Button } from '@/components/ui/button.tsx'
@@ -60,11 +59,6 @@ const ITEMS = [
         title: 'Subjects',
         url: '/admin/subjects',
         icon: FolderTree,
-    },
-    {
-        title: 'Skill Labels',
-        url: '/admin/skills',
-        icon: Tags,
     },
     {
         title: 'Results',
