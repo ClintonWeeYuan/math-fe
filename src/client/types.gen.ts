@@ -322,6 +322,29 @@ export type BodyUploadDiagnosticQuestionDiagramDiagnosticQuestionsQuestionIdDiag
 };
 
 /**
+ * BulkDeleteAttemptsBody
+ * Delete several attempts (results) at once — the multi-select delete on
+ * the admin Results table. Each attempt's responses and question-events are
+ * removed too (FK ON DELETE CASCADE).
+ */
+export type BulkDeleteAttemptsBody = {
+    /**
+     * Attemptids
+     */
+    attemptIds: Array<string>;
+};
+
+/**
+ * BulkDeleteAttemptsResponse
+ */
+export type BulkDeleteAttemptsResponse = {
+    /**
+     * Deletedcount
+     */
+    deletedCount: number;
+};
+
+/**
  * BulkImportOption
  */
 export type BulkImportOption = {
@@ -3514,6 +3537,31 @@ export type GetAttemptReportAdminDiagnosticAdminAttemptsAttemptIdReportGetRespon
 };
 
 export type GetAttemptReportAdminDiagnosticAdminAttemptsAttemptIdReportGetResponse = GetAttemptReportAdminDiagnosticAdminAttemptsAttemptIdReportGetResponses[keyof GetAttemptReportAdminDiagnosticAdminAttemptsAttemptIdReportGetResponses];
+
+export type BulkDeleteAttemptsDiagnosticAdminAttemptsBulkDeletePostData = {
+    body: BulkDeleteAttemptsBody;
+    path?: never;
+    query?: never;
+    url: '/diagnostic/admin/attempts/bulk-delete';
+};
+
+export type BulkDeleteAttemptsDiagnosticAdminAttemptsBulkDeletePostErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type BulkDeleteAttemptsDiagnosticAdminAttemptsBulkDeletePostError = BulkDeleteAttemptsDiagnosticAdminAttemptsBulkDeletePostErrors[keyof BulkDeleteAttemptsDiagnosticAdminAttemptsBulkDeletePostErrors];
+
+export type BulkDeleteAttemptsDiagnosticAdminAttemptsBulkDeletePostResponses = {
+    /**
+     * Successful Response
+     */
+    200: BulkDeleteAttemptsResponse;
+};
+
+export type BulkDeleteAttemptsDiagnosticAdminAttemptsBulkDeletePostResponse = BulkDeleteAttemptsDiagnosticAdminAttemptsBulkDeletePostResponses[keyof BulkDeleteAttemptsDiagnosticAdminAttemptsBulkDeletePostResponses];
 
 export type RootGetData = {
     body?: never;

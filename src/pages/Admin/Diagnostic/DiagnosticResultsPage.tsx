@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Download } from 'lucide-react'
+import { Download, Trash2 } from 'lucide-react'
+import { toast } from 'sonner'
 import { AdminLayout } from '@/components/layout/AdminLayout.tsx'
 import { Badge } from '@/components/ui/badge.tsx'
 import { Button } from '@/components/ui/button.tsx'
+import { Checkbox } from '@/components/ui/checkbox.tsx'
 import {
     Table,
     TableBody,
@@ -13,6 +15,7 @@ import {
     TableRow,
 } from '@/components/ui/table.tsx'
 import useAdminResultsQuery from '@/hooks/diagnostic/useAdminResultsQuery.ts'
+import useBulkDeleteAttemptsMutation from '@/hooks/diagnostic/useBulkDeleteAttemptsMutation.ts'
 import { AttemptDetailDialog } from '@/components/diagnostic/AttemptDetailDialog.tsx'
 import { downloadResultsCsv } from '@/lib/diagnosticResultsCsv.ts'
 import type { AdminAttemptResultRow } from '@/client'
@@ -39,8 +42,8 @@ function statusVariant(status: AdminAttemptResultRow['status']) {
 
 /**
  * Collect the results of everyone who has attempted a diagnostic: one row per
- * attempt (student, set, score, completion, time), a CSV export of the whole
- * table, and a click-through drill-in to a student's per-question answers.
+ * attempt (student, set, score, completion, time), a CSV export, a click-
+ * through drill-in, and multi-select delete of selected results.
  */
 export function DiagnosticResultsPage() {
     const navigate = useNavigate()
@@ -48,6 +51,49 @@ export function DiagnosticResultsPage() {
     const rows = data?.rows ?? []
 
     const [openAttempt, setOpenAttempt] = useState<string | null>(null)
+    const [selected, setSelected] = useState<Set<string>>(new Set())
+    const { mutate: bulkDelete, isPending: isDeleting } =
+        useBulkDeleteAttemptsMutation()
+
+    const allSelected = rows.length > 0 && rows.every((r) => selected.has(r.attemptId))
+
+    function toggleOne(id: string, on: boolean) {
+        setSelected((prev) => {
+            const next = new Set(prev)
+            if (on) next.add(id)
+            else next.delete(id)
+            return next
+        })
+    }
+    function toggleAll(on: boolean) {
+        setSelected(on ? new Set(rows.map((r) => r.attemptId)) : new Set())
+    }
+
+    function handleBulkDelete() {
+        const ids = [...selected]
+        if (ids.length === 0) return
+        if (
+            !confirm(
+                `Delete ${ids.length} result${ids.length === 1 ? '' : 's'}? ` +
+                    `This permanently removes the attempt${
+                        ids.length === 1 ? '' : 's'
+                    } and all recorded answers and timing. This can’t be undone.`
+            )
+        ) {
+            return
+        }
+        bulkDelete(ids, {
+            onSuccess: (res) => {
+                toast.success(
+                    `Deleted ${res?.deletedCount ?? ids.length} result${
+                        (res?.deletedCount ?? ids.length) === 1 ? '' : 's'
+                    }`
+                )
+                setSelected(new Set())
+            },
+            onError: (err) => toast.error(err.message),
+        })
+    }
 
     return (
         <AdminLayout>
@@ -71,6 +117,31 @@ export function DiagnosticResultsPage() {
                     </Button>
                 </div>
 
+                {/* Bulk action bar — appears once results are selected. */}
+                {selected.size > 0 && (
+                    <div className="flex items-center gap-3 rounded-md border border-gray-200 bg-gray-50 px-3 py-2 dark:border-gray-800 dark:bg-gray-900">
+                        <span className="text-sm font-medium">
+                            {selected.size} selected
+                        </span>
+                        <Button
+                            variant="destructive"
+                            size="sm"
+                            disabled={isDeleting}
+                            onClick={handleBulkDelete}
+                        >
+                            <Trash2 className="mr-2 h-4 w-4" />
+                            {isDeleting ? 'Deleting…' : 'Delete selected'}
+                        </Button>
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => setSelected(new Set())}
+                        >
+                            Clear
+                        </Button>
+                    </div>
+                )}
+
                 {isLoading && <p className="text-gray-500">Loading…</p>}
 
                 {!isLoading && rows.length === 0 && (
@@ -84,6 +155,13 @@ export function DiagnosticResultsPage() {
                     <Table>
                         <TableHeader>
                             <TableRow>
+                                <TableHead className="w-8">
+                                    <Checkbox
+                                        aria-label="Select all results"
+                                        checked={allSelected}
+                                        onCheckedChange={(v) => toggleAll(v === true)}
+                                    />
+                                </TableHead>
                                 <TableHead>Student</TableHead>
                                 <TableHead>Set</TableHead>
                                 <TableHead>Subject</TableHead>
@@ -100,8 +178,20 @@ export function DiagnosticResultsPage() {
                                 <TableRow
                                     key={r.attemptId}
                                     className="cursor-pointer"
+                                    data-state={selected.has(r.attemptId) ? 'selected' : undefined}
                                     onClick={() => setOpenAttempt(r.attemptId)}
                                 >
+                                    <TableCell onClick={(e) => e.stopPropagation()}>
+                                        <Checkbox
+                                            aria-label={`Select result for ${
+                                                r.studentEmail ?? 'student'
+                                            }`}
+                                            checked={selected.has(r.attemptId)}
+                                            onCheckedChange={(v) =>
+                                                toggleOne(r.attemptId, v === true)
+                                            }
+                                        />
+                                    </TableCell>
                                     <TableCell className="font-medium">
                                         {r.studentEmail ?? '—'}
                                     </TableCell>
