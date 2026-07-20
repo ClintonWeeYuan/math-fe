@@ -17,7 +17,7 @@ export function EsatTmuaPage() {
                 {/* Eyebrow */}
                 <div className="mb-5">
                     <span className="inline-block bg-emerald-50 text-emerald-700 text-xs md:text-sm font-medium px-4 py-1.5 rounded-full border border-emerald-200">
-                        Free diagnostics — now live
+                        ESAT diagnostics — now live
                     </span>
                 </div>
 
@@ -27,10 +27,11 @@ export function EsatTmuaPage() {
                 </p>
 
                 <p className="text-lg md:text-xl text-slate-500 mb-8 leading-relaxed max-w-2xl">
-                    Free diagnostic questions for the Engineering and Science
-                    Admissions Test (ESAT) and the Test of Mathematics for
-                    University Admission (TMUA) — mapped to specific skills, so
-                    you know exactly where to focus.
+                    Free <span className="font-medium text-slate-600">ESAT</span>{' '}
+                    diagnostics are live now — timed papers mapped to specific
+                    skills, so you know exactly where to focus.{' '}
+                    <span className="font-medium text-slate-600">TMUA</span>{' '}
+                    diagnostics are coming soon.
                 </p>
 
                 <div className="mb-12">
@@ -38,13 +39,18 @@ export function EsatTmuaPage() {
                         className="cursor-pointer font-medium"
                         onClick={() => navigate('/diagnostics')}
                     >
-                        Start a free diagnostic →
+                        Start a free ESAT diagnostic →
                     </Button>
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-6 mb-12">
                     <div className="bg-slate-50 border border-slate-100 rounded-xl p-6">
-                        <p className="text-lg font-bold mb-2">ESAT</p>
+                        <div className="flex items-center gap-2 mb-2">
+                            <p className="text-lg font-bold">ESAT</p>
+                            <span className="inline-block bg-emerald-50 text-emerald-700 text-[11px] font-medium px-2 py-0.5 rounded-full border border-emerald-200">
+                                Available now
+                            </span>
+                        </div>
                         <p className="text-slate-500 text-sm leading-relaxed mb-3">
                             Engineering and Science Admissions Test. Required
                             for Engineering, Natural Sciences, Chemical
@@ -56,7 +62,12 @@ export function EsatTmuaPage() {
                         </p>
                     </div>
                     <div className="bg-slate-50 border border-slate-100 rounded-xl p-6">
-                        <p className="text-lg font-bold mb-2">TMUA</p>
+                        <div className="flex items-center gap-2 mb-2">
+                            <p className="text-lg font-bold">TMUA</p>
+                            <span className="inline-block bg-amber-50 text-amber-700 text-[11px] font-medium px-2 py-0.5 rounded-full border border-amber-200">
+                                Coming soon
+                            </span>
+                        </div>
                         <p className="text-slate-500 text-sm leading-relaxed mb-3">
                             Test of Mathematics for University Admission. Tests
                             mathematical reasoning in novel contexts — not just
