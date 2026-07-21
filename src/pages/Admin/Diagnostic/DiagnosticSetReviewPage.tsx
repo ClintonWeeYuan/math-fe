@@ -146,10 +146,15 @@ export function DiagnosticSetReviewPage() {
                             </div>
 
                             {q.diagramUrl && (
+                                // self-start: the img is a direct child of this
+                                // flex-col card, so without it align-items:stretch
+                                // forces the img to full width and object-fit:fill
+                                // then distorts the diagram. object-contain is a
+                                // backstop against any future definite-size box.
                                 <img
                                     src={q.diagramUrl}
                                     alt={`Diagram for question ${index + 1}`}
-                                    className="max-h-64 max-w-full rounded border"
+                                    className="max-h-64 max-w-full self-start rounded border object-contain"
                                 />
                             )}
 
