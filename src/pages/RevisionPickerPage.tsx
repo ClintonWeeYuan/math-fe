@@ -1,7 +1,7 @@
 import { LandingLayout } from '@/components/layout/landing/LandingLayout.tsx'
 import { Link, useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button.tsx'
-import { useEffect } from 'react'
+import { Seo } from '@/components/Seo.tsx'
 
 /**
  * Step 1 of the revision track: pick your curriculum. Only SPM is live —
@@ -12,12 +12,13 @@ import { useEffect } from 'react'
 export function RevisionPickerPage() {
     const navigate = useNavigate()
 
-    useEffect(() => {
-        document.title = 'Choose Your Exam | JomExam Revision'
-    }, [])
-
     return (
         <LandingLayout>
+            <Seo
+                title="Choose Your Exam | JomExam Revision"
+                description="Pick your curriculum — SPM live now with Mathematics and Add Maths, A-Level and IB Maths coming soon. Practice scoped to your exact exam, organised by topic."
+                path="/revision"
+            />
             <div className="px-4 md:px-[50px] xl:px-[150px] py-12 md:py-20 max-w-5xl">
                 <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-4">
                     Revision · step 1 of 2
