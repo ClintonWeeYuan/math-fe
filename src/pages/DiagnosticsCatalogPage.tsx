@@ -1,5 +1,5 @@
-import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Seo } from '@/components/Seo.tsx'
 import { LandingLayout } from '@/components/layout/landing/LandingLayout.tsx'
 import { Button } from '@/components/ui/button.tsx'
 import useListPublishedSetsQuery from '@/hooks/diagnostic/useListPublishedSetsQuery.ts'
@@ -29,15 +29,16 @@ function groupBySubject(
 export function DiagnosticsCatalogPage() {
     const navigate = useNavigate()
 
-    useEffect(() => {
-        document.title = 'Diagnostics | JomExam — Free ESAT & TMUA Practice'
-    }, [])
-
     const { data: sets, isLoading } = useListPublishedSetsQuery()
     const groups = groupBySubject(sets ?? [])
 
     return (
         <LandingLayout>
+            <Seo
+                title="ESAT Diagnostic Tests | JomExam"
+                description="Sit a timed ESAT diagnostic — Maths 1, Maths 2 or Physics — and get a report mapped to specific skills, so you know exactly where you stand before you start prepping."
+                path="/diagnostics"
+            />
             <div className="px-4 md:px-[50px] xl:px-[150px] py-12 md:py-20 max-w-4xl">
                 <p className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
                     Free{' '}

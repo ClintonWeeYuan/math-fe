@@ -1,17 +1,18 @@
 import { LandingLayout } from '@/components/layout/landing/LandingLayout.tsx'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button.tsx'
-import { useEffect } from 'react'
+import { Seo } from '@/components/Seo.tsx'
 
 export function AboutPage() {
     const navigate = useNavigate()
 
-    useEffect(() => {
-        document.title = 'About | JomExam — Free SPM & ESAT Practice'
-    }, [])
-
     return (
         <LandingLayout>
+            <Seo
+                title="About | JomExam — Oxford-Trained, Diagnostic-First STEM Prep"
+                description="JomExam is built by Hazel — Oxford DPhil in Engineering, 5,000+ hours taught across A-Level, IB, ESAT and TMUA — on one idea: find the gap before you drill."
+                path="/about"
+            />
             <div className="px-4 md:px-[50px] xl:px-[150px] py-12 md:py-20 max-w-5xl">
 
                 {/* Hero */}

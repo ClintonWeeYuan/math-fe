@@ -1,17 +1,18 @@
 import { LandingLayout } from '@/components/layout/landing/LandingLayout.tsx'
 import { Button } from '@/components/ui/button.tsx'
 import { useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
+import { Seo } from '@/components/Seo.tsx'
 
 export function EsatTmuaPage() {
     const navigate = useNavigate()
 
-    useEffect(() => {
-        document.title = 'ESAT & TMUA | JomExam — Free Admissions Test Prep'
-    }, [])
-
     return (
         <LandingLayout>
+            <Seo
+                title="ESAT & TMUA Preparation | JomExam"
+                description="Prepare for the ESAT and TMUA with timed diagnostics mapped to the skills the tests examine. Sit a paper, get a skills report, and know exactly where to focus."
+                path="/esat-tmua"
+            />
             <div className="px-4 md:px-[50px] xl:px-[150px] py-12 md:py-20 max-w-4xl">
 
                 {/* Eyebrow */}
