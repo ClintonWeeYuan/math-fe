@@ -1,6 +1,6 @@
 import { LandingLayout } from '@/components/layout/landing/LandingLayout.tsx'
 import { Link } from 'react-router-dom'
-import { useEffect } from 'react'
+import { Seo } from '@/components/Seo.tsx'
 
 const PERIWINKLE = '#799ED1'
 
@@ -11,13 +11,13 @@ const PERIWINKLE = '#799ED1'
  * these two doors — the fork itself never grows.
  */
 export function LandingPage() {
-    useEffect(() => {
-        document.title =
-            'JomExam — STEM Exam Prep, from SPM to University Admissions'
-    }, [])
-
     return (
         <LandingLayout>
+            <Seo
+                title="JomExam — STEM Exam Prep: ESAT Diagnostics & SPM Practice"
+                description="STEM exam prep from SPM to university admissions. Sit timed ESAT diagnostics mapped to real exam skills, get a skills report, and practise SPM Maths by topic."
+                path="/"
+            />
             <div className="px-4 md:px-[50px] xl:px-[150px] py-10 md:py-16 w-full">
                 {/* Eyebrow */}
                 <div className="mb-5">
