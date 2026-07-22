@@ -15,6 +15,8 @@ import { VerificationPage } from '@/pages/Auth/VerificationPage.tsx'
 import { MoreInfoFormPage } from '@/pages/Auth/MoreInfoFormPage.tsx'
 import { useEffect } from 'react'
 import { LandingPage } from '@/pages/LandingPage.tsx'
+import { RevisionPickerPage } from '@/pages/RevisionPickerPage.tsx'
+import { AdmissionsPickerPage } from '@/pages/AdmissionsPickerPage.tsx'
 import SubjectsPage from '@/pages/SubjectsPage.tsx'
 import { QuizGeneratorPage } from '@/pages/v3/QuizGeneratorPage.tsx'
 import { QuizPage } from './components/questionBank/v3/Quiz'
@@ -60,6 +62,11 @@ function App() {
         <>
             <Routes>
                 <Route path="" element={<LandingPage />} />
+                <Route path="revision" element={<RevisionPickerPage />} />
+                <Route
+                    path="admissions"
+                    element={<AdmissionsPickerPage />}
+                />
                 <Route path="about" element={<AboutPage />} />
                 <Route path="esat-tmua" element={<EsatTmuaPage />} />
                 <Route path="diagnostics" element={<DiagnosticsCatalogPage />} />

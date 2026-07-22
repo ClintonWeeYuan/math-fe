@@ -1,31 +1,30 @@
 import { Button } from '@/components/ui/button.tsx'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '@/components/auth/AuthContext.tsx'
-import { useGetSubjectsLink } from '@/components/routing/useGetSubjectsLink.ts'
-import { useMemo } from 'react'
+
+/**
+ * Public-site header. The menu mirrors the goal fork on the landing page —
+ * one entry per track (Revision, Admissions) plus About — so a visitor can
+ * jump straight to their track's exam picker from anywhere.
+ */
+const MENU_ITEMS: { text: string; link: string }[] = [
+    {
+        text: 'Revision',
+        link: '/revision',
+    },
+    {
+        text: 'Admissions',
+        link: '/admissions',
+    },
+    {
+        text: 'About',
+        link: '/about',
+    },
+]
 
 export function LandingHeader() {
     const navigate = useNavigate()
     const { user } = useAuth()
-    const subjectLink = useGetSubjectsLink()
-
-    const MENU_ITEMS: { text: string; link: string }[] = useMemo(
-        () => [
-            {
-                text: 'Subjects',
-                link: subjectLink,
-            },
-            {
-                text: 'ESAT & TMUA',
-                link: '/esat-tmua',
-            },
-            {
-                text: 'About',
-                link: '/about',
-            },
-        ],
-        [subjectLink]
-    )
 
     return (
         <div className="flex px-2 md:px-12 py-4 md:py-8 items-center justify-between">
