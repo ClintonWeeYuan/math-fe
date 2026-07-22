@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { Seo } from '@/components/Seo.tsx'
 import {
     Card,
     CardContent,
@@ -403,6 +404,11 @@ export default function SubjectsPage({ embedded }: { embedded?: boolean }) {
     if (embedded) return <SubjectsGrid />
     return (
         <LandingLayout>
+            <Seo
+                title="SPM Practice by Subject | JomExam"
+                description="Practise SPM Mathematics and Additional Mathematics by topic and difficulty — real exam-style questions for Malaysian Form 4–5 students, with more STEM subjects on the way."
+                path="/subjects"
+            />
             <SubjectsGrid />
         </LandingLayout>
     )

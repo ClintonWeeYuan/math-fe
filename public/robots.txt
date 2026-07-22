@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /auth/
+Disallow: /diagnostic/
+
+Sitemap: https://www.jomexam.com/sitemap.xml
