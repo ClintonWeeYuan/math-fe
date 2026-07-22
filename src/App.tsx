@@ -75,15 +75,20 @@ function App() {
                     path="questions/:subjectId"
                     element={<QuestionBankPage />}
                 />
+                {/* The SPM quiz is open like the v1 bank: the flow is
+                    read-only (answers checked client-side, no progress
+                    saved), so a login wall here was pure friction. Login
+                    still gates everything that writes — quizzes that save,
+                    and all diagnostic attempts. */}
+                <Route
+                    path="questions/v2/:subjectId"
+                    element={<QuizGeneratorPage />}
+                />
+                <Route
+                    path="questions/v2/:subjectId/quiz"
+                    element={<QuizPage />}
+                />
                 <Route element={<StudentProtectedRoute />}>
-                    <Route
-                        path="questions/v2/:subjectId"
-                        element={<QuizGeneratorPage />}
-                    />
-                    <Route
-                        path="questions/v2/:subjectId/quiz"
-                        element={<QuizPage />}
-                    />
                     <Route
                         path="diagnostic/sets/:setId"
                         element={<SetInstructionsPage />}
