@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes, useParams } from 'react-router-dom'
 import { QuestionBankPage } from '@/pages/QuestionBankPage.tsx'
 import { QuestionManagerPage } from '@/pages/Admin/QuestionManagerPage.tsx'
 import { SandboxPage } from '@/pages/SandboxPage.tsx'
@@ -18,8 +18,6 @@ import { LandingPage } from '@/pages/LandingPage.tsx'
 import { RevisionPickerPage } from '@/pages/RevisionPickerPage.tsx'
 import { AdmissionsPickerPage } from '@/pages/AdmissionsPickerPage.tsx'
 import SubjectsPage from '@/pages/SubjectsPage.tsx'
-import { QuizGeneratorPage } from '@/pages/v3/QuizGeneratorPage.tsx'
-import { QuizPage } from './components/questionBank/v3/Quiz'
 import { AboutPage } from '@/pages/AboutPage.tsx'
 import { EsatTmuaPage } from '@/pages/EsatTmuaPage.tsx'
 import { DiagnosticsCatalogPage } from '@/pages/DiagnosticsCatalogPage.tsx'
@@ -37,6 +35,16 @@ import { DiagnosticQuestionEditPage } from '@/pages/Admin/Diagnostic/DiagnosticQ
 import { SetInstructionsPage } from '@/pages/Diagnostic/SetInstructionsPage.tsx'
 import { ExamPage } from '@/pages/Diagnostic/ExamPage.tsx'
 import { DiagnosticReportPage } from '@/pages/Diagnostic/DiagnosticReportPage.tsx'
+
+/** The v2 quiz routes are retired: the guided-quiz UI only works for
+ * subjects with authored MCQ options (Modern Maths: 507/513; Add Math:
+ * 0/560), so the browsable bank is the one SPM experience. Old links and
+ * bookmarks land on the bank for the same subject. The v3 quiz components
+ * stay in the tree, parked for the future drill tier. */
+function LegacyQuizRedirect() {
+    const { subjectId } = useParams()
+    return <Navigate to={`/questions/${subjectId}`} replace />
+}
 
 function App() {
     useEffect(() => {
@@ -75,18 +83,13 @@ function App() {
                     path="questions/:subjectId"
                     element={<QuestionBankPage />}
                 />
-                {/* The SPM quiz is open like the v1 bank: the flow is
-                    read-only (answers checked client-side, no progress
-                    saved), so a login wall here was pure friction. Login
-                    still gates everything that writes — quizzes that save,
-                    and all diagnostic attempts. */}
                 <Route
                     path="questions/v2/:subjectId"
-                    element={<QuizGeneratorPage />}
+                    element={<LegacyQuizRedirect />}
                 />
                 <Route
                     path="questions/v2/:subjectId/quiz"
-                    element={<QuizPage />}
+                    element={<LegacyQuizRedirect />}
                 />
                 <Route element={<StudentProtectedRoute />}>
                     <Route

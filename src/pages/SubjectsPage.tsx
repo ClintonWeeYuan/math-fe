@@ -36,7 +36,7 @@ interface Subject {
 export const subjectsPage: Subject[] = [
     {
         id: '8d4a1938-789f-4c57-96b2-1c079941a59e',
-        url: '/questions/v2/8d4a1938-789f-4c57-96b2-1c079941a59e',
+        url: '/questions/8d4a1938-789f-4c57-96b2-1c079941a59e',
         name: 'Mathematics',
         description: 'Master fundamental mathematics concepts for SPM',
         icon: Calculator,
