@@ -11,7 +11,7 @@ export function EsatTmuaPage() {
         <LandingLayout>
             <Seo
                 title="ESAT & TMUA Preparation | JomExam"
-                description="Prepare for the ESAT and TMUA with timed diagnostics mapped to the skills the tests examine. Sit a paper, get a skills report, and know exactly where to focus."
+                description="Prepare for the ESAT and TMUA with timed diagnostics mapped to the skills the tests examine — ESAT and TMUA Paper 1 & 2 all live. Sit a paper, get a skills report, and know exactly where to focus."
                 path="/esat-tmua"
             />
             <div className="px-4 md:px-[50px] xl:px-[150px] py-12 md:py-20 max-w-4xl">
@@ -33,7 +33,7 @@ export function EsatTmuaPage() {
                     diagnostics are live now — timed papers mapped to specific
                     skills, so you know exactly where to focus.{' '}
                     <span className="font-medium text-slate-600">TMUA</span>{' '}
-                    diagnostics launch for the October sitting.
+                    Paper 1 &amp; Paper 2 diagnostics are live too.
                 </p>
 
                 <div className="mb-12">
@@ -67,7 +67,7 @@ export function EsatTmuaPage() {
                         <div className="flex items-center gap-2 mb-2">
                             <p className="text-lg font-bold">TMUA</p>
                             <span className="inline-block bg-emerald-50 text-emerald-700 text-[11px] font-medium px-2 py-0.5 rounded-full border border-emerald-200">
-                                Launching October
+                                Available now
                             </span>
                         </div>
                         <p className="text-slate-500 text-sm leading-relaxed mb-3">
@@ -80,14 +80,27 @@ export function EsatTmuaPage() {
                         <p className="text-xs text-slate-400 font-medium mb-4">
                             Cambridge · LSE · Warwick · Durham · Bath
                         </p>
-                        <TmuaWaitlistForm />
                     </div>
                 </div>
 
-                <p className="text-sm text-slate-400 mb-12 -mt-6">
-                    Also in development: ESAT Chemistry — following the TMUA
-                    launch.
-                </p>
+                <div className="border border-slate-200 rounded-xl p-6 bg-white mb-12 -mt-6">
+                    <div className="flex items-center gap-2 mb-2">
+                        <p className="text-base font-bold">ESAT Chemistry</p>
+                        <span className="inline-block bg-amber-50 text-amber-700 text-[11px] font-medium px-2 py-0.5 rounded-full border border-amber-200">
+                            In development
+                        </span>
+                    </div>
+                    <p className="text-slate-500 text-sm leading-relaxed mb-4">
+                        Chemistry diagnostics in the same format. Join the list
+                        and we&apos;ll email you when they open.
+                    </p>
+                    <div className="max-w-md">
+                        <TmuaWaitlistForm
+                            product="esat-chemistry"
+                            successMessage="You're on the list — we'll email you when ESAT Chemistry opens."
+                        />
+                    </div>
+                </div>
 
                 <div className="bg-slate-900 rounded-2xl p-8 mb-12">
                     <p className="text-xl font-bold text-white mb-2">

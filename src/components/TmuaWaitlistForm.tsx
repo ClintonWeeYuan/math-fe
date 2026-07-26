@@ -54,23 +54,25 @@ export function TmuaWaitlistForm({
             className="flex flex-col gap-2"
             noValidate
         >
-            <div className="flex gap-2">
-                <Input
-                    type="email"
-                    placeholder="you@email.com"
-                    aria-label="Email address"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    disabled={isPending}
-                />
-                <Button
-                    type="submit"
-                    className="cursor-pointer shrink-0"
-                    disabled={isPending}
-                >
-                    {isPending ? 'Joining…' : 'Join waitlist'}
-                </Button>
-            </div>
+            {/* Stacked, not side by side: in a narrow card the row layout
+                squeezed the input down to a few characters. Full width each,
+                so the email is readable as it is typed. */}
+            <Input
+                type="email"
+                placeholder="you@email.com"
+                aria-label="Email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={isPending}
+                className="w-full"
+            />
+            <Button
+                type="submit"
+                className="cursor-pointer w-full"
+                disabled={isPending}
+            >
+                {isPending ? 'Joining…' : 'Join waitlist'}
+            </Button>
             {error && <p className="text-xs text-red-600">{error}</p>}
         </form>
     )

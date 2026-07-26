@@ -17,7 +17,7 @@ export function AdmissionsPickerPage() {
         <LandingLayout>
             <Seo
                 title="Choose Your Test | JomExam Admissions"
-                description="Pick your admissions test — ESAT diagnostics live now; TMUA launching for the October sitting with Paper 1 and Paper 2 in the same timed-diagnostic format. Skills report, not just a score."
+                description="Pick your admissions test — ESAT and TMUA diagnostics both live, with Paper 1 and Paper 2 for TMUA. Timed papers with a skills report, not just a score."
                 path="/admissions"
             />
             <div className="px-4 md:px-[50px] xl:px-[150px] py-12 md:py-20 max-w-5xl">
@@ -55,45 +55,44 @@ export function AdmissionsPickerPage() {
                         </Button>
                     </div>
 
-                    {/* TMUA — the primary upcoming product */}
-                    <div className="border border-slate-200 rounded-xl p-6 bg-white flex flex-col">
+                    {/* TMUA — live */}
+                    <div className="border border-slate-200 rounded-xl p-6 bg-white flex flex-col hover:shadow-xl hover:scale-[1.02] transition-all">
                         <div className="flex items-center gap-3 mb-2">
                             <p className="text-lg font-bold">TMUA</p>
-                            <span
-                                className="text-xs font-medium px-2.5 py-0.5 rounded-full border"
-                                style={{
-                                    backgroundColor: '#EEF3FB',
-                                    color: '#4E77B4',
-                                    borderColor: '#CFDDF1',
-                                }}
-                            >
-                                Launching October
+                            <span className="text-xs font-medium bg-emerald-50 text-emerald-700 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                                Live
                             </span>
                         </div>
-                        <p className="text-slate-500 text-sm leading-relaxed mb-4 flex-1">
+                        <p className="text-slate-500 text-sm leading-relaxed mb-6 flex-1">
                             Test of Mathematics for University Admission —
                             Cambridge, LSE, Warwick, Durham, Bath. Paper 1
-                            &amp; Paper 2, in the same timed-diagnostic +
-                            skills-report format as our ESAT sets.
+                            &amp; Paper 2 diagnostics, live now.
                         </p>
-                        <TmuaWaitlistForm />
+                        <Button
+                            className="cursor-pointer w-full"
+                            onClick={() => navigate('/diagnostics')}
+                        >
+                            Enter TMUA →
+                        </Button>
                     </div>
 
                     {/* ESAT Chemistry — secondary, in development */}
-                    <div className="border border-slate-200 rounded-xl p-6 bg-white flex flex-col opacity-70">
+                    <div className="border border-slate-200 rounded-xl p-6 bg-white flex flex-col">
                         <div className="flex items-center gap-3 mb-2">
                             <p className="text-lg font-bold">ESAT Chemistry</p>
                             <span className="text-xs font-medium bg-amber-100 text-amber-700 px-2.5 py-0.5 rounded-full border border-amber-200">
                                 In development
                             </span>
                         </div>
-                        <p className="text-slate-500 text-sm leading-relaxed mb-6 flex-1">
-                            Chemistry diagnostics to follow the TMUA launch —
-                            same format, mapped to the ESAT specification.
+                        <p className="text-slate-500 text-sm leading-relaxed mb-4 flex-1">
+                            Chemistry diagnostics in the same format, mapped to
+                            the ESAT specification. Join the list and we&apos;ll
+                            email you when they open.
                         </p>
-                        <p className="text-xs text-slate-400 font-medium">
-                            Following TMUA
-                        </p>
+                        <TmuaWaitlistForm
+                            product="esat-chemistry"
+                            successMessage="You're on the list — we'll email you when ESAT Chemistry opens."
+                        />
                     </div>
                 </div>
 
