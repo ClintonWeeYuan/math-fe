@@ -34,9 +34,10 @@ export function AboutPage() {
                 <div className="bg-slate-50 rounded-2xl p-8 mb-16 border border-slate-100">
                     <p className="text-2xl font-bold mb-3">Our mission</p>
                     <p className="text-slate-600 text-lg leading-relaxed">
-                        Make high-quality exam practice free and accessible —
-                        for every SPM student in Malaysia, and every A-Level or
-                        IB student aiming for a top UK university.
+                        Make high-quality exam practice accessible — for
+                        every SPM student in Malaysia, and every student
+                        aiming for a top UK university through the ESAT or
+                        TMUA.
                     </p>
                 </div>
 

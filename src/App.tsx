@@ -15,7 +15,6 @@ import { VerificationPage } from '@/pages/Auth/VerificationPage.tsx'
 import { MoreInfoFormPage } from '@/pages/Auth/MoreInfoFormPage.tsx'
 import { useEffect } from 'react'
 import { LandingPage } from '@/pages/LandingPage.tsx'
-import { RevisionPickerPage } from '@/pages/RevisionPickerPage.tsx'
 import { AdmissionsPickerPage } from '@/pages/AdmissionsPickerPage.tsx'
 import SubjectsPage from '@/pages/SubjectsPage.tsx'
 import { AboutPage } from '@/pages/AboutPage.tsx'
@@ -70,7 +69,13 @@ function App() {
         <>
             <Routes>
                 <Route path="" element={<LandingPage />} />
-                <Route path="revision" element={<RevisionPickerPage />} />
+                {/* The revision track is SPM-only now (we specialise in
+                    ESAT & TMUA rather than A-Level/IB), so the picker is
+                    gone; crawled /revision URLs land on the subjects page. */}
+                <Route
+                    path="revision"
+                    element={<Navigate to="/subjects" replace />}
+                />
                 <Route
                     path="admissions"
                     element={<AdmissionsPickerPage />}
