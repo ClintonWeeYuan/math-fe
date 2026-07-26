@@ -83,6 +83,17 @@ function App() {
                 <Route path="about" element={<AboutPage />} />
                 <Route path="esat-tmua" element={<EsatTmuaPage />} />
                 <Route path="diagnostics" element={<DiagnosticsCatalogPage />} />
+                {/* ESAT and TMUA are separate products, so each has its own
+                    catalogue page (own heading, copy and search metadata);
+                    /diagnostics stays as the combined listing. */}
+                <Route
+                    path="diagnostics/esat"
+                    element={<DiagnosticsCatalogPage test="esat" />}
+                />
+                <Route
+                    path="diagnostics/tmua"
+                    element={<DiagnosticsCatalogPage test="tmua" />}
+                />
                 <Route path="subjects" element={<SubjectsPage />} />
                 <Route
                     path="questions/:subjectId"

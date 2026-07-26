@@ -49,7 +49,7 @@ export function AdmissionsPickerPage() {
                         </p>
                         <Button
                             className="cursor-pointer w-full"
-                            onClick={() => navigate('/esat-tmua')}
+                            onClick={() => navigate('/diagnostics/esat')}
                         >
                             Enter ESAT →
                         </Button>
@@ -70,7 +70,7 @@ export function AdmissionsPickerPage() {
                         </p>
                         <Button
                             className="cursor-pointer w-full"
-                            onClick={() => navigate('/diagnostics')}
+                            onClick={() => navigate('/diagnostics/tmua')}
                         >
                             Enter TMUA →
                         </Button>
