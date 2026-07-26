@@ -39,7 +39,7 @@ export function EsatTmuaPage() {
                 <div className="mb-12">
                     <Button
                         className="cursor-pointer font-medium"
-                        onClick={() => navigate('/diagnostics')}
+                        onClick={() => navigate('/diagnostics/esat')}
                     >
                         Start a free ESAT diagnostic →
                     </Button>

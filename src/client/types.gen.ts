@@ -3115,9 +3115,23 @@ export type CreateDiagnosticSetDiagnosticSetsPostResponse = CreateDiagnosticSetD
 export type ListPublishedDiagnosticSetsDiagnosticSetsPublishedGetData = {
     body?: never;
     path?: never;
-    query?: never;
+    query?: {
+        /**
+         * Test
+         */
+        test?: string | null;
+    };
     url: '/diagnostic/sets/published';
 };
+
+export type ListPublishedDiagnosticSetsDiagnosticSetsPublishedGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type ListPublishedDiagnosticSetsDiagnosticSetsPublishedGetError = ListPublishedDiagnosticSetsDiagnosticSetsPublishedGetErrors[keyof ListPublishedDiagnosticSetsDiagnosticSetsPublishedGetErrors];
 
 export type ListPublishedDiagnosticSetsDiagnosticSetsPublishedGetResponses = {
     /**
