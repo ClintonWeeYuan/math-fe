@@ -28,6 +28,7 @@ import { DiagnosticSetQuestionsPage } from '@/pages/Admin/Diagnostic/DiagnosticS
 import { DiagnosticSetReviewPage } from '@/pages/Admin/Diagnostic/DiagnosticSetReviewPage.tsx'
 import { DiagnosticSubjectsPage } from '@/pages/Admin/Diagnostic/DiagnosticSubjectsPage.tsx'
 import { DiagnosticResultsPage } from '@/pages/Admin/Diagnostic/DiagnosticResultsPage.tsx'
+import { WaitlistPage } from '@/pages/Admin/Diagnostic/WaitlistPage.tsx'
 import { DiagnosticAdminReportPage } from '@/pages/Admin/Diagnostic/DiagnosticAdminReportPage.tsx'
 import { DiagnosticQuestionCreatePage } from '@/pages/Admin/Diagnostic/DiagnosticQuestionCreatePage.tsx'
 import { DiagnosticQuestionEditPage } from '@/pages/Admin/Diagnostic/DiagnosticQuestionEditPage.tsx'
@@ -163,6 +164,7 @@ function App() {
                     <Route path="admin/sets" element={<DiagnosticSetsListPage />} />
                     <Route path="admin/subjects" element={<DiagnosticSubjectsPage />} />
                     <Route path="admin/results" element={<DiagnosticResultsPage />} />
+                    <Route path="admin/waitlist" element={<WaitlistPage />} />
                     <Route
                         path="admin/attempts/:attemptId/report"
                         element={<DiagnosticAdminReportPage />}

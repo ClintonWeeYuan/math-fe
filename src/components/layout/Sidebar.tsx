@@ -17,6 +17,7 @@ import {
     Inbox,
     Layers,
     LucideCodesandbox,
+    Mail,
     PencilIcon,
     Settings,
 } from 'lucide-react'
@@ -64,6 +65,11 @@ const ITEMS = [
         title: 'Results',
         url: '/admin/results',
         icon: BarChart3,
+    },
+    {
+        title: 'Waitlist',
+        url: '/admin/waitlist',
+        icon: Mail,
     },
 ]
 
