@@ -2,6 +2,7 @@ import { LandingLayout } from '@/components/layout/landing/LandingLayout.tsx'
 import { Button } from '@/components/ui/button.tsx'
 import { useNavigate } from 'react-router-dom'
 import { Seo } from '@/components/Seo.tsx'
+import { TmuaWaitlistForm } from '@/components/TmuaWaitlistForm.tsx'
 
 export function EsatTmuaPage() {
     const navigate = useNavigate()
@@ -32,7 +33,7 @@ export function EsatTmuaPage() {
                     diagnostics are live now — timed papers mapped to specific
                     skills, so you know exactly where to focus.{' '}
                     <span className="font-medium text-slate-600">TMUA</span>{' '}
-                    diagnostics are coming soon.
+                    diagnostics launch for the October sitting.
                 </p>
 
                 <div className="mb-12">
@@ -65,20 +66,28 @@ export function EsatTmuaPage() {
                     <div className="bg-slate-50 border border-slate-100 rounded-xl p-6">
                         <div className="flex items-center gap-2 mb-2">
                             <p className="text-lg font-bold">TMUA</p>
-                            <span className="inline-block bg-amber-50 text-amber-700 text-[11px] font-medium px-2 py-0.5 rounded-full border border-amber-200">
-                                Coming soon
+                            <span className="inline-block bg-emerald-50 text-emerald-700 text-[11px] font-medium px-2 py-0.5 rounded-full border border-emerald-200">
+                                Launching October
                             </span>
                         </div>
                         <p className="text-slate-500 text-sm leading-relaxed mb-3">
                             Test of Mathematics for University Admission. Tests
                             mathematical reasoning in novel contexts — not just
-                            A-Level content recall.
+                            curriculum recall. Paper 1 &amp; Paper 2, in the
+                            same timed-diagnostic + skills-report format as our
+                            ESAT sets.
                         </p>
-                        <p className="text-xs text-slate-400 font-medium">
+                        <p className="text-xs text-slate-400 font-medium mb-4">
                             Cambridge · LSE · Warwick · Durham · Bath
                         </p>
+                        <TmuaWaitlistForm />
                     </div>
                 </div>
+
+                <p className="text-sm text-slate-400 mb-12 -mt-6">
+                    Also in development: ESAT Chemistry — following the TMUA
+                    launch.
+                </p>
 
                 <div className="bg-slate-900 rounded-2xl p-8 mb-12">
                     <p className="text-xl font-bold text-white mb-2">

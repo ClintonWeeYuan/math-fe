@@ -2,6 +2,7 @@ import { LandingLayout } from '@/components/layout/landing/LandingLayout.tsx'
 import { Link, useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button.tsx'
 import { Seo } from '@/components/Seo.tsx'
+import { TmuaWaitlistForm } from '@/components/TmuaWaitlistForm.tsx'
 
 /**
  * Step 1 of the admissions track: pick your test. ESAT is live; TMUA and
@@ -16,7 +17,7 @@ export function AdmissionsPickerPage() {
         <LandingLayout>
             <Seo
                 title="Choose Your Test | JomExam Admissions"
-                description="Pick your admissions test — ESAT diagnostics live now for Cambridge and Imperial applicants; TMUA coming soon. Timed papers with a skills report, not just a score."
+                description="Pick your admissions test — ESAT diagnostics live now; TMUA launching for the October sitting with Paper 1 and Paper 2 in the same timed-diagnostic format. Skills report, not just a score."
                 path="/admissions"
             />
             <div className="px-4 md:px-[50px] xl:px-[150px] py-12 md:py-20 max-w-5xl">
@@ -54,48 +55,55 @@ export function AdmissionsPickerPage() {
                         </Button>
                     </div>
 
-                    {/* TMUA — coming soon */}
-                    <div className="border border-slate-200 rounded-xl p-6 bg-white flex flex-col opacity-70">
+                    {/* TMUA — the primary upcoming product */}
+                    <div className="border border-slate-200 rounded-xl p-6 bg-white flex flex-col">
                         <div className="flex items-center gap-3 mb-2">
                             <p className="text-lg font-bold">TMUA</p>
-                            <span className="text-xs font-medium bg-amber-100 text-amber-700 px-2.5 py-0.5 rounded-full border border-amber-200">
-                                Coming soon
+                            <span
+                                className="text-xs font-medium px-2.5 py-0.5 rounded-full border"
+                                style={{
+                                    backgroundColor: '#EEF3FB',
+                                    color: '#4E77B4',
+                                    borderColor: '#CFDDF1',
+                                }}
+                            >
+                                Launching October
                             </span>
                         </div>
-                        <p className="text-slate-500 text-sm leading-relaxed mb-6 flex-1">
+                        <p className="text-slate-500 text-sm leading-relaxed mb-4 flex-1">
                             Test of Mathematics for University Admission —
-                            Cambridge, LSE, Warwick, Durham, Bath.
+                            Cambridge, LSE, Warwick, Durham, Bath. Paper 1
+                            &amp; Paper 2, in the same timed-diagnostic +
+                            skills-report format as our ESAT sets.
                         </p>
-                        <p className="text-xs text-slate-400 font-medium">
-                            In development
-                        </p>
+                        <TmuaWaitlistForm />
                     </div>
 
-                    {/* Roadmap */}
+                    {/* ESAT Chemistry — secondary, in development */}
                     <div className="border border-slate-200 rounded-xl p-6 bg-white flex flex-col opacity-70">
                         <div className="flex items-center gap-3 mb-2">
-                            <p className="text-lg font-bold">More tests</p>
+                            <p className="text-lg font-bold">ESAT Chemistry</p>
                             <span className="text-xs font-medium bg-amber-100 text-amber-700 px-2.5 py-0.5 rounded-full border border-amber-200">
-                                Roadmap
+                                In development
                             </span>
                         </div>
                         <p className="text-slate-500 text-sm leading-relaxed mb-6 flex-1">
-                            MAT, STEP and PAT are on the roadmap as the
-                            diagnostic engine grows.
+                            Chemistry diagnostics to follow the TMUA launch —
+                            same format, mapped to the ESAT specification.
                         </p>
                         <p className="text-xs text-slate-400 font-medium">
-                            Planned
+                            Following TMUA
                         </p>
                     </div>
                 </div>
 
                 <p className="text-sm text-slate-500 mt-10">
-                    Just revising your curriculum?{' '}
+                    Revising for SPM instead?{' '}
                     <Link
-                        to="/revision"
+                        to="/subjects"
                         className="font-semibold text-green-700 underline underline-offset-4"
                     >
-                        Switch to exam revision →
+                        Go to SPM practice →
                     </Link>
                 </p>
             </div>

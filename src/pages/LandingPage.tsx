@@ -14,8 +14,8 @@ export function LandingPage() {
     return (
         <LandingLayout>
             <Seo
-                title="JomExam — STEM Exam Prep: ESAT Diagnostics & SPM Practice"
-                description="STEM exam prep from SPM to university admissions. Sit timed ESAT diagnostics mapped to real exam skills, get a skills report, and practise SPM Maths by topic."
+                title="JomExam — ESAT & TMUA Diagnostics · SPM Practice"
+                description="Timed ESAT and TMUA diagnostics mapped to real exam skills, with a skills report — plus SPM Mathematics and Add Maths practice by topic. TMUA launches for the October sitting."
                 path="/"
             />
             <div className="px-4 md:px-[50px] xl:px-[150px] py-10 md:py-16 w-full">
@@ -34,14 +34,15 @@ export function LandingPage() {
                 </p>
 
                 <p className="text-sm md:text-lg text-slate-500 mb-8 md:mb-12 max-w-2xl">
-                    From SPM revision to A-Level and IB practice, to the
-                    admissions tests for the world&apos;s top STEM courses.
-                    Pick your goal — everything you see after is scoped to it.
+                    Timed ESAT and TMUA diagnostics mapped to real exam
+                    skills — the admissions tests for the world&apos;s top
+                    STEM courses — plus free SPM practice. Pick your goal —
+                    everything you see after is scoped to it.
                 </p>
 
                 {/* The two doors */}
                 <div className="grid md:grid-cols-2 gap-6 max-w-5xl">
-                    <Link to="/revision">
+                    <Link to="/subjects">
                         <div className="h-full border border-slate-200 rounded-xl bg-white overflow-hidden hover:shadow-xl hover:scale-[1.02] transition-all cursor-pointer group">
                             <div className="h-1 bg-green-600" />
                             <div className="p-6 md:p-8 flex flex-col h-full">
@@ -49,7 +50,7 @@ export function LandingPage() {
                                     Revise my exams
                                 </p>
                                 <p className="text-xs font-medium text-slate-400 uppercase tracking-widest mb-4">
-                                    Curriculum · SPM / A-Level / IB
+                                    Curriculum · SPM
                                 </p>
                                 <p className="text-slate-500 text-sm leading-relaxed mb-4">
                                     Master your syllabus topic by topic, with a
@@ -62,7 +63,7 @@ export function LandingPage() {
                                     </li>
                                     <li className="flex gap-2">
                                         <span className="text-green-600">→</span>
-                                        A-Level &amp; IB Maths — coming soon
+                                        Physics, Chemistry &amp; Biology — on the way
                                     </li>
                                     <li className="flex gap-2">
                                         <span className="text-green-600">→</span>
@@ -137,10 +138,10 @@ export function LandingPage() {
                     </Link>{' '}
                     or{' '}
                     <Link
-                        to="/revision"
+                        to="/subjects"
                         className="font-semibold text-slate-700 underline underline-offset-4 hover:text-slate-900"
                     >
-                        browse revision exams
+                        browse SPM subjects
                     </Link>
                     .
                 </p>
