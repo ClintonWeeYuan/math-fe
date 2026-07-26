@@ -1,23 +1,28 @@
 import { useState } from 'react'
 import { Input } from '@/components/ui/input.tsx'
 import { Button } from '@/components/ui/button.tsx'
-
-/**
- * TODO(Clinton): no waitlist endpoint exists in math-be yet. When one is
- * added (and regenerated into the API client), flip this flag and POST
- * { email } inside handleSubmit where marked. With the flag off the form
- * validates and shows the success state locally, so the UI ships now.
- */
-const WAITLIST_API_WIRED = false
+import useJoinWaitlistMutation from '@/hooks/useJoinWaitlistMutation.ts'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-/** Email capture for the TMUA launch — client-side validation, local
- * success state, no third-party services. */
-export function TmuaWaitlistForm() {
+type Props = {
+    /** Which waitlist to join — must be a product the backend allows. */
+    product?: 'tmua' | 'esat-chemistry' | 'esat-biology'
+    /** Shown after a successful signup. */
+    successMessage?: string
+}
+
+/** Email capture for an upcoming product. Validates client-side, then
+ * posts to the waitlist endpoint; a repeat signup still succeeds because
+ * the backend upserts. No third-party services. */
+export function TmuaWaitlistForm({
+    product = 'tmua',
+    successMessage = "You're on the list — we'll email you when TMUA opens.",
+}: Props) {
     const [email, setEmail] = useState('')
     const [error, setError] = useState<string | null>(null)
     const [done, setDone] = useState(false)
+    const { mutate: join, isPending } = useJoinWaitlistMutation()
 
     function handleSubmit(e: React.FormEvent) {
         e.preventDefault()
@@ -26,16 +31,19 @@ export function TmuaWaitlistForm() {
             return
         }
         setError(null)
-        if (WAITLIST_API_WIRED) {
-            // TODO(Clinton): POST { email } to the waitlist endpoint here.
-        }
-        setDone(true)
+        join(
+            { email: email.trim(), product },
+            {
+                onSuccess: () => setDone(true),
+                onError: (err) => setError(err.message),
+            }
+        )
     }
 
     if (done) {
         return (
             <p className="text-sm font-medium text-emerald-700">
-                You&apos;re on the list — we&apos;ll email you when TMUA opens.
+                {successMessage}
             </p>
         )
     }
@@ -53,9 +61,14 @@ export function TmuaWaitlistForm() {
                     aria-label="Email address"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    disabled={isPending}
                 />
-                <Button type="submit" className="cursor-pointer shrink-0">
-                    Join waitlist
+                <Button
+                    type="submit"
+                    className="cursor-pointer shrink-0"
+                    disabled={isPending}
+                >
+                    {isPending ? 'Joining…' : 'Join waitlist'}
                 </Button>
             </div>
             {error && <p className="text-xs text-red-600">{error}</p>}
