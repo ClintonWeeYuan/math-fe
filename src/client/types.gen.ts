@@ -189,6 +189,27 @@ export type AdminAttemptResultsResponse = {
 };
 
 /**
+ * AttemptRadarResponse
+ * GET /attempts/{id}/radar — Season Pass only (402 otherwise). The
+ * per-skill rollup with misconception narratives, i.e. the 'why' the free
+ * report deliberately withholds.
+ */
+export type AttemptRadarResponse = {
+    /**
+     * Attemptid
+     */
+    attemptId: string;
+    /**
+     * Subject
+     */
+    subject?: string | null;
+    /**
+     * Skills
+     */
+    skills: Array<SkillRadarDetail>;
+};
+
+/**
  * BaseLevel
  */
 export type BaseLevel = {
@@ -913,6 +934,16 @@ export type DiagnosticReportResponse = {
      * Perquestiontime
      */
     perQuestionTime: Array<PerQuestionTime>;
+    /**
+     * Haspass
+     */
+    hasPass?: boolean;
+    /**
+     * Upsell
+     */
+    upsell?: {
+        [key: string]: unknown;
+    } | null;
 };
 
 /**
@@ -1304,6 +1335,59 @@ export type SetCompletionResponse = {
      * Message
      */
     message: string;
+};
+
+/**
+ * SkillMisconception
+ * One wrong answer, narrated. `misconception` is the distractor's own
+ * explanation from the import JSON — the reason this option is tempting —
+ * which is what turns a wrong tick into something a student can act on.
+ */
+export type SkillMisconception = {
+    /**
+     * Questionid
+     */
+    questionId: string;
+    /**
+     * Chosenoption
+     */
+    chosenOption?: string | null;
+    /**
+     * Correctoption
+     */
+    correctOption?: string | null;
+    /**
+     * Misconception
+     */
+    misconception?: string | null;
+};
+
+/**
+ * SkillRadarDetail
+ * The paid interpretation layer for one skill axis: the score, plus the
+ * specific misconceptions behind the wrong answers on that skill.
+ */
+export type SkillRadarDetail = {
+    /**
+     * Skill
+     */
+    skill: string;
+    /**
+     * Score
+     */
+    score?: number | null;
+    /**
+     * Attempted
+     */
+    attempted: number;
+    /**
+     * Correct
+     */
+    correct: number;
+    /**
+     * Misconceptions
+     */
+    misconceptions: Array<SkillMisconception>;
 };
 
 /**
@@ -3439,6 +3523,36 @@ export type GetAttemptReportDiagnosticAttemptsAttemptIdReportGetResponses = {
 };
 
 export type GetAttemptReportDiagnosticAttemptsAttemptIdReportGetResponse = GetAttemptReportDiagnosticAttemptsAttemptIdReportGetResponses[keyof GetAttemptReportDiagnosticAttemptsAttemptIdReportGetResponses];
+
+export type GetAttemptRadarDiagnosticAttemptsAttemptIdRadarGetData = {
+    body?: never;
+    path: {
+        /**
+         * Attempt Id
+         */
+        attempt_id: string;
+    };
+    query?: never;
+    url: '/diagnostic/attempts/{attempt_id}/radar';
+};
+
+export type GetAttemptRadarDiagnosticAttemptsAttemptIdRadarGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type GetAttemptRadarDiagnosticAttemptsAttemptIdRadarGetError = GetAttemptRadarDiagnosticAttemptsAttemptIdRadarGetErrors[keyof GetAttemptRadarDiagnosticAttemptsAttemptIdRadarGetErrors];
+
+export type GetAttemptRadarDiagnosticAttemptsAttemptIdRadarGetResponses = {
+    /**
+     * Successful Response
+     */
+    200: AttemptRadarResponse;
+};
+
+export type GetAttemptRadarDiagnosticAttemptsAttemptIdRadarGetResponse = GetAttemptRadarDiagnosticAttemptsAttemptIdRadarGetResponses[keyof GetAttemptRadarDiagnosticAttemptsAttemptIdRadarGetResponses];
 
 export type ListAttemptResultsDiagnosticAdminResultsGetData = {
     body?: never;
