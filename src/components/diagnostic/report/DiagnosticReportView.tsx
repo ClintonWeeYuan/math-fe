@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 import { Card, CardContent } from '@/components/ui/card.tsx'
 import { Badge } from '@/components/ui/badge.tsx'
 import { SkillsRadar } from '@/components/diagnostic/report/SkillsRadar.tsx'
+import { SkillsRadarPaywall } from '@/components/diagnostic/report/SkillsRadarPaywall.tsx'
 import { PacingCurve } from '@/components/diagnostic/report/PacingCurve.tsx'
 import { questionLabelByIdFrom } from '@/lib/diagnosticReport.ts'
 import {
@@ -19,6 +20,9 @@ type Props = {
     title?: string
     /** Optional line under the title — e.g. which student's report this is. */
     subtitle?: ReactNode
+    /** Opens checkout from the paywall. Omitted (e.g. on the admin view)
+     * leaves the unlock CTA out. */
+    onUnlock?: () => void
     /** Rendered at the bottom (a back button). */
     footer?: ReactNode
 }
@@ -35,7 +39,11 @@ export function DiagnosticReportView({
     title = 'Your diagnostic report',
     subtitle,
     footer,
+    onUnlock,
 }: Props) {
+    // Default true: an admin read, or any response without the field, must
+    // never be paywalled by accident.
+    const hasPass = report.hasPass ?? true
     const totalScore = report.attempt.totalScore ?? 0
     const { answeredCount, subject } = report
     const labelById = questionLabelByIdFrom(report.perQuestionTime)
@@ -70,7 +78,11 @@ export function DiagnosticReportView({
                 </CardContent>
             </Card>
 
-            {/* Written strengths & focus areas — the plain-English layer. */}
+            {/* Written strengths & focus areas — the plain-English layer.
+                Derived from skillsRadar, which the free tier does not
+                receive, so it is withheld with the radar rather than
+                rendering its empty state as a genuine verdict. */}
+            {hasPass && (
             <section className="flex flex-col gap-3">
                 <h2 className="text-xl font-medium">Where you stand</h2>
                 <Card>
@@ -111,19 +123,33 @@ export function DiagnosticReportView({
                     </CardContent>
                 </Card>
             </section>
+            )}
 
-            {/* Skills Radar — the set's real axes; full names in the legend. */}
+            {/* Skills Radar — the set's real axes; full names in the legend.
+                Without a Season Pass the scores never reach the browser (the
+                report endpoint withholds them), so the paywall stands in. */}
             <section className="flex flex-col gap-3">
                 <h2 className="text-xl font-medium">Your skills at a glance</h2>
                 <Card>
                     <CardContent className="pt-6">
-                        <SkillsRadar skills={report.skillsRadar} subject={subject} />
+                        {hasPass ? (
+                            <SkillsRadar
+                                skills={report.skillsRadar}
+                                subject={subject}
+                            />
+                        ) : (
+                            <SkillsRadarPaywall
+                                subject={subject}
+                                onUnlock={onUnlock}
+                            />
+                        )}
                     </CardContent>
                 </Card>
             </section>
 
-            {/* Concrete next steps for each focus area. */}
-            {insights.focusAreas.length > 0 && (
+            {/* Concrete next steps for each focus area — radar-derived, so
+                pass holders only. */}
+            {hasPass && insights.focusAreas.length > 0 && (
                 <section className="flex flex-col gap-3">
                     <h2 className="text-xl font-medium">Your next steps</h2>
                     <Card>
