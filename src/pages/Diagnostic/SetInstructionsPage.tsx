@@ -35,8 +35,18 @@ export function SetInstructionsPage() {
                 onSuccess: (state) => {
                     if (state) navigate(`/diagnostic/attempts/${state.attempt.id}`)
                 },
-                onError: () =>
-                    toast.error('Could not start the diagnostic. Please try again.'),
+                onError: (err) => {
+                    // 402 = premium set without a Season Pass. Telling the
+                    // student to "try again" would be a lie: retrying can
+                    // never work, so say what is actually needed.
+                    if ((err as { status?: number }).status === 402) {
+                        toast.error(
+                            'This paper is part of the Season Pass. Unlock it to sit this mock.'
+                        )
+                        return
+                    }
+                    toast.error('Could not start the diagnostic. Please try again.')
+                },
             }
         )
     }

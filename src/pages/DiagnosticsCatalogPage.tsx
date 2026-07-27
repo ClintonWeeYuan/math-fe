@@ -108,7 +108,24 @@ export function DiagnosticsCatalogPage({ test }: Props) {
                                     key={s.id}
                                     className="bg-slate-50 border border-slate-100 rounded-xl p-6 flex flex-col"
                                 >
-                                    <p className="text-lg font-bold mb-1">{s.title}</p>
+                                    <div className="flex items-start justify-between gap-3 mb-1">
+                                        <p className="text-lg font-bold">{s.title}</p>
+                                        {/* Paid sets say so up front: a
+                                            student should never click Start
+                                            only to meet a paywall. */}
+                                        {!s.isFree && (
+                                            <span
+                                                className="shrink-0 text-[11px] font-medium px-2 py-0.5 rounded-full border"
+                                                style={{
+                                                    backgroundColor: '#EEF3FB',
+                                                    color: '#4E77B4',
+                                                    borderColor: '#CFDDF1',
+                                                }}
+                                            >
+                                                Season Pass
+                                            </span>
+                                        )}
+                                    </div>
                                     <p className="text-sm text-slate-500 mb-4">
                                         {s.questionCount} questions ·{' '}
                                         {s.timeLimitMinutes} min
@@ -126,7 +143,9 @@ export function DiagnosticsCatalogPage({ test }: Props) {
                                                 navigate(`/diagnostic/sets/${s.id}`)
                                             }
                                         >
-                                            Start diagnostic →
+                                            {s.isFree
+                                                ? 'Start diagnostic →'
+                                                : 'Unlock with Season Pass →'}
                                         </Button>
                                     </div>
                                 </div>
