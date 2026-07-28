@@ -3,6 +3,7 @@ import { renderHook, act, waitFor } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import type { ReactNode } from 'react'
 import useStartOrResumeAttemptMutation from './useStartOrResumeAttemptMutation'
+import type { DiagnosticApiError } from '@/lib/diagnosticApiError.ts'
 
 const mockStart = vi.fn()
 vi.mock('@/client', () => ({
@@ -46,6 +47,6 @@ describe('useStartOrResumeAttemptMutation', () => {
         act(() => result.current.mutate(body))
         await waitFor(() => expect(result.current.isError).toBe(true))
         // Without this the start button was a silent no-op.
-        expect(result.current.error?.status).toBe(402)
+        expect((result.current.error as DiagnosticApiError | null)?.status).toBe(402)
     })
 })
