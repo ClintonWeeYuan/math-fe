@@ -39,3 +39,35 @@ describe('frameworkFor', () => {
         expect(frameworkFor('Biology')).toBeNull()
     })
 })
+
+describe('TMUA frameworks', () => {
+    it('names all nine Paper 1 skills', () => {
+        expect(skillName('TMUA Paper 1', 'S1')).toContain('Algebraic Manipulation')
+        expect(skillName('TMUA Paper 1', 'S8')).toContain('Calculus')
+        expect(skillName('TMUA Paper 1', 'S9')).toContain('Graphs & Functions')
+    })
+
+    it('names all eight Paper 2 skills, distinctly from Paper 1', () => {
+        expect(skillName('TMUA Paper 2', 'S2')).toBe(
+            'Necessary & Sufficient Conditions'
+        )
+        expect(skillName('TMUA Paper 2', 'S8')).toContain('Computational Fluency')
+        // Same code, different paper, different meaning.
+        expect(skillName('TMUA Paper 2', 'S5')).not.toBe(
+            skillName('TMUA Paper 1', 'S5')
+        )
+    })
+
+    it('leaves the ESAT Maths taxonomy untouched', () => {
+        // The docx says Paper 1 shares ESAT Maths 2's spec, but the existing
+        // ESAT questions are tagged against the abstract names — reusing the
+        // TMUA labels would re-interpret every historic tag.
+        expect(skillName('ESAT Math 2', 'S2')).toBe(
+            'Strategic & Efficient Problem Solving'
+        )
+    })
+
+    it('still falls back to the bare code for an unknown subject', () => {
+        expect(skillName('TMUA Paper 3', 'S1')).toBe('S1')
+    })
+})
