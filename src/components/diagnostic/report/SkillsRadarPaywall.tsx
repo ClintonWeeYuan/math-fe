@@ -25,7 +25,9 @@ const DECOY_WIDTHS = [82, 74, 66, 58, 47, 39, 31]
  * so this is a genuine gate and not a CSS trick.
  */
 export function SkillsRadarPaywall({ subject, onUnlock }: Props) {
-    const framework = frameworkFor(subject)
+    // frameworkFor returns null for a subject we don't recognise; fall back
+    // to no rows rather than crashing, so the unlock card still renders.
+    const framework = frameworkFor(subject) ?? {}
     const skills = Object.keys(framework).slice(0, DECOY_WIDTHS.length)
 
     return (
