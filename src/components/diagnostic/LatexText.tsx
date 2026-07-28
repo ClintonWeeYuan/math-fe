@@ -1,53 +1,61 @@
 import { Fragment } from 'react'
-import { InlineMath } from 'react-katex'
+import { InlineMath, BlockMath } from 'react-katex'
 import 'katex/dist/katex.min.css'
-
-const DOLLAR_DELIMITED = /\$([^$]+)\$/g
+import { parseLatexText, type LatexNode } from './latexParser.ts'
 
 /**
- * Renders a string containing plain text interleaved with $...$-delimited
- * LaTeX segments (the stem/option format used throughout
- * docs/diagnostic-platform-spec.md §9, e.g. "Given that $x^2 + kx + 9 = 0$
- * has equal roots..."). Unlike the existing BlockMath usage in
- * MultipleChoiceQuestion.tsx, which renders a value that's pure LaTeX with
- * no delimiters, diagnostic content mixes both in one string.
+ * Renders question content: plain prose interleaved with LaTeX, in the
+ * Overleaf-ish dialect authors actually write.
  *
- * Deliberately the one component for this: used here for the admin form's
- * live preview pane, and meant to be the same component the Stage 4
- * exam-taking screen renders stems/options with — not a second,
- * possibly-inconsistent implementation once that screen exists.
+ *   "Given that $x^2 + kx + 9 = 0$ has equal roots..."      inline maths
+ *   "$$\int_0^1 x^2\,dx$$"                                  display maths
+ *   "First line.\\Second line."                             line break
+ *   "\begin{enumerate}\item One \item Two\end{enumerate}"   numbered list
+ *
+ * Deliberately the one component for this — the admin form's live preview,
+ * the student preview, the set review and the exam screen all render through
+ * it, so what an author sees while writing is what a student sits.
+ *
+ * Parsing lives in latexText.ts so the grammar can be unit-tested without a
+ * DOM; this file is only the rendering.
  */
 export function LatexText({ text }: { text: string }) {
-    const parts: { key: number; content: string; isMath: boolean }[] = []
-    let lastIndex = 0
-    let match: RegExpExecArray | null
-    let key = 0
-    DOLLAR_DELIMITED.lastIndex = 0
+    return <>{renderNodes(parseLatexText(text))}</>
+}
 
-    while ((match = DOLLAR_DELIMITED.exec(text)) !== null) {
-        if (match.index > lastIndex) {
-            parts.push({
-                key: key++,
-                content: text.slice(lastIndex, match.index),
-                isMath: false,
-            })
-        }
-        parts.push({ key: key++, content: match[1], isMath: true })
-        lastIndex = DOLLAR_DELIMITED.lastIndex
-    }
-    if (lastIndex < text.length) {
-        parts.push({ key: key++, content: text.slice(lastIndex), isMath: false })
-    }
-
-    return (
-        <>
-            {parts.map((part) =>
-                part.isMath ? (
-                    <InlineMath key={part.key} math={part.content} />
+function renderNodes(nodes: LatexNode[]) {
+    return nodes.map((node, i) => {
+        switch (node.kind) {
+            case 'text':
+                return <Fragment key={i}>{node.value}</Fragment>
+            case 'inlineMath':
+                return <InlineMath key={i} math={node.value} />
+            case 'displayMath':
+                // KaTeX centres display maths in its own block, so it needs
+                // no wrapper of ours.
+                return <BlockMath key={i} math={node.value} />
+            case 'break':
+                return <br key={i} />
+            case 'list': {
+                const items = node.items.map((item, j) => (
+                    <li key={j}>{renderNodes(item)}</li>
+                ))
+                return node.ordered ? (
+                    <ol
+                        key={i}
+                        className="my-2 flex list-decimal flex-col gap-1 pl-6"
+                    >
+                        {items}
+                    </ol>
                 ) : (
-                    <Fragment key={part.key}>{part.content}</Fragment>
+                    <ul
+                        key={i}
+                        className="my-2 flex list-disc flex-col gap-1 pl-6"
+                    >
+                        {items}
+                    </ul>
                 )
-            )}
-        </>
-    )
+            }
+        }
+    })
 }
