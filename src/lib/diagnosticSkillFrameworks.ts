@@ -20,6 +20,40 @@ const MATHS_SHARED: Record<string, string> = {
     S7: 'Functions, Sequences & Structure',
 }
 
+/** TMUA Paper 1 — Applications of Mathematical Knowledge. Nine topic-named
+ * skills, from the TMUA Skills Frameworks reference.
+ *
+ * Note these are deliberately NOT reused for ESAT Maths 2 even though the two
+ * share a specification: the existing ESAT Maths questions are tagged against
+ * the more abstract MATHS_SHARED taxonomy above, so borrowing these names
+ * would silently re-interpret every historic ESAT tag and change what past
+ * reports mean. */
+const TMUA_PAPER_1: Record<string, string> = {
+    S1: 'Algebraic Manipulation (Indices, Surds & Partial Fractions)',
+    S2: 'Quadratics & Polynomial Equations',
+    S3: 'Inequalities & Case Analysis',
+    S4: 'Coordinate Geometry (Lines & Circles)',
+    S5: 'Trigonometry (Exact Values & Equations)',
+    S6: 'Sequences & Series',
+    S7: 'Exponential & Logarithmic Equations',
+    S8: 'Calculus (Differentiation & Integration)',
+    S9: 'Graphs & Functions (Transformations)',
+}
+
+/** TMUA Paper 2 — Mathematical Reasoning. Eight skills: the same AS-level
+ * content seen through a reasoning lens, so the codes mean something quite
+ * different from Paper 1's. */
+const TMUA_PAPER_2: Record<string, string> = {
+    S1: 'Logical Connectives & Conditional Statements',
+    S2: 'Necessary & Sufficient Conditions',
+    S3: 'Quantifiers & Negation',
+    S4: 'Proof Construction & Strategy',
+    S5: 'Identifying Errors in Proofs',
+    S6: 'Deduction & Valid Inference',
+    S7: 'Logic Puzzles & Systematic Case-Work',
+    S8: 'Computational Fluency Under a Reasoning Frame',
+}
+
 const FRAMEWORKS: Record<string, Record<string, string>> = {
     // Maths 1 — no S6 (no calculus in the spec).
     'esat math 1': { ...MATHS_SHARED },
@@ -35,6 +69,9 @@ const FRAMEWORKS: Record<string, Record<string, string>> = {
         S6: 'Units & Dimensional Reasoning',
         S7: 'Graphical & Data Interpretation',
     },
+    // TMUA — its own taxonomy per paper, and the papers differ from each other.
+    'tmua paper 1': { ...TMUA_PAPER_1 },
+    'tmua paper 2': { ...TMUA_PAPER_2 },
 }
 
 /** Fold subject-name drift to a stable key: lowercase, collapse spaces, and
