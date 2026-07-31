@@ -26,4 +26,8 @@ RUN npm install -g serve
 EXPOSE 3000
 
 # Start the application
-CMD ["serve", "-s", "dist", "-l", "3000"]
+# NOT `serve -s`: the -s flag rewrites every request to the root index.html,
+# which would bypass the prerendered per-route pages. Without it, serve
+# resolves real files first and falls back to the SPA shell via the rewrites
+# in dist/serve.json (see src/lib/serveJsonCoverage.test.ts).
+CMD ["serve", "dist", "-l", "3000"]
