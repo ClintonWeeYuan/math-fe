@@ -75,3 +75,28 @@ describe('DiagnosticsCatalogPage', () => {
         expect(screen.getByText(/No diagnostics are available/i)).toBeInTheDocument()
     })
 })
+
+describe('paid sets before billing is live', () => {
+    it('shows a disabled coming-soon button, not an unlock CTA', async () => {
+        mockSets.mockReturnValue({
+            data: [
+                {
+                    id: 'set-paid', title: 'ESAT Biology — Diagnostic Set B',
+                    subject: 'ESAT Biology', description: null,
+                    timeLimitMinutes: 40, questionCount: 27, isFree: false,
+                },
+            ],
+            isLoading: false,
+        })
+        render(
+            <MemoryRouter>
+                <DiagnosticsCatalogPage />
+            </MemoryRouter>
+        )
+        const btn = screen.getByRole('button', { name: /coming soon/i })
+        expect(btn).toBeDisabled()
+        expect(
+            screen.queryByRole('button', { name: /Unlock with Season Pass/i })
+        ).not.toBeInTheDocument()
+    })
+})

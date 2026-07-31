@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button.tsx'
 import useListPublishedSetsQuery from '@/hooks/diagnostic/useListPublishedSetsQuery.ts'
 import type { DiagnosticTest } from '@/hooks/diagnostic/useListPublishedSetsQuery.ts'
 import type { PublishedDiagnosticSet } from '@/client'
+import { BILLING_LIVE } from '@/lib/billing.ts'
 
 /** Group published sets by subject, subjects sorted, uncategorised last. */
 function groupBySubject(
@@ -31,30 +32,33 @@ type Props = {
  * its own heading, blurb and search metadata rather than sharing one. */
 const COPY: Record<
     'all' | DiagnosticTest,
-    { lead: string; heading: string; title: string; description: string; path: string }
+    { headPrefix: string; heading: string; lead: string; title: string; description: string; path: string }
 > = {
     all: {
+        headPrefix: 'Timed',
         heading: 'diagnostics.',
-        lead: 'Sit a timed diagnostic and get a report mapped to specific skills — so you know exactly where to focus. Pick a paper to begin.',
+        lead: 'Sit a timed diagnostic and get a report mapped to specific skills — so you know exactly where to focus. Set A of every subject is free to sit.',
         title: 'Diagnostic Tests | JomExam',
         description:
             'Sit a timed ESAT or TMUA diagnostic and get a report mapped to specific skills, so you know exactly where you stand before you start prepping.',
         path: '/diagnostics',
     },
     esat: {
-        heading: 'ESAT diagnostics.',
-        lead: 'Timed ESAT papers — Mathematics 1, Mathematics 2 and Physics — each mapped to the skills the test examines. Sit one and see exactly where you stand.',
+        headPrefix: 'ESAT',
+        heading: 'diagnostics.',
+        lead: 'Timed ESAT papers — Mathematics 1, Mathematics 2, Physics, Chemistry and Biology — each mapped to the skills the test examines. Set A of every subject is free to sit.',
         title: 'ESAT Practice Tests & Diagnostics | JomExam',
         description:
-            'Free timed ESAT diagnostics for Mathematics 1, Mathematics 2 and Physics. Sit a paper under exam conditions and get a skills report showing exactly where to focus.',
+            'Timed ESAT diagnostics for Mathematics 1, Mathematics 2, Physics, Chemistry and Biology. Sit a paper under exam conditions and get a skills report showing exactly where to focus.',
         path: '/diagnostics/esat',
     },
     tmua: {
-        heading: 'TMUA diagnostics.',
-        lead: 'Timed TMUA papers — Paper 1 (Applications of Mathematical Knowledge) and Paper 2 (Mathematical Reasoning) — mapped to the skills each paper examines.',
+        headPrefix: 'TMUA',
+        heading: 'diagnostics.',
+        lead: 'Timed TMUA papers — Paper 1 (Applications of Mathematical Knowledge) and Paper 2 (Mathematical Reasoning) — mapped to the skills each paper examines. Set A of each paper is free to sit.',
         title: 'TMUA Practice Tests & Diagnostics | JomExam',
         description:
-            'Free timed TMUA diagnostics for Paper 1 and Paper 2. Sit a paper under exam conditions and get a skills report showing exactly where to focus.',
+            'Timed TMUA diagnostics for Paper 1 and Paper 2. Sit a paper under exam conditions and get a skills report showing exactly where to focus.',
         path: '/diagnostics/tmua',
     },
 }
@@ -82,7 +86,7 @@ export function DiagnosticsCatalogPage({ test }: Props) {
             />
             <div className="px-4 md:px-[50px] xl:px-[150px] py-12 md:py-20 max-w-4xl">
                 <p className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-                    Free{' '}
+                    {copy.headPrefix}{' '}
                     <span style={{ color: '#799ED1' }}>{copy.heading}</span>
                 </p>
                 <p className="text-lg md:text-xl text-slate-500 mb-10 leading-relaxed max-w-2xl">
@@ -137,16 +141,26 @@ export function DiagnosticsCatalogPage({ test }: Props) {
                                         </p>
                                     )}
                                     <div className="mt-auto">
-                                        <Button
-                                            className="cursor-pointer"
-                                            onClick={() =>
-                                                navigate(`/diagnostic/sets/${s.id}`)
-                                            }
-                                        >
-                                            {s.isFree
-                                                ? 'Start diagnostic →'
-                                                : 'Unlock with Season Pass →'}
-                                        </Button>
+                                        {s.isFree || BILLING_LIVE ? (
+                                            <Button
+                                                className="cursor-pointer"
+                                                onClick={() =>
+                                                    navigate(`/diagnostic/sets/${s.id}`)
+                                                }
+                                            >
+                                                {s.isFree
+                                                    ? 'Start diagnostic →'
+                                                    : 'Unlock with Season Pass →'}
+                                            </Button>
+                                        ) : (
+                                            /* Locked but not yet buyable: an
+                                               unlock CTA would dead-end, so
+                                               say so instead of implying a
+                                               purchase path exists. */
+                                            <Button variant="outline" disabled>
+                                                Season Pass — coming soon
+                                            </Button>
+                                        )}
                                     </div>
                                 </div>
                             ))}
