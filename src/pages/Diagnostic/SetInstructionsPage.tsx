@@ -7,6 +7,7 @@ import { Checkbox } from '@/components/ui/checkbox.tsx'
 import useGetSetPreviewQuery from '@/hooks/diagnostic/useGetSetPreviewQuery.ts'
 import useStartOrResumeAttemptMutation from '@/hooks/diagnostic/useStartOrResumeAttemptMutation.ts'
 import { toast } from 'sonner'
+import { BILLING_LIVE } from '@/lib/billing.ts'
 
 /**
  * Landing/instructions screen (§2), before an attempt exists. Shows the
@@ -41,7 +42,9 @@ export function SetInstructionsPage() {
                     // never work, so say what is actually needed.
                     if ((err as { status?: number }).status === 402) {
                         toast.error(
-                            'This paper is part of the Season Pass. Unlock it to sit this mock.'
+                            BILLING_LIVE
+                                ? 'This paper is part of the Season Pass. Unlock it to sit this mock.'
+                                : 'This paper is part of the Season Pass, which launches soon. Set A is free to sit now.'
                         )
                         return
                     }
