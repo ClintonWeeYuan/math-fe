@@ -15,7 +15,7 @@ export function LandingPage() {
         <LandingLayout>
             <Seo
                 title="JomExam — ESAT & TMUA Diagnostics · SPM Practice"
-                description="Timed ESAT and TMUA diagnostics mapped to real exam skills, with a skills report — plus SPM Mathematics and Add Maths practice by topic. TMUA launches for the October sitting."
+                description="Timed ESAT and TMUA diagnostics mapped to real exam skills, with a skills report — plus SPM Mathematics and Add Maths practice by topic. Set A of every subject is free to sit."
                 path="/"
             />
             <div className="px-4 md:px-[50px] xl:px-[150px] py-10 md:py-16 w-full">
