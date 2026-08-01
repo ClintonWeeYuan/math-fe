@@ -20,6 +20,9 @@ export const GUIDE = {
     title: 'ESAT Practice Tests — Free Diagnostics for Every Module | JomExam',
     description:
         'Free ESAT practice tests for Maths 1, Maths 2, Physics, Chemistry and Biology — 27 questions in 40 minutes, matching the real format. Sit one and get a skills report showing exactly what to work on.',
+    eyebrow: 'ESAT guide',
+    ctaPath: '/diagnostics/esat',
+    ctaLabel: 'Sit a free ESAT diagnostic →',
     h1: 'ESAT practice tests',
     standfirst:
         'Start with the official specimen papers — then the problem becomes what to do next, because the ESAT is new and the back catalogue is shallow. This guide explains what the test actually asks of you, and gives you a timed paper for every module: free, and with a report naming the specific skills to fix rather than just a mark.',

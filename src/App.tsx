@@ -21,6 +21,7 @@ import { AboutPage } from '@/pages/AboutPage.tsx'
 import { EsatTmuaPage } from '@/pages/EsatTmuaPage.tsx'
 import { DiagnosticsCatalogPage } from '@/pages/DiagnosticsCatalogPage.tsx'
 import { EsatPracticeGuidePage } from '@/pages/EsatPracticeGuidePage.tsx'
+import { TmuaPracticeGuidePage } from '@/pages/TmuaPracticeGuidePage.tsx'
 import { StudentProtectedRoute } from '@/components/auth/StudentProtectedRoute.tsx'
 import { DiagnosticQuestionsListPage } from '@/pages/Admin/Diagnostic/DiagnosticQuestionsListPage.tsx'
 import { DiagnosticSetsListPage } from '@/pages/Admin/Diagnostic/DiagnosticSetsListPage.tsx'
@@ -90,6 +91,10 @@ function App() {
                 <Route
                     path="guides/esat-practice-tests"
                     element={<EsatPracticeGuidePage />}
+                />
+                <Route
+                    path="guides/tmua-practice-tests"
+                    element={<TmuaPracticeGuidePage />}
                 />
                 {/* ESAT and TMUA are separate products, so each has its own
                     catalogue page (own heading, copy and search metadata);
