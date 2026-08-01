@@ -173,13 +173,12 @@ const ROUTES = [
         path: '/admissions',
         title: 'Choose Your Test | JomExam Admissions',
         description:
-            'Pick your admissions test — ESAT and TMUA diagnostics both live, with Paper 1 and Paper 2 for TMUA. Timed papers with a skills report, not just a score.',
+            'Pick your admissions test — all five ESAT modules and both TMUA papers are live. Timed papers with a skills report, not just a score, and Set A of every paper free to sit.',
         body: `<h1>Which test are you preparing for?</h1>
 <p>Each test gets its own diagnostics, skills report and catalogue.</p>
 <ul>
-<li><a href="/diagnostics/esat"><strong>ESAT</strong></a> — Engineering and Science Admissions Test, for Cambridge, Imperial and others. Mathematics 1, Mathematics 2, Physics, Chemistry and Biology.</li>
-<li><a href="/diagnostics/tmua"><strong>TMUA</strong></a> — Test of Mathematics for University Admission, for Cambridge, LSE, Warwick, Durham and Bath. Paper 1 and Paper 2.</li>
-<li><strong>ESAT Chemistry</strong> — further diagnostics in development.</li>
+<li><a href="/diagnostics/esat"><strong>ESAT</strong></a> — Engineering and Science Admissions Test, for Cambridge, Imperial and others. All five modules are live: Mathematics 1, Mathematics 2, Physics, Chemistry and Biology.</li>
+<li><a href="/diagnostics/tmua"><strong>TMUA</strong></a> — Test of Mathematics for University Admission, for Cambridge, LSE, Warwick, Durham and others. Both papers are live: Paper 1 (Applications) and Paper 2 (Reasoning).</li>
 </ul>
 <p>Not sure what these tests involve? <a href="/guides">Read the ESAT and TMUA guides</a>.</p>`,
     },
@@ -217,9 +216,9 @@ const ROUTES = [
         path: '/esat-tmua',
         title: 'ESAT & TMUA Preparation | JomExam',
         description:
-            'Prepare for the ESAT and TMUA with timed diagnostics mapped to the skills the tests examine — ESAT and TMUA Paper 1 & 2 all live. Sit a paper, get a skills report, and know exactly where to focus.',
+            'Prepare for the ESAT and TMUA with timed diagnostics mapped to the skills each test examines — all five ESAT modules and both TMUA papers are live. Sit a paper, get a skills report, and know exactly where to focus.',
         body: `<h1>ESAT &amp; TMUA preparation.</h1>
-<p>ESAT diagnostics are live now — timed papers mapped to specific skills, so you know exactly where to focus. TMUA Paper 1 and Paper 2 diagnostics are live too.</p>
+<p>ESAT diagnostics are live for all five modules — Mathematics 1, Mathematics 2, Physics, Chemistry and Biology — as are TMUA Paper 1 and Paper 2. Timed papers mapped to specific skills, with Set A of every paper free to sit.</p>
 <h2>How a diagnostic works</h2>
 <ol>
 <li><strong>Sit a timed paper</strong> — a real, timed set of questions under exam conditions.</li>
