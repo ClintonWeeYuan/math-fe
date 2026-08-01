@@ -2,7 +2,6 @@ import { LandingLayout } from '@/components/layout/landing/LandingLayout.tsx'
 import { Button } from '@/components/ui/button.tsx'
 import { useNavigate } from 'react-router-dom'
 import { Seo } from '@/components/Seo.tsx'
-import { TmuaWaitlistForm } from '@/components/TmuaWaitlistForm.tsx'
 
 export function EsatTmuaPage() {
     const navigate = useNavigate()
@@ -11,7 +10,7 @@ export function EsatTmuaPage() {
         <LandingLayout>
             <Seo
                 title="ESAT & TMUA Preparation | JomExam"
-                description="Prepare for the ESAT and TMUA with timed diagnostics mapped to the skills the tests examine — ESAT and TMUA Paper 1 & 2 all live. Sit a paper, get a skills report, and know exactly where to focus."
+                description="Prepare for the ESAT and TMUA with timed diagnostics mapped to the skills each test examines — all five ESAT modules and both TMUA papers are live. Sit a paper, get a skills report, and know exactly where to focus."
                 path="/esat-tmua"
             />
             <div className="px-4 md:px-[50px] xl:px-[150px] py-12 md:py-20 max-w-4xl">
@@ -29,11 +28,12 @@ export function EsatTmuaPage() {
                 </p>
 
                 <p className="text-lg md:text-xl text-slate-500 mb-8 leading-relaxed max-w-2xl">
-                    Free <span className="font-medium text-slate-600">ESAT</span>{' '}
-                    diagnostics are live now — timed papers mapped to specific
-                    skills, so you know exactly where to focus.{' '}
+                    <span className="font-medium text-slate-600">ESAT</span>{' '}
+                    diagnostics are live for all five modules — Mathematics 1,
+                    Mathematics 2, Physics, Chemistry and Biology — as are{' '}
                     <span className="font-medium text-slate-600">TMUA</span>{' '}
-                    Paper 1 &amp; Paper 2 diagnostics are live too.
+                    Paper 1 and Paper 2. Timed papers mapped to specific
+                    skills, with Set A of every paper free to sit.
                 </p>
 
                 <div className="mb-12">
@@ -56,8 +56,10 @@ export function EsatTmuaPage() {
                         <p className="text-slate-500 text-sm leading-relaxed mb-3">
                             Engineering and Science Admissions Test. Required
                             for Engineering, Natural Sciences, Chemical
-                            Engineering, and Veterinary Medicine at Cambridge,
-                            and for Engineering at Imperial.
+                            Engineering and Veterinary Medicine at Cambridge,
+                            and for engineering courses at Imperial. All five
+                            modules are live: Mathematics 1, Mathematics 2,
+                            Physics, Chemistry and Biology.
                         </p>
                         <p className="text-xs text-slate-400 font-medium">
                             Cambridge · Imperial · and others
@@ -80,25 +82,6 @@ export function EsatTmuaPage() {
                         <p className="text-xs text-slate-400 font-medium mb-4">
                             Cambridge · LSE · Warwick · Durham · Bath
                         </p>
-                    </div>
-                </div>
-
-                <div className="border border-slate-200 rounded-xl p-6 bg-white mb-12 -mt-6">
-                    <div className="flex items-center gap-2 mb-2">
-                        <p className="text-base font-bold">ESAT Chemistry</p>
-                        <span className="inline-block bg-amber-50 text-amber-700 text-[11px] font-medium px-2 py-0.5 rounded-full border border-amber-200">
-                            In development
-                        </span>
-                    </div>
-                    <p className="text-slate-500 text-sm leading-relaxed mb-4">
-                        Chemistry diagnostics in the same format. Join the list
-                        and we&apos;ll email you when they open.
-                    </p>
-                    <div className="max-w-md">
-                        <TmuaWaitlistForm
-                            product="esat-chemistry"
-                            successMessage="You're on the list — we'll email you when ESAT Chemistry opens."
-                        />
                     </div>
                 </div>
 
