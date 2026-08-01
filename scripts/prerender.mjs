@@ -20,7 +20,12 @@
 import { readFile, writeFile, mkdir } from 'node:fs/promises'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { GUIDE } from '../src/content/esatPracticeGuide.mjs'
+import { GUIDE as ESAT_GUIDE } from '../src/content/esatPracticeGuide.mjs'
+import { GUIDE as TMUA_GUIDE } from '../src/content/tmuaPracticeGuide.mjs'
+
+/** Every search-facing guide, rendered from the same modules the React
+ * pages use. Adding one here and in App.tsx is the whole job. */
+const GUIDES = [ESAT_GUIDE, TMUA_GUIDE]
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 const DIST = join(ROOT, 'dist')
@@ -75,7 +80,7 @@ function setsMarkup(sets) {
 
 /** The guide, rendered from the same content module the React page uses, so
  * the static copy and the live page can never disagree. */
-function guideMarkup() {
+function guideMarkup(GUIDE) {
     const sections = GUIDE.sections
         .map((section) => {
             const paras = section.paras.map((p) => `<p>${esc(p)}</p>`).join('')
@@ -106,12 +111,12 @@ function guideMarkup() {
         `<h1>${esc(GUIDE.h1)}</h1><p>${esc(GUIDE.standfirst)}</p>` +
         sections +
         faq +
-        `<p><a href="/diagnostics/esat">Sit a free ESAT diagnostic</a></p>`
+        `<p><a href="${esc(GUIDE.ctaPath)}">${esc(GUIDE.ctaLabel)}</a></p>`
     )
 }
 
 /** FAQPage structured data — makes the answers eligible for rich results. */
-function faqJsonLd() {
+function faqJsonLd(GUIDE) {
     const data = {
         '@context': 'https://schema.org',
         '@type': 'FAQPage',
@@ -126,6 +131,14 @@ function faqJsonLd() {
     }
     return `<script type="application/ld+json">${JSON.stringify(data)}</script>`
 }
+
+const GUIDE_ROUTES = GUIDES.map((g) => ({
+    path: g.path,
+    title: g.title,
+    description: g.description,
+    jsonLd: faqJsonLd(g),
+    body: guideMarkup(g),
+}))
 
 const ROUTES = [
     {
@@ -204,15 +217,6 @@ const ROUTES = [
 <p>Work through Mathematics and Additional Mathematics questions organised by topic — with Physics, Chemistry and Biology on the way. Start straight away; signing in just saves your progress.</p>`,
     },
     {
-        path: GUIDE.path,
-        title: GUIDE.title,
-        description: GUIDE.description,
-        jsonLd: faqJsonLd(),
-        get body() {
-            return guideMarkup()
-        },
-    },
-    {
         path: '/about',
         title: 'About | JomExam — Oxford-Trained, Diagnostic-First STEM Prep',
         description:
@@ -221,7 +225,7 @@ const ROUTES = [
 <p>JomExam began in Malaysia as SPM practice, and now builds timed diagnostics for the ESAT and TMUA admissions tests. Every diagnostic produces a skills report naming the specific gaps to work on.</p>
 <p>One-to-one tutoring is available with Hazel — Oxford DPhil in Engineering, with over 5,000 hours teaching maths, physics and chemistry online.</p>`,
     },
-]
+].concat(GUIDE_ROUTES)
 
 async function main() {
     const template = await readFile(join(DIST, 'index.html'), 'utf8')
