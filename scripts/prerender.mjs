@@ -166,6 +166,7 @@ const ROUTES = [
 <nav><ul>
 <li><a href="/subjects">Revise my exams — SPM Mathematics and Additional Mathematics</a></li>
 <li><a href="/admissions">Get into a top university — ESAT and TMUA admissions tests</a></li>
+<li><a href="/guides">Guides — the ESAT and TMUA explained</a></li>
 </ul></nav>`,
     },
     {
@@ -179,7 +180,8 @@ const ROUTES = [
 <li><a href="/diagnostics/esat"><strong>ESAT</strong></a> — Engineering and Science Admissions Test, for Cambridge, Imperial and others. Mathematics 1, Mathematics 2, Physics, Chemistry and Biology.</li>
 <li><a href="/diagnostics/tmua"><strong>TMUA</strong></a> — Test of Mathematics for University Admission, for Cambridge, LSE, Warwick, Durham and Bath. Paper 1 and Paper 2.</li>
 <li><strong>ESAT Chemistry</strong> — further diagnostics in development.</li>
-</ul>`,
+</ul>
+<p>Not sure what these tests involve? <a href="/guides">Read the ESAT and TMUA guides</a>.</p>`,
     },
     {
         path: '/diagnostics',
@@ -188,7 +190,8 @@ const ROUTES = [
         description:
             'Sit a timed ESAT or TMUA diagnostic and get a report mapped to specific skills, so you know exactly where you stand before you start prepping.',
         body: `<h1>Timed diagnostics.</h1>
-<p>Sit a timed diagnostic and get a report mapped to specific skills — so you know exactly where to focus. Set A of every subject is free to sit.</p>`,
+<p>Sit a timed diagnostic and get a report mapped to specific skills — so you know exactly where to focus. Set A of every subject is free to sit.</p>
+<p><a href="/guides">New to these tests? Read the guides</a></p>`,
     },
     {
         path: '/diagnostics/esat',
@@ -197,7 +200,8 @@ const ROUTES = [
         description:
             'Timed ESAT diagnostics for Mathematics 1, Mathematics 2, Physics, Chemistry and Biology. Sit a paper under exam conditions and get a skills report showing exactly where to focus.',
         body: `<h1>ESAT diagnostics.</h1>
-<p>Timed ESAT papers — Mathematics 1, Mathematics 2, Physics, Chemistry and Biology — each mapped to the skills the test examines. Set A of every subject is free to sit.</p>`,
+<p>Timed ESAT papers — Mathematics 1, Mathematics 2, Physics, Chemistry and Biology — each mapped to the skills the test examines. Set A of every subject is free to sit.</p>
+<p><a href="/guides/esat-practice-tests">New to the ESAT? Read the ESAT practice guide</a></p>`,
     },
     {
         path: '/diagnostics/tmua',
@@ -206,7 +210,8 @@ const ROUTES = [
         description:
             'Timed TMUA diagnostics for Paper 1 and Paper 2. Sit a paper under exam conditions and get a skills report showing exactly where to focus.',
         body: `<h1>TMUA diagnostics.</h1>
-<p>Timed TMUA papers — Paper 1 (Applications of Mathematical Knowledge) and Paper 2 (Mathematical Reasoning) — mapped to the skills each paper examines. Set A of each paper is free to sit.</p>`,
+<p>Timed TMUA papers — Paper 1 (Applications of Mathematical Knowledge) and Paper 2 (Mathematical Reasoning) — mapped to the skills each paper examines. Set A of each paper is free to sit.</p>
+<p><a href="/guides/tmua-practice-tests">New to the TMUA? Read the TMUA practice guide</a></p>`,
     },
     {
         path: '/esat-tmua',
@@ -221,7 +226,8 @@ const ROUTES = [
 <li><strong>Get a skills report</strong> — a breakdown by the specific skills the test examines, with your timing on each question.</li>
 <li><strong>Focus where it counts</strong> — see your strengths and the areas to drill first.</li>
 </ol>
-<p><a href="/diagnostics/esat">Start an ESAT diagnostic</a></p>`,
+<p><a href="/diagnostics/esat">Start an ESAT diagnostic</a></p>
+<p><a href="/guides">Read the ESAT and TMUA guides</a></p>`,
     },
     {
         path: '/subjects',
@@ -238,7 +244,8 @@ const ROUTES = [
             'JomExam is built by Hazel — Oxford DPhil in Engineering, 5,000+ hours taught across A-Level, IB, ESAT and TMUA — on one idea: find the gap before you drill.',
         body: `<h1>About JomExam</h1>
 <p>JomExam began in Malaysia as SPM practice, and now builds timed diagnostics for the ESAT and TMUA admissions tests. Every diagnostic produces a skills report naming the specific gaps to work on.</p>
-<p>One-to-one tutoring is available with Hazel — Oxford DPhil in Engineering, with over 5,000 hours teaching maths, physics and chemistry online.</p>`,
+<p>One-to-one tutoring is available with Hazel — Oxford DPhil in Engineering, with over 5,000 hours teaching maths, physics and chemistry online.</p>
+<p><a href="/guides">Guides to the ESAT and TMUA</a></p>`,
     },
 ].concat([GUIDES_INDEX], GUIDE_ROUTES)
 
@@ -290,6 +297,19 @@ async function main() {
         const outDir = route.path === '/' ? DIST : join(DIST, route.path)
         await mkdir(outDir, { recursive: true })
         await writeFile(join(outDir, 'index.html'), html)
+        // The prerendered copy is what a crawler reads, so a link that
+        // exists only in the React tree does not count. Warn loudly rather
+        // than let a page quietly lose its route to the guides.
+        // /subjects serves SPM students, for whom the ESAT and TMUA guides
+        // are not relevant — linking them there would be noise, not help.
+        const exempt = ['/subjects']
+        if (
+            !route.path.startsWith('/guides') &&
+            !exempt.includes(route.path) &&
+            !body.includes('href="/guides')
+        ) {
+            console.warn(`  ! ${route.path} has no link to the guides`)
+        }
         console.log(`  prerendered ${route.path}`)
         written++
     }
