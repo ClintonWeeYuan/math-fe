@@ -97,6 +97,16 @@ export function AdmissionsPickerPage() {
                 </div>
 
                 <p className="text-sm text-slate-500 mt-10">
+                    Not sure what these tests involve?{' '}
+                    <Link
+                        to="/guides"
+                        className="font-semibold underline underline-offset-4"
+                        style={{ color: '#4E77B4' }}
+                    >
+                        Read the ESAT and TMUA guides →
+                    </Link>
+                </p>
+                <p className="text-sm text-slate-500 mt-3">
                     Revising for SPM instead?{' '}
                     <Link
                         to="/subjects"

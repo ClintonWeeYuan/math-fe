@@ -20,6 +20,7 @@ import SubjectsPage from '@/pages/SubjectsPage.tsx'
 import { AboutPage } from '@/pages/AboutPage.tsx'
 import { EsatTmuaPage } from '@/pages/EsatTmuaPage.tsx'
 import { DiagnosticsCatalogPage } from '@/pages/DiagnosticsCatalogPage.tsx'
+import { GuidesIndexPage } from '@/pages/GuidesIndexPage.tsx'
 import { EsatPracticeGuidePage } from '@/pages/EsatPracticeGuidePage.tsx'
 import { TmuaPracticeGuidePage } from '@/pages/TmuaPracticeGuidePage.tsx'
 import { StudentProtectedRoute } from '@/components/auth/StudentProtectedRoute.tsx'
@@ -88,6 +89,7 @@ function App() {
                 <Route path="diagnostics" element={<DiagnosticsCatalogPage />} />
                 {/* Guides are written to be found in search, so they are
                     prerendered in full — see scripts/prerender.mjs. */}
+                <Route path="guides" element={<GuidesIndexPage />} />
                 <Route
                     path="guides/esat-practice-tests"
                     element={<EsatPracticeGuidePage />}

@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button.tsx'
 import { Seo } from '@/components/Seo.tsx'
 import type { Guide } from '@/content/guideTypes.ts'
+import { GUIDES } from '@/content/guides.mjs'
 
 const PERIWINKLE = '#799ED1'
 
@@ -149,6 +150,35 @@ export function GuideArticle({ guide }: { guide: Guide }) {
                         {guide.ctaLabel}
                     </Button>
                 </div>
+
+                {/* Somewhere to go next: a reader who wanted this guide
+                    usually wants the neighbouring one too. */}
+                {GUIDES.filter((g) => g.path !== guide.path).length > 0 && (
+                    <section className="mb-10">
+                        <h2 className="text-xl md:text-2xl font-bold mb-4">
+                            More guides
+                        </h2>
+                        <ul className="flex flex-col gap-2">
+                            {GUIDES.filter((g) => g.path !== guide.path).map(
+                                (g) => (
+                                    <li key={g.path}>
+                                        <Link
+                                            to={g.path}
+                                            className="font-semibold underline underline-offset-4"
+                                            style={{ color: PERIWINKLE }}
+                                        >
+                                            {g.h1}
+                                        </Link>
+                                        <span className="text-slate-500 text-sm">
+                                            {' '}
+                                            — {g.description}
+                                        </span>
+                                    </li>
+                                )
+                            )}
+                        </ul>
+                    </section>
+                )}
 
                 <p className="text-xs text-slate-400 leading-relaxed">
                     Test format, dates and requirements verified against{' '}
