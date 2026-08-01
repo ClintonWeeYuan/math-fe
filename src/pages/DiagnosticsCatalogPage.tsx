@@ -32,9 +32,20 @@ type Props = {
  * its own heading, blurb and search metadata rather than sharing one. */
 const COPY: Record<
     'all' | DiagnosticTest,
-    { headPrefix: string; heading: string; lead: string; title: string; description: string; path: string }
+    {
+        headPrefix: string
+        heading: string
+        lead: string
+        title: string
+        description: string
+        path: string
+        guidePath: string
+        guideLabel: string
+    }
 > = {
     all: {
+        guidePath: '/guides',
+        guideLabel: 'New to these tests? Read the guides',
         headPrefix: 'Timed',
         heading: 'diagnostics.',
         lead: 'Sit a timed diagnostic and get a report mapped to specific skills — so you know exactly where to focus. Set A of every subject is free to sit.',
@@ -44,6 +55,8 @@ const COPY: Record<
         path: '/diagnostics',
     },
     esat: {
+        guidePath: '/guides/esat-practice-tests',
+        guideLabel: 'New to the ESAT? Read the ESAT practice guide',
         headPrefix: 'ESAT',
         heading: 'diagnostics.',
         lead: 'Timed ESAT papers — Mathematics 1, Mathematics 2, Physics, Chemistry and Biology — each mapped to the skills the test examines. Set A of every subject is free to sit.',
@@ -53,6 +66,8 @@ const COPY: Record<
         path: '/diagnostics/esat',
     },
     tmua: {
+        guidePath: '/guides/tmua-practice-tests',
+        guideLabel: 'New to the TMUA? Read the TMUA practice guide',
         headPrefix: 'TMUA',
         heading: 'diagnostics.',
         lead: 'Timed TMUA papers — Paper 1 (Applications of Mathematical Knowledge) and Paper 2 (Mathematical Reasoning) — mapped to the skills each paper examines. Set A of each paper is free to sit.',
@@ -89,8 +104,19 @@ export function DiagnosticsCatalogPage({ test }: Props) {
                     {copy.headPrefix}{' '}
                     <span style={{ color: '#799ED1' }}>{copy.heading}</span>
                 </p>
-                <p className="text-lg md:text-xl text-slate-500 mb-10 leading-relaxed max-w-2xl">
+                <p className="text-lg md:text-xl text-slate-500 mb-4 leading-relaxed max-w-2xl">
                     {copy.lead}
+                </p>
+                {/* The guides are the top of this funnel: someone who does not
+                    yet know the format needs them before a timed paper. */}
+                <p className="mb-10">
+                    <Link
+                        to={copy.guidePath}
+                        className="text-sm font-semibold underline underline-offset-4"
+                        style={{ color: '#4E77B4' }}
+                    >
+                        {copy.guideLabel} →
+                    </Link>
                 </p>
 
                 {isLoading && <p className="text-slate-500">Loading…</p>}

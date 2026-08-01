@@ -17,6 +17,10 @@ const MENU_ITEMS: { text: string; link: string }[] = [
         link: '/admissions',
     },
     {
+        text: 'Guides',
+        link: '/guides',
+    },
+    {
         text: 'About',
         link: '/about',
     },

@@ -20,12 +20,7 @@
 import { readFile, writeFile, mkdir } from 'node:fs/promises'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { GUIDE as ESAT_GUIDE } from '../src/content/esatPracticeGuide.mjs'
-import { GUIDE as TMUA_GUIDE } from '../src/content/tmuaPracticeGuide.mjs'
-
-/** Every search-facing guide, rendered from the same modules the React
- * pages use. Adding one here and in App.tsx is the whole job. */
-const GUIDES = [ESAT_GUIDE, TMUA_GUIDE]
+import { GUIDES } from '../src/content/guides.mjs'
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 const DIST = join(ROOT, 'dist')
@@ -111,7 +106,12 @@ function guideMarkup(GUIDE) {
         `<h1>${esc(GUIDE.h1)}</h1><p>${esc(GUIDE.standfirst)}</p>` +
         sections +
         faq +
-        `<p><a href="${esc(GUIDE.ctaPath)}">${esc(GUIDE.ctaLabel)}</a></p>`
+        `<p><a href="${esc(GUIDE.ctaPath)}">${esc(GUIDE.ctaLabel)}</a></p>` +
+        '<section><h2>More guides</h2><ul>' +
+        GUIDES.filter((g) => g.path !== GUIDE.path)
+            .map((g) => `<li><a href="${esc(g.path)}">${esc(g.h1)}</a> — ${esc(g.description)}</li>`)
+            .join('') +
+        '</ul></section>'
     )
 }
 
@@ -130,6 +130,21 @@ function faqJsonLd(GUIDE) {
         })),
     }
     return `<script type="application/ld+json">${JSON.stringify(data)}</script>`
+}
+
+const GUIDES_INDEX = {
+    path: '/guides',
+    title: 'ESAT & TMUA Guides | JomExam',
+    description:
+        'Straight answers on the ESAT and TMUA — what each test asks of you, the format, how results are reported, and how to use a practice paper properly.',
+    body:
+        '<h1>ESAT &amp; TMUA, explained.</h1>' +
+        '<p>What each test actually asks of you, how it is scored, and how to get something useful out of a practice paper.</p>' +
+        '<ul>' +
+        GUIDES.map(
+            (g) => `<li><a href="${esc(g.path)}"><strong>${esc(g.h1)}</strong></a> — ${esc(g.description)}</li>`
+        ).join('') +
+        '</ul>',
 }
 
 const GUIDE_ROUTES = GUIDES.map((g) => ({
@@ -225,7 +240,7 @@ const ROUTES = [
 <p>JomExam began in Malaysia as SPM practice, and now builds timed diagnostics for the ESAT and TMUA admissions tests. Every diagnostic produces a skills report naming the specific gaps to work on.</p>
 <p>One-to-one tutoring is available with Hazel — Oxford DPhil in Engineering, with over 5,000 hours teaching maths, physics and chemistry online.</p>`,
     },
-].concat(GUIDE_ROUTES)
+].concat([GUIDES_INDEX], GUIDE_ROUTES)
 
 async function main() {
     const template = await readFile(join(DIST, 'index.html'), 'utf8')
