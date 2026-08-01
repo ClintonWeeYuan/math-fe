@@ -23,6 +23,7 @@ const PRERENDERED = new Set([
     'diagnostics',
     'esat-tmua',
     'subjects',
+    'guides',
 ])
 
 function routeSegments(): string[] {
