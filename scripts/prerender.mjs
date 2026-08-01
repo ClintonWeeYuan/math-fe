@@ -20,6 +20,7 @@
 import { readFile, writeFile, mkdir } from 'node:fs/promises'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { GUIDE } from '../src/content/esatPracticeGuide.mjs'
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 const DIST = join(ROOT, 'dist')
@@ -69,6 +70,61 @@ function setsMarkup(sets) {
                 '</ul></section>'
         )
         .join('')
+}
+
+
+/** The guide, rendered from the same content module the React page uses, so
+ * the static copy and the live page can never disagree. */
+function guideMarkup() {
+    const sections = GUIDE.sections
+        .map((section) => {
+            const paras = section.paras.map((p) => `<p>${esc(p)}</p>`).join('')
+            const table = section.table
+                ? `<table><caption>${esc(section.table.caption)}</caption><thead><tr>` +
+                  section.table.head.map((h) => `<th scope="col">${esc(h)}</th>`).join('') +
+                  '</tr></thead><tbody>' +
+                  section.table.rows
+                      .map((r) => `<tr>${r.map((c) => `<td>${esc(c)}</td>`).join('')}</tr>`)
+                      .join('') +
+                  '</tbody></table>'
+                : ''
+            return `<section id="${esc(section.id)}"><h2>${esc(section.h2)}</h2>${paras}${table}</section>`
+        })
+        .join('')
+    const faq =
+        '<section><h2>Common questions</h2><dl>' +
+        GUIDE.faq
+            .map((f) => {
+                const link = f.link
+                    ? ` <a href="${esc(f.link.url)}" rel="noopener">${esc(f.link.label)}</a>`
+                    : ''
+                return `<dt>${esc(f.q)}</dt><dd>${esc(f.a)}${link}</dd>`
+            })
+            .join('') +
+        '</dl></section>'
+    return (
+        `<h1>${esc(GUIDE.h1)}</h1><p>${esc(GUIDE.standfirst)}</p>` +
+        sections +
+        faq +
+        `<p><a href="/diagnostics/esat">Sit a free ESAT diagnostic</a></p>`
+    )
+}
+
+/** FAQPage structured data — makes the answers eligible for rich results. */
+function faqJsonLd() {
+    const data = {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: GUIDE.faq.map((f) => ({
+            '@type': 'Question',
+            name: f.q,
+            acceptedAnswer: {
+                '@type': 'Answer',
+                text: f.link ? `${f.a} See: ${f.link.url}` : f.a,
+            },
+        })),
+    }
+    return `<script type="application/ld+json">${JSON.stringify(data)}</script>`
 }
 
 const ROUTES = [
@@ -148,6 +204,15 @@ const ROUTES = [
 <p>Work through Mathematics and Additional Mathematics questions organised by topic — with Physics, Chemistry and Biology on the way. Start straight away; signing in just saves your progress.</p>`,
     },
     {
+        path: GUIDE.path,
+        title: GUIDE.title,
+        description: GUIDE.description,
+        jsonLd: faqJsonLd(),
+        get body() {
+            return guideMarkup()
+        },
+    },
+    {
         path: '/about',
         title: 'About | JomExam — Oxford-Trained, Diagnostic-First STEM Prep',
         description:
@@ -199,6 +264,9 @@ async function main() {
             '<div id="root"></div>',
             `<div id="root">${body}</div>`
         )
+        if (route.jsonLd) {
+            html = html.replace('</head>', `${route.jsonLd}</head>`)
+        }
 
         const outDir = route.path === '/' ? DIST : join(DIST, route.path)
         await mkdir(outDir, { recursive: true })

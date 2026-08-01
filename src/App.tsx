@@ -20,6 +20,7 @@ import SubjectsPage from '@/pages/SubjectsPage.tsx'
 import { AboutPage } from '@/pages/AboutPage.tsx'
 import { EsatTmuaPage } from '@/pages/EsatTmuaPage.tsx'
 import { DiagnosticsCatalogPage } from '@/pages/DiagnosticsCatalogPage.tsx'
+import { EsatPracticeGuidePage } from '@/pages/EsatPracticeGuidePage.tsx'
 import { StudentProtectedRoute } from '@/components/auth/StudentProtectedRoute.tsx'
 import { DiagnosticQuestionsListPage } from '@/pages/Admin/Diagnostic/DiagnosticQuestionsListPage.tsx'
 import { DiagnosticSetsListPage } from '@/pages/Admin/Diagnostic/DiagnosticSetsListPage.tsx'
@@ -84,6 +85,12 @@ function App() {
                 <Route path="about" element={<AboutPage />} />
                 <Route path="esat-tmua" element={<EsatTmuaPage />} />
                 <Route path="diagnostics" element={<DiagnosticsCatalogPage />} />
+                {/* Guides are written to be found in search, so they are
+                    prerendered in full — see scripts/prerender.mjs. */}
+                <Route
+                    path="guides/esat-practice-tests"
+                    element={<EsatPracticeGuidePage />}
+                />
                 {/* ESAT and TMUA are separate products, so each has its own
                     catalogue page (own heading, copy and search metadata);
                     /diagnostics stays as the combined listing. */}
