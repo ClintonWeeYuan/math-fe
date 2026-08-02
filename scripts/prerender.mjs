@@ -225,7 +225,7 @@ const ROUTES = [
 <li><strong>Get a skills report</strong> — a breakdown by the specific skills the test examines, with your timing on each question.</li>
 <li><strong>Focus where it counts</strong> — see your strengths and the areas to drill first.</li>
 </ol>
-<p><a href="/diagnostics/esat">Start an ESAT diagnostic</a></p>
+<p><a href="/diagnostics/esat">Start a free ESAT diagnostic</a> · <a href="/diagnostics/tmua">Start a free TMUA diagnostic</a></p>
 <p><a href="/guides">Read the ESAT and TMUA guides</a></p>`,
     },
     {

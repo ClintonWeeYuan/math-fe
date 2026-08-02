@@ -18,7 +18,7 @@ export function EsatTmuaPage() {
                 {/* Eyebrow */}
                 <div className="mb-5">
                     <span className="inline-block bg-emerald-50 text-emerald-700 text-xs md:text-sm font-medium px-4 py-1.5 rounded-full border border-emerald-200">
-                        ESAT diagnostics — now live
+                        ESAT &amp; TMUA diagnostics — all now live
                     </span>
                 </div>
 
@@ -36,12 +36,22 @@ export function EsatTmuaPage() {
                     skills, with Set A of every paper free to sit.
                 </p>
 
-                <div className="mb-12">
+                {/* Both tests are live, so this page must not funnel every
+                    reader to ESAT — a TMUA candidate arriving here had no
+                    route to their own papers. */}
+                <div className="mb-12 flex flex-col sm:flex-row gap-3">
                     <Button
                         className="cursor-pointer font-medium"
                         onClick={() => navigate('/diagnostics/esat')}
                     >
                         Start a free ESAT diagnostic →
+                    </Button>
+                    <Button
+                        variant="outline"
+                        className="cursor-pointer font-medium"
+                        onClick={() => navigate('/diagnostics/tmua')}
+                    >
+                        Start a free TMUA diagnostic →
                     </Button>
                 </div>
 
