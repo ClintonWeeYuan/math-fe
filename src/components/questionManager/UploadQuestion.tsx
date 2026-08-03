@@ -34,6 +34,7 @@ import axios from 'axios'
 import { useQueryClient } from '@tanstack/react-query'
 import Dropzone from 'react-dropzone'
 import type { PaperInstance, BaseTopic, QuestionResponse } from '@/client'
+import { getAuthHeaders } from '@/lib/authHeaders.ts'
 
 type Inputs = {
     file: FileList
@@ -117,6 +118,7 @@ export const UploadQuestion = ({ paperInstance, topicsByLevel }: Props) => {
                 {
                     headers: {
                         'Content-Type': 'multipart/form-data',
+                        ...getAuthHeaders(),
                     },
                     timeout: 60_000,
                 }
