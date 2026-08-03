@@ -1,6 +1,9 @@
 import { useCallback, useState } from 'react'
 import { motion } from 'framer-motion'
-import { MemoizedHtmlBlock } from '@/components/questionBank/HtmlBlock.tsx'
+import {
+    QuestionAnswer,
+    QuestionContent,
+} from '@/components/questionBank/QuestionContent.tsx'
 import type { QuestionResponse } from '@/client'
 import { Button } from '@/components/ui/button.tsx'
 import useUpdateQuestionStatusMutation, {
@@ -91,15 +94,27 @@ export function AnimatedQuestionCard({
                                 >
                                     {question.difficulty}
                                 </Badge>
-                                <span className="text-sm text-gray-500">
-                                    {question.paper.name} (
-                                    {question.paperVariant.year})
-                                </span>
+                                {/* A question generated against the syllabus
+                                    has no past paper to name; it's identified
+                                    by its chapter instead. */}
+                                {question.paper ? (
+                                    <span className="text-sm text-gray-500">
+                                        {question.paper.name} (
+                                        {question.paperVariant?.year})
+                                    </span>
+                                ) : (
+                                    question.chapter && (
+                                        <span className="text-sm text-gray-500">
+                                            {question.chapterTitle ??
+                                                question.chapter}
+                                        </span>
+                                    )
+                                )}
                             </div>
                         </div>
                         <div className="flex-grow my-2 relative">
-                            <MemoizedHtmlBlock
-                                src={question.questionUrl}
+                            <QuestionContent
+                                question={question}
                                 onDimensionChange={handleHeightChange}
                                 onClick={() => setIsFlipped(!isFlipped)}
                             />
@@ -145,8 +160,8 @@ export function AnimatedQuestionCard({
                     onClick={() => setIsFlipped(!isFlipped)}
                 >
                     <div className="flex-grow my-2 relative w-full overflow-y-auto no-scrollbar">
-                        <MemoizedHtmlBlock
-                            src={question.answerUrl}
+                        <QuestionAnswer
+                            question={question}
                             onClick={() => setIsFlipped(!isFlipped)}
                         />
                     </div>

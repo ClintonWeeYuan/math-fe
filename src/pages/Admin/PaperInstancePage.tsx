@@ -16,9 +16,13 @@ import useGetPaperInstance from '@/hooks/useGetPaperInstance.ts'
 import { BreadCrumbs } from '@/components/questionManager/BreadCrumbs.tsx'
 import useGetSyllabusQuery from '@/hooks/useGetSyllabusQuery.ts'
 import { useTopicByLevels } from '@/hooks/useTopicByLevels.ts'
+import { SpmBulkImportDialog } from '@/components/questionManager/SpmBulkImportDialog.tsx'
+import { Button } from '@/components/ui/button.tsx'
+import { useState } from 'react'
 
 export function PaperInstancePage() {
     const { subjectId, paperInstanceId, syllabusId } = useParams()
+    const [importOpen, setImportOpen] = useState(false)
 
     const { data } = useGetQuestionsByPaperInstanceQuery({
         paperInstanceId: paperInstanceId ?? '',
@@ -56,6 +60,22 @@ export function PaperInstancePage() {
                             text: `${paperInstance?.paper.name} (${paperInstance?.variant.name} ${paperInstance?.variant.year})`,
                         },
                     ]}
+                />
+                {/* A whole batch at once, alongside the one-at-a-time LaTeX
+                    upload below — importing here files every question against
+                    this paper instance. */}
+                <div className="mb-4 flex justify-end">
+                    <Button
+                        variant="outline"
+                        onClick={() => setImportOpen(true)}
+                    >
+                        Bulk import questions
+                    </Button>
+                </div>
+                <SpmBulkImportDialog
+                    open={importOpen}
+                    onOpenChange={setImportOpen}
+                    paperInstanceId={paperInstanceId}
                 />
                 <Card className="mb-4">
                     <UploadQuestion

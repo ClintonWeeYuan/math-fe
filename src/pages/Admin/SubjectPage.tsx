@@ -15,9 +15,13 @@ import { CreatePaperInstanceDialog } from '@/components/questionManager/subject/
 import { TopicsTable } from '@/components/questionManager/subject/TopicsTable.tsx'
 import { PapersTable } from '@/components/questionManager/subject/PapersTable.tsx'
 import { BreadCrumbs } from '@/components/questionManager/BreadCrumbs.tsx'
+import { SpmBulkImportDialog } from '@/components/questionManager/SpmBulkImportDialog.tsx'
+import { Button } from '@/components/ui/button.tsx'
+import { useState } from 'react'
 
 export function SubjectPage() {
     const { subjectId, syllabusId } = useParams()
+    const [importOpen, setImportOpen] = useState(false)
 
     const { data: syllabus } = useGetSyllabusQuery({
         syllabusId: syllabusId ?? '',
@@ -45,6 +49,21 @@ export function SubjectPage() {
                             text: data?.name ?? '',
                         },
                     ]}
+                />
+                {/* Importing here rather than under a paper instance is the
+                    path for content generated chapter by chapter — it belongs
+                    to the subject and its topics, not to any past paper. */}
+                <div className="mb-4 flex justify-end">
+                    <Button
+                        variant="outline"
+                        onClick={() => setImportOpen(true)}
+                    >
+                        Bulk import questions
+                    </Button>
+                </div>
+                <SpmBulkImportDialog
+                    open={importOpen}
+                    onOpenChange={setImportOpen}
                 />
                 <div className="grid grid-cols-2 gap-4">
                     <TopicsTable
