@@ -2,7 +2,8 @@ import { useState } from 'react'
 import type { QuestionResponse } from '@/client'
 import useGetQuestionOptionQuery from '@/hooks/questionOptions/useGetQuestionOptionsQuery.ts'
 import { MemoizedHtmlBlock } from '@/components/questionBank/HtmlBlock.tsx'
-import { BlockMath } from 'react-katex'
+import { QuestionContent } from '@/components/questionBank/QuestionContent.tsx'
+import { LatexText } from '@/components/diagnostic/LatexText.tsx'
 import { motion, AnimatePresence } from 'framer-motion'
 import { BookOpen } from 'lucide-react'
 import type { QuestionStatus } from '@/components/questionBank/v3/types.ts'
@@ -112,9 +113,10 @@ export function MultipleChoiceQuestion({
                 {/* Left column: question + options */}
                 <div className="flex-1 min-w-0 space-y-6">
                     <div className="bg-white rounded-lg shadow-sm p-6 overflow-x-auto no-scrollbar">
-                        <MemoizedHtmlBlock
-                            src={question.questionUrl}
+                        <QuestionContent
+                            question={question}
                             onClick={() => {}}
+                            showOptions={false}
                         />
                     </div>
 
@@ -135,10 +137,16 @@ export function MultipleChoiceQuestion({
                                     <div
                                         className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold transition-colors ${getLabelStyle(option)}`}
                                     >
-                                        {String.fromCharCode(65 + index)}
+                                        {option.label ??
+                                            String.fromCharCode(65 + index)}
                                     </div>
                                     <div className="flex-1 text-gray-700 group-hover:text-gray-900 overflow-x-auto no-scrollbar">
-                                        <BlockMath math={option.value} />
+                                        {/* LatexText, not BlockMath: an
+                                            authored option is prose that may
+                                            contain maths ("Copper(II) sulfate"),
+                                            and BlockMath would fail to parse it
+                                            as a formula. */}
+                                        <LatexText text={option.value} />
                                     </div>
                                 </div>
                             </button>
@@ -183,7 +191,7 @@ export function MultipleChoiceQuestion({
                                     </h3>
                                 </div>
                                 <MemoizedHtmlBlock
-                                    src={question.answerUrl}
+                                    src={question.answerUrl!}
                                     onClick={() => {}}
                                 />
                             </div>

@@ -10,7 +10,9 @@ type Props = {
 type MutationFunctionProps = {
     topicIds: string[]
     difficulty: Difficulty
-    number: number
+    // Null for a bulk-imported question: it belongs to no past paper, so it has
+    // no position in one to edit.
+    number: number | null
     marks: number | null
 }
 
