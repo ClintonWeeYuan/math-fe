@@ -72,10 +72,15 @@ export const QuestionsTable = ({
                                 />
                             )}
 
-                            <DownloadButton
-                                fileUrl={question.answerUrl}
-                                fileName={`${question.paperVariant.year}-Paper ${question.paper.name}-Q${question.number}.html`}
-                            />
+                            {/* Only an asset question has a file to download;
+                                a bulk-imported one is stored as data, and its
+                                filename would have no paper to name anyway. */}
+                            {question.answerUrl && (
+                                <DownloadButton
+                                    fileUrl={question.answerUrl}
+                                    fileName={`${question.paperVariant?.year ?? 'unfiled'}-Paper ${question.paper?.name ?? '-'}-Q${question.number ?? question.sourceRef}.html`}
+                                />
+                            )}
                         </TableCell>
                     </TableRow>
                 ))}

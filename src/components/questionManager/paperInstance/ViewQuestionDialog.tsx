@@ -8,7 +8,10 @@ import {
 } from '@/components/ui/dialog.tsx'
 import { Button } from '@/components/ui/button.tsx'
 import { useState } from 'react'
-import { HtmlBlock } from '@/components/questionBank/HtmlBlock.tsx'
+import {
+    QuestionAnswer,
+    QuestionContent,
+} from '@/components/questionBank/QuestionContent.tsx'
 import type { QuestionResponse } from '@/client'
 
 type Props = {
@@ -25,10 +28,13 @@ export const ViewQuestionDialog = ({ question }: Props) => {
                     <DialogTitle>Question {question.number}</DialogTitle>
                 </DialogHeader>
                 <div className="grid gap-4">
-                    <HtmlBlock src={question.questionUrl} onClick={() => {}} />
+                    {/* A bulk-imported question has no HTML asset — its stem
+                        and options are the content, rendered the same way the
+                        student bank renders them. */}
+                    <QuestionContent question={question} onClick={() => {}} />
                     <div className="bg-green-50 border-l-4 border-green-400 p-4 rounded-r-lg animate-in slide-in-from-top-2 duration-300">
-                        <HtmlBlock
-                            src={question.answerUrl}
+                        <QuestionAnswer
+                            question={question}
                             onClick={() => {}}
                         />
                     </div>

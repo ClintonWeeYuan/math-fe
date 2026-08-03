@@ -45,7 +45,9 @@ type Props = {
 
 const formSchema = z.object({
     topicIds: z.array(z.string()),
-    number: z.coerce.number(),
+    // Optional because a bulk-imported question has no number: it isn't a
+    // question in a past paper, so there's no position for it to hold.
+    number: z.coerce.number().optional(),
     difficulty: z.string(),
     marks: z.coerce.number().optional(),
 })
@@ -75,7 +77,7 @@ export const UpdateQuestionDialog = ({
         resolver: zodResolver(formSchema),
         defaultValues: {
             topicIds: currentQuestion.topics.map((topic) => topic.id),
-            number: currentQuestion.number,
+            number: currentQuestion.number ?? undefined,
             difficulty: currentQuestion.difficulty,
             marks: currentQuestion.marks ?? undefined,
         },
@@ -83,7 +85,7 @@ export const UpdateQuestionDialog = ({
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         await mutateAsync({
-            number: values.number,
+            number: values.number ?? null,
             topicIds: values.topicIds,
             difficulty: values.difficulty as Difficulty,
             marks: values.marks != undefined ? values.marks : null,

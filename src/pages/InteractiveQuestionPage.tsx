@@ -18,7 +18,9 @@ export function InteractiveQuestionPage() {
     const editorRef = useRef<Editor | null>(null)
 
     useEffect(() => {
-        if (data?.questionUrl !== undefined && editorRef.current) {
+        // Null for a question authored as text: there is no HTML asset to
+        // load onto the canvas, so the interactive view has nothing to show.
+        if (data?.questionUrl && editorRef.current) {
             const newShapeId = createShapeId()
 
             fetch(data.questionUrl)
