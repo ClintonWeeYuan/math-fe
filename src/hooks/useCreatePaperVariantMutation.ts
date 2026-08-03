@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import { createPaperVariantPapersVariantPost } from '@/client'
+import { getAuthHeaders } from '@/lib/authHeaders.ts'
 
 type Props = {
     syllabusId: string
@@ -12,6 +13,7 @@ export default function useCreatePaperVariantMutation({ syllabusId }: Props) {
     return useMutation({
         mutationFn: async ({ name, year }: { name: string; year: number }) =>
             await createPaperVariantPapersVariantPost({
+                headers: getAuthHeaders(),
                 body: {
                     syllabusId,
                     name,

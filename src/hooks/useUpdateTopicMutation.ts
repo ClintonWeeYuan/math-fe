@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { updateTopicTopicsTopicIdPatch } from '@/client'
+import { getAuthHeaders } from '@/lib/authHeaders.ts'
 
 type Props = {
     topicId: string
@@ -20,6 +21,7 @@ export default function useUpdateTopicMutation({ topicId }: Props) {
         }) =>
             (
                 await updateTopicTopicsTopicIdPatch({
+                headers: getAuthHeaders(),
                     path: { topic_id: topicId },
                     body: {
                         name,

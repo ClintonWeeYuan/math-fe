@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import type { Difficulty } from '@/lib/types.ts'
 import { updateQuestionQuestionsQuestionIdPatch } from '@/client'
+import { getAuthHeaders } from '@/lib/authHeaders.ts'
 
 type Props = {
     questionId: string
@@ -31,6 +32,7 @@ export default function useUpdateQuestionMutation({
         }: MutationFunctionProps) =>
             (
                 await updateQuestionQuestionsQuestionIdPatch({
+                headers: getAuthHeaders(),
                     path: {
                         question_id: questionId,
                     },
