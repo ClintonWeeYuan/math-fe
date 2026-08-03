@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import { createSubjectSubjectsPost } from '@/client'
+import { getAuthHeaders } from '@/lib/authHeaders.ts'
 
 type Props = {
     syllabusId: string
@@ -18,6 +19,7 @@ export default function useCreateSubjectMutation({ syllabusId }: Props) {
         mutationFn: async ({ name, code }: CreateSubjectInput) => {
             const result = await createSubjectSubjectsPost({
                 body: { name, code, syllabusId },
+                headers: getAuthHeaders(),
             })
             // The generated client resolves { data: undefined, error } on an
             // HTTP error instead of throwing, so returning `.data` blindly
