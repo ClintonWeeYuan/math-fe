@@ -11,6 +11,8 @@ import { SubjectTable } from '@/components/questionManager/syllabus/SubjectTable
 import { LevelsTable } from '@/components/questionManager/syllabus/LevelsTable.tsx'
 import { PaperVariantTable } from '@/components/questionManager/syllabus/PaperVariantTable.tsx'
 import { BreadCrumbs } from '@/components/questionManager/BreadCrumbs.tsx'
+import { CreateSubjectDialog } from '@/components/questionManager/syllabus/CreateSubjectDialog.tsx'
+import { CardFooter } from '@/components/ui/card.tsx'
 
 export function SyllabusPage() {
     const { syllabusId } = useParams()
@@ -50,6 +52,11 @@ export function SyllabusPage() {
                                 <SubjectTable subjects={data?.subjects ?? []} />
                             </CardContent>
                         </CardHeader>
+                        <CardFooter>
+                            <CreateSubjectDialog
+                                syllabusId={syllabusId ?? ''}
+                            />
+                        </CardFooter>
                     </Card>
                 </div>
             </div>
