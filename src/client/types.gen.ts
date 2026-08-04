@@ -509,23 +509,6 @@ export type BulkImportSetMeta = {
 };
 
 /**
- * BulkQuestionStatusBody
- * Publish (or unpublish) several questions in one call — powers the
- * 'publish all questions in this set' action, so an admin doesn't edit 27
- * questions one at a time to get a set past its publish gate.
- */
-export type BulkQuestionStatusBody = {
-    /**
-     * Questionids
-     */
-    questionIds: Array<string>;
-    /**
-     * Status
-     */
-    status: 'draft' | 'published';
-};
-
-/**
  * BulkQuestionStatusResponse
  */
 export type BulkQuestionStatusResponse = {
@@ -2092,6 +2075,40 @@ export type WaitlistSignupResponse = {
     message: string;
 };
 
+/**
+ * BulkQuestionStatusBody
+ * Publish (or unpublish) several questions in one call — powers the
+ * 'publish all questions in this set' action, so an admin doesn't edit 27
+ * questions one at a time to get a set past its publish gate.
+ */
+export type AppModelsDiagnosticBulkQuestionStatusBody = {
+    /**
+     * Questionids
+     */
+    questionIds: Array<string>;
+    /**
+     * Status
+     */
+    status: 'draft' | 'published';
+};
+
+/**
+ * BulkQuestionStatusBody
+ * Publish (or unpublish) several questions at once — the action that ends
+ * a review pass, so an admin doesn't click through 55 questions one at a
+ * time to release a batch.
+ */
+export type AppModelsQuestionsBulkQuestionStatusBody = {
+    /**
+     * Questionids
+     */
+    questionIds: Array<string>;
+    /**
+     * Status
+     */
+    status: 'draft' | 'published';
+};
+
 export type ConvertLatexConverterPostData = {
     body: BodyConvertLatexConverterPost;
     path?: never;
@@ -2210,6 +2227,11 @@ export type GetQuestionsBySubjectPaginatedQuestionsSubjectPaginatedSubjectIdGetD
          * Filter by a list of syllabus chapter codes, e.g. C06.
          */
         chapters?: Array<string> | null;
+        /**
+         * Status
+         * Admin only: 'draft' or 'published'. Ignored for everyone else, who only ever sees published questions.
+         */
+        status?: string | null;
     };
     url: '/questions/subject/paginated/{subject_id}';
 };
@@ -2231,6 +2253,31 @@ export type GetQuestionsBySubjectPaginatedQuestionsSubjectPaginatedSubjectIdGetR
 };
 
 export type GetQuestionsBySubjectPaginatedQuestionsSubjectPaginatedSubjectIdGetResponse = GetQuestionsBySubjectPaginatedQuestionsSubjectPaginatedSubjectIdGetResponses[keyof GetQuestionsBySubjectPaginatedQuestionsSubjectPaginatedSubjectIdGetResponses];
+
+export type BulkSetPublishStatusQuestionsBulkStatusPostData = {
+    body: AppModelsQuestionsBulkQuestionStatusBody;
+    path?: never;
+    query?: never;
+    url: '/questions/bulk-status';
+};
+
+export type BulkSetPublishStatusQuestionsBulkStatusPostErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type BulkSetPublishStatusQuestionsBulkStatusPostError = BulkSetPublishStatusQuestionsBulkStatusPostErrors[keyof BulkSetPublishStatusQuestionsBulkStatusPostErrors];
+
+export type BulkSetPublishStatusQuestionsBulkStatusPostResponses = {
+    /**
+     * Successful Response
+     */
+    200: BulkQuestionStatusResponse;
+};
+
+export type BulkSetPublishStatusQuestionsBulkStatusPostResponse = BulkSetPublishStatusQuestionsBulkStatusPostResponses[keyof BulkSetPublishStatusQuestionsBulkStatusPostResponses];
 
 export type SetQuestionStatusQuestionsSetStatusPostData = {
     body?: never;
@@ -3307,7 +3354,7 @@ export type CreateDiagnosticQuestionDiagnosticQuestionsPostResponses = {
 export type CreateDiagnosticQuestionDiagnosticQuestionsPostResponse = CreateDiagnosticQuestionDiagnosticQuestionsPostResponses[keyof CreateDiagnosticQuestionDiagnosticQuestionsPostResponses];
 
 export type BulkSetQuestionStatusDiagnosticQuestionsBulkStatusPostData = {
-    body: BulkQuestionStatusBody;
+    body: AppModelsDiagnosticBulkQuestionStatusBody;
     path?: never;
     query?: never;
     url: '/diagnostic/questions/bulk-status';

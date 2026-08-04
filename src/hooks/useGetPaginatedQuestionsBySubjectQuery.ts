@@ -14,6 +14,9 @@ type Props = {
     topics: string[]
     difficulty: string[]
     papers: string[]
+    // Admin only — the backend ignores it for everyone else, who always see
+    // published questions and nothing else.
+    status?: 'draft' | 'published'
 }
 
 export default function useGetPaginatedQuestionsBySubjectQuery({
@@ -23,6 +26,7 @@ export default function useGetPaginatedQuestionsBySubjectQuery({
     topics,
     difficulty,
     papers,
+    status,
 }: Props) {
     const queryClient = useQueryClient()
 
@@ -42,6 +46,7 @@ export default function useGetPaginatedQuestionsBySubjectQuery({
                             size,
                             difficulty,
                             papers,
+                            status,
                         },
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -53,7 +58,7 @@ export default function useGetPaginatedQuestionsBySubjectQuery({
         queryKey: [
             'questions',
             subjectId,
-            { page, topics, difficulty, papers },
+            { page, topics, difficulty, papers, status },
         ],
         refetchOnWindowFocus: false,
         staleTime: 60 * 60 * 1000,
