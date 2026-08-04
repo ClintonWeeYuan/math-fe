@@ -13,7 +13,15 @@ export default function usePublishedSubjectsQuery() {
         queryKey: ['published-subjects'],
         queryFn: async () => {
             const result = await listPublishedSubjectsSubjectsGet()
-            return result.data ?? []
+            // The generated client resolves { data: undefined, error } instead
+            // of throwing, so `result.data ?? []` would render an empty
+            // catalogue for a failed request — a page saying "no subjects"
+            // when the truth is "couldn't ask". Throwing puts the query in
+            // isError, which the page reports honestly.
+            if (result.error !== undefined || result.data === undefined) {
+                throw new Error('Could not load subjects.')
+            }
+            return result.data
         },
     })
 }
