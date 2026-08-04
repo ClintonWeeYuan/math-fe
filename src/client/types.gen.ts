@@ -509,6 +509,40 @@ export type BulkImportSetMeta = {
 };
 
 /**
+ * BulkPublishBody
+ * Publish (or unpublish) several questions at once.
+ *
+ * Named apart from the diagnostic router's BulkQuestionStatusBody on purpose:
+ * two Pydantic models sharing a name make the OpenAPI generator disambiguate
+ * *both* into AppModels-prefixed type names, silently renaming the diagnostic
+ * type the frontend already imports.
+ *
+ * Publishing several at once — the action that ends
+ * a review pass, so an admin doesn't click through 55 questions one at a
+ * time to release a batch.
+ */
+export type BulkPublishBody = {
+    /**
+     * Questionids
+     */
+    questionIds: Array<string>;
+    /**
+     * Status
+     */
+    status: 'draft' | 'published';
+};
+
+/**
+ * BulkPublishResponse
+ */
+export type BulkPublishResponse = {
+    /**
+     * Updatedcount
+     */
+    updatedCount: number;
+};
+
+/**
  * BulkQuestionStatusBody
  * Publish (or unpublish) several questions in one call — powers the
  * 'publish all questions in this set' action, so an admin doesn't edit 27
@@ -2210,6 +2244,11 @@ export type GetQuestionsBySubjectPaginatedQuestionsSubjectPaginatedSubjectIdGetD
          * Filter by a list of syllabus chapter codes, e.g. C06.
          */
         chapters?: Array<string> | null;
+        /**
+         * Status
+         * Admin only: 'draft' or 'published'. Ignored for everyone else, who only ever sees published questions.
+         */
+        status?: string | null;
     };
     url: '/questions/subject/paginated/{subject_id}';
 };
@@ -2231,6 +2270,31 @@ export type GetQuestionsBySubjectPaginatedQuestionsSubjectPaginatedSubjectIdGetR
 };
 
 export type GetQuestionsBySubjectPaginatedQuestionsSubjectPaginatedSubjectIdGetResponse = GetQuestionsBySubjectPaginatedQuestionsSubjectPaginatedSubjectIdGetResponses[keyof GetQuestionsBySubjectPaginatedQuestionsSubjectPaginatedSubjectIdGetResponses];
+
+export type BulkSetPublishStatusQuestionsBulkStatusPostData = {
+    body: BulkPublishBody;
+    path?: never;
+    query?: never;
+    url: '/questions/bulk-status';
+};
+
+export type BulkSetPublishStatusQuestionsBulkStatusPostErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type BulkSetPublishStatusQuestionsBulkStatusPostError = BulkSetPublishStatusQuestionsBulkStatusPostErrors[keyof BulkSetPublishStatusQuestionsBulkStatusPostErrors];
+
+export type BulkSetPublishStatusQuestionsBulkStatusPostResponses = {
+    /**
+     * Successful Response
+     */
+    200: BulkPublishResponse;
+};
+
+export type BulkSetPublishStatusQuestionsBulkStatusPostResponse = BulkSetPublishStatusQuestionsBulkStatusPostResponses[keyof BulkSetPublishStatusQuestionsBulkStatusPostResponses];
 
 export type SetQuestionStatusQuestionsSetStatusPostData = {
     body?: never;
