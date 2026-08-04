@@ -247,6 +247,10 @@ export type BaseSubject = {
      * Papers
      */
     papers: Array<Paper>;
+    /**
+     * Ispublished
+     */
+    isPublished?: boolean;
 };
 
 /**
@@ -1284,6 +1288,34 @@ export type PublishedDiagnosticSet = {
 };
 
 /**
+ * PublishedSubject
+ * A subject as the student-facing catalogue needs it — enough for a card,
+ * without the full topic and paper lists the admin view carries.
+ */
+export type PublishedSubject = {
+    /**
+     * Id
+     */
+    id: string;
+    /**
+     * Name
+     */
+    name: string;
+    /**
+     * Code
+     */
+    code: string;
+    /**
+     * Topiccount
+     */
+    topicCount: number;
+    /**
+     * Questioncount
+     */
+    questionCount: number;
+};
+
+/**
  * QuestionResponse
  */
 export type QuestionResponse = {
@@ -1830,6 +1862,16 @@ export type UpdateQuestionBody = {
      * Marks
      */
     marks?: number | null;
+};
+
+/**
+ * UpdateSubjectBody
+ */
+export type UpdateSubjectBody = {
+    /**
+     * Ispublished
+     */
+    isPublished?: boolean | null;
 };
 
 /**
@@ -2540,6 +2582,46 @@ export type GetSyllabusSyllabusSyllabusIdGetResponses = {
 
 export type GetSyllabusSyllabusSyllabusIdGetResponse = GetSyllabusSyllabusSyllabusIdGetResponses[keyof GetSyllabusSyllabusSyllabusIdGetResponses];
 
+export type ListPublishedSubjectsSubjectsGetData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/subjects';
+};
+
+export type ListPublishedSubjectsSubjectsGetResponses = {
+    /**
+     * Response List Published Subjects Subjects Get
+     * Successful Response
+     */
+    200: Array<PublishedSubject>;
+};
+
+export type ListPublishedSubjectsSubjectsGetResponse = ListPublishedSubjectsSubjectsGetResponses[keyof ListPublishedSubjectsSubjectsGetResponses];
+
+export type CreateSubjectSubjectsPostData = {
+    body: CreateSubjectBody;
+    path?: never;
+    query?: never;
+    url: '/subjects';
+};
+
+export type CreateSubjectSubjectsPostErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type CreateSubjectSubjectsPostError = CreateSubjectSubjectsPostErrors[keyof CreateSubjectSubjectsPostErrors];
+
+export type CreateSubjectSubjectsPostResponses = {
+    /**
+     * Successful Response
+     */
+    200: unknown;
+};
+
 export type GetSubjectSubjectsSubjectIdGetData = {
     body?: never;
     path: {
@@ -2570,23 +2652,28 @@ export type GetSubjectSubjectsSubjectIdGetResponses = {
 
 export type GetSubjectSubjectsSubjectIdGetResponse = GetSubjectSubjectsSubjectIdGetResponses[keyof GetSubjectSubjectsSubjectIdGetResponses];
 
-export type CreateSubjectSubjectsPostData = {
-    body: CreateSubjectBody;
-    path?: never;
+export type UpdateSubjectSubjectsSubjectIdPatchData = {
+    body: UpdateSubjectBody;
+    path: {
+        /**
+         * Subject Id
+         */
+        subject_id: string;
+    };
     query?: never;
-    url: '/subjects';
+    url: '/subjects/{subject_id}';
 };
 
-export type CreateSubjectSubjectsPostErrors = {
+export type UpdateSubjectSubjectsSubjectIdPatchErrors = {
     /**
      * Validation Error
      */
     422: HttpValidationError;
 };
 
-export type CreateSubjectSubjectsPostError = CreateSubjectSubjectsPostErrors[keyof CreateSubjectSubjectsPostErrors];
+export type UpdateSubjectSubjectsSubjectIdPatchError = UpdateSubjectSubjectsSubjectIdPatchErrors[keyof UpdateSubjectSubjectsSubjectIdPatchErrors];
 
-export type CreateSubjectSubjectsPostResponses = {
+export type UpdateSubjectSubjectsSubjectIdPatchResponses = {
     /**
      * Successful Response
      */
@@ -2822,7 +2909,7 @@ export type DeletePaperPapersPaperIdDeleteResponses = {
     200: unknown;
 };
 
-export type DeletePaperPapersInstanceInstanceIdDeleteData = {
+export type DeletePaperInstancePapersInstanceInstanceIdDeleteData = {
     body?: never;
     path: {
         /**
@@ -2834,16 +2921,16 @@ export type DeletePaperPapersInstanceInstanceIdDeleteData = {
     url: '/papers/instance/{instance_id}';
 };
 
-export type DeletePaperPapersInstanceInstanceIdDeleteErrors = {
+export type DeletePaperInstancePapersInstanceInstanceIdDeleteErrors = {
     /**
      * Validation Error
      */
     422: HttpValidationError;
 };
 
-export type DeletePaperPapersInstanceInstanceIdDeleteError = DeletePaperPapersInstanceInstanceIdDeleteErrors[keyof DeletePaperPapersInstanceInstanceIdDeleteErrors];
+export type DeletePaperInstancePapersInstanceInstanceIdDeleteError = DeletePaperInstancePapersInstanceInstanceIdDeleteErrors[keyof DeletePaperInstancePapersInstanceInstanceIdDeleteErrors];
 
-export type DeletePaperPapersInstanceInstanceIdDeleteResponses = {
+export type DeletePaperInstancePapersInstanceInstanceIdDeleteResponses = {
     /**
      * Successful Response
      */

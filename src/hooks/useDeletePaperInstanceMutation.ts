@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { deletePaperPapersInstanceInstanceIdDelete } from '@/client'
+import { deletePaperInstancePapersInstanceInstanceIdDelete } from '@/client'
 import { getAuthHeaders } from '@/lib/authHeaders.ts'
 
 type Props = {
@@ -10,7 +10,7 @@ export default function useDeletePaperInstanceMutation({ subjectId }: Props) {
 
     return useMutation({
         mutationFn: async (paperInstanceId: string) =>
-            await deletePaperPapersInstanceInstanceIdDelete({
+            await deletePaperInstancePapersInstanceInstanceIdDelete({
                 headers: getAuthHeaders(),
                 path: {
                     instance_id: paperInstanceId,

@@ -2,7 +2,7 @@
 
 import { type Client, formDataBodySerializer, type Options as Options2, type TDataShape } from './client';
 import { client } from './client.gen';
-import type { BulkDeleteAttemptsDiagnosticAdminAttemptsBulkDeletePostData, BulkDeleteAttemptsDiagnosticAdminAttemptsBulkDeletePostErrors, BulkDeleteAttemptsDiagnosticAdminAttemptsBulkDeletePostResponses, BulkImportDiagnosticQuestionsDiagnosticQuestionsBulkImportPostData, BulkImportDiagnosticQuestionsDiagnosticQuestionsBulkImportPostErrors, BulkImportDiagnosticQuestionsDiagnosticQuestionsBulkImportPostResponses, BulkImportSpmQuestionsQuestionsBulkImportPostData, BulkImportSpmQuestionsQuestionsBulkImportPostErrors, BulkImportSpmQuestionsQuestionsBulkImportPostResponses, BulkSetQuestionStatusDiagnosticQuestionsBulkStatusPostData, BulkSetQuestionStatusDiagnosticQuestionsBulkStatusPostErrors, BulkSetQuestionStatusDiagnosticQuestionsBulkStatusPostResponses, ConvertLatexConverterPostData, ConvertLatexConverterPostErrors, ConvertLatexConverterPostResponses, CreateDiagnosticQuestionDiagnosticQuestionsPostData, CreateDiagnosticQuestionDiagnosticQuestionsPostErrors, CreateDiagnosticQuestionDiagnosticQuestionsPostResponses, CreateDiagnosticSetDiagnosticSetsPostData, CreateDiagnosticSetDiagnosticSetsPostErrors, CreateDiagnosticSetDiagnosticSetsPostResponses, CreateLevelLevelsPostData, CreateLevelLevelsPostErrors, CreateLevelLevelsPostResponses, CreateOptionQuestionsQuestionIdOptionPostData, CreateOptionQuestionsQuestionIdOptionPostErrors, CreateOptionQuestionsQuestionIdOptionPostResponses, CreatePaperInstancePapersInstancePostData, CreatePaperInstancePapersInstancePostErrors, CreatePaperInstancePapersInstancePostResponses, CreatePaperPapersPostData, CreatePaperPapersPostErrors, CreatePaperPapersPostResponses, CreatePaperVariantPapersVariantPostData, CreatePaperVariantPapersVariantPostErrors, CreatePaperVariantPapersVariantPostResponses, CreateSubjectSubjectsPostData, CreateSubjectSubjectsPostErrors, CreateSubjectSubjectsPostResponses, CreateSyllabusSyllabusPostData, CreateSyllabusSyllabusPostErrors, CreateSyllabusSyllabusPostResponses, CreateTopicTopicsPostData, CreateTopicTopicsPostErrors, CreateTopicTopicsPostResponses, DeleteDiagnosticQuestionDiagnosticQuestionsQuestionIdDeleteData, DeleteDiagnosticQuestionDiagnosticQuestionsQuestionIdDeleteErrors, DeleteDiagnosticQuestionDiagnosticQuestionsQuestionIdDeleteResponses, DeleteDiagnosticSetDiagnosticSetsSetIdDeleteData, DeleteDiagnosticSetDiagnosticSetsSetIdDeleteErrors, DeleteDiagnosticSetDiagnosticSetsSetIdDeleteResponses, DeleteLevelLevelsLevelIdDeleteData, DeleteLevelLevelsLevelIdDeleteErrors, DeleteLevelLevelsLevelIdDeleteResponses, DeleteOptionQuestionsQuestionIdOptionOptionIdDeleteData, DeleteOptionQuestionsQuestionIdOptionOptionIdDeleteErrors, DeleteOptionQuestionsQuestionIdOptionOptionIdDeleteResponses, DeletePaperPapersInstanceInstanceIdDeleteData, DeletePaperPapersInstanceInstanceIdDeleteErrors, DeletePaperPapersInstanceInstanceIdDeleteResponses, DeletePaperPapersPaperIdDeleteData, DeletePaperPapersPaperIdDeleteErrors, DeletePaperPapersPaperIdDeleteResponses, DeleteQuestionQuestionsQuestionIdDeleteData, DeleteQuestionQuestionsQuestionIdDeleteErrors, DeleteQuestionQuestionsQuestionIdDeleteResponses, DeleteTopicTopicsTopicIdDeleteData, DeleteTopicTopicsTopicIdDeleteErrors, DeleteTopicTopicsTopicIdDeleteResponses, DeleteVariantPapersVariantVariantIdDeleteData, DeleteVariantPapersVariantVariantIdDeleteErrors, DeleteVariantPapersVariantVariantIdDeleteResponses, GetAllLevelsLevelsGetData, GetAllLevelsLevelsGetResponses, GetAllSyllabusSyllabusGetData, GetAllSyllabusSyllabusGetResponses, GetAttemptDetailDiagnosticAdminAttemptsAttemptIdDetailGetData, GetAttemptDetailDiagnosticAdminAttemptsAttemptIdDetailGetErrors, GetAttemptDetailDiagnosticAdminAttemptsAttemptIdDetailGetResponses, GetAttemptRadarDiagnosticAttemptsAttemptIdRadarGetData, GetAttemptRadarDiagnosticAttemptsAttemptIdRadarGetErrors, GetAttemptRadarDiagnosticAttemptsAttemptIdRadarGetResponses, GetAttemptReportAdminDiagnosticAdminAttemptsAttemptIdReportGetData, GetAttemptReportAdminDiagnosticAdminAttemptsAttemptIdReportGetErrors, GetAttemptReportAdminDiagnosticAdminAttemptsAttemptIdReportGetResponses, GetAttemptReportDiagnosticAttemptsAttemptIdReportGetData, GetAttemptReportDiagnosticAttemptsAttemptIdReportGetErrors, GetAttemptReportDiagnosticAttemptsAttemptIdReportGetResponses, GetAttemptStateDiagnosticAttemptsAttemptIdGetData, GetAttemptStateDiagnosticAttemptsAttemptIdGetErrors, GetAttemptStateDiagnosticAttemptsAttemptIdGetResponses, GetCurrentUserUsersCurrentGetData, GetCurrentUserUsersCurrentGetResponses, GetDiagnosticQuestionDiagnosticQuestionsQuestionIdGetData, GetDiagnosticQuestionDiagnosticQuestionsQuestionIdGetErrors, GetDiagnosticQuestionDiagnosticQuestionsQuestionIdGetResponses, GetDiagnosticSetDiagnosticSetsSetIdGetData, GetDiagnosticSetDiagnosticSetsSetIdGetErrors, GetDiagnosticSetDiagnosticSetsSetIdGetResponses, GetHintChatHintPostData, GetHintChatHintPostErrors, GetHintChatHintPostResponses, GetPaperInstancePapersInstanceInstanceIdGetData, GetPaperInstancePapersInstanceInstanceIdGetErrors, GetPaperInstancePapersInstanceInstanceIdGetResponses, GetPaperInstancesBySubjectIdPapersInstanceSubjectSubjectIdGetData, GetPaperInstancesBySubjectIdPapersInstanceSubjectSubjectIdGetErrors, GetPaperInstancesBySubjectIdPapersInstanceSubjectSubjectIdGetResponses, GetQuestionOptionsQuestionsQuestionIdOptionsGetData, GetQuestionOptionsQuestionsQuestionIdOptionsGetErrors, GetQuestionOptionsQuestionsQuestionIdOptionsGetResponses, GetQuestionQuestionsQuestionIdGetData, GetQuestionQuestionsQuestionIdGetErrors, GetQuestionQuestionsQuestionIdGetResponses, GetQuestionsByPaperInstanceQuestionsPaperInstancePaperInstanceIdGetData, GetQuestionsByPaperInstanceQuestionsPaperInstancePaperInstanceIdGetErrors, GetQuestionsByPaperInstanceQuestionsPaperInstancePaperInstanceIdGetResponses, GetQuestionsBySubjectPaginatedQuestionsSubjectPaginatedSubjectIdGetData, GetQuestionsBySubjectPaginatedQuestionsSubjectPaginatedSubjectIdGetErrors, GetQuestionsBySubjectPaginatedQuestionsSubjectPaginatedSubjectIdGetResponses, GetQuestionsByTopicQuestionsTopicsTopicIdGetData, GetQuestionsByTopicQuestionsTopicsTopicIdGetErrors, GetQuestionsByTopicQuestionsTopicsTopicIdGetResponses, GetSubjectSubjectsSubjectIdGetData, GetSubjectSubjectsSubjectIdGetErrors, GetSubjectSubjectsSubjectIdGetResponses, GetSyllabusSyllabusSyllabusIdGetData, GetSyllabusSyllabusSyllabusIdGetErrors, GetSyllabusSyllabusSyllabusIdGetResponses, GetTopicsBySubjectTopicsSubjectIdGetData, GetTopicsBySubjectTopicsSubjectIdGetErrors, GetTopicsBySubjectTopicsSubjectIdGetResponses, IngestDiagnosticEventsDiagnosticAttemptsAttemptIdEventsPostData, IngestDiagnosticEventsDiagnosticAttemptsAttemptIdEventsPostErrors, IngestDiagnosticEventsDiagnosticAttemptsAttemptIdEventsPostResponses, JoinWaitlistWaitlistPostData, JoinWaitlistWaitlistPostErrors, JoinWaitlistWaitlistPostResponses, ListAttemptResultsDiagnosticAdminResultsGetData, ListAttemptResultsDiagnosticAdminResultsGetResponses, ListDiagnosticQuestionsDiagnosticQuestionsGetData, ListDiagnosticQuestionsDiagnosticQuestionsGetErrors, ListDiagnosticQuestionsDiagnosticQuestionsGetResponses, ListDiagnosticSetsDiagnosticSetsGetData, ListDiagnosticSetsDiagnosticSetsGetErrors, ListDiagnosticSetsDiagnosticSetsGetResponses, ListPublishedDiagnosticSetsDiagnosticSetsPublishedGetData, ListPublishedDiagnosticSetsDiagnosticSetsPublishedGetErrors, ListPublishedDiagnosticSetsDiagnosticSetsPublishedGetResponses, ListWaitlistWaitlistGetData, ListWaitlistWaitlistGetResponses, LoginUsersLoginPostData, LoginUsersLoginPostErrors, LoginUsersLoginPostResponses, MoreInfoUsersMoreInfoPostData, MoreInfoUsersMoreInfoPostErrors, MoreInfoUsersMoreInfoPostResponses, PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetData, PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetErrors, PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetResponses, ResendVerificationUsersResendVerificationPostData, ResendVerificationUsersResendVerificationPostErrors, ResendVerificationUsersResendVerificationPostResponses, RootGetData, RootGetResponses, SetQuestionStatusQuestionsSetStatusPostData, SetQuestionStatusQuestionsSetStatusPostErrors, SetQuestionStatusQuestionsSetStatusPostResponses, SignupUsersPostData, SignupUsersPostErrors, SignupUsersPostResponses, StartOrResumeAttemptDiagnosticAttemptsPostData, StartOrResumeAttemptDiagnosticAttemptsPostErrors, StartOrResumeAttemptDiagnosticAttemptsPostResponses, SubmitAttemptDiagnosticAttemptsAttemptIdSubmitPostData, SubmitAttemptDiagnosticAttemptsAttemptIdSubmitPostErrors, SubmitAttemptDiagnosticAttemptsAttemptIdSubmitPostResponses, UpdateDiagnosticQuestionDiagnosticQuestionsQuestionIdPatchData, UpdateDiagnosticQuestionDiagnosticQuestionsQuestionIdPatchErrors, UpdateDiagnosticQuestionDiagnosticQuestionsQuestionIdPatchResponses, UpdateDiagnosticSetDiagnosticSetsSetIdPatchData, UpdateDiagnosticSetDiagnosticSetsSetIdPatchErrors, UpdateDiagnosticSetDiagnosticSetsSetIdPatchResponses, UpdateOptionQuestionsQuestionIdOptionOptionIdPatchData, UpdateOptionQuestionsQuestionIdOptionOptionIdPatchErrors, UpdateOptionQuestionsQuestionIdOptionOptionIdPatchResponses, UpdateQuestionQuestionsQuestionIdPatchData, UpdateQuestionQuestionsQuestionIdPatchErrors, UpdateQuestionQuestionsQuestionIdPatchResponses, UpdateTopicTopicsTopicIdPatchData, UpdateTopicTopicsTopicIdPatchErrors, UpdateTopicTopicsTopicIdPatchResponses, UploadDiagnosticQuestionDiagramDiagnosticQuestionsQuestionIdDiagramPostData, UploadDiagnosticQuestionDiagramDiagnosticQuestionsQuestionIdDiagramPostErrors, UploadDiagnosticQuestionDiagramDiagnosticQuestionsQuestionIdDiagramPostResponses, UpsertDiagnosticResponseDiagnosticAttemptsAttemptIdResponsesQuestionIdPatchData, UpsertDiagnosticResponseDiagnosticAttemptsAttemptIdResponsesQuestionIdPatchErrors, UpsertDiagnosticResponseDiagnosticAttemptsAttemptIdResponsesQuestionIdPatchResponses, VerifyEmailUsersVerifyPostData, VerifyEmailUsersVerifyPostErrors, VerifyEmailUsersVerifyPostResponses } from './types.gen';
+import type { BulkDeleteAttemptsDiagnosticAdminAttemptsBulkDeletePostData, BulkDeleteAttemptsDiagnosticAdminAttemptsBulkDeletePostErrors, BulkDeleteAttemptsDiagnosticAdminAttemptsBulkDeletePostResponses, BulkImportDiagnosticQuestionsDiagnosticQuestionsBulkImportPostData, BulkImportDiagnosticQuestionsDiagnosticQuestionsBulkImportPostErrors, BulkImportDiagnosticQuestionsDiagnosticQuestionsBulkImportPostResponses, BulkImportSpmQuestionsQuestionsBulkImportPostData, BulkImportSpmQuestionsQuestionsBulkImportPostErrors, BulkImportSpmQuestionsQuestionsBulkImportPostResponses, BulkSetQuestionStatusDiagnosticQuestionsBulkStatusPostData, BulkSetQuestionStatusDiagnosticQuestionsBulkStatusPostErrors, BulkSetQuestionStatusDiagnosticQuestionsBulkStatusPostResponses, ConvertLatexConverterPostData, ConvertLatexConverterPostErrors, ConvertLatexConverterPostResponses, CreateDiagnosticQuestionDiagnosticQuestionsPostData, CreateDiagnosticQuestionDiagnosticQuestionsPostErrors, CreateDiagnosticQuestionDiagnosticQuestionsPostResponses, CreateDiagnosticSetDiagnosticSetsPostData, CreateDiagnosticSetDiagnosticSetsPostErrors, CreateDiagnosticSetDiagnosticSetsPostResponses, CreateLevelLevelsPostData, CreateLevelLevelsPostErrors, CreateLevelLevelsPostResponses, CreateOptionQuestionsQuestionIdOptionPostData, CreateOptionQuestionsQuestionIdOptionPostErrors, CreateOptionQuestionsQuestionIdOptionPostResponses, CreatePaperInstancePapersInstancePostData, CreatePaperInstancePapersInstancePostErrors, CreatePaperInstancePapersInstancePostResponses, CreatePaperPapersPostData, CreatePaperPapersPostErrors, CreatePaperPapersPostResponses, CreatePaperVariantPapersVariantPostData, CreatePaperVariantPapersVariantPostErrors, CreatePaperVariantPapersVariantPostResponses, CreateSubjectSubjectsPostData, CreateSubjectSubjectsPostErrors, CreateSubjectSubjectsPostResponses, CreateSyllabusSyllabusPostData, CreateSyllabusSyllabusPostErrors, CreateSyllabusSyllabusPostResponses, CreateTopicTopicsPostData, CreateTopicTopicsPostErrors, CreateTopicTopicsPostResponses, DeleteDiagnosticQuestionDiagnosticQuestionsQuestionIdDeleteData, DeleteDiagnosticQuestionDiagnosticQuestionsQuestionIdDeleteErrors, DeleteDiagnosticQuestionDiagnosticQuestionsQuestionIdDeleteResponses, DeleteDiagnosticSetDiagnosticSetsSetIdDeleteData, DeleteDiagnosticSetDiagnosticSetsSetIdDeleteErrors, DeleteDiagnosticSetDiagnosticSetsSetIdDeleteResponses, DeleteLevelLevelsLevelIdDeleteData, DeleteLevelLevelsLevelIdDeleteErrors, DeleteLevelLevelsLevelIdDeleteResponses, DeleteOptionQuestionsQuestionIdOptionOptionIdDeleteData, DeleteOptionQuestionsQuestionIdOptionOptionIdDeleteErrors, DeleteOptionQuestionsQuestionIdOptionOptionIdDeleteResponses, DeletePaperInstancePapersInstanceInstanceIdDeleteData, DeletePaperInstancePapersInstanceInstanceIdDeleteErrors, DeletePaperInstancePapersInstanceInstanceIdDeleteResponses, DeletePaperPapersPaperIdDeleteData, DeletePaperPapersPaperIdDeleteErrors, DeletePaperPapersPaperIdDeleteResponses, DeleteQuestionQuestionsQuestionIdDeleteData, DeleteQuestionQuestionsQuestionIdDeleteErrors, DeleteQuestionQuestionsQuestionIdDeleteResponses, DeleteTopicTopicsTopicIdDeleteData, DeleteTopicTopicsTopicIdDeleteErrors, DeleteTopicTopicsTopicIdDeleteResponses, DeleteVariantPapersVariantVariantIdDeleteData, DeleteVariantPapersVariantVariantIdDeleteErrors, DeleteVariantPapersVariantVariantIdDeleteResponses, GetAllLevelsLevelsGetData, GetAllLevelsLevelsGetResponses, GetAllSyllabusSyllabusGetData, GetAllSyllabusSyllabusGetResponses, GetAttemptDetailDiagnosticAdminAttemptsAttemptIdDetailGetData, GetAttemptDetailDiagnosticAdminAttemptsAttemptIdDetailGetErrors, GetAttemptDetailDiagnosticAdminAttemptsAttemptIdDetailGetResponses, GetAttemptRadarDiagnosticAttemptsAttemptIdRadarGetData, GetAttemptRadarDiagnosticAttemptsAttemptIdRadarGetErrors, GetAttemptRadarDiagnosticAttemptsAttemptIdRadarGetResponses, GetAttemptReportAdminDiagnosticAdminAttemptsAttemptIdReportGetData, GetAttemptReportAdminDiagnosticAdminAttemptsAttemptIdReportGetErrors, GetAttemptReportAdminDiagnosticAdminAttemptsAttemptIdReportGetResponses, GetAttemptReportDiagnosticAttemptsAttemptIdReportGetData, GetAttemptReportDiagnosticAttemptsAttemptIdReportGetErrors, GetAttemptReportDiagnosticAttemptsAttemptIdReportGetResponses, GetAttemptStateDiagnosticAttemptsAttemptIdGetData, GetAttemptStateDiagnosticAttemptsAttemptIdGetErrors, GetAttemptStateDiagnosticAttemptsAttemptIdGetResponses, GetCurrentUserUsersCurrentGetData, GetCurrentUserUsersCurrentGetResponses, GetDiagnosticQuestionDiagnosticQuestionsQuestionIdGetData, GetDiagnosticQuestionDiagnosticQuestionsQuestionIdGetErrors, GetDiagnosticQuestionDiagnosticQuestionsQuestionIdGetResponses, GetDiagnosticSetDiagnosticSetsSetIdGetData, GetDiagnosticSetDiagnosticSetsSetIdGetErrors, GetDiagnosticSetDiagnosticSetsSetIdGetResponses, GetHintChatHintPostData, GetHintChatHintPostErrors, GetHintChatHintPostResponses, GetPaperInstancePapersInstanceInstanceIdGetData, GetPaperInstancePapersInstanceInstanceIdGetErrors, GetPaperInstancePapersInstanceInstanceIdGetResponses, GetPaperInstancesBySubjectIdPapersInstanceSubjectSubjectIdGetData, GetPaperInstancesBySubjectIdPapersInstanceSubjectSubjectIdGetErrors, GetPaperInstancesBySubjectIdPapersInstanceSubjectSubjectIdGetResponses, GetQuestionOptionsQuestionsQuestionIdOptionsGetData, GetQuestionOptionsQuestionsQuestionIdOptionsGetErrors, GetQuestionOptionsQuestionsQuestionIdOptionsGetResponses, GetQuestionQuestionsQuestionIdGetData, GetQuestionQuestionsQuestionIdGetErrors, GetQuestionQuestionsQuestionIdGetResponses, GetQuestionsByPaperInstanceQuestionsPaperInstancePaperInstanceIdGetData, GetQuestionsByPaperInstanceQuestionsPaperInstancePaperInstanceIdGetErrors, GetQuestionsByPaperInstanceQuestionsPaperInstancePaperInstanceIdGetResponses, GetQuestionsBySubjectPaginatedQuestionsSubjectPaginatedSubjectIdGetData, GetQuestionsBySubjectPaginatedQuestionsSubjectPaginatedSubjectIdGetErrors, GetQuestionsBySubjectPaginatedQuestionsSubjectPaginatedSubjectIdGetResponses, GetQuestionsByTopicQuestionsTopicsTopicIdGetData, GetQuestionsByTopicQuestionsTopicsTopicIdGetErrors, GetQuestionsByTopicQuestionsTopicsTopicIdGetResponses, GetSubjectSubjectsSubjectIdGetData, GetSubjectSubjectsSubjectIdGetErrors, GetSubjectSubjectsSubjectIdGetResponses, GetSyllabusSyllabusSyllabusIdGetData, GetSyllabusSyllabusSyllabusIdGetErrors, GetSyllabusSyllabusSyllabusIdGetResponses, GetTopicsBySubjectTopicsSubjectIdGetData, GetTopicsBySubjectTopicsSubjectIdGetErrors, GetTopicsBySubjectTopicsSubjectIdGetResponses, IngestDiagnosticEventsDiagnosticAttemptsAttemptIdEventsPostData, IngestDiagnosticEventsDiagnosticAttemptsAttemptIdEventsPostErrors, IngestDiagnosticEventsDiagnosticAttemptsAttemptIdEventsPostResponses, JoinWaitlistWaitlistPostData, JoinWaitlistWaitlistPostErrors, JoinWaitlistWaitlistPostResponses, ListAttemptResultsDiagnosticAdminResultsGetData, ListAttemptResultsDiagnosticAdminResultsGetResponses, ListDiagnosticQuestionsDiagnosticQuestionsGetData, ListDiagnosticQuestionsDiagnosticQuestionsGetErrors, ListDiagnosticQuestionsDiagnosticQuestionsGetResponses, ListDiagnosticSetsDiagnosticSetsGetData, ListDiagnosticSetsDiagnosticSetsGetErrors, ListDiagnosticSetsDiagnosticSetsGetResponses, ListPublishedDiagnosticSetsDiagnosticSetsPublishedGetData, ListPublishedDiagnosticSetsDiagnosticSetsPublishedGetErrors, ListPublishedDiagnosticSetsDiagnosticSetsPublishedGetResponses, ListPublishedSubjectsSubjectsGetData, ListPublishedSubjectsSubjectsGetResponses, ListWaitlistWaitlistGetData, ListWaitlistWaitlistGetResponses, LoginUsersLoginPostData, LoginUsersLoginPostErrors, LoginUsersLoginPostResponses, MoreInfoUsersMoreInfoPostData, MoreInfoUsersMoreInfoPostErrors, MoreInfoUsersMoreInfoPostResponses, PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetData, PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetErrors, PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetResponses, ResendVerificationUsersResendVerificationPostData, ResendVerificationUsersResendVerificationPostErrors, ResendVerificationUsersResendVerificationPostResponses, RootGetData, RootGetResponses, SetQuestionStatusQuestionsSetStatusPostData, SetQuestionStatusQuestionsSetStatusPostErrors, SetQuestionStatusQuestionsSetStatusPostResponses, SignupUsersPostData, SignupUsersPostErrors, SignupUsersPostResponses, StartOrResumeAttemptDiagnosticAttemptsPostData, StartOrResumeAttemptDiagnosticAttemptsPostErrors, StartOrResumeAttemptDiagnosticAttemptsPostResponses, SubmitAttemptDiagnosticAttemptsAttemptIdSubmitPostData, SubmitAttemptDiagnosticAttemptsAttemptIdSubmitPostErrors, SubmitAttemptDiagnosticAttemptsAttemptIdSubmitPostResponses, UpdateDiagnosticQuestionDiagnosticQuestionsQuestionIdPatchData, UpdateDiagnosticQuestionDiagnosticQuestionsQuestionIdPatchErrors, UpdateDiagnosticQuestionDiagnosticQuestionsQuestionIdPatchResponses, UpdateDiagnosticSetDiagnosticSetsSetIdPatchData, UpdateDiagnosticSetDiagnosticSetsSetIdPatchErrors, UpdateDiagnosticSetDiagnosticSetsSetIdPatchResponses, UpdateOptionQuestionsQuestionIdOptionOptionIdPatchData, UpdateOptionQuestionsQuestionIdOptionOptionIdPatchErrors, UpdateOptionQuestionsQuestionIdOptionOptionIdPatchResponses, UpdateQuestionQuestionsQuestionIdPatchData, UpdateQuestionQuestionsQuestionIdPatchErrors, UpdateQuestionQuestionsQuestionIdPatchResponses, UpdateSubjectSubjectsSubjectIdPatchData, UpdateSubjectSubjectsSubjectIdPatchErrors, UpdateSubjectSubjectsSubjectIdPatchResponses, UpdateTopicTopicsTopicIdPatchData, UpdateTopicTopicsTopicIdPatchErrors, UpdateTopicTopicsTopicIdPatchResponses, UploadDiagnosticQuestionDiagramDiagnosticQuestionsQuestionIdDiagramPostData, UploadDiagnosticQuestionDiagramDiagnosticQuestionsQuestionIdDiagramPostErrors, UploadDiagnosticQuestionDiagramDiagnosticQuestionsQuestionIdDiagramPostResponses, UpsertDiagnosticResponseDiagnosticAttemptsAttemptIdResponsesQuestionIdPatchData, UpsertDiagnosticResponseDiagnosticAttemptsAttemptIdResponsesQuestionIdPatchErrors, UpsertDiagnosticResponseDiagnosticAttemptsAttemptIdResponsesQuestionIdPatchResponses, VerifyEmailUsersVerifyPostData, VerifyEmailUsersVerifyPostErrors, VerifyEmailUsersVerifyPostResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -24,6 +24,12 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
 export const convertLatexConverterPost = <ThrowOnError extends boolean = false>(options: Options<ConvertLatexConverterPostData, ThrowOnError>) => {
     return (options.client ?? client).post<ConvertLatexConverterPostResponses, ConvertLatexConverterPostErrors, ThrowOnError>({
         ...formDataBodySerializer,
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
         url: '/converter',
         ...options,
         headers: {
@@ -105,6 +111,12 @@ export const setQuestionStatusQuestionsSetStatusPost = <ThrowOnError extends boo
  */
 export const deleteQuestionQuestionsQuestionIdDelete = <ThrowOnError extends boolean = false>(options: Options<DeleteQuestionQuestionsQuestionIdDeleteData, ThrowOnError>) => {
     return (options.client ?? client).delete<DeleteQuestionQuestionsQuestionIdDeleteResponses, DeleteQuestionQuestionsQuestionIdDeleteErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
         url: '/questions/{question_id}',
         ...options
     });
@@ -128,6 +140,12 @@ export const getQuestionQuestionsQuestionIdGet = <ThrowOnError extends boolean =
  */
 export const updateQuestionQuestionsQuestionIdPatch = <ThrowOnError extends boolean = false>(options: Options<UpdateQuestionQuestionsQuestionIdPatchData, ThrowOnError>) => {
     return (options.client ?? client).patch<UpdateQuestionQuestionsQuestionIdPatchResponses, UpdateQuestionQuestionsQuestionIdPatchErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
         url: '/questions/{question_id}',
         ...options,
         headers: {
@@ -164,6 +182,12 @@ export const getQuestionOptionsQuestionsQuestionIdOptionsGet = <ThrowOnError ext
  */
 export const createOptionQuestionsQuestionIdOptionPost = <ThrowOnError extends boolean = false>(options: Options<CreateOptionQuestionsQuestionIdOptionPostData, ThrowOnError>) => {
     return (options.client ?? client).post<CreateOptionQuestionsQuestionIdOptionPostResponses, CreateOptionQuestionsQuestionIdOptionPostErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
         url: '/questions/{question_id}/option',
         ...options,
         headers: {
@@ -179,6 +203,12 @@ export const createOptionQuestionsQuestionIdOptionPost = <ThrowOnError extends b
  */
 export const deleteOptionQuestionsQuestionIdOptionOptionIdDelete = <ThrowOnError extends boolean = false>(options: Options<DeleteOptionQuestionsQuestionIdOptionOptionIdDeleteData, ThrowOnError>) => {
     return (options.client ?? client).delete<DeleteOptionQuestionsQuestionIdOptionOptionIdDeleteResponses, DeleteOptionQuestionsQuestionIdOptionOptionIdDeleteErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
         url: '/questions/{question_id}/option/{option_id}',
         ...options
     });
@@ -192,6 +222,12 @@ export const deleteOptionQuestionsQuestionIdOptionOptionIdDelete = <ThrowOnError
  */
 export const updateOptionQuestionsQuestionIdOptionOptionIdPatch = <ThrowOnError extends boolean = false>(options: Options<UpdateOptionQuestionsQuestionIdOptionOptionIdPatchData, ThrowOnError>) => {
     return (options.client ?? client).patch<UpdateOptionQuestionsQuestionIdOptionOptionIdPatchResponses, UpdateOptionQuestionsQuestionIdOptionOptionIdPatchErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
         url: '/questions/{question_id}/option/{option_id}',
         ...options,
         headers: {
@@ -216,6 +252,12 @@ export const getAllSyllabusSyllabusGet = <ThrowOnError extends boolean = false>(
  */
 export const createSyllabusSyllabusPost = <ThrowOnError extends boolean = false>(options: Options<CreateSyllabusSyllabusPostData, ThrowOnError>) => {
     return (options.client ?? client).post<CreateSyllabusSyllabusPostResponses, CreateSyllabusSyllabusPostErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
         url: '/syllabus',
         ...options,
         headers: {
@@ -236,6 +278,49 @@ export const getSyllabusSyllabusSyllabusIdGet = <ThrowOnError extends boolean = 
 };
 
 /**
+ * List Published Subjects
+ * The student-facing subject catalogue.
+ *
+ * Defined before /{subject_id} so the literal path wins. No auth: anyone can
+ * see what's on offer, the same as the diagnostics catalogue.
+ *
+ * Only published subjects. This list used to live in the frontend as a
+ * hard-coded array of two uuids, so every subject created afterwards was
+ * unreachable — nothing linked to it. Serving it from here means a new
+ * subject appears on the site by being published rather than by someone
+ * remembering to edit a TypeScript file.
+ *
+ * question_count is what makes an empty subject visibly empty rather than a
+ * dead end a student clicks into.
+ */
+export const listPublishedSubjectsSubjectsGet = <ThrowOnError extends boolean = false>(options?: Options<ListPublishedSubjectsSubjectsGetData, ThrowOnError>) => {
+    return (options?.client ?? client).get<ListPublishedSubjectsSubjectsGetResponses, unknown, ThrowOnError>({
+        url: '/subjects',
+        ...options
+    });
+};
+
+/**
+ * Create Subject
+ */
+export const createSubjectSubjectsPost = <ThrowOnError extends boolean = false>(options: Options<CreateSubjectSubjectsPostData, ThrowOnError>) => {
+    return (options.client ?? client).post<CreateSubjectSubjectsPostResponses, CreateSubjectSubjectsPostErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
+        url: '/subjects',
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+        }
+    });
+};
+
+/**
  * Get Subject
  */
 export const getSubjectSubjectsSubjectIdGet = <ThrowOnError extends boolean = false>(options: Options<GetSubjectSubjectsSubjectIdGetData, ThrowOnError>) => {
@@ -246,11 +331,22 @@ export const getSubjectSubjectsSubjectIdGet = <ThrowOnError extends boolean = fa
 };
 
 /**
- * Create Subject
+ * Update Subject
+ * Publish or unpublish a subject.
+ *
+ * Publishing is what puts a subject on the student-facing catalogue, so it is
+ * the deliberate step between "I have created this and am filling it with
+ * questions" and "students are offered it".
  */
-export const createSubjectSubjectsPost = <ThrowOnError extends boolean = false>(options: Options<CreateSubjectSubjectsPostData, ThrowOnError>) => {
-    return (options.client ?? client).post<CreateSubjectSubjectsPostResponses, CreateSubjectSubjectsPostErrors, ThrowOnError>({
-        url: '/subjects',
+export const updateSubjectSubjectsSubjectIdPatch = <ThrowOnError extends boolean = false>(options: Options<UpdateSubjectSubjectsSubjectIdPatchData, ThrowOnError>) => {
+    return (options.client ?? client).patch<UpdateSubjectSubjectsSubjectIdPatchResponses, UpdateSubjectSubjectsSubjectIdPatchErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
+        url: '/subjects/{subject_id}',
         ...options,
         headers: {
             'Content-Type': 'application/json',
@@ -274,6 +370,12 @@ export const getAllLevelsLevelsGet = <ThrowOnError extends boolean = false>(opti
  */
 export const createLevelLevelsPost = <ThrowOnError extends boolean = false>(options: Options<CreateLevelLevelsPostData, ThrowOnError>) => {
     return (options.client ?? client).post<CreateLevelLevelsPostResponses, CreateLevelLevelsPostErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
         url: '/levels',
         ...options,
         headers: {
@@ -288,6 +390,12 @@ export const createLevelLevelsPost = <ThrowOnError extends boolean = false>(opti
  */
 export const deleteLevelLevelsLevelIdDelete = <ThrowOnError extends boolean = false>(options: Options<DeleteLevelLevelsLevelIdDeleteData, ThrowOnError>) => {
     return (options.client ?? client).delete<DeleteLevelLevelsLevelIdDeleteResponses, DeleteLevelLevelsLevelIdDeleteErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
         url: '/levels/{level_id}',
         ...options
     });
@@ -308,6 +416,12 @@ export const getTopicsBySubjectTopicsSubjectIdGet = <ThrowOnError extends boolea
  */
 export const createTopicTopicsPost = <ThrowOnError extends boolean = false>(options: Options<CreateTopicTopicsPostData, ThrowOnError>) => {
     return (options.client ?? client).post<CreateTopicTopicsPostResponses, CreateTopicTopicsPostErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
         url: '/topics',
         ...options,
         headers: {
@@ -322,6 +436,12 @@ export const createTopicTopicsPost = <ThrowOnError extends boolean = false>(opti
  */
 export const deleteTopicTopicsTopicIdDelete = <ThrowOnError extends boolean = false>(options: Options<DeleteTopicTopicsTopicIdDeleteData, ThrowOnError>) => {
     return (options.client ?? client).delete<DeleteTopicTopicsTopicIdDeleteResponses, DeleteTopicTopicsTopicIdDeleteErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
         url: '/topics/{topic_id}',
         ...options
     });
@@ -335,6 +455,12 @@ export const deleteTopicTopicsTopicIdDelete = <ThrowOnError extends boolean = fa
  */
 export const updateTopicTopicsTopicIdPatch = <ThrowOnError extends boolean = false>(options: Options<UpdateTopicTopicsTopicIdPatchData, ThrowOnError>) => {
     return (options.client ?? client).patch<UpdateTopicTopicsTopicIdPatchResponses, UpdateTopicTopicsTopicIdPatchErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
         url: '/topics/{topic_id}',
         ...options,
         headers: {
@@ -349,6 +475,12 @@ export const updateTopicTopicsTopicIdPatch = <ThrowOnError extends boolean = fal
  */
 export const createPaperPapersPost = <ThrowOnError extends boolean = false>(options: Options<CreatePaperPapersPostData, ThrowOnError>) => {
     return (options.client ?? client).post<CreatePaperPapersPostResponses, CreatePaperPapersPostErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
         url: '/papers',
         ...options,
         headers: {
@@ -363,16 +495,28 @@ export const createPaperPapersPost = <ThrowOnError extends boolean = false>(opti
  */
 export const deletePaperPapersPaperIdDelete = <ThrowOnError extends boolean = false>(options: Options<DeletePaperPapersPaperIdDeleteData, ThrowOnError>) => {
     return (options.client ?? client).delete<DeletePaperPapersPaperIdDeleteResponses, DeletePaperPapersPaperIdDeleteErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
         url: '/papers/{paper_id}',
         ...options
     });
 };
 
 /**
- * Delete Paper
+ * Delete Paper Instance
  */
-export const deletePaperPapersInstanceInstanceIdDelete = <ThrowOnError extends boolean = false>(options: Options<DeletePaperPapersInstanceInstanceIdDeleteData, ThrowOnError>) => {
-    return (options.client ?? client).delete<DeletePaperPapersInstanceInstanceIdDeleteResponses, DeletePaperPapersInstanceInstanceIdDeleteErrors, ThrowOnError>({
+export const deletePaperInstancePapersInstanceInstanceIdDelete = <ThrowOnError extends boolean = false>(options: Options<DeletePaperInstancePapersInstanceInstanceIdDeleteData, ThrowOnError>) => {
+    return (options.client ?? client).delete<DeletePaperInstancePapersInstanceInstanceIdDeleteResponses, DeletePaperInstancePapersInstanceInstanceIdDeleteErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
         url: '/papers/instance/{instance_id}',
         ...options
     });
@@ -403,6 +547,12 @@ export const getPaperInstancesBySubjectIdPapersInstanceSubjectSubjectIdGet = <Th
  */
 export const createPaperInstancePapersInstancePost = <ThrowOnError extends boolean = false>(options: Options<CreatePaperInstancePapersInstancePostData, ThrowOnError>) => {
     return (options.client ?? client).post<CreatePaperInstancePapersInstancePostResponses, CreatePaperInstancePapersInstancePostErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
         url: '/papers/instance',
         ...options,
         headers: {
@@ -417,6 +567,12 @@ export const createPaperInstancePapersInstancePost = <ThrowOnError extends boole
  */
 export const createPaperVariantPapersVariantPost = <ThrowOnError extends boolean = false>(options: Options<CreatePaperVariantPapersVariantPostData, ThrowOnError>) => {
     return (options.client ?? client).post<CreatePaperVariantPapersVariantPostResponses, CreatePaperVariantPapersVariantPostErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
         url: '/papers/variant',
         ...options,
         headers: {
@@ -431,6 +587,12 @@ export const createPaperVariantPapersVariantPost = <ThrowOnError extends boolean
  */
 export const deleteVariantPapersVariantVariantIdDelete = <ThrowOnError extends boolean = false>(options: Options<DeleteVariantPapersVariantVariantIdDeleteData, ThrowOnError>) => {
     return (options.client ?? client).delete<DeleteVariantPapersVariantVariantIdDeleteResponses, DeleteVariantPapersVariantVariantIdDeleteErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
         url: '/papers/variant/{variant_id}',
         ...options
     });
