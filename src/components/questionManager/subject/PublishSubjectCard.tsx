@@ -8,6 +8,7 @@ import {
 import { Button } from '@/components/ui/button.tsx'
 import { Badge } from '@/components/ui/badge.tsx'
 import useUpdateSubjectMutation from '@/hooks/useUpdateSubjectMutation.ts'
+import useGetPaginatedQuestionsBySubjectQuery from '@/hooks/useGetPaginatedQuestionsBySubjectQuery.ts'
 import { toast } from 'sonner'
 
 /**
@@ -28,6 +29,20 @@ export function PublishSubjectCard({
     isPublished: boolean
 }) {
     const { mutateAsync, isPending } = useUpdateSubjectMutation({ subjectId })
+    // A subject with no *published* questions is left off the catalogue
+    // entirely, so publishing it can be a no-op with nothing to show for it.
+    // Asking here is what stops that looking like a broken toggle.
+    const { data: published } = useGetPaginatedQuestionsBySubjectQuery({
+        subjectId,
+        page: 1,
+        size: 1,
+        topics: [],
+        difficulty: [],
+        papers: [],
+        status: 'published',
+    })
+    const publishedCount = published?.total ?? 0
+    const liveButEmpty = isPublished && publishedCount === 0
 
     async function toggle() {
         try {
@@ -47,14 +62,28 @@ export function PublishSubjectCard({
             <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                     Student visibility
-                    <Badge variant={isPublished ? 'default' : 'secondary'}>
-                        {isPublished ? 'Live' : 'Not published'}
+                    <Badge
+                        variant={
+                            liveButEmpty
+                                ? 'secondary'
+                                : isPublished
+                                  ? 'default'
+                                  : 'secondary'
+                        }
+                    >
+                        {liveButEmpty
+                            ? 'Published, but not visible'
+                            : isPublished
+                              ? 'Live'
+                              : 'Not published'}
                     </Badge>
                 </CardTitle>
                 <CardDescription>
-                    {isPublished
-                        ? 'Students see this subject on /subjects and can practise its questions.'
-                        : 'Students cannot see this subject. Publish it once it has questions worth practising.'}
+                    {liveButEmpty
+                        ? 'This subject is published but has no published questions, so it stays off /subjects — students are never sent to an empty subject. Publish some questions below and it appears.'
+                        : isPublished
+                          ? `Students see this subject on /subjects and can practise its ${publishedCount} published question(s).`
+                          : 'Students cannot see this subject. Publish it once it has questions worth practising.'}
                 </CardDescription>
             </CardHeader>
             <CardContent>
