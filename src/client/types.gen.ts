@@ -509,6 +509,57 @@ export type BulkImportSetMeta = {
 };
 
 /**
+ * BulkPublishBody
+ * Publish (or unpublish) several questions at once.
+ *
+ * Named apart from the diagnostic router's BulkQuestionStatusBody on purpose:
+ * two Pydantic models sharing a name make the OpenAPI generator disambiguate
+ * *both* into AppModels-prefixed type names, silently renaming the diagnostic
+ * type the frontend already imports.
+ *
+ * Publishing several at once — the action that ends
+ * a review pass, so an admin doesn't click through 55 questions one at a
+ * time to release a batch.
+ */
+export type BulkPublishBody = {
+    /**
+     * Questionids
+     */
+    questionIds: Array<string>;
+    /**
+     * Status
+     */
+    status: 'draft' | 'published';
+};
+
+/**
+ * BulkPublishResponse
+ */
+export type BulkPublishResponse = {
+    /**
+     * Updatedcount
+     */
+    updatedCount: number;
+};
+
+/**
+ * BulkQuestionStatusBody
+ * Publish (or unpublish) several questions in one call — powers the
+ * 'publish all questions in this set' action, so an admin doesn't edit 27
+ * questions one at a time to get a set past its publish gate.
+ */
+export type BulkQuestionStatusBody = {
+    /**
+     * Questionids
+     */
+    questionIds: Array<string>;
+    /**
+     * Status
+     */
+    status: 'draft' | 'published';
+};
+
+/**
  * BulkQuestionStatusResponse
  */
 export type BulkQuestionStatusResponse = {
@@ -2075,40 +2126,6 @@ export type WaitlistSignupResponse = {
     message: string;
 };
 
-/**
- * BulkQuestionStatusBody
- * Publish (or unpublish) several questions in one call — powers the
- * 'publish all questions in this set' action, so an admin doesn't edit 27
- * questions one at a time to get a set past its publish gate.
- */
-export type AppModelsDiagnosticBulkQuestionStatusBody = {
-    /**
-     * Questionids
-     */
-    questionIds: Array<string>;
-    /**
-     * Status
-     */
-    status: 'draft' | 'published';
-};
-
-/**
- * BulkQuestionStatusBody
- * Publish (or unpublish) several questions at once — the action that ends
- * a review pass, so an admin doesn't click through 55 questions one at a
- * time to release a batch.
- */
-export type AppModelsQuestionsBulkQuestionStatusBody = {
-    /**
-     * Questionids
-     */
-    questionIds: Array<string>;
-    /**
-     * Status
-     */
-    status: 'draft' | 'published';
-};
-
 export type ConvertLatexConverterPostData = {
     body: BodyConvertLatexConverterPost;
     path?: never;
@@ -2255,7 +2272,7 @@ export type GetQuestionsBySubjectPaginatedQuestionsSubjectPaginatedSubjectIdGetR
 export type GetQuestionsBySubjectPaginatedQuestionsSubjectPaginatedSubjectIdGetResponse = GetQuestionsBySubjectPaginatedQuestionsSubjectPaginatedSubjectIdGetResponses[keyof GetQuestionsBySubjectPaginatedQuestionsSubjectPaginatedSubjectIdGetResponses];
 
 export type BulkSetPublishStatusQuestionsBulkStatusPostData = {
-    body: AppModelsQuestionsBulkQuestionStatusBody;
+    body: BulkPublishBody;
     path?: never;
     query?: never;
     url: '/questions/bulk-status';
@@ -2274,7 +2291,7 @@ export type BulkSetPublishStatusQuestionsBulkStatusPostResponses = {
     /**
      * Successful Response
      */
-    200: BulkQuestionStatusResponse;
+    200: BulkPublishResponse;
 };
 
 export type BulkSetPublishStatusQuestionsBulkStatusPostResponse = BulkSetPublishStatusQuestionsBulkStatusPostResponses[keyof BulkSetPublishStatusQuestionsBulkStatusPostResponses];
@@ -3354,7 +3371,7 @@ export type CreateDiagnosticQuestionDiagnosticQuestionsPostResponses = {
 export type CreateDiagnosticQuestionDiagnosticQuestionsPostResponse = CreateDiagnosticQuestionDiagnosticQuestionsPostResponses[keyof CreateDiagnosticQuestionDiagnosticQuestionsPostResponses];
 
 export type BulkSetQuestionStatusDiagnosticQuestionsBulkStatusPostData = {
-    body: AppModelsDiagnosticBulkQuestionStatusBody;
+    body: BulkQuestionStatusBody;
     path?: never;
     query?: never;
     url: '/diagnostic/questions/bulk-status';

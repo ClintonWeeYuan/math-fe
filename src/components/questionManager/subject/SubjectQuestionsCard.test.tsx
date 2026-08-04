@@ -58,7 +58,7 @@ describe('SubjectQuestionsCard', () => {
 
         await userEvent.click(screen.getByRole('button', { name: 'Drafts' }))
 
-        const lastCall = mockQuery.mock.calls.at(-1)![0]
+        const lastCall = mockQuery.mock.calls[mockQuery.mock.calls.length - 1][0]
         expect(lastCall.status).toBe('draft')
         // Back to page 1: page 3 of "all" is rarely page 3 of "drafts", and an
         // empty list there reads as "nothing to review".
