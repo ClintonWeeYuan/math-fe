@@ -13,6 +13,18 @@ import { Badge } from '@/components/ui/badge.tsx'
 import { BadgeCheckIcon } from 'lucide-react'
 import { useAuth } from '@/components/auth/AuthContext.tsx'
 
+/**
+ * Vertical space the card spends on everything that isn't the question:
+ * p-6 top and bottom (48), the topic/difficulty header (~28), the content
+ * wrapper's my-2 (16), and the footer of link buttons, which carry pb-6 (~56).
+ *
+ * This was 100, which under-counted by about a third — enough that a tall
+ * question (the heating-curve diagram) was cut off at the bottom of its card.
+ * The content area scrolls as well, so a wrong number here degrades to a
+ * scrollbar rather than to content that simply isn't reachable.
+ */
+const CARD_CHROME_PX = 148
+
 export function AnimatedQuestionCard({
     question,
     questionFilters,
@@ -27,8 +39,7 @@ export function AnimatedQuestionCard({
     // Using useCallback ensures this function reference is stable across re-renders,
     // preventing the useEffect in HtmlBlock from re-running unnecessarily.
     const handleHeightChange = useCallback((height: number) => {
-        // Add padding for the card's header and footer
-        setCardHeight(height + 100)
+        setCardHeight(height + CARD_CHROME_PX)
     }, [])
 
     const { mutate: updateQuestionStatus } =
@@ -107,7 +118,13 @@ export function AnimatedQuestionCard({
                                 )}
                             </div>
                         </div>
-                        <div className="flex-grow my-2 relative">
+                        {/* Scrolls rather than clips: the height is computed
+                            from what the content reports, and anything that
+                            reports late or wrong — a slow diagram, a font
+                            reflow — would otherwise leave part of the question
+                            unreachable. Same treatment the answer face has
+                            always had. */}
+                        <div className="flex-grow my-2 relative overflow-y-auto no-scrollbar">
                             <QuestionContent
                                 question={question}
                                 onDimensionChange={handleHeightChange}

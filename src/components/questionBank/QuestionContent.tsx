@@ -136,10 +136,13 @@ function TextQuestion({
                 // child otherwise stretches to fill the cross axis, which
                 // distorts every diagram.
                 //
-                // The height cap is what stops a tall diagram — a heating curve
-                // is nearly square and renders enormous at full width — from
-                // pushing the options off the bottom of a card. Width stays
-                // auto so the aspect ratio is untouched.
+                // Sized by its own intrinsic dimensions: no explicit width or
+                // height utility. These diagrams are SVGs carrying a viewBox
+                // and no width/height attributes, and forcing `w-auto` on top
+                // of that is what made them resolve to nothing. max-h caps a
+                // tall diagram — a heating curve is nearly square and would
+                // otherwise push the options out of view — and shrinks the
+                // width with it, so the aspect ratio is never distorted.
                 <img
                     src={question.diagramUrl}
                     alt=""
@@ -153,7 +156,7 @@ function TextQuestion({
                             ref.current.scrollWidth
                         )
                     }
-                    className="mt-3 self-start object-contain max-w-full max-h-[320px] w-auto"
+                    className="mt-3 max-w-full max-h-[320px] object-contain"
                 />
             )}
             {showOptions && <TextQuestionOptions questionId={question.id} />}
