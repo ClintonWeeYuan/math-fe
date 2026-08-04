@@ -29,7 +29,7 @@ const PAGE_SIZE = 20
 export function SubjectQuestionsCard({ subjectId }: { subjectId: string }) {
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState<StatusFilter>('all')
-    const { data, isLoading } = useGetPaginatedQuestionsBySubjectQuery({
+    const { data, isLoading, isError } = useGetPaginatedQuestionsBySubjectQuery({
         subjectId,
         page,
         size: PAGE_SIZE,
@@ -121,7 +121,14 @@ export function SubjectQuestionsCard({ subjectId }: { subjectId: string }) {
                 </div>
             </CardHeader>
             <CardContent>
-                {!isLoading && total === 0 && (
+                {isError && (
+                    <p className="text-sm text-red-600">
+                        Couldn't load these questions. If you've just signed in,
+                        try refreshing; otherwise the server rejected the
+                        request.
+                    </p>
+                )}
+                {!isLoading && !isError && total === 0 && (
                     <p className="text-sm text-muted-foreground">
                         {filter === 'draft'
                             ? 'Nothing awaiting review.'

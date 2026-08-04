@@ -34,7 +34,7 @@ export default function useGetPaginatedQuestionsBySubjectQuery({
         queryFn: async () => {
             const token = localStorage.getItem('token') ?? ''
 
-            return (
+            const result =
                 await getQuestionsBySubjectPaginatedQuestionsSubjectPaginatedSubjectIdGet(
                     {
                         path: {
@@ -53,7 +53,15 @@ export default function useGetPaginatedQuestionsBySubjectQuery({
                         },
                     }
                 )
-            ).data
+            // The generated client resolves { data: undefined, error } instead
+            // of throwing, so returning `.data` blindly turned a failed request
+            // into a successful empty page. A 500 on the admin's question list
+            // rendered as "No questions yet" — the most misleading thing it
+            // could have said, right after importing 40 of them.
+            if (result.error !== undefined || result.data === undefined) {
+                throw new Error('Could not load questions.')
+            }
+            return result.data
         },
         queryKey: [
             'questions',

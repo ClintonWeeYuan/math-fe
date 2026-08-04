@@ -26,7 +26,7 @@ export function QuestionBank({ subjectId }: Props) {
     const { topics, difficulty, papers, page, setFilterSearchParams } =
         useFiltersFromSearchParams()
 
-    const { data, isLoading, isFetching } =
+    const { data, isLoading, isFetching, isError } =
         useGetPaginatedQuestionsBySubjectQuery({
             subjectId,
             page,
@@ -176,7 +176,16 @@ export function QuestionBank({ subjectId }: Props) {
                 .transform-style-3d { transform-style: preserve-3d; }
                 .backface-hidden { backface-visibility: hidden; }
                     `}</style>
-                    {isLoading || isFetching ? (
+                    {isError ? (
+                        // Distinct from an empty bank: "no questions match your
+                        // filters" and "we couldn't ask" look identical to a
+                        // student otherwise, and only one of them is worth
+                        // retrying.
+                        <p className="py-8 text-center text-gray-500">
+                            Couldn't load these questions. Please refresh to try
+                            again.
+                        </p>
+                    ) : isLoading || isFetching ? (
                         <QuestionSkeleton />
                     ) : (
                         <QuestionList
