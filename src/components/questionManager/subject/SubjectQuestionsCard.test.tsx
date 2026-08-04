@@ -33,6 +33,7 @@ function setItems(items: unknown[], total = items.length) {
     mockQuery.mockReturnValue({
         data: { total, size: 20, page: 1, items },
         isLoading: false,
+        isError: false,
     })
 }
 
@@ -100,6 +101,22 @@ describe('SubjectQuestionsCard', () => {
         render(<SubjectQuestionsCard subjectId="s1" />)
 
         expect(screen.queryByText(/Publish \d+ draft/)).not.toBeInTheDocument()
+    })
+
+    it('says the request failed rather than showing an empty subject', async () => {
+        // The bug this replaces: a 500 resolved to undefined data, so a subject
+        // holding 40 freshly imported questions rendered "No questions yet".
+        mockQuery.mockReturnValue({
+            data: undefined,
+            isLoading: false,
+            isError: true,
+        })
+        render(<SubjectQuestionsCard subjectId="s1" />)
+
+        expect(
+            screen.getByText(/Couldn't load these questions/)
+        ).toBeInTheDocument()
+        expect(screen.queryByText(/No questions yet/)).not.toBeInTheDocument()
     })
 
     it('can withdraw a published question', async () => {
