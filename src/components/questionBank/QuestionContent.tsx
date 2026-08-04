@@ -136,10 +136,13 @@ function TextQuestion({
                 // child otherwise stretches to fill the cross axis, which
                 // distorts every diagram.
                 //
-                // The height cap is what stops a tall diagram — a heating curve
-                // is nearly square and renders enormous at full width — from
-                // pushing the options off the bottom of a card. Width stays
-                // auto so the aspect ratio is untouched.
+                // The width must be definite. These diagrams are SVGs with a
+                // viewBox and no width/height attributes, so they have no
+                // intrinsic size to resolve `w-auto` against and collapse to
+                // 0x0 — invisible, while still being counted as "rendered".
+                // A definite width plus h-auto lets the viewBox's aspect ratio
+                // supply the height, and max-w keeps a wide diagram from
+                // filling the whole card.
                 <img
                     src={question.diagramUrl}
                     alt=""
@@ -153,7 +156,7 @@ function TextQuestion({
                             ref.current.scrollWidth
                         )
                     }
-                    className="mt-3 self-start object-contain max-w-full max-h-[320px] w-auto"
+                    className="mt-3 h-auto w-full max-w-[480px] object-contain"
                 />
             )}
             {showOptions && <TextQuestionOptions questionId={question.id} />}
