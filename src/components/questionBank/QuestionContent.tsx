@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import type { QuestionResponse } from '@/client'
 import { MemoizedHtmlBlock } from '@/components/questionBank/HtmlBlock.tsx'
 import { LatexText } from '@/components/diagnostic/LatexText.tsx'
@@ -67,20 +68,12 @@ export function QuestionContent({
 }) {
     if (isTextQuestion(question)) {
         return (
-            <div onClick={onClick}>
-                <LatexText text={question.stem ?? ''} />
-                {question.diagramUrl && (
-                    // self-start + object-contain: an <img> that is a direct
-                    // flex child otherwise stretches to fill the cross axis,
-                    // which distorts every diagram.
-                    <img
-                        src={question.diagramUrl}
-                        alt=""
-                        className="mt-3 self-start object-contain max-w-full"
-                    />
-                )}
-                {showOptions && <TextQuestionOptions questionId={question.id} />}
-            </div>
+            <TextQuestion
+                question={question}
+                onDimensionChange={onDimensionChange}
+                onClick={onClick}
+                showOptions={showOptions}
+            />
         )
     }
 
@@ -92,6 +85,79 @@ export function QuestionContent({
             onDimensionChange={onDimensionChange}
             onClick={onClick}
         />
+    )
+}
+
+/**
+ * A text question, reporting its own rendered height.
+ *
+ * The card it sits in is a flip card: both faces are absolutely positioned, so
+ * the card must be given an explicit height, and it takes that height from
+ * whatever the question content reports. Only the iframe ever reported one, so
+ * a text question left the card at its 250px default and the stem, diagram and
+ * options simply overflowed past the bottom — over the pagination beneath it.
+ *
+ * A ResizeObserver rather than a one-off measurement because the height is not
+ * settled at first paint: the options arrive from their own request, KaTeX
+ * re-lays the stem out once it renders, and the diagram has to load before it
+ * takes up space.
+ */
+function TextQuestion({
+    question,
+    onDimensionChange,
+    onClick,
+    showOptions,
+}: {
+    question: QuestionResponse
+    onDimensionChange?: (height: number, width: number) => void
+    onClick: () => void
+    showOptions: boolean
+}) {
+    const ref = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+        const element = ref.current
+        if (!element || !onDimensionChange) return
+
+        const report = () =>
+            onDimensionChange(element.scrollHeight, element.scrollWidth)
+
+        report()
+        const observer = new ResizeObserver(report)
+        observer.observe(element)
+        return () => observer.disconnect()
+    }, [onDimensionChange])
+
+    return (
+        <div ref={ref} onClick={onClick}>
+            <LatexText text={question.stem ?? ''} />
+            {question.diagramUrl && (
+                // self-start + object-contain: an <img> that is a direct flex
+                // child otherwise stretches to fill the cross axis, which
+                // distorts every diagram.
+                //
+                // The height cap is what stops a tall diagram — a heating curve
+                // is nearly square and renders enormous at full width — from
+                // pushing the options off the bottom of a card. Width stays
+                // auto so the aspect ratio is untouched.
+                <img
+                    src={question.diagramUrl}
+                    alt=""
+                    // onLoad as well as the observer: an image that has not
+                    // loaded occupies no space, so the height measured before
+                    // it arrives is wrong.
+                    onLoad={() =>
+                        ref.current &&
+                        onDimensionChange?.(
+                            ref.current.scrollHeight,
+                            ref.current.scrollWidth
+                        )
+                    }
+                    className="mt-3 self-start object-contain max-w-full max-h-[320px] w-auto"
+                />
+            )}
+            {showOptions && <TextQuestionOptions questionId={question.id} />}
+        </div>
     )
 }
 
