@@ -16,6 +16,8 @@ import { TopicsTable } from '@/components/questionManager/subject/TopicsTable.ts
 import { PapersTable } from '@/components/questionManager/subject/PapersTable.tsx'
 import { BreadCrumbs } from '@/components/questionManager/BreadCrumbs.tsx'
 import { SpmBulkImportDialog } from '@/components/questionManager/SpmBulkImportDialog.tsx'
+import { SubjectQuestionsCard } from '@/components/questionManager/subject/SubjectQuestionsCard.tsx'
+import { PublishSubjectCard } from '@/components/questionManager/subject/PublishSubjectCard.tsx'
 import { Button } from '@/components/ui/button.tsx'
 import { useState } from 'react'
 
@@ -65,6 +67,13 @@ export function SubjectPage() {
                     open={importOpen}
                     onOpenChange={setImportOpen}
                 />
+                <div className="mb-4">
+                    <PublishSubjectCard
+                        subjectId={subjectId ?? ''}
+                        subjectName={data?.name ?? ''}
+                        isPublished={data?.isPublished ?? false}
+                    />
+                </div>
                 <div className="grid grid-cols-2 gap-4">
                     <TopicsTable
                         isLoading={isLoading}
@@ -98,6 +107,12 @@ export function SubjectPage() {
                             />
                         </CardFooter>
                     </Card>
+                </div>
+                {/* Every question in the subject, including the bulk-imported
+                    ones that belong to no paper instance and so appear on no
+                    other admin screen. */}
+                <div className="mt-4">
+                    <SubjectQuestionsCard subjectId={subjectId ?? ''} />
                 </div>
             </div>
         </AdminLayout>

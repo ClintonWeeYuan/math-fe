@@ -94,21 +94,16 @@ export function AnimatedQuestionCard({
                                 >
                                     {question.difficulty}
                                 </Badge>
-                                {/* A question generated against the syllabus
-                                    has no past paper to name; it's identified
-                                    by its chapter instead. */}
-                                {question.paper ? (
+                                {/* Only a past-paper question has anything to
+                                    say here. A syllabus-generated one's chapter
+                                    *is* its topic, and the topic badge on the
+                                    left already says it — printing it again on
+                                    the right just showed the same words twice. */}
+                                {question.paper && (
                                     <span className="text-sm text-gray-500">
                                         {question.paper.name} (
                                         {question.paperVariant?.year})
                                     </span>
-                                ) : (
-                                    question.chapter && (
-                                        <span className="text-sm text-gray-500">
-                                            {question.chapterTitle ??
-                                                question.chapter}
-                                        </span>
-                                    )
                                 )}
                             </div>
                         </div>

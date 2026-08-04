@@ -152,17 +152,23 @@ export function QuestionBank({ subjectId }: Props) {
                         variant="inverted"
                         maxCount={3}
                     />
-                    <MultiSelect
-                        value={papers}
-                        options={paperOptions}
-                        onValueChange={(e) => {
-                            setFilterSearchParams({ page: 1, papers: e })
-                        }}
-                        defaultValue={papers}
-                        placeholder="Select paper"
-                        variant="inverted"
-                        maxCount={2}
-                    />
+                    {/* Hidden for a subject with no past papers — SPM
+                        Chemistry's questions are generated against the
+                        syllabus, so a paper filter there offers nothing to
+                        pick and, if picked, would match nothing. */}
+                    {paperOptions.length > 0 && (
+                        <MultiSelect
+                            value={papers}
+                            options={paperOptions}
+                            onValueChange={(e) => {
+                                setFilterSearchParams({ page: 1, papers: e })
+                            }}
+                            defaultValue={papers}
+                            placeholder="Select paper"
+                            variant="inverted"
+                            maxCount={2}
+                        />
+                    )}
                 </div>
                 <div className="w-full space-y-2 flex flex-col grow">
                     <style>{`
