@@ -2,6 +2,7 @@ import { describe, expect, it, vi, beforeEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { SubjectPage } from './SubjectPage'
 
 const mockSubject = vi.fn()
@@ -31,10 +32,17 @@ vi.mock('@/components/layout/AdminLayout.tsx', () => ({
 }))
 
 function renderPage() {
+    // The page mounts dialogs that own mutations, so it needs a real client
+    // even though every data hook here is mocked.
+    const client = new QueryClient({
+        defaultOptions: { queries: { retry: false }, mutations: { retry: false } },
+    })
     render(
-        <MemoryRouter>
-            <SubjectPage />
-        </MemoryRouter>
+        <QueryClientProvider client={client}>
+            <MemoryRouter>
+                <SubjectPage />
+            </MemoryRouter>
+        </QueryClientProvider>
     )
 }
 
