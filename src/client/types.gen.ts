@@ -2249,6 +2249,11 @@ export type GetQuestionsBySubjectPaginatedQuestionsSubjectPaginatedSubjectIdGetD
          * Admin only: 'draft' or 'published'. Ignored for everyone else, who only ever sees published questions.
          */
         status?: string | null;
+        /**
+         * Includedrafts
+         * Admin only: include unpublished questions. The admin review screen sets it; the student bank never does, so an admin browsing the bank sees exactly what a student sees.
+         */
+        includeDrafts?: boolean;
     };
     url: '/questions/subject/paginated/{subject_id}';
 };
