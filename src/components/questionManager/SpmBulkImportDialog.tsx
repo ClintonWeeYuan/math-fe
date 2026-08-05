@@ -151,13 +151,13 @@ export function SpmBulkImportDialog({
                             </p>
                         )}
 
-                        {report.editedSourceRefs.length > 0 && (
+                        {(report.editedSourceRefs?.length ?? 0) > 0 && (
                             <p className="mt-2 text-amber-700">
-                                {report.editedSourceRefs.length} question(s)
+                                {report.editedSourceRefs?.length} question(s)
                                 have been edited by hand since they were
                                 imported. Importing replaces them with what's
                                 in this file:{' '}
-                                {report.editedSourceRefs.join(', ')}
+                                {report.editedSourceRefs?.join(', ')}
                             </p>
                         )}
 
