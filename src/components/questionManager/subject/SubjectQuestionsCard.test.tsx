@@ -130,4 +130,11 @@ describe('SubjectQuestionsCard', () => {
             status: 'draft',
         })
     })
+
+    it('asks for drafts, since this is the review screen', () => {
+        setItems([question('a', 'draft')])
+        render(<SubjectQuestionsCard subjectId="s1" />)
+
+        expect(mockQuery.mock.calls[0][0].includeDrafts).toBe(true)
+    })
 })

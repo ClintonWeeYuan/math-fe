@@ -37,6 +37,10 @@ export function SubjectQuestionsCard({ subjectId }: { subjectId: string }) {
         difficulty: [],
         papers: [],
         status: filter === 'all' ? undefined : filter,
+        // This is the review screen, so it asks for drafts. The student bank
+        // deliberately doesn't, which is what makes browsing it as an admin
+        // show what a student would get.
+        includeDrafts: true,
     })
     const { mutateAsync, isPending } = useBulkSetQuestionStatusMutation()
 

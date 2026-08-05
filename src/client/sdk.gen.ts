@@ -327,8 +327,16 @@ export const getSyllabusSyllabusSyllabusIdGet = <ThrowOnError extends boolean = 
  * subject appears on the site by being published rather than by someone
  * remembering to edit a TypeScript file.
  *
- * question_count is what makes an empty subject visibly empty rather than a
- * dead end a student clicks into.
+ * A subject needs *published questions*, not merely questions, to appear.
+ * Both halves of that were wrong at first: the count included drafts, so SPM
+ * Chemistry advertised "40 questions" on its card while the bank behind it —
+ * which hides drafts — was empty; and a subject with nothing published was
+ * still listed, which is a card that can only disappoint. A student should
+ * never be offered an empty subject.
+ *
+ * Publishing a subject with no published questions therefore does nothing
+ * visible. That is deliberate: the admin's own subject page is where that
+ * state belongs, not the student catalogue.
  */
 export const listPublishedSubjectsSubjectsGet = <ThrowOnError extends boolean = false>(options?: Options<ListPublishedSubjectsSubjectsGetData, ThrowOnError>) => {
     return (options?.client ?? client).get<ListPublishedSubjectsSubjectsGetResponses, unknown, ThrowOnError>({

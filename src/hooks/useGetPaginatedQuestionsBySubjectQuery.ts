@@ -17,6 +17,12 @@ type Props = {
     // Admin only — the backend ignores it for everyone else, who always see
     // published questions and nothing else.
     status?: 'draft' | 'published'
+    /**
+     * Ask for unpublished questions too. Admin only, and permitted rather than
+     * granted: without it even an admin sees exactly what a student sees, so
+     * the student bank is a truthful preview of the student bank.
+     */
+    includeDrafts?: boolean
 }
 
 export default function useGetPaginatedQuestionsBySubjectQuery({
@@ -27,6 +33,7 @@ export default function useGetPaginatedQuestionsBySubjectQuery({
     difficulty,
     papers,
     status,
+    includeDrafts,
 }: Props) {
     const queryClient = useQueryClient()
 
@@ -47,6 +54,7 @@ export default function useGetPaginatedQuestionsBySubjectQuery({
                             difficulty,
                             papers,
                             status,
+                            includeDrafts,
                         },
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -66,7 +74,7 @@ export default function useGetPaginatedQuestionsBySubjectQuery({
         queryKey: [
             'questions',
             subjectId,
-            { page, topics, difficulty, papers, status },
+            { page, topics, difficulty, papers, status, includeDrafts },
         ],
         refetchOnWindowFocus: false,
         staleTime: 60 * 60 * 1000,
