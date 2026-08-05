@@ -1608,6 +1608,10 @@ export type SpmBulkImportResponse = {
      * Unknowntopiccodes
      */
     unknownTopicCodes: Array<string>;
+    /**
+     * Editedsourcerefs
+     */
+    editedSourceRefs?: Array<string>;
 };
 
 /**
