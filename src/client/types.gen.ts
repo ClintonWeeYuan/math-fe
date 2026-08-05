@@ -1085,6 +1085,29 @@ export type DiagnosticSetResponse = {
 };
 
 /**
+ * EditOptionBody
+ * One answer option as the editor sends it.
+ *
+ * is_correct is deliberately absent: the answer is stated once, by
+ * correct_option on the question, and derived from it here. Two places to say
+ * which option is right is two places to disagree.
+ */
+export type EditOptionBody = {
+    /**
+     * Label
+     */
+    label: string;
+    /**
+     * Text
+     */
+    text: string;
+    /**
+     * Misconception
+     */
+    misconception?: string | null;
+};
+
+/**
  * HTTPValidationError
  */
 export type HttpValidationError = {
@@ -1585,6 +1608,10 @@ export type SpmBulkImportResponse = {
      * Unknowntopiccodes
      */
     unknownTopicCodes: Array<string>;
+    /**
+     * Editedsourcerefs
+     */
+    editedSourceRefs?: Array<string>;
 };
 
 /**
@@ -1896,6 +1923,30 @@ export type UpdateQuestionBody = {
      * Marks
      */
     marks?: number | null;
+    /**
+     * Stem
+     */
+    stem?: string | null;
+    /**
+     * Correctoption
+     */
+    correctOption?: string | null;
+    /**
+     * Chapter
+     */
+    chapter?: string | null;
+    /**
+     * Topiccode
+     */
+    topicCode?: string | null;
+    /**
+     * Archetype
+     */
+    archetype?: string | null;
+    /**
+     * Options
+     */
+    options?: Array<EditOptionBody> | null;
 };
 
 /**
@@ -2397,7 +2448,7 @@ export type UpdateQuestionQuestionsQuestionIdPatchData = {
     body: UpdateQuestionBody;
     path: {
         /**
-         * Question Id
+         * The ID of the question to update.
          */
         question_id: string;
     };

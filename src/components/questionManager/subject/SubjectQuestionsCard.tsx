@@ -12,6 +12,9 @@ import useGetPaginatedQuestionsBySubjectQuery from '@/hooks/useGetPaginatedQuest
 import useBulkSetQuestionStatusMutation from '@/hooks/useBulkSetQuestionStatusMutation.ts'
 import { useState } from 'react'
 import { toast } from 'sonner'
+import type { QuestionResponse } from '@/client'
+import { EditQuestionDialog } from '@/components/questionManager/subject/EditQuestionDialog.tsx'
+import { DeleteQuestionByIdDialog } from '@/components/questionManager/subject/DeleteQuestionByIdDialog.tsx'
 
 type StatusFilter = 'all' | 'draft' | 'published'
 
@@ -43,6 +46,11 @@ export function SubjectQuestionsCard({ subjectId }: { subjectId: string }) {
         includeDrafts: true,
     })
     const { mutateAsync, isPending } = useBulkSetQuestionStatusMutation()
+    // One dialog each, holding the question being acted on, rather than a
+    // dialog per row: 20 mounted dialogs per page would each fetch their own
+    // options.
+    const [editing, setEditing] = useState<QuestionResponse | null>(null)
+    const [deleting, setDeleting] = useState<QuestionResponse | null>(null)
 
     const total = data?.total ?? 0
     const items = data?.items ?? []
@@ -193,20 +201,36 @@ export function SubjectQuestionsCard({ subjectId }: { subjectId: string }) {
                                         </Badge>
                                     </div>
                                 </div>
-                                <Button
-                                    variant={isDraft ? 'default' : 'ghost'}
-                                    size="sm"
-                                    className="shrink-0"
-                                    disabled={isPending}
-                                    onClick={() =>
-                                        setStatus(
-                                            [question.id],
-                                            isDraft ? 'published' : 'draft'
-                                        )
-                                    }
-                                >
-                                    {isDraft ? 'Publish' : 'Unpublish'}
-                                </Button>
+                                <div className="flex shrink-0 gap-1">
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => setEditing(question)}
+                                    >
+                                        Edit
+                                    </Button>
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        className="text-red-600 hover:text-red-700"
+                                        onClick={() => setDeleting(question)}
+                                    >
+                                        Delete
+                                    </Button>
+                                    <Button
+                                        variant={isDraft ? 'default' : 'ghost'}
+                                        size="sm"
+                                        disabled={isPending}
+                                        onClick={() =>
+                                            setStatus(
+                                                [question.id],
+                                                isDraft ? 'published' : 'draft'
+                                            )
+                                        }
+                                    >
+                                        {isDraft ? 'Publish' : 'Unpublish'}
+                                    </Button>
+                                </div>
                             </div>
                         )
                     })}
@@ -236,6 +260,26 @@ export function SubjectQuestionsCard({ subjectId }: { subjectId: string }) {
                     </div>
                 )}
             </CardContent>
+
+            {/* Keyed by question id so reopening on a different question
+                remounts with that question's own state rather than the
+                previous one's. */}
+            {editing && (
+                <EditQuestionDialog
+                    key={editing.id}
+                    question={editing}
+                    open
+                    onOpenChange={(next) => !next && setEditing(null)}
+                />
+            )}
+            {deleting && (
+                <DeleteQuestionByIdDialog
+                    key={deleting.id}
+                    question={deleting}
+                    open
+                    onOpenChange={(next) => !next && setDeleting(null)}
+                />
+            )}
         </Card>
     )
 }
