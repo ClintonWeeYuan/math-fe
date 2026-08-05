@@ -105,7 +105,15 @@ describe('SubjectPage past-paper sections', () => {
             data: { id: 's1', name: 'X', topics: [], papers: [] },
             isLoading: false,
         })
-        mockInstances.mockReturnValue({ data: [{ id: 'pi1' }] })
+        mockInstances.mockReturnValue({
+            data: [
+                {
+                    id: 'pi1',
+                    paper: { id: 'p1', name: 'P1' },
+                    variant: { id: 'v1', name: 'Nov', year: 2019 },
+                },
+            ],
+        })
         renderPage()
 
         expect(screen.getByText('Paper Instances')).toBeInTheDocument()
