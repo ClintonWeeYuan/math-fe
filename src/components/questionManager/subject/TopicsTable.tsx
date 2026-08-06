@@ -19,6 +19,7 @@ import {
 import { CreateTopicDialog } from '@/components/questionManager/subject/CreateTopicDialog.tsx'
 import { DeleteTopicDialog } from '@/components/questionManager/subject/DeleteTopicDialog.tsx'
 import { UpdateTopicDialog } from '@/components/questionManager/subject/UpdateTopicDialog.tsx'
+import { Badge } from '@/components/ui/badge.tsx'
 import type { BaseLevel, BaseTopic } from '@/client'
 
 type Props = {
@@ -38,7 +39,14 @@ export function TopicsTable({ isLoading, topics, subjectId, levels }: Props) {
             ) : (
                 <>
                     <CardHeader>
-                        <CardTitle>Topics</CardTitle>
+                        <CardTitle className="flex items-center gap-2">
+                            Topics
+                            {/* The count is what tells you the list is
+                                complete. This box scrolls after about four
+                                rows with nothing to say so, and seven imported
+                                chapters read as four missing ones. */}
+                            <Badge variant="secondary">{topics.length}</Badge>
+                        </CardTitle>
                         <CardDescription>
                             The topics for this subject
                         </CardDescription>
@@ -46,7 +54,9 @@ export function TopicsTable({ isLoading, topics, subjectId, levels }: Props) {
                     <CardContent className="max-h-[300px] overflow-y-auto">
                         <Table>
                             <TableCaption>
-                                A list of topics for this subject
+                                {topics.length === 0
+                                    ? 'No topics yet.'
+                                    : `${topics.length} topic${topics.length === 1 ? '' : 's'} for this subject`}
                             </TableCaption>
                             <TableHeader>
                                 <TableRow>
