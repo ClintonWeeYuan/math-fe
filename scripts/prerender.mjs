@@ -286,7 +286,16 @@ const ROUTES = [
 ].concat([GUIDES_INDEX], GUIDE_ROUTES)
 
 async function main() {
-    const template = await readFile(join(DIST, 'index.html'), 'utf8')
+    // The template is dist/index.html — which this script also *writes*, as
+    // the '/' route. A second run therefore reads a template whose #root is
+    // already full, the empty-div replace below silently no-ops, and every
+    // page ends up with the homepage's body while its title and canonical
+    // look perfectly correct. Emptying #root here makes a re-run produce the
+    // same output as a first run, so verifying locally means something.
+    const template = (await readFile(join(DIST, 'index.html'), 'utf8')).replace(
+        /<div id="root">[\s\S]*?<\/div>(\s*<script)/,
+        '<div id="root"></div>$1'
+    )
     let written = 0
 
     // Fetched once, not per route: every subject page comes from this list,
