@@ -292,6 +292,10 @@ export type BaseTopic = {
      * Sortorder
      */
     sortOrder: number;
+    /**
+     * Slug
+     */
+    slug?: string | null;
 };
 
 /**
