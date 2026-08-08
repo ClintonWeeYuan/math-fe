@@ -35,18 +35,28 @@ describe('SubjectsPage', () => {
         expect(screen.getByText('40 questions')).toBeInTheDocument()
     })
 
-    it('links each subject to its own bank', () => {
+    it('links each subject by its readable URL', () => {
+        // Linking by uuid and letting the redirect rewrite it means the uuid
+        // is what lands in the address bar.
         mockQuery.mockReturnValue({
-            data: [{ id: 'chem-id', name: 'SPM Chemistry', code: 'CHEM', topicCount: 1, questionCount: 40 }],
+            data: [{ id: 'chem-id', slug: 'chemistry', name: 'SPM Chemistry', code: 'CHEM', topicCount: 1, questionCount: 40 }],
             isLoading: false,
             isError: false,
         })
         renderGrid()
 
-        expect(screen.getByRole('link')).toHaveAttribute(
-            'href',
-            '/questions/chem-id'
-        )
+        expect(screen.getByRole('link')).toHaveAttribute('href', '/spm/chemistry')
+    })
+
+    it('still links a subject that has no slug, by id', () => {
+        mockQuery.mockReturnValue({
+            data: [{ id: 'old-id', name: 'Legacy Subject', code: 'X', topicCount: 1, questionCount: 2 }],
+            isLoading: false,
+            isError: false,
+        })
+        renderGrid()
+
+        expect(screen.getByRole('link')).toHaveAttribute('href', '/questions/old-id')
     })
 
     it('renders a subject it has no styling for rather than dropping it', () => {

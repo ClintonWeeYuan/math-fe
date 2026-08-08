@@ -82,6 +82,18 @@ function subjectRoutes(subjects) {
         }))
 }
 
+/** The subject catalogue as links a crawler can follow. */
+function subjectsMarkup(subjects) {
+    const listed = (subjects ?? []).filter((s) => s.slug)
+    if (listed.length === 0) return ''
+    return `<ul>${listed
+        .map(
+            (s) =>
+                `<li><a href="/spm/${esc(s.slug)}">${esc(s.name)}</a> — ${esc(String(s.questionCount))} questions across ${esc(String(s.topicCount))} topics</li>`
+        )
+        .join('')}</ul>`
+}
+
 /** Catalogue sets as a readable list a crawler can index. */
 function setsMarkup(sets) {
     if (!sets || sets.length === 0) return ''
@@ -339,6 +351,12 @@ async function main() {
         let body = route.body
         if ('test' in route) {
             body += setsMarkup(await fetchSets(route.test))
+        }
+        // Without these, the subject pages are reachable only from the
+        // sitemap — no page on the site links to them, which is a weak signal
+        // and a slow discovery path.
+        if (route.path === '/subjects') {
+            body += subjectsMarkup(subjects)
         }
         html = html.replace(
             '<div id="root"></div>',

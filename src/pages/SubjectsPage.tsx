@@ -79,7 +79,17 @@ function SubjectCard({ subject }: { subject: PublishedSubject }) {
     const { icon: Icon, gradient, description } = presentationFor(subject.name)
 
     return (
-        <Link to={`/questions/${subject.id}`}>
+        // The readable URL is the one to link: sending people to
+        // /questions/<uuid> and letting the redirect rewrite it means the uuid
+        // is what they see land in the address bar.
+        // A subject without a slug still works, by id, rather than not linking.
+        <Link
+            to={
+                subject.slug
+                    ? `/spm/${subject.slug}`
+                    : `/questions/${subject.id}`
+            }
+        >
             <Card className="h-full cursor-pointer transition-all hover:shadow-xl hover:scale-105 group">
                 <CardHeader>
                     <div
