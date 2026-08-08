@@ -24,6 +24,11 @@ const PRERENDERED = new Set([
     'esat-tmua',
     'subjects',
     'guides',
+    // One prerendered file per published subject, generated from the API at
+    // build time. Deliberately *not* rewritten in serve.json: `serve` applies
+    // rewrites before looking at disk, so a rewrite would serve the homepage
+    // instead of the page — which is precisely the bug this replaced.
+    'spm',
 ])
 
 function routeSegments(): string[] {

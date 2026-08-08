@@ -45,6 +45,40 @@ async function fetchSets(test) {
     }
 }
 
+/** Published subjects, or null if the API can't be reached. */
+async function fetchSubjects() {
+    try {
+        const res = await fetch(`${API}/subjects`, { signal: AbortSignal.timeout(15000) })
+        if (!res.ok) throw new Error(`HTTP ${res.status}`)
+        return await res.json()
+    } catch (error) {
+        console.warn(`  ! could not fetch subjects: ${error.message} — skipping subject pages`)
+        return null
+    }
+}
+
+/**
+ * A page per published SPM subject.
+ *
+ * Built from the API rather than a hand-written list, so a subject reaches
+ * search by being published — the same rule the catalogue follows. The pages
+ * these replace served the prerendered homepage, canonical tag and all, which
+ * told Google all three were duplicates of the front page.
+ */
+function subjectRoutes(subjects) {
+    return (subjects ?? [])
+        .filter((s) => s.slug)
+        .map((s) => ({
+            path: `/spm/${s.slug}`,
+            title: `${s.name} Practice Questions | JomExam`,
+            description:
+                `Practise ${s.name} by topic and difficulty — ${s.questionCount} exam-style SPM questions across ${s.topicCount} topics, free to work through at your own pace.`,
+            body: `<h1>${esc(s.name)} practice questions</h1>
+<p>${esc(String(s.questionCount))} exam-style questions across ${esc(String(s.topicCount))} topics, filterable by topic and difficulty. Free to work through at your own pace.</p>
+<p><a href="/subjects">All SPM subjects</a></p>`,
+        }))
+}
+
 /** Catalogue sets as a readable list a crawler can index. */
 function setsMarkup(sets) {
     if (!sets || sets.length === 0) return ''
@@ -252,7 +286,12 @@ async function main() {
     const template = await readFile(join(DIST, 'index.html'), 'utf8')
     let written = 0
 
-    for (const route of ROUTES) {
+    // Fetched once, not per route: every subject page comes from this list,
+    // and so does the sitemap.
+    const subjects = await fetchSubjects()
+    const routes = [...ROUTES, ...subjectRoutes(subjects)]
+
+    for (const route of routes) {
         const url = `${SITE}${route.path}`
         let html = template
 
@@ -299,11 +338,13 @@ async function main() {
         // The prerendered copy is what a crawler reads, so a link that
         // exists only in the React tree does not count. Warn loudly rather
         // than let a page quietly lose its route to the guides.
-        // /subjects serves SPM students, for whom the ESAT and TMUA guides
-        // are not relevant — linking them there would be noise, not help.
+        // /subjects and the SPM subject pages serve SPM students, for whom
+        // the ESAT and TMUA guides are not relevant — linking them there would
+        // be noise, not help.
         const exempt = ['/subjects']
         if (
             !route.path.startsWith('/guides') &&
+            !route.path.startsWith('/spm/') &&
             !exempt.includes(route.path) &&
             !body.includes('href="/guides')
         ) {
@@ -312,7 +353,18 @@ async function main() {
         console.log(`  prerendered ${route.path}`)
         written++
     }
-    console.log(`prerender: ${written} routes`)
+    // The sitemap is generated from the same list that was just written, so
+    // it cannot drift from what actually exists. It used to be a static file
+    // in public/, which meant every new page needed someone to remember.
+    const sitemap =
+        '<?xml version="1.0" encoding="UTF-8"?>\n' +
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
+        routes
+            .map((route) => `  <url>\n    <loc>${SITE}${route.path === '/' ? '/' : route.path}</loc>\n  </url>`)
+            .join('\n') +
+        '\n</urlset>\n'
+    await writeFile(join(DIST, 'sitemap.xml'), sitemap)
+    console.log(`prerender: ${written} routes, sitemap: ${routes.length} urls`)
 }
 
 main().catch((error) => {
