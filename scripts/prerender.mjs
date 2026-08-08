@@ -152,7 +152,12 @@ async function topicRoutes(subject) {
     for (const topic of subject.topics ?? []) {
         if (!topic.slug) continue
         const page = await fetchTopicQuestions(subject.id, topic.id)
-        const items = (page?.items ?? []).filter((q) => q.stem)
+        // stem for a question authored as text; searchText for one converted
+        // from LaTeX, whose wording lives in a storage file the page loads
+        // into an iframe and no crawler ever sees.
+        const items = (page?.items ?? [])
+            .map((q) => ({ ...q, text: q.stem ?? q.searchText }))
+            .filter((q) => q.text)
         const total = page?.total ?? 0
         const indexable = items.length >= MIN_QUESTIONS_TO_INDEX_A_TOPIC
 
@@ -165,7 +170,7 @@ async function topicRoutes(subject) {
 <p>${esc(String(total))} exam-style questions on ${esc(topic.name.toLowerCase())}, with answers. Free to work through at your own pace.</p>
 ${
     items.length > 0
-        ? `<ul>${items.slice(0, 5).map((q) => `<li>${esc(q.stem)}</li>`).join('')}</ul>`
+        ? `<ul>${items.slice(0, 5).map((q) => `<li>${esc(q.text)}</li>`).join('')}</ul>`
         : ''
 }
 <p><a href="/spm/${esc(subject.slug)}">All ${esc(subject.name)} topics</a></p>`,
