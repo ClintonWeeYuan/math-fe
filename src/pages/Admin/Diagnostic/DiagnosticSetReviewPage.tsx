@@ -101,6 +101,12 @@ export function DiagnosticSetReviewPage() {
                                 Publish all questions ({draftCount} draft)
                             </Button>
                         )}
+                        {/* The set as a student meets it. Reviewing here
+                            shows answers and misconceptions; this shows
+                            neither, which is the point of looking. */}
+                        <Link to={`/admin/sets/${setId}/student-view`}>
+                            <Button variant="outline">Student view</Button>
+                        </Link>
                         <SetPublishButton set={set} />
                     </div>
                 </div>

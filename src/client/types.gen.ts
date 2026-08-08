@@ -1022,6 +1022,46 @@ export type DiagnosticResponseState = {
 };
 
 /**
+ * DiagnosticSetPreviewQuestionsResponse
+ * A set's questions exactly as a student would meet them, for an admin
+ * to check before publishing.
+ *
+ * Deliberately the same StudentDiagnosticQuestionResponse the exam serves:
+ * a preview built from a richer shape would show the admin something no
+ * student ever sees, which is the one thing a preview must not do.
+ */
+export type DiagnosticSetPreviewQuestionsResponse = {
+    /**
+     * Id
+     */
+    id: string;
+    /**
+     * Title
+     */
+    title: string;
+    /**
+     * Subject
+     */
+    subject?: string | null;
+    /**
+     * Status
+     */
+    status: string;
+    /**
+     * Timelimitminutes
+     */
+    timeLimitMinutes: number;
+    /**
+     * Isfree
+     */
+    isFree: boolean;
+    /**
+     * Questions
+     */
+    questions: Array<StudentDiagnosticQuestionResponse>;
+};
+
+/**
  * DiagnosticSetPreviewResponse
  * Landing/instructions screen, before an attempt exists (§2) — only
  * what's needed to decide to start, nothing about the questions
@@ -3819,7 +3859,7 @@ export type UpdateDiagnosticSetDiagnosticSetsSetIdPatchResponses = {
 
 export type UpdateDiagnosticSetDiagnosticSetsSetIdPatchResponse = UpdateDiagnosticSetDiagnosticSetsSetIdPatchResponses[keyof UpdateDiagnosticSetDiagnosticSetsSetIdPatchResponses];
 
-export type PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetData = {
+export type PreviewDiagnosticSetQuestionsDiagnosticSetsSetIdPreviewGetData = {
     body?: never;
     path: {
         /**
@@ -3831,23 +3871,23 @@ export type PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetData = {
     url: '/diagnostic/sets/{set_id}/preview';
 };
 
-export type PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetErrors = {
+export type PreviewDiagnosticSetQuestionsDiagnosticSetsSetIdPreviewGetErrors = {
     /**
      * Validation Error
      */
     422: HttpValidationError;
 };
 
-export type PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetError = PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetErrors[keyof PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetErrors];
+export type PreviewDiagnosticSetQuestionsDiagnosticSetsSetIdPreviewGetError = PreviewDiagnosticSetQuestionsDiagnosticSetsSetIdPreviewGetErrors[keyof PreviewDiagnosticSetQuestionsDiagnosticSetsSetIdPreviewGetErrors];
 
-export type PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetResponses = {
+export type PreviewDiagnosticSetQuestionsDiagnosticSetsSetIdPreviewGetResponses = {
     /**
      * Successful Response
      */
-    200: DiagnosticSetPreviewResponse;
+    200: DiagnosticSetPreviewQuestionsResponse;
 };
 
-export type PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetResponse = PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetResponses[keyof PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetResponses];
+export type PreviewDiagnosticSetQuestionsDiagnosticSetsSetIdPreviewGetResponse = PreviewDiagnosticSetQuestionsDiagnosticSetsSetIdPreviewGetResponses[keyof PreviewDiagnosticSetQuestionsDiagnosticSetsSetIdPreviewGetResponses];
 
 export type StartOrResumeAttemptDiagnosticAttemptsPostData = {
     body: StartAttemptBody;

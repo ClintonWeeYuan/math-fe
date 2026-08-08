@@ -201,6 +201,10 @@ function App() {
                         path="admin/sets/:setId/preview"
                         element={<DiagnosticSetReviewPage />}
                     />
+                    <Route
+                        path="admin/sets/:setId/student-view"
+                        element={<DiagnosticSetPreviewPage />}
+                    />
                 </Route>
             </Routes>
         </>
