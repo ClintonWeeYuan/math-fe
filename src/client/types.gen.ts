@@ -1435,6 +1435,10 @@ export type QuestionResponse = {
      */
     stem?: string | null;
     /**
+     * Searchtext
+     */
+    searchText?: string | null;
+    /**
      * Correctoption
      */
     correctOption?: string | null;
