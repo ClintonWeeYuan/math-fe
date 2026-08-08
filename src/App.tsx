@@ -7,7 +7,7 @@ import { SandboxPage } from '@/pages/SandboxPage.tsx'
 import { SyllabusPage } from '@/pages/Admin/SyllabusPage.tsx'
 import { SubjectPage } from '@/pages/Admin/SubjectPage.tsx'
 import { PaperInstancePage } from '@/pages/Admin/PaperInstancePage.tsx'
-import { AdminQuestionBankPage } from '@/pages/Admin/AdminQuestionBankPage.tsx'
+import { AdminOverviewPage } from '@/pages/Admin/AdminOverviewPage.tsx'
 import { InteractiveQuestionPage } from '@/pages/InteractiveQuestionPage.tsx'
 import { AdminLoginPage } from '@/pages/Auth/AdminLoginPage.tsx'
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute.tsx'
@@ -154,7 +154,7 @@ function App() {
                     <Route path="more-info" element={<MoreInfoFormPage />} />
                 </Route>
                 <Route element={<ProtectedRoute />}>
-                    <Route path="/admin" element={<AdminQuestionBankPage />} />
+                    <Route path="/admin" element={<AdminOverviewPage />} />
                     <Route path="syllabus" element={<QuestionManagerPage />} />
                     <Route
                         path="syllabus/:syllabusId"

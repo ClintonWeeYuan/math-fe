@@ -27,7 +27,7 @@ import { useNavigate } from 'react-router-dom'
 
 const ITEMS = [
     {
-        title: 'Question Bank',
+        title: 'Overview',
         url: '/admin',
         icon: Inbox,
     },

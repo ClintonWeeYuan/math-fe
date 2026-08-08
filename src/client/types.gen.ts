@@ -189,6 +189,66 @@ export type AdminAttemptResultsResponse = {
 };
 
 /**
+ * AdminOverviewResponse
+ */
+export type AdminOverviewResponse = {
+    /**
+     * Subjects
+     */
+    subjects: Array<AdminOverviewSubject>;
+    /**
+     * Diagnosticsetspublished
+     */
+    diagnosticSetsPublished: number;
+    /**
+     * Diagnosticsetsdraft
+     */
+    diagnosticSetsDraft: number;
+    /**
+     * Diagnosticquestionsdraft
+     */
+    diagnosticQuestionsDraft: number;
+    /**
+     * Waitlistsignups
+     */
+    waitlistSignups: number;
+};
+
+/**
+ * AdminOverviewSubject
+ */
+export type AdminOverviewSubject = {
+    /**
+     * Id
+     */
+    id: string;
+    /**
+     * Name
+     */
+    name: string;
+    /**
+     * Slug
+     */
+    slug?: string | null;
+    /**
+     * Ispublished
+     */
+    isPublished: boolean;
+    /**
+     * Topiccount
+     */
+    topicCount: number;
+    /**
+     * Publishedquestions
+     */
+    publishedQuestions: number;
+    /**
+     * Draftquestions
+     */
+    draftQuestions: number;
+};
+
+/**
  * AttemptRadarResponse
  * GET /attempts/{id}/radar — Season Pass only (402 otherwise). The
  * per-skill rollup with misconception narratives, i.e. the 'why' the free
@@ -4270,6 +4330,22 @@ export type JoinWaitlistWaitlistPostResponses = {
 };
 
 export type JoinWaitlistWaitlistPostResponse = JoinWaitlistWaitlistPostResponses[keyof JoinWaitlistWaitlistPostResponses];
+
+export type AdminOverviewAdminOverviewGetData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/admin/overview';
+};
+
+export type AdminOverviewAdminOverviewGetResponses = {
+    /**
+     * Successful Response
+     */
+    200: AdminOverviewResponse;
+};
+
+export type AdminOverviewAdminOverviewGetResponse = AdminOverviewAdminOverviewGetResponses[keyof AdminOverviewAdminOverviewGetResponses];
 
 export type RootGetData = {
     body?: never;
