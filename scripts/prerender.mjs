@@ -25,7 +25,10 @@ import { GUIDES } from '../src/content/guides.mjs'
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 const DIST = join(ROOT, 'dist')
 const SITE = 'https://www.jomexam.com'
-const API = 'https://joyful-vitality-production.up.railway.app'
+// Overridable so a build can be pointed at a local API to check what these
+// pages will actually contain, rather than finding out after deploying.
+const API =
+    process.env.PRERENDER_API ?? 'https://joyful-vitality-production.up.railway.app'
 
 const esc = (s) =>
     String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
