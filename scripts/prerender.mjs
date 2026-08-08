@@ -492,10 +492,14 @@ async function main() {
         }
         // The page exists so the route works; it just isn't offered for
         // indexing until it has something to say.
+        //
+        // The template already carries a robots tag, so this replaces it
+        // rather than adding a second — two robots tags is ambiguous, and
+        // appending left the permissive one first and apparently winning.
         if (route.indexable === false) {
             html = html.replace(
-                '</head>',
-                '<meta name="robots" content="noindex,follow"/></head>'
+                /<meta name="robots" content="[^"]*"\s*\/?>/,
+                '<meta name="robots" content="noindex, follow"/>'
             )
         }
 
