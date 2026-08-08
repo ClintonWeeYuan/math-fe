@@ -127,18 +127,24 @@ async function fetchTopicQuestions(subjectId, topicId) {
     }
 }
 
-// A topic page earns its place by having real questions to show. Below this,
-// the page would be a heading and a count — and eighty of those across the
-// site is the doorway-page pattern search engines penalise, not an SEO win.
-const MIN_QUESTIONS_FOR_A_TOPIC_PAGE = 3
+// A topic page is worth *indexing* only if it has real questions to show.
+// Below this it would be a heading and a count, and eighty of those across
+// the site is the doorway-page pattern search engines penalise.
+const MIN_QUESTIONS_TO_INDEX_A_TOPIC = 3
 
 /**
- * A page per topic that has published questions with text.
+ * A page for every topic — but only the ones with real text are indexable.
  *
- * Deliberately not one per topic: the Mathematics banks are converted images
- * with no stem at all, so their topic pages would have nothing to say. They
- * still work as routes for students — they're just not worth indexing until
- * they hold something a search engine can read.
+ * Every topic gets a file, because /spm/** is deliberately not rewritten in
+ * serve.json (a rewrite would shadow the prerendered pages, which was the
+ * original bug), so a topic without a file is a hard 404 for a student who
+ * clicks its link. That is what happened to all 69 Mathematics topics.
+ *
+ * The Mathematics banks are converted images with no stem at all, so their
+ * topic pages have nothing a search engine can read. Those are written with
+ * noindex and left out of the sitemap: the route works, and the thin page
+ * isn't offered up for indexing. They become indexable on their own if the
+ * subject ever gains text-based questions.
  */
 async function topicRoutes(subject) {
     if (!subject?.slug) return []
@@ -147,19 +153,21 @@ async function topicRoutes(subject) {
         if (!topic.slug) continue
         const page = await fetchTopicQuestions(subject.id, topic.id)
         const items = (page?.items ?? []).filter((q) => q.stem)
-        if (items.length < MIN_QUESTIONS_FOR_A_TOPIC_PAGE) continue
+        const total = page?.total ?? 0
+        const indexable = items.length >= MIN_QUESTIONS_TO_INDEX_A_TOPIC
 
-        const total = page.total
         routes.push({
             path: `/spm/${subject.slug}/${topic.slug}`,
+            indexable,
             title: `${topic.name} — ${subject.name} Questions | JomExam`,
             description: `Practise ${topic.name} for ${subject.name}: ${total} exam-style questions with answers, filterable by difficulty.`,
             body: `<h1>${esc(topic.name)} — ${esc(subject.name)} questions</h1>
 <p>${esc(String(total))} exam-style questions on ${esc(topic.name.toLowerCase())}, with answers. Free to work through at your own pace.</p>
-<ul>${items
-                .slice(0, 5)
-                .map((q) => `<li>${esc(q.stem)}</li>`)
-                .join('')}</ul>
+${
+    items.length > 0
+        ? `<ul>${items.slice(0, 5).map((q) => `<li>${esc(q.stem)}</li>`).join('')}</ul>`
+        : ''
+}
 <p><a href="/spm/${esc(subject.slug)}">All ${esc(subject.name)} topics</a></p>`,
         })
     }
@@ -420,7 +428,7 @@ async function main() {
         details.map((d) => [
             d.slug,
             topicPages
-                .filter((r) => r.path.startsWith(`/spm/${d.slug}/`))
+                .filter((r) => r.indexable && r.path.startsWith(`/spm/${d.slug}/`))
                 .map((r) => ({
                     path: r.path,
                     name: (d.topics ?? []).find(
@@ -482,6 +490,18 @@ async function main() {
         if (route.jsonLd) {
             html = html.replace('</head>', `${route.jsonLd}</head>`)
         }
+        // The page exists so the route works; it just isn't offered for
+        // indexing until it has something to say.
+        //
+        // The template already carries a robots tag, so this replaces it
+        // rather than adding a second — two robots tags is ambiguous, and
+        // appending left the permissive one first and apparently winning.
+        if (route.indexable === false) {
+            html = html.replace(
+                /<meta name="robots" content="[^"]*"\s*\/?>/,
+                '<meta name="robots" content="noindex, follow"/>'
+            )
+        }
 
         const outDir = route.path === '/' ? DIST : join(DIST, route.path)
         await mkdir(outDir, { recursive: true })
@@ -511,6 +531,7 @@ async function main() {
         '<?xml version="1.0" encoding="UTF-8"?>\n' +
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
         routes
+            .filter((route) => route.indexable !== false)
             .map((route) => `  <url>\n    <loc>${SITE}${route.path === '/' ? '/' : route.path}</loc>\n  </url>`)
             .join('\n') +
         '\n</urlset>\n'
