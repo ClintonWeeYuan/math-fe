@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { previewDiagnosticSetQuestionsDiagnosticSetsSetIdPreviewGet } from '@/client'
+import { previewDiagnosticSetQuestionsDiagnosticSetsSetIdStudentViewGet } from '@/client'
 import { getAuthHeaders } from '@/lib/authHeaders.ts'
 
 /**
@@ -13,7 +13,7 @@ export default function usePreviewDiagnosticSetQuery({ setId }: { setId: string 
         enabled: setId.length > 0,
         queryFn: async () => {
             const result =
-                await previewDiagnosticSetQuestionsDiagnosticSetsSetIdPreviewGet({
+                await previewDiagnosticSetQuestionsDiagnosticSetsSetIdStudentViewGet({
                     path: { set_id: setId },
                     headers: getAuthHeaders(),
                 })

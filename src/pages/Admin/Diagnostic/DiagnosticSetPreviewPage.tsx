@@ -61,7 +61,7 @@ export function DiagnosticSetPreviewPage() {
             const next: DiagnosticResponseState = {
                 questionId,
                 selectedOption: null,
-                flagged: false,
+                isFlagged: false,
                 ...existing,
                 ...patch,
             } as DiagnosticResponseState
@@ -125,7 +125,8 @@ export function DiagnosticSetPreviewPage() {
                                 }
                                 onToggleFlag={() =>
                                     update(question.id, {
-                                        flagged: !responseFor(question.id)?.flagged,
+                                        isFlagged:
+                                            !responseFor(question.id)?.isFlagged,
                                     })
                                 }
                             />

@@ -3859,7 +3859,7 @@ export type UpdateDiagnosticSetDiagnosticSetsSetIdPatchResponses = {
 
 export type UpdateDiagnosticSetDiagnosticSetsSetIdPatchResponse = UpdateDiagnosticSetDiagnosticSetsSetIdPatchResponses[keyof UpdateDiagnosticSetDiagnosticSetsSetIdPatchResponses];
 
-export type PreviewDiagnosticSetQuestionsDiagnosticSetsSetIdPreviewGetData = {
+export type PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetData = {
     body?: never;
     path: {
         /**
@@ -3871,23 +3871,53 @@ export type PreviewDiagnosticSetQuestionsDiagnosticSetsSetIdPreviewGetData = {
     url: '/diagnostic/sets/{set_id}/preview';
 };
 
-export type PreviewDiagnosticSetQuestionsDiagnosticSetsSetIdPreviewGetErrors = {
+export type PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetErrors = {
     /**
      * Validation Error
      */
     422: HttpValidationError;
 };
 
-export type PreviewDiagnosticSetQuestionsDiagnosticSetsSetIdPreviewGetError = PreviewDiagnosticSetQuestionsDiagnosticSetsSetIdPreviewGetErrors[keyof PreviewDiagnosticSetQuestionsDiagnosticSetsSetIdPreviewGetErrors];
+export type PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetError = PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetErrors[keyof PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetErrors];
 
-export type PreviewDiagnosticSetQuestionsDiagnosticSetsSetIdPreviewGetResponses = {
+export type PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetResponses = {
+    /**
+     * Successful Response
+     */
+    200: DiagnosticSetPreviewResponse;
+};
+
+export type PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetResponse = PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetResponses[keyof PreviewDiagnosticSetDiagnosticSetsSetIdPreviewGetResponses];
+
+export type PreviewDiagnosticSetQuestionsDiagnosticSetsSetIdStudentViewGetData = {
+    body?: never;
+    path: {
+        /**
+         * Set Id
+         */
+        set_id: string;
+    };
+    query?: never;
+    url: '/diagnostic/sets/{set_id}/student-view';
+};
+
+export type PreviewDiagnosticSetQuestionsDiagnosticSetsSetIdStudentViewGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type PreviewDiagnosticSetQuestionsDiagnosticSetsSetIdStudentViewGetError = PreviewDiagnosticSetQuestionsDiagnosticSetsSetIdStudentViewGetErrors[keyof PreviewDiagnosticSetQuestionsDiagnosticSetsSetIdStudentViewGetErrors];
+
+export type PreviewDiagnosticSetQuestionsDiagnosticSetsSetIdStudentViewGetResponses = {
     /**
      * Successful Response
      */
     200: DiagnosticSetPreviewQuestionsResponse;
 };
 
-export type PreviewDiagnosticSetQuestionsDiagnosticSetsSetIdPreviewGetResponse = PreviewDiagnosticSetQuestionsDiagnosticSetsSetIdPreviewGetResponses[keyof PreviewDiagnosticSetQuestionsDiagnosticSetsSetIdPreviewGetResponses];
+export type PreviewDiagnosticSetQuestionsDiagnosticSetsSetIdStudentViewGetResponse = PreviewDiagnosticSetQuestionsDiagnosticSetsSetIdStudentViewGetResponses[keyof PreviewDiagnosticSetQuestionsDiagnosticSetsSetIdStudentViewGetResponses];
 
 export type StartOrResumeAttemptDiagnosticAttemptsPostData = {
     body: StartAttemptBody;
