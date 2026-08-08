@@ -292,8 +292,12 @@ async function main() {
     // page ends up with the homepage's body while its title and canonical
     // look perfectly correct. Emptying #root here makes a re-run produce the
     // same output as a first run, so verifying locally means something.
+    // Anchored on </body>, not on a following <script>: Vite emits its module
+    // scripts in <head>, so #root is the last thing in the body and nothing
+    // follows it. Greedy, so it reaches the root's own closing tag rather than
+    // the first nested one.
     const template = (await readFile(join(DIST, 'index.html'), 'utf8')).replace(
-        /<div id="root">[\s\S]*?<\/div>(\s*<script)/,
+        /<div id="root">[\s\S]*<\/div>(\s*<\/body>)/,
         '<div id="root"></div>$1'
     )
     let written = 0
