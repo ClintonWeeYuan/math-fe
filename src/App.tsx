@@ -27,6 +27,7 @@ import { EsatPracticeGuidePage } from '@/pages/EsatPracticeGuidePage.tsx'
 import { TmuaPracticeGuidePage } from '@/pages/TmuaPracticeGuidePage.tsx'
 import { StudentProtectedRoute } from '@/components/auth/StudentProtectedRoute.tsx'
 import { DiagnosticQuestionsListPage } from '@/pages/Admin/Diagnostic/DiagnosticQuestionsListPage.tsx'
+import { DiagnosticSetPreviewPage } from '@/pages/Admin/Diagnostic/DiagnosticSetPreviewPage.tsx'
 import { DiagnosticSetsListPage } from '@/pages/Admin/Diagnostic/DiagnosticSetsListPage.tsx'
 import { DiagnosticSetCreatePage } from '@/pages/Admin/Diagnostic/DiagnosticSetCreatePage.tsx'
 import { DiagnosticSetQuestionsPage } from '@/pages/Admin/Diagnostic/DiagnosticSetQuestionsPage.tsx'
@@ -200,6 +201,10 @@ function App() {
                     <Route
                         path="admin/sets/:setId/preview"
                         element={<DiagnosticSetReviewPage />}
+                    />
+                    <Route
+                        path="admin/sets/:setId/student-view"
+                        element={<DiagnosticSetPreviewPage />}
                     />
                 </Route>
             </Routes>
