@@ -1,14 +1,44 @@
 {
   "rewrites": [
-    { "source": "/revision", "destination": "/index.html" },
-    { "source": "/sandbox", "destination": "/index.html" },
-    { "source": "/admin", "destination": "/index.html" },
-    { "source": "/admin/**", "destination": "/index.html" },
-    { "source": "/auth/**", "destination": "/index.html" },
-    { "source": "/diagnostic/**", "destination": "/index.html" },
-    { "source": "/questions/**", "destination": "/index.html" },
-    { "source": "/syllabus", "destination": "/index.html" },
-    { "source": "/syllabus/**", "destination": "/index.html" },
-    { "source": "/interactive/**", "destination": "/index.html" }
+    {
+      "source": "/revision",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/sandbox",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/admin/**",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/auth/**",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/diagnostic/**",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/syllabus",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/syllabus/**",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/interactive/**",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/questions/**",
+      "destination": "/index.html"
+    }
   ]
 }

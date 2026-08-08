@@ -251,6 +251,10 @@ export type BaseSubject = {
      * Ispublished
      */
     isPublished?: boolean;
+    /**
+     * Slug
+     */
+    slug?: string | null;
 };
 
 /**
@@ -1363,6 +1367,10 @@ export type PublishedSubject = {
      */
     code: string;
     /**
+     * Slug
+     */
+    slug?: string | null;
+    /**
      * Topiccount
      */
     topicCount: number;
@@ -1957,6 +1965,10 @@ export type UpdateSubjectBody = {
      * Ispublished
      */
     isPublished?: boolean | null;
+    /**
+     * Slug
+     */
+    slug?: string | null;
 };
 
 /**
@@ -2741,6 +2753,36 @@ export type CreateSubjectSubjectsPostResponses = {
      */
     200: unknown;
 };
+
+export type GetSubjectBySlugSubjectsBySlugSlugGetData = {
+    body?: never;
+    path: {
+        /**
+         * Slug
+         */
+        slug: string;
+    };
+    query?: never;
+    url: '/subjects/by-slug/{slug}';
+};
+
+export type GetSubjectBySlugSubjectsBySlugSlugGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type GetSubjectBySlugSubjectsBySlugSlugGetError = GetSubjectBySlugSubjectsBySlugSlugGetErrors[keyof GetSubjectBySlugSubjectsBySlugSlugGetErrors];
+
+export type GetSubjectBySlugSubjectsBySlugSlugGetResponses = {
+    /**
+     * Successful Response
+     */
+    200: BaseSubject;
+};
+
+export type GetSubjectBySlugSubjectsBySlugSlugGetResponse = GetSubjectBySlugSubjectsBySlugSlugGetResponses[keyof GetSubjectBySlugSubjectsBySlugSlugGetResponses];
 
 export type GetSubjectSubjectsSubjectIdGetData = {
     body?: never;
