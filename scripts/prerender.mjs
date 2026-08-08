@@ -68,7 +68,7 @@ async function fetchSubjects() {
  * these replace served the prerendered homepage, canonical tag and all, which
  * told Google all three were duplicates of the front page.
  */
-function subjectRoutes(subjects) {
+function subjectRoutes(subjects, topicPathsBySubject = new Map()) {
     return (subjects ?? [])
         .filter((s) => s.slug)
         .map((s) => ({
@@ -78,8 +78,92 @@ function subjectRoutes(subjects) {
                 `Practise ${s.name} by topic and difficulty — ${s.questionCount} exam-style SPM questions across ${s.topicCount} topics, free to work through at your own pace.`,
             body: `<h1>${esc(s.name)} practice questions</h1>
 <p>${esc(String(s.questionCount))} exam-style questions across ${esc(String(s.topicCount))} topics, filterable by topic and difficulty. Free to work through at your own pace.</p>
-<p><a href="/subjects">All SPM subjects</a></p>`,
+<p><a href="/subjects">All SPM subjects</a></p>
+${topicListMarkup(topicPathsBySubject.get(s.slug))}`,
         }))
+}
+
+/**
+ * Links from a subject page to its topic pages.
+ *
+ * Only topics that actually got a page — linking to one that was skipped for
+ * having nothing to show would send a crawler to the bare SPA shell.
+ */
+function topicListMarkup(topics) {
+    const listed = (topics ?? []).filter((t) => t.name)
+    if (listed.length === 0) return ''
+    return `<h2>Practise by topic</h2><ul>${listed
+        .map((t) => `<li><a href="${t.path}">${esc(t.name)}</a></li>`)
+        .join('')}</ul>`
+}
+
+/** One subject with its topics, or null if the API can't be reached. */
+async function fetchSubjectDetail(slug) {
+    try {
+        const res = await fetch(`${API}/subjects/by-slug/${slug}`, {
+            signal: AbortSignal.timeout(15000),
+        })
+        if (!res.ok) throw new Error(`HTTP ${res.status}`)
+        return await res.json()
+    } catch (error) {
+        console.warn(`  ! could not fetch subject ${slug}: ${error.message}`)
+        return null
+    }
+}
+
+/** Published questions for one topic — what a crawler will actually read. */
+async function fetchTopicQuestions(subjectId, topicId) {
+    try {
+        const res = await fetch(
+            `${API}/questions/subject/paginated/${subjectId}?topics=${topicId}&size=6`,
+            { signal: AbortSignal.timeout(15000) }
+        )
+        if (!res.ok) throw new Error(`HTTP ${res.status}`)
+        const page = await res.json()
+        return page
+    } catch (error) {
+        console.warn(`  ! could not fetch questions for topic ${topicId}: ${error.message}`)
+        return null
+    }
+}
+
+// A topic page earns its place by having real questions to show. Below this,
+// the page would be a heading and a count — and eighty of those across the
+// site is the doorway-page pattern search engines penalise, not an SEO win.
+const MIN_QUESTIONS_FOR_A_TOPIC_PAGE = 3
+
+/**
+ * A page per topic that has published questions with text.
+ *
+ * Deliberately not one per topic: the Mathematics banks are converted images
+ * with no stem at all, so their topic pages would have nothing to say. They
+ * still work as routes for students — they're just not worth indexing until
+ * they hold something a search engine can read.
+ */
+async function topicRoutes(subject) {
+    if (!subject?.slug) return []
+    const routes = []
+    for (const topic of subject.topics ?? []) {
+        if (!topic.slug) continue
+        const page = await fetchTopicQuestions(subject.id, topic.id)
+        const items = (page?.items ?? []).filter((q) => q.stem)
+        if (items.length < MIN_QUESTIONS_FOR_A_TOPIC_PAGE) continue
+
+        const total = page.total
+        routes.push({
+            path: `/spm/${subject.slug}/${topic.slug}`,
+            title: `${topic.name} — ${subject.name} Questions | JomExam`,
+            description: `Practise ${topic.name} for ${subject.name}: ${total} exam-style questions with answers, filterable by difficulty.`,
+            body: `<h1>${esc(topic.name)} — ${esc(subject.name)} questions</h1>
+<p>${esc(String(total))} exam-style questions on ${esc(topic.name.toLowerCase())}, with answers. Free to work through at your own pace.</p>
+<ul>${items
+                .slice(0, 5)
+                .map((q) => `<li>${esc(q.stem)}</li>`)
+                .join('')}</ul>
+<p><a href="/spm/${esc(subject.slug)}">All ${esc(subject.name)} topics</a></p>`,
+        })
+    }
+    return routes
 }
 
 /** The subject catalogue as links a crawler can follow. */
@@ -317,7 +401,40 @@ async function main() {
     // Fetched once, not per route: every subject page comes from this list,
     // and so does the sitemap.
     const subjects = await fetchSubjects()
-    const routes = [...ROUTES, ...subjectRoutes(subjects)]
+
+    // Topic pages need each subject's topic list and a sample of its
+    // questions, so the detail is fetched once per subject and reused for
+    // both the topic routes and the links from the subject page.
+    const details = []
+    for (const s of subjects ?? []) {
+        if (!s.slug) continue
+        const detail = await fetchSubjectDetail(s.slug)
+        if (detail) details.push({ ...detail, questionCount: s.questionCount })
+    }
+
+    const topicPages = []
+    for (const detail of details) {
+        topicPages.push(...(await topicRoutes(detail)))
+    }
+    const topicPathsBySubject = new Map(
+        details.map((d) => [
+            d.slug,
+            topicPages
+                .filter((r) => r.path.startsWith(`/spm/${d.slug}/`))
+                .map((r) => ({
+                    path: r.path,
+                    name: (d.topics ?? []).find(
+                        (t) => r.path.endsWith(`/${t.slug}`)
+                    )?.name,
+                })),
+        ])
+    )
+
+    const routes = [
+        ...ROUTES,
+        ...subjectRoutes(subjects, topicPathsBySubject),
+        ...topicPages,
+    ]
 
     for (const route of routes) {
         const url = `${SITE}${route.path}`

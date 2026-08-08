@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes, useParams } from 'react-router-dom'
 import { SpmSubjectPage } from '@/pages/SpmSubjectPage.tsx'
+import { SpmTopicPage } from '@/pages/SpmTopicPage.tsx'
 import { LegacySubjectRedirect } from '@/components/routing/LegacySubjectRedirect.tsx'
 import { QuestionManagerPage } from '@/pages/Admin/QuestionManagerPage.tsx'
 import { SandboxPage } from '@/pages/SandboxPage.tsx'
@@ -112,6 +113,10 @@ function App() {
                 />
                 <Route path="subjects" element={<SubjectsPage />} />
                 <Route path="spm/:slug" element={<SpmSubjectPage />} />
+                <Route
+                    path="spm/:slug/:topicSlug"
+                    element={<SpmTopicPage />}
+                />
                 {/* The old uuid URLs have been shared and may be indexed, so
                     they redirect rather than 404. */}
                 <Route
