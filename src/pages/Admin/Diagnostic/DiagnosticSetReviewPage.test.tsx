@@ -20,6 +20,9 @@ vi.mock('@/hooks/diagnostic/useBulkSetQuestionStatusMutation.ts', () => ({
 vi.mock('@/hooks/diagnostic/useUpdateDiagnosticSetMutation.ts', () => ({
     default: () => ({ mutate: vi.fn(), isPending: false }),
 }))
+vi.mock('@/hooks/diagnostic/useExportDiagnosticSetMutation.ts', () => ({
+    default: () => ({ mutate: vi.fn(), isPending: false }),
+}))
 vi.mock('@/components/layout/AdminLayout.tsx', () => ({
     AdminLayout: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
 }))

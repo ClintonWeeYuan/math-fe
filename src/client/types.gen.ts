@@ -3979,6 +3979,34 @@ export type PreviewDiagnosticSetQuestionsDiagnosticSetsSetIdStudentViewGetRespon
 
 export type PreviewDiagnosticSetQuestionsDiagnosticSetsSetIdStudentViewGetResponse = PreviewDiagnosticSetQuestionsDiagnosticSetsSetIdStudentViewGetResponses[keyof PreviewDiagnosticSetQuestionsDiagnosticSetsSetIdStudentViewGetResponses];
 
+export type ExportDiagnosticSetDiagnosticSetsSetIdExportGetData = {
+    body?: never;
+    path: {
+        /**
+         * Set Id
+         */
+        set_id: string;
+    };
+    query?: never;
+    url: '/diagnostic/sets/{set_id}/export';
+};
+
+export type ExportDiagnosticSetDiagnosticSetsSetIdExportGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type ExportDiagnosticSetDiagnosticSetsSetIdExportGetError = ExportDiagnosticSetDiagnosticSetsSetIdExportGetErrors[keyof ExportDiagnosticSetDiagnosticSetsSetIdExportGetErrors];
+
+export type ExportDiagnosticSetDiagnosticSetsSetIdExportGetResponses = {
+    /**
+     * Successful Response
+     */
+    200: unknown;
+};
+
 export type StartOrResumeAttemptDiagnosticAttemptsPostData = {
     body: StartAttemptBody;
     path?: never;

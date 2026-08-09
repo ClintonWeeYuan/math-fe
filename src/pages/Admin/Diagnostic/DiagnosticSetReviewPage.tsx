@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button.tsx'
 import { Card, CardContent } from '@/components/ui/card.tsx'
 import { LatexText } from '@/components/diagnostic/LatexText.tsx'
 import { SetPublishButton } from '@/components/diagnostic/SetPublishButton.tsx'
+import useExportDiagnosticSetMutation from '@/hooks/diagnostic/useExportDiagnosticSetMutation.ts'
 import useGetDiagnosticSetQuery from '@/hooks/diagnostic/useGetDiagnosticSetQuery.ts'
 import useListDiagnosticQuestionsQuery from '@/hooks/diagnostic/useListDiagnosticQuestionsQuery.ts'
 import useBulkSetQuestionStatusMutation from '@/hooks/diagnostic/useBulkSetQuestionStatusMutation.ts'
@@ -30,6 +31,8 @@ export function DiagnosticSetReviewPage() {
     })
     const { data: questions, isLoading: questionsLoading } =
         useListDiagnosticQuestionsQuery()
+    const { mutate: exportSet, isPending: exporting } =
+        useExportDiagnosticSetMutation()
     const { mutate: bulkPublish, isPending: bulkPending } =
         useBulkSetQuestionStatusMutation()
 
@@ -107,6 +110,24 @@ export function DiagnosticSetReviewPage() {
                         <Link to={`/admin/sets/${setId}/student-view`}>
                             <Button variant="outline">Student view</Button>
                         </Link>
+                        {/* The set as the file that could recreate it —
+                            a backup, or a copy to edit offline. */}
+                        <Button
+                            variant="outline"
+                            disabled={exporting}
+                            onClick={() =>
+                                exportSet(setId ?? '', {
+                                    onSuccess: () =>
+                                        toast.success('Exported.'),
+                                    onError: () =>
+                                        toast.error(
+                                            'Could not export this set.'
+                                        ),
+                                })
+                            }
+                        >
+                            {exporting ? 'Exporting…' : 'Export JSON'}
+                        </Button>
                         <SetPublishButton set={set} />
                     </div>
                 </div>
