@@ -16,6 +16,14 @@ RUN pnpm install --frozen-lockfile
 # Copy source code
 COPY . .
 
+# Vite inlines VITE_* into the bundle at build time, and the build happens
+# here, inside the image. Railway passes service variables to the Docker
+# build, but only an ARG declared in this file can receive one — without
+# these two lines the variable is set in Railway, absent from the build, and
+# the Google button silently never appears.
+ARG VITE_GOOGLE_CLIENT_ID
+ENV VITE_GOOGLE_CLIENT_ID=$VITE_GOOGLE_CLIENT_ID
+
 # Build the app
 RUN pnpm run build
 

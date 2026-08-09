@@ -19,6 +19,7 @@ import { useLoginMutation } from '@/components/auth/useLoginMutation.ts'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { toast } from 'sonner'
 import { useAuth } from '@/components/auth/AuthContext.tsx'
+import { GoogleSignInButton } from '@/components/auth/GoogleSignInButton.tsx'
 
 const SCHEMA = z.object({
     email: z.string().email('Please enter a valid email'),
@@ -87,6 +88,8 @@ export const LoginPage: React.FC = () => {
                     </CardHeader>
 
                     <CardContent className="space-y-4">
+                        <GoogleSignInButton />
+
                         <div className="space-y-2">
                             <Label htmlFor="email">Email</Label>
                             <div className="relative">
