@@ -1,6 +1,11 @@
 import { Button } from '@/components/ui/button.tsx'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '@/components/auth/AuthContext.tsx'
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from '@/components/ui/popover.tsx'
 
 /**
  * Public-site header. The menu mirrors the goal fork on the landing page —
@@ -28,7 +33,7 @@ const MENU_ITEMS: { text: string; link: string }[] = [
 
 export function LandingHeader() {
     const navigate = useNavigate()
-    const { user } = useAuth()
+    const { user, logout } = useAuth()
 
     return (
         <div className="flex px-2 md:px-12 py-4 md:py-8 items-center justify-between">
@@ -55,7 +60,34 @@ export function LandingHeader() {
                     </Link>
                 ))}
                 {user !== null ? (
-                    <Button className="ml-4">{user.name}</Button>
+                    // This used to be a plain button showing the name with no
+                    // click handler — it looked like a menu and did nothing,
+                    // so on every page but the SPM banks there was no way to
+                    // sign out at all.
+                    <Popover>
+                        <PopoverTrigger asChild>
+                            <Button className="ml-4 hover:cursor-pointer">
+                                {user.name}
+                            </Button>
+                        </PopoverTrigger>
+                        <PopoverContent align="end" className="w-56 p-2">
+                            <div className="px-2 py-1.5">
+                                <p className="text-sm font-medium truncate">
+                                    {user.name}
+                                </p>
+                                <p className="text-xs text-slate-500 truncate">
+                                    {user.email}
+                                </p>
+                            </div>
+                            <Button
+                                variant="destructive"
+                                className="mt-2 w-full hover:cursor-pointer"
+                                onClick={() => logout(() => navigate('/'))}
+                            >
+                                Sign out
+                            </Button>
+                        </PopoverContent>
+                    </Popover>
                 ) : (
                     <Button
                         className="ml-4 hover:cursor-pointer"

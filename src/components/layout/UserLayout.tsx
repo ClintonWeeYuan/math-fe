@@ -56,9 +56,10 @@ const Header = () => {
                                 <Button
                                     variant="destructive"
                                     className="cursor-pointer"
-                                    onClick={() =>
-                                        logout(() => navigate('/auth/login'))
-                                    }
+                                    // Home, not the login page: signing out
+                                    // and being shown a sign-in form reads
+                                    // like the sign-out failed.
+                                    onClick={() => logout(() => navigate('/'))}
                                 >
                                     Sign out
                                 </Button>
