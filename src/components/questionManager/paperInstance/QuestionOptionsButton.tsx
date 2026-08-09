@@ -12,7 +12,7 @@ import { Label } from '@/components/ui/label.tsx'
 import { Pencil, Trash2, Check, X } from 'lucide-react'
 
 import { BlockMath } from 'react-katex'
-import Mathfield from '@/components/questionBank/v3/MathField.tsx'
+import Mathfield from '@/components/common/MathField.tsx'
 
 type Props = {
     currentQuestion: QuestionResponse
