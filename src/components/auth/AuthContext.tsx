@@ -41,6 +41,10 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
     const logout = (callback: (() => void) | undefined) => {
         localStorage.removeItem('token')
+        // Cleared outright, the mirror of login, rather than left to the
+        // refetch that invalidation schedules — otherwise the header keeps
+        // showing the signed-in name until that round trip lands.
+        queryClient.setQueryData(['current-user'], null)
         queryClient.invalidateQueries({
             queryKey: ['current-user'],
         })
