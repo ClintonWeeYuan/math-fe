@@ -19,7 +19,10 @@ import { useLoginMutation } from '@/components/auth/useLoginMutation.ts'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { toast } from 'sonner'
 import { useAuth } from '@/components/auth/AuthContext.tsx'
-import { GoogleSignInButton } from '@/components/auth/GoogleSignInButton.tsx'
+import {
+    GoogleSignInButton,
+    isGoogleSignInConfigured,
+} from '@/components/auth/GoogleSignInButton.tsx'
 
 const SCHEMA = z.object({
     email: z.string().email('Please enter a valid email'),
@@ -150,6 +153,22 @@ export const LoginPage: React.FC = () => {
                                 </div>
                             )}
                         </Button>
+
+                        {/* Standing hint, shown to everyone. The API used to
+                            answer "This account signs in with Google" when a
+                            Google account tried a password — helpful, but it
+                            confirmed to anyone asking that a given address is
+                            a real account here. Saying it once, to everybody,
+                            helps the same person and singles out nobody. */}
+                        {isGoogleSignInConfigured && (
+                            <p className="text-center text-sm text-slate-500 dark:text-slate-400">
+                                Signed up with Google? Use{' '}
+                                <span className="font-medium">
+                                    Continue with Google
+                                </span>{' '}
+                                above.
+                            </p>
+                        )}
 
                         <p className="text-center text-sm text-slate-600 dark:text-slate-400">
                             Don't have an account?{' '}

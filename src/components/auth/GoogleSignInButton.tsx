@@ -8,6 +8,12 @@ import { useGoogleSignInMutation } from '@/components/auth/useGoogleSignInMutati
 const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID as string | undefined
 const GSI_SRC = 'https://accounts.google.com/gsi/client'
 
+/** Whether a Google button will render at all. Anything that refers to the
+ *  button — a hint pointing at it, say — has to agree with it, or it points
+ *  at nothing. */
+export const isGoogleSignInConfigured =
+    CLIENT_ID !== undefined && CLIENT_ID !== ''
+
 type GoogleCredentialResponse = { credential?: string }
 
 type GoogleIdentityServices = {
