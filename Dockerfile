@@ -1,5 +1,8 @@
-# Use Node.js official image as base
-FROM node:18-alpine
+# Node 22, not 18: vite, vitest and react-router all require Node 20 or
+# newer, and the image is where that gets decided. Building on 18 fails here
+# while passing on a developer's own machine, so the site keeps serving the
+# previous bundle and the deploy is the only thing that tells you.
+FROM node:22-alpine
 
 # Set working directory
 WORKDIR /app
