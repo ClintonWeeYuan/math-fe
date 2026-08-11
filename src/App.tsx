@@ -24,6 +24,7 @@ import { EsatTmuaPage } from '@/pages/EsatTmuaPage.tsx'
 import { DiagnosticsCatalogPage } from '@/pages/DiagnosticsCatalogPage.tsx'
 import { GuidesIndexPage } from '@/pages/GuidesIndexPage.tsx'
 import { EsatPracticeGuidePage } from '@/pages/EsatPracticeGuidePage.tsx'
+import { EsatPastPapersPage } from '@/pages/EsatPastPapersPage.tsx'
 import { TmuaPracticeGuidePage } from '@/pages/TmuaPracticeGuidePage.tsx'
 import { StudentProtectedRoute } from '@/components/auth/StudentProtectedRoute.tsx'
 import { DiagnosticQuestionsListPage } from '@/pages/Admin/Diagnostic/DiagnosticQuestionsListPage.tsx'
@@ -96,6 +97,10 @@ function App() {
                 <Route
                     path="guides/esat-practice-tests"
                     element={<EsatPracticeGuidePage />}
+                />
+                <Route
+                    path="guides/esat-past-papers"
+                    element={<EsatPastPapersPage />}
                 />
                 <Route
                     path="guides/tmua-practice-tests"

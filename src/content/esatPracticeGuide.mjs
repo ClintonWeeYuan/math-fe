@@ -26,6 +26,11 @@ export const GUIDE = {
     h1: 'ESAT practice tests',
     standfirst:
         'Start with the official specimen papers — then the problem becomes what to do next, because the ESAT is new and the back catalogue is shallow. This guide explains what the test actually asks of you, and gives you a timed paper for every module: free, and with a report naming the specific skills to fix rather than just a mark.',
+    // The date the page went live, and the date its facts were last
+    // checked against the official sources. Both shown to readers: a guide
+    // to a test whose dates move every cycle is worth little undated.
+    publishedAt: '2026-08-01',
+    updatedAt: '2026-08-01',
     sections: [
         {
             id: 'what-practice-exists',
