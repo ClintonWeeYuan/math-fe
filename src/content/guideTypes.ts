@@ -47,8 +47,13 @@ export type Guide = {
     ctaPath: string
     ctaLabel: string
     sections: GuideSection[]
-    /** ISO dates. Shown to readers and emitted as Article metadata; a guide
-     *  about a test whose dates move every year is worth nothing undated. */
+    /** ISO dates, shown to readers and emitted as Article metadata — a guide
+     *  to a test whose dates move every year is worth little undated.
+     *
+     *  updatedAt is when the *page* last changed, which is what <lastmod>
+     *  means, and it is checked against git: change the content without
+     *  moving it and the build fails rather than telling Google a date that
+     *  is not true. */
     publishedAt: string
     updatedAt: string
     workedExamples?: WorkedExample[]

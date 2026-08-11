@@ -346,6 +346,10 @@ const GUIDE_ROUTES = GUIDES.map((g) => ({
     description: g.description,
     jsonLd: guideStructuredData(g),
     body: guideMarkup(g),
+    // The date the author last checked this guide's facts. Genuinely
+    // per-page and genuinely maintained, so it is worth telling Google
+    // about; see sitemapFor() for why most pages carry no lastmod at all.
+    lastmod: g.updatedAt,
 }))
 
 const ROUTES = [
@@ -441,6 +445,49 @@ const ROUTES = [
     },
 ].concat([GUIDES_INDEX], GUIDE_ROUTES)
 
+/**
+ * One <urlset> for a group of routes.
+ *
+ * <lastmod> is emitted only where a route genuinely knows when it changed —
+ * in practice the guides, which carry a date their author maintains. Nothing
+ * else does: the SPM pages are built from the questions table, which records
+ * created_at and no updated_at, so a date there would be silently wrong the
+ * moment anyone edited a question through the admin. A lastmod that lies is
+ * worse than none, because Google learns to disregard the field across the
+ * whole site rather than for the one page.
+ *
+ * No <priority> or <changefreq> — Google ignores both.
+ */
+function sitemapFor(routes) {
+    const submitted = routes.filter((route) => route.indexable !== false)
+    const xml =
+        '<?xml version="1.0" encoding="UTF-8"?>\n' +
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
+        submitted
+            .map((route) => {
+                const loc = `${SITE}${route.path === '/' ? '/' : route.path}`
+                const lastmod = route.lastmod
+                    ? `\n    <lastmod>${esc(route.lastmod)}</lastmod>`
+                    : ''
+                return `  <url>\n    <loc>${esc(loc)}</loc>${lastmod}\n  </url>`
+            })
+            .join('\n') +
+        '\n</urlset>\n'
+    return { xml, count: submitted.length }
+}
+
+/** The index that points at the children. */
+function sitemapIndex(files) {
+    return (
+        '<?xml version="1.0" encoding="UTF-8"?>\n' +
+        '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
+        files
+            .map((file) => `  <sitemap>\n    <loc>${SITE}/${file}</loc>\n  </sitemap>`)
+            .join('\n') +
+        '\n</sitemapindex>\n'
+    )
+}
+
 async function main() {
     // The template is dist/index.html — which this script also *writes*, as
     // the '/' route. A second run therefore reads a template whose #root is
@@ -490,11 +537,15 @@ async function main() {
         ])
     )
 
-    const routes = [
-        ...ROUTES,
+    // Two groups, kept apart from here on. The split is what makes Search
+    // Console able to say *which* group is going uncrawled: one flat sitemap
+    // reports "11 of 88 indexed" and leaves you guessing which 11.
+    const coreRoutes = ROUTES
+    const spmRoutes = [
         ...subjectRoutes(subjects, topicPathsBySubject),
         ...topicPages,
     ]
+    const routes = [...coreRoutes, ...spmRoutes]
 
     for (const route of routes) {
         const url = `${SITE}${route.path}`
@@ -576,27 +627,29 @@ async function main() {
         console.log(`  prerendered ${route.path}`)
         written++
     }
-    // The sitemap is generated from the same list that was just written, so
-    // it cannot drift from what actually exists. It used to be a static file
-    // in public/, which meant every new page needed someone to remember.
-    const sitemap =
-        '<?xml version="1.0" encoding="UTF-8"?>\n' +
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
-        routes
-            .filter((route) => route.indexable !== false)
-            .map((route) => `  <url>\n    <loc>${SITE}${route.path === '/' ? '/' : route.path}</loc>\n  </url>`)
-            .join('\n') +
-        '\n</urlset>\n'
-    await writeFile(join(DIST, 'sitemap.xml'), sitemap)
+    // Generated from the same lists that were just written, so a sitemap
+    // cannot drift from what actually exists. It used to be a static file in
+    // public/, which meant every new page needed someone to remember.
+    //
+    // Split into an index and two children. Google does not work through a
+    // sitemap in order, so this does not let new pages "jump the queue" —
+    // what it buys is a per-sitemap indexed count in Search Console, which
+    // turns "11 of 88 indexed" into a statement about which group is going
+    // uncrawled. That is the question actually worth answering.
+    const coreSubmitted = sitemapFor(coreRoutes)
+    const spmSubmitted = sitemapFor(spmRoutes)
+    await writeFile(join(DIST, 'sitemap-core.xml'), coreSubmitted.xml)
+    await writeFile(join(DIST, 'sitemap-spm.xml'), spmSubmitted.xml)
+    await writeFile(
+        join(DIST, 'sitemap.xml'),
+        sitemapIndex(['sitemap-core.xml', 'sitemap-spm.xml'])
+    )
 
-    // routes.length was reported here as the sitemap size, which it is not:
-    // deliberately-noindex pages are prerendered and then filtered out just
-    // above. The two numbers differed by nine, and the log stated the larger
-    // one, which is how a healthy build came to look like a stale deploy.
-    const submitted = routes.filter((route) => route.indexable !== false).length
+    const submitted = coreSubmitted.count + spmSubmitted.count
     console.log(
-        `prerender: ${written} pages written, ${submitted} in the sitemap ` +
-            `(${routes.length - submitted} deliberately noindex)`
+        `prerender: ${written} pages written, ${submitted} in the sitemaps ` +
+            `(${coreSubmitted.count} core, ${spmSubmitted.count} SPM, ` +
+            `${routes.length - submitted} deliberately noindex)`
     )
 
     if (FAILURES.length > 0) {
