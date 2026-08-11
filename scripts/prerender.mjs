@@ -43,10 +43,21 @@ async function fetchSets(test) {
         if (!res.ok) throw new Error(`HTTP ${res.status}`)
         return await res.json()
     } catch (error) {
-        console.warn(`  ! could not fetch ${url}: ${error.message} — using static copy only`)
+        FAILURES.push(`diagnostic sets: ${error.message}`)
+        console.warn(`  ! could not fetch ${url}: ${error.message}`)
         return null
     }
 }
+
+/**
+ * Every API call that did not come back.
+ *
+ * Each fetch below degrades to null so one bad response cannot take out the
+ * whole run — but degrading quietly is how a build ships the SPA shell with
+ * no static pages and a sitemap to match, and reports success. These are
+ * collected so the end of the run can refuse.
+ */
+const FAILURES = []
 
 /** Published subjects, or null if the API can't be reached. */
 async function fetchSubjects() {
@@ -55,7 +66,8 @@ async function fetchSubjects() {
         if (!res.ok) throw new Error(`HTTP ${res.status}`)
         return await res.json()
     } catch (error) {
-        console.warn(`  ! could not fetch subjects: ${error.message} — skipping subject pages`)
+        FAILURES.push(`subject list: ${error.message}`)
+        console.warn(`  ! could not fetch subjects: ${error.message}`)
         return null
     }
 }
@@ -106,6 +118,7 @@ async function fetchSubjectDetail(slug) {
         if (!res.ok) throw new Error(`HTTP ${res.status}`)
         return await res.json()
     } catch (error) {
+        FAILURES.push(`subject ${slug}: ${error.message}`)
         console.warn(`  ! could not fetch subject ${slug}: ${error.message}`)
         return null
     }
@@ -122,6 +135,7 @@ async function fetchTopicQuestions(subjectId, topicId) {
         const page = await res.json()
         return page
     } catch (error) {
+        FAILURES.push(`questions for topic ${topicId}: ${error.message}`)
         console.warn(`  ! could not fetch questions for topic ${topicId}: ${error.message}`)
         return null
     }
@@ -541,11 +555,34 @@ async function main() {
             .join('\n') +
         '\n</urlset>\n'
     await writeFile(join(DIST, 'sitemap.xml'), sitemap)
-    console.log(`prerender: ${written} routes, sitemap: ${routes.length} urls`)
+
+    // routes.length was reported here as the sitemap size, which it is not:
+    // deliberately-noindex pages are prerendered and then filtered out just
+    // above. The two numbers differed by nine, and the log stated the larger
+    // one, which is how a healthy build came to look like a stale deploy.
+    const submitted = routes.filter((route) => route.indexable !== false).length
+    console.log(
+        `prerender: ${written} pages written, ${submitted} in the sitemap ` +
+            `(${routes.length - submitted} deliberately noindex)`
+    )
+
+    if (FAILURES.length > 0) {
+        throw new Error(
+            `${FAILURES.length} API call(s) failed, so this build is missing ` +
+                `pages it should have:\n  ${FAILURES.join('\n  ')}`
+        )
+    }
+    if (submitted === 0) {
+        throw new Error('the sitemap came out empty — nothing would be submitted')
+    }
 }
 
 main().catch((error) => {
-    // A prerender failure must not break a deploy: the SPA still works, it
-    // just loses the static copy until the next build.
-    console.error('prerender failed (continuing):', error)
+    // Fail the build. This used to continue, on the reasoning that the SPA
+    // still works without its static copy — but a deploy that quietly drops
+    // every prerendered page and shrinks the sitemap is worse than no deploy
+    // at all, and it announces nothing. A failed build leaves the previous
+    // bundle serving, which is the safe state to be in while someone looks.
+    console.error('prerender failed:', error.message)
+    process.exitCode = 1
 })
