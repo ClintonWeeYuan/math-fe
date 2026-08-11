@@ -10,8 +10,12 @@ WORKDIR /app
 # Copy package files first (better caching)
 COPY package.json pnpm-lock.yaml ./
 
-# Install pnpm
-RUN npm install -g pnpm
+# Pinned, not `npm install -g pnpm`. Unpinned, the build silently picks up
+# whatever pnpm is newest on the day it runs: pnpm 11 turned "ignored build
+# scripts" into a hard error and every deploy failed on an unchanged
+# lockfile, while local installs on pnpm 10 stayed green. Production kept
+# serving the last good bundle, so nothing announced it.
+RUN npm install -g pnpm@10.28.1
 
 # Install dependencies
 RUN pnpm install --frozen-lockfile
@@ -30,8 +34,9 @@ ENV VITE_GOOGLE_CLIENT_ID=$VITE_GOOGLE_CLIENT_ID
 # Build the app
 RUN pnpm run build
 
-# Install serve globally
-RUN npm install -g serve
+# Pinned for the same reason — this one serves the site, so a surprise major
+# version lands in production rather than in the build log.
+RUN npm install -g serve@14.2.4
 
 # Expose port 3000
 EXPOSE 3000
