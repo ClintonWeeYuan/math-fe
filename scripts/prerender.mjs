@@ -21,6 +21,8 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { GUIDES } from '../src/content/guides.mjs'
+import { AUTHOR } from '../src/content/author.mjs'
+import { guideJsonLd, jsonLdText } from '../src/content/structuredData.mjs'
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 const DIST = join(ROOT, 'dist')
@@ -262,9 +264,44 @@ function guideMarkup(GUIDE) {
             })
             .join('') +
         '</dl></section>'
+    // Everything a crawler needs to see without running JavaScript: the
+    // byline and dates that make the page answerable to somebody, the
+    // breadcrumb trail, and the worked solutions that are the reason the
+    // page is worth ranking. All of it authored in the content module, so
+    // the static copy and the React page cannot drift apart.
+    const breadcrumb =
+        '<nav aria-label="Breadcrumb"><ol>' +
+        '<li><a href="/">Home</a></li>' +
+        '<li><a href="/guides">Guides</a></li>' +
+        `<li>${esc(GUIDE.h1)}</li>` +
+        '</ol></nav>'
+
+    const byline =
+        `<p>By <a href="${esc(AUTHOR.path)}">${esc(AUTHOR.name)}</a>, ` +
+        `${esc(AUTHOR.credential)}. Published ` +
+        `<time datetime="${esc(GUIDE.publishedAt)}">${esc(GUIDE.publishedAt)}</time>` +
+        (GUIDE.updatedAt !== GUIDE.publishedAt
+            ? `, updated <time datetime="${esc(GUIDE.updatedAt)}">${esc(GUIDE.updatedAt)}</time>`
+            : '') +
+        '.</p>'
+
+    const examples = (GUIDE.workedExamples ?? [])
+        .map(
+            (example) =>
+                `<article id="${esc(example.id)}"><p>${esc(example.module)}</p>` +
+                `<p>${esc(example.question)}</p><ol>` +
+                example.steps.map((step) => `<li>${esc(step)}</li>`).join('') +
+                `</ol><p>Answer: ${esc(example.answer)}</p>` +
+                `<p>${esc(example.takeaway)}</p></article>`
+        )
+        .join('')
+
     return (
+        breadcrumb +
         `<h1>${esc(GUIDE.h1)}</h1><p>${esc(GUIDE.standfirst)}</p>` +
+        byline +
         sections +
+        examples +
         faq +
         `<p><a href="${esc(GUIDE.ctaPath)}">${esc(GUIDE.ctaLabel)}</a></p>` +
         '<section><h2>More guides</h2><ul>' +
@@ -275,21 +312,17 @@ function guideMarkup(GUIDE) {
     )
 }
 
-/** FAQPage structured data — makes the answers eligible for rich results. */
-function faqJsonLd(GUIDE) {
-    const data = {
-        '@context': 'https://schema.org',
-        '@type': 'FAQPage',
-        mainEntity: GUIDE.faq.map((f) => ({
-            '@type': 'Question',
-            name: f.q,
-            acceptedAnswer: {
-                '@type': 'Answer',
-                text: f.link ? `${f.a} See: ${f.link.url}` : f.a,
-            },
-        })),
-    }
-    return `<script type="application/ld+json">${JSON.stringify(data)}</script>`
+/**
+ * Article, BreadcrumbList and FAQPage for a guide, in one script.
+ *
+ * Built from src/content/structuredData.mjs, which the React page reads too,
+ * so the two describe the page identically. This replaced a local FAQPage
+ * builder — briefly the page carried FAQPage twice, once from each, which
+ * is the sort of thing that gets a site's structured data discounted rather
+ * than doubled.
+ */
+function guideStructuredData(GUIDE) {
+    return `<script type="application/ld+json">${jsonLdText(guideJsonLd(GUIDE, SITE))}</script>`
 }
 
 const GUIDES_INDEX = {
@@ -311,7 +344,7 @@ const GUIDE_ROUTES = GUIDES.map((g) => ({
     path: g.path,
     title: g.title,
     description: g.description,
-    jsonLd: faqJsonLd(g),
+    jsonLd: guideStructuredData(g),
     body: guideMarkup(g),
 }))
 

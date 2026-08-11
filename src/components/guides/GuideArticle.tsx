@@ -3,6 +3,19 @@ import { Button } from '@/components/ui/button.tsx'
 import { Seo } from '@/components/Seo.tsx'
 import type { Guide } from '@/content/guideTypes.ts'
 import { GUIDES } from '@/content/guides.mjs'
+import { AUTHOR } from '@/content/author.mjs'
+import { guideJsonLd, jsonLdText } from '@/content/structuredData.mjs'
+import { SITE_URL } from '@/lib/site.ts'
+
+/** A date a reader can read, from the ISO date the content module stores. */
+function readable(iso: string) {
+    return new Date(`${iso}T00:00:00Z`).toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+        timeZone: 'UTC',
+    })
+}
 
 const PERIWINKLE = '#799ED1'
 
@@ -24,15 +37,75 @@ export function GuideArticle({ guide }: { guide: Guide }) {
                 description={guide.description}
                 path={guide.path}
             />
+            {/* The same structured data the prerenderer writes into the
+                static HTML, so the page a crawler reads and the page a
+                reader sees describe themselves identically. */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: jsonLdText(guideJsonLd(guide, SITE_URL)),
+                }}
+            />
             <article className="px-4 md:px-[50px] xl:px-[150px] py-12 md:py-16 max-w-3xl">
+                <nav aria-label="Breadcrumb" className="mb-4">
+                    <ol className="flex flex-wrap gap-2 text-xs text-slate-400">
+                        <li>
+                            <Link to="/" className="underline underline-offset-2">
+                                Home
+                            </Link>
+                        </li>
+                        <li aria-hidden="true">/</li>
+                        <li>
+                            <Link
+                                to="/guides"
+                                className="underline underline-offset-2"
+                            >
+                                Guides
+                            </Link>
+                        </li>
+                        <li aria-hidden="true">/</li>
+                        <li aria-current="page" className="text-slate-500">
+                            {guide.h1}
+                        </li>
+                    </ol>
+                </nav>
                 <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-4">
                     {guide.eyebrow}
                 </p>
                 <h1 className="text-3xl md:text-5xl font-bold mb-5 leading-tight">
                     {guide.h1}
                 </h1>
-                <p className="text-lg text-slate-600 leading-relaxed mb-8">
+                <p className="text-lg text-slate-600 leading-relaxed mb-6">
                     {guide.standfirst}
+                </p>
+
+                {/* Who wrote this and when it was last checked. The test's
+                    dates move every cycle, so an undated guide gives a reader
+                    no way to judge whether it still holds. */}
+                <p className="text-sm text-slate-500 mb-8">
+                    By{' '}
+                    <Link
+                        to={AUTHOR.path}
+                        className="font-medium underline underline-offset-2 text-slate-600"
+                    >
+                        {AUTHOR.name}
+                    </Link>
+                    , {AUTHOR.credential}.{' '}
+                    <span className="whitespace-nowrap">
+                        Published{' '}
+                        <time dateTime={guide.publishedAt}>
+                            {readable(guide.publishedAt)}
+                        </time>
+                        {guide.updatedAt !== guide.publishedAt && (
+                            <>
+                                , updated{' '}
+                                <time dateTime={guide.updatedAt}>
+                                    {readable(guide.updatedAt)}
+                                </time>
+                            </>
+                        )}
+                        .
+                    </span>
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-3 mb-12">
@@ -99,6 +172,41 @@ export function GuideArticle({ guide }: { guide: Guide }) {
                         )}
                     </section>
                 ))}
+
+                {guide.workedExamples !== undefined && (
+                    <section className="mb-10">
+                        {guide.workedExamples.map((example) => (
+                            <article
+                                key={example.id}
+                                id={example.id}
+                                className="mb-6 rounded-xl border border-slate-200 p-5"
+                            >
+                                <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-2">
+                                    {example.module}
+                                </p>
+                                <p className="font-medium text-slate-900 leading-relaxed mb-4">
+                                    {example.question}
+                                </p>
+                                <ol className="list-decimal pl-5 mb-4">
+                                    {example.steps.map((step, i) => (
+                                        <li
+                                            key={i}
+                                            className="text-slate-600 leading-relaxed mb-2"
+                                        >
+                                            {step}
+                                        </li>
+                                    ))}
+                                </ol>
+                                <p className="font-semibold text-slate-900 mb-3">
+                                    Answer: {example.answer}
+                                </p>
+                                <p className="text-sm text-slate-500 leading-relaxed">
+                                    {example.takeaway}
+                                </p>
+                            </article>
+                        ))}
+                    </section>
+                )}
 
                 <section className="mb-10">
                     <h2 className="text-xl md:text-2xl font-bold mb-4">

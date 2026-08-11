@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
+import { SITE_URL } from '@/lib/site.ts'
 
-const SITE_URL = 'https://www.jomexam.com'
+
 const OG_IMAGE = `${SITE_URL}/og-image.png`
 
 type Props = {

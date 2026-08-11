@@ -1,4 +1,5 @@
 import { GUIDE as esatPracticeGuide } from './esatPracticeGuide.mjs'
+import { GUIDE as esatPastPapers } from './esatPastPapers.mjs'
 import { GUIDE as tmuaPracticeGuide } from './tmuaPracticeGuide.mjs'
 
 /**
@@ -9,4 +10,4 @@ import { GUIDE as tmuaPracticeGuide } from './tmuaPracticeGuide.mjs'
  * plus a route, and it appears everywhere it should without anyone having to
  * remember the other places.
  */
-export const GUIDES = [esatPracticeGuide, tmuaPracticeGuide]
+export const GUIDES = [esatPracticeGuide, esatPastPapers, tmuaPracticeGuide]
