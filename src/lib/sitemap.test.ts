@@ -85,15 +85,43 @@ whenBuilt('the sitemap index', () => {
     })
 })
 
+/**
+ * Which content module each guide comes from, discovered rather than listed.
+ *
+ * This was a hand-written map, and adding five guides broke it immediately —
+ * exactly the bookkeeping that gets forgotten, in a test whose job is to
+ * notice things being forgotten.
+ */
+const CONTENT_MODULES = import.meta.glob('/src/content/*.mjs', { eager: true })
+
+function contentFileFor(path: string) {
+    for (const [file, mod] of Object.entries(CONTENT_MODULES)) {
+        const guide = (mod as { GUIDE?: { path?: string } }).GUIDE
+        if (guide?.path === path) return file.replace(/^\//, '')
+    }
+    return undefined
+}
+
 describe('guide dates are maintained, not decorative', () => {
+    it('finds the content module behind every guide', () => {
+        // If this cannot map a guide to its file, the check below silently
+        // has nothing to check.
+        for (const guide of GUIDES) {
+            expect(
+                contentFileFor(guide.path),
+                `no content module found for ${guide.path}`
+            ).toBeDefined()
+        }
+    })
+
     it.each(GUIDES.map((g) => [g.path, g] as const))(
         '%s was updated no earlier than its content was last edited',
         (_path, guide) => {
             // The whole lastmod policy rests on an author remembering to move
             // this date when they revise the facts. This is what notices when
             // they do not: git knows when the file actually changed.
-            const file = GUIDE_FILES[guide.path]
-            expect(file, `no content file mapped for ${guide.path}`).toBeDefined()
+            const file = contentFileFor(guide.path)
+            if (file === undefined) return
 
             let committed: string
             try {
@@ -117,9 +145,3 @@ describe('guide dates are maintained, not decorative', () => {
         }
     )
 })
-
-const GUIDE_FILES: Record<string, string> = {
-    '/guides/esat-practice-tests': 'src/content/esatPracticeGuide.mjs',
-    '/guides/esat-past-papers': 'src/content/esatPastPapers.mjs',
-    '/guides/tmua-practice-tests': 'src/content/tmuaPracticeGuide.mjs',
-}

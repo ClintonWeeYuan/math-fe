@@ -25,6 +25,11 @@ import { DiagnosticsCatalogPage } from '@/pages/DiagnosticsCatalogPage.tsx'
 import { GuidesIndexPage } from '@/pages/GuidesIndexPage.tsx'
 import { EsatPracticeGuidePage } from '@/pages/EsatPracticeGuidePage.tsx'
 import { EsatPastPapersPage } from '@/pages/EsatPastPapersPage.tsx'
+import { EsatMaths1Page } from '@/pages/EsatMaths1Page.tsx'
+import { EsatMaths2Page } from '@/pages/EsatMaths2Page.tsx'
+import { EsatPhysicsPage } from '@/pages/EsatPhysicsPage.tsx'
+import { EsatChemistryPage } from '@/pages/EsatChemistryPage.tsx'
+import { EsatBiologyPage } from '@/pages/EsatBiologyPage.tsx'
 import { TmuaPracticeGuidePage } from '@/pages/TmuaPracticeGuidePage.tsx'
 import { StudentProtectedRoute } from '@/components/auth/StudentProtectedRoute.tsx'
 import { DiagnosticQuestionsListPage } from '@/pages/Admin/Diagnostic/DiagnosticQuestionsListPage.tsx'
@@ -101,6 +106,26 @@ function App() {
                 <Route
                     path="guides/esat-past-papers"
                     element={<EsatPastPapersPage />}
+                />
+                <Route
+                    path="guides/esat-maths-1"
+                    element={<EsatMaths1Page />}
+                />
+                <Route
+                    path="guides/esat-maths-2"
+                    element={<EsatMaths2Page />}
+                />
+                <Route
+                    path="guides/esat-physics"
+                    element={<EsatPhysicsPage />}
+                />
+                <Route
+                    path="guides/esat-chemistry"
+                    element={<EsatChemistryPage />}
+                />
+                <Route
+                    path="guides/esat-biology"
+                    element={<EsatBiologyPage />}
                 />
                 <Route
                     path="guides/tmua-practice-tests"
