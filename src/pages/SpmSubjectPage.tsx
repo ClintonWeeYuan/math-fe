@@ -3,6 +3,7 @@ import { UserLayout } from '@/components/layout/UserLayout.tsx'
 import { Seo } from '@/components/Seo.tsx'
 import { useParams, Link } from 'react-router-dom'
 import useGetSubjectBySlugQuery from '@/hooks/useGetSubjectBySlugQuery.ts'
+import { GuideLinks } from '@/components/guides/GuideLinks.tsx'
 
 /**
  * The public question bank at /spm/{slug}.
@@ -50,6 +51,7 @@ export function SpmSubjectPage() {
             ) : (
                 <QuestionBank subjectId={subject.id} />
             )}
-        </UserLayout>
+            <GuideLinks />
+            </UserLayout>
     )
 }

@@ -2,6 +2,7 @@ import { LandingLayout } from '@/components/layout/landing/LandingLayout.tsx'
 import { Link, useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button.tsx'
 import { Seo } from '@/components/Seo.tsx'
+import { GuideLinks } from '@/components/guides/GuideLinks.tsx'
 
 /**
  * Step 1 of the admissions track: pick your test. ESAT is live; TMUA and
@@ -99,6 +100,9 @@ export function AdmissionsPickerPage() {
                         Go to SPM practice →
                     </Link>
                 </p>
+            </div>
+            <div className="px-4 md:px-[50px] xl:px-[150px] pb-12">
+                <GuideLinks />
             </div>
         </LandingLayout>
     )

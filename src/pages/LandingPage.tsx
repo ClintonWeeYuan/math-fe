@@ -1,6 +1,7 @@
 import { LandingLayout } from '@/components/layout/landing/LandingLayout.tsx'
 import { Link } from 'react-router-dom'
 import { Seo } from '@/components/Seo.tsx'
+import { GuideLinks } from '@/components/guides/GuideLinks.tsx'
 
 const PERIWINKLE = '#799ED1'
 
@@ -145,6 +146,9 @@ export function LandingPage() {
                     </Link>
                     .
                 </p>
+            </div>
+            <div className="px-4 md:px-[50px] xl:px-[150px] pb-12">
+                <GuideLinks />
             </div>
         </LandingLayout>
     )
