@@ -4,6 +4,7 @@ import { Seo } from '@/components/Seo.tsx'
 import { useParams, Link, useSearchParams } from 'react-router-dom'
 import { useEffect } from 'react'
 import useGetSubjectBySlugQuery from '@/hooks/useGetSubjectBySlugQuery.ts'
+import { GuideLinks } from '@/components/guides/GuideLinks.tsx'
 
 /**
  * One topic of a subject: /spm/chemistry/acids-bases-and-salts.
@@ -65,6 +66,7 @@ export function SpmTopicPage() {
             ) : (
                 <QuestionBank subjectId={subject.id} />
             )}
-        </UserLayout>
+            <GuideLinks />
+            </UserLayout>
     )
 }

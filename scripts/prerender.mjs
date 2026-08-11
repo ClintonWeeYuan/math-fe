@@ -21,6 +21,11 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { GUIDES } from '../src/content/guides.mjs'
+import {
+    ESAT_GUIDE_LINKS,
+    GUIDE_LINKS_HEADING,
+    PRIMARY_GUIDE_LINKS,
+} from '../src/content/guideLinks.mjs'
 import { AUTHOR } from '../src/content/author.mjs'
 import { guideJsonLd, jsonLdText } from '../src/content/structuredData.mjs'
 
@@ -93,7 +98,8 @@ function subjectRoutes(subjects, topicPathsBySubject = new Map()) {
             body: `<h1>${esc(s.name)} practice questions</h1>
 <p>${esc(String(s.questionCount))} exam-style questions across ${esc(String(s.topicCount))} topics, filterable by topic and difficulty. Free to work through at your own pace.</p>
 <p><a href="/subjects">All SPM subjects</a></p>
-${topicListMarkup(topicPathsBySubject.get(s.slug))}`,
+${topicListMarkup(topicPathsBySubject.get(s.slug))}
+${guideLinksMarkup()}`,
         }))
 }
 
@@ -189,7 +195,8 @@ ${
         ? `<ul>${items.slice(0, 5).map((q) => `<li>${esc(q.text)}</li>`).join('')}</ul>`
         : ''
 }
-<p><a href="/spm/${esc(subject.slug)}">All ${esc(subject.name)} topics</a></p>`,
+<p><a href="/spm/${esc(subject.slug)}">All ${esc(subject.name)} topics</a></p>
+${guideLinksMarkup()}`,
         })
     }
     return routes
@@ -234,6 +241,24 @@ function setsMarkup(sets) {
         .join('')
 }
 
+
+/**
+ * Links to the guides, for the foot of another page.
+ *
+ * Real <a href> elements in the static HTML, which is the only kind Google
+ * is certain to follow — a router push or a link that appears after
+ * hydration does not count. Rendered from the same list as the React
+ * component so the two cannot disagree.
+ */
+function guideLinksMarkup(links = PRIMARY_GUIDE_LINKS) {
+    return (
+        `<section><h2>${esc(GUIDE_LINKS_HEADING)}</h2><ul>` +
+        links
+            .map((link) => `<li><a href="${esc(link.path)}">${esc(link.anchor)}</a></li>`)
+            .join('') +
+        '</ul></section>'
+    )
+}
 
 /** The guide, rendered from the same content module the React page uses, so
  * the static copy and the live page can never disagree. */
@@ -364,7 +389,8 @@ const ROUTES = [
 <li><a href="/subjects">Revise my exams — SPM Mathematics and Additional Mathematics</a></li>
 <li><a href="/admissions">Get into a top university — ESAT and TMUA admissions tests</a></li>
 <li><a href="/guides">Guides — the ESAT and TMUA explained</a></li>
-</ul></nav>`,
+</ul></nav>
+${guideLinksMarkup()}`,
     },
     {
         path: '/admissions',
@@ -377,7 +403,8 @@ const ROUTES = [
 <li><a href="/diagnostics/esat"><strong>ESAT</strong></a> — Engineering and Science Admissions Test, for Cambridge, Imperial and others. All five modules are live: Mathematics 1, Mathematics 2, Physics, Chemistry and Biology.</li>
 <li><a href="/diagnostics/tmua"><strong>TMUA</strong></a> — Test of Mathematics for University Admission, for Cambridge, LSE, Warwick, Durham and others. Both papers are live: Paper 1 (Applications) and Paper 2 (Reasoning).</li>
 </ul>
-<p>Not sure what these tests involve? <a href="/guides">Read the ESAT and TMUA guides</a>.</p>`,
+<p>Not sure what these tests involve? <a href="/guides">Read the ESAT and TMUA guides</a>.</p>
+${guideLinksMarkup()}`,
     },
     {
         path: '/diagnostics',
@@ -387,7 +414,8 @@ const ROUTES = [
             'Sit a timed ESAT or TMUA diagnostic and get a report mapped to specific skills, so you know exactly where you stand before you start prepping.',
         body: `<h1>Timed diagnostics.</h1>
 <p>Sit a timed diagnostic and get a report mapped to specific skills — so you know exactly where to focus. Set A of every subject is free to sit.</p>
-<p><a href="/guides">New to these tests? Read the guides</a></p>`,
+<p><a href="/guides">New to these tests? Read the guides</a></p>
+${guideLinksMarkup()}`,
     },
     {
         path: '/diagnostics/esat',
@@ -397,7 +425,8 @@ const ROUTES = [
             'Timed ESAT diagnostics for Mathematics 1, Mathematics 2, Physics, Chemistry and Biology. Sit a paper under exam conditions and get a skills report showing exactly where to focus.',
         body: `<h1>ESAT diagnostics.</h1>
 <p>Timed ESAT papers — Mathematics 1, Mathematics 2, Physics, Chemistry and Biology — each mapped to the skills the test examines. Set A of every subject is free to sit.</p>
-<p><a href="/guides/esat-practice-tests">New to the ESAT? Read the ESAT practice guide</a></p>`,
+<p><a href="/guides/esat-practice-tests">New to the ESAT? Read the ESAT practice guide</a></p>
+${guideLinksMarkup(ESAT_GUIDE_LINKS)}`,
     },
     {
         path: '/diagnostics/tmua',
@@ -618,7 +647,6 @@ async function main() {
         const exempt = ['/subjects']
         if (
             !route.path.startsWith('/guides') &&
-            !route.path.startsWith('/spm/') &&
             !exempt.includes(route.path) &&
             !body.includes('href="/guides')
         ) {
