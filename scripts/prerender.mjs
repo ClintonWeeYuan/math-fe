@@ -23,8 +23,8 @@ import { fileURLToPath } from 'node:url'
 import { GUIDES } from '../src/content/guides.mjs'
 import {
     ESAT_GUIDE_LINKS,
-    GUIDE_LINKS,
     GUIDE_LINKS_HEADING,
+    PRIMARY_GUIDE_LINKS,
 } from '../src/content/guideLinks.mjs'
 import { AUTHOR } from '../src/content/author.mjs'
 import { guideJsonLd, jsonLdText } from '../src/content/structuredData.mjs'
@@ -250,7 +250,7 @@ function setsMarkup(sets) {
  * hydration does not count. Rendered from the same list as the React
  * component so the two cannot disagree.
  */
-function guideLinksMarkup(links = GUIDE_LINKS) {
+function guideLinksMarkup(links = PRIMARY_GUIDE_LINKS) {
     return (
         `<section><h2>${esc(GUIDE_LINKS_HEADING)}</h2><ul>` +
         links

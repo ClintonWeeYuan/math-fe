@@ -2,7 +2,10 @@ import { describe, expect, it } from 'vitest'
 import { readFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
 import { GUIDES } from '@/content/guides.mjs'
-import { GUIDE_LINKS } from '@/content/guideLinks.mjs'
+import {
+    GUIDE_LINKS,
+    PRIMARY_GUIDE_LINKS,
+} from '@/content/guideLinks.mjs'
 
 const DIST = join(__dirname, '..', '..', 'dist')
 
@@ -29,12 +32,34 @@ function linkedGuides(html: string) {
 }
 
 whenBuilt('the guides are reachable without running JavaScript', () => {
-    it('puts every guide one click from the homepage', () => {
-        // The brief's central ask: direct links, not just a link to the hub
-        // that lists them.
+    it('puts the entry-point guides one click from the homepage', () => {
+        // Direct links, not just a link to the hub that lists them.
+        //
+        // The three entry points, not all eight: listing every guide here
+        // was fine at three and became a block of eight once the module
+        // pages landed, which spends the page's outward signal on eight
+        // targets instead of the ones a passer-by actually wants. The module
+        // pages are reached from /guides, the ESAT diagnostics page and each
+        // guide's own cross-links — where that reader already is.
         expect(linkedGuides(staticHtml('/')).sort()).toEqual(
+            PRIMARY_GUIDE_LINKS.map((l) => l.path).sort()
+        )
+    })
+
+    it('still reaches every guide from the guides index', () => {
+        // Whatever the broad pages link, nothing may become unreachable.
+        expect(linkedGuides(staticHtml('/guides')).sort()).toEqual(
             GUIDES.map((g) => g.path).sort()
         )
+    })
+
+    it('offers the module guides where someone is already reading about the ESAT', () => {
+        const esatHub = staticHtml('/diagnostics/esat')
+        for (const path of GUIDES.map((g) => g.path).filter((p) => p.includes('esat'))) {
+            expect(esatHub, `${path} unreachable from /diagnostics/esat`).toContain(
+                `href="${path}"`
+            )
+        }
     })
 
     it.each(['/admissions', '/spm/chemistry', '/spm/chemistry/rate-of-reaction'])(
@@ -78,8 +103,14 @@ whenBuilt('the guides are reachable without running JavaScript', () => {
 
     it('describes each guide by its own name', () => {
         const html = staticHtml('/spm/chemistry')
-        for (const link of GUIDE_LINKS) {
+        for (const link of PRIMARY_GUIDE_LINKS) {
             expect(html).toContain(`>${link.anchor}</a>`)
         }
+    })
+
+    it('keeps the block on an SPM page short enough to be a signpost', () => {
+        // Eight links at the foot of all 76 SPM pages is a link block, which
+        // is the thing this was meant not to be.
+        expect(linkedGuides(staticHtml('/spm/chemistry')).length).toBeLessThanOrEqual(4)
     })
 })

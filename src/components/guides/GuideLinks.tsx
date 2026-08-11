@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import {
-    GUIDE_LINKS,
     GUIDE_LINKS_HEADING,
+    PRIMARY_GUIDE_LINKS,
     type GuideLink,
 } from '@/content/guideLinks.mjs'
 
@@ -19,7 +19,7 @@ const PERIWINKLE = '#799ED1'
  * follow.
  */
 export function GuideLinks({
-    links = GUIDE_LINKS,
+    links = PRIMARY_GUIDE_LINKS,
     heading = GUIDE_LINKS_HEADING,
 }: {
     links?: GuideLink[]
