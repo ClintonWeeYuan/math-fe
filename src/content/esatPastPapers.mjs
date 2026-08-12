@@ -28,7 +28,7 @@ export const GUIDE = {
     ctaLabel: 'Sit a free ESAT paper →',
     h1: 'ESAT past papers and specimen papers',
     standfirst:
-        'There is less official ESAT material than students expect, and it runs out quickly. This page sets out exactly what exists, where to get it, how to get the most from each paper — and what to do next, because the honest answer to "where are the rest of the past papers" is that they do not exist yet.',
+        'There is less official ESAT material than students expect, and it runs out quickly. This page sets out what exists, how to get the most from each paper, and what to do next — because the honest answer to "where are the rest" is that they do not exist yet.',
     publishedAt: '2026-08-11',
     updatedAt: '2026-08-11',
     sections: [
@@ -36,17 +36,17 @@ export const GUIDE = {
             id: 'what-exists',
             h2: 'What official ESAT papers exist',
             paras: [
-                'UAT-UK, the body that runs the test, publishes the material worth starting with: a content specification setting out precisely what can be assessed, an ESAT guide to the underlying maths and science, and specimen and practice tests delivered through Pearson, alongside an archive of past papers.',
-                'Work through those first, and under timed conditions. They are the only material written by the people who write the real test, and no third-party paper — ours included — is a substitute for that.',
-                'The catch is depth. The ESAT replaced the older ENGAA and NSAA only recently, so there is nothing like the twenty-year back catalogue you would have for an A-level subject. Most candidates exhaust the official papers well before the October sitting, and a paper you have already seen cannot tell you anything new about your timing.',
+                'UAT-UK, the body that runs the test, publishes a content specification, an ESAT guide to the underlying maths and science, and specimen and practice tests through Pearson, alongside an archive of past papers.',
+                'Work through those first, under timed conditions. They are the only material written by the people who write the real test.',
+                'The catch is depth. The ESAT replaced the ENGAA and NSAA only recently, so there is no twenty-year back catalogue. Most candidates exhaust the official papers before October, and a paper you have already seen tells you nothing new about your timing.',
             ],
         },
         {
             id: 'papers-vs-questions',
             h2: 'Past papers, specimen papers and sample questions are not the same thing',
             paras: [
-                'The three terms get used interchangeably in forums, and they are worth separating, because they are useful at different points.',
-                'A specimen paper shows the format: how the questions are worded, how long you get, what the answer sheet looks like. A past paper is a test that was actually sat, so it also tells you the real standard. Sample questions are individual items, useful for drilling one topic but useless for practising the thing the ESAT is genuinely hard at, which is finishing.',
+                'The terms get used interchangeably, and they are useful at different points.',
+                'A specimen paper shows the format. A past paper was actually sat, so it also shows the real standard. Sample questions are single items — good for drilling one topic, useless for practising the thing the ESAT is hard at, which is finishing.',
             ],
             table: {
                 caption:
@@ -80,25 +80,24 @@ export const GUIDE = {
             id: 'timing',
             h2: 'The constraint the papers are really testing',
             paras: [
-                'Each ESAT module gives you 27 questions in 40 minutes. That is under 90 seconds per question, with no calculator, on multi-step problems. Almost nobody fails the ESAT because they could not eventually do the questions; they fail because they could not do them at that pace.',
-                'This changes how a past paper should be used. Working slowly through one, checking answers as you go, tells you very little. Sitting it once, timed, with no interruptions, tells you nearly everything — and it is the only way to find out that a question you can solve in four minutes is worth zero to you.',
-                'There is no negative marking, so leaving anything blank is a straightforward loss. If you have not started a question with ten seconds left, answer it anyway.',
+                'Each module is 27 questions in 40 minutes: under 90 seconds each, no calculator, multi-step. Almost nobody fails because they could not eventually do the questions — they fail because they could not do them at that pace.',
+                'So working slowly through a paper, checking as you go, tells you very little. Sitting it once, timed and uninterrupted, tells you nearly everything — including that a question you can solve in four minutes is worth zero to you.',
+                'There is no negative marking. If you have not started a question with ten seconds left, answer it anyway.',
             ],
         },
         {
             id: 'worked-examples',
             h2: 'Three ESAT-style questions, worked through',
             paras: [
-                'These are written to the style of the test rather than copied from an official paper. Each is the kind of multi-step, calculator-free question the ESAT favours: the arithmetic stays clean, and the difficulty is in choosing the route.',
-                'Try each one under 90 seconds before reading the working.',
+                'Written in the style of the test, not copied from an official paper. Try each in under 90 seconds before reading the working.',
             ],
         },
         {
             id: 'after-the-papers',
             h2: 'What to do once the official papers are gone',
             paras: [
-                'At that point the useful question is no longer "what is my score" but "which specific thing costs me marks". A total out of 27 does not answer that; it tells you the result of the problem, not its cause.',
-                'That is the gap our diagnostics are built for. Each is a full timed paper in the real format — 27 questions, 40 minutes — and the report afterwards names the skills that went wrong rather than handing you a number. Set A of every module is free, and you do not need an account to read this page or to see what the questions look like.',
+                'The useful question stops being "what is my score" and becomes "which specific thing costs me marks". A total out of 27 tells you the result of the problem, not its cause.',
+                'That is what our diagnostics are for: a full timed paper in the real format, and a report naming the skills that went wrong. Set A of every module is free.',
             ],
         },
     ],
@@ -116,7 +115,7 @@ export const GUIDE = {
             ],
             answer: 'c = 19/4',
             takeaway:
-                'The word "tangent" is the whole question. Recognising it as "discriminant equals zero" turns a curve-sketching problem into one line of algebra — the substitution is the slow route and there is no time for it.',
+                'The word "tangent" is the whole question: read it as "discriminant equals zero" and a curve-sketching problem becomes one line of algebra.',
         },
         {
             id: 'kinetic-energy-twice',
@@ -131,7 +130,7 @@ export const GUIDE = {
             ],
             answer: '2 seconds',
             takeaway:
-                'Energy is a scalar, so it cannot tell you which direction the ball is moving — that is exactly why there are two answers. Solving for v and stopping at 1 s is the trap.',
+                'Energy is a scalar and cannot tell you direction — which is exactly why there are two answers. Stopping at 1 s is the trap.',
         },
         {
             id: 'combustion-formula',
@@ -145,7 +144,7 @@ export const GUIDE = {
             ],
             answer: 'C₂H₆ (ethane)',
             takeaway:
-                'Dividing by the moles of the compound burnt — not by the smallest number of moles — is what gives the molecular formula directly. Reaching for empirical formula out of habit gives CH₃, which is not a molecule.',
+                'Divide by the moles burnt, not by the smallest number of moles. Reaching for the empirical formula out of habit gives CH₃, which is not a molecule.',
         },
     ],
     faq: [

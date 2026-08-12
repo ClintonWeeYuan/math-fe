@@ -23,7 +23,7 @@ export const GUIDE = {
     ctaPath: '/diagnostics/esat',
     ctaLabel: 'Sit a free Mathematics 2 paper →',
     h1: 'ESAT Mathematics 2 questions',
-    standfirst: 'Mathematics 2 goes past the compulsory module into the material that separates a strong mathematician from a competent one: further calculus, logic and proof. It is the module most often required by the courses with the highest competition.',
+    standfirst: 'Mathematics 2 goes past the compulsory module into further calculus, logic and proof. It is the module most often required by the courses with the highest competition.',
     publishedAt: '2026-08-11',
     updatedAt: '2026-08-11',
     sections: [
@@ -31,34 +31,31 @@ export const GUIDE = {
             id: 'what-it-covers',
             h2: 'What Mathematics 2 covers',
             paras: [
-                'Mathematics 2 builds on Mathematics 1 with further pure content — more demanding differentiation and integration, sequences and series pushed further, and, distinctively, questions that ask you to reason about a mathematical statement rather than only compute with it.',
-                'Proof and logical structure are the part candidates are least prepared for, because school mathematics rewards executing a method and this module also rewards justifying one.',
-                'As with every module, the official content specification is the authority on what is examinable, and it changes between cycles.',
+                'Builds on Mathematics 1 with more demanding differentiation and integration, sequences and series pushed further, and — distinctively — questions that ask you to reason about a statement rather than only compute with it.',
+                'Proof is the part candidates are least ready for: school maths rewards executing a method, and this module also rewards justifying one. Scope is set by the official content specification, which changes between cycles.',
             ],
         },
         {
             id: 'where-marks-go',
             h2: 'Where the marks actually go',
             paras: [
-                'Two failure modes dominate. The first is stopping at a stationary point without establishing its nature, because the question said "find" and the mark scheme wanted "and determine".',
-                'The second is proof: writing a demonstration that the statement holds for a few cases and treating that as an argument. A general proof needs a general object — an arbitrary n, not 2, 4 and 6.',
-                'Both are habits rather than gaps, and both are cheap to fix once you have seen them named.',
+                'Two failures dominate. Stopping at a stationary point without establishing its nature, because the question said "find" and the marks were for "and determine".',
+                'And proof by example: showing a statement holds for a few cases and treating that as an argument. A general proof needs a general object — an arbitrary n, not 2, 4 and 6.',
             ],
         },
         {
             id: 'worked-examples',
             h2: 'Mathematics 2 questions, worked through',
             paras: [
-                'These are written to the style of the test rather than copied from an official paper. Each is the kind of multi-step, calculator-free question the ESAT favours: the arithmetic stays clean, and the difficulty is in choosing the route.',
-                'Give each one 90 seconds before reading the working.',
+                'Written in the style of the test, not copied from an official paper. Give each one 90 seconds before reading the working.',
             ],
         },
         {
             id: 'after-the-papers',
             h2: 'Once the official papers run out',
             paras: [
-                'There is not much official ESAT material and it goes quickly. At that point a score out of 27 stops being useful — it tells you the result of the problem, not its cause.',
-                'Our Mathematics 2 diagnostics are full timed papers in the real format, and the report afterwards names the skills that went wrong rather than handing you a number. Set A is free to sit.',
+                'There is not much official material and it goes quickly. After that, a score out of 27 tells you the result of the problem, not its cause.',
+                'Our Mathematics 2 diagnostics are full timed papers in the real format, and the report names the skills that went wrong rather than handing you a number. Set A is free.',
             ],
         },
     ],
@@ -69,31 +66,31 @@ export const GUIDE = {
             question: 'Find the x-coordinates of the stationary points of y = x³ − 6x² + 9x + 1, and determine the nature of each.',
             steps: [
                 'Differentiate: dy/dx = 3x² − 12x + 9.',
-                'Set it to zero: 3(x² − 4x + 3) = 3(x − 1)(x − 3) = 0, so x = 1 and x = 3.',
-                'Differentiate again for the nature: d²y/dx² = 6x − 12.',
-                'At x = 1, d²y/dx² = −6, which is negative, so it is a maximum. At x = 3 it is +6, positive, so a minimum.',
+                'Set to zero: 3(x − 1)(x − 3) = 0, so x = 1 and x = 3.',
+                'Differentiate again: d²y/dx² = 6x − 12.',
+                'At x = 1 it is −6, so a maximum; at x = 3 it is +6, so a minimum.',
             ],
             answer: 'x = 1 is a maximum; x = 3 is a minimum',
-            takeaway: 'The second derivative is one line and answers the half of the question that carries the marks. Stopping at "x = 1 and x = 3" is the most common way to lose half a question you had entirely right.',
+            takeaway: 'The second derivative is one line and carries half the marks — stopping at the x-values is the commonest way to lose a question you had right.',
         },
         {
             id: 'consecutive-even-proof',
             module: 'Mathematics 2',
             question: 'Prove that the product of any two consecutive even integers is divisible by 8.',
             steps: [
-                'Write the integers generally: any two consecutive even integers are 2n and 2n + 2 for some integer n.',
+                'Write them generally: 2n and 2n + 2, for some integer n.',
                 'Their product is 2n × 2(n + 1) = 4n(n + 1).',
-                'n and n + 1 are consecutive integers, so exactly one of them is even; write n(n + 1) = 2k for some integer k.',
-                'Then the product is 4 × 2k = 8k, which is divisible by 8.',
+                'n and n + 1 are consecutive, so one of them is even: write n(n + 1) = 2k.',
+                'The product is then 4 × 2k = 8k.',
             ],
             answer: 'Proved: the product equals 8k for some integer k',
-            takeaway: 'The proof turns on n(n + 1) always being even, which is worth stating rather than assuming. Testing 2 × 4, 4 × 6 and 6 × 8 shows the claim is plausible and proves nothing — a general statement needs a general n.',
+            takeaway: 'It turns on n(n + 1) always being even, which is worth stating. Testing 2 × 4 and 4 × 6 shows the claim is plausible and proves nothing.',
         },
     ],
     faq: [
         {
             q: 'How long is the module, and is there negative marking?',
-            a: '27 questions in 40 minutes, no calculator, no negative marking — the same as every other ESAT module. That is under 90 seconds a question, which is why untimed practice tells you so little, and why leaving anything blank is a straightforward loss.',
+            a: '27 questions in 40 minutes, no calculator, no negative marking. That is under 90 seconds a question, so never leave one blank.',
             link: {
                 label: 'How ESAT results are reported (UAT-UK)',
                 url: 'https://esat-tmua.ac.uk/about-the-tests/esat-test/',
@@ -101,15 +98,15 @@ export const GUIDE = {
         },
         {
             q: 'Do I need ESAT Maths 2?',
-            a: 'It depends on the course and the university, and the requirements differ between them. Check each of your choices on their own admissions pages rather than assuming the modules are the same everywhere.',
+            a: 'It depends on the course and university, and requirements differ between them. Check each of your choices on their own admissions pages.',
         },
         {
             q: 'What is the difference between ESAT Maths 1 and Maths 2?',
-            a: 'Mathematics 1 is the compulsory core — the pure mathematics every candidate is expected to have. Mathematics 2 goes further, into more demanding calculus and into logic and proof, where you are asked to justify a statement rather than only compute with it.',
+            a: 'Maths 1 is the compulsory pure core. Maths 2 goes further, into harder calculus and into logic and proof, where you justify a statement rather than only compute with it.',
         },
         {
             q: 'Where is the official list of topics?',
-            a: 'In the ESAT content specification published by UAT-UK. It is the authority on what can be assessed, it is revised between cycles, and it should be what you check against — not a topic list on a prep site, this one included.',
+            a: 'In the ESAT content specification from UAT-UK. It is revised between cycles, so check it rather than any prep site — this one included.',
             link: {
                 label: 'ESAT content specification (UAT-UK)',
                 url: 'https://esat-tmua.ac.uk/prepare/',
