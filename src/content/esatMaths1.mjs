@@ -25,7 +25,7 @@ export const GUIDE = {
     h1: 'ESAT Mathematics 1 questions',
     standfirst: 'Every ESAT candidate sits Mathematics 1, whatever course they are applying for. The content is familiar A-level pure maths, so the marks go to whoever finds the short route first.',
     publishedAt: '2026-08-11',
-    updatedAt: '2026-08-11',
+    updatedAt: '2026-08-12',
     sections: [
         {
             id: 'what-it-covers',

@@ -25,7 +25,7 @@ export const GUIDE = {
     h1: 'ESAT Physics questions',
     standfirst: 'ESAT Physics rewards picking the right conserved quantity and committing to it. The content is A-level; the difficulty is that every question is two or three steps with no calculator.',
     publishedAt: '2026-08-11',
-    updatedAt: '2026-08-11',
+    updatedAt: '2026-08-12',
     sections: [
         {
             id: 'what-it-covers',

@@ -94,8 +94,17 @@ whenBuilt('the sitemap index', () => {
  */
 const CONTENT_MODULES = import.meta.glob('/src/content/*.mjs', { eager: true })
 
+/**
+ * iCloud copies a file it thinks is conflicted as "name 2.mjs", beside the
+ * original. Those copies hold stale content and are never committed, so git
+ * knows nothing about them — and this guard, finding no history, would treat
+ * the guide as unchecked and pass. Ten of them appeared at once.
+ */
+const ICLOUD_DUPLICATE = / \d+\.(mjs|mts|ts|tsx)$/
+
 function contentFileFor(path: string) {
     for (const [file, mod] of Object.entries(CONTENT_MODULES)) {
+        if (ICLOUD_DUPLICATE.test(file)) continue
         const guide = (mod as { GUIDE?: { path?: string } }).GUIDE
         if (guide?.path === path) return file.replace(/^\//, '')
     }
@@ -103,6 +112,19 @@ function contentFileFor(path: string) {
 }
 
 describe('guide dates are maintained, not decorative', () => {
+    it('has no iCloud duplicates shadowing the real content modules', () => {
+        // Not tidiness. A duplicate holds stale copy, git has no history for
+        // it, and the check below then silently has nothing to check.
+        const shadows = Object.keys(CONTENT_MODULES).filter((f) =>
+            ICLOUD_DUPLICATE.test(f)
+        )
+        expect(
+            shadows,
+            `delete these — they shadow real content and disarm the date ` +
+                `check: ${shadows.join(', ')}`
+        ).toEqual([])
+    })
+
     it('finds the content module behind every guide', () => {
         // If this cannot map a guide to its file, the check below silently
         // has nothing to check.
@@ -135,12 +157,23 @@ describe('guide dates are maintained, not decorative', () => {
             }
             if (committed === '') return // not yet committed
 
+            // A few days of slack, because squash-merging rewrites both the
+            // author and committer dates: content written on Tuesday and
+            // merged on Wednesday would otherwise turn main red the moment
+            // it landed, for a reason that is not the one this guards
+            // against. What it does catch is a page whose words changed
+            // weeks ago while its date stayed put — the case where the
+            // sitemap tells Google something untrue.
+            const GRACE_DAYS = 7
+            const drift =
+                (Date.parse(committed) - Date.parse(guide.updatedAt)) / 86400000
+
             expect(
-                guide.updatedAt >= committed,
+                drift <= GRACE_DAYS,
                 `${file} was last committed ${committed} but the guide says it ` +
-                    `was updated ${guide.updatedAt}. Move updatedAt when you ` +
-                    `change the content, or the sitemap tells Google a date ` +
-                    `that is not true.`
+                    `was updated ${guide.updatedAt}, ${Math.round(drift)} days ` +
+                    `earlier. Move updatedAt when you change the content, or ` +
+                    `the sitemap tells Google a date that is not true.`
             ).toBe(true)
         }
     )
