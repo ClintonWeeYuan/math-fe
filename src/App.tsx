@@ -162,11 +162,15 @@ function App() {
                     path="questions/v2/:subjectId/quiz"
                     element={<LegacyQuizRedirect />}
                 />
+                {/* Public: the page shows what the paper involves and two
+                    sample questions, and puts the wall at starting the timer.
+                    The questions themselves and the attempt are still gated,
+                    on the server as well as here. */}
+                <Route
+                    path="diagnostic/sets/:setId"
+                    element={<SetInstructionsPage />}
+                />
                 <Route element={<StudentProtectedRoute />}>
-                    <Route
-                        path="diagnostic/sets/:setId"
-                        element={<SetInstructionsPage />}
-                    />
                     <Route
                         path="diagnostic/attempts/:attemptId"
                         element={<ExamPage />}
