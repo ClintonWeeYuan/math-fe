@@ -8,6 +8,9 @@ import useGetSetPreviewQuery from '@/hooks/diagnostic/useGetSetPreviewQuery.ts'
 import useStartOrResumeAttemptMutation from '@/hooks/diagnostic/useStartOrResumeAttemptMutation.ts'
 import { toast } from 'sonner'
 import { BILLING_LIVE } from '@/lib/billing.ts'
+import { useAuth } from '@/components/auth/AuthContext.tsx'
+import { samplesFor } from '@/content/diagnosticSamples.mjs'
+import { Link } from 'react-router-dom'
 
 /**
  * Landing/instructions screen (§2), before an attempt exists. Shows the
@@ -22,6 +25,7 @@ export function SetInstructionsPage() {
     const { setId } = useParams()
     const navigate = useNavigate()
     const [agreed, setAgreed] = useState(false)
+    const { user, isLoading: isAuthLoading } = useAuth()
 
     const { data: preview, isLoading, isError } = useGetSetPreviewQuery({
         setId: setId ?? '',
@@ -103,28 +107,125 @@ export function SetInstructionsPage() {
                 finish in one sitting.
             </div>
 
-            <label className="flex items-start gap-3 text-sm">
-                <Checkbox
-                    checked={agreed}
-                    onCheckedChange={(v) => setAgreed(v === true)}
-                    className="mt-0.5"
+            {/* Signed out, the page stops here: sample questions so a
+                visitor can judge the paper, then the wall. The timer runs
+                once and cannot be paused, and the report has to persist, so
+                sitting it genuinely needs an account — but meeting a login
+                form with nothing behind it gave nobody a reason to make one. */}
+            {!isAuthLoading && user === null ? (
+                <SignInToSit
+                    // The generated client predates this field. Regenerating
+                    // it here would pull in a whole generator-version
+                    // migration — 15 files — into a change about one page, so
+                    // it is read narrowly until the client is regenerated on
+                    // its own.
+                    subject={
+                        (preview as { subject?: string | null }).subject
+                    }
                 />
-                <span>
-                    I agree not to reproduce, share, or distribute any of this
-                    diagnostic&apos;s content.
-                </span>
-            </label>
+            ) : (
+                <>
+                    <label className="flex items-start gap-3 text-sm">
+                        <Checkbox
+                            checked={agreed}
+                            onCheckedChange={(v) => setAgreed(v === true)}
+                            className="mt-0.5"
+                        />
+                        <span>
+                            I agree not to reproduce, share, or distribute any
+                            of this diagnostic&apos;s content.
+                        </span>
+                    </label>
 
-            <div>
-                <Button
-                    type="button"
-                    size="lg"
-                    disabled={!agreed || isPending}
-                    onClick={handleStart}
-                >
-                    {isPending ? 'Starting…' : 'Start diagnostic'}
-                </Button>
-            </div>
+                    <div>
+                        <Button
+                            type="button"
+                            size="lg"
+                            disabled={!agreed || isPending}
+                            onClick={handleStart}
+                        >
+                            {isPending ? 'Starting…' : 'Start diagnostic'}
+                        </Button>
+                    </div>
+                </>
+            )}
         </div>
+    )
+}
+
+/**
+ * What a signed-out visitor sees instead of the start button.
+ *
+ * The samples are written for this page rather than taken from the set —
+ * those 27 are the scored instrument, and publishing any of them would let a
+ * student meet a question before sitting it.
+ */
+function SignInToSit({ subject }: { subject?: string | null }) {
+    const navigate = useNavigate()
+    const samples = samplesFor(subject)
+
+    return (
+        <>
+            {samples && (
+                <div className="flex flex-col gap-3">
+                    <p className="text-sm text-gray-600">
+                        Two questions in the style of this paper, so you can see
+                        what it asks before committing 40 minutes.
+                    </p>
+                    {samples.questions.map((question) => (
+                        <Card key={question.stem}>
+                            <CardContent className="pt-6">
+                                <p className="mb-3">{question.stem}</p>
+                                <div className="flex flex-col gap-2">
+                                    {question.options.map((option, i) => (
+                                        <div
+                                            key={option}
+                                            className="rounded-md border px-3 py-2 text-sm"
+                                        >
+                                            {String.fromCharCode(65 + i)}
+                                            &nbsp;&nbsp;{option}
+                                        </div>
+                                    ))}
+                                </div>
+                            </CardContent>
+                        </Card>
+                    ))}
+                    <p className="text-sm text-gray-500">
+                        These two are worked through in full in the{' '}
+                        <Link
+                            to={samples.guidePath}
+                            className="underline underline-offset-2"
+                        >
+                            guide
+                        </Link>
+                        . The paper itself is marked automatically, with a
+                        report naming the skills to work on.
+                    </p>
+                </div>
+            )}
+
+            <Card>
+                <CardContent className="flex flex-col gap-3 pt-6">
+                    <p className="text-lg font-medium">Sit the full paper</p>
+                    <p className="text-sm text-gray-600">
+                        The timer runs once and cannot be paused, so we save
+                        your place and your report to an account.
+                    </p>
+                    <div>
+                        <Button
+                            type="button"
+                            size="lg"
+                            onClick={() =>
+                                navigate('/auth/login', {
+                                    state: { from: { pathname: location.pathname } },
+                                })
+                            }
+                        >
+                            Sign in to start
+                        </Button>
+                    </div>
+                </CardContent>
+            </Card>
+        </>
     )
 }
