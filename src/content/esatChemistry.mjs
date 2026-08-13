@@ -25,7 +25,7 @@ export const GUIDE = {
     h1: 'ESAT Chemistry questions',
     standfirst: 'ESAT Chemistry is a calculation paper more than a recall paper. Most questions come down to moles and a balanced equation — which makes the balancing, not the chemistry, the step that decides the mark.',
     publishedAt: '2026-08-11',
-    updatedAt: '2026-08-11',
+    updatedAt: '2026-08-12',
     sections: [
         {
             id: 'what-it-covers',

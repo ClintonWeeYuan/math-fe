@@ -30,7 +30,7 @@ export const GUIDE = {
     standfirst:
         'There is less official ESAT material than students expect, and it runs out quickly. This page sets out what exists, how to get the most from each paper, and what to do next — because the honest answer to "where are the rest" is that they do not exist yet.',
     publishedAt: '2026-08-11',
-    updatedAt: '2026-08-11',
+    updatedAt: '2026-08-12',
     sections: [
         {
             id: 'what-exists',

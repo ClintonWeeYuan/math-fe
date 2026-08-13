@@ -25,7 +25,7 @@ export const GUIDE = {
     h1: 'ESAT Mathematics 2 questions',
     standfirst: 'Mathematics 2 goes past the compulsory module into further calculus, logic and proof. It is the module most often required by the courses with the highest competition.',
     publishedAt: '2026-08-11',
-    updatedAt: '2026-08-11',
+    updatedAt: '2026-08-12',
     sections: [
         {
             id: 'what-it-covers',
