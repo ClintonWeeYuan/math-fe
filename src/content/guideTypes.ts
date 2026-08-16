@@ -5,6 +5,8 @@ export type GuideSection = {
     id: string
     h2: string
     paras: string[]
+    /** Where a fact this section used to state now lives. */
+    links?: SectionLink[]
     /** Optional table. The first column of each row acts as its row header. */
     table?: { caption: string; head: string[]; rows: string[][] }
 }
@@ -63,6 +65,15 @@ export type WorkedExample = {
     takeaway: string
 }
 
+/** A pointer from a section to the page that owns a fact this page used to
+ *  restate. The canonical-home rule is only worth anything if the page that
+ *  gave up the fact still tells a reader where it went. */
+export type SectionLink = {
+    path: string
+    label: string
+    note: string
+}
+
 export type Guide = {
     path: string
     title: string
@@ -85,6 +96,15 @@ export type Guide = {
     publishedAt: string
     updatedAt: string
     workedExamples?: WorkedExample[]
+    /**
+     * Paths of the guides to list at the foot, with the blurb to use.
+     *
+     * Absent, every other guide is listed — which was fine at three guides
+     * and is noise at nine: eight near-identical links that say nothing about
+     * which one this reader wants next. Three contextual ones carry more
+     * weight, both for a reader and as an internal-linking signal.
+     */
+    related?: { path: string; blurb: string }[]
     faq: GuideFaqItem[]
     sources: { label: string; url: string }[]
 }

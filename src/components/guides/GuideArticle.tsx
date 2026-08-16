@@ -3,7 +3,7 @@ import { WorkedExample } from '@/components/guides/WorkedExample.tsx'
 import { Button } from '@/components/ui/button.tsx'
 import { Seo } from '@/components/Seo.tsx'
 import type { Guide } from '@/content/guideTypes.ts'
-import { GUIDES } from '@/content/guides.mjs'
+import { relatedTo } from '@/content/guides.mjs'
 import { AUTHOR } from '@/content/author.mjs'
 import { guideJsonLd, jsonLdText } from '@/content/structuredData.mjs'
 import { SITE_URL } from '@/lib/site.ts'
@@ -134,6 +134,21 @@ export function GuideArticle({ guide }: { guide: Guide }) {
                                 {para}
                             </p>
                         ))}
+                        {section.links?.map((link) => (
+                            <p
+                                key={link.path}
+                                className="text-slate-600 leading-relaxed mb-3"
+                            >
+                                <Link
+                                    to={link.path}
+                                    className="font-semibold underline underline-offset-4"
+                                    style={{ color: PERIWINKLE }}
+                                >
+                                    {link.label}
+                                </Link>{' '}
+                                — {link.note}
+                            </p>
+                        ))}
                         {section.table && (
                             <div className="overflow-x-auto mt-5">
                                 <table className="w-full text-sm border border-slate-200 rounded-lg">
@@ -238,29 +253,27 @@ export function GuideArticle({ guide }: { guide: Guide }) {
 
                 {/* Somewhere to go next: a reader who wanted this guide
                     usually wants the neighbouring one too. */}
-                {GUIDES.filter((g) => g.path !== guide.path).length > 0 && (
+                {relatedTo(guide).length > 0 && (
                     <section className="mb-10">
                         <h2 className="text-xl md:text-2xl font-bold mb-4">
                             More guides
                         </h2>
                         <ul className="flex flex-col gap-2">
-                            {GUIDES.filter((g) => g.path !== guide.path).map(
-                                (g) => (
-                                    <li key={g.path}>
-                                        <Link
-                                            to={g.path}
-                                            className="font-semibold underline underline-offset-4"
-                                            style={{ color: PERIWINKLE }}
-                                        >
-                                            {g.h1}
-                                        </Link>
-                                        <span className="text-slate-500 text-sm">
-                                            {' '}
-                                            — {g.description}
-                                        </span>
-                                    </li>
-                                )
-                            )}
+                            {relatedTo(guide).map(({ guide: g, blurb }) => (
+                                <li key={g.path}>
+                                    <Link
+                                        to={g.path}
+                                        className="font-semibold underline underline-offset-4"
+                                        style={{ color: PERIWINKLE }}
+                                    >
+                                        {g.h1}
+                                    </Link>
+                                    <span className="text-slate-500 text-sm">
+                                        {' '}
+                                        — {blurb}
+                                    </span>
+                                </li>
+                            ))}
                         </ul>
                     </section>
                 )}

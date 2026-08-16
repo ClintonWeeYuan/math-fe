@@ -20,7 +20,7 @@
 import { readFile, writeFile, mkdir } from 'node:fs/promises'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { GUIDES } from '../src/content/guides.mjs'
+import { GUIDES, relatedTo } from '../src/content/guides.mjs'
 import {
     ESAT_GUIDE_LINKS,
     GUIDE_LINKS_HEADING,
@@ -279,6 +279,16 @@ function guideMarkup(GUIDE) {
     const sections = GUIDE.sections
         .map((section) => {
             const paras = section.paras.map((p) => `<p>${esc(p)}</p>`).join('')
+            // Where a fact this page gave up now lives. A real <a> in the
+            // static HTML, because the whole point of moving a fact to a
+            // canonical home is the internal link that replaces it — one that
+            // only appeared after hydration would not be a link to a crawler.
+            const links = (section.links ?? [])
+                .map(
+                    (l) =>
+                        `<p><a href="${esc(l.path)}">${esc(l.label)}</a> — ${esc(l.note)}</p>`
+                )
+                .join('')
             const table = section.table
                 ? `<table><caption>${esc(section.table.caption)}</caption><thead><tr>` +
                   section.table.head
@@ -293,7 +303,7 @@ function guideMarkup(GUIDE) {
                       .join('') +
                   '</tbody></table>'
                 : ''
-            return `<section id="${esc(section.id)}"><h2>${esc(section.h2)}</h2>${paras}${table}</section>`
+            return `<section id="${esc(section.id)}"><h2>${esc(section.h2)}</h2>${paras}${links}${table}</section>`
         })
         .join('')
     const faq =
@@ -370,10 +380,10 @@ function guideMarkup(GUIDE) {
         faq +
         `<p><a href="${esc(GUIDE.ctaPath)}">${esc(GUIDE.ctaLabel)}</a></p>` +
         '<section><h2>More guides</h2><ul>' +
-        GUIDES.filter((g) => g.path !== GUIDE.path)
+        relatedTo(GUIDE)
             .map(
-                (g) =>
-                    `<li><a href="${esc(g.path)}">${esc(g.h1)}</a> — ${esc(g.description)}</li>`
+                ({ guide, blurb }) =>
+                    `<li><a href="${esc(guide.path)}">${esc(guide.h1)}</a> — ${esc(blurb)}</li>`
             )
             .join('') +
         '</ul></section>'
