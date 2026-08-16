@@ -22,7 +22,7 @@ export const GUIDE = {
     path: '/guides/esat-past-papers',
     title: 'ESAT Past Papers, Specimen Papers and Sample Questions | JomExam',
     description:
-        'Every official ESAT past paper and specimen paper, where to find them, and what to do once you have worked through them. Includes worked ESAT questions with full solutions, and a free timed paper for each module.',
+        'Every official ESAT past paper and specimen paper, what each is for, and worked ESAT questions with full solutions for when they run out.',
     eyebrow: 'ESAT guide',
     ctaPath: '/diagnostics/esat',
     ctaLabel: 'Sit a free ESAT paper →',
@@ -30,7 +30,7 @@ export const GUIDE = {
     standfirst:
         'There is less official ESAT material than students expect, and it runs out quickly. This page sets out what exists, how to get the most from each paper, and what to do next — because the honest answer to "where are the rest" is that they do not exist yet.',
     publishedAt: '2026-08-11',
-    updatedAt: '2026-08-12',
+    updatedAt: '2026-08-16',
     sections: [
         {
             id: 'what-exists',
@@ -43,7 +43,7 @@ export const GUIDE = {
         },
         {
             id: 'papers-vs-questions',
-            h2: 'Past papers, specimen papers and sample questions are not the same thing',
+            h2: 'Which paper for which job',
             paras: [
                 'The terms get used interchangeably, and they are useful at different points.',
                 'A specimen paper shows the format. A past paper was actually sat, so it also shows the real standard. Sample questions are single items — good for drilling one topic, useless for practising the thing the ESAT is hard at, which is finishing.',
@@ -80,9 +80,16 @@ export const GUIDE = {
             id: 'timing',
             h2: 'The constraint the papers are really testing',
             paras: [
-                'Each module is 27 questions in 40 minutes: under 90 seconds each, no calculator, multi-step. Almost nobody fails because they could not eventually do the questions — they fail because they could not do them at that pace.',
+                'Almost nobody fails because they could not eventually do the questions — they fail because they could not do them at that pace. Sample questions are single items: good for drilling a topic, useless for practising the thing the ESAT is actually hard at, which is finishing.',
                 'So working slowly through a paper, checking as you go, tells you very little. Sitting it once, timed and uninterrupted, tells you nearly everything — including that a question you can solve in four minutes is worth zero to you.',
-                'There is no negative marking. If you have not started a question with ten seconds left, answer it anyway.',
+            ],
+            // The format facts this section used to restate now have one home.
+            links: [
+                {
+                    path: '/guides/esat-practice-tests',
+                    label: 'ESAT practice tests guide',
+                    note: 'The full format, timing and scoring, stated once and kept current there.',
+                },
             ],
         },
         {
@@ -147,46 +154,45 @@ export const GUIDE = {
                 'Divide by the moles burnt, not by the smallest number of moles. Reaching for the empirical formula out of habit gives CH₃, which is not a molecule.',
         },
     ],
+    // Six questions down to three. "How long is each module" and "when is
+    // the next sitting" went to their canonical homes; "are specimen papers
+    // the same as past papers" went because the table two sections up already
+    // answers it, and an FAQ restating the body is padding wearing a question
+    // mark.
     faq: [
         {
             q: 'Where can I download official ESAT past papers?',
-            a: 'From UAT-UK, the body that runs the test. It publishes the content specification, an ESAT guide, and specimen and practice tests delivered through Pearson, alongside an archive of past papers. Use the official material before anything written by a prep company, ours included.',
+            a: 'From UAT-UK. Use the official material before anything written by a prep company, ours included.',
             link: {
                 label: 'Official ESAT preparation materials (UAT-UK)',
+                url: 'https://esat-tmua.ac.uk/prepare/',
+            },
+        },
+        {
+            q: 'Can I use ENGAA and NSAA past papers for ESAT practice?',
+            a: 'Yes, for extra material of a similar flavour — but they are not the same syllabus. Check anything you attempt against the current content specification, particularly in Physics and Chemistry.',
+            link: {
+                label: 'ESAT content specification (UAT-UK)',
                 url: 'https://esat-tmua.ac.uk/prepare/',
             },
         },
         {
             q: 'How many ESAT past papers are there?',
-            a: 'Far fewer than for an established A-level subject. The ESAT only replaced the ENGAA and NSAA recently, so there is no long back catalogue, and most candidates work through everything official well before the October sitting. Once you have sat a paper under timed conditions it is spent — you cannot un-see the questions.',
+            a: 'Far fewer than for an established subject, and once you have sat one under timed conditions it is spent. The full inventory is in the table above.',
+        },
+    ],
+    related: [
+        {
+            path: '/guides/esat-practice-tests',
+            blurb: 'the format, scoring and a free timed paper for every module.',
         },
         {
-            q: 'Can I use ENGAA and NSAA past papers for ESAT practice?',
-            a: 'They are worth using for extra material of a similar flavour, but they are not the same test and not the same syllabus. Check anything you attempt against the current ESAT content specification before assuming it is representative, particularly in Physics and Chemistry.',
-            link: {
-                label: 'Official ESAT preparation materials (UAT-UK)',
-                url: 'https://esat-tmua.ac.uk/prepare/',
-            },
+            path: '/guides/esat-physics',
+            blurb: 'worked questions and where the marks actually go.',
         },
         {
-            q: 'Are ESAT specimen papers the same as past papers?',
-            a: 'No. A specimen paper shows you the format and the style of question; a past paper is one that candidates actually sat, so it also shows you the real standard. Use a specimen paper first, so that you spend a past paper on a timed attempt rather than on learning what the answer sheet looks like.',
-        },
-        {
-            q: 'How long is each ESAT module?',
-            a: '27 questions in 40 minutes per module, with no calculator and no negative marking. That is under 90 seconds a question, which is why practising untimed tells you so little — and why leaving anything blank is a straightforward loss.',
-            link: {
-                label: 'How ESAT results are reported (UAT-UK)',
-                url: 'https://esat-tmua.ac.uk/about-the-tests/esat-test/',
-            },
-        },
-        {
-            q: 'When is the next ESAT sitting?',
-            a: 'There are two: 12–16 October 2026 and 4–8 January 2027. Applicants to Cambridge and Oxford must sit the October window. Booking for October closes on 28 September 2026 at 6pm BST. You register yourself through a UAT-UK account and then book a seat with Pearson — your school will not do it for you. Confirm every date on the official site before relying on it, as they move each cycle.',
-            link: {
-                label: 'Official ESAT dates and registration (UAT-UK)',
-                url: 'https://esat-tmua.ac.uk/register/',
-            },
+            path: '/guides/tmua-practice-tests',
+            blurb: 'the equivalent for TMUA Papers 1 and 2.',
         },
     ],
     sources: [
