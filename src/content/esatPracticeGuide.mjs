@@ -94,7 +94,7 @@ export const GUIDE = {
             id: 'per-module',
             h2: 'Practice by module',
             paras: [
-                'Mathematics 1 is compulsory for every candidate and is the foundation the other modules lean on, so it is the sensible place to start. Mathematics 2 goes further into calculus, logic and proof. Physics, Chemistry and Biology each test applied, multi-step reasoning rather than recall.',
+                'Mathematics 1 is compulsory for every candidate and is the foundation the other modules lean on, so it is the sensible place to start. Mathematics 2 goes further into calculus, trigonometry, and exponentials and logarithms. Physics, Chemistry and Biology each test applied, multi-step reasoning rather than recall.',
                 'Set A of every module is free to sit. There is no trick to it: sit one, read the report, and you will know where you stand before you spend months revising.',
             ],
         },
