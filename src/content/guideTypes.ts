@@ -23,11 +23,39 @@ export type GuideFaqItem = {
  * instrument, and publishing them with answers would mean students meet them
  * before they sit them. These are written for the page.
  */
+export type WorkedExampleOption = {
+    /** 'A'–'E', as printed. */
+    letter: string
+    text: string
+    /** Exactly one option per example carries this — same convention as the
+     * diagnostic question bank, rather than a second place to state which
+     * letter is right and get out of step with. */
+    isCorrect?: boolean
+    /**
+     * Why someone lands here — the specific error, not "incorrect". Absent on
+     * the right answer, and absent on a distractor whose rationale was never
+     * written: the widget then shows only the verdict rather than inventing
+     * one.
+     */
+    misconception?: string
+}
+
 export type WorkedExample = {
     id: string
     /** Which module's style this is written to, e.g. "Mathematics 1". */
     module: string
     question: string
+    /**
+     * Present = the reader answers it first, and a wrong choice names the
+     * misconception behind that particular option. Absent = the worked
+     * solution reads straight through, as every example did before.
+     *
+     * Either way the full solution is in the HTML from the start; the
+     * interactive version only toggles visibility. These pages rank on
+     * having crawlable worked solutions, so content that appears only after
+     * a click would be content Google never sees.
+     */
+    options?: WorkedExampleOption[]
     /** One step per line, in the order you would actually work. */
     steps: string[]
     answer: string

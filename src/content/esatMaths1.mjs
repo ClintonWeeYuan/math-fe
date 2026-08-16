@@ -18,12 +18,14 @@
 export const GUIDE = {
     path: '/guides/esat-maths-1',
     title: 'ESAT Maths 1 Questions and Practice Papers | JomExam',
-    description: 'What ESAT Mathematics 1 asks of you, the topics that quietly cost marks, and worked ESAT Maths 1 questions with full solutions. Plus a free timed paper in the real format.',
+    description:
+        'What ESAT Mathematics 1 asks of you, the topics that quietly cost marks, and worked ESAT Maths 1 questions with full solutions. Plus a free timed paper in the real format.',
     eyebrow: 'ESAT guide',
     ctaPath: '/diagnostics/esat',
     ctaLabel: 'Sit a free Mathematics 1 paper →',
     h1: 'ESAT Mathematics 1 questions',
-    standfirst: 'Every ESAT candidate sits Mathematics 1, whatever course they are applying for. The content is familiar A-level pure maths, so the marks go to whoever finds the short route first.',
+    standfirst:
+        'Every ESAT candidate sits Mathematics 1, whatever course they are applying for. The content is familiar A-level pure maths, so the marks go to whoever finds the short route first.',
     publishedAt: '2026-08-11',
     updatedAt: '2026-08-12',
     sections: [
@@ -64,6 +66,35 @@ export const GUIDE = {
             id: 'log-domain',
             module: 'Mathematics 1',
             question: 'Solve log₂(x) + log₂(x − 2) = 3.',
+            options: [
+                {
+                    letter: 'A',
+                    text: 'x = 4',
+                    isCorrect: true,
+                },
+                {
+                    letter: 'B',
+                    text: 'x = 4 and x = −2',
+                    misconception:
+                        'Solves the quadratic correctly but never checks the domain — log₂(−2) is undefined, so −2 was never a solution of the original equation.',
+                },
+                {
+                    letter: 'C',
+                    text: 'x = −2',
+                    misconception:
+                        'Discards the valid root and keeps the extraneous one, checking the factorised quadratic rather than the equation it came from.',
+                },
+                {
+                    letter: 'D',
+                    text: 'x = 8',
+                    misconception:
+                        'Reads log₂(x) + log₂(x − 2) as log₂(x + x − 2), adding the arguments instead of multiplying them.',
+                },
+                {
+                    letter: 'E',
+                    text: 'No real solutions',
+                },
+            ],
             steps: [
                 'Combine the logarithms: log₂(x(x − 2)) = 3.',
                 'So x(x − 2) = 2³ = 8, giving x² − 2x − 8 = 0.',
@@ -71,19 +102,22 @@ export const GUIDE = {
                 'Check the domain: log₂(−2) is undefined, so x = −2 is not a solution.',
             ],
             answer: 'x = 4',
-            takeaway: 'Combining logarithms widens the domain, so the algebra hands back a root the original equation never had.',
+            takeaway:
+                'Combining logarithms widens the domain, so the algebra hands back a root the original equation never had.',
         },
         {
             id: 'divergent-series',
             module: 'Mathematics 1',
-            question: 'The first three terms of a geometric series are 8, 12 and 18. Find the sum to infinity, or explain why it does not exist.',
+            question:
+                'The first three terms of a geometric series are 8, 12 and 18. Find the sum to infinity, or explain why it does not exist.',
             steps: [
                 'Common ratio: r = 12 ÷ 8 = 1.5, confirmed by 18 ÷ 12 = 1.5.',
                 'A sum to infinity exists only when |r| < 1.',
                 'Here |r| = 1.5, so the terms grow without limit.',
             ],
             answer: 'It does not exist — the series diverges because |r| = 1.5 ≥ 1',
-            takeaway: 'Using a ÷ (1 − r) anyway gives −16: a negative total for positive terms, and an answer that cannot be true is the signal the formula did not apply.',
+            takeaway:
+                'Using a ÷ (1 − r) anyway gives −16: a negative total for positive terms, and an answer that cannot be true is the signal the formula did not apply.',
         },
     ],
     faq: [

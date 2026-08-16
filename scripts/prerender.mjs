@@ -35,10 +35,15 @@ const SITE = 'https://www.jomexam.com'
 // Overridable so a build can be pointed at a local API to check what these
 // pages will actually contain, rather than finding out after deploying.
 const API =
-    process.env.PRERENDER_API ?? 'https://joyful-vitality-production.up.railway.app'
+    process.env.PRERENDER_API ??
+    'https://joyful-vitality-production.up.railway.app'
 
 const esc = (s) =>
-    String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+    String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
 
 /** Fetch published sets for a test, or null if the API can't be reached. */
 async function fetchSets(test) {
@@ -69,7 +74,9 @@ const FAILURES = []
 /** Published subjects, or null if the API can't be reached. */
 async function fetchSubjects() {
     try {
-        const res = await fetch(`${API}/subjects`, { signal: AbortSignal.timeout(15000) })
+        const res = await fetch(`${API}/subjects`, {
+            signal: AbortSignal.timeout(15000),
+        })
         if (!res.ok) throw new Error(`HTTP ${res.status}`)
         return await res.json()
     } catch (error) {
@@ -93,8 +100,7 @@ function subjectRoutes(subjects, topicPathsBySubject = new Map()) {
         .map((s) => ({
             path: `/spm/${s.slug}`,
             title: `${s.name} Practice Questions | JomExam`,
-            description:
-                `Practise ${s.name} by topic and difficulty — ${s.questionCount} exam-style SPM questions across ${s.topicCount} topics, free to work through at your own pace.`,
+            description: `Practise ${s.name} by topic and difficulty — ${s.questionCount} exam-style SPM questions across ${s.topicCount} topics, free to work through at your own pace.`,
             body: `<h1>${esc(s.name)} practice questions</h1>
 <p>${esc(String(s.questionCount))} exam-style questions across ${esc(String(s.topicCount))} topics, filterable by topic and difficulty. Free to work through at your own pace.</p>
 <p><a href="/subjects">All SPM subjects</a></p>
@@ -144,7 +150,9 @@ async function fetchTopicQuestions(subjectId, topicId) {
         return page
     } catch (error) {
         FAILURES.push(`questions for topic ${topicId}: ${error.message}`)
-        console.warn(`  ! could not fetch questions for topic ${topicId}: ${error.message}`)
+        console.warn(
+            `  ! could not fetch questions for topic ${topicId}: ${error.message}`
+        )
         return null
     }
 }
@@ -192,7 +200,10 @@ async function topicRoutes(subject) {
 <p>${esc(String(total))} exam-style questions on ${esc(topic.name.toLowerCase())}, with answers. Free to work through at your own pace.</p>
 ${
     items.length > 0
-        ? `<ul>${items.slice(0, 5).map((q) => `<li>${esc(q.text)}</li>`).join('')}</ul>`
+        ? `<ul>${items
+              .slice(0, 5)
+              .map((q) => `<li>${esc(q.text)}</li>`)
+              .join('')}</ul>`
         : ''
 }
 <p><a href="/spm/${esc(subject.slug)}">All ${esc(subject.name)} topics</a></p>
@@ -241,7 +252,6 @@ function setsMarkup(sets) {
         .join('')
 }
 
-
 /**
  * Links to the guides, for the foot of another page.
  *
@@ -254,7 +264,10 @@ function guideLinksMarkup(links = PRIMARY_GUIDE_LINKS) {
     return (
         `<section><h2>${esc(GUIDE_LINKS_HEADING)}</h2><ul>` +
         links
-            .map((link) => `<li><a href="${esc(link.path)}">${esc(link.anchor)}</a></li>`)
+            .map(
+                (link) =>
+                    `<li><a href="${esc(link.path)}">${esc(link.anchor)}</a></li>`
+            )
             .join('') +
         '</ul></section>'
     )
@@ -268,10 +281,15 @@ function guideMarkup(GUIDE) {
             const paras = section.paras.map((p) => `<p>${esc(p)}</p>`).join('')
             const table = section.table
                 ? `<table><caption>${esc(section.table.caption)}</caption><thead><tr>` +
-                  section.table.head.map((h) => `<th scope="col">${esc(h)}</th>`).join('') +
+                  section.table.head
+                      .map((h) => `<th scope="col">${esc(h)}</th>`)
+                      .join('') +
                   '</tr></thead><tbody>' +
                   section.table.rows
-                      .map((r) => `<tr>${r.map((c) => `<td>${esc(c)}</td>`).join('')}</tr>`)
+                      .map(
+                          (r) =>
+                              `<tr>${r.map((c) => `<td>${esc(c)}</td>`).join('')}</tr>`
+                      )
                       .join('') +
                   '</tbody></table>'
                 : ''
@@ -310,11 +328,33 @@ function guideMarkup(GUIDE) {
             : '') +
         '.</p>'
 
+    // The crawlable copy of each worked example. Options and their
+    // misconceptions are emitted in full here, exactly as the React component
+    // renders them: the interactive version only ever toggles `hidden`, so
+    // what a reader can reach by clicking and what a crawler reads without
+    // clicking must be the same text. These pages are supposed to rank on
+    // having worked solutions — emitting the question and withholding the
+    // reasoning would rank them on nothing.
     const examples = (GUIDE.workedExamples ?? [])
         .map(
             (example) =>
                 `<article id="${esc(example.id)}"><p>${esc(example.module)}</p>` +
-                `<p>${esc(example.question)}</p><ol>` +
+                `<p>${esc(example.question)}</p>` +
+                (example.options
+                    ? '<ul>' +
+                      example.options
+                          .map(
+                              (option) =>
+                                  `<li>${esc(option.letter)} ${esc(option.text)}` +
+                                  (option.misconception
+                                      ? ` — ${esc(option.misconception)}`
+                                      : '') +
+                                  '</li>'
+                          )
+                          .join('') +
+                      '</ul>'
+                    : '') +
+                '<ol>' +
                 example.steps.map((step) => `<li>${esc(step)}</li>`).join('') +
                 `</ol><p>Answer: ${esc(example.answer)}</p>` +
                 `<p>${esc(example.takeaway)}</p></article>`
@@ -331,7 +371,10 @@ function guideMarkup(GUIDE) {
         `<p><a href="${esc(GUIDE.ctaPath)}">${esc(GUIDE.ctaLabel)}</a></p>` +
         '<section><h2>More guides</h2><ul>' +
         GUIDES.filter((g) => g.path !== GUIDE.path)
-            .map((g) => `<li><a href="${esc(g.path)}">${esc(g.h1)}</a> — ${esc(g.description)}</li>`)
+            .map(
+                (g) =>
+                    `<li><a href="${esc(g.path)}">${esc(g.h1)}</a> — ${esc(g.description)}</li>`
+            )
             .join('') +
         '</ul></section>'
     )
@@ -360,7 +403,8 @@ const GUIDES_INDEX = {
         '<p>What each test actually asks of you, how it is scored, and how to get something useful out of a practice paper.</p>' +
         '<ul>' +
         GUIDES.map(
-            (g) => `<li><a href="${esc(g.path)}"><strong>${esc(g.h1)}</strong></a> — ${esc(g.description)}</li>`
+            (g) =>
+                `<li><a href="${esc(g.path)}"><strong>${esc(g.h1)}</strong></a> — ${esc(g.description)}</li>`
         ).join('') +
         '</ul>',
 }
@@ -511,7 +555,10 @@ function sitemapIndex(files) {
         '<?xml version="1.0" encoding="UTF-8"?>\n' +
         '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
         files
-            .map((file) => `  <sitemap>\n    <loc>${SITE}/${file}</loc>\n  </sitemap>`)
+            .map(
+                (file) =>
+                    `  <sitemap>\n    <loc>${SITE}/${file}</loc>\n  </sitemap>`
+            )
             .join('\n') +
         '\n</sitemapindex>\n'
     )
@@ -556,11 +603,13 @@ async function main() {
         details.map((d) => [
             d.slug,
             topicPages
-                .filter((r) => r.indexable && r.path.startsWith(`/spm/${d.slug}/`))
+                .filter(
+                    (r) => r.indexable && r.path.startsWith(`/spm/${d.slug}/`)
+                )
                 .map((r) => ({
                     path: r.path,
-                    name: (d.topics ?? []).find(
-                        (t) => r.path.endsWith(`/${t.slug}`)
+                    name: (d.topics ?? []).find((t) =>
+                        r.path.endsWith(`/${t.slug}`)
                     )?.name,
                 })),
         ])
@@ -582,7 +631,10 @@ async function main() {
 
         // Per-route metadata. The template's own tags are replaced rather than
         // appended, so a crawler never sees two competing titles.
-        html = html.replace(/<title>[\s\S]*?<\/title>/, `<title>${esc(route.title)}</title>`)
+        html = html.replace(
+            /<title>[\s\S]*?<\/title>/,
+            `<title>${esc(route.title)}</title>`
+        )
         html = html.replace(
             /<meta name="description" content="[\s\S]*?"\/>/,
             `<meta name="description" content="${esc(route.description)}"/>`
@@ -687,7 +739,9 @@ async function main() {
         )
     }
     if (submitted === 0) {
-        throw new Error('the sitemap came out empty — nothing would be submitted')
+        throw new Error(
+            'the sitemap came out empty — nothing would be submitted'
+        )
     }
 }
 

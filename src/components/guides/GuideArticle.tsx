@@ -1,4 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom'
+import { WorkedExample } from '@/components/guides/WorkedExample.tsx'
 import { Button } from '@/components/ui/button.tsx'
 import { Seo } from '@/components/Seo.tsx'
 import type { Guide } from '@/content/guideTypes.ts'
@@ -50,7 +51,10 @@ export function GuideArticle({ guide }: { guide: Guide }) {
                 <nav aria-label="Breadcrumb" className="mb-4">
                     <ol className="flex flex-wrap gap-2 text-xs text-slate-400">
                         <li>
-                            <Link to="/" className="underline underline-offset-2">
+                            <Link
+                                to="/"
+                                className="underline underline-offset-2"
+                            >
                                 Home
                             </Link>
                         </li>
@@ -176,34 +180,7 @@ export function GuideArticle({ guide }: { guide: Guide }) {
                 {guide.workedExamples !== undefined && (
                     <section className="mb-10">
                         {guide.workedExamples.map((example) => (
-                            <article
-                                key={example.id}
-                                id={example.id}
-                                className="mb-6 rounded-xl border border-slate-200 p-5"
-                            >
-                                <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-2">
-                                    {example.module}
-                                </p>
-                                <p className="font-medium text-slate-900 leading-relaxed mb-4">
-                                    {example.question}
-                                </p>
-                                <ol className="list-decimal pl-5 mb-4">
-                                    {example.steps.map((step, i) => (
-                                        <li
-                                            key={i}
-                                            className="text-slate-600 leading-relaxed mb-2"
-                                        >
-                                            {step}
-                                        </li>
-                                    ))}
-                                </ol>
-                                <p className="font-semibold text-slate-900 mb-3">
-                                    Answer: {example.answer}
-                                </p>
-                                <p className="text-sm text-slate-500 leading-relaxed">
-                                    {example.takeaway}
-                                </p>
-                            </article>
+                            <WorkedExample key={example.id} example={example} />
                         ))}
                     </section>
                 )}
