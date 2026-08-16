@@ -303,7 +303,13 @@ function guideMarkup(GUIDE) {
                       .join('') +
                   '</tbody></table>'
                 : ''
-            return `<section id="${esc(section.id)}"><h2>${esc(section.h2)}</h2>${paras}${links}${table}</section>`
+            // The questions belong under the heading that introduces
+            // them, not after every section — same note as GuideArticle.
+            // Marked here and filled below, because `examples` is built
+            // after this map.
+            const here =
+                section.id === 'worked-examples' ? '<!--JX_EXAMPLES-->' : ''
+            return `<section id="${esc(section.id)}"><h2>${esc(section.h2)}</h2>${paras}${links}${table}${here}</section>`
         })
         .join('')
     const faq =
@@ -375,8 +381,7 @@ function guideMarkup(GUIDE) {
         breadcrumb +
         `<h1>${esc(GUIDE.h1)}</h1><p>${esc(GUIDE.standfirst)}</p>` +
         byline +
-        sections +
-        examples +
+        sections.replace('<!--JX_EXAMPLES-->', examples) +
         faq +
         `<p><a href="${esc(GUIDE.ctaPath)}">${esc(GUIDE.ctaLabel)}</a></p>` +
         '<section><h2>More guides</h2><ul>' +

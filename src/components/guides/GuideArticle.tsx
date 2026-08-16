@@ -189,16 +189,21 @@ export function GuideArticle({ guide }: { guide: Guide }) {
                                 </table>
                             </div>
                         )}
+                        {/* The questions sit under the heading that
+                            introduces them. Rendered after every section, as
+                            they used to be, a guide that says "the four
+                            questions above" points at nothing — and any
+                            section written after the worked-examples one
+                            silently jumps the queue. */}
+                        {section.id === 'worked-examples' &&
+                            guide.workedExamples?.map((example) => (
+                                <WorkedExample
+                                    key={example.id}
+                                    example={example}
+                                />
+                            ))}
                     </section>
                 ))}
-
-                {guide.workedExamples !== undefined && (
-                    <section className="mb-10">
-                        {guide.workedExamples.map((example) => (
-                            <WorkedExample key={example.id} example={example} />
-                        ))}
-                    </section>
-                )}
 
                 <section className="mb-10">
                     <h2 className="text-xl md:text-2xl font-bold mb-4">
