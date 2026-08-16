@@ -27,10 +27,15 @@ export function SetInstructionsPage() {
     const [agreed, setAgreed] = useState(false)
     const { user, isLoading: isAuthLoading } = useAuth()
 
-    const { data: preview, isLoading, isError } = useGetSetPreviewQuery({
+    const {
+        data: preview,
+        isLoading,
+        isError,
+    } = useGetSetPreviewQuery({
         setId: setId ?? '',
     })
-    const { mutate: startAttempt, isPending } = useStartOrResumeAttemptMutation()
+    const { mutate: startAttempt, isPending } =
+        useStartOrResumeAttemptMutation()
 
     function handleStart() {
         if (!setId) return
@@ -38,7 +43,8 @@ export function SetInstructionsPage() {
             { diagnosticSetId: setId, agreedToTerms: agreed },
             {
                 onSuccess: (state) => {
-                    if (state) navigate(`/diagnostic/attempts/${state.attempt.id}`)
+                    if (state)
+                        navigate(`/diagnostic/attempts/${state.attempt.id}`)
                 },
                 onError: (err) => {
                     // 402 = premium set without a Season Pass. Telling the
@@ -52,7 +58,9 @@ export function SetInstructionsPage() {
                         )
                         return
                     }
-                    toast.error('Could not start the diagnostic. Please try again.')
+                    toast.error(
+                        'Could not start the diagnostic. Please try again.'
+                    )
                 },
             }
         )
@@ -63,7 +71,9 @@ export function SetInstructionsPage() {
     if (isError || !preview) {
         return (
             <div className="mx-auto mt-16 flex max-w-md flex-col items-center gap-4 text-center">
-                <h1 className="text-2xl font-semibold">Diagnostic not available</h1>
+                <h1 className="text-2xl font-semibold">
+                    Diagnostic not available
+                </h1>
                 <p className="text-gray-600">
                     This diagnostic doesn&apos;t exist or isn&apos;t currently
                     published.
@@ -74,6 +84,11 @@ export function SetInstructionsPage() {
             </div>
         )
     }
+
+    // Narrowed rather than typed: `format` postdates the generated client, and
+    // regenerating it here would drag a whole generator-version migration into
+    // a change about one page. Absent, this reads as a full paper.
+    const isMini = (preview as { format?: 'mini' | 'full' }).format === 'mini'
 
     return (
         <div className="mx-auto mt-12 flex max-w-2xl flex-col gap-6 px-4">
@@ -87,7 +102,9 @@ export function SetInstructionsPage() {
             <Card>
                 <CardContent className="grid grid-cols-2 gap-4 pt-6">
                     <div className="flex flex-col">
-                        <span className="text-sm text-gray-500">Time limit</span>
+                        <span className="text-sm text-gray-500">
+                            Time limit
+                        </span>
                         <span className="text-xl font-medium">
                             {preview.timeLimitMinutes} minutes
                         </span>
@@ -101,10 +118,26 @@ export function SetInstructionsPage() {
                 </CardContent>
             </Card>
 
+            {/* Said before committing, not discovered afterwards. A mini's
+                report has no Skills Radar, and a student who expected one
+                would read its absence as something withheld — which is
+                exactly the impression the report screen works to avoid. */}
+            {isMini && (
+                <div className="rounded-md border bg-emerald-50 border-emerald-200 px-4 py-3 text-sm text-emerald-900">
+                    A mini test is the real paper&apos;s pace at a quarter of
+                    its length — {preview.questionCount} questions in{' '}
+                    {preview.timeLimitMinutes} minutes. You&apos;ll get your
+                    score, a per-question review naming the misconception behind
+                    each wrong answer, and your pacing. Ten questions give an
+                    indication, not a diagnosis: the full paper is what resolves
+                    every skill.
+                </div>
+            )}
+
             <div className="rounded-md border bg-amber-50 border-amber-200 px-4 py-3 text-sm text-amber-900">
-                Once you start, the timer runs continuously and cannot be paused —
-                the clock keeps going even if you close the tab. Make sure you can
-                finish in one sitting.
+                Once you start, the timer runs continuously and cannot be paused
+                — the clock keeps going even if you close the tab. Make sure you
+                can finish in one sitting.
             </div>
 
             {/* Signed out, the page stops here: sample questions so a
@@ -114,14 +147,14 @@ export function SetInstructionsPage() {
                 form with nothing behind it gave nobody a reason to make one. */}
             {!isAuthLoading && user === null ? (
                 <SignInToSit
+                    minutes={preview.timeLimitMinutes}
+                    isMini={isMini}
                     // The generated client predates this field. Regenerating
                     // it here would pull in a whole generator-version
                     // migration — 15 files — into a change about one page, so
                     // it is read narrowly until the client is regenerated on
                     // its own.
-                    subject={
-                        (preview as { subject?: string | null }).subject
-                    }
+                    subject={(preview as { subject?: string | null }).subject}
                 />
             ) : (
                 <>
@@ -144,7 +177,11 @@ export function SetInstructionsPage() {
                             disabled={!agreed || isPending}
                             onClick={handleStart}
                         >
-                            {isPending ? 'Starting…' : 'Start diagnostic'}
+                            {isPending
+                                ? 'Starting…'
+                                : isMini
+                                  ? 'Start mini test'
+                                  : 'Start diagnostic'}
                         </Button>
                     </div>
                 </>
@@ -160,7 +197,18 @@ export function SetInstructionsPage() {
  * those 27 are the scored instrument, and publishing any of them would let a
  * student meet a question before sitting it.
  */
-function SignInToSit({ subject }: { subject?: string | null }) {
+function SignInToSit({
+    subject,
+    minutes,
+    isMini,
+}: {
+    subject?: string | null
+    /** This paper's real time limit. Was hardcoded as 40, which is right for
+     * an ESAT module and wrong for a 15-minute mini and a 75-minute TMUA
+     * paper. */
+    minutes: number
+    isMini: boolean
+}) {
     const navigate = useNavigate()
     const samples = samplesFor(subject)
 
@@ -170,7 +218,7 @@ function SignInToSit({ subject }: { subject?: string | null }) {
                 <div className="flex flex-col gap-3">
                     <p className="text-sm text-gray-600">
                         Two questions in the style of this paper, so you can see
-                        what it asks before committing 40 minutes.
+                        what it asks before committing {minutes} minutes.
                     </p>
                     {samples.questions.map((question) => (
                         <Card key={question.stem}>
@@ -198,15 +246,19 @@ function SignInToSit({ subject }: { subject?: string | null }) {
                         >
                             guide
                         </Link>
-                        . The paper itself is marked automatically, with a
-                        report naming the skills to work on.
+                        .{' '}
+                        {isMini
+                            ? 'The mini itself is marked automatically, with a report naming the misconception behind each wrong answer.'
+                            : 'The paper itself is marked automatically, with a report naming the skills to work on.'}
                     </p>
                 </div>
             )}
 
             <Card>
                 <CardContent className="flex flex-col gap-3 pt-6">
-                    <p className="text-lg font-medium">Sit the full paper</p>
+                    <p className="text-lg font-medium">
+                        {isMini ? 'Sit the mini test' : 'Sit the full paper'}
+                    </p>
                     <p className="text-sm text-gray-600">
                         The timer runs once and cannot be paused, so we save
                         your place and your report to an account.
@@ -217,7 +269,9 @@ function SignInToSit({ subject }: { subject?: string | null }) {
                             size="lg"
                             onClick={() =>
                                 navigate('/auth/login', {
-                                    state: { from: { pathname: location.pathname } },
+                                    state: {
+                                        from: { pathname: location.pathname },
+                                    },
                                 })
                             }
                         >

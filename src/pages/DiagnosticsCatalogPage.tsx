@@ -7,7 +7,17 @@ import type { DiagnosticTest } from '@/hooks/diagnostic/useListPublishedSetsQuer
 import type { PublishedDiagnosticSet } from '@/client'
 import { BILLING_LIVE } from '@/lib/billing.ts'
 
-/** Group published sets by subject, subjects sorted, uncategorised last. */
+/** Whether a set is a mini test. Read through a narrowing because `format` is
+ * not in the generated client yet; absent, a set reads as a full paper, which
+ * is the pre-mini behaviour. */
+function isMini(set: PublishedDiagnosticSet): boolean {
+    return (set as { format?: 'mini' | 'full' }).format === 'mini'
+}
+
+/** Group published sets by subject, subjects sorted, uncategorised last.
+ *
+ * Order within a subject is whatever the API returned, which is minis first —
+ * see the `format` ordering on /diagnostic/sets/published. */
 function groupBySubject(
     sets: PublishedDiagnosticSet[]
 ): { subject: string; sets: PublishedDiagnosticSet[] }[] {
@@ -139,7 +149,19 @@ export function DiagnosticsCatalogPage({ test }: Props) {
                                     className="bg-slate-50 border border-slate-100 rounded-xl p-6 flex flex-col"
                                 >
                                     <div className="flex items-start justify-between gap-3 mb-1">
-                                        <p className="text-lg font-bold">{s.title}</p>
+                                        <p className="text-lg font-bold">
+                                            {s.title}
+                                        </p>
+                                        {/* A mini is the shorter commitment
+                                            and the intended first rung, so it
+                                            says so rather than relying on the
+                                            reader doing arithmetic on the
+                                            question count. */}
+                                        {isMini(s) && (
+                                            <span className="shrink-0 text-[11px] font-medium px-2 py-0.5 rounded-full border border-emerald-200 bg-emerald-50 text-emerald-700">
+                                                15 min
+                                            </span>
+                                        )}
                                         {/* Paid sets say so up front: a
                                             student should never click Start
                                             only to meet a paywall. */}
@@ -161,6 +183,15 @@ export function DiagnosticsCatalogPage({ test }: Props) {
                                         {s.timeLimitMinutes} min
                                         {s.isFree ? ' · free' : ''}
                                     </p>
+                                    {isMini(s) && (
+                                        <p className="text-sm text-slate-500 leading-relaxed mb-4">
+                                            The real test&apos;s pace at a
+                                            quarter of its length. You get your
+                                            score, a per-question review and
+                                            your pacing — the full paper is what
+                                            resolves every skill.
+                                        </p>
+                                    )}
                                     {s.description && (
                                         <p className="text-sm text-slate-500 leading-relaxed mb-4">
                                             {s.description}
@@ -171,12 +202,16 @@ export function DiagnosticsCatalogPage({ test }: Props) {
                                             <Button
                                                 className="cursor-pointer"
                                                 onClick={() =>
-                                                    navigate(`/diagnostic/sets/${s.id}`)
+                                                    navigate(
+                                                        `/diagnostic/sets/${s.id}`
+                                                    )
                                                 }
                                             >
-                                                {s.isFree
-                                                    ? 'Start diagnostic →'
-                                                    : 'Unlock with Season Pass →'}
+                                                {!s.isFree
+                                                    ? 'Unlock with Season Pass →'
+                                                    : isMini(s)
+                                                      ? 'Start mini test →'
+                                                      : 'Start diagnostic →'}
                                             </Button>
                                         ) : (
                                             /* Locked but not yet buyable: an
@@ -198,17 +233,24 @@ export function DiagnosticsCatalogPage({ test }: Props) {
                     <p className="text-sm text-slate-500 mb-4">
                         Preparing for the other test?{' '}
                         <Link
-                            to={test === 'esat' ? '/diagnostics/tmua' : '/diagnostics/esat'}
+                            to={
+                                test === 'esat'
+                                    ? '/diagnostics/tmua'
+                                    : '/diagnostics/esat'
+                            }
                             className="font-semibold text-slate-700 underline underline-offset-4"
                         >
-                            {test === 'esat' ? 'TMUA diagnostics' : 'ESAT diagnostics'} →
+                            {test === 'esat'
+                                ? 'TMUA diagnostics'
+                                : 'ESAT diagnostics'}{' '}
+                            →
                         </Link>
                     </p>
                 )}
 
                 <p className="text-xs text-slate-400 mt-2">
-                    You&apos;ll be asked to sign in before you start — your report is
-                    saved to your account.
+                    You&apos;ll be asked to sign in before you start — your
+                    report is saved to your account.
                 </p>
             </div>
         </LandingLayout>

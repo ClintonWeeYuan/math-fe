@@ -41,6 +41,11 @@ export function EditSetDialog({ set, open, onOpenChange, onSaved }: Props) {
     const [subject, setSubject] = useState<string | null>(set.subject ?? null)
     const [timeLimit, setTimeLimit] = useState(String(set.timeLimitMinutes))
     const [isFree, setIsFree] = useState(set.isFree)
+    // Not in the generated client yet, so read through a narrowing. Defaults
+    // to 'full', matching the column default.
+    const [format, setFormat] = useState<'mini' | 'full'>(
+        (set as { format?: 'mini' | 'full' }).format ?? 'full'
+    )
 
     const { mutate: updateSet, isPending } = useUpdateDiagnosticSetMutation({
         setId: set.id,
@@ -52,20 +57,28 @@ export function EditSetDialog({ set, open, onOpenChange, onSaved }: Props) {
 
     function handleSave() {
         if (!titleValid || !timeLimitValid) return
-        updateSet(
-            {
-                title: title.trim(),
-                // Explicit null is a real "uncategorise" here, not an omission
-                // — the backend body distinguishes the two.
-                subject,
-                timeLimitMinutes: minutes,
-                isFree,
-            },
-            {
-                onSuccess: () => onSaved(),
-                onError: (err) => toast.error(err.message),
-            }
-        )
+        // `format` is not in the generated UpdateDiagnosticSetBody yet —
+        // regenerating the client rewrites all ~1500 lines of it — so the body
+        // is asserted once here rather than the field being dropped. The API
+        // accepts it; only the local type is behind.
+        const body = {
+            title: title.trim(),
+            // Explicit null is a real "uncategorise" here, not an omission
+            // — the backend body distinguishes the two.
+            subject,
+            timeLimitMinutes: minutes,
+            isFree,
+            // Always sent, never omitted. A set recreated through this
+            // dialog without it silently takes the column default, which
+            // is how a published mini turned back into a full paper and
+            // would have shown a ten-question Skills Radar.
+            format,
+        } as Parameters<typeof updateSet>[0]
+
+        updateSet(body, {
+            onSuccess: () => onSaved(),
+            onError: (err) => toast.error(err.message),
+        })
     }
 
     return (
@@ -112,9 +125,30 @@ export function EditSetDialog({ set, open, onOpenChange, onSaved }: Props) {
                         />
                         {!timeLimitValid && (
                             <span className="text-sm text-red-600">
-                                Must be a whole number of minutes, greater than 0.
+                                Must be a whole number of minutes, greater than
+                                0.
                             </span>
                         )}
+                    </div>
+
+                    <div className="flex flex-col gap-1.5">
+                        <Label htmlFor="set-format">Format</Label>
+                        <select
+                            id="set-format"
+                            className="h-9 rounded-md border border-input bg-transparent px-3 text-sm"
+                            value={format}
+                            onChange={(e) =>
+                                setFormat(e.target.value as 'mini' | 'full')
+                            }
+                        >
+                            <option value="full">Full paper</option>
+                            <option value="mini">Mini test</option>
+                        </select>
+                        <span className="text-sm text-muted-foreground">
+                            {format === 'mini'
+                                ? 'No Skills Radar on the report — ten questions cannot resolve every axis.'
+                                : 'Full report, including the Skills Radar.'}
+                        </span>
                     </div>
 
                     <label className="flex items-center gap-2 text-sm">
@@ -127,7 +161,10 @@ export function EditSetDialog({ set, open, onOpenChange, onSaved }: Props) {
                 </div>
 
                 <DialogFooter>
-                    <Button variant="outline" onClick={() => onOpenChange(false)}>
+                    <Button
+                        variant="outline"
+                        onClick={() => onOpenChange(false)}
+                    >
                         Cancel
                     </Button>
                     <Button
