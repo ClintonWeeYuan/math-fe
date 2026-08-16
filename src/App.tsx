@@ -25,6 +25,7 @@ import { DiagnosticsCatalogPage } from '@/pages/DiagnosticsCatalogPage.tsx'
 import { GuidesIndexPage } from '@/pages/GuidesIndexPage.tsx'
 import { EsatPracticeGuidePage } from '@/pages/EsatPracticeGuidePage.tsx'
 import { EsatPastPapersPage } from '@/pages/EsatPastPapersPage.tsx'
+import { EsatDatesPage } from '@/pages/EsatDatesPage.tsx'
 import { EsatMaths1Page } from '@/pages/EsatMaths1Page.tsx'
 import { EsatMaths2Page } from '@/pages/EsatMaths2Page.tsx'
 import { EsatPhysicsPage } from '@/pages/EsatPhysicsPage.tsx'
@@ -89,13 +90,13 @@ function App() {
                     path="revision"
                     element={<Navigate to="/subjects" replace />}
                 />
-                <Route
-                    path="admissions"
-                    element={<AdmissionsPickerPage />}
-                />
+                <Route path="admissions" element={<AdmissionsPickerPage />} />
                 <Route path="about" element={<AboutPage />} />
                 <Route path="esat-tmua" element={<EsatTmuaPage />} />
-                <Route path="diagnostics" element={<DiagnosticsCatalogPage />} />
+                <Route
+                    path="diagnostics"
+                    element={<DiagnosticsCatalogPage />}
+                />
                 {/* Guides are written to be found in search, so they are
                     prerendered in full — see scripts/prerender.mjs. */}
                 <Route path="guides" element={<GuidesIndexPage />} />
@@ -107,6 +108,7 @@ function App() {
                     path="guides/esat-past-papers"
                     element={<EsatPastPapersPage />}
                 />
+                <Route path="guides/esat-dates" element={<EsatDatesPage />} />
                 <Route
                     path="guides/esat-maths-1"
                     element={<EsatMaths1Page />}
@@ -144,10 +146,7 @@ function App() {
                 />
                 <Route path="subjects" element={<SubjectsPage />} />
                 <Route path="spm/:slug" element={<SpmSubjectPage />} />
-                <Route
-                    path="spm/:slug/:topicSlug"
-                    element={<SpmTopicPage />}
-                />
+                <Route path="spm/:slug/:topicSlug" element={<SpmTopicPage />} />
                 {/* The old uuid URLs have been shared and may be indexed, so
                     they redirect rather than 404. */}
                 <Route
@@ -219,15 +218,27 @@ function App() {
                         path="admin/questions/:questionId"
                         element={<DiagnosticQuestionEditPage />}
                     />
-                    <Route path="admin/sets" element={<DiagnosticSetsListPage />} />
-                    <Route path="admin/subjects" element={<DiagnosticSubjectsPage />} />
-                    <Route path="admin/results" element={<DiagnosticResultsPage />} />
+                    <Route
+                        path="admin/sets"
+                        element={<DiagnosticSetsListPage />}
+                    />
+                    <Route
+                        path="admin/subjects"
+                        element={<DiagnosticSubjectsPage />}
+                    />
+                    <Route
+                        path="admin/results"
+                        element={<DiagnosticResultsPage />}
+                    />
                     <Route path="admin/waitlist" element={<WaitlistPage />} />
                     <Route
                         path="admin/attempts/:attemptId/report"
                         element={<DiagnosticAdminReportPage />}
                     />
-                    <Route path="admin/sets/new" element={<DiagnosticSetCreatePage />} />
+                    <Route
+                        path="admin/sets/new"
+                        element={<DiagnosticSetCreatePage />}
+                    />
                     <Route
                         path="admin/sets/:setId/questions"
                         element={<DiagnosticSetQuestionsPage />}
