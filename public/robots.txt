@@ -1,7 +1,67 @@
+# JomExam — crawler policy
+#
+# Private areas are repeated in EVERY group below, deliberately. A crawler
+# obeys the most specific User-agent group that matches it and ignores the
+# "*" group completely — so naming a bot below and listing only "Allow: /"
+# would hand it /admin and /diagnostic, which the "*" group withholds. Any
+# new group must carry the same three Disallow lines.
+
+# ---------------------------------------------------------------------------
+# Everyone else, including Googlebot and Bingbot.
+# ---------------------------------------------------------------------------
 User-agent: *
 Allow: /
 Disallow: /admin
 Disallow: /auth/
 Disallow: /diagnostic/
+
+# ---------------------------------------------------------------------------
+# AI retrieval and search bots — allowed.
+#
+# These fetch a page live to answer a question someone is asking right now,
+# and they cite the source. Blocking them removes JomExam from the answer a
+# student gets when they ask an assistant about the ESAT; it does not stop
+# the answer being given. They are search traffic wearing a different coat.
+# ---------------------------------------------------------------------------
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+Allow: /
+Disallow: /admin
+Disallow: /auth/
+Disallow: /diagnostic/
+
+# ---------------------------------------------------------------------------
+# AI training bots — blocked.
+#
+# These collect text to train future models. Nothing is cited and no reader
+# arrives, so the exchange is the worked solutions and misconception bank —
+# the part of this site a competitor cannot reproduce — for nothing.
+#
+# This is a commercial preference, not a technical necessity, and reversing
+# it is one line: delete the bot from this group. Two things worth knowing
+# before you do either:
+#
+#   Google-Extended governs Gemini and Vertex training ONLY. It has no
+#   bearing on Google Search ranking or indexing — blocking it does not
+#   affect how the guides rank.
+#
+#   CCBot feeds Common Crawl, which is a public dataset used well beyond AI
+#   training (academic research, the Internet Archive's neighbours). Blocking
+#   it is the broadest of these in effect.
+# ---------------------------------------------------------------------------
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: anthropic-ai
+User-agent: Google-Extended
+User-agent: CCBot
+User-agent: Applebot-Extended
+User-agent: Bytespider
+User-agent: Meta-ExternalAgent
+User-agent: meta-externalagent
+Disallow: /
 
 Sitemap: https://www.jomexam.com/sitemap.xml
