@@ -32,7 +32,7 @@ export const GUIDE = {
     // because that is when the page gained its byline and dates, which is a
     // change a reader can see.
     publishedAt: '2026-08-01',
-    updatedAt: '2026-08-11',
+    updatedAt: '2026-08-17',
     sections: [
         {
             id: 'two-papers',
@@ -68,6 +68,13 @@ export const GUIDE = {
                 'The TMUA is computer-based and sat at a Pearson VUE test centre. Each paper contains 20 multiple-choice questions and lasts 75 minutes, and the test runs 2 hours 30 minutes in total.',
                 'There is no calculator and no dictionary. There is no negative marking either, so you should attempt every question — a guess costs nothing and a blank is a guaranteed zero.',
                 'Each paper is reported separately on a scale from 1 (low) to 9 (high), to one decimal place. There is no pass mark. Universities read your scores alongside the rest of your application, so a score only means something relative to the cohort that sat it with you.',
+            ],
+            links: [
+                {
+                    path: '/guides/tmua-dates',
+                    label: 'TMUA dates and registration',
+                    note: 'Sittings, booking deadlines, fees and access arrangements, updated each cycle.',
+                },
             ],
         },
         {
@@ -120,23 +127,33 @@ export const GUIDE = {
         },
         {
             q: 'Which universities require the TMUA?',
-            a: 'Universities using the TMUA include Cambridge, Oxford, LSE, UCL, Warwick and Durham, and the list changes between admissions cycles. Requirements are set per course, not per university — the same institution may require it for one degree, recommend it for another and ignore it for a third. UAT-UK\'s own guidance is to check the course pages of the universities you are applying to.',
+            a: "Universities using the TMUA include Cambridge, Oxford, LSE, UCL, Warwick and Durham, and the list changes between admissions cycles. Requirements are set per course, not per university — the same institution may require it for one degree, recommend it for another and ignore it for a third. UAT-UK's own guidance is to check the course pages of the universities you are applying to.",
             link: {
                 label: 'Universities using the TMUA (UAT-UK)',
                 url: 'https://esat-tmua.ac.uk/about-the-tests/tmua-test/',
             },
         },
         {
-            q: 'When is the TMUA sat, and does it differ for international students?',
-            a: 'There are two sittings: 12–16 October 2026 and 4–8 January 2027. Applicants to Cambridge or Oxford must sit the October window. Booking for October closes 28 September 2026 (6pm BST) and for January on 21 December 2026 (6pm GMT), and you register yourself rather than through your school. The paper is identical wherever you sit it, but the fee is £78 at test centres in the UK and the Republic of Ireland and £133 elsewhere — set by the test centre\'s location, not your nationality — and candidates in China, Hong Kong and Macau are restricted to specific days within each window. Confirm the dates on the official site before relying on them; they move each cycle.',
-            link: {
-                label: 'Official dates and registration (UAT-UK)',
-                url: 'https://esat-tmua.ac.uk/register/',
-            },
+            q: 'When is the TMUA sat?',
+            a: 'Two sittings a year, October and January, with Oxford and Cambridge applicants required to sit October apart from two narrow exceptions. Dates, deadlines, fees and how to register are on the TMUA dates and registration page, which is updated each cycle.',
         },
         {
             q: 'Are the JomExam TMUA practice tests free?',
             a: 'Set A of both Paper 1 and Paper 2 is free to sit, including the full skills report. Further sets are part of the Season Pass.',
+        },
+    ],
+    related: [
+        {
+            path: '/guides/tmua-dates',
+            blurb: 'sittings, deadlines and fees, updated each cycle.',
+        },
+        {
+            path: '/guides/esat-practice-tests',
+            blurb: 'the equivalent for the ESAT, with a free paper per module.',
+        },
+        {
+            path: '/guides/esat-dates',
+            blurb: 'ESAT sittings and deadlines, which differ from the TMUA’s.',
         },
     ],
     sources: [
