@@ -1,4 +1,5 @@
 import { LandingLayout } from '@/components/layout/landing/LandingLayout.tsx'
+import { AUTHOR } from '@/content/author.mjs'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button.tsx'
 import { Seo } from '@/components/Seo.tsx'
@@ -14,13 +15,10 @@ export function AboutPage() {
                 path="/about"
             />
             <div className="px-4 md:px-[50px] xl:px-[150px] py-12 md:py-20 max-w-5xl">
-
                 {/* Hero */}
                 <p className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
                     Exam prep that{' '}
-                    <span style={{ color: '#799ED1' }}>
-                        actually works.
-                    </span>
+                    <span style={{ color: '#799ED1' }}>actually works.</span>
                 </p>
                 <p className="text-lg md:text-xl text-slate-500 mb-12 leading-relaxed max-w-3xl">
                     JomExam started as free SPM practice for Malaysian students.
@@ -34,21 +32,19 @@ export function AboutPage() {
                 <div className="bg-slate-50 rounded-2xl p-8 mb-16 border border-slate-100">
                     <p className="text-2xl font-bold mb-3">Our mission</p>
                     <p className="text-slate-600 text-lg leading-relaxed">
-                        Make high-quality exam practice accessible — for
-                        every SPM student in Malaysia, and every student
-                        aiming for a top UK university through the ESAT or
-                        TMUA.
+                        Make high-quality exam practice accessible — for every
+                        SPM student in Malaysia, and every student aiming for a
+                        top UK university through the ESAT or TMUA.
                     </p>
                 </div>
 
                 {/* Team */}
                 <p className="text-2xl font-bold mb-8">Who we are</p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-
                     {/* Hazel */}
                     <div className="rounded-2xl border border-slate-100 p-8 bg-white shadow-sm">
                         <p className="text-4xl mb-4">✏️</p>
-                        <p className="text-xl font-bold mb-1">Hazel</p>
+                        <p className="text-xl font-bold mb-1">{AUTHOR.name}</p>
                         <p className="text-slate-400 text-xs mb-4 uppercase tracking-widest font-medium">
                             Content & Tutoring
                         </p>
@@ -67,8 +63,8 @@ export function AboutPage() {
                         </div>
                         <p className="text-slate-600 leading-relaxed">
                             Oxford DPhil graduate in Engineering. I've taught
-                            5,000+ hours online — A-Level, IB, ESAT, and TMUA
-                            — and curated and organised real SPM past paper
+                            5,000+ hours online — A-Level, IB, ESAT, and TMUA —
+                            and curated and organised real SPM past paper
                             questions by topic and skill so students can drill
                             exactly what they need. My teaching is diagnostic
                             first: find the gap, fix the gap, move on.
@@ -138,7 +134,8 @@ export function AboutPage() {
                 <div className="text-center py-10 border-t border-slate-100">
                     <p className="text-2xl font-bold mb-3">Start practising</p>
                     <p className="text-slate-500 mb-6">
-                        Free for everyone. No sign-up needed to browse questions.
+                        Free for everyone. No sign-up needed to browse
+                        questions, and a mini test takes fifteen minutes.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-3 justify-center">
                         <Button
@@ -152,7 +149,14 @@ export function AboutPage() {
                             className="xl:py-6 px-8 cursor-pointer text-base"
                             onClick={() => navigate('/esat-tmua')}
                         >
-                            ESAT & TMUA →
+                            ESAT &amp; TMUA →
+                        </Button>
+                        <Button
+                            variant="outline"
+                            className="xl:py-6 px-8 cursor-pointer text-base"
+                            onClick={() => navigate('/diagnostics/esat')}
+                        >
+                            Try a 15-minute mini test →
                         </Button>
                     </div>
                 </div>

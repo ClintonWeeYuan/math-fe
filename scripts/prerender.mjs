@@ -525,10 +525,11 @@ ${guideLinksMarkup(ESAT_GUIDE_LINKS)}`,
         path: '/about',
         title: 'About | JomExam — Oxford-Trained, Diagnostic-First STEM Prep',
         description:
-            'JomExam is built by Hazel — Oxford DPhil in Engineering, 5,000+ hours taught across A-Level, IB, ESAT and TMUA — on one idea: find the gap before you drill.',
+            'JomExam is built by Hazel Wee Ling — Oxford DPhil in Engineering Science, 5,000+ hours taught across A-Level, IB, ESAT and TMUA — on one idea: find the gap before you drill.',
         body: `<h1>About JomExam</h1>
 <p>JomExam began in Malaysia as SPM practice, and now builds timed diagnostics for the ESAT and TMUA admissions tests. Every diagnostic produces a skills report naming the specific gaps to work on.</p>
-<p>One-to-one tutoring is available with Hazel — Oxford DPhil in Engineering, with over 5,000 hours teaching maths, physics and chemistry online.</p>
+<p>The guides and diagnostics are written by Hazel Wee Ling — DPhil in Engineering Science, University of Oxford — with over 5,000 hours teaching maths, physics and chemistry online. One-to-one tutoring is available.</p>
+<p>Short on time? Every ESAT subject has a free mini test: ten questions in fifteen minutes, at the real paper's pace.</p>
 <p><a href="/guides">Guides to the ESAT and TMUA</a></p>`,
     },
 ].concat([GUIDES_INDEX], GUIDE_ROUTES)
