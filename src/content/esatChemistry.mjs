@@ -18,14 +18,16 @@
 export const GUIDE = {
     path: '/guides/esat-chemistry',
     title: 'ESAT Chemistry Questions and Practice Papers | JomExam',
-    description: 'What ESAT Chemistry asks of you, where candidates lose marks, and worked ESAT Chemistry questions with full solutions. Plus a free timed paper in the real format.',
+    description:
+        'What ESAT Chemistry asks of you, where candidates lose marks, and worked ESAT Chemistry questions with full solutions. Plus a free timed paper in the real format.',
     eyebrow: 'ESAT guide',
     ctaPath: '/diagnostics/esat',
     ctaLabel: 'Sit a free Chemistry paper →',
     h1: 'ESAT Chemistry questions',
-    standfirst: 'ESAT Chemistry is a calculation paper more than a recall paper. Most questions come down to moles and a balanced equation — which makes the balancing, not the chemistry, the step that decides the mark.',
+    standfirst:
+        'ESAT Chemistry is a calculation paper more than a recall paper. Most questions come down to moles and a balanced equation — which makes the balancing, not the chemistry, the step that decides the mark.',
     publishedAt: '2026-08-11',
-    updatedAt: '2026-08-12',
+    updatedAt: '2026-08-17',
     sections: [
         {
             id: 'what-it-covers',
@@ -41,6 +43,13 @@ export const GUIDE = {
             paras: [
                 'The biggest cost is an unbalanced equation. Every mole calculation downstream inherits the error, and the arithmetic can be flawless while the answer is wrong.',
                 'Close behind: assuming a 1:1 ratio in a titration when the acid is diprotic — the numbers still come out neatly, which is what makes it dangerous. Then units, cm³ against dm³.',
+            ],
+            links: [
+                {
+                    path: '/guides/esat-practice-tests',
+                    label: 'ESAT practice tests guide',
+                    note: 'The format, scoring and timing, stated once and kept current there.',
+                },
             ],
         },
         {
@@ -58,43 +67,206 @@ export const GUIDE = {
                 'Our Chemistry diagnostics are full timed papers in the real format, and the report names the skills that went wrong rather than handing you a number. Set A is free.',
             ],
         },
+        {
+            id: 'mini-test',
+            h2: 'Fifteen minutes spare?',
+            paras: [
+                'The four questions above are a warm-up. A mini test is the next step: ten questions in fifteen minutes — the real test’s pace at a quarter of its length — with a short skills report at the end. When you are ready for the full picture, Set A of the complete 27-question paper is free, and its report names the skill behind every wrong answer.',
+            ],
+            links: [
+                {
+                    path: '/diagnostic/sets/f50d8b42-6ee8-492a-bc73-4fd3fd10b200',
+                    label: 'Try a mini Chemistry test',
+                    note: 'Ten questions in fifteen minutes, free.',
+                },
+                {
+                    path: '/diagnostics/esat',
+                    label: 'Sit the full free paper',
+                    note: 'Set A of the 27-question paper, with the full skills report.',
+                },
+            ],
+        },
     ],
     workedExamples: [
         {
-            id: 'diprotic-titration',
+            id: 'counting-particles-not-grams',
             module: 'Chemistry',
-            question: '25.0 cm³ of 0.100 mol dm⁻³ sodium hydroxide is exactly neutralised by 20.0 cm³ of sulfuric acid. Calculate the concentration of the acid.',
-            steps: [
-                'Moles of NaOH = 0.0250 × 0.100 = 2.50 × 10⁻³ mol.',
-                'H₂SO₄ + 2NaOH → Na₂SO₄ + 2H₂O, so the acid reacts 1:2 with the hydroxide.',
-                'Moles of H₂SO₄ = 2.50 × 10⁻³ ÷ 2 = 1.25 × 10⁻³ mol.',
-                'Concentration = 1.25 × 10⁻³ ÷ 0.0200.',
+            question:
+                'What mass of water contains the same number of molecules as 22 g of carbon dioxide? (Mᵣ: CO₂ = 44, H₂O = 18)',
+            options: [
+                {
+                    letter: 'A',
+                    text: '11 g',
+                    misconception:
+                        'Halves the mass — matching masses, not molecules.',
+                },
+                {
+                    letter: 'B',
+                    text: '9.0 g',
+                    isCorrect: true,
+                },
+                {
+                    letter: 'C',
+                    text: '22 g',
+                    misconception:
+                        'Equal masses taken as equal molecule counts.',
+                },
+                {
+                    letter: 'D',
+                    text: '18 g',
+                    misconception: 'One full mole of water, the 0.50 lost.',
+                },
+                {
+                    letter: 'E',
+                    text: '4.5 g',
+                    misconception:
+                        'Halves twice — once for the moles and once again for luck.',
+                },
             ],
-            answer: '0.0625 mol dm⁻³',
-            takeaway: 'Sulfuric acid is diprotic; assuming 1:1 gives 0.125 — exactly double, and a perfectly reasonable-looking number. Write the equation before the arithmetic.',
+            steps: [
+                'Moles of CO₂ = 22 ÷ 44 = 0.50 mol.',
+                'Equal numbers of molecules means equal moles: 0.50 mol of water.',
+                'Mass = 0.50 × 18.',
+            ],
+            answer: '9.0 g',
+            takeaway:
+                'The trap is matching the masses — half of 22 is 11, and 11 g is wrong. "Same number of molecules" is a statement about moles, and moles care about Mᵣ, not about the mass you started from.',
         },
         {
-            id: 'combustion-volume',
+            id: 'dilution',
             module: 'Chemistry',
-            question: 'What volume of oxygen at room temperature and pressure is needed to burn 0.20 mol of propane completely? (Molar gas volume at RTP = 24 dm³ mol⁻¹)',
-            steps: [
-                'Balance it: C₃H₈ + 5O₂ → 3CO₂ + 4H₂O.',
-                'Each mole of propane needs 5 of oxygen: 0.20 × 5 = 1.0 mol.',
-                'Volume = 1.0 × 24.',
+            question:
+                '25 cm³ of sodium hydroxide solution of concentration 0.80 mol dm⁻³ is diluted with water to a total volume of 200 cm³. What is the new concentration?',
+            options: [
+                {
+                    letter: 'A',
+                    text: '0.80 mol dm⁻³',
+                    misconception:
+                        'Dilution ignored: the moles are unchanged, but the volume is not.',
+                },
+                {
+                    letter: 'B',
+                    text: '6.4 mol dm⁻³',
+                    misconception:
+                        'Multiplies by the volume factor instead of dividing.',
+                },
+                {
+                    letter: 'C',
+                    text: '0.64 mol dm⁻³',
+                    misconception:
+                        'Multiplies the concentration by the volume ratio the wrong way up.',
+                },
+                {
+                    letter: 'D',
+                    text: '0.10 mol dm⁻³',
+                    isCorrect: true,
+                },
+                {
+                    letter: 'E',
+                    text: '0.20 mol dm⁻³',
+                    misconception: 'Uses 100 cm³ as the final volume.',
+                },
             ],
-            answer: '24 dm³',
-            takeaway: 'The whole question is the 5. Balance carbons, then hydrogens, then oxygens last — get it wrong and every later step is irrelevant.',
+            steps: [
+                'Dilution changes the volume, not the moles: n = 0.025 × 0.80 = 0.020 mol.',
+                'New concentration = 0.020 ÷ 0.200.',
+            ],
+            answer: '0.10 mol dm⁻³',
+            takeaway:
+                'The volume grew by a factor of 8, so the concentration fell by a factor of 8 — writing that sentence first makes the arithmetic a check rather than a hope. Multiplying by 8 instead of dividing is the standard casualty.',
+        },
+        {
+            id: 'gas-volumes-with-an-excess',
+            module: 'Chemistry',
+            question:
+                '50 cm³ of methane is burned in 200 cm³ of oxygen: CH₄ + 2O₂ → CO₂ + 2H₂O. After cooling to room temperature, what volume of gas remains?',
+            options: [
+                {
+                    letter: 'A',
+                    text: '150 cm³',
+                    isCorrect: true,
+                },
+                {
+                    letter: 'B',
+                    text: '50 cm³',
+                    misconception:
+                        'Counts the CO₂ and forgets the 100 cm³ of oxygen that never reacted.',
+                },
+                {
+                    letter: 'C',
+                    text: '250 cm³',
+                    misconception:
+                        'Counts the steam — but "after cooling" made the water liquid.',
+                },
+                {
+                    letter: 'D',
+                    text: '100 cm³',
+                    misconception:
+                        'Counts the leftover oxygen and forgets the CO₂ produced.',
+                },
+                {
+                    letter: 'E',
+                    text: '0 cm³',
+                    misconception:
+                        'Assumes complete combustion consumes every gas present.',
+                },
+            ],
+            steps: [
+                '50 cm³ of methane uses 2 × 50 = 100 cm³ of oxygen and makes 50 cm³ of CO₂.',
+                'Oxygen left over: 200 − 100 = 100 cm³.',
+                'The water is liquid after cooling — it contributes nothing.',
+            ],
+            answer: '150 cm³',
+            takeaway:
+                'Two traps share this question: forgetting the oxygen that never reacted, and counting the steam. "After cooling" is doing quiet work — it removes the water from the count.',
+        },
+        {
+            id: 'bond-energies',
+            module: 'Chemistry',
+            question:
+                'For H₂ + Cl₂ → 2HCl, the bond energies are H–H 436, Cl–Cl 243 and H–Cl 432 kJ mol⁻¹. Find the enthalpy change of the reaction.',
+            options: [
+                {
+                    letter: 'A',
+                    text: '+185 kJ mol⁻¹',
+                    misconception:
+                        'Formed minus broken: the subtraction inverted, the sign with it.',
+                },
+                {
+                    letter: 'B',
+                    text: '+247 kJ mol⁻¹',
+                    misconception:
+                        'Drops the 2 on HCl — 679 − 432 — and inherits the wrong sign from it.',
+                },
+                {
+                    letter: 'C',
+                    text: '−247 kJ mol⁻¹',
+                    misconception:
+                        'The same dropped 2, with the sign patched by instinct rather than arithmetic.',
+                },
+                {
+                    letter: 'D',
+                    text: '−1543 kJ mol⁻¹',
+                    misconception:
+                        'Adds all three bond energies with a uniform sign, building no cycle.',
+                },
+                {
+                    letter: 'E',
+                    text: '−185 kJ mol⁻¹',
+                    isCorrect: true,
+                },
+            ],
+            steps: [
+                'Bonds broken (energy in): 436 + 243 = 679 kJ.',
+                'Bonds formed (energy out): 2 × 432 = 864 kJ — the 2 in the equation is a 2 in the arithmetic.',
+                'ΔH = broken − formed = 679 − 864.',
+            ],
+            answer: '−185 kJ mol⁻¹',
+            takeaway:
+                'Dropping the 2 on HCl gives +247 and the wrong sign — a double casualty from one invisible ratio. Broken minus formed, and every coefficient counts.',
         },
     ],
     faq: [
-        {
-            q: 'How long is the module, and is there negative marking?',
-            a: '27 questions in 40 minutes, no calculator, no negative marking. That is under 90 seconds a question, so never leave one blank.',
-            link: {
-                label: 'How ESAT results are reported (UAT-UK)',
-                url: 'https://esat-tmua.ac.uk/about-the-tests/esat-test/',
-            },
-        },
         {
             q: 'Is a periodic table provided in the ESAT?',
             a: 'Check the official preparation material rather than assuming what worked at A-level, and practise as though relative atomic masses need to be recognised quickly.',
@@ -110,6 +282,20 @@ export const GUIDE = {
                 label: 'ESAT content specification (UAT-UK)',
                 url: 'https://esat-tmua.ac.uk/prepare/',
             },
+        },
+    ],
+    related: [
+        {
+            path: '/guides/esat-practice-tests',
+            blurb: 'the format, scoring, and a free timed paper for every module.',
+        },
+        {
+            path: '/guides/esat-biology',
+            blurb: 'the other life-sciences module.',
+        },
+        {
+            path: '/guides/esat-past-papers',
+            blurb: 'what official material exists.',
         },
     ],
     sources: [

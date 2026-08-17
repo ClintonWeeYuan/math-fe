@@ -27,7 +27,7 @@ export const GUIDE = {
     standfirst:
         'Every ESAT candidate sits Mathematics 1, whatever course they are applying for. The content is familiar A-level pure maths, so the marks go to whoever finds the short route first.',
     publishedAt: '2026-08-11',
-    updatedAt: '2026-08-12',
+    updatedAt: '2026-08-17',
     sections: [
         {
             id: 'what-it-covers',
@@ -43,6 +43,13 @@ export const GUIDE = {
             paras: [
                 'Little of this is conceptually hard. What separates scores is spotting the efficient route inside 90 seconds.',
                 'The recurring losses are ordinary: domains dropped after taking logarithms, discriminant conditions solved the long way, sign errors in a rushed rearrangement, geometric series assumed to converge. All habits under time pressure, not gaps in knowledge.',
+            ],
+            links: [
+                {
+                    path: '/guides/esat-practice-tests',
+                    label: 'ESAT practice tests guide',
+                    note: 'The format, scoring and timing, stated once and kept current there.',
+                },
             ],
         },
         {
@@ -60,75 +67,206 @@ export const GUIDE = {
                 'Our Mathematics 1 diagnostics are full timed papers in the real format, and the report names the skills that went wrong rather than handing you a number. Set A is free.',
             ],
         },
+        {
+            id: 'mini-test',
+            h2: 'Fifteen minutes spare?',
+            paras: [
+                'The four questions above are a warm-up. A mini test is the next step: ten questions in fifteen minutes — the real test’s pace at a quarter of its length — with a short skills report at the end. When you are ready for the full picture, Set A of the complete 27-question paper is free, and its report names the skill behind every wrong answer.',
+            ],
+            links: [
+                {
+                    path: '/diagnostic/sets/bc592d4f-f122-437d-b552-d32ede57e8c7',
+                    label: 'Try a mini Maths 1 test',
+                    note: 'Ten questions in fifteen minutes, free.',
+                },
+                {
+                    path: '/diagnostics/esat',
+                    label: 'Sit the full free paper',
+                    note: 'Set A of the 27-question paper, with the full skills report.',
+                },
+            ],
+        },
     ],
     workedExamples: [
         {
-            id: 'log-domain',
+            id: 'reverse-percentages',
             module: 'Mathematics 1',
-            question: 'Solve log₂(x) + log₂(x − 2) = 3.',
+            question:
+                'A price rises by 20%, and then falls by k% back to exactly its original value. What is k?',
             options: [
                 {
                     letter: 'A',
-                    text: 'x = 4',
+                    text: '10',
+                    misconception:
+                        'Averages the two changes; percentage changes are multiplicative, not additive.',
+                },
+                {
+                    letter: 'B',
+                    text: '20',
+                    misconception:
+                        'Undoes the 20% with 20% — but the fall acts on the raised price, a bigger base, so a smaller percentage suffices.',
+                },
+                {
+                    letter: 'C',
+                    text: '16⅔',
+                    isCorrect: true,
+                },
+                {
+                    letter: 'D',
+                    text: '15',
+                    misconception:
+                        'Computes 1.2 × 0.85 ≈ 1.02 and rounds the residue away instead of solving exactly.',
+                },
+                {
+                    letter: 'E',
+                    text: '83⅓',
+                    misconception:
+                        'Inverts the fraction at the last step: 1 − 5/6 read on the wrong scale.',
+                },
+            ],
+            steps: [
+                'Rising 20% multiplies by 1.2; falling k% multiplies by (1 − k/100).',
+                'Returning to the original means 1.2 × (1 − k/100) = 1.',
+                'So 1 − k/100 = 5/6, giving k/100 = 1/6.',
+            ],
+            answer: '16⅔',
+            takeaway:
+                'The trap is 20: percentage changes do not undo symmetrically, because the second change acts on a different base. If you wrote 20 without calculating, that instinct will cost marks all through the ratio questions.',
+        },
+        {
+            id: 'indices-without-a-calculator',
+            module: 'Mathematics 1',
+            question: 'Given that 4ˣ = 9, find the value of 8ˣ.',
+            options: [
+                {
+                    letter: 'A',
+                    text: '13.5',
+                    misconception:
+                        'Multiplies 9 by 3/2 instead of raising it to the power 3/2.',
+                },
+                {
+                    letter: 'B',
+                    text: '27',
+                    isCorrect: true,
+                },
+                {
+                    letter: 'C',
+                    text: '81',
+                    misconception:
+                        'Squares the 9 — the exponent 2 used where 3/2 belongs.',
+                },
+                {
+                    letter: 'D',
+                    text: '18',
+                    misconception:
+                        'Doubles the 9 to account for the extra factor of 2 in the base.',
+                },
+                {
+                    letter: 'E',
+                    text: '36',
+                    misconception:
+                        'Multiplies by the base 4, treating the base change as a scaling.',
+                },
+            ],
+            steps: [
+                'Write both sides in base 2: 4ˣ = (2ˣ)² = 9, so 2ˣ = 3 (positive root, since 2ˣ > 0).',
+                'Then 8ˣ = (2ˣ)³ = 3³.',
+            ],
+            answer: '27',
+            takeaway:
+                'Solving for x itself needs logarithms you do not have. The question is testing whether you treat 2ˣ as the unknown instead of x — the substitution IS the syllabus point.',
+        },
+        {
+            id: 'nested-squares',
+            module: 'Mathematics 1',
+            question:
+                "A square is inscribed in a circle, which is inscribed in a larger square. What fraction of the large square's area is the small square?",
+            options: [
+                {
+                    letter: 'A',
+                    text: '1/4',
+                    misconception:
+                        'Halves twice — once for each nesting — instead of tracking the diagonal.',
+                },
+                {
+                    letter: 'B',
+                    text: '1/√2',
+                    misconception:
+                        'Reports the ratio of the SIDES as the ratio of the areas.',
+                },
+                {
+                    letter: 'C',
+                    text: 'π/4',
+                    misconception:
+                        'The circle-to-square ratio, answering for the wrong pair of shapes.',
+                },
+                {
+                    letter: 'D',
+                    text: '1/2',
+                    isCorrect: true,
+                },
+                {
+                    letter: 'E',
+                    text: '2/3',
+                    misconception:
+                        'A compromise between the halves and the visual impression.',
+                },
+            ],
+            steps: [
+                'Let the large square have side 2, so the circle has radius 1.',
+                "The small square's diagonal is the circle's diameter, 2 — so its side is √2.",
+                'Areas: small = 2, large = 4.',
+            ],
+            answer: '1/2',
+            takeaway:
+                'No lengths were given, and none were needed — set your own. Candidates who wait for numbers lose the 90 seconds; candidates who chase the diagonal relationship the wrong way get 1/4.',
+        },
+        {
+            id: 'probability-by-complement',
+            module: 'Mathematics 1',
+            question:
+                'Two fair dice are rolled. What is the probability that the product of the two scores is even?',
+            options: [
+                {
+                    letter: 'A',
+                    text: '3/4',
                     isCorrect: true,
                 },
                 {
                     letter: 'B',
-                    text: 'x = 4 and x = −2',
+                    text: '1/2',
                     misconception:
-                        'Solves the quadratic correctly but never checks the domain — log₂(−2) is undefined, so −2 was never a solution of the original equation.',
+                        'The instinct that even and odd products balance — they do not, because one even die is enough.',
                 },
                 {
                     letter: 'C',
-                    text: 'x = −2',
+                    text: '1/4',
                     misconception:
-                        'Discards the valid root and keeps the extraneous one, checking the factorised quadratic rather than the equation it came from.',
+                        'Reports the complement: the probability of an ODD product.',
                 },
                 {
                     letter: 'D',
-                    text: 'x = 8',
+                    text: '2/3',
                     misconception:
-                        'Reads log₂(x) + log₂(x − 2) as log₂(x + x − 2), adding the arguments instead of multiplying them.',
+                        'Treats the three parity patterns (both even, mixed, both odd) as equally likely and takes two of them.',
                 },
                 {
                     letter: 'E',
-                    text: 'No real solutions',
+                    text: '5/6',
+                    misconception:
+                        'Assembles P(at least one even) with an inclusion–exclusion slip.',
                 },
             ],
             steps: [
-                'Combine the logarithms: log₂(x(x − 2)) = 3.',
-                'So x(x − 2) = 2³ = 8, giving x² − 2x − 8 = 0.',
-                'Factorise: (x − 4)(x + 2) = 0, so x = 4 or x = −2.',
-                'Check the domain: log₂(−2) is undefined, so x = −2 is not a solution.',
+                'The product is odd only when BOTH dice are odd: probability (1/2) × (1/2) = 1/4.',
+                'Everything else gives an even product.',
             ],
-            answer: 'x = 4',
+            answer: '3/4',
             takeaway:
-                'Combining logarithms widens the domain, so the algebra hands back a root the original equation never had.',
-        },
-        {
-            id: 'divergent-series',
-            module: 'Mathematics 1',
-            question:
-                'The first three terms of a geometric series are 8, 12 and 18. Find the sum to infinity, or explain why it does not exist.',
-            steps: [
-                'Common ratio: r = 12 ÷ 8 = 1.5, confirmed by 18 ÷ 12 = 1.5.',
-                'A sum to infinity exists only when |r| < 1.',
-                'Here |r| = 1.5, so the terms grow without limit.',
-            ],
-            answer: 'It does not exist — the series diverges because |r| = 1.5 ≥ 1',
-            takeaway:
-                'Using a ÷ (1 − r) anyway gives −16: a negative total for positive terms, and an answer that cannot be true is the signal the formula did not apply.',
+                'Counting the even products directly is a case swamp. "Odd is the rare event — count that instead" is the single most reusable probability move in the paper.',
         },
     ],
     faq: [
-        {
-            q: 'How long is the module, and is there negative marking?',
-            a: '27 questions in 40 minutes, no calculator, no negative marking. That is under 90 seconds a question, so never leave one blank.',
-            link: {
-                label: 'How ESAT results are reported (UAT-UK)',
-                url: 'https://esat-tmua.ac.uk/about-the-tests/esat-test/',
-            },
-        },
         {
             q: 'Is ESAT Maths 1 compulsory?',
             a: 'Yes, for every candidate. Which further modules you need depends on the course and university, so check each of your choices on their own admissions pages.',
@@ -144,6 +282,20 @@ export const GUIDE = {
                 label: 'ESAT content specification (UAT-UK)',
                 url: 'https://esat-tmua.ac.uk/prepare/',
             },
+        },
+    ],
+    related: [
+        {
+            path: '/guides/esat-practice-tests',
+            blurb: 'the format, scoring, and a free timed paper for every module.',
+        },
+        {
+            path: '/guides/esat-maths-2',
+            blurb: 'what Maths 2 asks beyond this module.',
+        },
+        {
+            path: '/guides/esat-past-papers',
+            blurb: 'what official material exists.',
         },
     ],
     sources: [
