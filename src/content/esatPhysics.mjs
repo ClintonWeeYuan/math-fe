@@ -93,6 +93,37 @@ export const GUIDE = {
             module: 'Physics',
             question:
                 'A 6.0 Ω resistor and a 3.0 Ω resistor are connected in parallel across a 12 V supply of negligible internal resistance. Find the total current drawn.',
+            options: [
+                {
+                    letter: 'A',
+                    text: '1.3 A',
+                    misconception:
+                        'Adds the resistances as if in series: 12 V across 9.0 Ω.',
+                },
+                {
+                    letter: 'B',
+                    text: '4.0 A',
+                    misconception:
+                        "Only the 3.0 Ω branch's current — the other branch forgotten.",
+                },
+                {
+                    letter: 'C',
+                    text: '6.0 A',
+                    isCorrect: true,
+                },
+                {
+                    letter: 'D',
+                    text: '2.0 A',
+                    misconception:
+                        "Only the 6.0 Ω branch's current — the other branch forgotten.",
+                },
+                {
+                    letter: 'E',
+                    text: '2.7 A',
+                    misconception:
+                        'Divides by the average of the two resistances, 4.5 Ω.',
+                },
+            ],
             steps: [
                 'In parallel, 1/R = 1/6 + 1/3 = 3/6.',
                 'So R = 2.0 Ω — smaller than either resistor, as a parallel combination always is.',
@@ -107,6 +138,37 @@ export const GUIDE = {
             module: 'Physics',
             question:
                 'A 2.0 kg trolley moving at 3.0 m s⁻¹ collides with a stationary 4.0 kg trolley, and the two move off together. Find their common speed and the kinetic energy lost.',
+            options: [
+                {
+                    letter: 'A',
+                    text: '1.0 m s⁻¹; 6.0 J lost',
+                    isCorrect: true,
+                },
+                {
+                    letter: 'B',
+                    text: '1.0 m s⁻¹; no energy lost',
+                    misconception:
+                        'Conserves both momentum AND kinetic energy — impossible in a collision where the trolleys stick.',
+                },
+                {
+                    letter: 'C',
+                    text: '1.5 m s⁻¹; 2.3 J lost',
+                    misconception:
+                        "Divides the momentum by the struck trolley's mass alone.",
+                },
+                {
+                    letter: 'D',
+                    text: '3.0 m s⁻¹; 0 J lost',
+                    misconception:
+                        "Carries the moving trolley's speed through the collision unchanged.",
+                },
+                {
+                    letter: 'E',
+                    text: '1.0 m s⁻¹; 9.0 J lost',
+                    misconception:
+                        'Reports the initial kinetic energy as the loss.',
+                },
+            ],
             steps: [
                 'Momentum is conserved: 2.0 × 3.0 = 6.0, and (2.0 + 4.0)v after.',
                 'So v = 1.0 m s⁻¹.',
@@ -122,6 +184,37 @@ export const GUIDE = {
             module: 'Physics',
             question:
                 'A falling ball reaches terminal velocity when air resistance balances its weight. For this ball, air resistance is proportional to the square of its speed. A second ball is identical except that its weight is four times as large. What is its terminal velocity, as a multiple of the first ball’s?',
+            options: [
+                {
+                    letter: 'A',
+                    text: '4×',
+                    misconception:
+                        'Carries the proportionality straight across: four times the weight read as four times the speed.',
+                },
+                {
+                    letter: 'B',
+                    text: '2×',
+                    isCorrect: true,
+                },
+                {
+                    letter: 'C',
+                    text: '16×',
+                    misconception:
+                        'Squares instead of square-rooting — the relationship inverted exactly the wrong way.',
+                },
+                {
+                    letter: 'D',
+                    text: '1× (unchanged)',
+                    misconception:
+                        'Assumes terminal velocity is a property of the shape alone, so weight changes nothing.',
+                },
+                {
+                    letter: 'E',
+                    text: '½×',
+                    misconception:
+                        'Halves instead of doubling: the square root applied to the wrong side of the balance.',
+                },
+            ],
             steps: [
                 'At terminal velocity, resistance equals weight: kv² = W.',
                 'So v = √(W/k): terminal velocity scales with the square root of the weight.',
@@ -136,6 +229,37 @@ export const GUIDE = {
             module: 'Physics',
             question:
                 'Water waves of wavelength 2.5 cm travel at 20 cm s⁻¹ in the deep part of a tank, then cross into a shallow region where they travel at 12 cm s⁻¹. What is their wavelength in the shallow region?',
+            options: [
+                {
+                    letter: 'A',
+                    text: '2.5 cm',
+                    misconception:
+                        'Holds the wavelength fixed across the boundary — the one thing the boundary does NOT conserve.',
+                },
+                {
+                    letter: 'B',
+                    text: '4.2 cm',
+                    misconception:
+                        'Inverts the speed ratio, scaling the wavelength up as the wave slows.',
+                },
+                {
+                    letter: 'C',
+                    text: '3.0 cm',
+                    misconception:
+                        'Halves the frequency at the boundary instead of conserving it.',
+                },
+                {
+                    letter: 'D',
+                    text: '1.2 cm',
+                    misconception:
+                        'Divides the new speed by 10, the frequency step dropped.',
+                },
+                {
+                    letter: 'E',
+                    text: '1.5 cm',
+                    isCorrect: true,
+                },
+            ],
             steps: [
                 'Frequency is set by the source and cannot change at the boundary: f = v/λ = 20/2.5 = 8 Hz.',
                 'In the shallow region the same 8 Hz travels at 12 cm s⁻¹: λ = 12/8.',
