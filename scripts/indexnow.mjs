@@ -17,6 +17,7 @@
  *   node scripts/indexnow.mjs --all            every URL in the sitemaps
  *   node scripts/indexnow.mjs https://... ...  exactly these
  *   node scripts/indexnow.mjs --dry-run        print, submit nothing
+ *   node scripts/indexnow.mjs --await-live     wait for the deploy first
  *
  * The default is deliberately narrow. IndexNow is for pages that genuinely
  * changed; resubmitting the whole site on every deploy is how a host earns
@@ -83,6 +84,61 @@ function today() {
     return new Date().toISOString().slice(0, 10)
 }
 
+/**
+ * Block until the live site is serving the build we just made.
+ *
+ * Submitting before the deploy lands is worse than not submitting: the engine
+ * fetches the OLD page, records it as current, and the change we announced is
+ * the one thing it does not see. CI reaches this point while Railway is still
+ * building, so it has to wait — and fail loudly rather than submit stale.
+ *
+ * The check is the sitemap's own lastmod values, which is exactly the claim
+ * being made: if the live sitemap says a page changed today, today's build is
+ * the one being served.
+ */
+export async function awaitLive(
+    expected,
+    { timeoutMs = 10 * 60_000, intervalMs = 15_000, fetchImpl = fetch } = {}
+) {
+    const wanted = new Map(
+        expected.filter((e) => e.lastmod).map((e) => [e.loc, e.lastmod])
+    )
+    if (wanted.size === 0) return true
+
+    const deadline = Date.now() + timeoutMs
+    let lastSeen = 0
+    while (Date.now() < deadline) {
+        try {
+            const xml = await (
+                await fetchImpl(`https://${HOST}/sitemap-core.xml`)
+            ).text()
+            const live = new Map(
+                (xml.match(/<url>[\s\S]*?<\/url>/g) ?? []).map((b) => [
+                    b.match(/<loc>([^<]+)<\/loc>/)?.[1],
+                    b.match(/<lastmod>([^<]+)<\/lastmod>/)?.[1],
+                ])
+            )
+            const matched = [...wanted].filter(
+                ([loc, mod]) => live.get(loc) === mod
+            ).length
+            if (matched === wanted.size) return true
+            if (matched !== lastSeen) {
+                console.log(
+                    `  deploy landing: ${matched}/${wanted.size} pages live`
+                )
+                lastSeen = matched
+            }
+        } catch {
+            // Site briefly unreachable mid-deploy is expected; keep waiting.
+        }
+        await new Promise((r) => setTimeout(r, intervalMs))
+    }
+    throw new Error(
+        `Timed out waiting for the deploy: the live sitemap still does not match this build. ` +
+            `Not submitting, because the engines would fetch the previous version and record it as current.`
+    )
+}
+
 async function main() {
     const args = process.argv.slice(2)
     const dryRun = args.includes('--dry-run')
@@ -114,6 +170,12 @@ async function main() {
 
     console.log(`${urlList.length} URL(s) to submit:`)
     for (const u of urlList) console.log(`  ${u}`)
+
+    if (args.includes('--await-live') && !dryRun) {
+        console.log('\nWaiting for the deploy to go live...')
+        await awaitLive(readSitemaps().filter((e) => urlList.includes(e.loc)))
+        console.log('  live.')
+    }
 
     if (dryRun) {
         console.log('\n--dry-run: nothing sent.')

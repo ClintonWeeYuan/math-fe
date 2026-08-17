@@ -1,0 +1,59 @@
+# Announce changed pages to the IndexNow engines after a deploy.
+#
+# Railway deploys on push to main; this runs alongside, waits for that deploy
+# to actually be serving, then submits only the pages whose lastmod changed.
+#
+# Reaches Bing, Yandex, Seznam, Naver and Yep. NOT Google, which trialled
+# IndexNow and never adopted it — Google still finds changes via the sitemap
+# at its own pace, and nothing here alters that.
+name: IndexNow
+
+on:
+  push:
+    branches: [main]
+    # Only content whose change is worth announcing. A refactor that leaves
+    # every page byte-identical should not tell five search engines that the
+    # site changed.
+    paths:
+      - 'src/content/**'
+      - 'scripts/prerender.mjs'
+      - 'public/robots.txt'
+  workflow_dispatch:
+    inputs:
+      all:
+        description: 'Submit every URL, not just those changed today'
+        type: boolean
+        default: false
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    # The wait for Railway dominates; the rest is a couple of minutes.
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # The sitemaps are what the script reads, and they only exist after a
+      # build. This is the same build Railway is running in parallel, so the
+      # lastmod values here are the ones that should appear live.
+      - run: pnpm run build
+
+      # --await-live polls the live sitemap until it reports the lastmods this
+      # build expects, then submits. Without it the job would usually win the
+      # race against Railway, and the engines would fetch the previous version
+      # of each page and record it as current — worse than not submitting.
+      - name: Submit changed URLs
+        run: |
+          node scripts/indexnow.mjs --await-live \
+            ${{ inputs.all && '--all' || '' }}

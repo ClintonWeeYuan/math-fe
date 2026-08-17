@@ -11,3 +11,13 @@ export declare function selectUrls(
     entries: SitemapEntry[],
     options?: { since?: string; all?: boolean }
 ): string[]
+
+/** Block until the live sitemap reports the lastmods this build expects. */
+export declare function awaitLive(
+    expected: SitemapEntry[],
+    options?: {
+        timeoutMs?: number
+        intervalMs?: number
+        fetchImpl?: typeof fetch
+    }
+): Promise<boolean>

@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest'
 import { readFileSync, readdirSync } from 'node:fs'
-import { selectUrls, findKey, readSitemaps } from '../../scripts/indexnow.mjs'
+import {
+    selectUrls,
+    findKey,
+    readSitemaps,
+    awaitLive,
+} from '../../scripts/indexnow.mjs'
 
 /**
  * IndexNow submission.
@@ -162,5 +167,64 @@ describe('robots.txt', () => {
 
     it('still points at the sitemap index', () => {
         expect(robots).toContain('Sitemap: https://www.jomexam.com/sitemap.xml')
+    })
+})
+
+describe('waiting for the deploy', () => {
+    const sitemap = (lastmod: string) =>
+        `<urlset><url><loc>https://www.jomexam.com/guides/esat-physics</loc>` +
+        `<lastmod>${lastmod}</lastmod></url></urlset>`
+
+    const expected = [
+        {
+            loc: 'https://www.jomexam.com/guides/esat-physics',
+            lastmod: '2026-08-17',
+        },
+    ]
+
+    it('returns as soon as the live sitemap matches this build', async () => {
+        const fetchImpl = async () =>
+            ({ text: async () => sitemap('2026-08-17') }) as Response
+        await expect(
+            awaitLive(expected, { fetchImpl, timeoutMs: 1000, intervalMs: 10 })
+        ).resolves.toBe(true)
+    })
+
+    it('refuses to submit while the old build is still being served', async () => {
+        // The failure that matters: submitting early makes the engine fetch
+        // the PREVIOUS page and record it as current, so the change we
+        // announced is the one thing it does not see.
+        const fetchImpl = async () =>
+            ({ text: async () => sitemap('2026-08-11') }) as Response
+        await expect(
+            awaitLive(expected, { fetchImpl, timeoutMs: 60, intervalMs: 10 })
+        ).rejects.toThrow(/Timed out waiting for the deploy/)
+    })
+
+    it('keeps waiting through a site briefly unreachable mid-deploy', async () => {
+        let calls = 0
+        const fetchImpl = async () => {
+            calls += 1
+            if (calls < 3) throw new Error('ECONNREFUSED')
+            return { text: async () => sitemap('2026-08-17') } as Response
+        }
+        await expect(
+            awaitLive(expected, { fetchImpl, timeoutMs: 2000, intervalMs: 10 })
+        ).resolves.toBe(true)
+        expect(calls).toBeGreaterThanOrEqual(3)
+    })
+
+    it('does not block when nothing carries a lastmod to check', async () => {
+        const fetchImpl = async () => {
+            throw new Error('should not be called')
+        }
+        await expect(
+            awaitLive(
+                [{ loc: 'https://www.jomexam.com/spm/x', lastmod: null }],
+                {
+                    fetchImpl,
+                }
+            )
+        ).resolves.toBe(true)
     })
 })
