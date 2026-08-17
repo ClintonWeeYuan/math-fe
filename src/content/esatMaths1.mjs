@@ -294,8 +294,8 @@ export const GUIDE = {
             blurb: 'what Maths 2 asks beyond this module.',
         },
         {
-            path: '/guides/esat-past-papers',
-            blurb: 'what official material exists.',
+            path: '/esat-maths-1-practice-test',
+            blurb: 'the free timed paper, a mini test, and a sample paper to download.',
         },
     ],
     sources: [

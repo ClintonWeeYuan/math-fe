@@ -293,8 +293,8 @@ export const GUIDE = {
             blurb: 'the compulsory module this one builds on.',
         },
         {
-            path: '/guides/esat-past-papers',
-            blurb: 'what official material exists.',
+            path: '/esat-maths-2-practice-test',
+            blurb: 'the free timed paper, a mini test, and a sample paper to download.',
         },
     ],
     sources: [

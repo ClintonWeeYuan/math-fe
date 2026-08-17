@@ -21,6 +21,7 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { GUIDES, relatedTo } from '../src/content/guides.mjs'
+import { LANDING_PAGES } from '../src/content/landingPages.mjs'
 import {
     ESAT_GUIDE_LINKS,
     GUIDE_LINKS_HEADING,
@@ -289,6 +290,12 @@ function guideMarkup(GUIDE) {
                         `<p><a href="${esc(l.path)}">${esc(l.label)}</a> — ${esc(l.note)}</p>`
                 )
                 .join('')
+            const downloads = (section.downloads ?? [])
+                .map(
+                    (d) =>
+                        `<p><a href="${esc(d.path)}">${esc(d.label)}</a> — ${esc(d.note)}</p>`
+                )
+                .join('')
             const table = section.table
                 ? `<table><caption>${esc(section.table.caption)}</caption><thead><tr>` +
                   section.table.head
@@ -309,7 +316,7 @@ function guideMarkup(GUIDE) {
             // after this map.
             const here =
                 section.id === 'worked-examples' ? '<!--JX_EXAMPLES-->' : ''
-            return `<section id="${esc(section.id)}"><h2>${esc(section.h2)}</h2>${paras}${links}${table}${here}</section>`
+            return `<section id="${esc(section.id)}"><h2>${esc(section.h2)}</h2>${paras}${links}${downloads}${table}${here}</section>`
         })
         .join('')
     const faq =
@@ -424,6 +431,18 @@ const GUIDES_INDEX = {
         '</ul>',
 }
 
+/** Subject practice-test landing pages. Same rendering as a guide — they use
+ *  the same content shape — but deliberately NOT in GUIDES, so they stay out
+ *  of the /guides index while still being prerendered and in the sitemap. */
+const LANDING_ROUTES = LANDING_PAGES.map((g) => ({
+    path: g.path,
+    title: g.title,
+    description: g.description,
+    jsonLd: guideStructuredData(g),
+    body: guideMarkup(g),
+    lastmod: g.updatedAt,
+}))
+
 const GUIDE_ROUTES = GUIDES.map((g) => ({
     path: g.path,
     title: g.title,
@@ -532,7 +551,7 @@ ${guideLinksMarkup(ESAT_GUIDE_LINKS)}`,
 <p>Short on time? Every ESAT subject has a free mini test: ten questions in fifteen minutes, at the real paper's pace.</p>
 <p><a href="/guides">Guides to the ESAT and TMUA</a></p>`,
     },
-].concat([GUIDES_INDEX], GUIDE_ROUTES)
+].concat([GUIDES_INDEX], GUIDE_ROUTES, LANDING_ROUTES)
 
 /**
  * One <urlset> for a group of routes.

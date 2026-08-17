@@ -3,6 +3,7 @@ import { execFileSync } from 'node:child_process'
 import { readFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
 import { GUIDES } from '@/content/guides.mjs'
+import { LANDING_PAGES } from '@/content/landingPages.mjs'
 
 const ROOT = join(__dirname, '..', '..')
 const DIST = join(ROOT, 'dist')
@@ -37,7 +38,9 @@ whenBuilt('the sitemap index', () => {
             // invisible in every editor that would show you the problem.
             expect(raw[0]).not.toBe(0xef)
             const xml = raw.toString('utf8')
-            expect(xml.startsWith('<?xml version="1.0" encoding="UTF-8"?>')).toBe(true)
+            expect(
+                xml.startsWith('<?xml version="1.0" encoding="UTF-8"?>')
+            ).toBe(true)
             expect(xml).toContain(NS)
         }
     )
@@ -48,7 +51,8 @@ whenBuilt('the sitemap index', () => {
         expect(core.length).toBeGreaterThan(0)
         expect(spm.length).toBeGreaterThan(0)
 
-        const locs = (xml: string) => [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map((m) => m[1])
+        const locs = (xml: string) =>
+            [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map((m) => m[1])
         const overlap = locs(read('sitemap-core.xml')).filter((l) =>
             locs(read('sitemap-spm.xml')).includes(l)
         )
@@ -79,9 +83,14 @@ whenBuilt('the sitemap index', () => {
         // the field site-wide, so those pages carry none.
         expect(read('sitemap-spm.xml')).not.toContain('<lastmod>')
 
-        const dated = [...read('sitemap-core.xml').matchAll(/<lastmod>(.*?)<\/lastmod>/g)]
-        expect(dated).toHaveLength(GUIDES.length)
-        for (const [, value] of dated) expect(value).toMatch(/^\d{4}-\d{2}-\d{2}$/)
+        // Guides and subject landing pages both carry an author-maintained
+        // updatedAt; nothing else in core does, so the count is exactly those.
+        const dated = [
+            ...read('sitemap-core.xml').matchAll(/<lastmod>(.*?)<\/lastmod>/g),
+        ]
+        expect(dated).toHaveLength(GUIDES.length + LANDING_PAGES.length)
+        for (const [, value] of dated)
+            expect(value).toMatch(/^\d{4}-\d{2}-\d{2}$/)
     })
 })
 

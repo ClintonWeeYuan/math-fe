@@ -45,7 +45,12 @@ export function guideJsonLd(guide, site) {
         '@type': 'BreadcrumbList',
         itemListElement: [
             { '@type': 'ListItem', position: 1, name: 'Home', item: site },
-            { '@type': 'ListItem', position: 2, name: 'Guides', item: `${site}/guides` },
+            {
+                '@type': 'ListItem',
+                position: 2,
+                name: guide.parent?.label ?? 'Guides',
+                item: `${site}${guide.parent?.path ?? '/guides'}`,
+            },
             { '@type': 'ListItem', position: 3, name: guide.h1, item: url },
         ],
     }

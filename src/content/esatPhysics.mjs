@@ -297,8 +297,8 @@ export const GUIDE = {
             blurb: 'the fluency Physics leans on.',
         },
         {
-            path: '/guides/esat-past-papers',
-            blurb: 'what official material exists.',
+            path: '/esat-physics-practice-test',
+            blurb: 'the free timed paper, a mini test, and a sample paper to download.',
         },
     ],
     sources: [

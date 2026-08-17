@@ -61,10 +61,10 @@ export function GuideArticle({ guide }: { guide: Guide }) {
                         <li aria-hidden="true">/</li>
                         <li>
                             <Link
-                                to="/guides"
+                                to={guide.parent?.path ?? '/guides'}
                                 className="underline underline-offset-2"
                             >
-                                Guides
+                                {guide.parent?.label ?? 'Guides'}
                             </Link>
                         </li>
                         <li aria-hidden="true">/</li>
@@ -147,6 +147,24 @@ export function GuideArticle({ guide }: { guide: Guide }) {
                                     {link.label}
                                 </Link>{' '}
                                 — {link.note}
+                            </p>
+                        ))}
+                        {section.downloads?.map((file) => (
+                            <p
+                                key={file.path}
+                                className="text-slate-600 leading-relaxed mb-3"
+                            >
+                                {/* A plain anchor, deliberately: <Link> would
+                                    hand this to the router, which has no
+                                    route for a PDF. */}
+                                <a
+                                    href={file.path}
+                                    className="font-semibold underline underline-offset-4"
+                                    style={{ color: PERIWINKLE }}
+                                >
+                                    {file.label}
+                                </a>{' '}
+                                — {file.note}
                             </p>
                         ))}
                         {section.table && (

@@ -7,6 +7,7 @@ export type GuideSection = {
     paras: string[]
     /** Where a fact this section used to state now lives. */
     links?: SectionLink[]
+    downloads?: SectionDownload[]
     /** Optional table. The first column of each row acts as its row header. */
     table?: { caption: string; head: string[]; rows: string[][] }
 }
@@ -74,12 +75,29 @@ export type SectionLink = {
     note: string
 }
 
+/** A file to download — a real <a href>, not a router Link: React Router
+ *  would intercept the click and try to route to a PDF path that has no
+ *  route, so the download would simply not happen. */
+export type SectionDownload = {
+    path: string
+    label: string
+    note: string
+}
+
 export type Guide = {
     path: string
     title: string
     description: string
     h1: string
     standfirst: string
+    /**
+     * The page above this one in the trail. Defaults to the guides index,
+     * which is right for a guide and wrong for anything else: a subject
+     * landing page lives at the root, so claiming /guides as its parent
+     * describes a hierarchy the site does not have — in the visible
+     * breadcrumb and, worse, in the BreadcrumbList a crawler reads.
+     */
+    parent?: { path: string; label: string }
     /** Label above the title, e.g. "ESAT guide". */
     eyebrow: string
     /** Where the primary CTA sends the reader. */

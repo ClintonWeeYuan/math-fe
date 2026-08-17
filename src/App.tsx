@@ -27,6 +27,8 @@ import { EsatPracticeGuidePage } from '@/pages/EsatPracticeGuidePage.tsx'
 import { EsatPastPapersPage } from '@/pages/EsatPastPapersPage.tsx'
 import { EsatDatesPage } from '@/pages/EsatDatesPage.tsx'
 import { TmuaDatesPage } from '@/pages/TmuaDatesPage.tsx'
+import { EsatPracticeTestLandingPage } from '@/pages/EsatPracticeTestLandingPage.tsx'
+import { LANDING_PAGES } from '@/content/landingPages.mjs'
 import { EsatMaths1Page } from '@/pages/EsatMaths1Page.tsx'
 import { EsatMaths2Page } from '@/pages/EsatMaths2Page.tsx'
 import { EsatPhysicsPage } from '@/pages/EsatPhysicsPage.tsx'
@@ -111,6 +113,16 @@ function App() {
                 />
                 <Route path="guides/esat-dates" element={<EsatDatesPage />} />
                 <Route path="guides/tmua-dates" element={<TmuaDatesPage />} />
+                {/* Subject practice-test landing pages: product surfaces for
+                    "esat physics practice test" and similar, generated from
+                    one shape so the five cannot drift apart. */}
+                {LANDING_PAGES.map((page) => (
+                    <Route
+                        key={page.path}
+                        path={page.path.replace(/^\//, '')}
+                        element={<EsatPracticeTestLandingPage page={page} />}
+                    />
+                ))}
                 <Route
                     path="guides/esat-maths-1"
                     element={<EsatMaths1Page />}

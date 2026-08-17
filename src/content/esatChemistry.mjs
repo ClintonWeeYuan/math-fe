@@ -294,8 +294,8 @@ export const GUIDE = {
             blurb: 'the other life-sciences module.',
         },
         {
-            path: '/guides/esat-past-papers',
-            blurb: 'what official material exists.',
+            path: '/esat-chemistry-practice-test',
+            blurb: 'the free timed paper, a mini test, and a sample paper to download.',
         },
     ],
     sources: [
