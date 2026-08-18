@@ -29,8 +29,18 @@ export function DiagnosticSetReviewPage() {
     const { data: set, isLoading: setLoading } = useGetDiagnosticSetQuery({
         setId: setId ?? '',
     })
+    // Only this set's questions. Fetching the whole bank to show 27 of them
+    // cost 1.89 MB and about four seconds, and grows with every question
+    // added — the screen was also how the 1000-row cap surfaced as sets
+    // rendering empty.
     const { data: questions, isLoading: questionsLoading } =
-        useListDiagnosticQuestionsQuery()
+        useListDiagnosticQuestionsQuery({
+            // `?? []` rather than `set?.questionIds`: undefined means "no
+            // filter" to the hook, so while the set is still loading this
+            // would fire exactly the whole-bank request it exists to avoid.
+            // An empty array disables the query until the ids are known.
+            ids: set?.questionIds ?? [],
+        })
     const { mutate: exportSet, isPending: exporting } =
         useExportDiagnosticSetMutation()
     const { mutate: bulkPublish, isPending: bulkPending } =
