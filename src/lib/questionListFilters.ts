@@ -1,4 +1,8 @@
-import type { DiagnosticQuestionResponse, DiagnosticSetResponse } from '@/client'
+import type {
+    DiagnosticQuestionResponse,
+    DiagnosticSetResponse,
+} from '@/client'
+import { NO_SUBJECT, subjectOfQuestion } from '@/lib/questionSubject.ts'
 import { filterQuestions } from '@/lib/questionPicker.ts'
 
 /**
@@ -34,11 +38,15 @@ export function filterQuestionsForList(
         setId,
         status,
         topicCode,
+        subject,
         search,
     }: {
         setId?: string | null
         status?: 'draft' | 'published' | null
         topicCode?: string | null
+        /** A subject name, or NO_SUBJECT for the questions whose subject
+         *  cannot be derived — seeing exactly those is most of the point. */
+        subject?: string | null
         search?: string
     }
 ): DiagnosticQuestionResponse[] {
@@ -48,6 +56,13 @@ export function filterQuestionsForList(
     } else if (setId) {
         result = result.filter((q) =>
             (membership.get(q.id) ?? []).some((s) => s.id === setId)
+        )
+    }
+    if (subject === NO_SUBJECT) {
+        result = result.filter((q) => subjectOfQuestion(q, membership) === null)
+    } else if (subject) {
+        result = result.filter(
+            (q) => subjectOfQuestion(q, membership) === subject
         )
     }
     // Reuse the picker's status/topic/search predicate, so the two places

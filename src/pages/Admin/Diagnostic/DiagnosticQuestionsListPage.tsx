@@ -1,4 +1,10 @@
 import { useNavigate } from 'react-router-dom'
+import {
+    NO_SUBJECT,
+    skillLabel,
+    subjectOfQuestion,
+    subjectsInUse,
+} from '@/lib/questionSubject.ts'
 import { useMemo, useState } from 'react'
 import { AdminLayout } from '@/components/layout/AdminLayout.tsx'
 import { Button } from '@/components/ui/button.tsx'
@@ -42,21 +48,37 @@ export function DiagnosticQuestionsListPage() {
     const [bulkImportOpen, setBulkImportOpen] = useState(false)
     // null = closed; a non-empty array previews those questions (one row's
     // Preview passes [q]; the bulk preview will pass the selection).
-    const [previewing, setPreviewing] = useState<DiagnosticQuestionResponse[] | null>(null)
+    const [previewing, setPreviewing] = useState<
+        DiagnosticQuestionResponse[] | null
+    >(null)
     const { data: questions, isLoading } = useListDiagnosticQuestionsQuery()
     const { data: sets } = useListDiagnosticSetsQuery()
     const { mutate: deleteQuestion, mutateAsync: deleteQuestionAsync } =
         useDeleteDiagnosticQuestionMutation()
 
     const [setFilter, setSetFilter] = useState<string>(ALL)
-    const [statusFilter, setStatusFilter] = useState<'draft' | 'published' | typeof ALL>(ALL)
+    const [statusFilter, setStatusFilter] = useState<
+        'draft' | 'published' | typeof ALL
+    >(ALL)
     const [topicFilter, setTopicFilter] = useState<string | null>(null)
     const [search, setSearch] = useState('')
+    const [subjectFilter, setSubjectFilter] = useState<string>(ALL)
     const [selected, setSelected] = useState<Set<string>>(new Set())
 
     const membership = useMemo(() => setsByQuestionId(sets ?? []), [sets])
+    // Derived from set membership, falling back to the topic prefix only
+    // where that prefix means one subject — see questionSubject.ts.
+    const subjects = useMemo(
+        () => subjectsInUse(questions ?? [], membership),
+        [questions, membership]
+    )
     const topicCodes = useMemo(
-        () => [...new Set((questions ?? []).map((q) => q.topicCode).filter(Boolean))].sort(),
+        () =>
+            [
+                ...new Set(
+                    (questions ?? []).map((q) => q.topicCode).filter(Boolean)
+                ),
+            ].sort(),
         [questions]
     )
 
@@ -66,9 +88,18 @@ export function DiagnosticQuestionsListPage() {
                 setId: setFilter === ALL ? null : setFilter,
                 status: statusFilter === ALL ? null : statusFilter,
                 topicCode: topicFilter,
+                subject: subjectFilter === ALL ? null : subjectFilter,
                 search,
             }),
-        [questions, membership, setFilter, statusFilter, topicFilter, search]
+        [
+            questions,
+            membership,
+            setFilter,
+            statusFilter,
+            topicFilter,
+            subjectFilter,
+            search,
+        ]
     )
 
     function handleDelete(id: string) {
@@ -81,7 +112,9 @@ export function DiagnosticQuestionsListPage() {
         })
     }
 
-    const selectedQuestions = (questions ?? []).filter((q) => selected.has(q.id))
+    const selectedQuestions = (questions ?? []).filter((q) =>
+        selected.has(q.id)
+    )
     const allFilteredSelected =
         filtered.length > 0 && filtered.every((q) => selected.has(q.id))
 
@@ -109,7 +142,9 @@ export function DiagnosticQuestionsListPage() {
         // Only questions in no set can be deleted (the delete-protection 409s
         // the rest). Split up front so we don't fire doomed requests, and tell
         // the admin exactly what's being skipped.
-        const deletable = ids.filter((id) => (membership.get(id)?.length ?? 0) === 0)
+        const deletable = ids.filter(
+            (id) => (membership.get(id)?.length ?? 0) === 0
+        )
         const blocked = ids.length - deletable.length
         if (deletable.length === 0) {
             toast.error(
@@ -140,12 +175,19 @@ export function DiagnosticQuestionsListPage() {
         <AdminLayout>
             <div className="mt-8 flex flex-col gap-4">
                 <div className="flex items-center justify-between">
-                    <h1 className="text-2xl font-semibold">Diagnostic Questions</h1>
+                    <h1 className="text-2xl font-semibold">
+                        Diagnostic Questions
+                    </h1>
                     <div className="flex gap-2">
-                        <Button variant="outline" onClick={() => setBulkImportOpen(true)}>
+                        <Button
+                            variant="outline"
+                            onClick={() => setBulkImportOpen(true)}
+                        >
                             <Upload className="w-4 h-4" /> Bulk import
                         </Button>
-                        <Button onClick={() => navigate('/admin/questions/new')}>
+                        <Button
+                            onClick={() => navigate('/admin/questions/new')}
+                        >
                             <Plus className="w-4 h-4" /> New question
                         </Button>
                     </div>
@@ -168,8 +210,32 @@ export function DiagnosticQuestionsListPage() {
                         </SelectContent>
                     </Select>
                     <Select
+                        value={subjectFilter}
+                        onValueChange={setSubjectFilter}
+                    >
+                        <SelectTrigger className="w-48">
+                            <SelectValue placeholder="All subjects" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value={ALL}>All subjects</SelectItem>
+                            {subjects.map((subject) => (
+                                <SelectItem key={subject} value={subject}>
+                                    {subject}
+                                </SelectItem>
+                            ))}
+                            {/* The questions in no set whose topic code does
+                                not settle a subject. Finding them is the
+                                reason to have this filter at all. */}
+                            <SelectItem value={NO_SUBJECT}>
+                                Subject unknown
+                            </SelectItem>
+                        </SelectContent>
+                    </Select>
+                    <Select
                         value={statusFilter}
-                        onValueChange={(v) => setStatusFilter(v as typeof statusFilter)}
+                        onValueChange={(v) =>
+                            setStatusFilter(v as typeof statusFilter)
+                        }
                     >
                         <SelectTrigger className="w-36">
                             <SelectValue />
@@ -202,7 +268,9 @@ export function DiagnosticQuestionsListPage() {
 
                 {selected.size > 0 && (
                     <div className="flex items-center gap-3 rounded-md border bg-gray-50 px-3 py-2 text-sm">
-                        <span className="font-medium">{selected.size} selected</span>
+                        <span className="font-medium">
+                            {selected.size} selected
+                        </span>
                         <Button
                             variant="outline"
                             size="sm"
@@ -235,7 +303,9 @@ export function DiagnosticQuestionsListPage() {
                                 <Checkbox
                                     aria-label="Select all"
                                     checked={allFilteredSelected}
-                                    onCheckedChange={(v) => toggleAllFiltered(v === true)}
+                                    onCheckedChange={(v) =>
+                                        toggleAllFiltered(v === true)
+                                    }
                                 />
                             </TableHead>
                             <TableHead>Topic</TableHead>
@@ -254,7 +324,10 @@ export function DiagnosticQuestionsListPage() {
                         )}
                         {!isLoading && (questions?.length ?? 0) === 0 && (
                             <TableRow>
-                                <TableCell colSpan={7} className="text-gray-500">
+                                <TableCell
+                                    colSpan={7}
+                                    className="text-gray-500"
+                                >
                                     No diagnostic questions yet.
                                 </TableCell>
                             </TableRow>
@@ -263,7 +336,10 @@ export function DiagnosticQuestionsListPage() {
                             (questions?.length ?? 0) > 0 &&
                             filtered.length === 0 && (
                                 <TableRow>
-                                    <TableCell colSpan={7} className="text-gray-500">
+                                    <TableCell
+                                        colSpan={7}
+                                        className="text-gray-500"
+                                    >
                                         No questions match these filters.
                                     </TableCell>
                                 </TableRow>
@@ -283,18 +359,30 @@ export function DiagnosticQuestionsListPage() {
                                     </TableCell>
                                     <TableCell>{q.topicCode}</TableCell>
                                     <TableCell>
-                                        {q.coreSkillPrimary}
+                                        {/* Named where the subject is known.
+                                            S4 is a different skill in Physics
+                                            and Biology, so a bare code beats
+                                            a confidently wrong name. */}
+                                        {skillLabel(
+                                            q.coreSkillPrimary,
+                                            subjectOfQuestion(q, membership)
+                                        )}
                                         {q.coreSkillSecondary
                                             ? ` / ${q.coreSkillSecondary}`
                                             : ''}
                                     </TableCell>
                                     <TableCell>
                                         {inSets.length === 0 ? (
-                                            <span className="text-gray-300">—</span>
+                                            <span className="text-gray-300">
+                                                —
+                                            </span>
                                         ) : (
                                             <div className="flex flex-wrap gap-1">
                                                 {inSets.map((s) => (
-                                                    <Badge key={s.id} variant="outline">
+                                                    <Badge
+                                                        key={s.id}
+                                                        variant="outline"
+                                                    >
                                                         {s.title}
                                                     </Badge>
                                                 ))}
@@ -325,7 +413,9 @@ export function DiagnosticQuestionsListPage() {
                                             variant="outline"
                                             size="sm"
                                             onClick={() =>
-                                                navigate(`/admin/questions/${q.id}`)
+                                                navigate(
+                                                    `/admin/questions/${q.id}`
+                                                )
                                             }
                                         >
                                             Edit
@@ -345,7 +435,10 @@ export function DiagnosticQuestionsListPage() {
                 </Table>
             </div>
 
-            <BulkImportDialog open={bulkImportOpen} onOpenChange={setBulkImportOpen} />
+            <BulkImportDialog
+                open={bulkImportOpen}
+                onOpenChange={setBulkImportOpen}
+            />
 
             <QuestionPreviewDialog
                 questions={previewing ?? []}
