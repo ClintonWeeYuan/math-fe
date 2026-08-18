@@ -17,6 +17,8 @@ import { toast } from 'sonner'
 
 type LocationState = {
     diagramUploadError?: string
+    /** Path to return to after saving — set by whoever linked here. */
+    returnTo?: string
 }
 
 export function DiagnosticQuestionEditPage() {
@@ -27,11 +29,19 @@ export function DiagnosticQuestionEditPage() {
     const { data: question, isLoading } = useGetDiagnosticQuestionQuery({
         questionId: questionId ?? '',
     })
-    const { mutate: updateQuestion, isPending } = useUpdateDiagnosticQuestionMutation(
-        { questionId: questionId ?? '' }
-    )
+    const { mutate: updateQuestion, isPending } =
+        useUpdateDiagnosticQuestionMutation({ questionId: questionId ?? '' })
     const { mutateAsync: uploadDiagram, isPending: isUploadingDiagram } =
         useUploadDiagnosticQuestionDiagramMutation()
+
+    // Where to go after saving. Editing a question reached from a set's
+    // review screen used to land on the questions list, which loses the set
+    // you were working through and every bit of scroll position with it —
+    // the admin then has to find their way back for each of 27 questions.
+    // Absent (the questions list, a bookmark, a refresh) this stays the
+    // list, which is the right destination for those.
+    const returnTo =
+        (location.state as LocationState | null)?.returnTo ?? '/admin/questions'
 
     // Set directly from a redirect after a failed upload-on-create (see
     // DiagnosticQuestionCreatePage), or from attemptDiagramUpload below when
@@ -53,10 +63,12 @@ export function DiagnosticQuestionEditPage() {
             setDiagramUploadError(null)
             setPendingDiagramFile(null)
             toast.success('Question updated.')
-            navigate('/admin/questions')
+            navigate(returnTo)
         } catch (error) {
             const message =
-                error instanceof Error ? error.message : 'Diagram upload failed.'
+                error instanceof Error
+                    ? error.message
+                    : 'Diagram upload failed.'
             setPendingDiagramFile(file)
             setDiagramUploadError(message)
             toast.error(
@@ -105,7 +117,7 @@ export function DiagnosticQuestionEditPage() {
                         return
                     }
                     toast.success('Question updated.')
-                    navigate('/admin/questions')
+                    navigate(returnTo)
                 },
                 onError: (error) =>
                     toast.error(`Failed to update question: ${error.message}`),
@@ -145,7 +157,9 @@ export function DiagnosticQuestionEditPage() {
                             onClick={handleRetryDiagramUpload}
                             disabled={!pendingDiagramFile || isUploadingDiagram}
                         >
-                            {isUploadingDiagram ? 'Retrying...' : 'Retry upload'}
+                            {isUploadingDiagram
+                                ? 'Retrying...'
+                                : 'Retry upload'}
                         </Button>
                     </div>
                 )}

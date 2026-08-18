@@ -58,7 +58,10 @@ export function DiagnosticSetReviewPage() {
             <AdminLayout>
                 <div className="mt-8 flex flex-col gap-4">
                     <h1 className="text-2xl font-semibold">Set not found</h1>
-                    <Button variant="outline" onClick={() => navigate('/admin/sets')}>
+                    <Button
+                        variant="outline"
+                        onClick={() => navigate('/admin/sets')}
+                    >
                         Back to sets
                     </Button>
                 </div>
@@ -92,17 +95,24 @@ export function DiagnosticSetReviewPage() {
                     <div>
                         <h1 className="text-2xl font-semibold">{set.title}</h1>
                         <p className="text-sm text-gray-500">
-                            {ordered.length} questions ·{' '}
-                            {set.timeLimitMinutes} min ·{' '}
+                            {ordered.length} questions · {set.timeLimitMinutes}{' '}
+                            min ·{' '}
                             <Badge
-                                variant={set.status === 'published' ? 'default' : 'secondary'}
+                                variant={
+                                    set.status === 'published'
+                                        ? 'default'
+                                        : 'secondary'
+                                }
                             >
                                 {set.status}
                             </Badge>
                         </p>
                     </div>
                     <div className="flex items-center gap-2">
-                        <Button variant="outline" onClick={() => navigate('/admin/sets')}>
+                        <Button
+                            variant="outline"
+                            onClick={() => navigate('/admin/sets')}
+                        >
                             Back
                         </Button>
                         {draftCount > 0 && (
@@ -127,8 +137,7 @@ export function DiagnosticSetReviewPage() {
                             disabled={exporting}
                             onClick={() =>
                                 exportSet(setId ?? '', {
-                                    onSuccess: () =>
-                                        toast.success('Exported.'),
+                                    onSuccess: () => toast.success('Exported.'),
                                     onError: () =>
                                         toast.error(
                                             'Could not export this set.'
@@ -158,7 +167,9 @@ export function DiagnosticSetReviewPage() {
                                 </span>
                                 <span>{q.topicCode}</span>
                                 <span>· {q.coreSkillPrimary}</span>
-                                {q.coreSkillSecondary && <span>/ {q.coreSkillSecondary}</span>}
+                                {q.coreSkillSecondary && (
+                                    <span>/ {q.coreSkillSecondary}</span>
+                                )}
                                 {q.status === 'draft' && (
                                     <Badge variant="secondary">draft</Badge>
                                 )}
@@ -172,7 +183,15 @@ export function DiagnosticSetReviewPage() {
                                     size="sm"
                                     className="ml-auto"
                                 >
-                                    <Link to={`/admin/questions/${q.id}`}>
+                                    <Link
+                                        to={`/admin/questions/${q.id}`}
+                                        // Come back here, not to the
+                                        // questions list: this admin is
+                                        // working through one set.
+                                        state={{
+                                            returnTo: `/admin/sets/${setId}/preview`,
+                                        }}
+                                    >
                                         <Pencil className="h-4 w-4" /> Edit
                                     </Link>
                                 </Button>
@@ -207,7 +226,9 @@ export function DiagnosticSetReviewPage() {
                                                     : 'text-gray-700'
                                             }`}
                                         >
-                                            <span className="font-medium">{o.label}.</span>
+                                            <span className="font-medium">
+                                                {o.label}.
+                                            </span>
                                             <span className="flex-1">
                                                 <LatexText text={o.text} />
                                                 {o.misconception && (
@@ -218,7 +239,8 @@ export function DiagnosticSetReviewPage() {
                                             </span>
                                             {correct && (
                                                 <span className="flex items-center gap-1 text-emerald-700">
-                                                    <Check className="h-4 w-4" /> correct
+                                                    <Check className="h-4 w-4" />{' '}
+                                                    correct
                                                 </span>
                                             )}
                                         </li>
