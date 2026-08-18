@@ -14,6 +14,13 @@
  * Everything inside a maths span is handed to KaTeX untouched — a `\\` in an
  * `aligned` block is KaTeX's row separator and must not be stolen by the
  * line-break rule, which is why maths is tokenised first.
+ *
+ * Inline `$…$` may wrap across a line, because authors break long fractions
+ * where they fall and a textarea encourages it — one published question read
+ * as raw LaTeX to students for exactly that reason. It may NOT cross a blank
+ * line: that bound is what stops an unpaired `$` in prose reaching forward to
+ * some later `$` and turning paragraphs of text into nonsense maths, which is
+ * why newlines were excluded outright before.
  */
 
 export type LatexNode =
@@ -26,7 +33,7 @@ export type LatexNode =
 /** One pass over the source: maths first (so its backslashes are never
  * reinterpreted), then the structural commands. */
 const TOKEN =
-    /(\$\$[\s\S]*?\$\$)|(\$[^$\n]*?\$)|(\\begin\{(?:enumerate|itemize)\})|(\\end\{(?:enumerate|itemize)\})|(\\item\b)|(\\\\)/g
+    /(\$\$[\s\S]*?\$\$)|(\$(?:[^$\n]|\n(?!\s*\n))*?\$)|(\\begin\{(?:enumerate|itemize)\})|(\\end\{(?:enumerate|itemize)\})|(\\item\b)|(\\\\)/g
 
 type Frame = { ordered: boolean; items: LatexNode[][] }
 
@@ -59,7 +66,10 @@ export function parseLatexText(source: string): LatexNode[] {
         const [, display, inline, begin, end, item, lineBreak] = match
 
         if (display !== undefined) {
-            current().push({ kind: 'displayMath', value: display.slice(2, -2).trim() })
+            current().push({
+                kind: 'displayMath',
+                value: display.slice(2, -2).trim(),
+            })
         } else if (inline !== undefined) {
             current().push({ kind: 'inlineMath', value: inline.slice(1, -1) })
         } else if (begin !== undefined) {
@@ -89,7 +99,11 @@ export function parseLatexText(source: string): LatexNode[] {
     while (stack.length > 0) {
         const frame = stack.pop()
         if (frame === undefined) break
-        current().push({ kind: 'list', ordered: frame.ordered, items: frame.items })
+        current().push({
+            kind: 'list',
+            ordered: frame.ordered,
+            items: frame.items,
+        })
     }
 
     return root
