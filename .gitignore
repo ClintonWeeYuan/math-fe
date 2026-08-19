@@ -40,3 +40,8 @@ dist-ssr
 # that only matched a dot.
 Dockerfile[[:space:]][0-9]
 *file[[:space:]][0-9]
+
+# Pandoc scratch output. The LaTeX converter writes output.html into its work
+# dir; run by hand from a repo root it lands here instead, and a 2MB generated
+# file had been committed that way.
+output.html

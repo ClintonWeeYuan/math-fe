@@ -1,6 +1,5 @@
 import { defineConfig } from '@hey-api/openapi-ts'
 
-const LOCAL_URL = 'http://localhost:8000'
 const PROD_URL = 'https://joyful-vitality-production.up.railway.app'
 
 export default defineConfig({

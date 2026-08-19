@@ -26,8 +26,6 @@ const HOOKS_DIR = join(process.cwd(), 'src/hooks')
  * added without one is the thing to question in review.
  */
 const PUBLIC_OR_STUDENT: Record<string, string> = {
-    'useJoinWaitlistMutation.ts':
-        'public — a prospective student signing up has no account yet',
     'useGenerateHintMutation.ts':
         'student-facing hint on a question in the bank, not an admin action',
     'useUpdateQuestionStatusMutation.ts':
