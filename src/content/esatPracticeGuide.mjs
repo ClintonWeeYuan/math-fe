@@ -32,7 +32,7 @@ export const GUIDE = {
     // because that is when the page gained its byline and dates, which is a
     // change a reader can see.
     publishedAt: '2026-08-01',
-    updatedAt: '2026-08-16',
+    updatedAt: '2026-08-19',
     sections: [
         {
             id: 'format',
@@ -88,6 +88,18 @@ export const GUIDE = {
             paras: [
                 'Not everyone has 40 uninterrupted minutes on a Tuesday. Each subject has a mini test: ten questions in fifteen minutes, at the same 90-seconds-a-question pace as the real thing, with an indicative skills report at the end.',
                 'Be clear about what ten questions can and cannot tell you. They will show you the pace, and they will usually surface your weakest skill. They cannot resolve every skill the way a full paper does — so treat the mini as the thermometer and the full diagnostic as the examination.',
+            ],
+            // A section that recommends a mini and then makes the reader go
+            // find one is advice, not a route. The catalogue rather than a
+            // particular set, because this guide covers all five modules and
+            // has no way to know which the reader needs — the per-subject
+            // pages are where a single mini is the right link.
+            links: [
+                {
+                    path: '/diagnostics/esat',
+                    label: 'Find your mini test',
+                    note: 'Every ESAT diagnostic, with each subject’s mini listed first — ten questions, fifteen minutes, free.',
+                },
             ],
         },
         {

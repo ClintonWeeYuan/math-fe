@@ -5,8 +5,8 @@ import { Seo } from '@/components/Seo.tsx'
 import { GuideLinks } from '@/components/guides/GuideLinks.tsx'
 
 /**
- * Step 1 of the admissions track: pick your test. ESAT is live; TMUA and
- * further tests are signposted as roadmap so the catalogue reads as
+ * The admissions fork: pick your test. ESAT and TMUA are both live; a test
+ * that is not yet is signposted as roadmap so the catalogue reads as
  * ambition, not absence. New tests are added here, never as new doors on
  * the landing fork.
  */
@@ -22,7 +22,7 @@ export function AdmissionsPickerPage() {
             />
             <div className="px-4 md:px-[50px] xl:px-[150px] py-12 md:py-20 max-w-5xl">
                 <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-4">
-                    Admissions · step 1 of 2
+                    Admissions
                 </p>
 
                 <p className="text-3xl md:text-5xl font-bold mb-4 leading-tight">
