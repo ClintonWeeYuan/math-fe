@@ -21,6 +21,7 @@ import { AdmissionsPickerPage } from '@/pages/AdmissionsPickerPage.tsx'
 import SubjectsPage from '@/pages/SubjectsPage.tsx'
 import { AboutPage } from '@/pages/AboutPage.tsx'
 import { TermsPage } from '@/pages/TermsPage.tsx'
+import { captureAcquisition, captureAgentCode } from '@/lib/acquisition.ts'
 import { PrivacyPage } from '@/pages/PrivacyPage.tsx'
 import { EsatTmuaPage } from '@/pages/EsatTmuaPage.tsx'
 import { DiagnosticsCatalogPage } from '@/pages/DiagnosticsCatalogPage.tsx'
@@ -65,6 +66,15 @@ function LegacyQuizRedirect() {
 }
 
 function App() {
+    // Before anything else, and once per session: whatever the URL that
+    // brought this visitor here said about where they came from. Signup
+    // almost never happens on the landing page, so reading it then would
+    // attribute nearly every account to nothing.
+    useEffect(() => {
+        captureAcquisition()
+        captureAgentCode()
+    }, [])
+
     useEffect(() => {
         if (process.env.NODE_ENV === 'production') {
             const script = document.createElement('script')

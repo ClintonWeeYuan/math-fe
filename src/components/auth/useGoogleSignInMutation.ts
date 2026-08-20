@@ -1,5 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 
+import { signupAttribution } from '@/lib/signupAttribution.ts'
 import {
     signInWithGoogleUsersGooglePost,
     type UserLoginResponse,
@@ -15,7 +16,10 @@ export function useGoogleSignInMutation({ onSuccess, onError }: Props) {
     return useMutation({
         mutationFn: async (credential: string) => {
             const { data, error } = await signInWithGoogleUsersGooglePost({
-                body: { credential },
+                // Attribution is only used if this call creates the
+                // account; on a sign-in that matches an existing one the
+                // server ignores it, since an account has one origin.
+                body: { credential, ...signupAttribution() },
             })
             // The generated client resolves rather than throwing on an HTTP
             // error, so a refused sign-in would otherwise look like a success

@@ -36,7 +36,12 @@ export const requestEmailLoginCode = (body: { email: string }) =>
         headers: JSON_HEADERS,
     })
 
-export const signInWithEmailCode = (body: { email: string; code: string }) =>
+export const signInWithEmailCode = (
+    // Widened for the attribution fields the signup routes attach. Hand-written
+    // here rather than generated, so unlike the other two routes there is no
+    // generated type to work around.
+    body: { email: string; code: string } & Record<string, unknown>
+) =>
     client.post<{ 200: UserLoginResponse }>({
         url: '/users/email-code/verify',
         body,

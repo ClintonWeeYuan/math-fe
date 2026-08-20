@@ -1,6 +1,7 @@
 import type { DiagnosticAttemptResponse } from '@/client'
 import { Button } from '@/components/ui/button.tsx'
 import { useNavigate } from 'react-router-dom'
+import { PostSubmissionSurvey } from '@/components/diagnostic/exam/PostSubmissionSurvey.tsx'
 
 type Props = {
     attempt: DiagnosticAttemptResponse
@@ -31,6 +32,12 @@ export function AttemptClosedView({ attempt }: Props) {
                     : 'Your answers have been submitted.'}{' '}
                 Your report is ready.
             </p>
+            {/* Between submitting and reading the report — the one moment a
+                student will answer something about themselves. It sits above
+                the buttons but cannot gate them: "View your report" is
+                outside it and never disabled. */}
+            <PostSubmissionSurvey />
+
             <div className="flex gap-3">
                 <Button
                     type="button"

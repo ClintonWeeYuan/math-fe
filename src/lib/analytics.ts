@@ -26,10 +26,21 @@ import { client } from '@/client/client.gen'
  *  of it, which is a change of its own; move to the generated union the next
  *  time it is regenerated. */
 export type AnalyticsEventName =
+    // Attempt lifecycle and the two history-dependent starts. All emitted
+    // server-side — they are state transitions the server owns, and the moment
+    // a student abandons is the moment their tab closes. Listed here anyway
+    // because this type mirrors the backend's Literal, not just what the
+    // browser sends.
     | 'diagnostic_started'
     | 'question_answered'
     | 'diagnostic_submitted'
     | 'diagnostic_timed_out'
+    | 'retake_started'
+    | 'second_subject_started'
+    // Client-driven: the server cannot tell a fetch from a read, and a CTA
+    // click never reaches it at all.
+    | 'report_viewed'
+    | 'diagnostic_cta_clicked'
 
 export type AnalyticsPayload = {
     attemptId?: string

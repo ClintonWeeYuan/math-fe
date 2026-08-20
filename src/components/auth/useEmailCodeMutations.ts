@@ -1,5 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
 
+import { signupAttribution } from '@/lib/signupAttribution.ts'
+
 import type { UserLoginResponse } from '@/client'
 import {
     requestEmailLoginCode,
@@ -53,7 +55,10 @@ export function useEmailCodeSignInMutation({
 }: SignInProps) {
     return useMutation({
         mutationFn: async (input: { email: string; code: string }) => {
-            const { data, error } = await signInWithEmailCode(input)
+            const { data, error } = await signInWithEmailCode({
+                ...input,
+                ...signupAttribution(),
+            })
             if (error !== undefined || data === undefined) {
                 throw new Error(
                     detailOf(error) ?? "That code didn't work. Try again."

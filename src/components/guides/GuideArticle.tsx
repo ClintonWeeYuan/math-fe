@@ -7,6 +7,7 @@ import { relatedTo } from '@/content/guides.mjs'
 import { AUTHOR } from '@/content/author.mjs'
 import { guideJsonLd, jsonLdText } from '@/content/structuredData.mjs'
 import { SITE_URL } from '@/lib/site.ts'
+import { trackEvent } from '@/lib/analytics.ts'
 
 /** A date a reader can read, from the ISO date the content module stores. */
 function readable(iso: string) {
@@ -28,6 +29,31 @@ const PERIWINKLE = '#799ED1'
  * which is what makes these pages readable by crawlers; keeping the layout
  * here and the words there means the static copy cannot drift from the page.
  */
+/** Does this path lead to a diagnostic? Both the catalogue and a specific set
+ *  count — either way the reader has left the guide for the product, which is
+ *  the conversion being measured. */
+function isDiagnosticPath(path: string): boolean {
+    return path.startsWith('/diagnostics') || path.startsWith('/diagnostic/sets')
+}
+
+/**
+ * Record a guide reader following a CTA into the product.
+ *
+ * The source path is the point. Umami already counts views per guide page; the
+ * only missing half of "which guide converts" is the numerator, keyed by the
+ * same page. Read from the live location rather than from the guide's own
+ * `path`, so a CTA in a shared component reports where it was actually
+ * clicked.
+ */
+function trackCta(destination: string): void {
+    trackEvent('diagnostic_cta_clicked', {
+        metadata: {
+            source: window.location.pathname,
+            destination,
+        },
+    })
+}
+
 export function GuideArticle({ guide }: { guide: Guide }) {
     const navigate = useNavigate()
 
@@ -115,7 +141,10 @@ export function GuideArticle({ guide }: { guide: Guide }) {
                 <div className="flex flex-col sm:flex-row gap-3 mb-12">
                     <Button
                         className="cursor-pointer"
-                        onClick={() => navigate(guide.ctaPath)}
+                        onClick={() => {
+                            trackCta(guide.ctaPath)
+                            navigate(guide.ctaPath)
+                        }}
                     >
                         {guide.ctaLabel}
                     </Button>
@@ -143,6 +172,14 @@ export function GuideArticle({ guide }: { guide: Guide }) {
                                     to={link.path}
                                     className="font-semibold underline underline-offset-4"
                                     style={{ color: PERIWINKLE }}
+                                    onClick={() => {
+                                        // Only the ones that leave for the
+                                        // product; a link to another guide is
+                                        // navigation, not conversion.
+                                        if (isDiagnosticPath(link.path)) {
+                                            trackCta(link.path)
+                                        }
+                                    }}
                                 >
                                     {link.label}
                                 </Link>{' '}
@@ -268,7 +305,10 @@ export function GuideArticle({ guide }: { guide: Guide }) {
                     </p>
                     <Button
                         className="bg-white text-slate-900 hover:bg-slate-100 cursor-pointer font-medium"
-                        onClick={() => navigate(guide.ctaPath)}
+                        onClick={() => {
+                            trackCta(guide.ctaPath)
+                            navigate(guide.ctaPath)
+                        }}
                     >
                         {guide.ctaLabel}
                     </Button>

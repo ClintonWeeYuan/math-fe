@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { LoadingPage } from '@/components/common/FullLoadingPage.tsx'
 import { Button } from '@/components/ui/button.tsx'
@@ -7,6 +8,7 @@ import useGetAttemptReportQuery, {
 import useGetSetPreviewQuery from '@/hooks/diagnostic/useGetSetPreviewQuery.ts'
 import { DiagnosticReportView } from '@/components/diagnostic/report/DiagnosticReportView.tsx'
 import { WhatNext } from '@/components/diagnostic/report/WhatNext.tsx'
+import { trackEvent } from '@/lib/analytics.ts'
 
 /**
  * The student's own post-exam report (§6). Fetches the owner-scoped report and
@@ -27,6 +29,16 @@ export function DiagnosticReportPage() {
         setId: report?.attempt.diagnosticSetId ?? '',
         enabled: report !== undefined,
     })
+
+    // Once the report is actually in hand, not on mount: mounting happens
+    // while it is still loading, and an attempt that 409s or 403s was never
+    // viewed. Keyed on attemptId so a student moving between two reports
+    // records both.
+    useEffect(() => {
+        if (report !== undefined && attemptId) {
+            trackEvent('report_viewed', { attemptId })
+        }
+    }, [report, attemptId])
 
     if (isLoading) return <LoadingPage />
 
