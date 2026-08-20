@@ -47,6 +47,12 @@ export type AnalyticsEventName =
     | 'report_reopened'
     | 'resume_clicked'
     | 'retake_clicked'
+    // Review mode. solution_video_played is deliberately absent: it needs the
+    // YouTube iframe API and a per-player listener, which is more machinery
+    // than the answer is worth.
+    | 'review_opened'
+    | 'solution_viewed'
+    | 'incorrect_filter_used'
 
 export type AnalyticsPayload = {
     attemptId?: string

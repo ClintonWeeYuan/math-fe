@@ -314,6 +314,8 @@ describe('getCorrectOptionLabel', () => {
             diagramSvg: '',
             diagramSvgTouched: false,
             diagramFile: null,
+            solutionText: '',
+            solutionVideoUrl: '',
             ...overrides,
         }
     }

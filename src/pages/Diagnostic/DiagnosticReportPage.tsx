@@ -8,6 +8,7 @@ import useGetAttemptReportQuery, {
 import useGetSetPreviewQuery from '@/hooks/diagnostic/useGetSetPreviewQuery.ts'
 import { DiagnosticReportView } from '@/components/diagnostic/report/DiagnosticReportView.tsx'
 import { WhatNext } from '@/components/diagnostic/report/WhatNext.tsx'
+import { ReviewAnswers } from '@/components/diagnostic/report/ReviewAnswers.tsx'
 import { trackEvent } from '@/lib/analytics.ts'
 
 /**
@@ -85,6 +86,11 @@ export function DiagnosticReportPage() {
                 // because the admin page renders that same view and has no use
                 // for "start a diagnostic" buttons on someone else's results.
                 <div className="flex flex-col gap-8">
+                    {/* Before "what next": the paper they just sat is more
+                        use to them than the next one. Also in the footer slot,
+                        so the admin view of the same report does not gain a
+                        student's review. */}
+                    <ReviewAnswers attemptId={attemptId ?? ''} />
                     <WhatNext
                         subject={report.subject}
                         currentSetId={report.attempt.diagnosticSetId}

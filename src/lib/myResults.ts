@@ -25,6 +25,8 @@ export type StudentAttempt = {
     questionCount: number
     startedAt: string
     submittedAt?: string | null
+    /** When this attempt's own review was first opened. */
+    reviewedAt?: string | null
 }
 
 export type Coverage = 'completed' | 'in_progress' | 'not_attempted'
@@ -61,12 +63,44 @@ export function isTerminal(attempt: StudentAttempt): boolean {
  * the same evidence, and the first one is the one that was not informed by
  * having already seen the questions.
  */
+/**
+ * Was this attempt started after the student had already seen this set's
+ * worked solutions?
+ *
+ * If so it is practice, not measurement. Worth doing, worth keeping in the
+ * history, and not worth reporting as what they can do unaided — a score that
+ * partly measures how well they remembered the answers is not the score the
+ * coverage view is claiming to show.
+ *
+ * Compared against every *other* attempt at the same set, not this one's own
+ * reviewedAt: reviewing your own paper afterwards is the intended behaviour
+ * and taints nothing.
+ */
+export function isPracticeRetake(
+    attempt: StudentAttempt,
+    sameSetAttempts: StudentAttempt[]
+): boolean {
+    return sameSetAttempts.some(
+        (other) =>
+            other.attemptId !== attempt.attemptId &&
+            other.reviewedAt != null &&
+            other.reviewedAt < attempt.startedAt
+    )
+}
+
 export function bestAttemptForSet(
     attempts: StudentAttempt[]
 ): StudentAttempt | undefined {
     const terminal = attempts.filter(isTerminal)
     if (terminal.length === 0) return undefined
-    return terminal.reduce((best, candidate) => {
+
+    // Prefer attempts untainted by having already seen the answers. Only if
+    // every sitting is a practice retake does one of those speak for the set —
+    // showing nothing would be worse than showing a qualified number.
+    const unaffected = terminal.filter((a) => !isPracticeRetake(a, attempts))
+    const pool = unaffected.length > 0 ? unaffected : terminal
+
+    return pool.reduce((best, candidate) => {
         const bestScore = best.totalScore ?? -1
         const score = candidate.totalScore ?? -1
         if (score > bestScore) return candidate

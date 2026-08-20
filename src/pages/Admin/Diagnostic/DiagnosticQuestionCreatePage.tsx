@@ -1,3 +1,4 @@
+import { solutionFields } from '@/components/diagnostic/questionForm/types.ts'
 import { useNavigate } from 'react-router-dom'
 import { AdminLayout } from '@/components/layout/AdminLayout.tsx'
 import {
@@ -42,6 +43,9 @@ export function DiagnosticQuestionCreatePage() {
                 difficultyTag: values.difficultyTag,
                 status: values.status,
                 diagramSvg: getDiagramSvgForCreate(values),
+                // Usually empty at authoring time — the questions ship
+                // first and the worked solutions follow.
+                ...solutionFields(values),
             },
             {
                 onSuccess: async (created) => {

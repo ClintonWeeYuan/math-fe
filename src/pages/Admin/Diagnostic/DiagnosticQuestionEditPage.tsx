@@ -1,3 +1,4 @@
+import { solutionFields } from '@/components/diagnostic/questionForm/types.ts'
 import { useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { AdminLayout } from '@/components/layout/AdminLayout.tsx'
@@ -106,6 +107,9 @@ export function DiagnosticQuestionEditPage() {
                 // undefined`) is what preserves the existing diagram —
                 // matches the backend's exclude_unset contract exactly.
                 ...(diagramSvg !== undefined ? { diagramSvg } : {}),
+                // Empty means no solution, and null clears one attached
+                // by mistake.
+                ...solutionFields(values),
             },
             {
                 onSuccess: async () => {

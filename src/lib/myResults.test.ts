@@ -4,6 +4,7 @@ import {
     bestAttemptForSet,
     completedSubjects,
     coverageFor,
+    isPracticeRetake,
     type StudentAttempt,
 } from './myResults'
 import type { PublishedDiagnosticSet } from '@/client'
@@ -162,5 +163,56 @@ describe('the bar for having covered a subject', () => {
         const properlySat = attempt({ answeredCount: 20, questionCount: 27 })
         expect(actionFor(properlySat)).toBe('report')
         expect(completedSubjects([properlySat]).size).toBe(1)
+    })
+})
+
+describe('retake integrity', () => {
+    const first = attempt({
+        attemptId: 'first',
+        totalScore: 10,
+        startedAt: '2026-08-01T10:00:00Z',
+        reviewedAt: '2026-08-01T11:00:00Z',
+    })
+    const afterReview = attempt({
+        attemptId: 'second',
+        totalScore: 25,
+        startedAt: '2026-08-02T10:00:00Z',
+    })
+
+    it('marks an attempt started after the answers were seen', () => {
+        expect(isPracticeRetake(afterReview, [first, afterReview])).toBe(true)
+    })
+
+    it('does not taint an attempt by its own review', () => {
+        // Reading your own paper afterwards is the intended behaviour.
+        expect(isPracticeRetake(first, [first, afterReview])).toBe(false)
+    })
+
+    it('lets the untainted attempt speak for the set, even scoring lower', () => {
+        // 10 unaided beats 25 with the answers already read — the coverage
+        // view claims to show what they can do, not what they remembered.
+        expect(bestAttemptForSet([first, afterReview])?.attemptId).toBe('first')
+    })
+
+    it('falls back to a practice retake when every sitting is one', () => {
+        // Showing nothing would be worse than showing a qualified number.
+        const onlyPractice = attempt({
+            attemptId: 'only',
+            startedAt: '2026-08-05T10:00:00Z',
+        })
+        const reviewedElsewhere = attempt({
+            attemptId: 'other',
+            status: 'in_progress',
+            reviewedAt: '2026-08-04T10:00:00Z',
+        })
+        expect(
+            bestAttemptForSet([onlyPractice, reviewedElsewhere])?.attemptId
+        ).toBe('only')
+    })
+
+    it('is unaffected when nobody has opened a review', () => {
+        const a = attempt({ attemptId: 'a', totalScore: 12 })
+        const b = attempt({ attemptId: 'b', totalScore: 20 })
+        expect(bestAttemptForSet([a, b])?.attemptId).toBe('b')
     })
 })

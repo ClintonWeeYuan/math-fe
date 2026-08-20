@@ -12,6 +12,7 @@ import {
 import { QuestionMetaFields } from './questionForm/QuestionMetaFields.tsx'
 import { QuestionOptionsEditor } from './questionForm/QuestionOptionsEditor.tsx'
 import { QuestionDiagramField } from './questionForm/QuestionDiagramField.tsx'
+import { QuestionSolutionFields } from './questionForm/QuestionSolutionFields.tsx'
 
 // Re-exported so callers (the create/edit pages, tests) keep importing the
 // form's public API from one place even though the internals are now split.
@@ -105,6 +106,8 @@ export function DiagnosticQuestionForm({
                 <QuestionOptionsEditor />
 
                 <QuestionDiagramField initialData={initialData} />
+
+                <QuestionSolutionFields />
 
                 <div>
                     <Button type="submit" disabled={isSubmitting}>

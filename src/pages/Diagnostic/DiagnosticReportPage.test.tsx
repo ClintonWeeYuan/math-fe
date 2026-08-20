@@ -31,6 +31,11 @@ vi.mock('@/hooks/diagnostic/useListPublishedSetsQuery.ts', () => ({
 vi.mock('@/hooks/diagnostic/useMyAttemptsQuery.ts', () => ({
     default: () => ({ data: undefined }),
 }))
+// The review section renders under the report and fetches its own data. These
+// tests are about the report's own content; ReviewAnswers has its own file.
+vi.mock('@/hooks/diagnostic/useAttemptReviewQuery.ts', () => ({
+    default: () => ({ data: undefined, isLoading: false, isError: false }),
+}))
 vi.mock('react-router-dom', async () => {
     const actual =
         await vi.importActual<typeof import('react-router-dom')>('react-router-dom')

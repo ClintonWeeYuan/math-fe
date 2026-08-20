@@ -34,12 +34,42 @@ export type DiagnosticQuestionFormValues = {
     // create/update succeeds, since a file can't ride along in the same
     // JSON payload as diagramSvg.
     diagramFile: File | null
+    // Worked solution. Attachable at authoring time, but usually filled in
+    // long afterwards — which is the point of having them on the edit form at
+    // all: a solution should be a content job, not a deploy.
+    solutionText: string
+    solutionVideoUrl: string
 }
 
 /** Option labels are derived from position (A, B, C…), never free-typed, so a
  * removed/reordered option can't leave a stale or duplicate label behind. */
 export function labelForIndex(index: number): string {
     return String.fromCharCode('A'.charCodeAt(0) + index)
+}
+
+/** The solution fields as a payload fragment.
+ *
+ *  Spread rather than written as literal properties because the generated
+ *  client predates these two columns, and a literal would fail the excess-
+ *  property check while a spread does not — which keeps every other field in
+ *  the payload type-checked instead of casting the whole object away. */
+export function solutionFields(
+    values: DiagnosticQuestionFormValues
+): Record<string, unknown> {
+    return {
+        solutionText: values.solutionText.trim() || null,
+        solutionVideoUrl: values.solutionVideoUrl.trim() || null,
+    }
+}
+
+function withSolutions(question: DiagnosticQuestionResponse): {
+    solutionText?: string | null
+    solutionVideoUrl?: string | null
+} {
+    return question as {
+        solutionText?: string | null
+        solutionVideoUrl?: string | null
+    }
 }
 
 export function defaultValues(
@@ -60,6 +90,8 @@ export function defaultValues(
             diagramSvg: '',
             diagramSvgTouched: false,
             diagramFile: null,
+            solutionText: '',
+            solutionVideoUrl: '',
         }
     }
     return {
@@ -78,6 +110,10 @@ export function defaultValues(
         diagramSvg: '',
         diagramSvgTouched: false,
         diagramFile: null,
+        // Read through a narrowing: the generated client predates these
+        // fields, and regenerating it rewrites ~1500 lines.
+        solutionText: withSolutions(initialData).solutionText ?? '',
+        solutionVideoUrl: withSolutions(initialData).solutionVideoUrl ?? '',
     }
 }
 
