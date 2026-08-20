@@ -14,3 +14,7 @@ interface ImportMetaEnv {
 interface ImportMeta {
     readonly env: ImportMetaEnv
 }
+
+/** ISO date (YYYY-MM-DD) of the build, injected by vite.config.ts. Read by the
+ *  legal pages, which must state when they last changed. */
+declare const __BUILD_DATE__: string

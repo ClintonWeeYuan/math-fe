@@ -20,6 +20,7 @@ import { LandingPage } from '@/pages/LandingPage.tsx'
 import { AdmissionsPickerPage } from '@/pages/AdmissionsPickerPage.tsx'
 import SubjectsPage from '@/pages/SubjectsPage.tsx'
 import { AboutPage } from '@/pages/AboutPage.tsx'
+import { TermsPage } from '@/pages/TermsPage.tsx'
 import { EsatTmuaPage } from '@/pages/EsatTmuaPage.tsx'
 import { DiagnosticsCatalogPage } from '@/pages/DiagnosticsCatalogPage.tsx'
 import { GuidesIndexPage } from '@/pages/GuidesIndexPage.tsx'
@@ -95,6 +96,7 @@ function App() {
                 />
                 <Route path="admissions" element={<AdmissionsPickerPage />} />
                 <Route path="about" element={<AboutPage />} />
+                <Route path="terms" element={<TermsPage />} />
                 <Route path="esat-tmua" element={<EsatTmuaPage />} />
                 <Route
                     path="diagnostics"

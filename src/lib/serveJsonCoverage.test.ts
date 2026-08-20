@@ -24,6 +24,9 @@ const PRERENDERED = new Set([
     'esat-tmua',
     'subjects',
     'guides',
+    // The legal pages are prerendered so they can be read — and crawled —
+    // before anyone signs up, which is the only moment reading them is useful.
+    'terms',
     // One prerendered file per published subject, generated from the API at
     // build time. Deliberately *not* rewritten in serve.json: `serve` applies
     // rewrites before looking at disk, so a rewrite would serve the homepage

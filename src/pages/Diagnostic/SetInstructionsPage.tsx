@@ -166,7 +166,21 @@ export function SetInstructionsPage() {
                         />
                         <span>
                             I agree not to reproduce, share, or distribute any
-                            of this diagnostic&apos;s content.
+                            of this diagnostic&apos;s content. This is also in
+                            our{' '}
+                            {/* Opens in a new tab deliberately: this screen is
+                                the last step before a timed attempt starts, and
+                                navigating away from it to read the terms should
+                                not cost someone their place. */}
+                            <a
+                                href="/terms"
+                                target="_blank"
+                                rel="noreferrer"
+                                className="underline underline-offset-4"
+                            >
+                                Terms of Use
+                            </a>
+                            .
                         </span>
                     </label>
 

@@ -471,6 +471,17 @@ const ROUTES = [
 ${guideLinksMarkup()}`,
     },
     {
+        // Prerendered and indexable: a privacy notice or terms page that only
+        // exists once JavaScript has run is one a person cannot check before
+        // trusting us with an account, and one a crawler never sees.
+        path: '/terms',
+        title: 'Terms of Use | JomExam',
+        description:
+            'The terms you agree to when you use JomExam — what the service is, acceptable use, and the rules on diagnostic content.',
+        body: `<h1>Terms of Use</h1>
+<p>The terms you agree to when you use JomExam: what the service is, acceptable use, the rules on diagnostic content, and how to contact us.</p>`,
+    },
+    {
         path: '/admissions',
         title: 'Choose Your Test | JomExam Admissions',
         description:
