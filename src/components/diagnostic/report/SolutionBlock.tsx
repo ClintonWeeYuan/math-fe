@@ -43,6 +43,76 @@ export function toEmbedUrl(url: string): string {
     }
 }
 
+/** A step line as authored: "3. Factorise: $x^2-1=(x-1)(x+1)$." */
+const STEP = /^\d+\.\s+/
+
+/**
+ * A worked solution split into its steps.
+ *
+ * Authors write one operation per numbered line and finish with an
+ * unnumbered "Answer: X". Rendering that as one paragraph runs the steps
+ * together, which is the opposite of what a worked solution is for — the
+ * point is that each line is a separate thing you can follow or lose.
+ *
+ * The manual "N. " prefix is stripped and the list numbers the items itself.
+ * Otherwise a step inserted in the middle means renumbering every line after
+ * it by hand, and the first time someone forgets, the solution has two step
+ * fours.
+ *
+ * Anything that is not a numbered step — in practice the Answer line — is set
+ * off beneath the list rather than smuggled in as a final step, because it is
+ * not one: it is what the steps arrived at.
+ */
+export function SolutionSteps({ text }: { text: string }) {
+    const lines = text
+        .split('\n')
+        .map((line) => line.trim())
+        .filter((line) => line.length > 0)
+
+    // A solution with no line breaks is a legacy plain one. Render it exactly
+    // as before rather than making a one-item list of it.
+    if (lines.length <= 1) {
+        return <LatexText text={text} />
+    }
+
+    const steps = lines.filter((line) => STEP.test(line))
+    const rest = lines.filter((line) => !STEP.test(line))
+
+    // Every line is unnumbered prose — not the step format at all. Treat it as
+    // a plain solution that happens to have paragraphs.
+    if (steps.length === 0) {
+        return (
+            <>
+                {rest.map((line, i) => (
+                    <p key={i} className={i > 0 ? 'mt-2' : undefined}>
+                        <LatexText text={line} />
+                    </p>
+                ))}
+            </>
+        )
+    }
+
+    return (
+        <>
+            <ol className="list-decimal space-y-2 pl-5">
+                {steps.map((line, i) => (
+                    <li key={i}>
+                        <LatexText text={line.replace(STEP, '')} />
+                    </li>
+                ))}
+            </ol>
+            {rest.map((line, i) => (
+                <p
+                    key={i}
+                    className="mt-3 border-t border-slate-200 pt-3 font-medium text-slate-900"
+                >
+                    <LatexText text={line} />
+                </p>
+            ))}
+        </>
+    )
+}
+
 export function SolutionBlock({
     questionId,
     solutionText,
@@ -120,7 +190,7 @@ export function SolutionBlock({
 
             {hasText && (
                 <div className="text-sm leading-relaxed text-slate-700">
-                    <LatexText text={solutionText as string} />
+                    <SolutionSteps text={solutionText as string} />
                 </div>
             )}
         </div>

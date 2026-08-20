@@ -200,3 +200,65 @@ describe('accepting the URLs an author will actually paste', () => {
         expect(toEmbedUrl('not a url')).toBe('not a url')
     })
 })
+
+describe('a solution written as numbered steps', () => {
+    const stepped = [
+        '1. Factorise: $2x^2-7x+3=(2x-1)(x-3)$.',
+        '2. The roots are $x=\\tfrac12$ and $x=3$.',
+        'Answer: A',
+    ].join('\n')
+
+    // The options are a <ul> of <li> too, so a bare listitem query matches
+    // both. The steps are the <ol>, which is what these assertions mean.
+    async function openSolution(over: Partial<ReviewQuestion>) {
+        const { container } = show([wrong(over)])
+        await userEvent.click(screen.getByRole('button', { name: /^Question 1/ }))
+        await userEvent.click(
+            screen.getByRole('button', { name: /show full solution/i })
+        )
+        return container
+    }
+
+    it('renders the steps as a list', async () => {
+        const container = await openSolution({ solutionText: stepped })
+        expect(container.querySelectorAll('ol > li')).toHaveLength(2)
+    })
+
+    it('strips the typed number so the list does the numbering', async () => {
+        // Otherwise inserting a step means renumbering every line by hand, and
+        // the first time someone forgets there are two step fours.
+        const container = await openSolution({ solutionText: stepped })
+        const first = container.querySelector('ol > li')
+        expect(first?.textContent).not.toMatch(/^1\./)
+        expect(first?.textContent).toContain('Factorise')
+    })
+
+    it('sets the answer line off beneath the list, not inside it', async () => {
+        // It is not a step — it is what the steps arrived at.
+        await openSolution({ solutionText: stepped })
+        const answer = screen.getByText(/Answer: A/)
+        expect(answer.tagName).toBe('P')
+        expect(answer.closest('li')).toBeNull()
+    })
+
+    it('leaves a legacy single-line solution as a paragraph', async () => {
+        // The path that must not break: solutions written before the step
+        // format existed have no newlines at all.
+        const container = await openSolution({
+            solutionText: 'Just add the two numbers together.',
+        })
+        expect(container.querySelector('ol')).toBeNull()
+        expect(
+            screen.getByText('Just add the two numbers together.')
+        ).toBeInTheDocument()
+    })
+
+    it('copes with unnumbered prose across several lines', async () => {
+        const container = await openSolution({
+            solutionText: 'First thought.\nSecond thought.',
+        })
+        expect(container.querySelector('ol')).toBeNull()
+        expect(screen.getByText('First thought.')).toBeInTheDocument()
+        expect(screen.getByText('Second thought.')).toBeInTheDocument()
+    })
+})
