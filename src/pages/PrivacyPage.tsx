@@ -6,20 +6,31 @@ import { CONTACT_EMAIL, DATA_REGION, LAST_UPDATED, OPERATOR } from '@/content/le
 /**
  * The privacy notice.
  *
- * The wording is supplied copy and is reproduced verbatim: only the four
- * bracketed values in the source — operator, last-updated date, hosting region
- * (twice) and contact address — are filled, from src/content/legal.ts. Nothing
- * else here is ours to reword, so anything that reads oddly is a question for
- * whoever owns the text rather than a bug to fix in this file.
+ * Mostly supplied copy, reproduced verbatim: the four bracketed values —
+ * operator, last-updated date, hosting region (twice) and contact address —
+ * are filled from src/content/legal.ts. The processor list and the
+ * data-location section were then corrected against what the code actually
+ * does, on instruction. Everything else is not ours to reword, so anything
+ * that reads oddly is a question for whoever owns the text.
  *
- * Two things it currently says that the infrastructure does not match, both
- * raised rather than edited: it describes JomExam as based in the United
- * Kingdom while naming Singapore as where the data sits, with no transfer
- * safeguard mentioned; and its processor list omits Resend, which sends the
- * verification and sign-in-code emails through an Amazon SES region in Japan.
- * It also describes YouTube embeds, target universities and referral capture,
- * none of which exist yet — that is the safe direction for a notice to be
- * wrong in, but it is running ahead of the code.
+ * Verified rather than assumed, before Resend was named: the dependency is in
+ * pyproject.toml, EMAIL_API_KEY holds a real re_ key, app/services/email.py
+ * calls resend.Emails.send from four reachable sites, and sixteen accounts
+ * verified themselves by clicking a link we emailed. It is in use, not
+ * leftover configuration. The Japanese region comes from the domain's own
+ * DNS: send.jomexam.com bounces to feedback-smtp.ap-northeast-1.amazonses.com.
+ * Where Resend stores its message logs is a separate question, unverifiable
+ * from here, and so is not claimed.
+ *
+ * Supabase Auth is not used anywhere in this project — accounts live in
+ * public.users behind our own JWTs — so there is no built-in mailer to fold
+ * into the Supabase entry.
+ *
+ * Still outstanding: the notice describes JomExam as based in the United
+ * Kingdom while naming Singapore as where data sits, and names no safeguard
+ * for that transfer. See the comment at the end of "Where your data lives".
+ * It also describes target universities and referral capture, which now exist,
+ * and YouTube embeds, which do too — that gap has closed since it was written.
  */
 
 /** One "**Lead.** rest of the sentence" paragraph, as the source formats them. */
@@ -152,6 +163,13 @@ export function PrivacyPage() {
                     </li>
                     <li>
                         <span className="font-semibold text-slate-900">
+                            Resend
+                        </span>{' '}
+                        delivers our verification and sign-in emails. Messages
+                        are sent through Amazon SES in Japan.
+                    </li>
+                    <li>
+                        <span className="font-semibold text-slate-900">
                             YouTube
                         </span>{' '}
                         provides some embedded solution videos. When you play
@@ -168,6 +186,18 @@ export function PrivacyPage() {
                     and stored there. By using JomExam, you understand your data
                     is handled as this notice describes.
                 </P>
+                <P>
+                    One exception: the emails we send you — verification and
+                    sign-in messages — are delivered through Amazon SES in
+                    Japan, so your email address is processed there when we
+                    send you one.
+                </P>
+                {/* No transfer-safeguard sentence here yet. Adding one means
+                    naming a mechanism (standard contractual clauses or an
+                    equivalent), and that is only true once the Supabase and
+                    Resend data processing agreements are actually signed —
+                    which has not been confirmed. Stating a safeguard that is
+                    not in place would be worse than the current silence. */}
 
                 <H2>How long we keep it</H2>
                 <P>

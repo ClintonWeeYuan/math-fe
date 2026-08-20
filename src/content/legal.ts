@@ -25,11 +25,14 @@ export const OPERATOR = 'Hazel Wee Ling T/A JomExam'
  *
  *  Worth knowing when this is next revised: the notice describes JomExam as
  *  based in the United Kingdom while naming this as the storage region, and
- *  says nothing about the transfer that implies. Separately, the verification
- *  and sign-in-code emails leave this region entirely — Resend delivers them
- *  through an Amazon SES region in Japan, and the notice's processor list does
- *  not mention Resend at all. Both were raised rather than edited, because the
- *  wording is not ours to change. */
+ *  names no safeguard for the transfer that implies. That sentence is still
+ *  outstanding and is deliberately absent rather than guessed at — see the
+ *  comment in PrivacyPage.tsx, which explains that a safeguard can only be
+ *  claimed once the Supabase and Resend processing agreements are signed.
+ *
+ *  The email gap is closed: Resend is now named in the processor list and the
+ *  Japanese sending region is stated, both verified against the code, the
+ *  environment and the domain's DNS. */
 export const DATA_REGION = 'Singapore'
 
 /**
