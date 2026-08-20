@@ -33,7 +33,12 @@ vi.mock('@/hooks/diagnostic/useMyAttemptsQuery.ts', () => ({
 }))
 // The review section renders under the report and fetches its own data. These
 // tests are about the report's own content; ReviewAnswers has its own file.
-vi.mock('@/hooks/diagnostic/useAttemptReviewQuery.ts', () => ({
+vi.mock('@/hooks/diagnostic/useAttemptReviewQuery.ts', async (importOriginal) => ({
+    // The component also imports isExpectedRefusal from here, so the real
+    // module has to come through; only the query is faked.
+    ...(await importOriginal<
+        typeof import('@/hooks/diagnostic/useAttemptReviewQuery.ts')
+    >()),
     default: () => ({ data: undefined, isLoading: false, isError: false }),
 }))
 vi.mock('react-router-dom', async () => {

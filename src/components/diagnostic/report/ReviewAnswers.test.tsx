@@ -6,7 +6,13 @@ import { toEmbedUrl } from './SolutionBlock'
 import type { ReviewQuestion } from '@/hooks/diagnostic/useAttemptReviewQuery.ts'
 
 const mockReview = vi.fn()
-vi.mock('@/hooks/diagnostic/useAttemptReviewQuery.ts', () => ({
+vi.mock('@/hooks/diagnostic/useAttemptReviewQuery.ts', async (importOriginal) => ({
+    // Only the query is faked. isExpectedRefusal is pure and is part of what
+    // these tests are checking, so it comes from the real module — a stubbed
+    // copy could agree with the component while both were wrong.
+    ...(await importOriginal<
+        typeof import('@/hooks/diagnostic/useAttemptReviewQuery.ts')
+    >()),
     default: () => mockReview(),
 }))
 
@@ -59,15 +65,41 @@ beforeEach(() => {
 })
 
 describe('review mode', () => {
-    it('renders nothing at all when review is refused', () => {
-        // A 403 (in progress, or not yours) is an answer, not a failure. The
-        // report above is already on screen; an error block under it would
-        // make a working page look broken.
+    it.each([401, 403, 409])(
+        'renders nothing when review is refused with %i',
+        (status) => {
+            // A refusal is an answer, not a failure: still in progress, not
+            // theirs, or signed out. The report above is already on screen and
+            // an error block under it would make a working page look broken.
+            mockReview.mockReturnValue({
+                data: undefined,
+                isLoading: false,
+                isError: true,
+                error: Object.assign(new Error('refused'), { status }),
+            })
+            const { container } = render(<ReviewAnswers attemptId="att-1" />)
+            expect(container).toBeEmptyDOMElement()
+        }
+    )
+
+    it.each([404, 500])('says something when it is broken, not refused (%i)', (status) => {
+        // The case this exists for: an undeployed endpoint rendered silence,
+        // which looked exactly like a paper with no worked solutions.
         mockReview.mockReturnValue({
             data: undefined,
             isLoading: false,
             isError: true,
+            error: Object.assign(new Error('broken'), { status }),
         })
+        render(<ReviewAnswers attemptId="att-1" />)
+        expect(screen.getByText(/couldn.t load the per-question review/i)).toBeInTheDocument()
+        // And it says the report itself is fine, so nobody assumes their
+        // results are lost.
+        expect(screen.getByText(/report above is unaffected/i)).toBeInTheDocument()
+    })
+
+    it('stays silent while still loading', () => {
+        mockReview.mockReturnValue({ data: undefined, isLoading: true, isError: false })
         const { container } = render(<ReviewAnswers attemptId="att-1" />)
         expect(container).toBeEmptyDOMElement()
     })

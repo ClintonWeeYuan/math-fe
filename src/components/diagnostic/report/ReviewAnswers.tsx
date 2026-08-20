@@ -3,6 +3,7 @@ import { Card, CardContent } from '@/components/ui/card.tsx'
 import { LatexText } from '@/components/diagnostic/LatexText.tsx'
 import { SolutionBlock } from '@/components/diagnostic/report/SolutionBlock.tsx'
 import useAttemptReviewQuery, {
+    isExpectedRefusal,
     type ReviewQuestion,
 } from '@/hooks/diagnostic/useAttemptReviewQuery.ts'
 import { trackEvent } from '@/lib/analytics.ts'
@@ -144,17 +145,39 @@ function QuestionCard({ question }: { question: ReviewQuestion }) {
 
 export function ReviewAnswers({ attemptId }: { attemptId: string }) {
     const [incorrectOnly, setIncorrectOnly] = useState(true)
-    const { data, isLoading, isError } = useAttemptReviewQuery({ attemptId })
+    const { data, isLoading, isError, error } = useAttemptReviewQuery({ attemptId })
 
     useEffect(() => {
         if (data) trackEvent('review_opened', { attemptId })
     }, [data, attemptId])
 
-    if (isLoading || isError || !data) {
-        // Silent on failure. The report above this is the thing the student
-        // came for and is already rendered; a red error block under it would
-        // make a working page look broken.
-        return null
+    if (isLoading) return null
+
+    if (isError || !data) {
+        // A refusal is an answer: the attempt is still in progress, or is not
+        // theirs, or they are signed out. Nothing to show and nothing wrong,
+        // so say nothing — a red block under a working report would be worse
+        // than the silence.
+        if (isExpectedRefusal(error)) return null
+
+        // Anything else is a breakage — a missing endpoint, a 500, no network.
+        // This used to be silent too, and that is precisely how an undeployed
+        // backend came to look identical to a paper with no worked solutions.
+        // One quiet line is enough to tell the two apart.
+        return (
+            <section className="flex flex-col gap-3">
+                <h2 className="text-xl font-medium">Review your answers</h2>
+                <Card>
+                    <CardContent className="pt-6">
+                        <p className="text-sm text-slate-500">
+                            We couldn&apos;t load the per-question review just
+                            now. Your report above is unaffected — refresh to
+                            try again.
+                        </p>
+                    </CardContent>
+                </Card>
+            </section>
+        )
     }
 
     const wrong = data.questions.filter((q) => q.isCorrect === false)
