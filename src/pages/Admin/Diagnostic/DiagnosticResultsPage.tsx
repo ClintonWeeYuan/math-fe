@@ -34,6 +34,15 @@ function fmtDate(iso: string | null | undefined): string {
     })
 }
 
+/** `isInternal` is not in the generated client yet — regenerating rewrites
+ *  all ~1500 lines of it, which is a change of its own. Same narrowing the
+ *  catalogue and the report view use for `format`; absent, a row reads as a
+ *  real student's, which is the safe direction to be wrong in (it shows,
+ *  rather than silently hiding a result). */
+function isInternal(row: AdminAttemptResultRow): boolean {
+    return (row as { isInternal?: boolean }).isInternal === true
+}
+
 function statusVariant(status: AdminAttemptResultRow['status']) {
     if (status === 'submitted') return 'default'
     if (status === 'timed_out') return 'secondary'
@@ -48,7 +57,15 @@ function statusVariant(status: AdminAttemptResultRow['status']) {
 export function DiagnosticResultsPage() {
     const navigate = useNavigate()
     const { data, isLoading } = useAdminResultsQuery()
-    const rows = data?.rows ?? []
+    // Default hidden, because we sit these papers while writing them: our own
+    // attempts otherwise sit in the table looking like student results, and
+    // the first read of any number here is the one people remember. The
+    // toggle exists because "was that us?" needs an answer, not a filter that
+    // silently drops the evidence.
+    const [showInternal, setShowInternal] = useState(false)
+    const allRows = data?.rows ?? []
+    const rows = showInternal ? allRows : allRows.filter((r) => !isInternal(r))
+    const internalCount = allRows.filter(isInternal).length
 
     const [openAttempt, setOpenAttempt] = useState<string | null>(null)
     const [selected, setSelected] = useState<Set<string>>(new Set())
@@ -142,12 +159,30 @@ export function DiagnosticResultsPage() {
                     </div>
                 )}
 
+                {!isLoading && internalCount > 0 && (
+                    <label className="flex w-fit items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                        <Checkbox
+                            checked={showInternal}
+                            onCheckedChange={(v) => {
+                                setShowInternal(v === true)
+                                // Otherwise a row selected before the toggle
+                                // stays selected while hidden, and Delete
+                                // selected takes something off-screen.
+                                setSelected(new Set())
+                            }}
+                            aria-label="Show internal accounts"
+                        />
+                        Show internal accounts ({internalCount} hidden)
+                    </label>
+                )}
+
                 {isLoading && <p className="text-gray-500">Loading…</p>}
 
                 {!isLoading && rows.length === 0 && (
                     <p className="text-gray-500">
-                        No attempts yet — results appear here once a student sits a
-                        diagnostic.
+                        {allRows.length > 0
+                            ? 'Every attempt so far is from an internal account — tick “Show internal accounts” to see them.'
+                            : 'No attempts yet — results appear here once a student sits a diagnostic.'}
                     </p>
                 )}
 
