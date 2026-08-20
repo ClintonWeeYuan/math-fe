@@ -21,6 +21,13 @@ vi.mock('@/hooks/diagnostic/useGetAttemptReportQuery.ts', async () => {
 vi.mock('@/hooks/diagnostic/useGetSetPreviewQuery.ts', () => ({
     default: (...args: unknown[]) => mockUsePreview(...args),
 }))
+// The report foot recommends what to sit next, which reads the public
+// catalogue. These tests are about the report's own content, so the catalogue
+// is empty here and WhatNext renders nothing — its own rules are covered in
+// diagnosticNextSteps.test.ts.
+vi.mock('@/hooks/diagnostic/useListPublishedSetsQuery.ts', () => ({
+    default: () => ({ data: [] }),
+}))
 vi.mock('react-router-dom', async () => {
     const actual =
         await vi.importActual<typeof import('react-router-dom')>('react-router-dom')
