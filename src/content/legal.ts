@@ -12,11 +12,12 @@
  *  has to stay one somebody reads. */
 export const CONTACT_EMAIL = 'hello@jomexam.com'
 
-/** Who operates JomExam, as the privacy notice names them. A sole trader
- *  trades under their own name, so this stays correct through the registration
- *  currently in progress; it changes only if a limited company is incorporated
- *  later. */
-export const OPERATOR = 'Hazel Wee Ling'
+/** Who operates JomExam, as the privacy notice names them.
+ *
+ *  A sole trader trades under their own name, with the trading name after it —
+ *  so this form stays correct through the registration currently in progress
+ *  and only changes if a limited company is incorporated later. */
+export const OPERATOR = 'Hazel Wee Ling T/A JomExam'
 
 /** Where the Supabase database lives, from the project's region setting. The
  *  privacy notice states this twice — as the database's host and as where data
