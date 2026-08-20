@@ -79,6 +79,17 @@ export function LandingHeader() {
                                     {user.email}
                                 </p>
                             </div>
+                            {/* The only route to a student's own history —
+                                without it the results page exists but cannot
+                                be reached by anyone who has not bookmarked
+                                it. */}
+                            <Button
+                                variant="outline"
+                                className="mt-2 w-full hover:cursor-pointer"
+                                onClick={() => navigate('/my-results')}
+                            >
+                                My results
+                            </Button>
                             <Button
                                 variant="destructive"
                                 className="mt-2 w-full hover:cursor-pointer"

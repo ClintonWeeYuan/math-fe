@@ -28,6 +28,9 @@ vi.mock('@/hooks/diagnostic/useGetSetPreviewQuery.ts', () => ({
 vi.mock('@/hooks/diagnostic/useListPublishedSetsQuery.ts', () => ({
     default: () => ({ data: [] }),
 }))
+vi.mock('@/hooks/diagnostic/useMyAttemptsQuery.ts', () => ({
+    default: () => ({ data: undefined }),
+}))
 vi.mock('react-router-dom', async () => {
     const actual =
         await vi.importActual<typeof import('react-router-dom')>('react-router-dom')

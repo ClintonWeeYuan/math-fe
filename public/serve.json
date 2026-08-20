@@ -25,6 +25,10 @@
       "destination": "/index.html"
     },
     {
+      "source": "/my-results",
+      "destination": "/index.html"
+    },
+    {
       "source": "/syllabus",
       "destination": "/index.html"
     },

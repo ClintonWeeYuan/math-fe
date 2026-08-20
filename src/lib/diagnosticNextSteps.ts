@@ -78,12 +78,16 @@ export function nextStepsFor({
     currentSetId,
     isMini,
     billingLive,
+    completedSubjects,
 }: {
     subject: string | null | undefined
     sets: PublishedDiagnosticSet[] | undefined
     currentSetId: string
     isMini: boolean
     billingLive: boolean
+    /** Subjects this student has already finished a paper in, so they are not
+     *  offered again. Undefined means we do not know — see below. */
+    completedSubjects?: Set<string>
 }): NextSteps {
     const available = (sets ?? []).filter(
         (s) => startable(s, billingLive) && s.id !== currentSetId
@@ -96,6 +100,12 @@ export function nextStepsFor({
     const shortestBySubject = new Map<string, PublishedDiagnosticSet>()
     for (const set of available) {
         if (!set.subject || set.subject === subject) continue
+        // Already done it — recommending it again wastes the one slot that
+        // could have shown them something new. Fails open by construction: if
+        // the attempt list did not load, completedSubjects is undefined and
+        // every module is offered, which is the pre-existing behaviour and the
+        // right way to be wrong.
+        if (completedSubjects?.has(set.subject)) continue
         const held = shortestBySubject.get(set.subject)
         if (held === undefined || set.timeLimitMinutes < held.timeLimitMinutes) {
             shortestBySubject.set(set.subject, set)

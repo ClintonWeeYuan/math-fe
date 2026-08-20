@@ -5,6 +5,8 @@ import useListPublishedSetsQuery from '@/hooks/diagnostic/useListPublishedSetsQu
 import type { PublishedDiagnosticSet } from '@/client'
 import { BILLING_LIVE } from '@/lib/billing.ts'
 import { nextStepsFor, testFromSubject } from '@/lib/diagnosticNextSteps.ts'
+import useMyAttemptsQuery from '@/hooks/diagnostic/useMyAttemptsQuery.ts'
+import { completedSubjects } from '@/lib/myResults.ts'
 
 /** "ESAT Math 1" -> "Math 1". The test is already named by the heading, so
  *  repeating it on five cards is noise. */
@@ -70,6 +72,12 @@ export function WhatNext({
 }) {
     const test = testFromSubject(subject)
     const { data: sets } = useListPublishedSetsQuery(test)
+    // Fails open on purpose. If this errors, `attempts` is undefined,
+    // completedSubjects is undefined, and every module is offered — the
+    // behaviour before this block knew anything about history. Showing a
+    // student a module they have already sat is a small waste; showing them
+    // nothing because a request failed is a broken page.
+    const { data: attempts } = useMyAttemptsQuery()
 
     const { sameSubject, otherSubjects } = nextStepsFor({
         subject,
@@ -77,6 +85,7 @@ export function WhatNext({
         currentSetId,
         isMini,
         billingLive: BILLING_LIVE,
+        completedSubjects: attempts ? completedSubjects(attempts) : undefined,
     })
 
     // Nothing startable to point at — say nothing rather than render an empty

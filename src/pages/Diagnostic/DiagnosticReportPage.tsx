@@ -90,7 +90,13 @@ export function DiagnosticReportPage() {
                         currentSetId={report.attempt.diagnosticSetId}
                         isMini={isMini}
                     />
-                    <div>
+                    <div className="flex flex-wrap gap-3">
+                        <Button
+                            variant="outline"
+                            onClick={() => navigate('/my-results')}
+                        >
+                            View all my results
+                        </Button>
                         <Button variant="outline" onClick={() => navigate('/')}>
                             Back to home
                         </Button>

@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { WhatNext } from './WhatNext'
@@ -7,6 +7,10 @@ import type { PublishedDiagnosticSet } from '@/client'
 const mockSets = vi.fn()
 vi.mock('@/hooks/diagnostic/useListPublishedSetsQuery.ts', () => ({
     default: (...args: unknown[]) => ({ data: mockSets(...args) }),
+}))
+const mockAttempts = vi.fn()
+vi.mock('@/hooks/diagnostic/useMyAttemptsQuery.ts', () => ({
+    default: () => ({ data: mockAttempts() }),
 }))
 
 let n = 0
@@ -33,6 +37,13 @@ const show = (props: Partial<Parameters<typeof WhatNext>[0]> = {}) =>
             />
         </MemoryRouter>
     )
+
+beforeEach(() => {
+    // Undefined = the attempt list has not loaded. That is the fail-open path
+    // and the behaviour every test below assumed before this block knew about
+    // history at all.
+    mockAttempts.mockReturnValue(undefined)
+})
 
 describe('what to do next, at the foot of a report', () => {
     it('renders nothing rather than an empty heading when there is nothing to offer', () => {
@@ -106,5 +117,47 @@ describe('what to do next, at the foot of a report', () => {
         expect(
             screen.queryByText(/modules-by-course table/i)
         ).not.toBeInTheDocument()
+    })
+
+    it('stops offering a module the student has already finished', () => {
+        mockSets.mockReturnValue([
+            set({ subject: 'ESAT Physics' }),
+            set({ subject: 'ESAT Biology' }),
+        ])
+        mockAttempts.mockReturnValue([
+            {
+                attemptId: 'a1',
+                setId: 'physics-set',
+                subject: 'ESAT Physics',
+                status: 'submitted',
+                answeredCount: 27,
+                questionCount: 27,
+                startedAt: '2026-08-01T10:00:00Z',
+            },
+        ])
+        show()
+
+        expect(screen.queryByText('Physics')).not.toBeInTheDocument()
+        expect(screen.getByText('Biology')).toBeInTheDocument()
+    })
+
+    it('still offers a module they only abandoned', () => {
+        // An abandoned paper is not a subject you have covered, and hiding it
+        // would bury the module they most need to go back to.
+        mockSets.mockReturnValue([set({ subject: 'ESAT Physics' })])
+        mockAttempts.mockReturnValue([
+            {
+                attemptId: 'a1',
+                setId: 'physics-set',
+                subject: 'ESAT Physics',
+                status: 'in_progress',
+                answeredCount: 3,
+                questionCount: 27,
+                startedAt: '2026-08-01T10:00:00Z',
+            },
+        ])
+        show()
+
+        expect(screen.getByText('Physics')).toBeInTheDocument()
     })
 })

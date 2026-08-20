@@ -1,0 +1,166 @@
+import { describe, expect, it } from 'vitest'
+import {
+    actionFor,
+    bestAttemptForSet,
+    completedSubjects,
+    coverageFor,
+    type StudentAttempt,
+} from './myResults'
+import type { PublishedDiagnosticSet } from '@/client'
+
+let n = 0
+const attempt = (over: Partial<StudentAttempt> = {}): StudentAttempt => ({
+    attemptId: `att-${++n}`,
+    setId: 'set-a',
+    setTitle: 'ESAT Maths 1 — Set A',
+    subject: 'ESAT Math 1',
+    format: 'full',
+    status: 'submitted',
+    totalScore: 14,
+    answeredCount: 27,
+    questionCount: 27,
+    startedAt: '2026-08-01T10:00:00Z',
+    submittedAt: '2026-08-01T10:40:00Z',
+    ...over,
+})
+
+const set = (over: Partial<PublishedDiagnosticSet> = {}) =>
+    ({
+        id: 'set-a',
+        title: 'ESAT Maths 1 — Set A',
+        subject: 'ESAT Math 1',
+        description: null,
+        timeLimitMinutes: 40,
+        questionCount: 27,
+        isFree: true,
+        ...over,
+    }) as PublishedDiagnosticSet
+
+describe('which attempt speaks for a set', () => {
+    it('is the best score, so three goes count as one completion', () => {
+        const best = bestAttemptForSet([
+            attempt({ totalScore: 9 }),
+            attempt({ totalScore: 18 }),
+            attempt({ totalScore: 12 }),
+        ])
+        expect(best?.totalScore).toBe(18)
+    })
+
+    it('breaks a tie towards the earlier attempt', () => {
+        // Same score is the same evidence, and the first sitting is the one
+        // that was not informed by having already seen the questions.
+        const best = bestAttemptForSet([
+            attempt({ totalScore: 14, startedAt: '2026-08-05T10:00:00Z' }),
+            attempt({ totalScore: 14, startedAt: '2026-08-01T10:00:00Z' }),
+        ])
+        expect(best?.startedAt).toBe('2026-08-01T10:00:00Z')
+    })
+
+    it('ignores an attempt still in progress', () => {
+        expect(bestAttemptForSet([attempt({ status: 'in_progress' })])).toBeUndefined()
+    })
+
+    it('counts a timed-out attempt — running out of time is still a sitting', () => {
+        const best = bestAttemptForSet([
+            attempt({ status: 'timed_out', totalScore: 11 }),
+        ])
+        expect(best?.totalScore).toBe(11)
+    })
+})
+
+describe('the coverage view', () => {
+    it('lists modules never opened, which is the whole point of it', () => {
+        const rows = coverageFor({
+            sets: [set({ id: 'set-a' }), set({ id: 'set-b', subject: 'ESAT Physics' })],
+            attempts: [attempt({ setId: 'set-a' })],
+        })
+
+        expect(rows.map((r) => r.state)).toEqual(['completed', 'not_attempted'])
+    })
+
+    it('shows a set as in progress only when nothing terminal exists for it', () => {
+        const rows = coverageFor({
+            sets: [set()],
+            attempts: [
+                attempt({ status: 'submitted', totalScore: 14 }),
+                attempt({ status: 'in_progress' }),
+            ],
+        })
+
+        // A finished sitting outranks a later half-open one: they have done it.
+        expect(rows[0].state).toBe('completed')
+    })
+
+    it('is empty rather than broken before anything has loaded', () => {
+        expect(coverageFor({ sets: undefined, attempts: undefined })).toEqual([])
+    })
+})
+
+describe('which subjects count as done', () => {
+    it('counts a finished paper', () => {
+        expect([...completedSubjects([attempt()])]).toEqual(['ESAT Math 1'])
+    })
+
+    it('does not count an abandoned one', () => {
+        // Treating an abandoned paper as covered would hide the module they
+        // most need to go back to.
+        expect(
+            [...completedSubjects([attempt({ status: 'in_progress' })])]
+        ).toEqual([])
+    })
+})
+
+describe('what to offer on a history row', () => {
+    it('offers to resume an attempt still open', () => {
+        expect(actionFor(attempt({ status: 'in_progress' }))).toBe('resume')
+    })
+
+    it('offers the report for a paper they actually sat', () => {
+        expect(actionFor(attempt({ answeredCount: 27, questionCount: 27 }))).toBe(
+            'report'
+        )
+    })
+
+    it('offers a retake when they barely started before time ran out', () => {
+        // The report exists, but resting on six of twenty-seven it cannot tell
+        // them much — another go is the more useful offer.
+        expect(
+            actionFor(
+                attempt({ status: 'timed_out', answeredCount: 6, questionCount: 27 })
+            )
+        ).toBe('retake')
+    })
+
+    it('treats exactly half as enough to be worth reading', () => {
+        expect(
+            actionFor(attempt({ answeredCount: 14, questionCount: 27 }))
+        ).toBe('report')
+    })
+})
+
+describe('the bar for having covered a subject', () => {
+    it('does not count a paper that ran out of time near the start', () => {
+        // Otherwise the recommendations block stops offering the module they
+        // most need to go back to — and the coverage card would say Completed
+        // while the history row below it offered a retake.
+        expect([
+            ...completedSubjects([
+                attempt({ status: 'timed_out', answeredCount: 4, questionCount: 27 }),
+            ]),
+        ]).toEqual([])
+    })
+
+    it('uses the same bar the retake offer uses, so the two cannot disagree', () => {
+        const barelySat = attempt({
+            status: 'timed_out',
+            answeredCount: 4,
+            questionCount: 27,
+        })
+        expect(actionFor(barelySat)).toBe('retake')
+        expect(completedSubjects([barelySat]).size).toBe(0)
+
+        const properlySat = attempt({ answeredCount: 20, questionCount: 27 })
+        expect(actionFor(properlySat)).toBe('report')
+        expect(completedSubjects([properlySat]).size).toBe(1)
+    })
+})

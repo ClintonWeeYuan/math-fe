@@ -41,6 +41,12 @@ export type AnalyticsEventName =
     // click never reaches it at all.
     | 'report_viewed'
     | 'diagnostic_cta_clicked'
+    // The results dashboard. Things a student does with a page; the server
+    // sees only the fetches underneath them.
+    | 'dashboard_viewed'
+    | 'report_reopened'
+    | 'resume_clicked'
+    | 'retake_clicked'
 
 export type AnalyticsPayload = {
     attemptId?: string

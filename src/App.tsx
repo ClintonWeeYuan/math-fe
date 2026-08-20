@@ -21,6 +21,7 @@ import { AdmissionsPickerPage } from '@/pages/AdmissionsPickerPage.tsx'
 import SubjectsPage from '@/pages/SubjectsPage.tsx'
 import { AboutPage } from '@/pages/AboutPage.tsx'
 import { TermsPage } from '@/pages/TermsPage.tsx'
+import { MyResultsPage } from '@/pages/Diagnostic/MyResultsPage.tsx'
 import { captureAcquisition, captureAgentCode } from '@/lib/acquisition.ts'
 import { PrivacyPage } from '@/pages/PrivacyPage.tsx'
 import { EsatTmuaPage } from '@/pages/EsatTmuaPage.tsx'
@@ -198,6 +199,7 @@ function App() {
                     element={<SetInstructionsPage />}
                 />
                 <Route element={<StudentProtectedRoute />}>
+                    <Route path="my-results" element={<MyResultsPage />} />
                     <Route
                         path="diagnostic/attempts/:attemptId"
                         element={<ExamPage />}
