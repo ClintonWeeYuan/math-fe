@@ -180,6 +180,20 @@ export function completedSubjects(
     return done
 }
 
+/**
+ * Not here, deliberately: a cross-attempt weakest-skills rollup.
+ *
+ * Skills live in each attempt's own report response, so summarising them
+ * across attempts means either N report fetches or new aggregation — and this
+ * page was scoped to use what already exists cheaply. Decided out of this
+ * phase rather than forgotten.
+ *
+ * It is a prerequisite for the cross-module skills work, though: "you are weak
+ * on the same skill in Physics and Chemistry" is the question that needs it,
+ * and answering that properly wants a skills aggregate the report layer does
+ * not currently produce. Build it there, once, rather than here per page.
+ */
+
 /** What to offer on a history row. */
 export type AttemptAction = 'resume' | 'retake' | 'report'
 

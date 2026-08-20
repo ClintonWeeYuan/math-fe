@@ -60,6 +60,9 @@ export function SolutionBlock({
         setShown(true)
         // Which format they actually looked at, so the value of making videos
         // can be compared against the cost of making them.
+        // No solution_video_played alongside this, by decision: it needs the
+        // YouTube iframe API and a listener per player, and "did they open the
+        // solution, and was it a video" answers the question that prompted it.
         trackEvent('solution_viewed', {
             questionId,
             metadata: {
