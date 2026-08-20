@@ -474,6 +474,14 @@ ${guideLinksMarkup()}`,
         // Prerendered and indexable: a privacy notice or terms page that only
         // exists once JavaScript has run is one a person cannot check before
         // trusting us with an account, and one a crawler never sees.
+        path: '/privacy',
+        title: 'Privacy Notice | JomExam',
+        description:
+            'What information JomExam collects when you use the site, why we collect it, who handles it, and the choices you have.',
+        body: `<h1>Privacy Notice</h1>
+<p>What we collect when you use JomExam, why we collect it, who handles it, how long we keep it, and how to ask us to correct or delete it.</p>`,
+    },
+    {
         path: '/terms',
         title: 'Terms of Use | JomExam',
         description:

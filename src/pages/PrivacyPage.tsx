@@ -1,0 +1,218 @@
+import type { ReactNode } from 'react'
+import { LandingLayout } from '@/components/layout/landing/LandingLayout.tsx'
+import { Seo } from '@/components/Seo.tsx'
+import { CONTACT_EMAIL, DATA_REGION, LAST_UPDATED, OPERATOR } from '@/content/legal.ts'
+
+/**
+ * The privacy notice.
+ *
+ * The wording is supplied copy and is reproduced verbatim: only the four
+ * bracketed values in the source — operator, last-updated date, hosting region
+ * (twice) and contact address — are filled, from src/content/legal.ts. Nothing
+ * else here is ours to reword, so anything that reads oddly is a question for
+ * whoever owns the text rather than a bug to fix in this file.
+ *
+ * Two things it currently says that the infrastructure does not match, both
+ * raised rather than edited: it describes JomExam as based in the United
+ * Kingdom while naming Singapore as where the data sits, with no transfer
+ * safeguard mentioned; and its processor list omits Resend, which sends the
+ * verification and sign-in-code emails through an Amazon SES region in Japan.
+ * It also describes YouTube embeds, target universities and referral capture,
+ * none of which exist yet — that is the safe direction for a notice to be
+ * wrong in, but it is running ahead of the code.
+ */
+
+/** One "**Lead.** rest of the sentence" paragraph, as the source formats them. */
+function Item({ lead, children }: { lead: string; children: ReactNode }) {
+    return (
+        <p className="text-slate-600 leading-relaxed mb-4">
+            <span className="font-semibold text-slate-900">{lead}</span>{' '}
+            {children}
+        </p>
+    )
+}
+
+function H2({ children }: { children: ReactNode }) {
+    return (
+        <h2 className="text-xl md:text-2xl font-bold mb-3 mt-10">{children}</h2>
+    )
+}
+
+function P({ children }: { children: ReactNode }) {
+    return <p className="text-slate-600 leading-relaxed mb-4">{children}</p>
+}
+
+function Mail() {
+    return (
+        <a
+            href={`mailto:${CONTACT_EMAIL}`}
+            className="font-semibold underline underline-offset-4"
+        >
+            {CONTACT_EMAIL}
+        </a>
+    )
+}
+
+export function PrivacyPage() {
+    return (
+        <LandingLayout>
+            <Seo
+                title="Privacy Notice | JomExam"
+                description="What information JomExam collects when you use the site, why we collect it, who handles it, and the choices you have."
+                path="/privacy"
+            />
+            <div className="px-4 md:px-[50px] xl:px-[150px] py-12 md:py-20 max-w-3xl">
+                <h1 className="text-3xl md:text-5xl font-bold mb-3 leading-tight">
+                    Privacy Notice
+                </h1>
+                <p className="text-sm font-semibold text-slate-500 mb-8">
+                    Last updated: {LAST_UPDATED}
+                </p>
+
+                <P>
+                    JomExam (&ldquo;we&rdquo;, &ldquo;us&rdquo;) is an exam
+                    preparation platform operated by {OPERATOR}, based in the
+                    United Kingdom. This notice explains what information we
+                    collect when you use jomexam.com, why we collect it, and the
+                    choices you have. We&apos;ve tried to write it in plain
+                    English.
+                </P>
+
+                <H2>What we collect</H2>
+                <Item lead="Account details.">
+                    When you sign up: your email address and password (stored in
+                    encrypted form — we never see your password itself).
+                </Item>
+                <Item lead="Diagnostic answers and results.">
+                    When you sit a diagnostic or practice test: the answers you
+                    select, your scores, the skills report we generate, and
+                    details of each attempt (when you started, how far you got,
+                    how long you took).
+                </Item>
+                <Item lead="Usage information.">
+                    How you use JomExam: pages visited, questions answered, time
+                    spent, and actions such as opening a report or viewing a
+                    solution. We also record how you found us (for example, a
+                    search engine, a link from a guide, or a referral code) when
+                    your browser provides this.
+                </Item>
+                <Item lead="Optional information you give us.">
+                    If you choose to answer, we store your intended test sitting
+                    and the universities you&apos;re targeting, so we can make
+                    the site more relevant to you.
+                </Item>
+                <P>
+                    We do not collect payment details at present. If we
+                    introduce paid products, payments will be handled by a
+                    specialist payment provider and we will update this notice
+                    before that happens.
+                </P>
+
+                <H2>Why we collect it</H2>
+                <P>
+                    We use your account details and diagnostic results to
+                    provide the service you signed up for: running your tests,
+                    generating your reports, and showing you your own history
+                    and progress.
+                </P>
+                <P>
+                    We use usage information to understand what&apos;s working
+                    and what isn&apos;t — for example, which questions students
+                    find hardest or where a test is too long — so we can improve
+                    the diagnostics and reports. Where we analyse this at scale,
+                    we use it in aggregated form that doesn&apos;t identify you.
+                </P>
+                <P>
+                    We will only send you marketing emails if you separately opt
+                    in, and you can unsubscribe at any time.
+                </P>
+                <P>
+                    We do not sell your personal information, and we do not show
+                    advertising.
+                </P>
+
+                <H2>Who handles your data</H2>
+                <P>
+                    We use a small number of trusted services to run JomExam:
+                </P>
+                <ul className="text-slate-600 leading-relaxed mb-4 list-disc pl-6 flex flex-col gap-2">
+                    <li>
+                        <span className="font-semibold text-slate-900">
+                            Supabase
+                        </span>{' '}
+                        hosts our database, where your account and results are
+                        stored. Our database is hosted in {DATA_REGION}.
+                    </li>
+                    <li>
+                        <span className="font-semibold text-slate-900">
+                            Umami
+                        </span>
+                        , a privacy-focused analytics tool, helps us understand
+                        site usage. It does not use advertising cookies.
+                    </li>
+                    <li>
+                        <span className="font-semibold text-slate-900">
+                            YouTube
+                        </span>{' '}
+                        provides some embedded solution videos. When you play
+                        one, YouTube may collect viewing data under its own
+                        privacy policy.
+                    </li>
+                </ul>
+
+                <H2>Where your data lives</H2>
+                <P>
+                    Your data is stored in {DATA_REGION}. If you use JomExam
+                    from outside that region — including from mainland China,
+                    Hong Kong, or Malaysia — your information is transferred to
+                    and stored there. By using JomExam, you understand your data
+                    is handled as this notice describes.
+                </P>
+
+                <H2>How long we keep it</H2>
+                <P>
+                    We keep your account information and results while your
+                    account is active, so your history and reports remain
+                    available to you. If you ask us to delete your account, we
+                    will remove your personal information within 30 days,
+                    keeping only aggregated statistics that no longer identify
+                    you.
+                </P>
+
+                <H2>If you&apos;re under 18</H2>
+                <P>
+                    Many of our users are school students. We collect only
+                    what&apos;s needed to provide the service, and we don&apos;t
+                    sell data or show ads. If you&apos;re a parent or guardian
+                    and have questions about your child&apos;s information — or
+                    want it corrected or deleted — contact us at the address
+                    below and we&apos;ll help.
+                </P>
+
+                <H2>Your rights and choices</H2>
+                <P>
+                    You can ask us at any time to see the personal information
+                    we hold about you, correct it, or delete it. Email us at{' '}
+                    <Mail /> and we&apos;ll respond within 30 days. If
+                    you&apos;re in the UK or EU, you also have the right to
+                    complain to your data protection authority (in the UK, the
+                    ICO).
+                </P>
+
+                <H2>Changes to this notice</H2>
+                <P>
+                    If we make meaningful changes — for example, when we
+                    introduce payments — we&apos;ll update this page and the
+                    date above, and flag significant changes on the site.
+                </P>
+
+                <P>
+                    <span className="font-semibold text-slate-900">
+                        Questions?
+                    </span>{' '}
+                    Email us at <Mail />.
+                </P>
+            </div>
+        </LandingLayout>
+    )
+}

@@ -12,6 +12,25 @@
  *  has to stay one somebody reads. */
 export const CONTACT_EMAIL = 'hello@jomexam.com'
 
+/** Who operates JomExam, as the privacy notice names them. A sole trader
+ *  trades under their own name, so this stays correct through the registration
+ *  currently in progress; it changes only if a limited company is incorporated
+ *  later. */
+export const OPERATOR = 'Hazel Wee Ling'
+
+/** Where the Supabase database lives, from the project's region setting. The
+ *  privacy notice states this twice — as the database's host and as where data
+ *  is stored — so it is one constant rather than two chances to disagree.
+ *
+ *  Worth knowing when this is next revised: the notice describes JomExam as
+ *  based in the United Kingdom while naming this as the storage region, and
+ *  says nothing about the transfer that implies. Separately, the verification
+ *  and sign-in-code emails leave this region entirely — Resend delivers them
+ *  through an Amazon SES region in Japan, and the notice's processor list does
+ *  not mention Resend at all. Both were raised rather than edited, because the
+ *  wording is not ours to change. */
+export const DATA_REGION = 'Singapore'
+
 /**
  * The date the legal pages show as "Last updated", taken from the build.
  *

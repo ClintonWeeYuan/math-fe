@@ -250,6 +250,34 @@ export const SignupPage: React.FC = () => {
                                     </div>
                                 )}
                             </Button>
+
+                            {/* The consent notice. Supplied wording, used as
+                                given — it names both legal pages, so both have
+                                to exist and both have to be reachable from
+                                here. Placed under the button rather than above
+                                it because it describes what pressing the button
+                                means. */}
+                            <p className="mt-4 text-xs leading-relaxed text-gray-500">
+                                By signing up you agree to our{' '}
+                                <Link
+                                    to="/terms"
+                                    className="underline underline-offset-2"
+                                >
+                                    Terms of Use
+                                </Link>{' '}
+                                and acknowledge our{' '}
+                                <Link
+                                    to="/privacy"
+                                    className="underline underline-offset-2"
+                                >
+                                    Privacy Notice
+                                </Link>
+                                . We store your account details and diagnostic
+                                results to provide your reports, and record how
+                                you use JomExam — pages visited, questions
+                                answered, time spent — to improve it. We
+                                don&apos;t sell your data.
+                            </p>
                         </CardFooter>
                     </Card>
                 </div>
