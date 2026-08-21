@@ -4,6 +4,7 @@ import {
     bestAttemptForSet,
     completedSubjects,
     coverageFor,
+    groupCoverageBySubject,
     isPracticeRetake,
     type StudentAttempt,
 } from './myResults'
@@ -214,5 +215,79 @@ describe('retake integrity', () => {
         const a = attempt({ attemptId: 'a', totalScore: 12 })
         const b = attempt({ attemptId: 'b', totalScore: 20 })
         expect(bestAttemptForSet([a, b])?.attemptId).toBe('b')
+    })
+})
+
+describe('coverage state matches the completion bar', () => {
+    it('does not call a barely-answered paper completed', () => {
+        // This was live: "Completed · 10/27 answered · scored 2". A green
+        // badge on a paper someone barely started tells them not to go back.
+        const rows = coverageFor({
+            sets: [set()],
+            attempts: [
+                attempt({ status: 'submitted', answeredCount: 10, questionCount: 27 }),
+            ],
+        })
+        expect(rows[0].state).toBe('partial')
+    })
+
+    it('agrees with actionFor and completedSubjects', () => {
+        const barely = attempt({
+            status: 'submitted',
+            answeredCount: 10,
+            questionCount: 27,
+        })
+        expect(coverageFor({ sets: [set()], attempts: [barely] })[0].state).toBe('partial')
+        expect(actionFor(barely)).toBe('retake')
+        expect(completedSubjects([barely]).size).toBe(0)
+    })
+
+    it('still calls a properly sat paper done', () => {
+        const properly = attempt({ answeredCount: 27, questionCount: 27 })
+        expect(coverageFor({ sets: [set()], attempts: [properly] })[0].state).toBe('completed')
+    })
+})
+
+describe('grouping coverage by module', () => {
+    const rows = () =>
+        coverageFor({
+            sets: [
+                set({ id: 'bio-mini', subject: 'ESAT Biology', title: 'ESAT Biology — Mini Test' }),
+                set({ id: 'bio-a', subject: 'ESAT Biology', title: 'ESAT Biology — Diagnostic Set A' }),
+                set({ id: 'bio-b', subject: 'ESAT Biology', title: 'ESAT Biology — Diagnostic Set B', isFree: false }),
+                set({ id: 'chem-mini', subject: 'ESAT Chemistry', title: 'ESAT Chemistry — Mini Test' }),
+            ],
+            attempts: [
+                attempt({ setId: 'bio-mini', subject: 'ESAT Biology', answeredCount: 10, questionCount: 10 }),
+            ],
+        })
+
+    it('puts every set for a module together', () => {
+        const groups = groupCoverageBySubject(rows(), { billingLive: false })
+        expect(groups.map((g) => g.subject)).toEqual(['ESAT Biology', 'ESAT Chemistry'])
+        expect(groups[0].rows).toHaveLength(3)
+    })
+
+    it('counts only what a student could actually sit', () => {
+        // Set B is behind a Season Pass nobody can buy yet. "1 of 2" is the
+        // honest denominator; "1 of 3" would blame them for a locked paper.
+        const groups = groupCoverageBySubject(rows(), { billingLive: false })
+        expect(groups[0]).toMatchObject({ sat: 1, startable: 2 })
+    })
+
+    it('counts a locked set once billing is live', () => {
+        const groups = groupCoverageBySubject(rows(), { billingLive: true })
+        expect(groups[0]).toMatchObject({ sat: 1, startable: 3 })
+    })
+
+    it('reports a module with nothing startable rather than dividing by zero', () => {
+        const locked = coverageFor({
+            sets: [set({ id: 'x', subject: 'ESAT Physics', isFree: false })],
+            attempts: [],
+        })
+        expect(groupCoverageBySubject(locked, { billingLive: false })[0]).toMatchObject({
+            sat: 0,
+            startable: 0,
+        })
     })
 })

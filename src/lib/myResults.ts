@@ -29,7 +29,20 @@ export type StudentAttempt = {
     reviewedAt?: string | null
 }
 
-export type Coverage = 'completed' | 'in_progress' | 'not_attempted'
+/**
+ * What a student has done to one set.
+ *
+ * 'partial' exists because "completed" was being claimed for a paper answered
+ * ten questions out of twenty-seven — the same terminal-is-not-sat confusion
+ * the retake offer and the recommendations block already guard against. A
+ * green Completed badge on a paper somebody barely started is the page
+ * confidently telling them not to bother going back.
+ */
+export type Coverage =
+    | 'completed'
+    | 'partial'
+    | 'in_progress'
+    | 'not_attempted'
 
 /**
  * How much of a set a student got through, 0–1.
@@ -141,7 +154,16 @@ export function coverageFor({
     return (sets ?? []).map((set) => {
         const mine = byStatus.get(set.id) ?? []
         const best = bestAttemptForSet(mine)
-        if (best) return { set, state: 'completed' as const, attempt: best }
+        if (best) {
+            // Same bar as actionFor and completedSubjects, so the badge, the
+            // retake offer and the recommendations can never disagree about
+            // whether this paper counts as sat.
+            const state =
+                completion(best) >= LOW_COMPLETION
+                    ? ('completed' as const)
+                    : ('partial' as const)
+            return { set, state, attempt: best }
+        }
 
         const open = mine.find((a) => a.status === 'in_progress')
         if (open) return { set, state: 'in_progress' as const, attempt: open }
@@ -205,4 +227,47 @@ export function actionFor(attempt: StudentAttempt): AttemptAction {
         return 'retake'
     }
     return 'report'
+}
+
+
+export type SubjectCoverage = {
+    subject: string
+    rows: CoverageRow[]
+    /** Sets sat properly, out of those startable. Locked sets are excluded
+     *  from both: "1 of 2" should not become "1 of 5" because three papers
+     *  are behind a Season Pass nobody can buy yet. */
+    sat: number
+    startable: number
+}
+
+/**
+ * Coverage grouped by module.
+ *
+ * The flat list was one card per set with the module name as its title, which
+ * meant "Biology" appearing three times in a grid while its three sets sat in
+ * different rows. Grouping restores the thing a student is actually asking —
+ * "have I done Biology?" — and lets the sets underneath be compact rows rather
+ * than cards competing for attention.
+ */
+export function groupCoverageBySubject(
+    rows: CoverageRow[],
+    { billingLive }: { billingLive: boolean }
+): SubjectCoverage[] {
+    const bySubject = new Map<string, CoverageRow[]>()
+    for (const row of rows) {
+        const subject = row.set.subject ?? 'Other'
+        const list = bySubject.get(subject)
+        if (list) list.push(row)
+        else bySubject.set(subject, [row])
+    }
+
+    return [...bySubject.entries()].map(([subject, subjectRows]) => {
+        const startable = subjectRows.filter((r) => r.set.isFree || billingLive)
+        return {
+            subject,
+            rows: subjectRows,
+            sat: startable.filter((r) => r.state === 'completed').length,
+            startable: startable.length,
+        }
+    })
 }

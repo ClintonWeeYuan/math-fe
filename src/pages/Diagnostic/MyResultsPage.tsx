@@ -10,8 +10,10 @@ import { testFromSubject } from '@/lib/diagnosticNextSteps.ts'
 import {
     actionFor,
     coverageFor,
+    groupCoverageBySubject,
     type CoverageRow,
     type StudentAttempt,
+    type SubjectCoverage,
 } from '@/lib/myResults.ts'
 import { BILLING_LIVE } from '@/lib/billing.ts'
 import { trackEvent } from '@/lib/analytics.ts'
@@ -43,97 +45,135 @@ function moduleName(subject: string | null | undefined, fallback: string) {
 }
 
 const STATE_LABEL: Record<CoverageRow['state'], string> = {
-    completed: 'Completed',
+    completed: 'Done',
+    // Not "Completed": a paper answered ten questions of twenty-seven has
+    // ended, but telling a student they have completed it is telling them not
+    // to go back.
+    partial: 'Part done',
     in_progress: 'In progress',
-    not_attempted: 'Not attempted',
+    not_attempted: 'Not started',
 }
 
 const STATE_STYLE: Record<CoverageRow['state'], string> = {
     completed: 'border-emerald-200 bg-emerald-50 text-emerald-700',
+    partial: 'border-amber-200 bg-amber-50 text-amber-800',
     in_progress: 'border-amber-200 bg-amber-50 text-amber-700',
     not_attempted: 'border-slate-200 bg-slate-50 text-slate-500',
 }
 
-function CoverageCard({ row }: { row: CoverageRow }) {
+/** "ESAT Biology — Mini Test" -> "Mini Test". The module heading above has
+ *  already said which subject this is; repeating it on every row was most of
+ *  what made the old grid unreadable. */
+function setName(title: string, subject: string | null | undefined): string {
+    if (!subject) return title
+    const withoutSubject = title.replace(subject, '').trim()
+    return withoutSubject.replace(/^[—–-]\s*/, '') || title
+}
+
+/** One set within a module: a compact row, not a card. Fifteen cards competing
+ *  for attention is what made the old grid impossible to scan. */
+function CoverageSetRow({ row }: { row: CoverageRow }) {
     const navigate = useNavigate()
     const startable = row.set.isFree || BILLING_LIVE
+    const attempt = row.attempt
 
     return (
-        <div className="flex flex-col gap-2 rounded-lg border border-slate-200 p-4">
-            <div className="flex items-start justify-between gap-2">
-                <p className="font-medium">
-                    {moduleName(row.set.subject, row.set.title)}
-                </p>
-                <span
-                    className={`shrink-0 rounded-full border px-2 py-0.5 text-[11px] font-medium ${
-                        STATE_STYLE[row.state]
-                    }`}
-                >
-                    {STATE_LABEL[row.state]}
-                </span>
-            </div>
-            <p className="text-sm text-slate-500">{row.set.title}</p>
-            {/* "Completed" alone reads as "done, move on", which is wrong for
-                a paper that ran out of time at four questions. The count
-                qualifies the badge so the card cannot mislead. */}
-            {row.attempt && (
-                <p className="text-sm text-slate-500">
-                    {row.attempt.answeredCount}/{row.attempt.questionCount}{' '}
-                    answered
-                    {row.attempt.totalScore !== null &&
-                        row.attempt.totalScore !== undefined &&
-                        ` · scored ${row.attempt.totalScore}`}
-                </p>
-            )}
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-slate-100 py-2.5 last:border-b-0">
+            <span
+                className={`w-[88px] shrink-0 rounded-full border px-2 py-0.5 text-center text-[11px] font-medium ${
+                    STATE_STYLE[row.state]
+                }`}
+            >
+                {STATE_LABEL[row.state]}
+            </span>
 
-            <div className="mt-auto pt-2">
+            <span className="min-w-0 flex-1 text-sm">
+                {setName(row.set.title, row.set.subject)}
+                {attempt && (
+                    <span className="text-slate-500">
+                        {' · '}
+                        {attempt.answeredCount}/{attempt.questionCount} answered
+                        {attempt.totalScore !== null &&
+                            attempt.totalScore !== undefined &&
+                            ` · scored ${attempt.totalScore}`}
+                    </span>
+                )}
+            </span>
+
+            <span className="shrink-0">
                 {!startable ? (
-                    /* No entitlement logic here on purpose — this is a link,
-                       not a gate. The server already refuses a paid set, and
-                       the checkout it would lead to does not exist yet. */
+                    /* A link, not a gate. The server already refuses a paid
+                       set, and the checkout it would lead to does not exist
+                       yet. Muted, because it is the one row here nobody can
+                       act on. */
                     <Link
                         to="/diagnostics"
-                        className="text-sm font-medium underline underline-offset-4"
+                        className="text-sm text-slate-400 underline underline-offset-4"
                     >
-                        Season Pass — coming soon
+                        Season Pass
                     </Link>
-                ) : row.state === 'not_attempted' ? (
+                ) : row.state === 'in_progress' && attempt ? (
                     <Button
+                        size="sm"
+                        className="cursor-pointer"
+                        onClick={() => {
+                            trackEvent('resume_clicked', { attemptId: attempt.attemptId })
+                            navigate(`/diagnostic/attempts/${attempt.attemptId}`)
+                        }}
+                    >
+                        Resume →
+                    </Button>
+                ) : attempt ? (
+                    <Button
+                        size="sm"
+                        variant="outline"
+                        className="cursor-pointer"
+                        onClick={() => {
+                            trackEvent('report_reopened', { attemptId: attempt.attemptId })
+                            navigate(`/diagnostic/attempts/${attempt.attemptId}/report`)
+                        }}
+                    >
+                        {row.state === 'partial' ? 'Report' : 'See report →'}
+                    </Button>
+                ) : (
+                    <Button
+                        size="sm"
                         variant="outline"
                         className="cursor-pointer"
                         onClick={() => navigate(`/diagnostic/sets/${row.set.id}`)}
                     >
                         Start →
                     </Button>
-                ) : row.state === 'in_progress' && row.attempt ? (
-                    <Button
-                        className="cursor-pointer"
-                        onClick={() => {
-                            trackEvent('resume_clicked', {
-                                attemptId: row.attempt?.attemptId,
-                            })
-                            navigate(`/diagnostic/attempts/${row.attempt?.attemptId}`)
-                        }}
-                    >
-                        Resume →
-                    </Button>
-                ) : row.attempt ? (
-                    <Button
-                        variant="outline"
-                        className="cursor-pointer"
-                        onClick={() => {
-                            trackEvent('report_reopened', {
-                                attemptId: row.attempt?.attemptId,
-                            })
-                            navigate(
-                                `/diagnostic/attempts/${row.attempt?.attemptId}/report`
-                            )
-                        }}
-                    >
-                        See report →
-                    </Button>
-                ) : null}
+                )}
+            </span>
+        </div>
+    )
+}
+
+/** One module, with its sets beneath it. The module is the unit a student
+ *  thinks in — "have I done Biology?" — so it is the unit the page groups by. */
+function ModuleSection({ group }: { group: SubjectCoverage }) {
+    const done = group.startable > 0 && group.sat === group.startable
+
+    return (
+        <div className="rounded-lg border border-slate-200 p-4">
+            <div className="mb-1 flex flex-wrap items-baseline justify-between gap-2">
+                <p className="font-medium">
+                    {moduleName(group.subject, group.subject)}
+                </p>
+                <p
+                    className={`text-sm ${
+                        done ? 'text-emerald-700' : 'text-slate-500'
+                    }`}
+                >
+                    {group.startable === 0
+                        ? 'Season Pass only'
+                        : `${group.sat} of ${group.startable} done`}
+                </p>
             </div>
+            {group.rows.map((row) => (
+                <CoverageSetRow key={row.set.id} row={row} />
+            ))}
         </div>
     )
 }
@@ -246,6 +286,13 @@ export function MyResultsPage() {
     const test = testFromSubject(attempts?.[0]?.subject)
     const { data: sets } = useListPublishedSetsQuery(test)
     const coverage = coverageFor({ sets, attempts })
+    const modules = groupCoverageBySubject(coverage, { billingLive: BILLING_LIVE })
+    // Papers, not modules. "0 of 4 modules fully done" sat above modules each
+    // reading "1 of 2 done", which looks like a contradiction until you work
+    // out that fully means all of them. Counting papers makes the headline the
+    // arithmetic sum of the lines beneath it.
+    const papersDone = modules.reduce((n, m) => n + m.sat, 0)
+    const papersStartable = modules.reduce((n, m) => n + m.startable, 0)
 
     useEffect(() => {
         trackEvent('dashboard_viewed')
@@ -294,14 +341,30 @@ export function MyResultsPage() {
 
                 {!isLoading && !isError && (attempts?.length ?? 0) > 0 && (
                     <>
-                        {coverage.length > 0 && (
+                        {modules.length > 0 && (
                             <section className="mb-12">
-                                <h2 className="text-xl font-medium mb-4">
-                                    Your coverage
-                                </h2>
-                                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                                    {coverage.map((row) => (
-                                        <CoverageCard key={row.set.id} row={row} />
+                                <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2">
+                                    <h2 className="text-xl font-medium">
+                                        Your coverage
+                                    </h2>
+                                    {/* The one number worth reading first.
+                                        Fifteen badges do not answer "how am I
+                                        doing" — this does. */}
+                                    <p className="text-sm text-slate-500">
+                                        {papersDone} of {papersStartable} papers
+                                        done
+                                    </p>
+                                </div>
+                                {/* Stacked, not a grid. Each row inside a
+                                    module is horizontal — badge, name, detail,
+                                    action — so two columns halved the width
+                                    and wrapped every row onto three lines. */}
+                                <div className="flex flex-col gap-3">
+                                    {modules.map((group) => (
+                                        <ModuleSection
+                                            key={group.subject}
+                                            group={group}
+                                        />
                                     ))}
                                 </div>
                             </section>
