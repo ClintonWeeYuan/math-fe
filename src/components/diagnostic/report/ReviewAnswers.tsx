@@ -136,6 +136,7 @@ function QuestionCard({ question }: { question: ReviewQuestion }) {
                         questionId={question.questionId}
                         solutionText={question.solutionText}
                         solutionVideoUrl={question.solutionVideoUrl}
+                        solutionDiagramSvg={question.solutionDiagramSvg}
                     />
                 </div>
             )}

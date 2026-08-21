@@ -31,6 +31,7 @@ const question = (over: Partial<ReviewQuestion> = {}): ReviewQuestion => ({
     isCorrect: true,
     solutionText: null,
     solutionVideoUrl: null,
+    solutionDiagramSvg: null,
     ...over,
 })
 
@@ -292,5 +293,57 @@ describe('a solution written as numbered steps', () => {
         expect(container.querySelector('ol')).toBeNull()
         expect(screen.getByText('First thought.')).toBeInTheDocument()
         expect(screen.getByText('Second thought.')).toBeInTheDocument()
+    })
+})
+
+describe('a solution diagram', () => {
+    const SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><rect fill="#fff"/></svg>'
+
+    async function openSolution(over: Partial<ReviewQuestion>) {
+        show([wrong(over)])
+        await userEvent.click(screen.getByRole('button', { name: /^Question 1/ }))
+        const disclosure = screen.queryByRole('button', { name: /show full solution/i })
+        if (disclosure) await userEvent.click(disclosure)
+    }
+
+    it('renders as an image, not injected markup', async () => {
+        // <img> will not execute script inside an SVG, which is why this needs
+        // no sanitiser — and there is none in this codebase to reuse.
+        await openSolution({ solutionDiagramSvg: SVG, solutionText: '1. Step.\nAnswer: A' })
+        const img = screen.getByRole('presentation')
+        expect(img.tagName).toBe('IMG')
+        expect(img.getAttribute('src')).toMatch(/^data:image\/svg\+xml;charset=utf-8,/)
+    })
+
+    it('survives the # in a fill colour', async () => {
+        // A raw data URI truncates at '#'. Every fill in these files has one.
+        await openSolution({ solutionDiagramSvg: SVG })
+        const src = screen.getByRole('presentation').getAttribute('src') ?? ''
+        expect(decodeURIComponent(src.split(',')[1])).toContain('fill="#fff"')
+    })
+
+    it('sits above the steps', async () => {
+        await openSolution({
+            solutionDiagramSvg: SVG,
+            solutionText: '1. First step.\nAnswer: A',
+        })
+        const img = screen.getByRole('presentation')
+        const list = document.querySelector('ol')
+        expect(img.compareDocumentPosition(list as Node) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+    })
+
+    it('stays behind the disclosure like the rest of the solution', async () => {
+        show([wrong({ solutionDiagramSvg: SVG, solutionText: '1. Step.\nAnswer: A' })])
+        await userEvent.click(screen.getByRole('button', { name: /^Question 1/ }))
+        expect(screen.queryByRole('presentation')).not.toBeInTheDocument()
+    })
+
+    it('counts as a solution on its own', async () => {
+        // A diagram with no text is still worth offering, so the disclosure
+        // must appear rather than "coming soon".
+        show([wrong({ solutionDiagramSvg: SVG })])
+        await userEvent.click(screen.getByRole('button', { name: /^Question 1/ }))
+        expect(screen.getByRole('button', { name: /show full solution/i })).toBeInTheDocument()
+        expect(screen.queryByText(/coming soon/i)).not.toBeInTheDocument()
     })
 })

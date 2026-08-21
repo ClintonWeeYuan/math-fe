@@ -113,18 +113,39 @@ export function SolutionSteps({ text }: { text: string }) {
     )
 }
 
+/**
+ * A solution diagram as an <img> source.
+ *
+ * Rendered through an image rather than injected as markup, which is the same
+ * shape the question diagrams already take — those live in the storage bucket
+ * and arrive as a URL, so every diagram on the site ends up inside an <img>.
+ * It matters beyond consistency: a browser will not run script inside an SVG
+ * loaded via <img>, so this needs no sanitiser, and there is no sanitiser in
+ * this codebase to reuse. The one place that does inject SVG as markup is the
+ * admin form previewing what the admin has just pasted themselves.
+ *
+ * encodeURIComponent rather than base64: it survives the '#' characters that
+ * appear in every fill colour, which a raw data URI would truncate at.
+ */
+function svgDataUri(svg: string): string {
+    return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`
+}
+
 export function SolutionBlock({
     questionId,
     solutionText,
     solutionVideoUrl,
+    solutionDiagramSvg,
 }: {
     questionId: string
     solutionText?: string | null
     solutionVideoUrl?: string | null
+    solutionDiagramSvg?: string | null
 }) {
     const [shown, setShown] = useState(false)
     const hasVideo = Boolean(solutionVideoUrl)
     const hasText = Boolean(solutionText)
+    const hasDiagram = Boolean(solutionDiagramSvg)
 
     function reveal() {
         setShown(true)
@@ -141,7 +162,7 @@ export function SolutionBlock({
         })
     }
 
-    if (!hasVideo && !hasText) {
+    if (!hasVideo && !hasText && !hasDiagram) {
         return (
             <p className="mt-3 text-sm text-slate-400">
                 Worked solution coming soon.
@@ -186,6 +207,14 @@ export function SolutionBlock({
                         className="h-full w-full border-0"
                     />
                 </div>
+            )}
+
+            {hasDiagram && (
+                <img
+                    src={svgDataUri(solutionDiagramSvg as string)}
+                    alt=""
+                    className="mb-3 max-w-full rounded-md border border-slate-200 bg-white"
+                />
             )}
 
             {hasText && (

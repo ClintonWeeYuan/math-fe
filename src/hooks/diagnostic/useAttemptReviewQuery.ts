@@ -23,6 +23,7 @@ export type ReviewQuestion = {
     isCorrect?: boolean | null
     solutionText?: string | null
     solutionVideoUrl?: string | null
+    solutionDiagramSvg?: string | null
 }
 
 export type AttemptReview = {
