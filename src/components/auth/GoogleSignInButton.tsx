@@ -68,6 +68,39 @@ function loadGoogleScript(): Promise<void> {
 }
 
 /**
+ * Call back once with the element's laid-out width.
+ *
+ * A ResizeObserver rather than a frame or a timeout, because the thing being
+ * waited for is a layout, and that is the only API that reports one having
+ * happened. It fires immediately when the element already has a width, so the
+ * common case costs nothing.
+ *
+ * Disconnects after the first usable measurement: Google's renderButton draws
+ * once and takes a fixed pixel width, so later resizes have nothing to act on
+ * and re-rendering would replace a button somebody may be mid-click on.
+ */
+function onSettledWidth(
+    element: HTMLElement,
+    render: (width: number) => void
+): void {
+    const measure = () => Math.floor(element.getBoundingClientRect().width)
+
+    const immediate = measure()
+    if (immediate > 0) {
+        render(immediate)
+        return
+    }
+
+    const observer = new ResizeObserver(() => {
+        const width = measure()
+        if (width <= 0) return
+        observer.disconnect()
+        render(width)
+    })
+    observer.observe(element)
+}
+
+/**
  * Google's own sign-in button.
  *
  * It renders nothing at all when VITE_GOOGLE_CLIENT_ID is unset, or when
@@ -137,18 +170,22 @@ export function GoogleSignInButton({ onReady }: { onReady?: () => void } = {}) {
                 })
                 // Google renders at a fixed pixel width, so it has to be
                 // measured — a hard-coded one either falls short of the form
-                // on desktop or overflows the card on a phone. The measuring
-                // waits a frame because the script can resolve before the
-                // card has been laid out, and a width of 0 makes Google fall
-                // back to a stub of a button.
-                const parent = container.current
-                requestAnimationFrame(() => {
+                // on desktop or overflows the card on a phone.
+                //
+                // Measured when the browser reports the container's settled
+                // width, not a frame after the script resolves. A single frame
+                // is not enough: the script can win the race against layout,
+                // and reading the width then returns the document's, not the
+                // card's — which is how a 375px phone ended up with a 398px
+                // button hanging out of a 343px card.
+                onSettledWidth(container.current, (available) => {
                     if (cancelled) return
-                    const available = parent.offsetWidth
-                    google.accounts.id.renderButton(parent, {
+                    google.accounts.id.renderButton(container.current!, {
                         theme: 'outline',
                         size: 'large',
-                        width: Math.min(400, available > 0 ? available : 320),
+                        // Google's own bounds are 200 to 400; asking outside
+                        // them gets a width of its choosing rather than ours.
+                        width: Math.max(200, Math.min(400, available)),
                         text: 'continue_with',
                     })
                     onReadyRef.current?.()
@@ -165,5 +202,13 @@ export function GoogleSignInButton({ onReady }: { onReady?: () => void } = {}) {
 
     if (CLIENT_ID === undefined || CLIENT_ID === '') return null
 
-    return <div ref={container} className="flex w-full justify-center" />
+    // overflow-hidden is the backstop, not the mechanism: the width above is
+    // what makes the button fit. This is what stops a wrong measurement — or a
+    // future change to Google's minimum — from pushing the card open.
+    return (
+        <div
+            ref={container}
+            className="flex w-full justify-center overflow-hidden"
+        />
+    )
 }
