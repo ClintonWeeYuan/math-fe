@@ -28,8 +28,24 @@ COPY . .
 # build, but only an ARG declared in this file can receive one — without
 # these two lines the variable is set in Railway, absent from the build, and
 # the Google button silently never appears.
+#
+# That is not a hypothetical: adding Microsoft sign-in set the variable in
+# Railway, redeployed, and produced a bundle with no Microsoft button in it,
+# because these lines were not added alongside. src/lib/buildTimeEnv.test.ts
+# now fails when a VITE_ variable the source reads has no ARG here, so the
+# next one is caught in CI rather than in production.
 ARG VITE_GOOGLE_CLIENT_ID
 ENV VITE_GOOGLE_CLIENT_ID=$VITE_GOOGLE_CLIENT_ID
+
+ARG VITE_MICROSOFT_CLIENT_ID
+ENV VITE_MICROSOFT_CLIENT_ID=$VITE_MICROSOFT_CLIENT_ID
+
+# Optional; both apps default to 'common' when it is unset.
+ARG VITE_MICROSOFT_TENANT
+ENV VITE_MICROSOFT_TENANT=$VITE_MICROSOFT_TENANT
+
+ARG VITE_BACKEND_URL
+ENV VITE_BACKEND_URL=$VITE_BACKEND_URL
 
 # Build the app
 RUN pnpm run build
