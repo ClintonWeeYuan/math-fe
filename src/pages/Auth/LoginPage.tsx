@@ -20,9 +20,10 @@ import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { toast } from 'sonner'
 import { useAuth } from '@/components/auth/AuthContext.tsx'
 import {
-    GoogleSignInButton,
-    isGoogleSignInConfigured,
-} from '@/components/auth/GoogleSignInButton.tsx'
+    ProviderSignIn,
+    isProviderSignInConfigured,
+    providerNames,
+} from '@/components/auth/ProviderSignIn.tsx'
 import { EmailCodeSignIn } from '@/components/auth/EmailCodeSignIn.tsx'
 import type { UserLoginResponse } from '@/client'
 
@@ -110,7 +111,7 @@ export const LoginPage: React.FC = () => {
                 ) : (
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <CardContent className="space-y-4">
-                            <GoogleSignInButton />
+                            <ProviderSignIn />
 
                             <Button
                                 type="button"
@@ -219,14 +220,14 @@ export const LoginPage: React.FC = () => {
                             Google account tried a password — helpful, but it
                             confirmed to anyone asking that a given address is
                             a real account here. Saying it once, to everybody,
-                            helps the same person and singles out nobody. */}
-                            {isGoogleSignInConfigured && (
+                            helps the same person and singles out nobody.
+
+                            Worded for whichever providers are switched on, so
+                            it never points at a button that isn't there. */}
+                            {isProviderSignInConfigured && (
                                 <p className="text-center text-sm text-slate-500 dark:text-slate-400">
-                                    Signed up with Google? Use{' '}
-                                    <span className="font-medium">
-                                        Continue with Google
-                                    </span>{' '}
-                                    above.
+                                    Signed up with {providerNames}? Use the
+                                    button above.
                                 </p>
                             )}
 

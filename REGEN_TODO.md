@@ -9,6 +9,17 @@ making on its own rather than folded into a feature.
 This file is the checklist for the session that does it. Everything listed
 here exists *only* because the client is stale; each one should disappear.
 
+## Delete after regenerating
+
+- `src/components/auth/useMicrosoftSignInMutation.ts` hand-writes the POST to
+  `/users/microsoft` through the generated `client`, because `sdk.gen.ts`
+  predates that endpoint. After regenerating, replace the whole `client.post`
+  call with `signInWithMicrosoftUsersMicrosoftPost` and drop the
+  `{ 200: ... } / { 422: ... }` response-shape generics, which exist only to
+  imitate what the generator would have written. Its test mocks
+  `@/client/client.gen.ts`; that mock should become a mock of `@/client`, like
+  the Google one beside it.
+
 ## How to regenerate
 
 The config reads the schema from a running backend:

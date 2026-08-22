@@ -33,7 +33,7 @@ import {
 } from '@/components/ui/select.tsx'
 import type { UserSignup } from '@/client'
 import { Link } from 'react-router-dom'
-import { GoogleSignInButton } from '@/components/auth/GoogleSignInButton.tsx'
+import { ProviderSignIn } from '@/components/auth/ProviderSignIn.tsx'
 
 const USER_CATEGORIES = [
     'PARENT',
@@ -115,7 +115,7 @@ export const SignupPage: React.FC = () => {
                                 are the same action — Google has already
                                 proved the address, so there is nothing left
                                 for this form to collect. */}
-                            <GoogleSignInButton />
+                            <ProviderSignIn />
 
                             {error !== null && (
                                 <Alert

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 
@@ -73,10 +73,14 @@ function loadGoogleScript(): Promise<void> {
  * It renders nothing at all when VITE_GOOGLE_CLIENT_ID is unset, or when
  * Google's script can't be reached — a button that cannot work is worse than
  * no button, since the password form beside it still does.
+ *
+ * `onReady` fires once the button is actually on the page. ProviderSignIn uses
+ * it to decide whether to draw the "or" divider: with more than one provider,
+ * whether a divider is warranted stopped being a question this component can
+ * answer alone.
  */
-export function GoogleSignInButton() {
+export function GoogleSignInButton({ onReady }: { onReady?: () => void } = {}) {
     const container = useRef<HTMLDivElement>(null)
-    const [isReady, setIsReady] = useState(false)
     const navigate = useNavigate()
     const location = useLocation()
     const from = (location.state as { from?: Location })?.from?.pathname ?? '/'
@@ -102,6 +106,11 @@ export function GoogleSignInButton() {
     // Google's widget — it would tear down the button mid-click.
     const signInRef = useRef(signIn)
     signInRef.current = signIn
+
+    // Read through a ref for the same reason: the effect must not re-run and
+    // tear Google's widget down because a parent handed it a new closure.
+    const onReadyRef = useRef(onReady)
+    onReadyRef.current = onReady
 
     useEffect(() => {
         if (CLIENT_ID === undefined || CLIENT_ID === '') return
@@ -142,7 +151,7 @@ export function GoogleSignInButton() {
                         width: Math.min(400, available > 0 ? available : 320),
                         text: 'continue_with',
                     })
-                    setIsReady(true)
+                    onReadyRef.current?.()
                 })
             })
             .catch(() => {
@@ -156,18 +165,5 @@ export function GoogleSignInButton() {
 
     if (CLIENT_ID === undefined || CLIENT_ID === '') return null
 
-    return (
-        <div className="w-full space-y-4">
-            <div ref={container} className="flex justify-center" />
-            {isReady && (
-                <div className="flex items-center gap-3">
-                    <span className="h-px flex-1 bg-slate-200 dark:bg-slate-700" />
-                    <span className="text-xs uppercase tracking-wide text-slate-400">
-                        or
-                    </span>
-                    <span className="h-px flex-1 bg-slate-200 dark:bg-slate-700" />
-                </div>
-            )}
-        </div>
-    )
+    return <div ref={container} className="flex w-full justify-center" />
 }

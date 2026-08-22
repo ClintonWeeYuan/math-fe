@@ -13,6 +13,7 @@
         "indexnow": "node scripts/indexnow.mjs"
     },
     "dependencies": {
+        "@azure/msal-browser": "^5.19.0",
         "@hookform/error-message": "^2.0.1",
         "@hookform/resolvers": "^5.1.1",
         "@radix-ui/react-avatar": "^1.1.10",
