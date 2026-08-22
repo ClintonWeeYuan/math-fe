@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 
@@ -85,6 +85,11 @@ export function resetMsalForTests() {
  */
 export function MicrosoftSignInButton() {
     const [isBusy, setIsBusy] = useState(false)
+    // Held in state, not fetched in the click handler, and that is the whole
+    // point — see startSignIn.
+    const [msal, setMsal] = useState<
+        import('@azure/msal-browser').IPublicClientApplication | null
+    >(null)
     const navigate = useNavigate()
     const location = useLocation()
     const from = (location.state as { from?: Location })?.from?.pathname ?? '/'
@@ -107,16 +112,43 @@ export function MicrosoftSignInButton() {
         },
     })
 
-    async function handleClick() {
-        if (isBusy) return
-        setIsBusy(true)
-        try {
-            const msal = await getMsal()
-            // A fresh value per attempt, stamped into the token by Microsoft
-            // and checked by the backend, so a token captured from one sign-in
-            // cannot be posted to start another.
-            const nonce = crypto.randomUUID()
-            const result = await msal.loginPopup({
+    // Fetched as soon as the button is on the page rather than on the click.
+    // This is not about speed: a browser only allows window.open from inside a
+    // user gesture, and an `await` before it ends the gesture. Loading MSAL in
+    // the click handler meant loginPopup ran one microtask too late every
+    // time, and the popup was blocked before a single request reached
+    // Microsoft. The login page is not one of the prerendered marketing pages,
+    // so fetching 240KB here after paint costs nobody anything.
+    useEffect(() => {
+        let cancelled = false
+        getMsal()
+            .then((instance) => {
+                if (!cancelled) setMsal(instance)
+            })
+            .catch(() => {
+                // Leave the button to say so when it is pressed.
+            })
+        return () => {
+            cancelled = true
+        }
+    }, [])
+
+    /**
+     * Open the popup and hand what comes back to the backend.
+     *
+     * Deliberately not async, and it must stay that way: everything before
+     * loginPopup runs in the same tick as the click, which is what keeps the
+     * gesture alive.
+     */
+    function startSignIn(
+        instance: import('@azure/msal-browser').IPublicClientApplication
+    ) {
+        // A fresh value per attempt, stamped into the token by Microsoft and
+        // checked by the backend, so a token captured from one sign-in cannot
+        // be posted to start another.
+        const nonce = crypto.randomUUID()
+        instance
+            .loginPopup({
                 scopes: ['openid', 'profile', 'email'],
                 nonce,
                 // The account picker every time. Without it a shared or school
@@ -124,23 +156,45 @@ export function MicrosoftSignInButton() {
                 // a page whose whole job is identity is the wrong default.
                 prompt: 'select_account',
             })
-            if (!result.idToken) {
+            .then((result) => {
+                if (!result.idToken) {
+                    setIsBusy(false)
+                    toast.error(
+                        "Microsoft didn't return a sign-in. Please try again."
+                    )
+                    return
+                }
+                signIn({ credential: result.idToken, nonce })
+            })
+            .catch((error: unknown) => {
                 setIsBusy(false)
-                toast.error(
-                    "Microsoft didn't return a sign-in. Please try again."
-                )
-                return
-            }
-            signIn({ credential: result.idToken, nonce })
-        } catch (error) {
-            setIsBusy(false)
-            // Closing the popup is a decision, not a failure. Shouting about
-            // it would be telling somebody off for changing their mind.
-            if (isUserCancellation(error)) return
-            toast.error(
-                "We couldn't reach Microsoft to sign you in. Please try again."
-            )
+                reportFailure(error)
+            })
+    }
+
+    function handleClick() {
+        if (isBusy) return
+        setIsBusy(true)
+
+        if (msal !== null) {
+            startSignIn(msal)
+            return
         }
+
+        // Clicked before the preload finished — rare, and the only path where
+        // a blocked popup is expected rather than a bug. Awaiting is the only
+        // option, and reportFailure says "press it again", which by then works
+        // because the instance is cached.
+        getMsal().then(
+            (instance) => {
+                setMsal(instance)
+                startSignIn(instance)
+            },
+            (error: unknown) => {
+                setIsBusy(false)
+                reportFailure(error)
+            }
+        )
     }
 
     if (CLIENT_ID === undefined || CLIENT_ID === '') return null
@@ -158,9 +212,43 @@ export function MicrosoftSignInButton() {
     )
 }
 
-function isUserCancellation(error: unknown): boolean {
-    const name = (error as { errorCode?: string } | undefined)?.errorCode
-    return name === 'user_cancelled' || name === 'popup_window_error'
+/**
+ * Say what actually went wrong.
+ *
+ * The version this replaces said "we couldn't reach Microsoft" for every
+ * failure including the ones where nothing was ever sent to Microsoft, and
+ * swallowed the error object entirely. Diagnosing a blocked popup meant
+ * reading the deployed bundle and checking the browser had made no network
+ * requests, because the app itself had thrown the evidence away.
+ */
+function reportFailure(error: unknown): void {
+    const code = (error as { errorCode?: string } | undefined)?.errorCode
+
+    // Closing the popup is a decision, not a failure. Shouting about it would
+    // be telling somebody off for changing their mind.
+    if (code === 'user_cancelled') return
+
+    // Kept out of the toast and put where a developer will find it. Nothing
+    // here is secret — it is an error from a public client — and without it
+    // the next failure is as opaque as this one was.
+    console.error('Microsoft sign-in failed', error)
+
+    if (
+        code === 'popup_window_error' ||
+        code === 'empty_window_error' ||
+        code === 'block_nested_popups'
+    ) {
+        toast.error(
+            'Your browser blocked the Microsoft sign-in window. Allow pop-ups ' +
+                'for this site, or press the button again.'
+        )
+        return
+    }
+
+    toast.error(
+        "We couldn't sign you in with Microsoft. Please try again, or use " +
+            'the email code option.'
+    )
 }
 
 /** Microsoft's four-square mark. Fixed brand colours in both themes, as their

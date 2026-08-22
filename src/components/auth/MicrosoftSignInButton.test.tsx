@@ -20,9 +20,13 @@ vi.mock('@/components/auth/useMicrosoftSignInMutation.ts', () => ({
     useMicrosoftSignInMutation: () => ({ mutate: mockSignIn }),
 }))
 
+const mockInitialize = vi.fn()
+
 vi.mock('@azure/msal-browser', () => ({
     PublicClientApplication: class {
-        async initialize() {}
+        async initialize() {
+            mockInitialize()
+        }
         async loginPopup(request: unknown) {
             return mockLoginPopup(request)
         }
@@ -47,6 +51,7 @@ describe('MicrosoftSignInButton', () => {
         mockSignIn.mockReset()
         mockLoginPopup.mockReset()
         mockToastError.mockReset()
+        mockInitialize.mockReset()
     })
 
     afterEach(() => {
@@ -105,8 +110,70 @@ describe('MicrosoftSignInButton', () => {
         expect(mockLoginPopup.mock.calls[0][0].prompt).toBe('select_account')
     })
 
+    it('opens the popup without awaiting anything first', async () => {
+        // The bug this exists for. A browser only allows window.open from
+        // inside a user gesture, and an `await` before it ends the gesture.
+        // Loading MSAL in the click handler put loginPopup one microtask past
+        // the click, so the popup was blocked every time and not one request
+        // ever reached Microsoft.
+        //
+        // Asserting it synchronously — no waitFor, no await between the click
+        // and the check — is the only way to state that rule as a test.
+        mockLoginPopup.mockResolvedValue({ idToken: 't' })
+        await renderButton()
+        // Let the mount-time preload settle, which is the point: by click
+        // time the instance is already in hand.
+        await waitFor(() => expect(mockInitialize).toHaveBeenCalled())
+
+        screen.getByRole('button').click()
+
+        expect(mockLoginPopup).toHaveBeenCalled()
+    })
+
+    it('tells the person their browser blocked the window, not that Microsoft is unreachable', async () => {
+        // These two failures need different words: one is fixed by allowing
+        // pop-ups, the other by waiting. Saying "we couldn't reach Microsoft"
+        // for a popup that never opened sends people to check their wifi.
+        mockLoginPopup.mockRejectedValue({ errorCode: 'popup_window_error' })
+        await renderButton()
+
+        await userEvent.click(screen.getByRole('button'))
+
+        await waitFor(() => expect(mockToastError).toHaveBeenCalled())
+        expect(mockToastError.mock.calls[0][0]).toMatch(/blocked|pop-ups/i)
+    })
+
+    it('treats an empty popup window the same way', async () => {
+        mockLoginPopup.mockRejectedValue({ errorCode: 'empty_window_error' })
+        await renderButton()
+
+        await userEvent.click(screen.getByRole('button'))
+
+        await waitFor(() => expect(mockToastError).toHaveBeenCalled())
+        expect(mockToastError.mock.calls[0][0]).toMatch(/blocked|pop-ups/i)
+    })
+
+    it('logs the real error rather than swallowing it', async () => {
+        // Diagnosing the blocked popup meant reading the deployed bundle,
+        // because the app caught the error and threw it away.
+        const consoleError = vi
+            .spyOn(console, 'error')
+            .mockImplementation(() => {})
+        const failure = { errorCode: 'something_new', errorMessage: 'details' }
+        mockLoginPopup.mockRejectedValue(failure)
+        await renderButton()
+
+        await userEvent.click(screen.getByRole('button'))
+
+        await waitFor(() => expect(consoleError).toHaveBeenCalled())
+        expect(consoleError.mock.calls[0]).toContain(failure)
+        consoleError.mockRestore()
+    })
+
     it('says nothing when the person closes the popup', async () => {
-        // Changing your mind is a decision, not an error.
+        // Changing your mind is a decision, not an error. Only this one code
+        // is silent — popup_window_error used to be treated as a cancellation
+        // too, which hid a real failure behind somebody's imagined choice.
         mockLoginPopup.mockRejectedValue({ errorCode: 'user_cancelled' })
         await renderButton()
 
