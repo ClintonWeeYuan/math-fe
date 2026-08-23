@@ -21,11 +21,15 @@ vi.mock('@/components/auth/useMicrosoftSignInMutation.ts', () => ({
 }))
 
 const mockInitialize = vi.fn()
+const mockHandleRedirect = vi.fn().mockResolvedValue(null)
 
 vi.mock('@azure/msal-browser', () => ({
     PublicClientApplication: class {
         async initialize() {
             mockInitialize()
+        }
+        async handleRedirectPromise() {
+            return mockHandleRedirect()
         }
         async loginPopup(request: unknown) {
             return mockLoginPopup(request)
@@ -52,6 +56,7 @@ describe('MicrosoftSignInButton', () => {
         mockLoginPopup.mockReset()
         mockToastError.mockReset()
         mockInitialize.mockReset()
+        mockHandleRedirect.mockReset().mockResolvedValue(null)
     })
 
     afterEach(() => {
@@ -168,6 +173,63 @@ describe('MicrosoftSignInButton', () => {
         await waitFor(() => expect(consoleError).toHaveBeenCalled())
         expect(consoleError.mock.calls[0]).toContain(failure)
         consoleError.mockRestore()
+    })
+
+    describe('a sign-in that never finished', () => {
+        // MSAL records an interaction in sessionStorage before opening the
+        // popup and clears it when the popup returns. A popup that dies
+        // without returning — which is exactly what Microsoft's own error page
+        // does — leaves the flag set, and every later attempt in that tab
+        // fails with interaction_in_progress. sessionStorage survives a
+        // reload, so refreshing does not help. Only closing the tab does,
+        // which is not something to ask a student to work out.
+
+        it('clears stale interaction state when it loads', async () => {
+            await renderButton()
+            await waitFor(() => expect(mockHandleRedirect).toHaveBeenCalled())
+        })
+
+        it('asks the person to press again rather than blaming Microsoft', async () => {
+            mockLoginPopup.mockRejectedValue({
+                errorCode: 'interaction_in_progress',
+            })
+            await renderButton()
+
+            await userEvent.click(screen.getByRole('button'))
+
+            await waitFor(() => expect(mockToastError).toHaveBeenCalled())
+            expect(mockToastError.mock.calls[0][0]).toMatch(/press the button again/i)
+        })
+
+        it('clears the state so that the next press works', async () => {
+            mockLoginPopup.mockRejectedValue({
+                errorCode: 'interaction_in_progress',
+            })
+            await renderButton()
+            await waitFor(() => expect(mockHandleRedirect).toHaveBeenCalled())
+            const atLoad = mockHandleRedirect.mock.calls.length
+
+            await userEvent.click(screen.getByRole('button'))
+
+            // Called again, on the failure — otherwise the advice to press
+            // again is advice to hit the same wall twice.
+            await waitFor(() =>
+                expect(mockHandleRedirect.mock.calls.length).toBeGreaterThan(atLoad)
+            )
+        })
+
+        it('leaves the button pressable', async () => {
+            mockLoginPopup.mockRejectedValue({
+                errorCode: 'interaction_in_progress',
+            })
+            await renderButton()
+
+            await userEvent.click(screen.getByRole('button'))
+
+            await waitFor(() =>
+                expect(screen.getByRole('button')).not.toBeDisabled()
+            )
+        })
     })
 
     it('says nothing when the person closes the popup', async () => {

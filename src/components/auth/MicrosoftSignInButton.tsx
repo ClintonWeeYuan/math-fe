@@ -55,6 +55,21 @@ async function getMsal() {
             },
         })
         await instance.initialize()
+
+        // Clears any interaction MSAL still believes is running. It records
+        // one in sessionStorage before opening the popup and removes it when
+        // the popup returns — so a popup that dies without returning, which is
+        // exactly what Microsoft's own error page does, leaves the flag set.
+        // Every later attempt in that tab then fails with
+        // interaction_in_progress, and because sessionStorage survives a
+        // reload, refreshing does not help: only closing the tab does.
+        //
+        // This is the documented remedy and the reason MSAL wants it called on
+        // every page load, not just after a redirect.
+        await instance.handleRedirectPromise().catch(() => {
+            // Nothing to come back from is the normal case.
+        })
+
         return instance
     })()
 
@@ -168,6 +183,21 @@ export function MicrosoftSignInButton() {
             })
             .catch((error: unknown) => {
                 setIsBusy(false)
+
+                if (isInteractionInProgress(error)) {
+                    // Cleared for next time rather than retried now: retrying
+                    // needs an await, and an await here would lose the user
+                    // gesture and get the popup blocked — trading one failure
+                    // for a worse one. Cleaning up in the background makes the
+                    // next press work, which is what the message asks for.
+                    instance.handleRedirectPromise().catch(() => {})
+                    toast.error(
+                        "That sign-in didn't finish. Please press the button " +
+                            'again.'
+                    )
+                    return
+                }
+
                 reportFailure(error)
             })
     }
@@ -209,6 +239,13 @@ export function MicrosoftSignInButton() {
             <MicrosoftLogo />
             {isBusy ? 'Signing in…' : 'Continue with Microsoft'}
         </button>
+    )
+}
+
+function isInteractionInProgress(error: unknown): boolean {
+    return (
+        (error as { errorCode?: string } | undefined)?.errorCode ===
+        'interaction_in_progress'
     )
 }
 
