@@ -31,6 +31,17 @@ import { CONTACT_EMAIL, DATA_REGION, LAST_UPDATED, OPERATOR } from '@/content/le
  * for that transfer. See the comment at the end of "Where your data lives".
  * It also describes target universities and referral capture, which now exist,
  * and YouTube embeds, which do too — that gap has closed since it was written.
+ *
+ * Two gaps closed on 2026-08-23, both of the same kind: a thing the site had
+ * been doing for a while that the notice had never caught up with. Google
+ * sign-in had created six accounts without Google appearing anywhere in this
+ * page, and Microsoft sign-in shipped the same day this was written. Railway
+ * had always hosted both halves of the service and had never been named
+ * either, though every request and every IP address passes through it.
+ *
+ * The lesson worth carrying: this page goes stale from features shipping, not
+ * from anyone editing it. A new processor or a new sign-in route is a change
+ * to this file too.
  */
 
 /** One "**Lead.** rest of the sentence" paragraph, as the source formats them. */
@@ -91,8 +102,12 @@ export function PrivacyPage() {
 
                 <H2>What we collect</H2>
                 <Item lead="Account details.">
-                    When you sign up: your email address and password (stored in
-                    encrypted form — we never see your password itself).
+                    Your email address, and the name your sign-in provider
+                    gives us if you use one. If you set a password, it is
+                    stored in encrypted form and we never see the password
+                    itself. Most accounts have no password at all: signing in
+                    with Google or Microsoft, or with an emailed code, proves
+                    your address without creating one.
                 </Item>
                 <Item lead="Diagnostic answers and results.">
                     When you sit a diagnostic or practice test: the answers you
@@ -167,6 +182,24 @@ export function PrivacyPage() {
                         </span>{' '}
                         delivers our verification and sign-in emails. Messages
                         are sent through Amazon SES in Japan.
+                    </li>
+                    <li>
+                        <span className="font-semibold text-slate-900">
+                            Google and Microsoft
+                        </span>{' '}
+                        provide optional sign-in. If you choose one, they
+                        confirm your email address to us and give us the name
+                        on your account — nothing else — and they know you
+                        signed in to JomExam. Neither is involved if you sign
+                        in with a password or an emailed code.
+                    </li>
+                    <li>
+                        <span className="font-semibold text-slate-900">
+                            Railway
+                        </span>{' '}
+                        hosts the website and the service behind it, so every
+                        request you make passes through it, including your IP
+                        address.
                     </li>
                     <li>
                         <span className="font-semibold text-slate-900">
