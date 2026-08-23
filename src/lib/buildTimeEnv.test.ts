@@ -111,6 +111,19 @@ describe('build-time environment variables', () => {
 describe('the Microsoft sign-in callback page', () => {
     const CALLBACK = 'msal-callback.html'
 
+    /**
+     * A source file with its comments removed.
+     *
+     * These tests assert what the code does, and the code here is heavily
+     * commented with the names of the approaches that did *not* work — so
+     * matching against the raw text finds `handleRedirectPromise` in a comment
+     * explaining why it is wrong and fails on its own explanation.
+     */
+    const codeOf = (file: string) =>
+        readFileSync(join(ROOT, file), 'utf8')
+            .replace(/\/\*[\s\S]*?\*\//g, '')
+            .replace(/^\s*\/\/.*$/gm, '')
+
     it('exists as a build entry, not a file in public/', () => {
         // It has to be built, because it has to run MSAL. A copy in public/
         // would be shipped verbatim with an unresolved module path and would
@@ -124,30 +137,30 @@ describe('the Microsoft sign-in callback page', () => {
         expect(vite).toContain(CALLBACK)
     })
 
-    it('runs MSAL, because a page that does not never returns the sign-in', () => {
-        // MSAL v5 relays the result from this page to the one that opened it
-        // over a BroadcastChannel. Earlier versions had the opener poll the
-        // popup's URL, so a blank page worked; under v5 a page that does not
-        // load MSAL posts nothing and the opener waits until it times out.
+    it('broadcasts the response, rather than merely handling it', () => {
+        // The distinction that cost three deploys. MSAL v5 does not poll the
+        // popup's URL the way v2 and v3 did — the opener waits on a
+        // BroadcastChannel, and this page is what has to post to it.
+        //
+        // handleRedirectPromise() is NOT that. It processes a response for the
+        // window it runs in, and broadcasts nothing to another, so a callback
+        // built on it hangs exactly like a blank page does.
         const page = readFileSync(join(ROOT, CALLBACK), 'utf8')
         expect(page).toContain('src/msalCallback.ts')
 
-        const script = readFileSync(join(ROOT, 'src/msalCallback.ts'), 'utf8')
-        expect(script).toContain('handleRedirectPromise')
+        const script = codeOf('src/msalCallback.ts')
+        expect(script).toContain('broadcastResponseToMainFrame')
+        expect(script).toContain('@azure/msal-browser/redirect-bridge')
+        expect(script).not.toContain('handleRedirectPromise')
     })
 
-    it('shares one MSAL configuration with the button', () => {
-        // MSAL pairs the popup with its callback by configuration. A clientId
-        // or redirectUri that differed between them would start a sign-in that
-        // never comes back, and each file would look correct on its own.
-        for (const file of [
-            'src/msalCallback.ts',
-            'src/components/auth/MicrosoftSignInButton.tsx',
-        ]) {
-            expect(readFileSync(join(ROOT, file), 'utf8')).toContain(
-                'msalConfig'
-            )
-        }
+    it('does not construct a client, which would pull in all of MSAL', () => {
+        // The bridge needs no configuration: everything it needs is in the URL
+        // Microsoft just sent here. Building a PublicClientApplication would
+        // add 240KB to a page whose whole job is to forward one message.
+        const script = codeOf('src/msalCallback.ts')
+        expect(script).not.toContain('PublicClientApplication')
+        expect(script).not.toContain('msalConfig')
     })
 
     it('is requested at the URL the server actually answers', () => {
@@ -155,10 +168,7 @@ describe('the Microsoft sign-in callback page', () => {
         // /msal-callback.html to it. MSAL sends the redirect URI to Microsoft
         // to start the sign-in and again to redeem the code, so it has to be
         // the URL that exists rather than one that redirects to it.
-        const body = readFileSync(join(ROOT, 'src/lib/msalConfig.ts'), 'utf8')
-            // Comments explain the .html file this is served from; only the
-            // code is under test.
-            .replace(/\/\*\*[\s\S]*?\*\//g, '')
+        const body = codeOf('src/lib/msalConfig.ts')
         expect(body).toContain('/msal-callback`')
         expect(body).not.toContain('msal-callback.html')
     })
@@ -181,8 +191,9 @@ describe('the Microsoft sign-in callback page', () => {
         expect(page).not.toMatch(/<link[^>]+stylesheet/i)
         expect(page.length).toBeLessThan(4000)
 
-        const script = readFileSync(join(ROOT, 'src/msalCallback.ts'), 'utf8')
+        const script = codeOf('src/msalCallback.ts')
         expect(script).not.toMatch(/from 'react|react-dom|react-router/)
+        expect(script).not.toMatch(/from '@\//)
     })
 
     it('is not shadowed by a serve.json rewrite', () => {
