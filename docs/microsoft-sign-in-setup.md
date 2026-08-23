@@ -19,8 +19,18 @@ In the [Entra portal](https://entra.microsoft.com) → **App registrations** →
   login and a personal Outlook address sign in. Choosing an organisation-only
   option here silently locks out every personal account.
 - **Redirect URI**: platform **Single-page application (SPA)**, value
-  `https://jomexam.com` — your site's origin, no path. Add
-  `http://localhost:5173` as a second SPA redirect URI for local development.
+  `https://www.jomexam.com/msal-callback.html`. Add
+  `http://localhost:5173/msal-callback.html` as a second SPA redirect URI for
+  local development.
+
+  The path matters. Microsoft returns the sign-in popup to this URL and the
+  browser loads whatever is there in full before MSAL can read the result, so
+  pointing it at the site root booted a second copy of the entire application
+  inside the popup — homepage, header, signed-in name — to hand one value back
+  to the window that opened it. `msal-callback.html` is a blank page that
+  exists for that hand-off and nothing else. Note the `www`: that is the host
+  the site actually serves from, and a redirect URI that does not match the
+  request exactly is refused with AADSTS50011.
 
 Copy the **Application (client) ID** from the overview page. That is the only
 value either app needs, and it is public — it goes in the frontend bundle by

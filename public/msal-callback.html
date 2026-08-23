@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<title>Signing you in…</title>
+<!--
+  Where Microsoft sends the sign-in popup, and nothing else.
+
+  Without this the redirect URI was the site root, so Microsoft returned the
+  popup to https://www.jomexam.com/#code=… and the browser loaded the entire
+  3.8MB application inside a 400px window — homepage, header, signed-in name
+  and all — purely to hand one value back to the window that opened it. MSAL
+  cannot read the result until that page loads, so the button sat on
+  "Signing in…" while a whole second copy of the app booted.
+
+  Deliberately at the root rather than under /auth/, because serve.json
+  rewrites /auth/** to index.html and this must never become the app.
+
+  It does no work. The window that opened this one reads the code out of the
+  URL and closes it, usually before anyone sees these words.
+-->
+<style>
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font: 15px/1.5 ui-sans-serif, system-ui, -apple-system, sans-serif;
+    color: #475569;
+    background: #f8fafc;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { color: #cbd5e1; background: #0f172a; }
+  }
+</style>
+</head>
+<body>
+  <p>Signing you in…</p>
+</body>
+</html>

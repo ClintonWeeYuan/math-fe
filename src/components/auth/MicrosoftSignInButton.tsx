@@ -43,7 +43,15 @@ async function getMsal() {
             auth: {
                 clientId: CLIENT_ID as string,
                 authority: `https://login.microsoftonline.com/${TENANT}`,
-                redirectUri: window.location.origin,
+                // A blank page, not the site root. The popup is returned
+                // to this URL, and whatever is there gets loaded in full
+                // before MSAL can read the result — so pointing it at the app
+                // meant booting a second 3.8MB copy of the whole site inside
+                // a 400px window to pass one value to its opener.
+                //
+                // Must also be registered in the app registration, and lives
+                // at the root because serve.json rewrites /auth/** to the app.
+                redirectUri: `${window.location.origin}/msal-callback.html`,
             },
             cache: {
                 // sessionStorage, not localStorage: our own session token is

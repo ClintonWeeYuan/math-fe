@@ -94,3 +94,57 @@ describe('build-time environment variables', () => {
         expect(argsTheDockerfileDeclares().size).toBeGreaterThan(0)
     })
 })
+
+/**
+ * The Microsoft sign-in popup is returned to a blank page, not to the app.
+ *
+ * Whatever sits at the redirect URI gets loaded in full before MSAL can read
+ * the result out of it. Pointing it at the site root meant the browser booted
+ * a second copy of the entire application inside the popup — 3.8MB, homepage,
+ * header, signed-in name — purely to hand one value back to its opener, while
+ * the button sat on "Signing in…" waiting for it.
+ *
+ * Two things have to stay true, and neither is visible from the component:
+ * the file has to exist, and serve.json must not rewrite its path to
+ * index.html — which is exactly what would happen anywhere under /auth/.
+ */
+describe('the Microsoft sign-in callback page', () => {
+    const CALLBACK = 'msal-callback.html'
+
+    it('exists as a real file that can be served', () => {
+        expect(() =>
+            readFileSync(join(ROOT, 'public', CALLBACK), 'utf8')
+        ).not.toThrow()
+    })
+
+    it('is the page the button actually points at', () => {
+        const source = readFileSync(
+            join(ROOT, 'src/components/auth/MicrosoftSignInButton.tsx'),
+            'utf8'
+        )
+        expect(source).toContain(`/${CALLBACK}`)
+        // The bug this replaces: redirectUri was the origin alone.
+        expect(source).not.toMatch(/redirectUri:\s*window\.location\.origin\s*,/)
+    })
+
+    it('loads nothing — no scripts, no stylesheets, no app', () => {
+        const page = readFileSync(join(ROOT, 'public', CALLBACK), 'utf8')
+        expect(page).not.toMatch(/<script/i)
+        expect(page).not.toMatch(/<link[^>]+stylesheet/i)
+        // The whole point is that it is small enough to load instantly.
+        expect(page.length).toBeLessThan(4000)
+    })
+
+    it('is not shadowed by a serve.json rewrite', () => {
+        // Under /auth/** it would be rewritten to index.html and quietly
+        // become the app again, reintroducing the bug with the fix in place.
+        const rewrites: { source: string }[] = JSON.parse(
+            readFileSync(join(ROOT, 'public', 'serve.json'), 'utf8')
+        ).rewrites
+        const shadowed = rewrites.filter(({ source }) => {
+            const prefix = source.replace(/\*+$/, '')
+            return `/${CALLBACK}`.startsWith(prefix) && prefix !== '/'
+        })
+        expect(shadowed).toEqual([])
+    })
+})
