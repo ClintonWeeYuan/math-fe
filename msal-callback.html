@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<title>Signing you in…</title>
+<style>
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font: 15px/1.5 ui-sans-serif, system-ui, -apple-system, sans-serif;
+    color: #475569;
+    background: #f8fafc;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { color: #cbd5e1; background: #0f172a; }
+  }
+</style>
+</head>
+<body>
+  <p>Signing you in…</p>
+  <!--
+    A Vite entry point, not a static file, because it has to run MSAL — see
+    src/msalCallback.ts for why a blank page cannot work. It loads no
+    application: only MSAL, which the opener has already cached.
+  -->
+  <script type="module" src="/src/msalCallback.ts"></script>
+</body>
+</html>

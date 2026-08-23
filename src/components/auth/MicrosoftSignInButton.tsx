@@ -5,15 +5,9 @@ import { toast } from 'sonner'
 import { useAuth } from '@/components/auth/AuthContext.tsx'
 import { useMicrosoftSignInMutation } from '@/components/auth/useMicrosoftSignInMutation.ts'
 
-const CLIENT_ID = import.meta.env.VITE_MICROSOFT_CLIENT_ID as string | undefined
+import { MSAL_CLIENT_ID, msalConfiguration } from '@/lib/msalConfig.ts'
 
-/**
- * Which accounts may sign in. 'common' is both kinds, 'organizations' is work
- * and school only, 'consumers' is personal only. Defaulted so that setting the
- * client id alone is enough — the backend defaults to the same thing.
- */
-const TENANT =
-    (import.meta.env.VITE_MICROSOFT_TENANT as string | undefined) || 'common'
+const CLIENT_ID = MSAL_CLIENT_ID
 
 /** Whether a Microsoft button will render at all. Anything that refers to the
  *  button has to agree with it, or it points at nothing. */
@@ -39,29 +33,7 @@ async function getMsal() {
 
     msalPromise = (async () => {
         const { PublicClientApplication } = await import('@azure/msal-browser')
-        const instance = new PublicClientApplication({
-            auth: {
-                clientId: CLIENT_ID as string,
-                authority: `https://login.microsoftonline.com/${TENANT}`,
-                // A blank page, not the site root. The popup is returned
-                // to this URL, and whatever is there gets loaded in full
-                // before MSAL can read the result — so pointing it at the app
-                // meant booting a second 3.8MB copy of the whole site inside
-                // a 400px window to pass one value to its opener.
-                //
-                // Must also be registered in the app registration, and lives
-                // at the root because serve.json rewrites /auth/** to the app.
-                redirectUri: `${window.location.origin}/msal-callback.html`,
-            },
-            cache: {
-                // sessionStorage, not localStorage: our own session token is
-                // what keeps somebody signed in, and MSAL's cache is only
-                // needed for the seconds between opening the popup and posting
-                // the token. Leaving Microsoft's account state on the device
-                // after that buys nothing and outlives its usefulness.
-                cacheLocation: 'sessionStorage',
-            },
-        })
+        const instance = new PublicClientApplication(msalConfiguration())
         await instance.initialize()
 
         // Clears any interaction MSAL still believes is running. It records

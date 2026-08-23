@@ -14,6 +14,22 @@ export default defineConfig({
     define: {
         __BUILD_DATE__: JSON.stringify(new Date().toISOString().slice(0, 10)),
     },
+    build: {
+        rollupOptions: {
+            input: {
+                // The application.
+                main: path.resolve(__dirname, 'index.html'),
+                // Where Microsoft returns the sign-in popup. A second entry
+                // rather than a file in public/, because it has to be built:
+                // it runs MSAL, and MSAL v5 relays the result from this page
+                // to the one that opened it. See src/msalCallback.ts.
+                //
+                // prerender.mjs only reads and writes dist/index.html, so it
+                // is unaffected by a second output.
+                msalCallback: path.resolve(__dirname, 'msal-callback.html'),
+            },
+        },
+    },
     plugins: [react(), tailwindcss(), viteCommonjs()],
     resolve: {
         alias: {
