@@ -10,6 +10,9 @@ import { DiagnosticReportView } from '@/components/diagnostic/report/DiagnosticR
 import { WhatNext } from '@/components/diagnostic/report/WhatNext.tsx'
 import { ReviewAnswers } from '@/components/diagnostic/report/ReviewAnswers.tsx'
 import { trackEvent } from '@/lib/analytics.ts'
+import useStartCheckoutMutation from '@/hooks/billing/useStartCheckoutMutation.ts'
+import { BILLING_LIVE } from '@/lib/billing.ts'
+import useBillingStatusQuery from '@/hooks/billing/useBillingStatusQuery.ts'
 
 /**
  * The student's own post-exam report (§6). Fetches the owner-scoped report and
@@ -19,6 +22,18 @@ import { trackEvent } from '@/lib/analytics.ts'
 export function DiagnosticReportPage() {
     const { attemptId } = useParams()
     const navigate = useNavigate()
+    const { mutate: startCheckout } = useStartCheckoutMutation()
+    // Only reached on a report, which is behind auth already. Its job here is
+    // the end date for the paywall's fine print, and whether the season is
+    // still on sale at all.
+    // Always signed in on a report — the route is behind the student guard.
+    const { data: billing } = useBillingStatusQuery({
+        enabled: BILLING_LIVE,
+        signedIn: true,
+    })
+    // What there is to sell right now. Empty before billing ships and after
+    // both windows have passed, and the paywall renders no CTA either way.
+    const seasons = BILLING_LIVE ? (billing?.seasons ?? []) : []
 
     const {
         data: report,
@@ -81,6 +96,33 @@ export function DiagnosticReportPage() {
         <DiagnosticReportView
             report={report}
             questionCount={preview?.questionCount}
+            // Only while there is something to sell: undefined leaves the
+            // paywall's buy buttons out entirely, which is the honest
+            // rendering both before billing ships and after both windows have
+            // passed (when checkout would 409 anyway). The blurred radar and
+            // its explanation still show — that part is true either way.
+            seasons={seasons}
+            onUnlock={
+                seasons.length > 0
+                    ? (season: string) => {
+                          trackEvent('diagnostic_cta_clicked', {
+                              attemptId,
+                              metadata: {
+                                  cta: 'unlock_skills_radar',
+                                  // Which sitting converts is the thing worth
+                                  // knowing here — it is a pricing signal.
+                                  season,
+                              },
+                          })
+                          // Abandoning checkout returns them to this report,
+                          // not to the catalogue — they were reading it.
+                          startCheckout({
+                              season,
+                              returnPath: `/diagnostic/attempts/${attemptId}/report`,
+                          })
+                      }
+                    : undefined
+            }
             footer={
                 // Passed as the footer rather than built into the report view,
                 // because the admin page renders that same view and has no use

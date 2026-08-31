@@ -56,7 +56,7 @@ describe('a mini test report', () => {
         )
 
         expect(
-            screen.queryByText(/unlock full report/i)
+            screen.queryByText(/unlock your skill-by-skill/i)
         ).not.toBeInTheDocument()
         expect(screen.getByText(/needs a full paper/i)).toBeInTheDocument()
     })
@@ -138,7 +138,9 @@ describe('a full paper report is unchanged', () => {
             />
         )
 
-        expect(screen.getByText(/unlock full report/i)).toBeInTheDocument()
+        expect(
+            screen.getByText(/unlock your skill-by-skill/i)
+        ).toBeInTheDocument()
         expect(
             screen.queryByText(/needs a full paper/i)
         ).not.toBeInTheDocument()
@@ -154,6 +156,8 @@ describe('a full paper report is unchanged', () => {
             />
         )
 
-        expect(screen.getByText(/unlock full report/i)).toBeInTheDocument()
+        expect(
+            screen.getByText(/unlock your skill-by-skill/i)
+        ).toBeInTheDocument()
     })
 })

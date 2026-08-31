@@ -8,6 +8,7 @@ import type { DiagnosticReportResponse } from '@/client'
 const mockUseReport = vi.fn()
 const mockUsePreview = vi.fn()
 const mockNavigate = vi.fn()
+const mockStartCheckout = vi.fn()
 
 vi.mock('@/hooks/diagnostic/useGetAttemptReportQuery.ts', async () => {
     const actual = await vi.importActual<
@@ -40,6 +41,18 @@ vi.mock('@/hooks/diagnostic/useAttemptReviewQuery.ts', async (importOriginal) =>
         typeof import('@/hooks/diagnostic/useAttemptReviewQuery.ts')
     >()),
     default: () => ({ data: undefined, isLoading: false, isError: false }),
+}))
+// The page holds a checkout mutation for the paywall's unlock button. These
+// tests are about the report's own content and run with billing off, so the
+// button never renders — but the hook is still called on every render, and
+// react-query needs a provider it does not have here.
+vi.mock('@/hooks/billing/useStartCheckoutMutation.ts', () => ({
+    default: () => ({ mutate: mockStartCheckout, isPending: false }),
+}))
+// Supplies the paywall's end date and whether the season is still on sale.
+// Disabled with billing off, which is how these tests run.
+vi.mock('@/hooks/billing/useBillingStatusQuery.ts', () => ({
+    default: () => ({ data: undefined }),
 }))
 vi.mock('react-router-dom', async () => {
     const actual =

@@ -12,6 +12,7 @@ import {
 } from '@/lib/diagnosticReportInsights.ts'
 import { skillAdvice } from '@/lib/diagnosticSkillAdvice.ts'
 import type { DiagnosticReportResponse } from '@/client'
+import type { SeasonOffer } from '@/lib/billingApi.ts'
 
 type Props = {
     report: DiagnosticReportResponse
@@ -23,7 +24,9 @@ type Props = {
     subtitle?: ReactNode
     /** Opens checkout from the paywall. Omitted (e.g. on the admin view)
      * leaves the unlock CTA out. */
-    onUnlock?: () => void
+    onUnlock?: (seasonKey: string) => void
+    /** The seasons on sale, for the paywall's buy buttons. */
+    seasons?: SeasonOffer[]
     /** Rendered at the bottom (a back button). */
     footer?: ReactNode
 }
@@ -41,6 +44,7 @@ export function DiagnosticReportView({
     subtitle,
     footer,
     onUnlock,
+    seasons,
 }: Props) {
     // Default true: an admin read, or any response without the field, must
     // never be paywalled by accident.
@@ -169,6 +173,7 @@ export function DiagnosticReportView({
                             <SkillsRadarPaywall
                                 subject={subject}
                                 onUnlock={onUnlock}
+                                seasons={seasons}
                             />
                         )}
                     </CardContent>
