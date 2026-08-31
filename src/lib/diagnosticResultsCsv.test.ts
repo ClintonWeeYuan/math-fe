@@ -37,12 +37,54 @@ describe('resultsToCsv', () => {
         const csv = resultsToCsv([
             row({ totalScore: null, subject: null, submittedAt: null, status: 'in_progress' }),
         ])
-        const cols = csv.split('\n')[1].split(',')
-        // Score (idx 4), Subject (idx 2), Submitted (last) are blank.
-        expect(cols[4]).toBe('')
-        expect(cols[2]).toBe('')
-        expect(cols[cols.length - 1]).toBe('')
+        const [header, line] = csv.split('\n')
+        // Looked up by name rather than by a hardcoded index. The indices this
+        // test used to assert (Score at 4, Subject at 2) silently became State
+        // and School when the profile columns were inserted — both blank in
+        // this fixture, so it kept passing while checking the wrong cells.
+        const at = (name: string) =>
+            line.split(',')[header.split(',').indexOf(name)]
+        expect(at('Score')).toBe('')
+        expect(at('Subject')).toBe('')
+        expect(at('Submitted')).toBe('')
         expect(csv).not.toContain('null')
+    })
+
+    it('carries the student profile, and labels the sitting for a reader', () => {
+        const csv = resultsToCsv([
+            row({
+                studentName: 'Aisyah',
+                school: 'SMK Sungai Maong',
+                level: 'Form 5',
+                state: 'Sarawak',
+                testSitting: 'october_2026',
+                targetUniversities: ['Cambridge', 'Imperial'],
+            } as Partial<AdminAttemptResultRow>),
+        ])
+        const [header, line] = csv.split('\n')
+        const at = (name: string) =>
+            line.split(',')[header.split(',').indexOf(name)]
+        expect(at('Name')).toBe('Aisyah')
+        expect(at('School')).toBe('SMK Sungai Maong')
+        expect(at('Level')).toBe('Form 5')
+        expect(at('State')).toBe('Sarawak')
+        // The label, not the stored 'october_2026'.
+        expect(at('Sitting')).toBe('October 2026')
+        // Semicolons, so a spreadsheet splitting on commas cannot halve the
+        // cell — and therefore no quoting is needed either.
+        expect(at('Target universities')).toBe('Cambridge; Imperial')
+    })
+
+    it('leaves the profile blank for an account that has answered nothing', () => {
+        const [header, line] = resultsToCsv([row()]).split('\n')
+        const at = (name: string) =>
+            line.split(',')[header.split(',').indexOf(name)]
+        expect(at('Name')).toBe('')
+        expect(at('School')).toBe('')
+        expect(at('Target universities')).toBe('')
+        // A missing sitting is a dash in the table; in a CSV it is a dash too,
+        // because sittingLabel is the one place that decision is made.
+        expect(at('Sitting')).toBe('—')
     })
 
     it('escapes commas and quotes in text fields (RFC-4180)', () => {

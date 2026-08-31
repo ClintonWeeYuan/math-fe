@@ -1,4 +1,5 @@
 import type { AdminAttemptResultRow } from '@/client'
+import { profileOf, sittingLabel } from '@/lib/adminStudentProfile.ts'
 
 /** RFC-4180 field escaping: wrap in quotes and double any embedded quote when
  * the value contains a comma, quote, or newline. */
@@ -9,6 +10,15 @@ function csvField(value: string | number | null | undefined): string {
 
 const HEADERS = [
     'Student email',
+    // The profile columns sit next to the email rather than at the end,
+    // because this file is opened in a spreadsheet and read left to right:
+    // who sat it belongs beside who they are, not after their score.
+    'Name',
+    'School',
+    'Level',
+    'State',
+    'Sitting',
+    'Target universities',
     'Set',
     'Subject',
     'Status',
@@ -28,9 +38,21 @@ const HEADERS = [
 export function resultsToCsv(rows: AdminAttemptResultRow[]): string {
     const lines = [HEADERS.join(',')]
     for (const r of rows) {
+        const p = profileOf(r)
         lines.push(
             [
                 csvField(r.studentEmail),
+                csvField(p.studentName),
+                csvField(p.school),
+                csvField(p.level),
+                csvField(p.state),
+                // The label, not the stored value: this file is read by a
+                // person, and 'october_2026' is a database detail.
+                csvField(sittingLabel(p.testSitting)),
+                // Joined with '; ' rather than ', ' — csvField would quote a
+                // comma correctly, but a spreadsheet's own "split by comma"
+                // would then cut the cell in half anyway.
+                csvField((p.targetUniversities ?? []).join('; ')),
                 csvField(r.setTitle),
                 csvField(r.subject),
                 csvField(r.status),

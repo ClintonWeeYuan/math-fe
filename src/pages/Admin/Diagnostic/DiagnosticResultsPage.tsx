@@ -18,6 +18,7 @@ import useAdminResultsQuery from '@/hooks/diagnostic/useAdminResultsQuery.ts'
 import useBulkDeleteAttemptsMutation from '@/hooks/diagnostic/useBulkDeleteAttemptsMutation.ts'
 import { AttemptDetailDialog } from '@/components/diagnostic/AttemptDetailDialog.tsx'
 import { downloadResultsCsv } from '@/lib/diagnosticResultsCsv.ts'
+import { profileOf, sittingLabel } from '@/lib/adminStudentProfile.ts'
 import type { AdminAttemptResultRow } from '@/client'
 
 function fmtTime(seconds: number): string {
@@ -198,6 +199,15 @@ export function DiagnosticResultsPage() {
                                     />
                                 </TableHead>
                                 <TableHead>Student</TableHead>
+                                {/* Two of the six profile fields, chosen
+                                    because they are the ones scanned rather
+                                    than looked up: school groups the table,
+                                    and sitting says which Season Pass this
+                                    student is the market for. Level, state and
+                                    target universities are in the CSV, where
+                                    there is no width to run out of. */}
+                                <TableHead>School</TableHead>
+                                <TableHead>Sitting</TableHead>
                                 <TableHead>Set</TableHead>
                                 <TableHead>Subject</TableHead>
                                 <TableHead>Status</TableHead>
@@ -209,7 +219,9 @@ export function DiagnosticResultsPage() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {rows.map((r) => (
+                            {rows.map((r) => {
+                            const profile = profileOf(r)
+                            return (
                                 <TableRow
                                     key={r.attemptId}
                                     className="cursor-pointer"
@@ -228,7 +240,21 @@ export function DiagnosticResultsPage() {
                                         />
                                     </TableCell>
                                     <TableCell className="font-medium">
-                                        {r.studentEmail ?? '—'}
+                                        {/* The name leads once we have one,
+                                            with the email kept underneath: it
+                                            is still the identifier an admin
+                                            searches by, and two students can
+                                            share a first name. */}
+                                        {profile.studentName ?? r.studentEmail ?? '—'}
+                                        {profile.studentName && (
+                                            <span className="block text-xs font-normal text-gray-500 dark:text-gray-400">
+                                                {r.studentEmail}
+                                            </span>
+                                        )}
+                                    </TableCell>
+                                    <TableCell>{profile.school ?? '—'}</TableCell>
+                                    <TableCell>
+                                        {sittingLabel(profile.testSitting)}
                                     </TableCell>
                                     <TableCell>{r.setTitle ?? '—'}</TableCell>
                                     <TableCell>{r.subject ?? '—'}</TableCell>
@@ -266,7 +292,8 @@ export function DiagnosticResultsPage() {
                                         )}
                                     </TableCell>
                                 </TableRow>
-                            ))}
+                            )
+                            })}
                         </TableBody>
                     </Table>
                 )}
