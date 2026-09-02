@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { AdminLayout } from '@/components/layout/AdminLayout.tsx'
 import { Button } from '@/components/ui/button.tsx'
 import { Badge } from '@/components/ui/badge.tsx'
@@ -8,6 +8,8 @@ import { QuestionNavigator } from '@/components/diagnostic/exam/QuestionNavigato
 import { QuestionPane } from '@/components/diagnostic/exam/QuestionPane.tsx'
 import usePreviewDiagnosticSetQuery from '@/hooks/diagnostic/usePreviewDiagnosticSetQuery.ts'
 import type { DiagnosticResponseState } from '@/client'
+import useStartOrResumeAttemptMutation from '@/hooks/diagnostic/useStartOrResumeAttemptMutation.ts'
+import { toast } from 'sonner'
 
 /**
  * The student's exam screen, driven by local state instead of an attempt.
@@ -20,6 +22,12 @@ import type { DiagnosticResponseState } from '@/client'
  * Answers and flags are kept in memory so the interaction can be tried;
  * nothing is sent anywhere, there is no timer, and there is nothing to
  * submit. Closing the tab leaves no trace.
+ *
+ * "Sit it timed" is the other half, and deliberately not a second preview
+ * mode: it starts a real attempt through the same endpoint a student uses and
+ * hands over to the real exam screen. Reimplementing the clock here would mean
+ * rehearsing something no student ever sits, which is the one thing a dry run
+ * must not do. The report at the end is the real report, for the same reason.
  */
 export function DiagnosticSetPreviewPage() {
     const { setId } = useParams()
@@ -28,6 +36,40 @@ export function DiagnosticSetPreviewPage() {
     })
     const [index, setIndex] = useState(0)
     const [responses, setResponses] = useState<DiagnosticResponseState[]>([])
+    const navigate = useNavigate()
+    const { mutate: startAttempt, isPending: isStarting } =
+        useStartOrResumeAttemptMutation()
+
+    function sitItTimed() {
+        if (!setId) return
+        // A plain confirm, matching the results table's bulk delete. The
+        // warning is not ceremony: the clock starts server-side and cannot be
+        // paused, and the set allows one attempt in progress at a time — so
+        // walking away from a rehearsal blocks the next one until it times
+        // out on its own.
+        if (
+            !confirm(
+                'Start a real, timed attempt?\n\n' +
+                    'The clock starts now and runs server-side — closing the ' +
+                    'tab does not stop it. This creates a genuine attempt ' +
+                    'record and you will get the real report at the end. ' +
+                    'Your account is marked internal, so it stays out of the ' +
+                    'results table and the question stats.'
+            )
+        ) {
+            return
+        }
+        startAttempt(
+            { diagnosticSetId: setId, agreedToTerms: true },
+            {
+                onSuccess: (state) => {
+                    if (state) navigate(`/diagnostic/attempts/${state.attempt.id}`)
+                },
+                onError: (error: Error) =>
+                    toast.error(error.message || 'Could not start the attempt.'),
+            }
+        )
+    }
 
     if (isLoading) return <LoadingPage />
 
@@ -82,8 +124,9 @@ export function DiagnosticSetPreviewPage() {
                     <Badge>Preview</Badge>
                     <span className="text-sm">
                         <strong>{set.title}</strong> — this is what a student
-                        sees. Nothing is recorded and there is no attempt, no
-                        timer and nothing to submit.
+                        sees. Browsing here records nothing: no attempt, no
+                        timer, nothing to submit. Use <em>Sit it timed</em> to
+                        take it for real and see the report.
                     </span>
                     <div className="ml-auto flex items-center gap-2">
                         <Badge variant={set.status === 'published' ? 'default' : 'secondary'}>
@@ -92,6 +135,13 @@ export function DiagnosticSetPreviewPage() {
                         <Badge variant="outline">
                             {set.isFree ? 'Free' : 'Season Pass'}
                         </Badge>
+                        <Button
+                            size="sm"
+                            disabled={questions.length === 0 || isStarting}
+                            onClick={sitItTimed}
+                        >
+                            {isStarting ? 'Starting…' : 'Sit it timed'}
+                        </Button>
                         <Link to="/admin/sets">
                             <Button variant="outline" size="sm">
                                 Back to sets
