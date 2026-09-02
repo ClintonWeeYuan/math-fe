@@ -21,8 +21,8 @@ type Props = {
  * should be a data change rather than a rewrite of the point of sale.
  *
  * The button names the season only when there is a choice to make. With one
- * on sale there is nothing to choose between, and "2026/27 season — £39"
- * invites a question ("as opposed to which?") that a plain "Unlock — £39"
+ * on sale there is nothing to choose between, and "2026/27 season — £59"
+ * invites a question ("as opposed to which?") that a plain "Unlock — £59"
  * does not raise. The end date is stated underneath either way: what is being
  * sold is access until a date, and the point of sale is where that has to be
  * said, not a receipt afterwards.

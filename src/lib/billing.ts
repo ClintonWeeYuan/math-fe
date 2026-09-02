@@ -40,7 +40,14 @@ export function formatSeasonEnd(isoDate: string): string {
 }
 
 /**
- * "RM 99.00" from Stripe's minor units.
+ * "£59.00" from Stripe's minor units.
+ *
+ * The locale stays en-MY while the price is in GBP, which looks wrong and is
+ * not. Both locales render GBP identically ("£59.00"), so it makes no
+ * difference to what is actually sold — but en-MY renders MYR as "RM 59.00"
+ * where en-GB gives "MYR 59.00", so this is the better of the two for a site
+ * whose SPM half is Malaysian. Changing it would alter nothing except the
+ * currency nobody is charged in.
  *
  * Null when the backend could not read the price from Stripe — the button
  * still works and Stripe's own page shows the real number, so a lookup

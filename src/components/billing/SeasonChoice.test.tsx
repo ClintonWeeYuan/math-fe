@@ -9,7 +9,7 @@ function season(over: Partial<SeasonOffer> = {}): SeasonOffer {
         key: '2026-27',
         label: '2026/27 season',
         lastDay: '2027-01-31',
-        priceAmount: 3900,
+        priceAmount: 5900,
         priceCurrency: 'GBP',
         alreadyCovered: false,
         ...over,
@@ -30,17 +30,17 @@ const LATER = season({
     key: '2027-28',
     label: '2027/28 season',
     lastDay: '2028-01-31',
-    priceAmount: 4900,
+    priceAmount: 6900,
 })
 
 describe('SeasonChoice', () => {
     describe('the one season on sale', () => {
         it('does not name the season when there is nothing to choose between', () => {
-            // "2026/27 season — £39" invites "as opposed to which?". With one
+            // "2026/27 season — £59" invites "as opposed to which?". With one
             // pass on sale that question has no answer, so it is not raised.
             render(<SeasonChoice seasons={[season()]} onChoose={() => {}} />)
             expect(
-                screen.getByRole('button', { name: /^Unlock — £39\.00$/ })
+                screen.getByRole('button', { name: /^Unlock — £59\.00$/ })
             ).toBeInTheDocument()
         })
 
@@ -94,10 +94,10 @@ describe('SeasonChoice', () => {
         it('names each one, because now there is a choice', () => {
             render(<SeasonChoice seasons={[season(), LATER]} onChoose={() => {}} />)
             expect(
-                screen.getByRole('button', { name: /2026\/27 season — £39\.00/ })
+                screen.getByRole('button', { name: /2026\/27 season — £59\.00/ })
             ).toBeInTheDocument()
             expect(
-                screen.getByRole('button', { name: /2027\/28 season — £49\.00/ })
+                screen.getByRole('button', { name: /2027\/28 season — £69\.00/ })
             ).toBeInTheDocument()
         })
 
