@@ -21,17 +21,32 @@
     <script type="application/ld+json">
         {
             "@context": "https://schema.org",
-            "@type": "EducationalOrganization",
-            "name": "JomExam",
-            "url": "https://www.jomexam.com",
-            "description": "Timed ESAT and TMUA diagnostics mapped to real exam skills, with a skills report, plus free SPM practice.",
-            "logo": "https://www.jomexam.com/logo-1.png",
-            "sameAs": [],
-            "areaServed": ["GB", "MY"],
-            "knowsAbout": [
-                "ESAT", "Engineering and Science Admissions Test",
-                "TMUA", "Test of Mathematics for University Admission",
-                "SPM Mathematics", "SPM Additional Mathematics"
+            "@graph": [
+                {
+                    "@type": "EducationalOrganization",
+                    "@id": "https://www.jomexam.com/#organization",
+                    "name": "JomExam",
+                    "alternateName": ["Jom Exam", "jomexam.com"],
+                    "url": "https://www.jomexam.com",
+                    "description": "Timed ESAT and TMUA diagnostics mapped to real exam skills, with a skills report, plus free SPM practice.",
+                    "logo": "https://www.jomexam.com/logo-1.png",
+                    "sameAs": [],
+                    "areaServed": ["GB", "MY"],
+                    "knowsAbout": [
+                        "ESAT", "Engineering and Science Admissions Test",
+                        "TMUA", "Test of Mathematics for University Admission",
+                        "SPM Mathematics", "SPM Additional Mathematics"
+                    ]
+                },
+                {
+                    "@type": "WebSite",
+                    "@id": "https://www.jomexam.com/#website",
+                    "name": "JomExam",
+                    "alternateName": "Jom Exam",
+                    "url": "https://www.jomexam.com",
+                    "inLanguage": "en",
+                    "publisher": { "@id": "https://www.jomexam.com/#organization" }
+                }
             ]
         }
     </script>
