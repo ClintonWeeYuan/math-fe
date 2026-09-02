@@ -15,19 +15,20 @@ type Props = {
 /**
  * The buy control: one button per season on sale.
  *
- * Two windows are sold at once — October and January — because in September
- * an Oxford applicant needs October and a candidate whose course accepts
- * January needs January, and both are shopping. Picking for them would sell
- * one of the two a pass that dies before their exam.
+ * One season is sold today — a single pass running past both the October and
+ * January sittings — so in practice this renders one button. It is still
+ * written for a list, because the backend offers a list and a second window
+ * should be a data change rather than a rewrite of the point of sale.
  *
- * Every button states its own end date and price. What is being sold is
- * access until a date, and the point of sale is where that has to be said —
- * not in a receipt afterwards.
+ * The button names the season only when there is a choice to make. With one
+ * on sale there is nothing to choose between, and "2026/27 season — £39"
+ * invites a question ("as opposed to which?") that a plain "Unlock — £39"
+ * does not raise. The end date is stated underneath either way: what is being
+ * sold is access until a date, and the point of sale is where that has to be
+ * said, not a receipt afterwards.
  *
  * A season the student is already covered for is shown, disabled, rather than
- * hidden: an October holder looking at a greyed-out October and a live
- * January understands the ladder, where a card with one button looks like a
- * mistake.
+ * hidden — a card that silently loses its only button reads as broken.
  */
 export function SeasonChoice({ seasons, onChoose, isPending, compact }: Props) {
     if (seasons.length === 0) return null
@@ -64,9 +65,17 @@ export function SeasonChoice({ seasons, onChoose, isPending, compact }: Props) {
                     >
                         {isPending
                             ? 'Opening checkout…'
-                            : price
-                              ? `${season.label} — ${price}`
-                              : `Unlock for ${season.label}`}
+                            : // Keyed to what is on screen, not to what is
+                              // buyable: when one of two is greyed out and
+                              // names itself, an unnamed live button beside it
+                              // is harder to read, not easier.
+                              seasons.length > 1
+                              ? price
+                                  ? `${season.label} — ${price}`
+                                  : `Unlock for ${season.label}`
+                              : price
+                                ? `Unlock — ${price}`
+                                : 'Unlock'}
                     </Button>
                 )
             })}
