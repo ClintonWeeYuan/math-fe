@@ -39,6 +39,23 @@ import { CONTACT_EMAIL, DATA_REGION, LAST_UPDATED, OPERATOR } from '@/content/le
  * had always hosted both halves of the service and had never been named
  * either, though every request and every IP address passes through it.
  *
+ * Payments, 2026-09-03, and an instance of exactly the lesson below rather
+ * than an exception to it. The notice previously said "we do not collect
+ * payment details at present" and promised to update itself *before* that
+ * changed, so this ships on the same branch as checkout and not after it.
+ * What is claimed here is what the code does: app/services/entitlements.py
+ * grant() writes user_id, product, source, stripe_session_id, agent_code and
+ * expires_at, and no card field exists anywhere in the schema — the card is
+ * entered on Stripe's hosted page and never reaches this service. The
+ * retention carve-out is new and is the part worth re-reading: the deletion
+ * promise above it could not be kept in full once purchase records became
+ * accounting records.
+ *
+ * NOT verified from here, and worth a lawyer's eye before real money moves:
+ * how many years those records must be kept, and whether the transfer
+ * sentence in the Stripe entry needs a named safeguard the way the Supabase
+ * one is still missing.
+ *
  * The lesson worth carrying: this page goes stale from features shipping, not
  * from anyone editing it. A new processor or a new sign-in route is a change
  * to this file too.
@@ -127,12 +144,14 @@ export function PrivacyPage() {
                     and the universities you&apos;re targeting, so we can make
                     the site more relevant to you.
                 </Item>
-                <P>
-                    We do not collect payment details at present. If we
-                    introduce paid products, payments will be handled by a
-                    specialist payment provider and we will update this notice
-                    before that happens.
-                </P>
+                <Item lead="Purchases.">
+                    If you buy a Season Pass, we record that you bought it,
+                    which pass it was, when it runs out, and the reference
+                    number Stripe gives the payment. Stripe also tells us the
+                    email address you paid with, so we can send you a
+                    confirmation. We never see or store your card number:
+                    payment happens on Stripe&apos;s own page, not ours.
+                </Item>
 
                 <H2>Why we collect it</H2>
                 <P>
@@ -195,6 +214,19 @@ export function PrivacyPage() {
                     </li>
                     <li>
                         <span className="font-semibold text-slate-900">
+                            Stripe
+                        </span>{' '}
+                        takes payment if you buy a Season Pass. You enter your
+                        card details on Stripe&apos;s own page, so they reach
+                        Stripe and never us; Stripe then tells us that the
+                        payment succeeded, the email address you used, and a
+                        reference number. Stripe also uses payment information
+                        for its own fraud prevention, under its own privacy
+                        policy. It processes payments on its own infrastructure
+                        rather than in {DATA_REGION}.
+                    </li>
+                    <li>
+                        <span className="font-semibold text-slate-900">
                             Railway
                         </span>{' '}
                         hosts the website and the service behind it, so every
@@ -241,6 +273,15 @@ export function PrivacyPage() {
                     keeping only aggregated statistics that no longer identify
                     you.
                 </P>
+                <P>
+                    One exception, if you have bought a Season Pass: a record
+                    of the purchase is part of our accounts, and tax law
+                    requires us to keep those for a number of years. Deleting
+                    your account removes your results and your profile, but the
+                    purchase record stays until we are allowed to delete it. It
+                    is kept for that reason alone and is not used to contact
+                    you or to build a picture of you.
+                </P>
 
                 <H2>If you&apos;re under 18</H2>
                 <P>
@@ -264,9 +305,10 @@ export function PrivacyPage() {
 
                 <H2>Changes to this notice</H2>
                 <P>
-                    If we make meaningful changes — for example, when we
-                    introduce payments — we&apos;ll update this page and the
-                    date above, and flag significant changes on the site.
+                    If we make meaningful changes — a new service handling
+                    your data, or a new kind of information collected —
+                    we&apos;ll update this page and the date above, and flag
+                    significant changes on the site.
                 </P>
 
                 <P>
