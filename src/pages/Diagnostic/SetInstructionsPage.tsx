@@ -56,7 +56,10 @@ export function SetInstructionsPage() {
     const coveredTests = billing?.coveredTests ?? []
     // What is on sale right now. Empty before billing ships and once both
     // windows have passed — checkout would 409 in that state anyway.
-    const seasons = BILLING_LIVE ? (billing?.seasons ?? []) : []
+    // Every season on sale, before narrowing. Kept separate from `seasons`
+    // below because "is anything on sale at all" and "is there a pass for
+    // THIS paper" are different questions, and the copy needs both.
+    const allSeasons = BILLING_LIVE ? (billing?.seasons ?? []) : []
 
     function handleStart() {
         if (!setId) return
@@ -79,12 +82,12 @@ export function SetInstructionsPage() {
                             // one to buy is the student's choice, and the
                             // chooser is already on this page.
                             toast.error(
-                                'This paper is part of the Season Pass — choose a sitting below to unlock it.'
+                                `This paper is part of the ${testName} Season Pass — unlock it below.`
                             )
                             return
                         }
                         toast.error(
-                            'This paper is part of the Season Pass, which launches soon. Set A is free to sit now.'
+                            `This paper is part of the ${testName} Season Pass, which isn’t on sale yet. Set A is free to sit now.`
                         )
                         return
                     }
@@ -131,6 +134,12 @@ export function SetInstructionsPage() {
     const setTest = testFromSubject(
         (preview as { subject?: string | null }).subject
     )
+    // Only the pass that opens this paper. Offering the ESAT pass on a TMUA
+    // page is irrelevant at best, and — when the student holds it — actively
+    // wrong, because it renders as "already covered by your pass" on a paper
+    // that pass does not cover.
+    const seasons = allSeasons.filter((s) => s.test === setTest)
+    const testName = setTest === 'tmua' ? 'TMUA' : 'ESAT'
     const covered = setTest !== undefined && coveredTests.includes(setTest)
     const needsPass = !isFree && !covered
 
@@ -244,10 +253,9 @@ export function SetInstructionsPage() {
                                an attempt that has not begun. */
                             <div className="flex flex-col gap-3">
                                 <p className="text-sm text-gray-600">
-                                    This paper is part of the Season Pass.
-                                    {seasons.length > 1
-                                        ? ' Pick the sitting you’re preparing for — the January pass covers October too.'
-                                        : ''}
+                                    {seasons.length > 0
+                                        ? `This paper is part of the ${testName} Season Pass.`
+                                        : `This paper is part of the ${testName} Season Pass, which isn’t on sale yet. Set A is free to sit in the meantime.`}
                                 </p>
                                 {seasons.length > 0 ? (
                                     <SeasonChoice
@@ -268,7 +276,7 @@ export function SetInstructionsPage() {
                                         variant="outline"
                                         disabled
                                     >
-                                        Season Pass — coming soon
+                                        {testName} Season Pass — coming soon
                                     </Button>
                                 )}
                             </div>

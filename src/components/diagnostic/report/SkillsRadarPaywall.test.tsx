@@ -7,6 +7,7 @@ const SEASONS: SeasonOffer[] = [
     {
         key: 'oct-2026',
         label: 'October 2026',
+        test: 'esat',
         lastDay: '2026-10-16',
         priceAmount: 9900,
         priceCurrency: 'MYR',
@@ -15,6 +16,7 @@ const SEASONS: SeasonOffer[] = [
     {
         key: 'jan-2027',
         label: 'January 2027',
+        test: 'esat',
         lastDay: '2027-01-08',
         priceAmount: 14900,
         priceCurrency: 'MYR',
@@ -78,5 +80,47 @@ describe('SkillsRadarPaywall', () => {
     it('omits the CTA when no handler is given (billing not wired yet)', () => {
         render(<SkillsRadarPaywall subject="ESAT Physics" />)
         expect(screen.queryByText(/Unlock full report/i)).not.toBeInTheDocument()
+    })
+})
+
+describe('offering the right pass', () => {
+    it('offers the TMUA pass on a TMUA report, not the ESAT one', () => {
+        // The caller passes every season on sale. Before the split that was
+        // the same thing as "the pass for this paper"; after it, a TMUA
+        // report offered ESAT — and to a holder of ESAT, offered it as
+        // "already covered by your pass" on a report it does not open.
+        render(
+            <SkillsRadarPaywall
+                subject="TMUA Paper 1"
+                onUnlock={() => {}}
+                seasons={[
+                    { key: 'esat-2026-27', label: 'ESAT Season Pass', test: 'esat',
+                      lastDay: '2027-01-31', priceAmount: 5900, priceCurrency: 'GBP',
+                      alreadyCovered: true },
+                    { key: 'tmua-2026-27', label: 'TMUA Season Pass', test: 'tmua',
+                      lastDay: '2027-01-31', priceAmount: 5900, priceCurrency: 'GBP',
+                      alreadyCovered: false },
+                ]}
+            />
+        )
+        expect(screen.queryByText(/ESAT Season Pass/)).not.toBeInTheDocument()
+        expect(screen.queryByText(/already covered/i)).not.toBeInTheDocument()
+        expect(screen.getByRole('button', { name: /Unlock/i })).toBeInTheDocument()
+    })
+
+    it('shows no buy control when nothing is on sale for this test', () => {
+        // TMUA before its Price exists. An unlock CTA would dead-end.
+        render(
+            <SkillsRadarPaywall
+                subject="TMUA Paper 1"
+                onUnlock={() => {}}
+                seasons={[
+                    { key: 'esat-2026-27', label: 'ESAT Season Pass', test: 'esat',
+                      lastDay: '2027-01-31', priceAmount: 5900, priceCurrency: 'GBP',
+                      alreadyCovered: false },
+                ]}
+            />
+        )
+        expect(screen.queryByRole('button', { name: /Unlock/i })).not.toBeInTheDocument()
     })
 })

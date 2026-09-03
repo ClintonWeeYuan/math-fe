@@ -1,6 +1,7 @@
 import { Lock } from 'lucide-react'
 import { frameworkFor, skillName } from '@/lib/diagnosticSkillFrameworks.ts'
 import { SeasonChoice } from '@/components/billing/SeasonChoice.tsx'
+import { testFromSubject } from '@/lib/diagnosticNextSteps.ts'
 import type { SeasonOffer } from '@/lib/billingApi.ts'
 
 type Props = {
@@ -31,6 +32,13 @@ const DECOY_WIDTHS = [82, 74, 66, 58, 47, 39, 31]
  * so this is a genuine gate and not a CSS trick.
  */
 export function SkillsRadarPaywall({ subject, onUnlock, seasons = [] }: Props) {
+    // Only the pass that opens this paper's test. The caller passes every
+    // season on sale, which was the same thing until the passes were split by
+    // test — after which a TMUA report offered the ESAT pass, and to anyone
+    // holding it, offered it as "already covered by your pass" on a report
+    // that pass does not open.
+    const test = testFromSubject(subject)
+    const offers = seasons.filter((s) => s.test === test)
     // frameworkFor returns null for a subject we don't recognise; fall back
     // to no rows rather than crashing, so the unlock card still renders.
     const framework = frameworkFor(subject) ?? {}
@@ -79,10 +87,10 @@ export function SkillsRadarPaywall({ subject, onUnlock, seasons = [] }: Props) {
                         misconception behind every wrong answer, and the next
                         mock paper.
                     </p>
-                    {onUnlock !== undefined && seasons.length > 0 && (
+                    {onUnlock !== undefined && offers.length > 0 && (
                         <div className="mt-4">
                             <SeasonChoice
-                                seasons={seasons}
+                                seasons={offers}
                                 onChoose={onUnlock}
                                 compact
                             />

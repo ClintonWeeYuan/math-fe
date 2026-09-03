@@ -8,6 +8,7 @@ function season(over: Partial<SeasonOffer> = {}): SeasonOffer {
     return {
         key: '2026-27',
         label: '2026/27 season',
+        test: 'esat',
         lastDay: '2027-01-31',
         priceAmount: 5900,
         priceCurrency: 'GBP',
@@ -29,6 +30,9 @@ function season(over: Partial<SeasonOffer> = {}): SeasonOffer {
 const LATER = season({
     key: '2027-28',
     label: '2027/28 season',
+    // A different test, because that is what a real second offer is: the
+    // component never shows two passes for the same paper.
+    test: 'tmua',
     lastDay: '2028-01-31',
     priceAmount: 6900,
 })

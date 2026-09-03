@@ -13,9 +13,12 @@ import { toDiagnosticApiError } from '@/lib/diagnosticApiError.ts'
 
 /** One buyable season, as GET /billing/me describes it. */
 export type SeasonOffer = {
-    /** "oct-2026" | "jan-2027" — what checkout is called with. */
+    /** "esat-2026-27" — what checkout is called with. */
     key: string
     label: string
+    /** Which test this pass opens: "esat" | "tmua". A paywall shows only the
+     *  offer for the paper being looked at; the others are irrelevant there. */
+    test: string
     /** ISO date (YYYY-MM-DD) of the last day this pass works. */
     lastDay: string
     /** Minor units, straight from Stripe. Null if it could not be read. */
