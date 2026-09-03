@@ -69,6 +69,39 @@ describe('DiagnosticResultsPage', () => {
         expect(screen.getAllByText('2:05').length).toBeGreaterThan(0)
     })
 
+    it('leads with the student name and keeps the email underneath', () => {
+        mockResults.mockReturnValue({
+            data: {
+                rows: [
+                    row({
+                        studentName: 'Aisyah',
+                        school: 'SMK Sungai Maong',
+                        testSitting: 'october_2026',
+                    } as Partial<AdminAttemptResultRow>),
+                ],
+            },
+            isLoading: false,
+        })
+        renderPage()
+        expect(screen.getByText('Aisyah')).toBeInTheDocument()
+        // The email stays: it is the identifier an admin searches by, and two
+        // students can share a first name.
+        expect(screen.getByText('one@x.com')).toBeInTheDocument()
+        expect(screen.getByText('SMK Sungai Maong')).toBeInTheDocument()
+        expect(screen.getByText('October 2026')).toBeInTheDocument()
+    })
+
+    it('falls back to the email for an account with no profile', () => {
+        mockResults.mockReturnValue({ data: { rows: [row()] }, isLoading: false })
+        renderPage()
+        // Not a blank cell where a name would be: the row still has to say who
+        // sat the paper.
+        expect(screen.getByText('one@x.com')).toBeInTheDocument()
+        // School and sitting dash instead. Several cells dash on this row, so
+        // this asserts the count is non-zero rather than that it is exactly one.
+        expect(screen.getAllByText('—').length).toBeGreaterThan(0)
+    })
+
     it('opens the drill-in dialog for the clicked attempt', () => {
         mockResults.mockReturnValue({ data: { rows: [row()] }, isLoading: false })
         renderPage()
