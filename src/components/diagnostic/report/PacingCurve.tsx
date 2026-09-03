@@ -5,7 +5,7 @@ import { formatDuration } from '@/lib/diagnosticReport.ts'
 type Props = {
     perQuestionTime: PerQuestionTime[]
     /** The set's full size, for the whole-paper x-axis. Absent while the
-     * set preview is still loading — the curve degrades to the questions it
+     * set preview is still loading — the chart degrades to the questions it
      * has rather than blocking. */
     questionCount?: number
     width?: number
@@ -13,21 +13,32 @@ type Props = {
 }
 
 /**
- * Pacing curve (§6): engaged time per question across the paper sequence,
- * built to make "rushed the back third" legible — a line encodes slope
- * directly, and the median reference line makes the curve dropping below
- * typical pace toward the end read at a glance. No fabricated trend: real
- * points, straight segments, and a flat curve honestly shows no pattern.
+ * Time per question (§6): engaged seconds across the paper sequence.
+ *
+ * Bars, not a line. This was a line, on the reasoning that slope makes
+ * "rushed the back third" legible — but twenty-seven questions are
+ * independent measurements, and a segment drawn from Q13 to Q14 asserts an
+ * interpolation between them that does not exist. A student does not pass
+ * *through* intermediate durations on the way from one question to the next.
+ * Bars also match what the caption has always promised.
+ *
+ * The change that mattered most was not the marks, though: the chart had no
+ * scale. A tall mark could be ninety seconds or nine minutes and nothing on
+ * screen said which, so the shape was decorative. Two direct labels fix that
+ * — the median line carries its own value, and the slowest question is named
+ * and timed, which is the question a student actually brings here ("what cost
+ * me the time?"). Everything else can be read off those two anchors.
  *
  * Three distinct states, three treatments that can't blur:
- *  - time = y-position (lingered = high, brief = low);
- *  - viewCount = a discrete "×N" revisit tag, never mixed into height, so
- *    thrice-briefly (low + ×3) can't look like once-at-length (high);
- *  - never-reached = a hollow marker with the curve broken around it, NOT
- *    a 0-second point (which would imply rushing, not absence).
+ *  - time = bar height (lingered = tall, brief = short);
+ *  - viewCount = a discrete "×N" revisit tag above the bar, never mixed into
+ *    height, so thrice-briefly can't look like once-at-length;
+ *  - never-reached = a hollow stub on the baseline, NOT a zero-height bar
+ *    (which would read as answered instantly rather than never seen).
  *
  * SVG decorative (aria-hidden); data reaches AT via the visually-hidden
- * <table>.
+ * <table>. Per-bar <title> gives sighted mouse users the exact value, since
+ * a bar chart with no tooltip makes the reader estimate what we already know.
  */
 export function PacingCurve({
     perQuestionTime,
@@ -37,6 +48,8 @@ export function PacingCurve({
 }: Props) {
     const series = buildPacingSeries(perQuestionTime, questionCount)
     const layout = pacingLayout(series, { width, height })
+    const slowest =
+        layout.slowestIndex !== null ? layout.bars[layout.slowestIndex] : null
 
     return (
         <figure className="m-0 flex flex-col gap-2">
@@ -45,17 +58,8 @@ export function PacingCurve({
                 viewBox={`0 0 ${width} ${height}`}
                 className="w-full"
             >
-                {/* baseline */}
-                <line
-                    x1={0}
-                    y1={layout.baselineY}
-                    x2={width}
-                    y2={layout.baselineY}
-                    className="stroke-gray-200 dark:stroke-gray-700"
-                    strokeWidth={1}
-                />
-
-                {/* median "typical pace" reference */}
+                {/* median "typical pace" reference, drawn under the bars so a
+                    tall bar reads as crossing it rather than being cut by it */}
                 {layout.medianY !== null && (
                     <>
                         <line
@@ -67,88 +71,120 @@ export function PacingCurve({
                             strokeWidth={1}
                             strokeDasharray="4 3"
                         />
+                        {/* Left-anchored and above the line. It used to sit on
+                            the right, where the data ran through it. */}
                         <text
-                            x={width - 2}
-                            y={layout.medianY - 3}
-                            textAnchor="end"
-                            className="fill-gray-400 dark:fill-gray-500"
+                            x={0}
+                            y={layout.medianY - 4}
+                            className="fill-gray-500 dark:fill-gray-400 stroke-white dark:stroke-gray-900"
+                            strokeWidth={3}
+                            paintOrder="stroke"
                             fontSize={9}
                         >
-                            typical pace
+                            typical {formatDuration(layout.medianValue ?? 0)}
                         </text>
                     </>
                 )}
 
-                {/* the pacing line — only between adjacent reached questions */}
-                {layout.lines.map((l, i) => (
-                    <line
-                        key={`seg-${i}`}
-                        x1={l.x1}
-                        y1={l.y1}
-                        x2={l.x2}
-                        y2={l.y2}
-                        className="stroke-emerald-500"
-                        strokeWidth={2}
-                        strokeLinecap="round"
-                    />
-                ))}
-
-                {/* nodes: filled dot for reached, hollow marker for not */}
-                {layout.nodes.map((node) =>
-                    node.reached ? (
-                        <g key={`node-${node.position}`}>
-                            <circle
-                                cx={node.x}
-                                cy={node.y as number}
-                                r={3.5}
-                                className="fill-emerald-500"
-                            />
-                            {(node.viewCount ?? 0) > 1 && (
+                {layout.bars.map((bar) =>
+                    bar.reached ? (
+                        <g key={`bar-${bar.position}`}>
+                            <rect
+                                x={bar.x}
+                                y={bar.y}
+                                width={bar.width}
+                                height={bar.height}
+                                rx={Math.min(2, bar.width / 2)}
+                                className={
+                                    bar.isSlowest
+                                        ? 'fill-emerald-600 dark:fill-emerald-400'
+                                        : 'fill-emerald-500/70 dark:fill-emerald-500/60'
+                                }
+                            >
+                                <title>
+                                    {`Q${bar.position} · ${formatDuration(bar.time ?? 0)}`}
+                                    {(bar.viewCount ?? 0) > 1
+                                        ? ` · ${bar.viewCount} visits`
+                                        : ''}
+                                </title>
+                            </rect>
+                            {(bar.viewCount ?? 0) > 1 && (
                                 <text
-                                    x={node.x}
-                                    y={(node.y as number) - 7}
+                                    x={bar.x + bar.width / 2}
+                                    y={bar.y - 3}
                                     textAnchor="middle"
                                     className="fill-gray-500 dark:fill-gray-400"
                                     fontSize={8}
                                 >
-                                    ×{node.viewCount}
+                                    ×{bar.viewCount}
                                 </text>
                             )}
                         </g>
                     ) : (
-                        // Never reached: hollow marker at the baseline, curve
-                        // broken (no segment touches it). Visibly not a data
-                        // point sitting at 0s.
-                        <circle
-                            key={`node-${node.position}`}
-                            cx={node.x}
-                            cy={node.baselineY}
-                            r={3}
-                            className="fill-none stroke-gray-300 dark:stroke-gray-600"
-                            strokeWidth={1.5}
-                        />
+                        // Never reached: a hollow stub on the baseline. Not a
+                        // zero-height bar, which would read as "answered
+                        // instantly" rather than "never seen".
+                        <rect
+                            key={`bar-${bar.position}`}
+                            x={bar.x}
+                            y={layout.baselineY - 2}
+                            width={bar.width}
+                            height={2}
+                            className="fill-gray-200 dark:fill-gray-700"
+                        >
+                            <title>{`Q${bar.position} · not reached`}</title>
+                        </rect>
                     )
                 )}
 
+                {/* The answer to "what cost me the time?", said rather than
+                    left to be estimated off an unlabelled shape. */}
+                {slowest !== null && (
+                    <text
+                        x={Math.min(
+                            Math.max(slowest.x + slowest.width / 2, 34),
+                            width - 34
+                        )}
+                        y={Math.max(slowest.y - 6, 9)}
+                        textAnchor="middle"
+                        className="fill-gray-700 dark:fill-gray-200 stroke-white dark:stroke-gray-900"
+                        strokeWidth={3}
+                        paintOrder="stroke"
+                        fontSize={9}
+                        fontWeight={600}
+                    >
+                        Q{slowest.position} · {formatDuration(slowest.time ?? 0)}
+                    </text>
+                )}
+
+                {/* baseline, over the bar feet so they sit on a line */}
+                <line
+                    x1={0}
+                    y1={layout.baselineY}
+                    x2={width}
+                    y2={layout.baselineY}
+                    className="stroke-gray-200 dark:stroke-gray-700"
+                    strokeWidth={1}
+                />
+
                 {/* x-axis endpoints: start and end of the paper */}
                 <text
-                    x={layout.nodes[0]?.x ?? 0}
+                    x={layout.bars[0]?.x ?? 0}
                     y={height - 8}
-                    textAnchor="middle"
                     className="fill-gray-400 dark:fill-gray-500"
                     fontSize={9}
                 >
                     Q1
                 </text>
-                {layout.nodes.length > 1 && (
+                {layout.bars.length > 1 && (
                     <text
-                        x={layout.nodes[layout.nodes.length - 1].x}
+                        x={width}
                         y={height - 8}
-                        textAnchor="middle"
+                        textAnchor="end"
                         className="fill-gray-400 dark:fill-gray-500"
                         fontSize={9}
                     >
-                        Q{layout.nodes.length}
+                        Q{layout.bars.length}
                     </text>
                 )}
             </svg>

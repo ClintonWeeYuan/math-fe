@@ -248,9 +248,10 @@ export function DiagnosticReportView({
                 <Card>
                     <CardContent className="flex flex-col gap-3 pt-6">
                         <p className="text-sm text-gray-600">
-                            How long you spent on each question, in order. Tall
-                            bars are where you slowed down — useful for spotting
-                            which topics cost you time.
+                            How long you spent on each question, in order.
+                            Taller bars are where you slowed down, and the
+                            dashed line is your typical pace — useful for
+                            spotting which topics cost you time.
                         </p>
                         <PacingCurve
                             perQuestionTime={report.perQuestionTime}

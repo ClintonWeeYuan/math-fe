@@ -92,6 +92,30 @@ export type PacingLayout = {
     baselineY: number
     /** y of the median reference line, or null if nothing was reached. */
     medianY: number | null
+    /** The median in seconds, so the reference line can be labelled with a
+     *  real value. Without it the chart has no scale at all: a tall mark is
+     *  unreadable as 90 seconds or nine minutes. */
+    medianValue: number | null
+    /** Index of the slowest reached question, or null. Direct-labelled,
+     *  because "which question cost me the most time" is the question a
+     *  student actually brings to this chart, and a shape alone cannot
+     *  answer it. */
+    slowestIndex: number | null
+    /** One bar per position. Bars, not a line: twenty-seven questions are
+     *  independent measurements, and a segment drawn from Q13 to Q14 asserts
+     *  an interpolation between them that does not exist. A never-reached
+     *  question is simply absent — no bar to misread as a fast one. */
+    bars: Array<{
+        position: number
+        x: number
+        y: number
+        width: number
+        height: number
+        time: number | null
+        viewCount: number | null
+        reached: boolean
+        isSlowest: boolean
+    }>
     /** One entry per position, in sequence order. */
     nodes: Array<{
         position: number
@@ -112,7 +136,7 @@ export function pacingLayout(
     {
         width = 320,
         height = 180,
-        padding = { top: 18, right: 16, bottom: 26, left: 16 },
+        padding = { top: 26, right: 16, bottom: 26, left: 16 },
     }: {
         width?: number
         height?: number
@@ -154,11 +178,48 @@ export function pacingLayout(
     }))
 
     const median = medianTime(series)
+
+    // Widest bar that still leaves a 2px gap between neighbours, floored so a
+    // 27-question paper does not render hairlines.
+    const slot = n <= 1 ? plotRight - plotLeft : (plotRight - plotLeft) / n
+    const barWidth = Math.max(2, slot - 2)
+
+    let slowestIndex: number | null = null
+    let slowest = -1
+    series.forEach((p, i) => {
+        if (p.time !== null && p.time > slowest) {
+            slowest = p.time
+            slowestIndex = i
+        }
+    })
+
+    const bars = series.map((p, i) => {
+        const reached = p.time !== null
+        const top = reached ? yFor(p.time as number) : baselineY
+        return {
+            position: p.position,
+            // Bars sit in slots rather than on the line's point positions, so
+            // the first and last are fully inside the plot instead of half
+            // hanging off each edge.
+            x: plotLeft + i * slot + (slot - barWidth) / 2,
+            y: top,
+            width: barWidth,
+            height: Math.max(reached ? 1 : 0, baselineY - top),
+            time: p.time,
+            viewCount: p.viewCount,
+            reached,
+            isSlowest: reached && i === slowestIndex,
+        }
+    })
+
     return {
         width,
         height,
         baselineY,
         medianY: median !== null ? yFor(median) : null,
+        medianValue: median,
+        slowestIndex,
+        bars,
         nodes,
         lines,
     }
