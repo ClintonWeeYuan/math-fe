@@ -6,6 +6,9 @@ import useListPublishedSetsQuery from '@/hooks/diagnostic/useListPublishedSetsQu
 import type { DiagnosticTest } from '@/hooks/diagnostic/useListPublishedSetsQuery.ts'
 import type { PublishedDiagnosticSet } from '@/client'
 import { BILLING_LIVE } from '@/lib/billing.ts'
+import { testFromSubject } from '@/lib/diagnosticNextSteps.ts'
+import { useAuth } from '@/components/auth/AuthContext.tsx'
+import useBillingStatusQuery from '@/hooks/billing/useBillingStatusQuery.ts'
 
 /** Whether a set is a mini test. Read through a narrowing because `format` is
  * not in the generated client yet; absent, a set reads as a full paper, which
@@ -96,8 +99,24 @@ const COPY: Record<
  * (/diagnostics), so each admissions test has a page of its own.
  */
 export function DiagnosticsCatalogPage({ test }: Props) {
-    const navigate = useNavigate()
     const copy = COPY[test ?? 'all']
+    const { user } = useAuth()
+
+    // Asked for everyone, signed in or not: the price list is public, and a
+    // visitor deciding whether to make an account is exactly who needs to see
+    // that these papers are on sale rather than "coming soon".
+    const { data: billing } = useBillingStatusQuery({
+        enabled: BILLING_LIVE,
+        signedIn: user !== null,
+    })
+    // Per test, not "holds anything". An ESAT pass does not open a paid
+    // TMUA paper, and a card that says otherwise sends the student into a
+    // 402 they had no warning of.
+    const coveredTests = billing?.coveredTests ?? []
+    // Whether there is anything to sell at all. The catalogue never runs
+    // checkout itself — two priced sittings do not belong in a grid card — so
+    // this only decides between an unlock CTA and "coming soon".
+    const canBuy = BILLING_LIVE && (billing?.seasons?.length ?? 0) > 0
 
     const { data: sets, isLoading } = useListPublishedSetsQuery(test)
     const groups = groupBySubject(sets ?? [])
@@ -198,30 +217,11 @@ export function DiagnosticsCatalogPage({ test }: Props) {
                                         </p>
                                     )}
                                     <div className="mt-auto">
-                                        {s.isFree || BILLING_LIVE ? (
-                                            <Button
-                                                className="cursor-pointer"
-                                                onClick={() =>
-                                                    navigate(
-                                                        `/diagnostic/sets/${s.id}`
-                                                    )
-                                                }
-                                            >
-                                                {!s.isFree
-                                                    ? 'Unlock with Season Pass →'
-                                                    : isMini(s)
-                                                      ? 'Start mini test →'
-                                                      : 'Start diagnostic →'}
-                                            </Button>
-                                        ) : (
-                                            /* Locked but not yet buyable: an
-                                               unlock CTA would dead-end, so
-                                               say so instead of implying a
-                                               purchase path exists. */
-                                            <Button variant="outline" disabled>
-                                                Season Pass — coming soon
-                                            </Button>
-                                        )}
+                                        <SetCta
+                                            set={s}
+                                            coveredTests={coveredTests}
+                                            canBuy={canBuy}
+                                        />
                                     </div>
                                 </div>
                             ))}
@@ -254,5 +254,63 @@ export function DiagnosticsCatalogPage({ test }: Props) {
                 </p>
             </div>
         </LandingLayout>
+    )
+}
+
+/**
+ * The one button on a set card, and the four states behind it.
+ *
+ * A pass holder must never be shown "Unlock with Season Pass" — that was the
+ * trap in the old two-branch version, which keyed off BILLING_LIVE alone and
+ * so offered to sell a second pass to someone who already had one. The order
+ * below is the rule: owning it beats buying it.
+ */
+function SetCta({
+    set,
+    coveredTests,
+    canBuy,
+}: {
+    set: PublishedDiagnosticSet
+    coveredTests: string[]
+    /** Billing is live and at least one sitting is still on sale. */
+    canBuy: boolean
+}) {
+    const navigate = useNavigate()
+    const toStartScreen = () => navigate(`/diagnostic/sets/${set.id}`)
+
+    // Free, or already paid for. The start screen handles the rest.
+    // A set whose subject names no test cannot be matched to a pass. The
+    // server refuses it too, so showing the locked state is the honest
+    // rendering of what would happen rather than a guess.
+    const test = testFromSubject(set.subject)
+    const covered = test !== undefined && coveredTests.includes(test)
+
+    if (set.isFree || covered) {
+        return (
+            <Button className="cursor-pointer" onClick={toStartScreen}>
+                {isMini(set) ? 'Start mini test →' : 'Start diagnostic →'}
+            </Button>
+        )
+    }
+
+    // Locked and not buyable — either billing has not shipped, or every
+    // sitting has passed. An unlock CTA would dead-end, so say so instead of
+    // implying a purchase path exists.
+    if (!canBuy) {
+        return (
+            <Button variant="outline" disabled>
+                Season Pass — coming soon
+            </Button>
+        )
+    }
+
+    // Buyable — but the choice is not made here. There are two sittings, each
+    // with its own price and end date, and a grid card has no room to put that
+    // honestly. The start screen does, and it also shows sample questions and
+    // the sign-in wall, so it is the right place to decide from.
+    return (
+        <Button className="cursor-pointer" onClick={toStartScreen}>
+            Unlock with Season Pass →
+        </Button>
     )
 }

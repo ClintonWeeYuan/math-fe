@@ -6,11 +6,16 @@ import { Card, CardContent } from '@/components/ui/card.tsx'
 import { Checkbox } from '@/components/ui/checkbox.tsx'
 import useGetSetPreviewQuery from '@/hooks/diagnostic/useGetSetPreviewQuery.ts'
 import useStartOrResumeAttemptMutation from '@/hooks/diagnostic/useStartOrResumeAttemptMutation.ts'
+import { testFromSubject } from '@/lib/diagnosticNextSteps.ts'
 import { toast } from 'sonner'
-import { BILLING_LIVE } from '@/lib/billing.ts'
+import { BILLING_LIVE, formatSeasonPrice } from '@/lib/billing.ts'
 import { useAuth } from '@/components/auth/AuthContext.tsx'
 import { samplesFor } from '@/content/diagnosticSamples.mjs'
 import { Link } from 'react-router-dom'
+import useBillingStatusQuery from '@/hooks/billing/useBillingStatusQuery.ts'
+import useStartCheckoutMutation from '@/hooks/billing/useStartCheckoutMutation.ts'
+import { SeasonChoice } from '@/components/billing/SeasonChoice.tsx'
+import type { SeasonOffer } from '@/lib/billingApi.ts'
 
 /**
  * Landing/instructions screen (§2), before an attempt exists. Shows the
@@ -36,6 +41,25 @@ export function SetInstructionsPage() {
     })
     const { mutate: startAttempt, isPending } =
         useStartOrResumeAttemptMutation()
+    const { mutate: startCheckout, isPending: isCheckoutPending } =
+        useStartCheckoutMutation()
+
+    // Only when it can change what this page offers — signed out, or with
+    // billing off, the answer cannot alter the button.
+    const { data: billing } = useBillingStatusQuery({
+        enabled: BILLING_LIVE,
+        signedIn: user !== null,
+    })
+    // Per test. The catalogue has already decided what this card says; the
+    // start screen has to reach the same answer or the two disagree about
+    // the same paper.
+    const coveredTests = billing?.coveredTests ?? []
+    // What is on sale right now. Empty before billing ships and once both
+    // windows have passed — checkout would 409 in that state anyway.
+    // Every season on sale, before narrowing. Kept separate from `seasons`
+    // below because "is anything on sale at all" and "is there a pass for
+    // THIS paper" are different questions, and the copy needs both.
+    const allSeasons = BILLING_LIVE ? (billing?.seasons ?? []) : []
 
     function handleStart() {
         if (!setId) return
@@ -51,10 +75,19 @@ export function SetInstructionsPage() {
                     // student to "try again" would be a lie: retrying can
                     // never work, so say what is actually needed.
                     if ((err as { status?: number }).status === 402) {
+                        if (BILLING_LIVE) {
+                            // Reachable even with the CTA below rendering
+                            // correctly — a pass can expire between the page
+                            // loading and the click. No season is named: which
+                            // one to buy is the student's choice, and the
+                            // chooser is already on this page.
+                            toast.error(
+                                `This paper is part of the ${testName} Season Pass — unlock it below.`
+                            )
+                            return
+                        }
                         toast.error(
-                            BILLING_LIVE
-                                ? 'This paper is part of the Season Pass. Unlock it to sit this mock.'
-                                : 'This paper is part of the Season Pass, which launches soon. Set A is free to sit now.'
+                            `This paper is part of the ${testName} Season Pass, which isn’t on sale yet. Set A is free to sit now.`
                         )
                         return
                     }
@@ -89,6 +122,26 @@ export function SetInstructionsPage() {
     // regenerating it here would drag a whole generator-version migration into
     // a change about one page. Absent, this reads as a full paper.
     const isMini = (preview as { format?: 'mini' | 'full' }).format === 'mini'
+    // Narrowed for the same reason as `format` and `subject` above: the
+    // generated client predates the field. Absent, a set reads as free —
+    // which shows "Start", and the server still refuses a paid one with a
+    // 402 that the handler below turns into an unlock.
+    const isFree = (preview as { isFree?: boolean }).isFree !== false
+    // The Season Pass stands between this student and this paper.
+    // Narrowed the same way isFree is, and for the same reason: the
+    // generated client predates the field, and regenerating rewrites ~1500
+    // lines. The server does send it.
+    const setTest = testFromSubject(
+        (preview as { subject?: string | null }).subject
+    )
+    // Only the pass that opens this paper. Offering the ESAT pass on a TMUA
+    // page is irrelevant at best, and — when the student holds it — actively
+    // wrong, because it renders as "already covered by your pass" on a paper
+    // that pass does not cover.
+    const seasons = allSeasons.filter((s) => s.test === setTest)
+    const testName = setTest === 'tmua' ? 'TMUA' : 'ESAT'
+    const covered = setTest !== undefined && coveredTests.includes(setTest)
+    const needsPass = !isFree && !covered
 
     return (
         <div className="mx-auto mt-12 flex max-w-2xl flex-col gap-6 px-4">
@@ -149,6 +202,11 @@ export function SetInstructionsPage() {
                 <SignInToSit
                     minutes={preview.timeLimitMinutes}
                     isMini={isMini}
+                    // A paid paper needs more than an account, and the
+                    // catalogue has already promised "Unlock with Season
+                    // Pass" to get them here. Saying only "sign in to start"
+                    // would spring the price on them one screen later.
+                    seasons={isFree ? [] : seasons}
                     // The generated client predates this field. Regenerating
                     // it here would pull in a whole generator-version
                     // migration — 15 files — into a change about one page, so
@@ -185,18 +243,57 @@ export function SetInstructionsPage() {
                     </label>
 
                     <div>
-                        <Button
-                            type="button"
-                            size="lg"
-                            disabled={!agreed || isPending}
-                            onClick={handleStart}
-                        >
-                            {isPending
-                                ? 'Starting…'
-                                : isMini
-                                  ? 'Start mini test'
-                                  : 'Start diagnostic'}
-                        </Button>
+                        {needsPass ? (
+                            /* A paid paper this student does not own. Starting
+                               it can only ever 402, so the button says what
+                               actually has to happen instead of failing and
+                               then explaining. The agreement checkbox does not
+                               gate this one: they are being asked to buy, not
+                               to sit, and the checkbox is about conduct during
+                               an attempt that has not begun. */
+                            <div className="flex flex-col gap-3">
+                                <p className="text-sm text-gray-600">
+                                    {seasons.length > 0
+                                        ? `This paper is part of the ${testName} Season Pass.`
+                                        : `This paper is part of the ${testName} Season Pass, which isn’t on sale yet. Set A is free to sit in the meantime.`}
+                                </p>
+                                {seasons.length > 0 ? (
+                                    <SeasonChoice
+                                        seasons={seasons}
+                                        isPending={isCheckoutPending}
+                                        onChoose={(season) =>
+                                            startCheckout({ season })
+                                        }
+                                    />
+                                ) : (
+                                    /* Nothing on sale: an unlock CTA would
+                                       dead-end, so say so rather than imply a
+                                       purchase path exists. */
+                                    <Button
+                                        type="button"
+                                        size="lg"
+                                        className="self-start"
+                                        variant="outline"
+                                        disabled
+                                    >
+                                        {testName} Season Pass — coming soon
+                                    </Button>
+                                )}
+                            </div>
+                        ) : (
+                            <Button
+                                type="button"
+                                size="lg"
+                                disabled={!agreed || isPending}
+                                onClick={handleStart}
+                            >
+                                {isPending
+                                    ? 'Starting…'
+                                    : isMini
+                                      ? 'Start mini test'
+                                      : 'Start diagnostic'}
+                            </Button>
+                        )}
                     </div>
                 </>
             )}
@@ -215,8 +312,12 @@ function SignInToSit({
     subject,
     minutes,
     isMini,
+    seasons,
 }: {
     subject?: string | null
+    /** On-sale seasons, when this paper is behind the Season Pass. Empty for
+     *  a free paper, or when there is nothing on sale. */
+    seasons: SeasonOffer[]
     /** This paper's real time limit. Was hardcoded as 40, which is right for
      * an ESAT module and wrong for a 15-minute mini and a 75-minute TMUA
      * paper. */
@@ -277,6 +378,23 @@ function SignInToSit({
                         The timer runs once and cannot be paused, so we save
                         your place and your report to an account.
                     </p>
+                    {seasons.length > 0 && (
+                        <div className="rounded-md border bg-slate-50 px-3 py-2 text-sm text-gray-600">
+                            This paper is part of the Season Pass:{' '}
+                            {seasons
+                                .map((season) => {
+                                    const price = formatSeasonPrice(
+                                        season.priceAmount,
+                                        season.priceCurrency
+                                    )
+                                    return price
+                                        ? `${season.label} ${price}`
+                                        : season.label
+                                })
+                                .join(' or ')}
+                            . You&apos;ll pick a sitting after signing in.
+                        </div>
+                    )}
                     <div>
                         <Button
                             type="button"

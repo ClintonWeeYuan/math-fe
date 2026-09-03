@@ -55,6 +55,7 @@ import { DiagnosticQuestionEditPage } from '@/pages/Admin/Diagnostic/DiagnosticQ
 import { SetInstructionsPage } from '@/pages/Diagnostic/SetInstructionsPage.tsx'
 import { ExamPage } from '@/pages/Diagnostic/ExamPage.tsx'
 import { DiagnosticReportPage } from '@/pages/Diagnostic/DiagnosticReportPage.tsx'
+import { CheckoutReturnPage } from '@/pages/Billing/CheckoutReturnPage.tsx'
 
 /** The v2 quiz routes are retired: the guided-quiz UI only works for
  * subjects with authored MCQ options (Modern Maths: 507/513; Add Math:
@@ -207,6 +208,13 @@ function App() {
                     <Route
                         path="diagnostic/attempts/:attemptId/report"
                         element={<DiagnosticReportPage />}
+                    />
+                    {/* Where Stripe redirects after checkout. Signed-in only
+                        — it asks "does this account hold a pass now?", which
+                        is meaningless without an account. */}
+                    <Route
+                        path="billing/return"
+                        element={<CheckoutReturnPage />}
                     />
                 </Route>
                 <Route path="admin/login" element={<AdminLoginPage />} />

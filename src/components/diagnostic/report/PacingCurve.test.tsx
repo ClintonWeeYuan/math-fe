@@ -24,22 +24,48 @@ describe('PacingCurve', () => {
         expect(within(q3).getAllByRole('cell')[0]).not.toHaveTextContent('0:00')
     })
 
-    it('draws a filled dot per reached question and a hollow marker per never-reached', () => {
+    it('draws a bar per reached question and a baseline stub per never-reached', () => {
         const { container } = render(
             <PacingCurve perQuestionTime={[t(0, 30), t(2, 15)]} questionCount={4} />
         )
-        // 2 reached -> 2 filled dots; 2 never-reached -> 2 hollow markers.
-        expect(container.querySelectorAll('circle.fill-emerald-500')).toHaveLength(2)
-        expect(container.querySelectorAll('circle.fill-none')).toHaveLength(2)
+        // 2 reached -> 2 emerald bars; 2 never-reached -> 2 grey stubs.
+        const rects = [...container.querySelectorAll('rect')]
+        const bars = rects.filter((r) => r.getAttribute('class')?.includes('emerald'))
+        const stubs = rects.filter((r) => r.getAttribute('class')?.includes('gray'))
+        expect(bars).toHaveLength(2)
+        expect(stubs).toHaveLength(2)
     })
 
-    it('breaks the line at a never-reached question — no segment spans the gap', () => {
-        // Q1, Q2 reached & adjacent -> one segment; Q3 never reached; Q4
-        // reached but isolated -> no further segment.
+    it('gives a never-reached question a flat stub, never a zero-height bar', () => {
+        // The distinction the whole three-state model exists for: "never saw
+        // it" must not render as "answered it instantly".
         const { container } = render(
             <PacingCurve perQuestionTime={[t(0, 30), t(1, 20), t(3, 10)]} questionCount={4} />
         )
-        expect(container.querySelectorAll('line.stroke-emerald-500')).toHaveLength(1)
+        const stubs = [...container.querySelectorAll('rect')].filter((r) =>
+            r.getAttribute('class')?.includes('gray')
+        )
+        expect(stubs).toHaveLength(1)
+        expect(stubs[0].getAttribute('height')).toBe('2')
+        expect(stubs[0].querySelector('title')?.textContent).toContain('not reached')
+    })
+
+    it('names and times the slowest question, so the peak is not left to be estimated', () => {
+        const { container } = render(
+            <PacingCurve perQuestionTime={[t(0, 30), t(1, 260), t(2, 10)]} questionCount={3} />
+        )
+        const labels = [...container.querySelectorAll('text')].map((n) => n.textContent)
+        expect(labels).toContain('Q2 · 4:20')
+    })
+
+    it('puts the exact value on every bar for a mouse reader', () => {
+        const { container } = render(
+            <PacingCurve perQuestionTime={[t(0, 90, 2)]} questionCount={1} />
+        )
+        const title = container.querySelector('rect title')?.textContent
+        expect(title).toContain('Q1')
+        expect(title).toContain('1:30')
+        expect(title).toContain('2 visits')
     })
 
     it('tags revisited questions with ×N (viewCount as a discrete mark, not height)', () => {
@@ -56,10 +82,17 @@ describe('PacingCurve', () => {
         const { container } = render(
             <PacingCurve perQuestionTime={[t(0, 10), t(1, 20), t(2, 30)]} questionCount={3} />
         )
-        expect(container.querySelector('text')?.ownerSVGElement).toBeTruthy()
-        expect([...container.querySelectorAll('text')].map((n) => n.textContent)).toContain(
-            'typical pace'
+        // The dashed line is in the plot; its value is named in the legend
+        // below, where no bar can sit on top of it. Both must be present —
+        // the line without a number gives the chart no scale at all.
+        expect(container.querySelector('line[stroke-dasharray]')).toBeTruthy()
+        expect(container.textContent).toContain('Typical pace 0:20 per question')
+        // And specifically NOT inside the SVG, which is where it used to
+        // collide with a slow first question.
+        const svgText = [...container.querySelectorAll('svg text')].map(
+            (n) => n.textContent
         )
+        expect(svgText.join(' ')).not.toContain('Typical')
     })
 
     it('hides the decorative SVG from assistive tech', () => {

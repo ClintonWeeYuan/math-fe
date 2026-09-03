@@ -47,6 +47,13 @@ ENV VITE_MICROSOFT_TENANT=$VITE_MICROSOFT_TENANT
 ARG VITE_BACKEND_URL
 ENV VITE_BACKEND_URL=$VITE_BACKEND_URL
 
+# Whether the Season Pass can be bought. Absent (the default) the
+# paid papers say "coming soon" rather than offering a checkout that
+# the backend may not be configured to serve. Set to the string
+# "true" — and only once the Stripe keys are set on the backend.
+ARG VITE_BILLING_LIVE
+ENV VITE_BILLING_LIVE=$VITE_BILLING_LIVE
+
 # Build the app
 RUN pnpm run build
 

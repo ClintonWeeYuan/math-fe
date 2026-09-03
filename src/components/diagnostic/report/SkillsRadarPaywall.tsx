@@ -1,12 +1,19 @@
 import { Lock } from 'lucide-react'
-import { Button } from '@/components/ui/button.tsx'
 import { frameworkFor, skillName } from '@/lib/diagnosticSkillFrameworks.ts'
+import { SeasonChoice } from '@/components/billing/SeasonChoice.tsx'
+import { testFromSubject } from '@/lib/diagnosticNextSteps.ts'
+import type { SeasonOffer } from '@/lib/billingApi.ts'
 
 type Props = {
     /** The set's subject, so the axis labels are this test's real skills. */
     subject?: string | null
-    /** Opens checkout. Wired once billing ships; omit to render the CTA inert. */
-    onUnlock?: () => void
+    /** Opens checkout for one season. Wired once billing ships; omit — or
+     *  pass no seasons — to render the card without any CTA. */
+    onUnlock?: (seasonKey: string) => void
+    /** The seasons on sale. Each button states its own end date and price;
+     *  what is being sold is access until a date, and the point of sale is
+     *  where that has to be said. */
+    seasons?: SeasonOffer[]
 }
 
 /** Plausible-looking bar widths so the blurred shape reads as a real result
@@ -24,7 +31,14 @@ const DECOY_WIDTHS = [82, 74, 66, 58, 47, 39, 31]
  * browser: the report endpoint withholds them server-side for the free tier,
  * so this is a genuine gate and not a CSS trick.
  */
-export function SkillsRadarPaywall({ subject, onUnlock }: Props) {
+export function SkillsRadarPaywall({ subject, onUnlock, seasons = [] }: Props) {
+    // Only the pass that opens this paper's test. The caller passes every
+    // season on sale, which was the same thing until the passes were split by
+    // test — after which a TMUA report offered the ESAT pass, and to anyone
+    // holding it, offered it as "already covered by your pass" on a report
+    // that pass does not open.
+    const test = testFromSubject(subject)
+    const offers = seasons.filter((s) => s.test === test)
     // frameworkFor returns null for a subject we don't recognise; fall back
     // to no rows rather than crashing, so the unlock card still renders.
     const framework = frameworkFor(subject) ?? {}
@@ -73,13 +87,14 @@ export function SkillsRadarPaywall({ subject, onUnlock }: Props) {
                         misconception behind every wrong answer, and the next
                         mock paper.
                     </p>
-                    {onUnlock !== undefined && (
-                        <Button
-                            className="mt-4 w-full cursor-pointer"
-                            onClick={onUnlock}
-                        >
-                            Unlock full report →
-                        </Button>
+                    {onUnlock !== undefined && offers.length > 0 && (
+                        <div className="mt-4">
+                            <SeasonChoice
+                                seasons={offers}
+                                onChoose={onUnlock}
+                                compact
+                            />
+                        </div>
                     )}
                     <p className="mt-3 text-xs text-gray-400">
                         Your score and timing above stay free.
