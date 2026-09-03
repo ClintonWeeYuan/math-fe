@@ -82,12 +82,17 @@ describe('PacingCurve', () => {
         const { container } = render(
             <PacingCurve perQuestionTime={[t(0, 10), t(1, 20), t(2, 30)]} questionCount={3} />
         )
-        // Labelled with the value, not just named: without a number on it the
-        // chart has no scale at all and a tall bar could be anything.
-        expect(container.querySelector('text')?.ownerSVGElement).toBeTruthy()
-        expect([...container.querySelectorAll('text')].map((n) => n.textContent)).toContain(
-            'typical 0:20'
+        // The dashed line is in the plot; its value is named in the legend
+        // below, where no bar can sit on top of it. Both must be present —
+        // the line without a number gives the chart no scale at all.
+        expect(container.querySelector('line[stroke-dasharray]')).toBeTruthy()
+        expect(container.textContent).toContain('Typical pace 0:20 per question')
+        // And specifically NOT inside the SVG, which is where it used to
+        // collide with a slow first question.
+        const svgText = [...container.querySelectorAll('svg text')].map(
+            (n) => n.textContent
         )
+        expect(svgText.join(' ')).not.toContain('Typical')
     })
 
     it('hides the decorative SVG from assistive tech', () => {

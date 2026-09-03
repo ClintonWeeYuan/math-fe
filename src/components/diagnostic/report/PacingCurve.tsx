@@ -62,6 +62,8 @@ export function PacingCurve({
                     tall bar reads as crossing it rather than being cut by it */}
                 {layout.medianY !== null && (
                     <>
+                        {/* Unlabelled here on purpose — the value is named in
+                            the legend below, where no bar can sit on it. */}
                         <line
                             x1={0}
                             y1={layout.medianY}
@@ -71,18 +73,6 @@ export function PacingCurve({
                             strokeWidth={1}
                             strokeDasharray="4 3"
                         />
-                        {/* Left-anchored and above the line. It used to sit on
-                            the right, where the data ran through it. */}
-                        <text
-                            x={0}
-                            y={layout.medianY - 4}
-                            className="fill-gray-500 dark:fill-gray-400 stroke-white dark:stroke-gray-900"
-                            strokeWidth={3}
-                            paintOrder="stroke"
-                            fontSize={9}
-                        >
-                            typical {formatDuration(layout.medianValue ?? 0)}
-                        </text>
                     </>
                 )}
 
@@ -188,6 +178,21 @@ export function PacingCurve({
                     </text>
                 )}
             </svg>
+
+            {/* The reference line's value, named outside the plot. Every
+                in-plot position for it is one that some paper's bars occupy —
+                left collides with a slow first question, right with a slow
+                last one — and a halo only makes such a collision legible
+                rather than absent. */}
+            {layout.medianValue !== null && (
+                <p className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
+                    <span
+                        aria-hidden="true"
+                        className="inline-block h-0 w-6 shrink-0 border-t border-dashed border-gray-400 dark:border-gray-500"
+                    />
+                    Typical pace {formatDuration(layout.medianValue)} per question
+                </p>
+            )}
 
             {/* Accessible equivalent — the SVG carries no data to AT. */}
             <table className="sr-only">
