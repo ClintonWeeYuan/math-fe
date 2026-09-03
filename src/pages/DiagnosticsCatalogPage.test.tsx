@@ -10,8 +10,11 @@ const mockNavigate = vi.fn()
 /** Flipped per test. A module constant read at import time, so it has to be
  *  reached through a getter rather than reassigned on the real module. */
 let billingLive = false
-/** What GET /billing/me would answer for the signed-in student. */
-let hasPass = false
+/** Which tests the signed-in student holds a live pass for. Not a single
+ *  boolean, because that is precisely the bug: passes are per test, and a
+ *  catalogue keyed on "holds anything" offered an ESAT holder a paid TMUA
+ *  paper and let the server refuse it. */
+let coveredTests: string[] = []
 /** Whether anything is still on sale. */
 let seasonsOnSale = true
 /** Whether anyone is signed in at all. */
@@ -32,7 +35,8 @@ vi.mock('@/hooks/billing/useBillingStatusQuery.ts', () => ({
     default: ({ enabled }: { enabled?: boolean } = {}) => ({
         data: enabled
             ? {
-                  hasPass,
+                  hasPass: coveredTests.length > 0,
+                  coveredTests,
                   seasons: seasonsOnSale
                       ? [
                             {
@@ -81,7 +85,7 @@ describe('DiagnosticsCatalogPage', () => {
         mockSets.mockReset()
         mockNavigate.mockReset()
         billingLive = false
-        hasPass = false
+        coveredTests = []
         signedIn = false
         seasonsOnSale = true
     })
@@ -122,6 +126,16 @@ describe('DiagnosticsCatalogPage', () => {
     })
 })
 
+/** A paid set from the other test, to prove a pass does not leak across. */
+function paidTmuaSet() {
+    return {
+        ...paidSet(),
+        id: 'set-tmua-paid',
+        title: 'TMUA Paper 1 — Diagnostic Set B',
+        subject: 'TMUA Paper 1',
+    }
+}
+
 /** A paid set — the only kind whose CTA depends on billing state. */
 function paidSet() {
     return {
@@ -140,7 +154,7 @@ describe('the CTA on a paid set', () => {
         mockSets.mockReset()
         mockNavigate.mockReset()
         billingLive = false
-        hasPass = false
+        coveredTests = []
         signedIn = false
         seasonsOnSale = true
         mockSets.mockReturnValue({ data: [paidSet()], isLoading: false })
@@ -173,7 +187,7 @@ describe('the CTA on a paid set', () => {
         // again.
         billingLive = true
         signedIn = true
-        hasPass = true
+        coveredTests = ['esat']
         renderPage()
         expect(
             screen.queryByRole('button', { name: /Unlock with Season Pass/i })
@@ -182,6 +196,51 @@ describe('the CTA on a paid set', () => {
             screen.getByRole('button', { name: /Start diagnostic/i })
         )
         expect(mockNavigate).toHaveBeenCalledWith('/diagnostic/sets/set-paid')
+    })
+
+    it('does not let an ESAT pass unlock a paid TMUA paper', () => {
+        // Found by walking the real flow: buying ESAT made every paid TMUA
+        // card read "Start diagnostic". The attempt itself was still refused
+        // with a 402, so nothing was given away — but the card promised
+        // something the server would not honour, and the student found out by
+        // clicking it.
+        billingLive = true
+        signedIn = true
+        coveredTests = ['esat']
+        mockSets.mockReturnValue({ data: [paidTmuaSet()], isLoading: false })
+        renderPage()
+        expect(
+            screen.getByRole('button', { name: /Unlock with Season Pass/i })
+        ).toBeInTheDocument()
+        expect(
+            screen.queryByRole('button', { name: /Start diagnostic/i })
+        ).not.toBeInTheDocument()
+    })
+
+    it('unlocks a paid TMUA paper for someone holding the TMUA pass', () => {
+        // The other direction, so the test above is proving scoping rather
+        // than just that TMUA is always locked.
+        billingLive = true
+        signedIn = true
+        coveredTests = ['tmua']
+        mockSets.mockReturnValue({ data: [paidTmuaSet()], isLoading: false })
+        renderPage()
+        expect(
+            screen.getByRole('button', { name: /Start diagnostic/i })
+        ).toBeInTheDocument()
+    })
+
+    it('unlocks both for a comped pass', () => {
+        // Comps predate the split and carry no test, so they arrive as every
+        // test there is.
+        billingLive = true
+        signedIn = true
+        coveredTests = ['esat', 'tmua']
+        mockSets.mockReturnValue({ data: [paidTmuaSet()], isLoading: false })
+        renderPage()
+        expect(
+            screen.getByRole('button', { name: /Start diagnostic/i })
+        ).toBeInTheDocument()
     })
 
     it('sends a signed-out visitor to the start screen too', () => {
@@ -211,7 +270,7 @@ describe('the CTA on a paid set', () => {
         // someone who paid for it.
         billingLive = true
         signedIn = true
-        hasPass = true
+        coveredTests = ['esat']
         seasonsOnSale = false
         renderPage()
         expect(

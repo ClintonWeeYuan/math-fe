@@ -6,6 +6,7 @@ import { Card, CardContent } from '@/components/ui/card.tsx'
 import { Checkbox } from '@/components/ui/checkbox.tsx'
 import useGetSetPreviewQuery from '@/hooks/diagnostic/useGetSetPreviewQuery.ts'
 import useStartOrResumeAttemptMutation from '@/hooks/diagnostic/useStartOrResumeAttemptMutation.ts'
+import { testFromSubject } from '@/lib/diagnosticNextSteps.ts'
 import { toast } from 'sonner'
 import { BILLING_LIVE, formatSeasonPrice } from '@/lib/billing.ts'
 import { useAuth } from '@/components/auth/AuthContext.tsx'
@@ -49,7 +50,10 @@ export function SetInstructionsPage() {
         enabled: BILLING_LIVE,
         signedIn: user !== null,
     })
-    const hasPass = billing?.hasPass === true
+    // Per test. The catalogue has already decided what this card says; the
+    // start screen has to reach the same answer or the two disagree about
+    // the same paper.
+    const coveredTests = billing?.coveredTests ?? []
     // What is on sale right now. Empty before billing ships and once both
     // windows have passed — checkout would 409 in that state anyway.
     const seasons = BILLING_LIVE ? (billing?.seasons ?? []) : []
@@ -121,7 +125,14 @@ export function SetInstructionsPage() {
     // 402 that the handler below turns into an unlock.
     const isFree = (preview as { isFree?: boolean }).isFree !== false
     // The Season Pass stands between this student and this paper.
-    const needsPass = !isFree && !hasPass
+    // Narrowed the same way isFree is, and for the same reason: the
+    // generated client predates the field, and regenerating rewrites ~1500
+    // lines. The server does send it.
+    const setTest = testFromSubject(
+        (preview as { subject?: string | null }).subject
+    )
+    const covered = setTest !== undefined && coveredTests.includes(setTest)
+    const needsPass = !isFree && !covered
 
     return (
         <div className="mx-auto mt-12 flex max-w-2xl flex-col gap-6 px-4">

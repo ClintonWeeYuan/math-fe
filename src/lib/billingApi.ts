@@ -27,8 +27,13 @@ export type SeasonOffer = {
 }
 
 export type BillingStatus = {
-    /** Any live pass, from any season. What the paywall keys off. */
+    /** Any live pass, for any test. Right for the report's radar card and the
+     *  return page, both of which only ask whether anything was bought. */
     hasPass: boolean
+    /** The tests a live pass is held for — "esat", "tmua", or both. What a
+     *  catalogue card must key off: passes are per test, so hasPass alone
+     *  would show Start on a paid TMUA paper to someone holding only ESAT. */
+    coveredTests: string[]
     /** On sale right now, soonest first. Empty means nothing to sell. */
     seasons: SeasonOffer[]
 }

@@ -6,6 +6,7 @@ import useListPublishedSetsQuery from '@/hooks/diagnostic/useListPublishedSetsQu
 import type { DiagnosticTest } from '@/hooks/diagnostic/useListPublishedSetsQuery.ts'
 import type { PublishedDiagnosticSet } from '@/client'
 import { BILLING_LIVE } from '@/lib/billing.ts'
+import { testFromSubject } from '@/lib/diagnosticNextSteps.ts'
 import { useAuth } from '@/components/auth/AuthContext.tsx'
 import useBillingStatusQuery from '@/hooks/billing/useBillingStatusQuery.ts'
 
@@ -108,7 +109,10 @@ export function DiagnosticsCatalogPage({ test }: Props) {
         enabled: BILLING_LIVE,
         signedIn: user !== null,
     })
-    const hasPass = billing?.hasPass === true
+    // Per test, not "holds anything". An ESAT pass does not open a paid
+    // TMUA paper, and a card that says otherwise sends the student into a
+    // 402 they had no warning of.
+    const coveredTests = billing?.coveredTests ?? []
     // Whether there is anything to sell at all. The catalogue never runs
     // checkout itself — two priced sittings do not belong in a grid card — so
     // this only decides between an unlock CTA and "coming soon".
@@ -215,7 +219,7 @@ export function DiagnosticsCatalogPage({ test }: Props) {
                                     <div className="mt-auto">
                                         <SetCta
                                             set={s}
-                                            hasPass={hasPass}
+                                            coveredTests={coveredTests}
                                             canBuy={canBuy}
                                         />
                                     </div>
@@ -263,11 +267,11 @@ export function DiagnosticsCatalogPage({ test }: Props) {
  */
 function SetCta({
     set,
-    hasPass,
+    coveredTests,
     canBuy,
 }: {
     set: PublishedDiagnosticSet
-    hasPass: boolean
+    coveredTests: string[]
     /** Billing is live and at least one sitting is still on sale. */
     canBuy: boolean
 }) {
@@ -275,7 +279,13 @@ function SetCta({
     const toStartScreen = () => navigate(`/diagnostic/sets/${set.id}`)
 
     // Free, or already paid for. The start screen handles the rest.
-    if (set.isFree || hasPass) {
+    // A set whose subject names no test cannot be matched to a pass. The
+    // server refuses it too, so showing the locked state is the honest
+    // rendering of what would happen rather than a guess.
+    const test = testFromSubject(set.subject)
+    const covered = test !== undefined && coveredTests.includes(test)
+
+    if (set.isFree || covered) {
         return (
             <Button className="cursor-pointer" onClick={toStartScreen}>
                 {isMini(set) ? 'Start mini test →' : 'Start diagnostic →'}
