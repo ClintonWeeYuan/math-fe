@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Download, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
@@ -6,6 +6,13 @@ import { AdminLayout } from '@/components/layout/AdminLayout.tsx'
 import { Badge } from '@/components/ui/badge.tsx'
 import { Button } from '@/components/ui/button.tsx'
 import { Checkbox } from '@/components/ui/checkbox.tsx'
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select.tsx'
 import {
     Table,
     TableBody,
@@ -19,6 +26,18 @@ import useBulkDeleteAttemptsMutation from '@/hooks/diagnostic/useBulkDeleteAttem
 import { AttemptDetailDialog } from '@/components/diagnostic/AttemptDetailDialog.tsx'
 import { downloadResultsCsv } from '@/lib/diagnosticResultsCsv.ts'
 import { profileOf, sittingLabel } from '@/lib/adminStudentProfile.ts'
+import {
+    ANY,
+    NO_FILTERS,
+    applyResultsFilters,
+    countsOf,
+    reconcileFilters,
+    setFacets,
+    studentsInBothTests,
+    subjectFacets,
+    testFacets,
+    type ResultsFilters,
+} from '@/lib/adminResultsFilters.ts'
 import type { AdminAttemptResultRow } from '@/client'
 
 function fmtTime(seconds: number): string {
@@ -50,6 +69,14 @@ function statusVariant(status: AdminAttemptResultRow['status']) {
     return 'outline' // in_progress / abandoned
 }
 
+/** "3 students · 7 attempts", with the singulars right — this line is read as
+ *  a sentence, and "1 students" undermines every other number on the page. */
+function countsLabel(counts: { students: number; attempts: number }): string {
+    const s = `${counts.students} student${counts.students === 1 ? '' : 's'}`
+    const a = `${counts.attempts} attempt${counts.attempts === 1 ? '' : 's'}`
+    return `${s} · ${a}`
+}
+
 /**
  * Collect the results of everyone who has attempted a diagnostic: one row per
  * attempt (student, set, score, completion, time), a CSV export, a click-
@@ -64,12 +91,48 @@ export function DiagnosticResultsPage() {
     // toggle exists because "was that us?" needs an answer, not a filter that
     // silently drops the evidence.
     const [showInternal, setShowInternal] = useState(false)
-    const allRows = data?.rows ?? []
-    const rows = showInternal ? allRows : allRows.filter((r) => !isInternal(r))
+    const allRows = useMemo(() => data?.rows ?? [], [data])
+    // The internal toggle is applied first, so every count below — tab
+    // totals, dropdown counts, the summary line — describes what is actually
+    // on screen. Facets computed over hidden rows would offer a subject that
+    // filters to nothing.
+    const visibleRows = useMemo(
+        () => (showInternal ? allRows : allRows.filter((r) => !isInternal(r))),
+        [allRows, showInternal]
+    )
     const internalCount = allRows.filter(isInternal).length
 
     const [openAttempt, setOpenAttempt] = useState<string | null>(null)
     const [selected, setSelected] = useState<Set<string>>(new Set())
+    const [filters, setFilters] = useState<ResultsFilters>(NO_FILTERS)
+    const rows = useMemo(
+        () => applyResultsFilters(visibleRows, filters),
+        [visibleRows, filters]
+    )
+
+    const tests = useMemo(() => testFacets(visibleRows), [visibleRows])
+    const subjects = useMemo(
+        () => subjectFacets(visibleRows, filters.test),
+        [visibleRows, filters.test]
+    )
+    const sets = useMemo(
+        () => setFacets(visibleRows, filters.test, filters.subject),
+        [visibleRows, filters.test, filters.subject]
+    )
+    const totals = useMemo(() => countsOf(visibleRows), [visibleRows])
+    const shown = useMemo(() => countsOf(rows), [rows])
+    const bothTests = useMemo(() => studentsInBothTests(visibleRows), [visibleRows])
+    const isFiltered =
+        filters.test !== ANY || filters.subject !== ANY || filters.setId !== ANY
+
+    /** Every filter change clears the selection, for the same reason the
+     *  internal toggle does: a row selected and then filtered out stays
+     *  selected while off-screen, and "Delete selected" would take it. */
+    function changeFilters(next: ResultsFilters) {
+        setFilters(reconcileFilters(visibleRows, next))
+        setSelected(new Set())
+    }
+
     const { mutate: bulkDelete, isPending: isDeleting } =
         useBulkDeleteAttemptsMutation()
 
@@ -125,13 +188,17 @@ export function DiagnosticResultsPage() {
                             report.
                         </p>
                     </div>
+                    {/* Exports what is on screen, not the whole table — an
+                        admin who has filtered to TMUA wants the TMUA rows. The
+                        label says so, because a file that quietly held more
+                        than the view would be discovered in a spreadsheet. */}
                     <Button
                         variant="outline"
                         disabled={rows.length === 0}
                         onClick={() => downloadResultsCsv(rows)}
                     >
                         <Download className="mr-2 h-4 w-4" />
-                        Download CSV
+                        {isFiltered ? 'Download CSV (filtered)' : 'Download CSV'}
                     </Button>
                 </div>
 
@@ -160,6 +227,143 @@ export function DiagnosticResultsPage() {
                     </div>
                 )}
 
+                {!isLoading && allRows.length > 0 && (
+                    <div className="flex flex-col gap-3 rounded-md border border-gray-200 p-3 dark:border-gray-800">
+                        {/* The ESAT/TMUA split. Both counts are on screen at
+                            once, so "how many sat each" is answered without
+                            clicking anything; clicking narrows the table. A
+                            test nobody has sat gets no tab. */}
+                        <div className="flex flex-wrap items-center gap-2">
+                            <span className="mr-1 text-sm font-medium">Test</span>
+                            <Button
+                                size="sm"
+                                variant={filters.test === ANY ? 'default' : 'outline'}
+                                aria-pressed={filters.test === ANY}
+                                onClick={() =>
+                                    changeFilters({ ...filters, test: ANY })
+                                }
+                            >
+                                All
+                                <span className="ml-2 text-xs opacity-70">
+                                    {totals.students}
+                                </span>
+                            </Button>
+                            {tests.map((t) => (
+                                <Button
+                                    key={t.value}
+                                    size="sm"
+                                    variant={
+                                        filters.test === t.value ? 'default' : 'outline'
+                                    }
+                                    aria-pressed={filters.test === t.value}
+                                    onClick={() =>
+                                        changeFilters({
+                                            ...filters,
+                                            test: t.value as ResultsFilters['test'],
+                                        })
+                                    }
+                                >
+                                    {t.label}
+                                    <span className="ml-2 text-xs opacity-70">
+                                        {t.students}
+                                    </span>
+                                </Button>
+                            ))}
+                            <span className="text-xs text-gray-500 dark:text-gray-400">
+                                students
+                            </span>
+                        </div>
+
+                        {/* Subject narrows within the chosen test; set narrows
+                            within the chosen subject. Both are scoped, so the
+                            dropdowns never offer a combination that filters to
+                            an empty table. */}
+                        <div className="flex flex-wrap items-center gap-2">
+                            <span className="mr-1 text-sm font-medium">Subject</span>
+                            <Select
+                                value={filters.subject}
+                                onValueChange={(v) =>
+                                    changeFilters({ ...filters, subject: v })
+                                }
+                            >
+                                <SelectTrigger
+                                    className="w-[220px]"
+                                    aria-label="Filter by subject"
+                                >
+                                    <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value={ANY}>All subjects</SelectItem>
+                                    {/* Spelled out, because the tabs above
+                                        count students and these count
+                                        attempts — a bare number in both
+                                        places would read as the same unit. */}
+                                    {subjects.map((s) => (
+                                        <SelectItem key={s.value} value={s.value}>
+                                            {s.label} — {s.attempts} attempt
+                                            {s.attempts === 1 ? '' : 's'}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+
+                            <span className="mr-1 ml-2 text-sm font-medium">Set</span>
+                            <Select
+                                value={filters.setId}
+                                onValueChange={(v) =>
+                                    changeFilters({ ...filters, setId: v })
+                                }
+                            >
+                                <SelectTrigger
+                                    className="w-[300px]"
+                                    aria-label="Filter by set"
+                                >
+                                    <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value={ANY}>All sets</SelectItem>
+                                    {sets.map((s) => (
+                                        <SelectItem key={s.value} value={s.value}>
+                                            {s.label} — {s.attempts} attempt
+                                            {s.attempts === 1 ? '' : 's'}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+
+                            {isFiltered && (
+                                <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => changeFilters(NO_FILTERS)}
+                                >
+                                    Clear filters
+                                </Button>
+                            )}
+                        </div>
+
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                            Showing {countsLabel(shown)}
+                            {/* Parenthesised, because the unfiltered total is
+                                itself a "N · M" pair and two of them joined by
+                                a bare "of" read as one long list. */}
+                            {isFiltered && ` (of ${countsLabel(totals)})`}
+                            {/* Without this the two tab counts read as a
+                                partition. A student who sat both is counted
+                                under each, so ESAT + TMUA can exceed the
+                                total — say so rather than leave the numbers
+                                looking wrong. */}
+                            {filters.test === ANY && bothTests > 0 && (
+                                <span>
+                                    {' '}
+                                    · {bothTests} sat both ESAT and TMUA, so the two
+                                    test counts overlap
+                                </span>
+                            )}
+                        </p>
+                    </div>
+                )}
+
                 {!isLoading && internalCount > 0 && (
                     <label className="flex w-fit items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
                         <Checkbox
@@ -181,9 +385,15 @@ export function DiagnosticResultsPage() {
 
                 {!isLoading && rows.length === 0 && (
                     <p className="text-gray-500">
-                        {allRows.length > 0
-                            ? 'Every attempt so far is from an internal account — tick “Show internal accounts” to see them.'
-                            : 'No attempts yet — results appear here once a student sits a diagnostic.'}
+                        {/* Three different nothings, and they call for three
+                            different actions: clear a filter, tick a box, or
+                            wait for a student. Saying "no results" to all
+                            three reads as "nobody has sat anything". */}
+                        {isFiltered && visibleRows.length > 0
+                            ? 'No attempts match these filters — try Clear filters.'
+                            : allRows.length > 0
+                              ? 'Every attempt so far is from an internal account — tick “Show internal accounts” to see them.'
+                              : 'No attempts yet — results appear here once a student sits a diagnostic.'}
                     </p>
                 )}
 

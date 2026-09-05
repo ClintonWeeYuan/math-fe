@@ -184,3 +184,116 @@ describe('DiagnosticResultsPage', () => {
         expect(screen.getByText('2 selected')).toBeInTheDocument()
     })
 })
+
+/** One ESAT student and one TMUA student, so a split is visible at all. */
+function mixedRows(): AdminAttemptResultRow[] {
+    return [
+        row(),
+        row({
+            attemptId: 'a2',
+            studentId: 's2',
+            studentEmail: 'two@x.com',
+            setId: 'set2',
+            setTitle: 'TMUA Paper 1 - Diagnostic Set A',
+            subject: 'TMUA Paper 1',
+        }),
+    ]
+}
+
+describe('DiagnosticResultsPage — ESAT/TMUA split and filters', () => {
+    beforeEach(() => {
+        mockDownload.mockReset()
+        mockNavigate.mockReset()
+        mockDelete.mockReset()
+    })
+
+    it('shows both test counts at once, so the split reads without clicking', () => {
+        mockResults.mockReturnValue({ data: { rows: mixedRows() }, isLoading: false })
+        renderPage()
+        expect(screen.getByRole('button', { name: /^ESAT/ })).toBeInTheDocument()
+        expect(screen.getByRole('button', { name: /^TMUA/ })).toBeInTheDocument()
+        expect(screen.getByText(/Showing 2 students · 2 attempts/)).toBeInTheDocument()
+    })
+
+    it('narrows the table to one test when its tab is clicked', () => {
+        mockResults.mockReturnValue({ data: { rows: mixedRows() }, isLoading: false })
+        renderPage()
+        expect(screen.getByText('two@x.com')).toBeInTheDocument()
+
+        fireEvent.click(screen.getByRole('button', { name: /^ESAT/ }))
+        expect(screen.getByText('one@x.com')).toBeInTheDocument()
+        expect(screen.queryByText('two@x.com')).not.toBeInTheDocument()
+        expect(
+            screen.getByText(/Showing 1 student · 1 attempt \(of 2 students · 2 attempts\)/)
+        ).toBeInTheDocument()
+    })
+
+    it('offers no tab for a test nobody has sat', () => {
+        mockResults.mockReturnValue({ data: { rows: [row()] }, isLoading: false })
+        renderPage()
+        // An empty TMUA tab would invite a click that shows nothing.
+        expect(screen.queryByRole('button', { name: /^TMUA/ })).not.toBeInTheDocument()
+    })
+
+    it('warns when a student sat both tests, so the tab counts do not mislead', () => {
+        mockResults.mockReturnValue({
+            data: {
+                rows: [
+                    row(),
+                    // Same student, other test — counted under each tab.
+                    row({ attemptId: 'a2', setId: 'set2', subject: 'TMUA Paper 1' }),
+                ],
+            },
+            isLoading: false,
+        })
+        renderPage()
+        expect(screen.getByText(/1 sat both ESAT and TMUA/)).toBeInTheDocument()
+    })
+
+    it('exports only the filtered rows, and says so on the button', () => {
+        const rows = mixedRows()
+        mockResults.mockReturnValue({ data: { rows }, isLoading: false })
+        renderPage()
+        fireEvent.click(screen.getByRole('button', { name: /^TMUA/ }))
+        expect(
+            screen.getByRole('button', { name: /Download CSV \(filtered\)/i })
+        ).toBeInTheDocument()
+        fireEvent.click(screen.getByRole('button', { name: /Download CSV/i }))
+        expect(mockDownload).toHaveBeenCalledWith([rows[1]])
+    })
+
+    it('clears the selection when a filter changes, so delete cannot reach a hidden row', () => {
+        mockResults.mockReturnValue({ data: { rows: mixedRows() }, isLoading: false })
+        renderPage()
+        fireEvent.click(
+            screen.getByRole('checkbox', { name: /Select result for two@x.com/i })
+        )
+        expect(screen.getByText('1 selected')).toBeInTheDocument()
+
+        fireEvent.click(screen.getByRole('button', { name: /^ESAT/ }))
+        // The TMUA row is now off-screen; leaving it selected would let
+        // "Delete selected" take something the admin cannot see.
+        expect(screen.queryByText('1 selected')).not.toBeInTheDocument()
+    })
+
+    it('distinguishes "no match" from "no attempts" in the empty state', () => {
+        mockResults.mockReturnValue({ data: { rows: [row()] }, isLoading: false })
+        const { rerender } = renderPage()
+        expect(screen.queryByText(/No attempts yet/i)).not.toBeInTheDocument()
+
+        mockResults.mockReturnValue({ data: { rows: [] }, isLoading: false })
+        rerender(
+            <MemoryRouter>
+                <DiagnosticResultsPage />
+            </MemoryRouter>
+        )
+        expect(screen.getByText(/No attempts yet/i)).toBeInTheDocument()
+    })
+
+    it('hides the filter bar entirely when there is nothing to filter', () => {
+        mockResults.mockReturnValue({ data: { rows: [] }, isLoading: false })
+        renderPage()
+        expect(screen.queryByRole('button', { name: /^ESAT/ })).not.toBeInTheDocument()
+        expect(screen.queryByLabelText(/Filter by subject/i)).not.toBeInTheDocument()
+    })
+})
