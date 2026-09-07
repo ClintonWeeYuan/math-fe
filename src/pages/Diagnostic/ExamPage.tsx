@@ -123,7 +123,7 @@ export function ExamPage() {
             questionId: currentQuestion.id,
             body: { selectedOption: label },
         })
-        recordEvent(currentQuestion.id, 'answer_change')
+        recordEvent(currentQuestion.id, 'answer_change', label)
     }
 
     function handleToggleFlag() {

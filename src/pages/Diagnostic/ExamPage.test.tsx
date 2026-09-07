@@ -179,11 +179,15 @@ describe('ExamPage', () => {
         })
     })
 
-    it('records an answer_change event when an answer is selected', () => {
+    it('records an answer_change event carrying the option that was chosen', () => {
+        // The label travels with the event, not just with the write: a click
+        // whose PATCH fails still has to leave a record of what was picked,
+        // since a run of clicks all choosing the same option is how a
+        // selection-losing UI shows up in the log.
         mockUseGetAttemptStateQuery.mockReturnValue({ data: state(), isLoading: false, isError: false })
         renderExam()
         fireEvent.click(screen.getByRole('radio', { name: /a1/i }))
-        expect(mockRecordEvent).toHaveBeenCalledWith('qa', 'answer_change')
+        expect(mockRecordEvent).toHaveBeenCalledWith('qa', 'answer_change', 'A')
     })
 
     it('records flag on flagging and unflag on unflagging', () => {

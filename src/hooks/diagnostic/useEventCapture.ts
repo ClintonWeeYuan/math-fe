@@ -48,16 +48,27 @@ export default function useEventCapture({
     const currentQuestionIdRef = useRef(currentQuestionId)
     currentQuestionIdRef.current = currentQuestionId
 
-    const recordEvent = useCallback((questionId: string, eventType: EventType) => {
-        // clientTs is captured now, when the event happened — not at flush
-        // time. The server stamps its own server_ts per batch; clientTs
-        // preserves the real per-event moment (§4, never trusted alone).
-        bufferRef.current.push({
-            questionId,
-            eventType,
-            clientTs: new Date().toISOString(),
-        })
-    }, [])
+    const recordEvent = useCallback(
+        (questionId: string, eventType: EventType, selectedOption?: string) => {
+            // clientTs is captured now, when the event happened — not at flush
+            // time. The server stamps its own server_ts per batch; clientTs
+            // preserves the real per-event moment (§4, never trusted alone).
+            //
+            // selectedOption is the option an answer_change chose. It matters
+            // that this is recorded here rather than inferred from the answer
+            // that ends up stored: a click whose write fails leaves no trace
+            // anywhere else, and a run of clicks all choosing the same option
+            // is precisely the signature of the UI dropping the selection.
+            // The server ignores it on every other event type.
+            bufferRef.current.push({
+                questionId,
+                eventType,
+                clientTs: new Date().toISOString(),
+                ...(selectedOption !== undefined ? { selectedOption } : {}),
+            })
+        },
+        []
+    )
 
     const flush = useCallback(async (opts?: FlushOptions) => {
         if (bufferRef.current.length === 0) return
