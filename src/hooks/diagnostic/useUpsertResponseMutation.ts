@@ -22,8 +22,13 @@ type Variables = {
     body: UpsertDiagnosticResponseBody
 }
 
+type ResponseState = DiagnosticAttemptStateResponse['responses'][number]
+
 type Context = {
     previous: DiagnosticAttemptStateResponse | undefined
+    /** Exactly the fields this mutation wrote optimistically, so onError can
+     * check whether the cache still shows its own write before undoing it. */
+    patch: Partial<ResponseState>
 }
 
 /**
@@ -31,11 +36,23 @@ type Context = {
  * codebase (useUpdateQuestionStatusMutation): onMutate cancels + snapshots
  * + patches the single shared attempt-state entry so the click (answer
  * select, flag toggle) and the navigator re-color feel instant; onError
- * rolls back.
+ * undoes it.
+ *
+ * That undo is deliberately narrow, because the obvious version of it is
+ * wrong. Restoring the whole snapshot on any failure means a write that
+ * fails slowly erases whatever landed while it was in flight: pick D, pick
+ * E a moment later, D's request then times out, and D's rollback restores
+ * the state from before either click — wiping E from the screen even
+ * though the server accepted and stored it. The student sees a blank
+ * question, clicks again, and the UI and the database have already
+ * disagreed. So instead of blanket-restoring, we undo only this question's
+ * entry, and only while the cache still holds this mutation's own write.
+ * If something newer is showing, that newer value is the truth on screen
+ * and this stale failure leaves it alone.
  *
  * The 409 case is handled deliberately, not as a raw error: if the attempt
- * timed out between render and click, the write 409s — we roll back (it
- * didn't land) and invalidate the attempt query, so the refetch returns
+ * timed out between render and click, the write 409s — we undo (it didn't
+ * land) and invalidate the attempt query, so the refetch returns
  * status='timed_out' and ExamPage's status switch flips to the terminal
  * view. Same mechanism PR 2's timer will reach; there's no error toast for
  * this — running out of time is an expected outcome, not a failure.
@@ -60,7 +77,13 @@ export default function useUpsertResponseMutation({ attemptId }: { attemptId: st
                     }
                 )
             if (result.error !== undefined) {
-                throw new AttemptWriteError(result.response.status)
+                // A request that never reached the server (offline, DNS,
+                // aborted) has an error but no response, and so no status.
+                // 0 stands for that: it is not 409, which is the only status
+                // onError treats specially, so a transport failure takes the
+                // ordinary undo path rather than being mistaken for a
+                // timed-out attempt.
+                throw new AttemptWriteError(result.response?.status ?? 0)
             }
             return result.data
         },
@@ -73,7 +96,7 @@ export default function useUpsertResponseMutation({ attemptId }: { attemptId: st
             // permits isFlagged:null (the PATCH contract), but a stored
             // response's isFlagged is a plain boolean — only apply fields
             // that were actually sent, coercing a null flag to false.
-            const patch: Partial<DiagnosticAttemptStateResponse['responses'][number]> = {}
+            const patch: Partial<ResponseState> = {}
             if (body.selectedOption !== undefined) {
                 patch.selectedOption = body.selectedOption
             }
@@ -113,12 +136,43 @@ export default function useUpsertResponseMutation({ attemptId }: { attemptId: st
                 }
             })
 
-            return { previous }
+            return { previous, patch }
         },
-        onError: (error, _variables, context) => {
-            // Roll back the optimistic patch first, unconditionally.
-            if (context?.previous !== undefined) {
-                queryClient.setQueryData(queryKey, context.previous)
+        onError: (error, { questionId }, context) => {
+            // Undo this question's optimistic entry — but only while the
+            // cache still shows what THIS mutation wrote. A newer click on
+            // the same question supersedes this one, and a stale failure
+            // must not drag the screen back behind it (see the note above
+            // the hook). Other questions' entries are never touched, so a
+            // failure here can't disturb answers given elsewhere.
+            if (context !== undefined) {
+                const current =
+                    queryClient.getQueryData<DiagnosticAttemptStateResponse>(queryKey)
+                const showing = current?.responses.find((r) => r.questionId === questionId)
+                const stillOurs =
+                    showing !== undefined &&
+                    (Object.keys(context.patch) as (keyof ResponseState)[]).every(
+                        (field) => showing[field] === context.patch[field]
+                    )
+                if (current !== undefined && stillOurs) {
+                    const restored = context.previous?.responses.find(
+                        (r) => r.questionId === questionId
+                    )
+                    queryClient.setQueryData<DiagnosticAttemptStateResponse>(queryKey, {
+                        ...current,
+                        responses: restored
+                            ? // The question already had a stored answer or flag
+                              // before this write — put that back verbatim.
+                              current.responses.map((r) =>
+                                  r.questionId === questionId ? restored : r
+                              )
+                            : // First touch of this question, so onMutate
+                              // appended the row; drop it again.
+                              current.responses.filter(
+                                  (r) => r.questionId !== questionId
+                              ),
+                    })
+                }
             }
             // A 409 means the attempt is no longer in_progress (timed out
             // mid-click) — refetch so the terminal state renders via

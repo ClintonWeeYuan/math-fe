@@ -25,7 +25,13 @@ export function useGetCurrentUserQuery({ enabled }: { enabled: boolean }) {
                     },
                 })
 
-            if (response.status === 401) {
+            // Optional-chained because a request that never reached the
+            // server resolves with no response at all. That case is not a
+            // 401 and must not clear the token: an offline student still has
+            // a valid session, and signing them out over a dropped
+            // connection is the opposite of what this guard is for. It falls
+            // through to the error branch below instead.
+            if (response?.status === 401) {
                 // Stale/invalid token — clear it so we don't keep sending a
                 // dead token on every future request.
                 localStorage.removeItem('token')
