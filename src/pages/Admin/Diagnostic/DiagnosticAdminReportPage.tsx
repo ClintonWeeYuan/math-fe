@@ -6,6 +6,7 @@ import useAdminAttemptReportQuery from '@/hooks/diagnostic/useAdminAttemptReport
 import useGetSetPreviewQuery from '@/hooks/diagnostic/useGetSetPreviewQuery.ts'
 import { AttemptReportError } from '@/hooks/diagnostic/useGetAttemptReportQuery.ts'
 import { DiagnosticReportView } from '@/components/diagnostic/report/DiagnosticReportView.tsx'
+import { ReviewAnswers } from '@/components/diagnostic/report/ReviewAnswers.tsx'
 
 /**
  * A tutor's view of any student's full report, reached from the Results table.
@@ -65,7 +66,17 @@ export function DiagnosticAdminReportPage() {
                 questionCount={preview?.questionCount}
                 title="Student report"
                 subtitle={[studentEmail, report.subject].filter(Boolean).join(' · ')}
-                footer={backToResults}
+                footer={
+                    // The per-question review, the same one the student gets
+                    // — every option, the misconception note on the one they
+                    // picked, and the worked solution. Without it the only
+                    // way to check our own solutions render correctly was to
+                    // sign in as a student.
+                    <div className="flex flex-col gap-8">
+                        <ReviewAnswers attemptId={attemptId ?? ''} admin />
+                        {backToResults}
+                    </div>
+                }
             />
         )
     }

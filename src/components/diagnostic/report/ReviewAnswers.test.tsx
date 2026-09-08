@@ -13,7 +13,7 @@ vi.mock('@/hooks/diagnostic/useAttemptReviewQuery.ts', async (importOriginal) =>
     ...(await importOriginal<
         typeof import('@/hooks/diagnostic/useAttemptReviewQuery.ts')
     >()),
-    default: () => mockReview(),
+    default: (args: unknown) => mockReview(args),
 }))
 
 let n = 0
@@ -345,5 +345,57 @@ describe('a solution diagram', () => {
         await userEvent.click(screen.getByRole('button', { name: /^Question 1/ }))
         expect(screen.getByRole('button', { name: /show full solution/i })).toBeInTheDocument()
         expect(screen.queryByText(/coming soon/i)).not.toBeInTheDocument()
+    })
+})
+
+
+describe('ReviewAnswers — the admin (tutor) read', () => {
+    beforeEach(() => mockReview.mockReset())
+
+    it('reads through the admin route, which is not owner-scoped', () => {
+        // The student route 403s on someone else's attempt, and a 403 is an
+        // expected refusal — so without this flag the section renders nothing
+        // and looks exactly like a paper with no worked solutions.
+        mockReview.mockReturnValue({
+            data: { attemptId: 'a1', questions: [question()] },
+            isLoading: false,
+            isError: false,
+        })
+        render(<ReviewAnswers attemptId="a1" admin />)
+        expect(mockReview).toHaveBeenCalledWith({ attemptId: 'a1', admin: true })
+    })
+
+    it('still defaults to the student route when the flag is absent', () => {
+        mockReview.mockReturnValue({
+            data: { attemptId: 'a1', questions: [question()] },
+            isLoading: false,
+            isError: false,
+        })
+        render(<ReviewAnswers attemptId="a1" />)
+        expect(mockReview).toHaveBeenCalledWith({ attemptId: 'a1', admin: false })
+    })
+
+    it('starts unfiltered for an admin, who is checking the paper not revising', () => {
+        mockReview.mockReturnValue({
+            data: { attemptId: 'a1', questions: [question(), wrong()] },
+            isLoading: false,
+            isError: false,
+        })
+        render(<ReviewAnswers attemptId="a1" admin />)
+        expect(
+            screen.getByRole('checkbox', { name: /only what i got wrong/i })
+        ).not.toBeChecked()
+    })
+
+    it('keeps the incorrect-only default for a student', () => {
+        mockReview.mockReturnValue({
+            data: { attemptId: 'a1', questions: [question(), wrong()] },
+            isLoading: false,
+            isError: false,
+        })
+        render(<ReviewAnswers attemptId="a1" />)
+        expect(
+            screen.getByRole('checkbox', { name: /only what i got wrong/i })
+        ).toBeChecked()
     })
 })

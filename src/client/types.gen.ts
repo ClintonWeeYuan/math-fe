@@ -5100,6 +5100,36 @@ export type GetAttemptReportAdminDiagnosticAdminAttemptsAttemptIdReportGetRespon
 
 export type GetAttemptReportAdminDiagnosticAdminAttemptsAttemptIdReportGetResponse = GetAttemptReportAdminDiagnosticAdminAttemptsAttemptIdReportGetResponses[keyof GetAttemptReportAdminDiagnosticAdminAttemptsAttemptIdReportGetResponses];
 
+export type GetAttemptReviewAdminDiagnosticAdminAttemptsAttemptIdReviewGetData = {
+    body?: never;
+    path: {
+        /**
+         * Attempt Id
+         */
+        attempt_id: string;
+    };
+    query?: never;
+    url: '/diagnostic/admin/attempts/{attempt_id}/review';
+};
+
+export type GetAttemptReviewAdminDiagnosticAdminAttemptsAttemptIdReviewGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type GetAttemptReviewAdminDiagnosticAdminAttemptsAttemptIdReviewGetError = GetAttemptReviewAdminDiagnosticAdminAttemptsAttemptIdReviewGetErrors[keyof GetAttemptReviewAdminDiagnosticAdminAttemptsAttemptIdReviewGetErrors];
+
+export type GetAttemptReviewAdminDiagnosticAdminAttemptsAttemptIdReviewGetResponses = {
+    /**
+     * Successful Response
+     */
+    200: AttemptReviewResponse;
+};
+
+export type GetAttemptReviewAdminDiagnosticAdminAttemptsAttemptIdReviewGetResponse = GetAttemptReviewAdminDiagnosticAdminAttemptsAttemptIdReviewGetResponses[keyof GetAttemptReviewAdminDiagnosticAdminAttemptsAttemptIdReviewGetResponses];
+
 export type BulkDeleteAttemptsDiagnosticAdminAttemptsBulkDeletePostData = {
     body: BulkDeleteAttemptsBody;
     path?: never;

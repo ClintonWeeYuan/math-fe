@@ -144,13 +144,28 @@ function QuestionCard({ question }: { question: ReviewQuestion }) {
     )
 }
 
-export function ReviewAnswers({ attemptId }: { attemptId: string }) {
-    const [incorrectOnly, setIncorrectOnly] = useState(true)
-    const { data, isLoading, isError, error } = useAttemptReviewQuery({ attemptId })
+export function ReviewAnswers({
+    attemptId,
+    admin = false,
+}: {
+    attemptId: string
+    /** Read through the admin route, for a tutor opening someone else's
+     *  report. Also starts the list unfiltered: an admin is checking the
+     *  paper, not revising their own mistakes, so "incorrect only" would hide
+     *  most of what they came to look at. */
+    admin?: boolean
+}) {
+    const [incorrectOnly, setIncorrectOnly] = useState(!admin)
+    const { data, isLoading, isError, error } = useAttemptReviewQuery({
+        attemptId,
+        admin,
+    })
 
     useEffect(() => {
-        if (data) trackEvent('review_opened', { attemptId })
-    }, [data, attemptId])
+        // Student reads only. This event measures whether students come back
+        // to their review; counting our own checks would inflate it.
+        if (data && !admin) trackEvent('review_opened', { attemptId })
+    }, [data, attemptId, admin])
 
     if (isLoading) return null
 

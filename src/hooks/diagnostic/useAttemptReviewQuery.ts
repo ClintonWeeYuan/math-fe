@@ -63,19 +63,32 @@ export function isExpectedRefusal(error: unknown): boolean {
  *
  * No retry. The endpoint's refusals are answers, not failures, and hammering
  * them would only delay the section disappearing, which is what should happen.
+ *
+ * `admin` picks the non-owner-scoped route. The student route is owner-only by
+ * design, so a tutor opening a report from the results table would get a 403
+ * and — because a 403 is an expected refusal — a silently empty section, which
+ * is indistinguishable from a paper with no worked solutions. Two routes, one
+ * response shape, one component.
  */
 export default function useAttemptReviewQuery({
     attemptId,
+    admin = false,
 }: {
     attemptId: string
+    admin?: boolean
 }) {
     return useQuery({
-        queryKey: ['diagnostic-attempt-review', attemptId],
+        // The scope is part of the key: the two routes can return different
+        // things for the same attempt (the admin one answers where the
+        // student's own would 403), so they must not share a cache entry.
+        queryKey: ['diagnostic-attempt-review', admin ? 'admin' : 'own', attemptId],
         enabled: attemptId.length > 0,
         retry: false,
         queryFn: async (): Promise<AttemptReview> => {
             const result = await client.get<{ 200: AttemptReview }>({
-                url: `/diagnostic/attempts/${attemptId}/review`,
+                url: admin
+                    ? `/diagnostic/admin/attempts/${attemptId}/review`
+                    : `/diagnostic/attempts/${attemptId}/review`,
                 headers: getAuthHeaders(),
             })
             if (result.error !== undefined || result.data === undefined) {
