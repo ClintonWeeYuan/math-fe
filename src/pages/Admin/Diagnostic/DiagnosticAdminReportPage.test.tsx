@@ -75,7 +75,9 @@ describe('DiagnosticAdminReportPage', () => {
         expect(screen.getByText('Student report')).toBeInTheDocument()
         // Subtitle carries who + subject; body carries the decoded skill name.
         expect(screen.getByText(/kid@x.com · ESAT Math 2/)).toBeInTheDocument()
-        expect(screen.getByText('5/8 correct')).toBeInTheDocument()
+        // Out of the paper, not out of what the student reached — the admin
+        // sees the same headline the student does.
+        expect(screen.getByText('5/10 correct')).toBeInTheDocument()
         // The decoded skill name appears in both the summary and the radar
         // legend — its presence (not uniqueness) is what matters here.
         expect(

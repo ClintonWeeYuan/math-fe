@@ -53,6 +53,40 @@ describe('buildReportInsights', () => {
         expect(focusAreas[0].pct).toBe(0)
     })
 
+    it('scores the headline against the whole paper, not what was reached', () => {
+        // The sentence sits directly under a card reading "9/27 correct". If
+        // it said "9 of 10" the two would disagree, and the flattering one
+        // would be the one written in words.
+        const h = buildReportInsights([s('S1', 9, 10)], SUBJECT, 9, 10, 27).headline
+        expect(h).toContain('9 out of 27')
+        expect(h).toContain('17 left unanswered')
+        expect(h).not.toContain('9 out of 10')
+    })
+
+    it('says nothing about unanswered questions when the paper was finished', () => {
+        const h = buildReportInsights([s('S1', 9, 10)], SUBJECT, 9, 10, 10).headline
+        expect(h).toContain('9 out of 10')
+        expect(h).not.toMatch(/unanswered/i)
+    })
+
+    it('falls back to what was attempted when the set size is unknown', () => {
+        // No paperTotal available: score against attempted rather than
+        // invent a denominator.
+        const h = buildReportInsights([s('S1', 9, 10)], SUBJECT, 9, 10).headline
+        expect(h).toContain('9 out of 10')
+    })
+
+    it('grades the tone from the paper total, not the attempted total', () => {
+        // 9 of 10 attempted is "strong"; the same 9 on a 27-question paper
+        // is not, and the verdict has to move with the real ratio.
+        expect(
+            buildReportInsights([s('S1', 9, 10)], SUBJECT, 9, 10, 10).headline
+        ).toMatch(/strong result/i)
+        expect(
+            buildReportInsights([s('S1', 9, 10)], SUBJECT, 9, 10, 27).headline
+        ).toMatch(/starting point/i)
+    })
+
     it('adapts the headline to the score, never bare numbers', () => {
         expect(buildReportInsights([], SUBJECT, 0, 0).headline).toMatch(/didn't answer/i)
         expect(buildReportInsights([s('S1', 9, 10)], SUBJECT, 9, 10).headline).toMatch(

@@ -59,12 +59,21 @@ export function DiagnosticReportView({
     const isMini = (report as { format?: 'mini' | 'full' }).format === 'mini'
     const totalScore = report.attempt.totalScore ?? 0
     const { answeredCount, subject } = report
+    // The whole paper, not the part they reached. A student who answered 15
+    // of 27 and got all 15 right scored 15, not full marks, and the headline
+    // must say so — unanswered is unanswered, and in the real exam it earns
+    // nothing. The count comes off the report itself so it arrives with the
+    // score; the prop is the fallback for a caller that has only the preview,
+    // and 0 means neither was available.
+    const paperTotal = report.questionCount || questionCount || 0
+    const unanswered = paperTotal > 0 ? paperTotal - answeredCount : 0
     const labelById = questionLabelByIdFrom(report.perQuestionTime)
     const insights = buildReportInsights(
         report.skillsRadar,
         subject,
         totalScore,
-        answeredCount
+        answeredCount,
+        paperTotal
     )
 
     return (
@@ -76,18 +85,26 @@ export function DiagnosticReportView({
                 )}
             </div>
 
-            {/* Accuracy over *attempted*, kept separate from completion. */}
+            {/* Score out of the whole paper, with completion underneath. */}
             <Card>
                 <CardContent className="flex flex-col gap-1 pt-6">
                     <span className="text-3xl font-semibold">
-                        {answeredCount === 0
+                        {answeredCount === 0 && paperTotal === 0
                             ? 'No questions answered'
-                            : `${totalScore}/${answeredCount} correct`}
+                            : paperTotal > 0
+                              ? `${totalScore}/${paperTotal} correct`
+                              : // No total to score against, so say what is
+                                // known rather than invent a denominator.
+                                `${totalScore} correct`}
                     </span>
                     <span className="text-sm text-gray-500">
-                        {answeredCount > 0 && 'of questions attempted · '}
-                        {questionCount !== undefined
-                            ? `${answeredCount}/${questionCount} attempted`
+                        {paperTotal > 0
+                            ? unanswered > 0
+                                ? // Naming the gap explains the score: the
+                                  // difference between 15/27 and 15/15 is
+                                  // twelve questions, not twelve mistakes.
+                                  `${answeredCount} of ${paperTotal} attempted · ${unanswered} left unanswered`
+                                : `all ${paperTotal} attempted`
                             : `${answeredCount} attempted`}
                     </span>
                 </CardContent>

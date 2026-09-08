@@ -1243,6 +1243,10 @@ export type DiagnosticReportResponse = {
      */
     answeredCount: number;
     /**
+     * Questioncount
+     */
+    questionCount?: number;
+    /**
      * Skillsradar
      */
     skillsRadar: Array<SkillScore>;

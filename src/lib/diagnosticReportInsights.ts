@@ -42,18 +42,46 @@ function toInsight(subject: string | null | undefined, s: SkillScore): SkillInsi
     }
 }
 
-function headlineFor(totalScore: number, answeredCount: number): string {
-    if (answeredCount === 0) {
+/**
+ * The opening sentence, scored against the whole paper.
+ *
+ * It has to agree with the headline card above it, which reads out of the set
+ * rather than out of what was reached — otherwise a student who answered 15
+ * of 27 sees "15/27 correct" and, directly beneath it, "you answered 15 of 15
+ * correct — a strong result". Two numbers for one thing, and the flattering
+ * one in the sentence a reader is most likely to believe.
+ *
+ * `paperTotal` of 0 means the set's size is unknown, and the fallback scores
+ * against what was attempted rather than inventing a denominator.
+ */
+function headlineFor(
+    totalScore: number,
+    answeredCount: number,
+    paperTotal: number
+): string {
+    if (answeredCount === 0 && totalScore === 0) {
         return "You didn't answer any questions this time — give it another go when you're ready and we'll map out your strengths."
     }
-    const ratio = totalScore / answeredCount
+    const outOf = paperTotal > 0 ? paperTotal : answeredCount
+    if (outOf === 0) {
+        return "You didn't answer any questions this time — give it another go when you're ready and we'll map out your strengths."
+    }
+    // Naming the unanswered questions keeps the verdict fair: a low ratio
+    // earned by running out of time is a pacing problem, not a knowledge one,
+    // and the sentence should not read as though the student got them wrong.
+    const unanswered = paperTotal > 0 ? paperTotal - answeredCount : 0
+    const gap =
+        unanswered > 0
+            ? ` (${unanswered} left unanswered)`
+            : ''
+    const ratio = totalScore / outOf
     if (ratio >= 0.7) {
-        return `You answered ${totalScore} of ${answeredCount} correct — a strong result. Here's where you shone and a couple of areas to push even further.`
+        return `You scored ${totalScore} out of ${outOf}${gap} — a strong result. Here's where you shone and a couple of areas to push even further.`
     }
     if (ratio >= 0.4) {
-        return `You answered ${totalScore} of ${answeredCount} correct — a solid base to build on, with a few clear areas to focus on next.`
+        return `You scored ${totalScore} out of ${outOf}${gap} — a solid base to build on, with a few clear areas to focus on next.`
     }
-    return `You answered ${totalScore} of ${answeredCount} correct — a starting point, and the focus areas below are where the quickest gains are.`
+    return `You scored ${totalScore} out of ${outOf}${gap} — a starting point, and the focus areas below are where the quickest gains are.`
 }
 
 /**
@@ -67,7 +95,10 @@ export function buildReportInsights(
     skills: SkillScore[],
     subject: string | null | undefined,
     totalScore: number,
-    answeredCount: number
+    answeredCount: number,
+    /** The set's size. 0 when unknown, in which case the opening sentence
+     *  falls back to scoring against what was attempted. */
+    paperTotal = 0
 ): ReportInsights {
     const insights = measured(skills).map((s) => toInsight(subject, s))
 
@@ -82,7 +113,7 @@ export function buildReportInsights(
         .slice(0, MAX_PER_LIST)
 
     return {
-        headline: headlineFor(totalScore, answeredCount),
+        headline: headlineFor(totalScore, answeredCount, paperTotal),
         strengths,
         focusAreas,
     }

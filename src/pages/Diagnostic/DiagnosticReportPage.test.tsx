@@ -136,12 +136,17 @@ describe('DiagnosticReportPage', () => {
         expect(screen.getByText(/report not available/i)).toBeInTheDocument()
     })
 
-    it('renders accuracy over attempted separately from completion', () => {
+    it('scores out of the whole paper, with completion underneath', () => {
         mockUseReport.mockReturnValue({ data: report(), isLoading: false, error: null })
         renderPage()
-        expect(screen.getByText('1/2 correct')).toBeInTheDocument()
-        expect(screen.getByText(/of questions attempted · 2\/3 attempted/i)).toBeInTheDocument()
-        expect(screen.queryByText('1/3 correct')).not.toBeInTheDocument()
+        // Two of three attempted, one right: the score is 1 out of 3, not 1
+        // out of 2. An unanswered question earns nothing in the real exam,
+        // and the headline must not read as though it were excused.
+        expect(screen.getByText('1/3 correct')).toBeInTheDocument()
+        expect(
+            screen.getByText('2 of 3 attempted · 1 left unanswered')
+        ).toBeInTheDocument()
+        expect(screen.queryByText('1/2 correct')).not.toBeInTheDocument()
     })
 
     it('writes a plain-English strengths + focus-areas summary with full names', () => {
@@ -211,7 +216,14 @@ describe('DiagnosticReportPage', () => {
             error: null,
         })
         renderPage()
-        expect(screen.getByText('No questions answered')).toBeInTheDocument()
+        // Zero out of three is the student's actual result, and the line
+        // below explains it. "No questions answered" is only for the case
+        // where the paper's size is unknown too, where there is nothing to
+        // score against.
+        expect(screen.getByText('0/3 correct')).toBeInTheDocument()
+        expect(
+            screen.getByText('0 of 3 attempted · 3 left unanswered')
+        ).toBeInTheDocument()
         expect(screen.queryByText('0/0 correct')).not.toBeInTheDocument()
     })
 })
