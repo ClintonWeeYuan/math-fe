@@ -175,10 +175,18 @@ export function DiagnosticsCatalogPage({ test }: Props) {
                                             and the intended first rung, so it
                                             says so rather than relying on the
                                             reader doing arithmetic on the
-                                            question count. */}
+                                            question count.
+
+                                            The number comes from the set, not
+                                            a constant: minis hold their own
+                                            paper's pace rather than a fixed
+                                            length, so the TMUA ones run 19
+                                            minutes against the ESAT ones' 15,
+                                            and a hardcoded badge understated
+                                            them by four minutes. */}
                                         {isMini(s) && (
                                             <span className="shrink-0 text-[11px] font-medium px-2 py-0.5 rounded-full border border-emerald-200 bg-emerald-50 text-emerald-700">
-                                                15 min
+                                                {s.timeLimitMinutes} min
                                             </span>
                                         )}
                                         {/* Paid sets say so up front: a

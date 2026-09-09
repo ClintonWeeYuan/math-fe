@@ -286,4 +286,44 @@ describe('the CTA on a paid set', () => {
         renderPage()
         expect(screen.getByRole('button', { name: /coming soon/i })).toBeDisabled()
     })
+
+    describe('the mini badge', () => {
+        /**
+         * The badge used to read a hardcoded "15 min", which was true while
+         * every mini was an ESAT one. The TMUA minis hold their own paper's
+         * pace and run 19 minutes, so a constant understated them by four —
+         * on the card a student decides from.
+         */
+        const mini = (
+            id: string,
+            title: string,
+            subject: string,
+            timeLimitMinutes: number
+        ): PublishedDiagnosticSet => ({
+            id, title, subject, description: null,
+            timeLimitMinutes, questionCount: 5, isFree: true, format: 'mini',
+        })
+
+        it("shows each mini's own time limit, not a fixed one", () => {
+            mockSets.mockReturnValue({
+                data: [
+                    mini('m1', 'TMUA Paper 1 — Mini Test', 'TMUA Paper 1', 19),
+                    mini('m2', 'ESAT Physics — Mini Test', 'ESAT Physics', 15),
+                ],
+                isLoading: false,
+            })
+            renderPage()
+            expect(screen.getByText('19 min')).toBeInTheDocument()
+            expect(screen.getByText('15 min')).toBeInTheDocument()
+        })
+
+        it('does not label a 19-minute mini as 15 minutes', () => {
+            mockSets.mockReturnValue({
+                data: [mini('m1', 'TMUA Paper 2 — Mini Test', 'TMUA Paper 2', 19)],
+                isLoading: false,
+            })
+            renderPage()
+            expect(screen.queryByText('15 min')).not.toBeInTheDocument()
+        })
+    })
 })

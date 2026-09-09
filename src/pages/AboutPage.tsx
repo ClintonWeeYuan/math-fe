@@ -156,7 +156,7 @@ export function AboutPage() {
                             className="xl:py-6 px-8 cursor-pointer text-base"
                             onClick={() => navigate('/diagnostics/esat')}
                         >
-                            Try a 15-minute mini test →
+                            Try a free mini test →
                         </Button>
                     </div>
                 </div>
