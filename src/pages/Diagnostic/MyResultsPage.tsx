@@ -16,6 +16,8 @@ import {
     type SubjectCoverage,
 } from '@/lib/myResults.ts'
 import { BILLING_LIVE } from '@/lib/billing.ts'
+import useBillingStatusQuery from '@/hooks/billing/useBillingStatusQuery.ts'
+import { diagnosticsPathFor } from '@/lib/diagnosticsDestination.ts'
 import { trackEvent } from '@/lib/analytics.ts'
 
 /**
@@ -102,12 +104,20 @@ function CoverageSetRow({ row }: { row: CoverageRow }) {
 
             <span className="shrink-0">
                 {!startable ? (
-                    /* A link, not a gate. The server already refuses a paid
-                       set, and the checkout it would lead to does not exist
-                       yet. Muted, because it is the one row here nobody can
-                       act on. */
+                    /* Only reachable with BILLING_LIVE off — the fallback for
+                       a build that cannot sell yet. A link, not a gate: the
+                       server already refuses a paid set. Muted, because it is
+                       the one row here nobody can act on.
+
+                       It points at the catalogue for this row's own test.
+                       Passes are sold per test, so the combined listing would
+                       open on the other test's subjects. */
                     <Link
-                        to="/diagnostics"
+                        to={
+                            testFromSubject(row.set.subject)
+                                ? `/diagnostics/${testFromSubject(row.set.subject)}`
+                                : '/diagnostics'
+                        }
                         className="text-sm text-slate-400 underline underline-offset-4"
                     >
                         Season Pass
@@ -287,6 +297,14 @@ export function MyResultsPage() {
     const { data: sets } = useListPublishedSetsQuery(test)
     const coverage = coverageFor({ sets, attempts })
     const modules = groupCoverageBySubject(coverage, { billingLive: BILLING_LIVE })
+    // Which catalogue "Browse the diagnostics" should open. A student holding
+    // one test's pass wants that test's papers, not the combined listing that
+    // starts with the other test's subjects.
+    const { data: billing } = useBillingStatusQuery({
+        enabled: BILLING_LIVE,
+        signedIn: true,
+    })
+    const browsePath = diagnosticsPathFor(billing?.coveredTests)
     // Papers, not modules. "0 of 4 modules fully done" sat above modules each
     // reading "1 of 2 done", which looks like a contradiction until you work
     // out that fully means all of them. Counting papers makes the headline the
@@ -331,7 +349,7 @@ export function MyResultsPage() {
                             </p>
                             <Button
                                 className="cursor-pointer"
-                                onClick={() => navigate('/diagnostics')}
+                                onClick={() => navigate(browsePath)}
                             >
                                 Browse the diagnostics →
                             </Button>

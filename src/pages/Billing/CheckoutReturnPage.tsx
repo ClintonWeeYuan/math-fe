@@ -4,6 +4,10 @@ import { useQueryClient } from '@tanstack/react-query'
 import { Button } from '@/components/ui/button.tsx'
 import { Card, CardContent } from '@/components/ui/card.tsx'
 import useBillingStatusQuery from '@/hooks/billing/useBillingStatusQuery.ts'
+import {
+    diagnosticsPathFor,
+    unlockedLabel,
+} from '@/lib/diagnosticsDestination.ts'
 
 /**
  * How long to keep waiting before switching to the "we have your payment,
@@ -42,6 +46,10 @@ export function CheckoutReturnPage() {
         pollUntilPass: true,
     })
     const hasPass = data?.hasPass === true
+    // Passes are per test, so where "browse the papers" should go depends on
+    // what was actually bought. Sending a TMUA buyer to the combined listing
+    // opens on the ESAT subjects their pass does not cover.
+    const browsePath = diagnosticsPathFor(data?.coveredTests)
 
     useEffect(() => {
         if (hasPass) return
@@ -65,12 +73,12 @@ export function CheckoutReturnPage() {
         return (
             <Shell title="You're in — Season Pass unlocked">
                 <p className="text-gray-600">
-                    Every paper is open, and your skill-by-skill breakdown is
-                    unlocked on the reports you've already sat as well as the
-                    ones ahead.
+                    {unlockedLabel(data?.coveredTests)}, and your skill-by-skill
+                    breakdown is unlocked on the reports you&apos;ve already sat
+                    as well as the ones ahead.
                 </p>
                 <div className="flex flex-wrap gap-3">
-                    <Button onClick={() => navigate('/diagnostics')}>
+                    <Button onClick={() => navigate(browsePath)}>
                         Browse the papers
                     </Button>
                     <Button
@@ -110,7 +118,7 @@ export function CheckoutReturnPage() {
                     </Button>
                     <Button
                         variant="outline"
-                        onClick={() => navigate('/diagnostics')}
+                        onClick={() => navigate(browsePath)}
                     >
                         Back to the papers
                     </Button>

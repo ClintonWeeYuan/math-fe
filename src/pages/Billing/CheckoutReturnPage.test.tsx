@@ -116,4 +116,62 @@ describe('CheckoutReturnPage', () => {
         renderPage()
         expect(screen.getByText(/still finalising/i)).toBeInTheDocument()
     })
+
+    describe('where it sends the buyer next', () => {
+        /**
+         * Passes are per test. This page used to send everyone to
+         * /diagnostics, the combined listing, which opens with the five ESAT
+         * subjects — so a student who had just paid for TMUA landed on a
+         * screenful of papers their pass does not open.
+         */
+        const clickBrowse = async () => {
+            const { default: userEvent } = await import('@testing-library/user-event')
+            const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime })
+            await user.click(screen.getByRole('button', { name: /Browse the papers/i }))
+        }
+
+        it('sends a TMUA buyer to the TMUA papers', async () => {
+            mockStatus.mockReturnValue({
+                data: { hasPass: true, coveredTests: ['tmua'] },
+                isError: false,
+            })
+            renderPage()
+            await clickBrowse()
+            expect(mockNavigate).toHaveBeenCalledWith('/diagnostics/tmua')
+            expect(mockNavigate).not.toHaveBeenCalledWith('/diagnostics')
+        })
+
+        it('sends an ESAT buyer to the ESAT papers', async () => {
+            mockStatus.mockReturnValue({
+                data: { hasPass: true, coveredTests: ['esat'] },
+                isError: false,
+            })
+            renderPage()
+            await clickBrowse()
+            expect(mockNavigate).toHaveBeenCalledWith('/diagnostics/esat')
+        })
+
+        it('keeps the combined listing for someone holding both', async () => {
+            mockStatus.mockReturnValue({
+                data: { hasPass: true, coveredTests: ['esat', 'tmua'] },
+                isError: false,
+            })
+            renderPage()
+            await clickBrowse()
+            expect(mockNavigate).toHaveBeenCalledWith('/diagnostics')
+        })
+
+        it('names the test it unlocked rather than promising every paper', () => {
+            // "Every paper is open" is false for a single-test pass, and was
+            // the last thing a TMUA buyer read before meeting a locked ESAT
+            // paper.
+            mockStatus.mockReturnValue({
+                data: { hasPass: true, coveredTests: ['tmua'] },
+                isError: false,
+            })
+            renderPage()
+            expect(screen.getByText(/Every TMUA paper is open/i)).toBeInTheDocument()
+            expect(screen.queryByText(/^Every paper is open/i)).not.toBeInTheDocument()
+        })
+    })
 })
