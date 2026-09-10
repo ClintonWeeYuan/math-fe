@@ -36,24 +36,28 @@ export function LandingHeader() {
     const { user, logout } = useAuth()
 
     return (
-        <div className="flex px-2 md:px-12 py-4 md:py-8 items-center justify-between">
-            <Link to="/">
-                <div className="flex items-center cursor-pointer">
+        <div className="flex px-2 md:px-6 lg:px-12 py-4 md:py-8 items-center justify-between">
+            {/* shrink-0: the menu's words cannot wrap, so any shortfall in the
+                header used to be taken out of this link alone — it collapsed
+                below its own contents and the wordmark's glyphs painted over
+                "Revision". The brand keeps its width; the gaps below give. */}
+            <Link to="/" className="shrink-0">
+                <div className="flex items-center gap-1 cursor-pointer">
                     <img
                         src="/logo-1.png"
                         alt="Logo"
                         className="w-[50px] xl:w-[70px]"
-                    />{' '}
-                    <span className="text-md md:text-xl font-bold">
+                    />
+                    <span className="text-md md:text-xl font-bold whitespace-nowrap">
                         JomExam
                     </span>
                 </div>
             </Link>
-            <div className="flex justify-between items-center">
+            <div className="flex items-center gap-4 lg:gap-6 xl:gap-8">
                 {MENU_ITEMS.map((item) => (
                     <Link
                         key={item.text}
-                        className="mx-8 hover:text-blue-700 hidden md:block"
+                        className="whitespace-nowrap hover:text-blue-700 hidden md:block"
                         to={item.link}
                     >
                         {item.text}
@@ -66,7 +70,12 @@ export function LandingHeader() {
                     // sign out at all.
                     <Popover>
                         <PopoverTrigger asChild>
-                            <Button className="ml-4 hover:cursor-pointer">
+                            {/* A name is arbitrary length, so cap it here:
+                                otherwise a long one pushes the header wider
+                                than the window and collides with the menu,
+                                the same failure the brand's shrink-0 fixes.
+                                The popover shows the name in full. */}
+                            <Button className="hover:cursor-pointer max-w-[9rem] truncate">
                                 {user.name}
                             </Button>
                         </PopoverTrigger>
@@ -101,7 +110,7 @@ export function LandingHeader() {
                     </Popover>
                 ) : (
                     <Button
-                        className="ml-4 hover:cursor-pointer"
+                        className="hover:cursor-pointer"
                         onClick={() => navigate('/auth/login')}
                     >
                         Sign up/ Login
