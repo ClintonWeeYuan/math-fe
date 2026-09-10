@@ -287,12 +287,13 @@ describe('the CTA on a paid set', () => {
         expect(screen.getByRole('button', { name: /coming soon/i })).toBeDisabled()
     })
 
-    describe('the mini badge', () => {
+    describe('how long a mini takes', () => {
         /**
-         * The badge used to read a hardcoded "15 min", which was true while
-         * every mini was an ESAT one. The TMUA minis hold their own paper's
-         * pace and run 19 minutes, so a constant understated them by four —
-         * on the card a student decides from.
+         * The card used to carry a duration badge beside the title as well as
+         * the length in the meta line. The badge was hardcoded to "15 min",
+         * which was true while every mini was an ESAT one — but the TMUA minis
+         * run 19 minutes, so the card ended up showing two different durations
+         * at once. The badge is gone; the meta line is the single statement.
          */
         const mini = (
             id: string,
@@ -304,7 +305,28 @@ describe('the CTA on a paid set', () => {
             timeLimitMinutes, questionCount: 5, isFree: true, format: 'mini',
         })
 
-        it("shows each mini's own time limit, not a fixed one", () => {
+        it('states the length once, with the question count', () => {
+            mockSets.mockReturnValue({
+                data: [mini('m1', 'TMUA Paper 1 — Mini Test', 'TMUA Paper 1', 19)],
+                isLoading: false,
+            })
+            renderPage()
+            expect(screen.getByText(/5 questions · 19 min/)).toBeInTheDocument()
+        })
+
+        it('carries no separate duration badge', () => {
+            // Neither the correct duration nor the old hardcoded one should
+            // appear as a standalone chip alongside the title.
+            mockSets.mockReturnValue({
+                data: [mini('m1', 'TMUA Paper 1 — Mini Test', 'TMUA Paper 1', 19)],
+                isLoading: false,
+            })
+            renderPage()
+            expect(screen.queryByText('19 min')).not.toBeInTheDocument()
+            expect(screen.queryByText('15 min')).not.toBeInTheDocument()
+        })
+
+        it('never shows two different durations on one card', () => {
             mockSets.mockReturnValue({
                 data: [
                     mini('m1', 'TMUA Paper 1 — Mini Test', 'TMUA Paper 1', 19),
@@ -313,17 +335,8 @@ describe('the CTA on a paid set', () => {
                 isLoading: false,
             })
             renderPage()
-            expect(screen.getByText('19 min')).toBeInTheDocument()
-            expect(screen.getByText('15 min')).toBeInTheDocument()
-        })
-
-        it('does not label a 19-minute mini as 15 minutes', () => {
-            mockSets.mockReturnValue({
-                data: [mini('m1', 'TMUA Paper 2 — Mini Test', 'TMUA Paper 2', 19)],
-                isLoading: false,
-            })
-            renderPage()
-            expect(screen.queryByText('15 min')).not.toBeInTheDocument()
+            expect(screen.getByText(/5 questions · 19 min/)).toBeInTheDocument()
+            expect(screen.getByText(/5 questions · 15 min/)).toBeInTheDocument()
         })
     })
 })
