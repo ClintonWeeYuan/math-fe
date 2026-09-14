@@ -49,6 +49,7 @@ import { DiagnosticSetReviewPage } from '@/pages/Admin/Diagnostic/DiagnosticSetR
 import { DiagnosticSubjectsPage } from '@/pages/Admin/Diagnostic/DiagnosticSubjectsPage.tsx'
 import { DiagnosticResultsPage } from '@/pages/Admin/Diagnostic/DiagnosticResultsPage.tsx'
 import { WaitlistPage } from '@/pages/Admin/Diagnostic/WaitlistPage.tsx'
+import { SeasonPassesPage } from '@/pages/Admin/SeasonPassesPage.tsx'
 import { DiagnosticAdminReportPage } from '@/pages/Admin/Diagnostic/DiagnosticAdminReportPage.tsx'
 import { DiagnosticQuestionCreatePage } from '@/pages/Admin/Diagnostic/DiagnosticQuestionCreatePage.tsx'
 import { DiagnosticQuestionEditPage } from '@/pages/Admin/Diagnostic/DiagnosticQuestionEditPage.tsx'
@@ -267,6 +268,10 @@ function App() {
                     <Route
                         path="admin/results"
                         element={<DiagnosticResultsPage />}
+                    />
+                    <Route
+                        path="admin/season-passes"
+                        element={<SeasonPassesPage />}
                     />
                     <Route path="admin/waitlist" element={<WaitlistPage />} />
                     <Route
