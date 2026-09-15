@@ -267,7 +267,9 @@ function landingPage(entry) {
 
     return {
         path: `/${slug}`,
-        title: `${t.name} ${subject} Practice Test — Free Timed Paper & Skills Report | JomExam`,
+        // Kept inside the ~60 characters Google shows. "& Skills Report" cut
+        // every one of these mid-word in results; the description carries it.
+        title: `${t.name} ${subject} Practice Test — Free Timed Paper | JomExam`,
         description: `A free ${t.name} ${subject} practice test in the real format — ${format} — with a report naming the skill behind every wrong answer. Plus a free mini test${pdf ? ' and a downloadable sample paper' : ''}.`,
         parent: t.parent,
         eyebrow: `${t.name} practice test`,
