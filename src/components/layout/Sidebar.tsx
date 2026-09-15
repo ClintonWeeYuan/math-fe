@@ -18,6 +18,7 @@ import {
     Layers,
     LucideCodesandbox,
     Mail,
+    MessageSquareWarning,
     PencilIcon,
     Settings,
     Ticket,
@@ -66,6 +67,11 @@ const ITEMS = [
         title: 'Results',
         url: '/admin/results',
         icon: BarChart3,
+    },
+    {
+        title: 'Question reports',
+        url: '/admin/question-reports',
+        icon: MessageSquareWarning,
     },
     {
         title: 'Season Pass',

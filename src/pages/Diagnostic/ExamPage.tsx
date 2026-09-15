@@ -176,6 +176,7 @@ export function ExamPage() {
                     totalQuestions={questions.length}
                     onAnswer={handleAnswer}
                     onToggleFlag={handleToggleFlag}
+                    attemptId={attemptId}
                 />
 
                 <div className="flex items-center justify-between border-t pt-4">
