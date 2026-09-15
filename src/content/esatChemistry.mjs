@@ -17,9 +17,9 @@
 
 export const GUIDE = {
     path: '/guides/esat-chemistry',
-    title: 'ESAT Chemistry Questions and Practice Papers | JomExam',
+    title: 'ESAT Chemistry Questions, Topics and Past Papers | JomExam',
     description:
-        'What ESAT Chemistry asks of you, where candidates lose marks, and worked ESAT Chemistry questions with full solutions. Plus a free timed paper in the real format.',
+        'What ESAT Chemistry asks of you, where candidates lose marks, and worked ESAT Chemistry questions with full solutions.',
     eyebrow: 'ESAT guide',
     ctaPath: '/diagnostics/esat',
     ctaLabel: 'Sit a free Chemistry paper →',
@@ -27,7 +27,7 @@ export const GUIDE = {
     standfirst:
         'ESAT Chemistry is a calculation paper more than a recall paper. Most questions come down to moles and a balanced equation — which makes the balancing, not the chemistry, the step that decides the mark.',
     publishedAt: '2026-08-11',
-    updatedAt: '2026-08-17',
+    updatedAt: '2026-09-15',
     sections: [
         {
             id: 'what-it-covers',

@@ -17,9 +17,9 @@
 
 export const GUIDE = {
     path: '/guides/esat-maths-2',
-    title: 'ESAT Maths 2 Questions and Practice Papers | JomExam',
+    title: 'ESAT Maths 2 Questions, Topics and Past Papers | JomExam',
     description:
-        'What ESAT Mathematics 2 asks beyond Maths 1, where candidates lose marks, and worked ESAT Maths 2 questions with full solutions. Plus a free timed paper in the real format.',
+        'What ESAT Mathematics 2 asks beyond Maths 1, where candidates lose marks, and worked ESAT Maths 2 questions with full solutions.',
     eyebrow: 'ESAT guide',
     ctaPath: '/diagnostics/esat',
     ctaLabel: 'Sit a free Mathematics 2 paper →',
@@ -27,7 +27,7 @@ export const GUIDE = {
     standfirst:
         'Mathematics 2 goes past the compulsory module into further calculus, logic and proof. It is the module most often required by the courses with the highest competition.',
     publishedAt: '2026-08-11',
-    updatedAt: '2026-08-17',
+    updatedAt: '2026-09-15',
     sections: [
         {
             id: 'what-it-covers',

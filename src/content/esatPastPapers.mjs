@@ -30,7 +30,7 @@ export const GUIDE = {
     standfirst:
         'There is less official ESAT material than students expect, and it runs out quickly. This page sets out what exists, how to get the most from each paper, and what to do next — because the honest answer to "where are the rest" is that they do not exist yet.',
     publishedAt: '2026-08-11',
-    updatedAt: '2026-08-16',
+    updatedAt: '2026-09-15',
     sections: [
         {
             id: 'what-exists',
@@ -191,8 +191,8 @@ export const GUIDE = {
             blurb: 'worked questions and where the marks actually go.',
         },
         {
-            path: '/guides/tmua-practice-tests',
-            blurb: 'the equivalent for TMUA Papers 1 and 2.',
+            path: '/guides/tmua-past-papers',
+            blurb: 'the equivalent for the TMUA, where far more exists.',
         },
     ],
     sources: [

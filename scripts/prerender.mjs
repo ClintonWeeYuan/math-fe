@@ -29,6 +29,7 @@ import {
 } from '../src/content/guideLinks.mjs'
 import { AUTHOR } from '../src/content/author.mjs'
 import { guideJsonLd, jsonLdText } from '../src/content/structuredData.mjs'
+import { DRAFT_MARKER } from '../src/content/draft.mjs'
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 const DIST = join(ROOT, 'dist')
@@ -274,6 +275,19 @@ function guideLinksMarkup(links = PRIMARY_GUIDE_LINKS) {
     )
 }
 
+/** A question without its working, and a real link to where the working is —
+ *  the same thing QuestionPreview renders. */
+function previewMarkup(preview) {
+    if (!preview) return ''
+    return (
+        `<article><p>${esc(preview.module)}</p><p>${esc(preview.question)}</p><ul>` +
+        preview.options
+            .map((o) => `<li>${esc(o.letter)} ${esc(o.text)}</li>`)
+            .join('') +
+        `</ul><p><a href="${esc(preview.solutionPath)}">See it worked through, with the trap behind each wrong answer</a></p></article>`
+    )
+}
+
 /** The guide, rendered from the same content module the React page uses, so
  * the static copy and the live page can never disagree. */
 function guideMarkup(GUIDE) {
@@ -296,6 +310,12 @@ function guideMarkup(GUIDE) {
                         `<p><a href="${esc(d.path)}">${esc(d.label)}</a> — ${esc(d.note)}</p>`
                 )
                 .join('')
+            const external = (section.external ?? [])
+                .map(
+                    (l) =>
+                        `<p><a href="${esc(l.url)}" rel="noopener">${esc(l.label)}</a> — ${esc(l.note)}</p>`
+                )
+                .join('')
             const table = section.table
                 ? `<table><caption>${esc(section.table.caption)}</caption><thead><tr>` +
                   section.table.head
@@ -315,8 +335,12 @@ function guideMarkup(GUIDE) {
             // Marked here and filled below, because `examples` is built
             // after this map.
             const here =
-                section.id === 'worked-examples' ? '<!--JX_EXAMPLES-->' : ''
-            return `<section id="${esc(section.id)}"><h2>${esc(section.h2)}</h2>${paras}${links}${downloads}${table}${here}</section>`
+                section.id === 'worked-examples'
+                    ? '<!--JX_EXAMPLES-->'
+                    : section.id === 'question-preview'
+                      ? previewMarkup(GUIDE.questionPreview)
+                      : ''
+            return `<section id="${esc(section.id)}"><h2>${esc(section.h2)}</h2>${paras}${links}${downloads}${external}${table}${here}</section>`
         })
         .join('')
     const faq =
@@ -634,6 +658,27 @@ async function main() {
         '<div id="root"></div>$1'
     )
     let written = 0
+
+    // Placeholder copy must not go live. Checked before anything is written,
+    // on the content itself, so a draft fails the build in seconds rather
+    // than after a minute of API calls.
+    const drafts = ROUTES.filter((route) =>
+        [route.title, route.description, route.body].some((s) =>
+            String(s).includes(DRAFT_MARKER)
+        )
+    ).map((route) => route.path)
+    if (drafts.length > 0) {
+        const message =
+            `${drafts.length} page(s) still carry placeholder copy: ` +
+            drafts.join(', ')
+        if (process.env.PRERENDER_ALLOW_DRAFTS !== '1') {
+            throw new Error(
+                `${message}. Write the copy, or set PRERENDER_ALLOW_DRAFTS=1 ` +
+                    'to build them locally for review.'
+            )
+        }
+        console.warn(`  ! ${message} (allowed for this local build)`)
+    }
 
     // Fetched once, not per route: every subject page comes from this list,
     // and so does the sitemap.

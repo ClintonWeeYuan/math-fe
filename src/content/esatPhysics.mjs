@@ -17,9 +17,9 @@
 
 export const GUIDE = {
     path: '/guides/esat-physics',
-    title: 'ESAT Physics Questions and Practice Papers | JomExam',
+    title: 'ESAT Physics Questions, Topics and Past Papers | JomExam',
     description:
-        'What ESAT Physics asks of you, the topics that quietly cost marks, and worked ESAT Physics questions with full solutions. Plus a free timed paper in the real format.',
+        'What ESAT Physics asks of you, the topics that quietly cost marks, and worked ESAT Physics questions with full solutions.',
     eyebrow: 'ESAT guide',
     ctaPath: '/diagnostics/esat',
     ctaLabel: 'Sit a free Physics paper →',
@@ -27,7 +27,7 @@ export const GUIDE = {
     standfirst:
         'ESAT Physics rewards picking the right conserved quantity and committing to it. The content is A-level; the difficulty is that every question is two or three steps with no calculator.',
     publishedAt: '2026-08-11',
-    updatedAt: '2026-08-16',
+    updatedAt: '2026-09-15',
     sections: [
         {
             id: 'what-it-covers',

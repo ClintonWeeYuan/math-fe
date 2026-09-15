@@ -10,6 +10,33 @@ export type GuideSection = {
     downloads?: SectionDownload[]
     /** Optional table. The first column of each row acts as its row header. */
     table?: { caption: string; head: string[]; rows: string[][] }
+    /** Links off the site — official material, mostly. Plain anchors, since
+     *  `links` go through the router and cannot leave it. */
+    external?: ExternalLink[]
+}
+
+export type ExternalLink = {
+    url: string
+    label: string
+    note: string
+}
+
+/**
+ * A question shown without its working, pointing at the page that works it.
+ *
+ * What a practice-test landing page carries instead of a full worked example.
+ * The full solution lives on the subject guide; repeating it here made a third
+ * of each landing page a copy of its guide, and Search Console showed the two
+ * competing for the same queries. The question stays, because "try one now" is
+ * the landing page's job — the answer is one click away, on the page whose job
+ * is explaining it.
+ */
+export type QuestionPreview = {
+    module: string
+    question: string
+    options: { letter: string; text: string }[]
+    /** Where the worked solution is, anchor included. */
+    solutionPath: string
 }
 
 export type GuideFaqItem = {
@@ -114,6 +141,8 @@ export type Guide = {
     publishedAt: string
     updatedAt: string
     workedExamples?: WorkedExample[]
+    /** Rendered under the section whose id is 'question-preview'. */
+    questionPreview?: QuestionPreview
     /**
      * Paths of the guides to list at the foot, with the blurb to use.
      *
