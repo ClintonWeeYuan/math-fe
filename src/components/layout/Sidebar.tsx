@@ -20,6 +20,7 @@ import {
     Mail,
     PencilIcon,
     Settings,
+    Ticket,
 } from 'lucide-react'
 import { useAuth } from '@/components/auth/AuthContext.tsx'
 import { Button } from '@/components/ui/button.tsx'
@@ -65,6 +66,11 @@ const ITEMS = [
         title: 'Results',
         url: '/admin/results',
         icon: BarChart3,
+    },
+    {
+        title: 'Season Pass',
+        url: '/admin/season-passes',
+        icon: Ticket,
     },
     {
         title: 'Waitlist',
