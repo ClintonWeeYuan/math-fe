@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { client } from '@/client/client.gen'
+import { CountrySelect } from '@/components/common/CountrySelect.tsx'
 
 /**
- * Two questions, asked once, in the gap between submitting and reading the
+ * A few questions, in the gap between submitting and reading the
  * report.
  *
  * The moment is chosen rather than convenient: a student has just spent forty
@@ -33,6 +34,11 @@ const UNIVERSITIES = [
     'Other/Not sure',
 ] as const
 
+function authHeaders(): Record<string, string> {
+    const token = localStorage.getItem('token')
+    return token ? { Authorization: `Bearer ${token}` } : {}
+}
+
 /** Fire-and-forget. A survey answer is worth nothing next to the report the
  *  student is waiting for, so nothing here is awaited and no failure is shown
  *  to them. */
@@ -41,12 +47,38 @@ function save(body: Record<string, unknown>): void {
         .post({
             url: '/users/diagnostic-survey',
             body,
-            headers: (() => {
-                const token = localStorage.getItem('token')
-                return token ? { Authorization: `Bearer ${token}` } : {}
-            })(),
+            headers: authHeaders(),
         })
         .catch(() => {})
+}
+
+/**
+ * Whether to ask for a country: only if none is stored. Sitting and
+ * universities are asked every time because both change over a season; a
+ * country does not, and asking it after every paper would be noise.
+ *
+ * Null while loading, so the question does not flash up and vanish. A failed
+ * read asks — asking twice is the worst that follows.
+ */
+function useNeedsCountry(): boolean | null {
+    const [needs, setNeeds] = useState<boolean | null>(null)
+    useEffect(() => {
+        let live = true
+        client
+            .get({ url: '/users/diagnostic-survey', headers: authHeaders() })
+            .then((result) => {
+                const country = (result.data as { country?: string | null } | undefined)
+                    ?.country
+                if (live) setNeeds(result.error !== undefined || !country)
+            })
+            .catch(() => {
+                if (live) setNeeds(true)
+            })
+        return () => {
+            live = false
+        }
+    }, [])
+    return needs
 }
 
 function Chip({
@@ -78,8 +110,15 @@ export function PostSubmissionSurvey() {
     const [dismissed, setDismissed] = useState(false)
     const [sitting, setSitting] = useState<string | null>(null)
     const [universities, setUniversities] = useState<string[]>([])
+    const [country, setCountry] = useState<string | null>(null)
+    const needsCountry = useNeedsCountry()
 
     if (dismissed) return null
+
+    function chooseCountry(code: string) {
+        setCountry(code)
+        save({ country: code })
+    }
 
     function chooseSitting(value: string) {
         setSitting(value)
@@ -100,7 +139,7 @@ export function PostSubmissionSurvey() {
         <div className="w-full rounded-xl border border-slate-200 bg-slate-50 p-5 text-left">
             <div className="mb-4 flex items-start justify-between gap-4">
                 <p className="text-sm text-slate-600">
-                    Two quick questions, so we can make this more useful to
+                    A few quick questions, so we can make this more useful to
                     you. Skip if you&apos;d rather not.
                 </p>
                 <button
@@ -141,6 +180,21 @@ export function PostSubmissionSurvey() {
                     </Chip>
                 ))}
             </div>
+
+            {/* Kept once answered in this sitting, so choosing a country does
+                not make the question disappear from under the student. */}
+            {(needsCountry || country !== null) && (
+                <div className="mt-5">
+                    <p className="mb-2 text-sm font-medium" id="survey-country">
+                        Which country are you in?
+                    </p>
+                    <CountrySelect
+                        value={country}
+                        onChange={chooseCountry}
+                        aria-labelledby="survey-country"
+                    />
+                </div>
+            )}
         </div>
     )
 }

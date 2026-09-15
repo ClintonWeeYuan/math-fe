@@ -13,6 +13,7 @@ import { client } from '@/client/client.gen'
  */
 
 const post = vi.spyOn(client, 'post')
+const get = vi.spyOn(client, 'get')
 
 const attempt = {
     id: 'att-1',
@@ -36,7 +37,43 @@ const show = () =>
 beforeEach(() => {
     post.mockReset()
     post.mockResolvedValue({ data: { message: 'ok' } } as never)
+    get.mockReset()
+    get.mockResolvedValue({ data: { country: null } } as never)
     localStorage.clear()
+})
+
+describe('the country question', () => {
+    it('is asked when no country is stored, and saved when picked', async () => {
+        show()
+        const picker = await screen.findByRole('combobox', {
+            name: /which country are you in/i,
+        })
+        await userEvent.click(picker)
+        await userEvent.click(await screen.findByText('Malaysia'))
+
+        expect(post).toHaveBeenCalledWith(
+            expect.objectContaining({ body: { country: 'MY' } })
+        )
+        // Still on screen after answering, showing the answer.
+        expect(
+            screen.getByRole('combobox', { name: /which country are you in/i })
+        ).toBeInTheDocument()
+    })
+
+    it('is not asked again once a country is stored', async () => {
+        get.mockResolvedValue({ data: { country: 'GB' } } as never)
+        show()
+        await vi.waitFor(() => expect(get).toHaveBeenCalled())
+        // Give the read a tick to land.
+        await new Promise((r) => setTimeout(r, 0))
+        expect(screen.queryByText(/which country are you in/i)).not.toBeInTheDocument()
+    })
+
+    it('is asked if the stored answers cannot be read', async () => {
+        get.mockRejectedValue(new Error('offline'))
+        show()
+        expect(await screen.findByText(/which country are you in/i)).toBeInTheDocument()
+    })
 })
 
 describe('the survey after a submission', () => {

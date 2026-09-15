@@ -26,6 +26,7 @@ import useBulkDeleteAttemptsMutation from '@/hooks/diagnostic/useBulkDeleteAttem
 import { AttemptDetailDialog } from '@/components/diagnostic/AttemptDetailDialog.tsx'
 import { downloadResultsCsv } from '@/lib/diagnosticResultsCsv.ts'
 import { profileOf, sittingLabel } from '@/lib/adminStudentProfile.ts'
+import { countryName } from '@/lib/countries.ts'
 import {
     ANY,
     NO_FILTERS,
@@ -417,6 +418,7 @@ export function DiagnosticResultsPage() {
                                     target universities are in the CSV, where
                                     there is no width to run out of. */}
                                 <TableHead>School</TableHead>
+                                <TableHead>Country</TableHead>
                                 <TableHead>Sitting</TableHead>
                                 <TableHead>Set</TableHead>
                                 <TableHead>Subject</TableHead>
@@ -463,6 +465,7 @@ export function DiagnosticResultsPage() {
                                         )}
                                     </TableCell>
                                     <TableCell>{profile.school ?? '—'}</TableCell>
+                                    <TableCell>{countryName(profile.country)}</TableCell>
                                     <TableCell>
                                         {sittingLabel(profile.testSitting)}
                                     </TableCell>

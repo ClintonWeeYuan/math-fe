@@ -23,6 +23,8 @@ export type StudentProfile = {
     state?: string | null
     testSitting?: string | null
     targetUniversities?: string[] | null
+    /** ISO 3166-1 alpha-2, from signup or the survey. */
+    country?: string | null
 }
 
 export function profileOf(row: AdminAttemptResultRow): StudentProfile {

@@ -34,6 +34,7 @@ import {
 import type { UserSignup } from '@/client'
 import { Link } from 'react-router-dom'
 import { ProviderSignIn } from '@/components/auth/ProviderSignIn.tsx'
+import { CountrySelect } from '@/components/common/CountrySelect.tsx'
 
 const USER_CATEGORIES = [
     'PARENT',
@@ -49,6 +50,9 @@ const SCHEMA = z.object({
         .min(8, 'Password must be at least 8 characters')
         .max(50, 'Password must be less than 50 characters'),
     category: z.enum(USER_CATEGORIES),
+    country: z
+        .string({ required_error: 'Please select your country' })
+        .regex(/^[A-Z]{2}$/, 'Please select your country'),
 })
 
 type Schema = z.infer<typeof SCHEMA>
@@ -181,6 +185,23 @@ export const SignupPage: React.FC = () => {
                                 </div>
                                 <FormErrorMessage errors={errors} name="name" />
                             </div>
+
+                            <FormField
+                                control={form.control}
+                                name="country"
+                                render={({ field }) => (
+                                    <FormItem className="space-y-2">
+                                        <Label htmlFor="country">Country</Label>
+                                        <CountrySelect
+                                            id="country"
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                            disabled={isPending}
+                                        />
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
 
                             <div className="space-y-2">
                                 <Label htmlFor="email">Email</Label>

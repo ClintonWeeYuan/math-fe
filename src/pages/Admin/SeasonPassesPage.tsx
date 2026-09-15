@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/table.tsx'
 import useSeasonPassHoldersQuery from '@/hooks/billing/useSeasonPassHoldersQuery.ts'
 import { sittingLabel } from '@/lib/adminStudentProfile.ts'
+import { countryName } from '@/lib/countries.ts'
 import type {
     AttemptStatus,
     PaperProgress,
@@ -343,6 +344,11 @@ export function SeasonPassesPage() {
                                                 {h.name && (
                                                     <span className="block text-xs font-normal text-gray-500 dark:text-gray-400">
                                                         {h.email}
+                                                    </span>
+                                                )}
+                                                {h.country && (
+                                                    <span className="block text-xs font-normal text-gray-500 dark:text-gray-400">
+                                                        {countryName(h.country)}
                                                     </span>
                                                 )}
                                                 {h.school && (

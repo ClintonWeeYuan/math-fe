@@ -1,5 +1,6 @@
 import type { AdminAttemptResultRow } from '@/client'
 import { profileOf, sittingLabel } from '@/lib/adminStudentProfile.ts'
+import { countryName } from '@/lib/countries.ts'
 
 /** RFC-4180 field escaping: wrap in quotes and double any embedded quote when
  * the value contains a comma, quote, or newline. */
@@ -17,6 +18,7 @@ const HEADERS = [
     'School',
     'Level',
     'State',
+    'Country',
     'Sitting',
     'Target universities',
     'Set',
@@ -46,6 +48,8 @@ export function resultsToCsv(rows: AdminAttemptResultRow[]): string {
                 csvField(p.school),
                 csvField(p.level),
                 csvField(p.state),
+                // The name, for the same reason as the sitting label below.
+                csvField(p.country ? countryName(p.country) : ''),
                 // The label, not the stored value: this file is read by a
                 // person, and 'october_2026' is a database detail.
                 csvField(sittingLabel(p.testSitting)),

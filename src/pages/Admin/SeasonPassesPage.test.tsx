@@ -21,7 +21,7 @@ const paper = (over: Partial<SeasonPassHolder['papers'][number]>) => ({
 
 const BUYER: SeasonPassHolder = {
     studentId: 'buyer', email: 'buyer@x.com', name: 'Buyer Name', school: null,
-    testSitting: 'october_2026', isInternal: false,
+    testSitting: 'october_2026', country: 'GB', isInternal: false,
     passes: [{
         product: 'season_pass_esat_2026_27', label: 'ESAT Season Pass', test: 'esat',
         source: 'stripe', purchasedAt: '2026-09-14T09:28:10Z',
@@ -58,6 +58,7 @@ describe('SeasonPassesPage', () => {
     it('lists buyers and hides internal accounts by default', () => {
         renderPage([BUYER, INTERNAL])
         expect(screen.getByText('Buyer Name')).toBeInTheDocument()
+        expect(screen.getByText('United Kingdom')).toBeInTheDocument()
         expect(screen.queryByText('Internal Person')).not.toBeInTheDocument()
 
         fireEvent.click(screen.getByLabelText('Show internal accounts'))
