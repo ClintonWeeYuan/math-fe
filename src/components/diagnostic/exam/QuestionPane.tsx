@@ -6,6 +6,7 @@ import { LatexText } from '@/components/diagnostic/LatexText.tsx'
 import { Button } from '@/components/ui/button.tsx'
 import { cn } from '@/lib/utils.ts'
 import { Flag } from 'lucide-react'
+import { ReportQuestionDialog } from '@/components/diagnostic/ReportQuestionDialog.tsx'
 
 type Props = {
     question: StudentDiagnosticQuestionResponse
@@ -14,6 +15,8 @@ type Props = {
     totalQuestions: number
     onAnswer: (label: string) => void
     onToggleFlag: () => void
+    /** Present, the student can report a problem with the question. */
+    attemptId?: string
 }
 
 /**
@@ -32,6 +35,7 @@ export function QuestionPane({
     totalQuestions,
     onAnswer,
     onToggleFlag,
+    attemptId,
 }: Props) {
     const selected = response?.selectedOption ?? null
     const flagged = response?.isFlagged ?? false
@@ -42,16 +46,26 @@ export function QuestionPane({
                 <span className="text-sm font-medium text-gray-500">
                     Question {questionNumber} of {totalQuestions}
                 </span>
-                <Button
-                    type="button"
-                    variant={flagged ? 'default' : 'outline'}
-                    size="sm"
-                    onClick={onToggleFlag}
-                    aria-pressed={flagged}
-                >
-                    <Flag className="h-4 w-4" />
-                    {flagged ? 'Flagged' : 'Flag for review'}
-                </Button>
+                <div className="flex items-center gap-2">
+                    {attemptId && (
+                        <ReportQuestionDialog
+                            attemptId={attemptId}
+                            questionId={question.id}
+                            questionNumber={questionNumber}
+                            context="exam"
+                        />
+                    )}
+                    <Button
+                        type="button"
+                        variant={flagged ? 'default' : 'outline'}
+                        size="sm"
+                        onClick={onToggleFlag}
+                        aria-pressed={flagged}
+                    >
+                        <Flag className="h-4 w-4" />
+                        {flagged ? 'Flagged' : 'Flag for review'}
+                    </Button>
+                </div>
             </div>
 
             <div className="text-lg leading-relaxed">

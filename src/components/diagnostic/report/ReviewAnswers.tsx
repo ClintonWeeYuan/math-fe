@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Card, CardContent } from '@/components/ui/card.tsx'
 import { LatexText } from '@/components/diagnostic/LatexText.tsx'
 import { SolutionBlock } from '@/components/diagnostic/report/SolutionBlock.tsx'
+import { ReportQuestionDialog } from '@/components/diagnostic/ReportQuestionDialog.tsx'
 import useAttemptReviewQuery, {
     isExpectedRefusal,
     type ReviewQuestion,
@@ -71,7 +72,13 @@ function OptionRow({
     )
 }
 
-function QuestionCard({ question }: { question: ReviewQuestion }) {
+function QuestionCard({
+    question,
+    reportAttemptId,
+}: {
+    question: ReviewQuestion
+    reportAttemptId?: string
+}) {
     const [open, setOpen] = useState(false)
 
     return (
@@ -138,6 +145,19 @@ function QuestionCard({ question }: { question: ReviewQuestion }) {
                         solutionVideoUrl={question.solutionVideoUrl}
                         solutionDiagramSvg={question.solutionDiagramSvg}
                     />
+
+                    {/* After the solution, because that is where a student
+                        notices the working, or the answer key, is wrong. */}
+                    {reportAttemptId && (
+                        <div className="mt-3 flex justify-end">
+                            <ReportQuestionDialog
+                                attemptId={reportAttemptId}
+                                questionId={question.questionId}
+                                questionNumber={question.questionOrderIndex + 1}
+                                context="review"
+                            />
+                        </div>
+                    )}
                 </div>
             )}
         </div>
@@ -237,6 +257,10 @@ export function ReviewAnswers({
                             <QuestionCard
                                 key={question.questionId}
                                 question={question}
+                                // Students only: an admin reading someone
+                                // else's review fixes a question in the
+                                // editor, not by reporting it to themselves.
+                                reportAttemptId={admin ? undefined : attemptId}
                             />
                         ))
                     )}

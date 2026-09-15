@@ -399,3 +399,22 @@ describe('ReviewAnswers — the admin (tutor) read', () => {
         ).toBeChecked()
     })
 })
+
+describe('reporting a problem from the review', () => {
+    it('offers it on an opened question to the student', async () => {
+        show([wrong()])
+        await userEvent.click(screen.getByRole('button', { name: /^Question 1/ }))
+        expect(screen.getByRole('button', { name: /report a problem/i })).toBeInTheDocument()
+    })
+
+    it('does not offer it to an admin reading someone else’s review', async () => {
+        mockReview.mockReturnValue({
+            data: { attemptId: 'att-1', subject: 'ESAT Math 1', questions: [wrong()] },
+            isLoading: false,
+            isError: false,
+        })
+        render(<ReviewAnswers attemptId="att-1" admin />)
+        await userEvent.click(screen.getByRole('button', { name: /^Question 1/ }))
+        expect(screen.queryByRole('button', { name: /report a problem/i })).not.toBeInTheDocument()
+    })
+})
