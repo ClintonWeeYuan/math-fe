@@ -56,6 +56,12 @@ describe('every paper has one', () => {
         }
     })
 
+    it('keeps the title short enough not to be cut off in results', () => {
+        for (const page of LANDING_PAGES) {
+            expect(page.title.length, page.title).toBeLessThanOrEqual(65)
+        }
+    })
+
     it('is not listed among the guides', () => {
         // Same content shape, different job: a product surface on the /guides
         // index would dilute a list of explanatory pages.
@@ -163,6 +169,18 @@ whenBuilt('the built pages', () => {
                     text
                 )
             }
+        }
+    })
+
+    it('is actually linked from its guide, not just listed in the data', () => {
+        // The guides named these pages in `related` from the start, and the
+        // renderer dropped every one because it only resolved guides. The
+        // content-level check above passed throughout; only the HTML can say
+        // whether a crawler has a link to follow.
+        for (const [guidePath, landingPath] of Object.entries(LANDING_PAGE_FOR)) {
+            expect(built(guidePath), `${guidePath} → ${landingPath}`).toContain(
+                `href="${landingPath}"`
+            )
         }
     })
 

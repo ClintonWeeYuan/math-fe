@@ -4,7 +4,7 @@
 # obeys the most specific User-agent group that matches it and ignores the
 # "*" group completely — so naming a bot below and listing only "Allow: /"
 # would hand it /admin and /diagnostic, which the "*" group withholds. Any
-# new group must carry the same three Disallow lines.
+# new group must carry the same five Disallow lines.
 
 # ---------------------------------------------------------------------------
 # Everyone else, including Googlebot and Bingbot.
@@ -14,6 +14,8 @@ Allow: /
 Disallow: /admin
 Disallow: /auth/
 Disallow: /diagnostic/
+Disallow: /my-results
+Disallow: /billing/
 
 # ---------------------------------------------------------------------------
 # AI retrieval and search bots — allowed.
@@ -33,6 +35,8 @@ Allow: /
 Disallow: /admin
 Disallow: /auth/
 Disallow: /diagnostic/
+Disallow: /my-results
+Disallow: /billing/
 
 # ---------------------------------------------------------------------------
 # AI training bots — blocked.

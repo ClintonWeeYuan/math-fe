@@ -9,6 +9,7 @@ import { GUIDE as esatBiology } from './esatBiology.mjs'
 import { GUIDE as tmuaPracticeGuide } from './tmuaPracticeGuide.mjs'
 import { GUIDE as tmuaDates } from './tmuaDates.mjs'
 import { GUIDE as tmuaPastPapers } from './tmuaPastPapers.mjs'
+import { LANDING_PAGES } from './landingPages.mjs'
 
 /**
  * Every search-facing guide, in the order they are listed on /guides.
@@ -44,7 +45,13 @@ export const GUIDES = [
  * rendered page cannot list different things.
  */
 export function relatedTo(guide) {
-    const byPath = new Map(GUIDES.map((g) => [g.path, g]))
+    // Landing pages resolve too. Every subject guide names its practice-test
+    // page here, and looking paths up in GUIDES alone dropped that link as a
+    // "typo" — silently, on every guide, from August until the September
+    // audit found the five landing pages with no inbound link at all.
+    const byPath = new Map(
+        [...GUIDES, ...LANDING_PAGES].map((g) => [g.path, g])
+    )
     if (guide.related !== undefined) {
         return (
             guide.related
