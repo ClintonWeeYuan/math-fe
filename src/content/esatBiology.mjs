@@ -17,9 +17,9 @@
 
 export const GUIDE = {
     path: '/guides/esat-biology',
-    title: 'ESAT Biology Questions and Practice Papers | JomExam',
+    title: 'ESAT Biology Questions, Topics and Past Papers | JomExam',
     description:
-        'What ESAT Biology asks of you, where candidates lose marks, and worked ESAT Biology questions with full solutions. Plus a free timed paper in the real format.',
+        'What ESAT Biology asks of you, where candidates lose marks, and worked ESAT Biology questions with full solutions.',
     eyebrow: 'ESAT guide',
     ctaPath: '/diagnostics/esat',
     ctaLabel: 'Sit a free Biology paper →',
@@ -27,7 +27,7 @@ export const GUIDE = {
     standfirst:
         'ESAT Biology is more quantitative than candidates expect. Not the essay-and-recall paper A-level trains you for: ratios, probabilities and data, at 90 seconds a question.',
     publishedAt: '2026-08-11',
-    updatedAt: '2026-08-17',
+    updatedAt: '2026-09-15',
     sections: [
         {
             id: 'what-it-covers',

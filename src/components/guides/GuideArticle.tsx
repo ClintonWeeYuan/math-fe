@@ -1,5 +1,7 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { WorkedExample } from '@/components/guides/WorkedExample.tsx'
+import { QuestionPreview } from '@/components/guides/QuestionPreview.tsx'
 import { Button } from '@/components/ui/button.tsx'
 import { Seo } from '@/components/Seo.tsx'
 import type { Guide } from '@/content/guideTypes.ts'
@@ -56,6 +58,18 @@ function trackCta(destination: string): void {
 
 export function GuideArticle({ guide }: { guide: Guide }) {
     const navigate = useNavigate()
+    const { hash } = useLocation()
+
+    // The router moves between pages without the browser's own scrolling, so
+    // a link to /guides/esat-physics#terminal-velocity landed wherever the
+    // previous page had been scrolled to, and a link from the foot of one
+    // guide opened the next one at its foot. Go to the anchor when there is
+    // one, and to the top when there is not.
+    useEffect(() => {
+        const target = hash ? document.getElementById(hash.slice(1)) : null
+        if (target) target.scrollIntoView()
+        else window.scrollTo(0, 0)
+    }, [guide.path, hash])
 
     return (
         <>
@@ -204,6 +218,22 @@ export function GuideArticle({ guide }: { guide: Guide }) {
                                 — {file.note}
                             </p>
                         ))}
+                        {section.external?.map((link) => (
+                            <p
+                                key={link.url}
+                                className="text-slate-600 leading-relaxed mb-3"
+                            >
+                                <a
+                                    href={link.url}
+                                    className="font-semibold underline underline-offset-4"
+                                    style={{ color: PERIWINKLE }}
+                                    rel="noopener"
+                                >
+                                    {link.label}
+                                </a>{' '}
+                                — {link.note}
+                            </p>
+                        ))}
                         {section.table && (
                             <div className="overflow-x-auto mt-5">
                                 <table className="w-full text-sm border border-slate-200 rounded-lg">
@@ -257,6 +287,10 @@ export function GuideArticle({ guide }: { guide: Guide }) {
                                     example={example}
                                 />
                             ))}
+                        {section.id === 'question-preview' &&
+                            guide.questionPreview && (
+                                <QuestionPreview preview={guide.questionPreview} />
+                            )}
                     </section>
                 ))}
 

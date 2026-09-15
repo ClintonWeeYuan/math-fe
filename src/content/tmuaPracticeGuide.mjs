@@ -32,7 +32,7 @@ export const GUIDE = {
     // because that is when the page gained its byline and dates, which is a
     // change a reader can see.
     publishedAt: '2026-08-01',
-    updatedAt: '2026-08-17',
+    updatedAt: '2026-09-15',
     sections: [
         {
             id: 'two-papers',
@@ -60,6 +60,20 @@ export const GUIDE = {
                     ],
                 ],
             },
+            // One landing page per paper, linked from the one guide that
+            // covers both.
+            links: [
+                {
+                    path: '/tmua-paper-1-practice-test',
+                    label: 'TMUA Paper 1 practice test',
+                    note: 'A free timed Paper 1 in the real format, with a skills report.',
+                },
+                {
+                    path: '/tmua-paper-2-practice-test',
+                    label: 'TMUA Paper 2 practice test',
+                    note: 'A free timed Paper 2, naming the logical error behind each wrong answer.',
+                },
+            ],
         },
         {
             id: 'format',
@@ -152,8 +166,8 @@ export const GUIDE = {
             blurb: 'the equivalent for the ESAT, with a free paper per module.',
         },
         {
-            path: '/guides/esat-dates',
-            blurb: 'ESAT sittings and deadlines, which differ from the TMUA’s.',
+            path: '/guides/tmua-past-papers',
+            blurb: 'every official TMUA past paper, and what each is for.',
         },
     ],
     sources: [

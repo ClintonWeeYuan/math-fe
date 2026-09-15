@@ -8,6 +8,7 @@ import { GUIDE as esatChemistry } from './esatChemistry.mjs'
 import { GUIDE as esatBiology } from './esatBiology.mjs'
 import { GUIDE as tmuaPracticeGuide } from './tmuaPracticeGuide.mjs'
 import { GUIDE as tmuaDates } from './tmuaDates.mjs'
+import { GUIDE as tmuaPastPapers } from './tmuaPastPapers.mjs'
 
 /**
  * Every search-facing guide, in the order they are listed on /guides.
@@ -27,6 +28,7 @@ export const GUIDES = [
     esatChemistry,
     esatBiology,
     tmuaPracticeGuide,
+    tmuaPastPapers,
     tmuaDates,
 ]
 

@@ -17,9 +17,9 @@
 
 export const GUIDE = {
     path: '/guides/esat-maths-1',
-    title: 'ESAT Maths 1 Questions and Practice Papers | JomExam',
+    title: 'ESAT Maths 1 Questions, Topics and Past Papers | JomExam',
     description:
-        'What ESAT Mathematics 1 asks of you, the topics that quietly cost marks, and worked ESAT Maths 1 questions with full solutions. Plus a free timed paper in the real format.',
+        'What ESAT Mathematics 1 asks of you, the topics that quietly cost marks, and worked ESAT Maths 1 questions with full solutions.',
     eyebrow: 'ESAT guide',
     ctaPath: '/diagnostics/esat',
     ctaLabel: 'Sit a free Mathematics 1 paper →',
@@ -27,7 +27,7 @@ export const GUIDE = {
     standfirst:
         'Every ESAT candidate sits Mathematics 1, whatever course they are applying for. The content is familiar A-level pure maths, so the marks go to whoever finds the short route first.',
     publishedAt: '2026-08-11',
-    updatedAt: '2026-08-17',
+    updatedAt: '2026-09-15',
     sections: [
         {
             id: 'what-it-covers',

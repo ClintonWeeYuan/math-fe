@@ -45,6 +45,15 @@ export function SiteFooter() {
                     </Link>
                 </nav>
             </div>
+            {/* On every page, not just the Terms: the guides name UAT-UK and
+                the universities throughout, and a reader landing from search
+                should not have to go looking to learn we are not them. The
+                full statement is in the Terms. */}
+            <p className="px-4 md:px-[50px] xl:px-[150px] pb-8 text-xs text-slate-400">
+                JomExam is independent and not affiliated with UAT-UK, the
+                University of Cambridge, Imperial College London, the University
+                of Oxford or UCL.
+            </p>
         </footer>
     )
 }
