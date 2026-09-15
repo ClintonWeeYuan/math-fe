@@ -57,6 +57,7 @@ describe('resultsToCsv', () => {
                 school: 'SMK Sungai Maong',
                 level: 'Form 5',
                 state: 'Sarawak',
+                country: 'MY',
                 testSitting: 'october_2026',
                 targetUniversities: ['Cambridge', 'Imperial'],
             } as Partial<AdminAttemptResultRow>),
@@ -68,6 +69,8 @@ describe('resultsToCsv', () => {
         expect(at('School')).toBe('SMK Sungai Maong')
         expect(at('Level')).toBe('Form 5')
         expect(at('State')).toBe('Sarawak')
+        // The name, not the stored code.
+        expect(at('Country')).toBe('Malaysia')
         // The label, not the stored 'october_2026'.
         expect(at('Sitting')).toBe('October 2026')
         // Semicolons, so a spreadsheet splitting on commas cannot halve the
@@ -81,6 +84,7 @@ describe('resultsToCsv', () => {
             line.split(',')[header.split(',').indexOf(name)]
         expect(at('Name')).toBe('')
         expect(at('School')).toBe('')
+        expect(at('Country')).toBe('')
         expect(at('Target universities')).toBe('')
         // A missing sitting is a dash in the table; in a CSV it is a dash too,
         // because sittingLabel is the one place that decision is made.

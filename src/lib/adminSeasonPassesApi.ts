@@ -47,6 +47,8 @@ export type SeasonPassHolder = {
     name: string | null
     school: string | null
     testSitting: string | null
+    /** ISO 3166-1 alpha-2, from signup or the survey. */
+    country: string | null
     isInternal: boolean
     passes: HeldPass[]
     papers: PaperProgress[]
