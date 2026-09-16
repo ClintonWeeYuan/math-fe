@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
+import { authPageFromPath, trackAuthFailed, trackAuthSucceeded } from '@/lib/authFunnel.ts'
 
 import { useAuth } from '@/components/auth/AuthContext.tsx'
 import { useGoogleSignInMutation } from '@/components/auth/useGoogleSignInMutation.ts'
@@ -125,12 +126,14 @@ export function GoogleSignInButton({ onReady }: { onReady?: () => void } = {}) {
                 user: data.user,
                 token: data.token,
                 callback: () => {
+                    trackAuthSucceeded('google', authPageFromPath(location.pathname))
                     toast.success('Signed in with Google')
                     navigate(from, { replace: true })
                 },
             })
         },
         onError: (error) => {
+            trackAuthFailed('google', authPageFromPath(location.pathname), error)
             toast.error(error.message)
         },
     })

@@ -3,6 +3,8 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useVerifyAccountMutation } from '@/components/auth/useVerifyAccountMutation.ts'
 import { toast } from 'sonner'
 import { useAuth } from '@/components/auth/AuthContext.tsx'
+import { trackEvent } from '@/lib/analytics.ts'
+import { trackAuthFailed } from '@/lib/authFunnel.ts'
 
 export function VerificationPage() {
     const [searchParams] = useSearchParams()
@@ -16,6 +18,7 @@ export function VerificationPage() {
                     user: data.user,
                     token: data.token,
                     callback: () => {
+                        trackEvent('email_verified')
                         toast.success(data.message, {
                             id: 'ACCOUNT_VERIFICATION_SUCCESS',
                         })
@@ -24,6 +27,9 @@ export function VerificationPage() {
                 })
             }
         },
+        // A link that fails (expired, already used) is where a password
+        // sign-up can quietly end, so it is counted.
+        onError: (err: Error) => trackAuthFailed('password', 'signup', err),
     })
 
     // Get specific parameter

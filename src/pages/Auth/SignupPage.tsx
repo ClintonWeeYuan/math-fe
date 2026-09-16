@@ -1,4 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import {
+    trackAuthFailed,
+    trackAuthPageViewed,
+} from '@/lib/authFunnel.ts'
+import { trackEvent } from '@/lib/analytics.ts'
 import {
     Card,
     CardContent,
@@ -32,7 +37,7 @@ import {
     SelectValue,
 } from '@/components/ui/select.tsx'
 import type { UserSignup } from '@/client'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { ProviderSignIn } from '@/components/auth/ProviderSignIn.tsx'
 import { CountrySelect } from '@/components/common/CountrySelect.tsx'
 
@@ -61,9 +66,18 @@ export const SignupPage: React.FC = () => {
     const [showPassword, setShowPassword] = useState(false)
     const [success, setSuccess] = useState<null | string>(null)
     const [error, setError] = useState<string | null>(null)
+    const location = useLocation()
+
+    useEffect(() => {
+        trackAuthPageViewed('signup')
+    }, [])
+
     const { mutate: signup, isPending } = useSignupMutation({
         onSuccess: (data) => {
             if (data !== undefined && data.isSuccess) {
+                // Not yet a sign-in: the account waits on the emailed link,
+                // and email_verified is the step that closes it.
+                trackEvent('signup_submitted', { metadata: { method: 'password' } })
                 setError(null)
                 setSuccess(data.message)
             } else {
@@ -71,6 +85,7 @@ export const SignupPage: React.FC = () => {
             }
         },
         onError: (err) => {
+            trackAuthFailed('password', 'signup', err)
             setSuccess(null)
             setError(err.message)
         },
@@ -107,7 +122,7 @@ export const SignupPage: React.FC = () => {
                                 </Link>
                             </div>
                             <CardTitle className="text-2xl font-bold text-center">
-                                Welcome!
+                                Create your free account
                             </CardTitle>
                             <CardDescription className="text-center">
                                 Sign up here to start your learning journey!
@@ -298,6 +313,17 @@ export const SignupPage: React.FC = () => {
                                 you use JomExam — pages visited, questions
                                 answered, time spent — to improve it. We
                                 don&apos;t sell your data.
+                            </p>
+
+                            <p className="text-center text-sm text-slate-600 dark:text-slate-400">
+                                Already have an account?{' '}
+                                <Link
+                                    to="/auth/login"
+                                    state={location.state}
+                                    className="font-semibold text-primary underline-offset-2 hover:underline"
+                                >
+                                    Sign in
+                                </Link>
                             </p>
                         </CardFooter>
                     </Card>

@@ -7,6 +7,7 @@ import { Checkbox } from '@/components/ui/checkbox.tsx'
 import useGetSetPreviewQuery from '@/hooks/diagnostic/useGetSetPreviewQuery.ts'
 import useStartOrResumeAttemptMutation from '@/hooks/diagnostic/useStartOrResumeAttemptMutation.ts'
 import { testFromSubject } from '@/lib/diagnosticNextSteps.ts'
+import { trackEvent } from '@/lib/analytics.ts'
 import { toast } from 'sonner'
 import { BILLING_LIVE, formatSeasonPrice } from '@/lib/billing.ts'
 import { useAuth } from '@/components/auth/AuthContext.tsx'
@@ -428,8 +429,8 @@ function SignInToSit({
                         {isMini ? 'Sit the mini test' : 'Sit the full paper'}
                     </p>
                     <p className="text-sm text-gray-600">
-                        The timer runs once and cannot be paused, so we save
-                        your place and your report to an account.
+                        The timer runs once, so we save your place and your
+                        report to an account.
                     </p>
                     {seasons.length > 0 && (
                         <div className="rounded-md border bg-slate-50 px-3 py-2 text-sm text-gray-600">
@@ -452,13 +453,16 @@ function SignInToSit({
                         <Button
                             type="button"
                             size="lg"
-                            onClick={() =>
+                            onClick={() => {
+                                trackEvent('sign_in_prompt_clicked', {
+                                    metadata: { subject: subject ?? null, isMini },
+                                })
                                 navigate('/auth/login', {
                                     state: {
                                         from: { pathname: location.pathname },
                                     },
                                 })
-                            }
+                            }}
                         >
                             Sign in to start
                         </Button>

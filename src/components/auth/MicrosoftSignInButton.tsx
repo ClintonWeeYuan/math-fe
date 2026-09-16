@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
+import { authPageFromPath, trackAuthFailed, trackAuthSucceeded } from '@/lib/authFunnel.ts'
 
 import { useAuth } from '@/components/auth/AuthContext.tsx'
 import { useMicrosoftSignInMutation } from '@/components/auth/useMicrosoftSignInMutation.ts'
@@ -96,6 +97,7 @@ export function MicrosoftSignInButton() {
                 user: data.user,
                 token: data.token,
                 callback: () => {
+                    trackAuthSucceeded('microsoft', authPageFromPath(location.pathname))
                     toast.success('Signed in with Microsoft')
                     navigate(from, { replace: true })
                 },
@@ -103,6 +105,7 @@ export function MicrosoftSignInButton() {
         },
         onError: (error) => {
             setIsBusy(false)
+            trackAuthFailed('microsoft', authPageFromPath(location.pathname), error)
             toast.error(error.message)
         },
     })

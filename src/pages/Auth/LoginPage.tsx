@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     Card,
     CardContent,
@@ -18,6 +18,11 @@ import { FormErrorMessage } from '@/components/common/FormErrorMessage.tsx'
 import { useLoginMutation } from '@/components/auth/useLoginMutation.ts'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { toast } from 'sonner'
+import {
+    trackAuthFailed,
+    trackAuthPageViewed,
+    trackAuthSucceeded,
+} from '@/lib/authFunnel.ts'
 import { useAuth } from '@/components/auth/AuthContext.tsx'
 import {
     ProviderSignIn,
@@ -56,13 +61,22 @@ export const LoginPage: React.FC = () => {
         })
     }
 
+    // Once per visit to the page, with where the visitor came from (a paper's
+    // "Sign in to start", or the header) so the two routes can be compared.
+    useEffect(() => {
+        trackAuthPageViewed('login', from)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
     const { mutate: login, isPending } = useLoginMutation({
         onSuccess: (data) => {
             if (data !== undefined) {
+                trackAuthSucceeded('password', 'login')
                 completeSignIn(data)
             }
         },
         onError: (err) => {
+            trackAuthFailed('password', 'login', err)
             toast.error(err.message)
         },
     })
@@ -93,21 +107,34 @@ export const LoginPage: React.FC = () => {
                             />
                         </Link>
                     </div>
+                    {/* Most visitors arrive here from a paper's "Sign in to
+                        start" with no account yet. Google, Microsoft and the
+                        emailed code all create one on the spot, so this page
+                        is the sign-up page for everyone but password users,
+                        and says so; "Welcome! Enter your credentials" read
+                        as a door for existing accounts only. */}
                     <CardTitle className="text-2xl font-bold text-center">
-                        Welcome!
+                        Sign in or create a free account
                     </CardTitle>
                     <CardDescription className="text-center">
                         {mode === 'code'
-                            ? 'Sign in with a code sent to your email'
-                            : 'Enter your credentials to access your account'}
+                            ? "We'll email you a code. New here? It creates your free account too."
+                            : isProviderSignInConfigured
+                              ? `New here? Continue with ${providerNames}, or get an emailed code, and your free account is made in one step. No password needed.`
+                              : 'New here? Get an emailed code and your free account is made in one step. No password needed.'}
                     </CardDescription>
                 </CardHeader>
 
                 {mode === 'code' ? (
-                    <EmailCodeSignIn
-                        onSignedIn={completeSignIn}
-                        onUsePassword={() => setMode('password')}
-                    />
+                    <>
+                        <EmailCodeSignIn
+                            onSignedIn={completeSignIn}
+                            onUsePassword={() => setMode('password')}
+                        />
+                        <div className="px-6 pb-6">
+                            <NewAccountNotice />
+                        </div>
+                    </>
                 ) : (
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <CardContent className="space-y-4">
@@ -130,7 +157,7 @@ export const LoginPage: React.FC = () => {
                                 </div>
                                 <div className="relative flex justify-center text-xs uppercase">
                                     <span className="bg-card px-2 text-muted-foreground">
-                                        Or with a password
+                                        Or sign in with a password
                                     </span>
                                 </div>
                             </div>
@@ -210,7 +237,7 @@ export const LoginPage: React.FC = () => {
                                 ) : (
                                     <div className="flex items-center space-x-2">
                                         <LogIn className="h-4 w-4" />
-                                        <span>Login</span>
+                                        <span>Sign in</span>
                                     </div>
                                 )}
                             </Button>
@@ -224,6 +251,8 @@ export const LoginPage: React.FC = () => {
 
                             Worded for whichever providers are switched on, so
                             it never points at a button that isn't there. */}
+                            <NewAccountNotice />
+
                             {isProviderSignInConfigured && (
                                 <p className="text-center text-sm text-slate-500 dark:text-slate-400">
                                     Signed up with {providerNames}? Use the
@@ -232,14 +261,21 @@ export const LoginPage: React.FC = () => {
                             )}
 
                             <p className="text-center text-sm text-slate-600 dark:text-slate-400">
-                                Don't have an account?{' '}
+                                Rather use a password for a new account?{' '}
+                                {/* The state goes with them, so a student who
+                                    came from a paper is taken back to it after
+                                    signing up with Google on that page. */}
                                 <Button
                                     variant="link"
                                     className="px-0 font-semibold text-primary"
-                                    onClick={() => navigate('/auth/signup')}
+                                    onClick={() =>
+                                        navigate('/auth/signup', {
+                                            state: location.state,
+                                        })
+                                    }
                                     disabled={isPending}
                                 >
-                                    Sign up
+                                    Create one
                                 </Button>
                             </p>
                         </CardFooter>
@@ -247,5 +283,29 @@ export const LoginPage: React.FC = () => {
                 )}
             </Card>
         </div>
+    )
+}
+
+/**
+ * The notice the sign-up page carries, because this page creates accounts
+ * too: Google, Microsoft and an emailed code all make one for a new address.
+ * Keep the wording in step with SignupPage.
+ */
+function NewAccountNotice() {
+    return (
+        <p className="text-xs leading-relaxed text-gray-500">
+            New to JomExam? By creating an account you agree to our{' '}
+            <Link to="/terms" className="underline underline-offset-2">
+                Terms of Use
+            </Link>{' '}
+            and acknowledge our{' '}
+            <Link to="/privacy" className="underline underline-offset-2">
+                Privacy Notice
+            </Link>
+            . We store your account details and diagnostic results to provide
+            your reports, and record how you use JomExam — pages visited,
+            questions answered, time spent — to improve it. We don&apos;t sell
+            your data.
+        </p>
     )
 }
