@@ -7,9 +7,12 @@ import { QuestionPane } from '@/components/diagnostic/exam/QuestionPane.tsx'
 import { AttemptClosedView } from '@/components/diagnostic/exam/AttemptClosedView.tsx'
 import { ExamTimer } from '@/components/diagnostic/exam/ExamTimer.tsx'
 import { ReviewDialog } from '@/components/diagnostic/exam/ReviewDialog.tsx'
+import { RestBreakPanel } from '@/components/diagnostic/exam/RestBreakPanel.tsx'
+import { RestBreakOverlay } from '@/components/diagnostic/exam/RestBreakOverlay.tsx'
 import useGetAttemptStateQuery from '@/hooks/diagnostic/useGetAttemptStateQuery.ts'
 import useUpsertResponseMutation from '@/hooks/diagnostic/useUpsertResponseMutation.ts'
 import useSubmitAttemptMutation from '@/hooks/diagnostic/useSubmitAttemptMutation.ts'
+import useRestBreakMutation from '@/hooks/diagnostic/useRestBreakMutation.ts'
 import useEventCapture from '@/hooks/diagnostic/useEventCapture.ts'
 import { summarizeResponses } from '@/lib/diagnosticResponseSummary.ts'
 
@@ -43,17 +46,26 @@ export function ExamPage() {
     })
     const { mutate: submitAttempt, isPending: isSubmitting } =
         useSubmitAttemptMutation({ attemptId: attemptId ?? '' })
+    const { start: startBreak, end: endBreak } = useRestBreakMutation({
+        attemptId: attemptId ?? '',
+    })
 
     // Computed before the early returns so the event-capture hooks below
     // stay unconditional (rules of hooks). currentQuestionId is undefined
     // whenever the attempt isn't in_progress, so the enter/exit effect
     // naturally fires the final exit when the status flips to terminal.
     const inProgress = state?.attempt.status === 'in_progress'
+    // A rest break hides the questions, so it must also close the current
+    // question's visit: time behind the break screen is not time on the
+    // question, and the pacing report would be wrong if it counted.
+    const isPaused = state?.attempt.isPaused ?? false
     const questions = state?.questions ?? []
     const boundedIndex =
         questions.length > 0 ? Math.min(currentIndex, questions.length - 1) : 0
     const currentQuestionId =
-        inProgress && questions.length > 0 ? questions[boundedIndex].id : undefined
+        inProgress && !isPaused && questions.length > 0
+            ? questions[boundedIndex].id
+            : undefined
 
     const { recordEvent, flush, flushBeforeSubmit } = useEventCapture({
         attemptId: attemptId ?? '',
@@ -168,8 +180,16 @@ export function ExamPage() {
 
     return (
         <div className="mx-auto mt-8 grid max-w-5xl grid-cols-1 gap-8 px-4 md:grid-cols-[1fr_220px]">
+            {/* The break screen covers the page, but the questions are also
+                removed from the document while it is up: a covered question
+                is still a readable one to anything but a pair of eyes. */}
             <div className="flex flex-col gap-6">
-                <QuestionPane
+                {isPaused ? (
+                    <div className="rounded-md border border-dashed border-gray-300 p-10 text-center text-sm text-gray-500">
+                        Your questions are hidden while you are on a break.
+                    </div>
+                ) : (
+                <><QuestionPane
                     question={currentQuestion}
                     response={currentResponse}
                     questionNumber={boundedIndex + 1}
@@ -196,13 +216,21 @@ export function ExamPage() {
                     >
                         Next
                     </Button>
-                </div>
+                </div></>
+                )}
             </div>
 
             <aside className="flex flex-col gap-4 md:sticky md:top-8 md:self-start">
                 <ExamTimer
                     serverDeadlineAt={state.attempt.serverDeadlineAt}
                     onExpire={handleExpire}
+                    pausedAt={state.attempt.pausedAt}
+                />
+                <RestBreakPanel
+                    breakSecondsRemaining={state.attempt.breakSecondsRemaining ?? 0}
+                    isPaused={isPaused}
+                    onStart={() => startBreak.mutate()}
+                    isStarting={startBreak.isPending}
                 />
                 <QuestionNavigator
                     questions={questions}
@@ -218,6 +246,16 @@ export function ExamPage() {
                     Finish exam
                 </Button>
             </aside>
+
+            {isPaused && state.attempt.pausedAt ? (
+                <RestBreakOverlay
+                    pausedAt={state.attempt.pausedAt}
+                    breakSecondsRemaining={state.attempt.breakSecondsRemaining ?? 0}
+                    serverDeadlineAt={state.attempt.serverDeadlineAt}
+                    onResume={() => endBreak.mutate()}
+                    isResuming={endBreak.isPending}
+                />
+            ) : null}
 
             <ReviewDialog
                 open={reviewOpen}
