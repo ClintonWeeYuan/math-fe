@@ -34,7 +34,7 @@ function renderPage() {
 beforeEach(() => {
     get.mockReset()
     patch.mockReset()
-    get.mockResolvedValue({
+    const reports = {
         data: {
             questions: [
                 {
@@ -44,7 +44,13 @@ beforeEach(() => {
                 },
             ],
         },
-    } as never)
+    }
+    // The page and the re-score panel inside a "wrong answer" group both
+    // read through client.get, so answer each by its URL.
+    get.mockImplementation((async (options: { url: string }) =>
+        options.url.includes('/rescore')
+            ? { data: { questionId: 'q1', correctOption: 'C', answeredAttempts: 3, inProgressAttempts: 0, gains: 0, losses: 0, rows: [] } }
+            : reports) as never)
     patch.mockResolvedValue({ data: report({ status: 'fixed' }) } as never)
 })
 
@@ -56,7 +62,8 @@ describe('QuestionReportsPage', () => {
         expect(screen.getByText('The marked answer is wrong')).toBeInTheDocument()
         expect(screen.getByText(/picked B \(marked answer is C\)/)).toBeInTheDocument()
         expect(screen.getByRole('link', { name: 'Edit question' })).toHaveAttribute('href', '/admin/questions/q1')
-        expect(get.mock.calls[0][0]).toMatchObject({ url: '/admin/question-reports', query: { status: 'open' } })
+        expect(get.mock.calls.some((c) => (c[0] as { url: string }).url === '/admin/question-reports')).toBe(true)
+        expect(await screen.findByText(/nothing to re-score/i)).toBeInTheDocument()
     })
 
     it('marks every report on a question fixed, with the note', async () => {
@@ -75,6 +82,6 @@ describe('QuestionReportsPage', () => {
         renderPage()
         await screen.findByText('2 reports')
         await userEvent.click(within(screen.getByText('Fixed').closest('div')!).getByRole('button', { name: 'Fixed' }))
-        expect(get.mock.calls[get.mock.calls.length - 1][0]).toMatchObject({ query: { status: 'fixed' } })
+        expect(get.mock.calls.some((c) => (c[0] as { query?: { status?: string } }).query?.status === 'fixed')).toBe(true)
     })
 })

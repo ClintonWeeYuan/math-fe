@@ -15,6 +15,7 @@ import useGetDiagnosticQuestionQuery from '@/hooks/diagnostic/useGetDiagnosticQu
 import useUpdateDiagnosticQuestionMutation from '@/hooks/diagnostic/useUpdateDiagnosticQuestionMutation.ts'
 import useUploadDiagnosticQuestionDiagramMutation from '@/hooks/diagnostic/useUploadDiagnosticQuestionDiagramMutation.ts'
 import { toast } from 'sonner'
+import { RescorePanel } from '@/components/diagnostic/RescorePanel.tsx'
 
 type LocationState = {
     diagramUploadError?: string
@@ -44,6 +45,10 @@ export function DiagnosticQuestionEditPage() {
     const returnTo =
         (location.state as LocationState | null)?.returnTo ?? '/admin/questions'
 
+    // Bumped after a save that changes the answer key, so the re-score
+    // panel checks past marks against the new key.
+    const [rescoreRefresh, setRescoreRefresh] = useState(0)
+
     // Set directly from a redirect after a failed upload-on-create (see
     // DiagnosticQuestionCreatePage), or from attemptDiagramUpload below when
     // a retry on this same page fails again. Cleared on successful upload.
@@ -57,14 +62,14 @@ export function DiagnosticQuestionEditPage() {
         null
     )
 
-    async function attemptDiagramUpload(file: File) {
+    async function attemptDiagramUpload(file: File, leaveAfter = true) {
         if (!questionId) return
         try {
             await uploadDiagram({ file, questionId })
             setDiagramUploadError(null)
             setPendingDiagramFile(null)
             toast.success('Question updated.')
-            navigate(returnTo)
+            if (leaveAfter) navigate(returnTo)
         } catch (error) {
             const message =
                 error instanceof Error
@@ -113,11 +118,28 @@ export function DiagnosticQuestionEditPage() {
             },
             {
                 onSuccess: async () => {
+                    // A corrected answer key leaves every earlier sitting
+                    // marked the old way. Stay here so the re-score panel
+                    // above the form can show whose marks that affects,
+                    // instead of navigating away from the one place it is
+                    // offered at the moment it matters.
+                    const keyChanged =
+                        question?.correctOption != null &&
+                        question.correctOption !== correctOption
                     if (values.diagramFile) {
                         // Sequential, not fire-and-forget: don't navigate or
                         // report final success until the upload itself has
                         // actually resolved.
-                        await attemptDiagramUpload(values.diagramFile)
+                        await attemptDiagramUpload(values.diagramFile, !keyChanged)
+                        if (keyChanged) setRescoreRefresh((n) => n + 1)
+                        return
+                    }
+                    if (keyChanged) {
+                        toast.success(
+                            `Question updated. The answer is now ${correctOption} — check past marks above.`
+                        )
+                        setRescoreRefresh((n) => n + 1)
+                        window.scrollTo(0, 0)
                         return
                     }
                     toast.success('Question updated.')
@@ -165,6 +187,14 @@ export function DiagnosticQuestionEditPage() {
                                 ? 'Retrying...'
                                 : 'Retry upload'}
                         </Button>
+                    </div>
+                )}
+                {questionId && (
+                    <div className="mb-6">
+                        <RescorePanel
+                            questionId={questionId}
+                            refreshKey={rescoreRefresh}
+                        />
                     </div>
                 )}
                 <DiagnosticQuestionForm

@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge.tsx'
 import { Button } from '@/components/ui/button.tsx'
 import { Input } from '@/components/ui/input.tsx'
 import { LatexText } from '@/components/diagnostic/LatexText.tsx'
+import { RescorePanel } from '@/components/diagnostic/RescorePanel.tsx'
 import {
     categoryLabel,
     fetchQuestionReports,
@@ -144,6 +145,13 @@ function QuestionGroup({
             <div className="text-sm leading-relaxed">
                 {group.stem ? <LatexText text={group.stem} /> : <span className="text-gray-400">Question deleted</span>}
             </div>
+            {/* Where a report says the key is wrong, show straight away
+                whether past marks disagree with the key as it now stands —
+                so fixing the key in the editor and coming back here shows
+                who needs re-scoring. */}
+            {group.reports.some((r) => r.category === 'wrong_answer') && (
+                <RescorePanel questionId={group.questionId} showWhenClean />
+            )}
             <ul className="flex flex-col gap-2">
                 {group.reports.map((r) => (
                     <ReportRow

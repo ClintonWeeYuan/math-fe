@@ -46,6 +46,25 @@ vi.mock('@/hooks/diagnostic/useUpdateDiagnosticQuestionMutation.ts', () => ({
     }),
 }))
 
+// The panel fetches on its own; these tests are about what happens on save.
+vi.mock('@/components/diagnostic/RescorePanel.tsx', () => ({
+    RescorePanel: ({ refreshKey }: { refreshKey: number }) => (
+        <div data-testid="rescore-panel" data-refresh={refreshKey} />
+    ),
+}))
+
+// Lets a test save the question with a different answer key without driving
+// the form's option controls; everything else is the real form.
+let correctOptionOverride: string | undefined
+vi.mock('@/components/diagnostic/DiagnosticQuestionForm.tsx', async (importOriginal) => {
+    const actual = await importOriginal<typeof import('@/components/diagnostic/DiagnosticQuestionForm.tsx')>()
+    return {
+        ...actual,
+        getCorrectOptionLabel: (values: Parameters<typeof actual.getCorrectOptionLabel>[0]) =>
+            correctOptionOverride ?? actual.getCorrectOptionLabel(values),
+    }
+})
+
 vi.mock('@/hooks/diagnostic/useUploadDiagnosticQuestionDiagramMutation.ts', () => ({
     default: () => ({
         mutateAsync: mockUploadAsync,
@@ -144,5 +163,39 @@ describe('DiagnosticQuestionEditPage — two-step diagram upload failure handlin
             expect(mockNavigate).toHaveBeenCalledWith('/admin/questions')
         )
         expect(mockUploadAsync).not.toHaveBeenCalled()
+    })
+})
+
+describe('DiagnosticQuestionEditPage — a corrected answer key', () => {
+    beforeEach(() => {
+        mockNavigate.mockClear()
+        mockUpdateMutate.mockClear()
+        correctOptionOverride = undefined
+        window.scrollTo = vi.fn()
+    })
+
+    it('stays on the page and re-checks past marks when the answer key changes', async () => {
+        mockUpdateMutate.mockImplementation((_body, { onSuccess }) => onSuccess())
+        correctOptionOverride = 'B'
+
+        renderEditPage()
+        expect(screen.getByTestId('rescore-panel')).toHaveAttribute('data-refresh', '0')
+        fireEvent.click(screen.getByText('Save changes'))
+
+        await waitFor(() =>
+            expect(screen.getByTestId('rescore-panel')).toHaveAttribute('data-refresh', '1')
+        )
+        expect(mockUpdateMutate.mock.calls[0][0]).toMatchObject({ correctOption: 'B' })
+        expect(mockNavigate).not.toHaveBeenCalled()
+    })
+
+    it('leaves as before when the key is unchanged', async () => {
+        mockUpdateMutate.mockImplementation((_body, { onSuccess }) => onSuccess())
+
+        renderEditPage()
+        fireEvent.click(screen.getByText('Save changes'))
+
+        await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith('/admin/questions'))
+        expect(screen.getByTestId('rescore-panel')).toHaveAttribute('data-refresh', '0')
     })
 })
