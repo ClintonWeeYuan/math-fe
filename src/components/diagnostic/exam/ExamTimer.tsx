@@ -4,6 +4,13 @@ import { cn } from '@/lib/utils.ts'
 type Props = {
     serverDeadlineAt: string
     onExpire: () => void
+    /**
+     * When the student is on a rest break the server stops the clock: the
+     * deadline stays put and is moved forward by the length of the break when
+     * they resume. The display freezes at the time they had left when they
+     * paused, and onExpire cannot fire — a paused attempt is never late.
+     */
+    pausedAt?: string | null
 }
 
 function formatRemaining(ms: number): string {
@@ -31,8 +38,9 @@ function formatRemaining(ms: number): string {
  * callback from the parent doesn't tear down and rebuild the interval each
  * render.
  */
-export function ExamTimer({ serverDeadlineAt, onExpire }: Props) {
+export function ExamTimer({ serverDeadlineAt, onExpire, pausedAt }: Props) {
     const deadlineMs = new Date(serverDeadlineAt).getTime()
+    const pausedAtMs = pausedAt ? new Date(pausedAt).getTime() : null
     const [remainingMs, setRemainingMs] = useState(() => deadlineMs - Date.now())
 
     const onExpireRef = useRef(onExpire)
@@ -40,6 +48,13 @@ export function ExamTimer({ serverDeadlineAt, onExpire }: Props) {
     const expiredRef = useRef(false)
 
     useEffect(() => {
+        if (pausedAtMs !== null) {
+            // Frozen: what was left at the moment the break started. No
+            // interval, and no expiry — the clock is the server's, and the
+            // server has stopped it.
+            setRemainingMs(deadlineMs - pausedAtMs)
+            return
+        }
         function tick() {
             const remaining = deadlineMs - Date.now()
             setRemainingMs(remaining)
@@ -58,9 +73,10 @@ export function ExamTimer({ serverDeadlineAt, onExpire }: Props) {
             clearInterval(intervalId)
             document.removeEventListener('visibilitychange', onVisibility)
         }
-    }, [deadlineMs])
+    }, [deadlineMs, pausedAtMs])
 
-    const urgent = remainingMs <= 60_000
+    const paused = pausedAtMs !== null
+    const urgent = !paused && remainingMs <= 60_000
 
     return (
         <div
@@ -70,11 +86,13 @@ export function ExamTimer({ serverDeadlineAt, onExpire }: Props) {
                 'inline-flex items-center gap-2 rounded-md border px-3 py-1.5 font-mono text-lg tabular-nums',
                 urgent
                     ? 'border-red-300 bg-red-50 text-red-700'
-                    : 'border-gray-200 bg-white text-gray-800'
+                    : paused
+                      ? 'border-amber-300 bg-amber-50 text-amber-800'
+                      : 'border-gray-200 bg-white text-gray-800'
             )}
         >
             <span className="text-xs font-sans uppercase tracking-wide text-gray-400">
-                Time left
+                {paused ? 'Clock stopped' : 'Time left'}
             </span>
             {formatRemaining(remainingMs)}
         </div>

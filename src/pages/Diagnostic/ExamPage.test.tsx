@@ -17,6 +17,14 @@ vi.mock('@/hooks/diagnostic/useUpsertResponseMutation.ts', () => ({
 vi.mock('@/hooks/diagnostic/useSubmitAttemptMutation.ts', () => ({
     default: () => ({ mutate: mockSubmit }),
 }))
+const mockStartBreak = vi.fn()
+const mockEndBreak = vi.fn()
+vi.mock('@/hooks/diagnostic/useRestBreakMutation.ts', () => ({
+    default: () => ({
+        start: { mutate: mockStartBreak, isPending: false },
+        end: { mutate: mockEndBreak, isPending: false },
+    }),
+}))
 const mockRecordEvent = vi.fn()
 const mockFlush = vi.fn()
 const mockFlushBeforeSubmit = vi.fn(() => Promise.resolve(true))

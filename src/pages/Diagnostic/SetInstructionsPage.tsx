@@ -10,6 +10,13 @@ import { testFromSubject } from '@/lib/diagnosticNextSteps.ts'
 import { toast } from 'sonner'
 import { BILLING_LIVE, formatSeasonPrice } from '@/lib/billing.ts'
 import { useAuth } from '@/components/auth/AuthContext.tsx'
+import { useQuery } from '@tanstack/react-query'
+import {
+    MY_ARRANGEMENTS_QUERY_KEY,
+    fetchMyArrangements,
+    mustAnswerArrangements,
+} from '@/lib/accommodationsApi.ts'
+import { AccessArrangementsPrompt } from '@/components/diagnostic/arrangements/AccessArrangementsPrompt.tsx'
 import { samplesFor } from '@/content/diagnosticSamples.mjs'
 import { Link } from 'react-router-dom'
 import useBillingStatusQuery from '@/hooks/billing/useBillingStatusQuery.ts'
@@ -43,6 +50,23 @@ export function SetInstructionsPage() {
         useStartOrResumeAttemptMutation()
     const { mutate: startCheckout, isPending: isCheckoutPending } =
         useStartCheckoutMutation()
+
+    // Arrangements are a fact about the student, not the set, so they are
+    // fetched here rather than folded into the preview. Only for a signed-in
+    // student: a visitor has none, and asking would only 401. A student
+    // without arrangements sees exactly what they saw before.
+    const { data: arrangements, isError: arrangementsFailed } = useQuery({
+        queryKey: MY_ARRANGEMENTS_QUERY_KEY,
+        queryFn: fetchMyArrangements,
+        enabled: user !== null,
+        staleTime: 5 * 60_000,
+    })
+    const extraTimePercent = arrangements?.extraTimePercent ?? 0
+    const arrangementsPending = mustAnswerArrangements({
+        signedIn: user !== null,
+        loadFailed: arrangementsFailed,
+        arrangements,
+    })
 
     // Only when it can change what this page offers — signed out, or with
     // billing off, the answer cannot alter the button.
@@ -159,8 +183,19 @@ export function SetInstructionsPage() {
                             Time limit
                         </span>
                         <span className="text-xl font-medium">
-                            {preview.timeLimitMinutes} minutes
+                            {Math.round(
+                                (preview.timeLimitMinutes *
+                                    (100 + extraTimePercent)) /
+                                    100
+                            )}{' '}
+                            minutes
                         </span>
+                        {extraTimePercent > 0 && (
+                            <span className="text-xs text-gray-500">
+                                {preview.timeLimitMinutes} minutes plus your{' '}
+                                {extraTimePercent}% extra time
+                            </span>
+                        )}
                     </div>
                     <div className="flex flex-col">
                         <span className="text-sm text-gray-500">Questions</span>
@@ -170,6 +205,13 @@ export function SetInstructionsPage() {
                     </div>
                 </CardContent>
             </Card>
+
+            {user !== null && arrangements && (
+                <AccessArrangementsPrompt
+                    arrangements={arrangements}
+                    testName={testName}
+                />
+            )}
 
             {/* Said before committing, not discovered afterwards. A mini's
                 report has no Skills Radar, and a student who expected one
@@ -281,18 +323,29 @@ export function SetInstructionsPage() {
                                 )}
                             </div>
                         ) : (
-                            <Button
-                                type="button"
-                                size="lg"
-                                disabled={!agreed || isPending}
-                                onClick={handleStart}
-                            >
-                                {isPending
-                                    ? 'Starting…'
-                                    : isMini
-                                      ? 'Start mini test'
-                                      : 'Start diagnostic'}
-                            </Button>
+                            <div className="flex flex-col gap-2">
+                                <Button
+                                    type="button"
+                                    size="lg"
+                                    className="self-start"
+                                    disabled={
+                                        !agreed || isPending || arrangementsPending
+                                    }
+                                    onClick={handleStart}
+                                >
+                                    {isPending
+                                        ? 'Starting…'
+                                        : isMini
+                                          ? 'Start mini test'
+                                          : 'Start diagnostic'}
+                                </Button>
+                                {arrangementsPending && (
+                                    <p className="text-sm text-gray-500">
+                                        Please answer the access arrangements question
+                                        above first.
+                                    </p>
+                                )}
+                            </div>
                         )}
                     </div>
                 </>

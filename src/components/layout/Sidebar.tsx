@@ -22,6 +22,7 @@ import {
     PencilIcon,
     Settings,
     Ticket,
+    Timer,
 } from 'lucide-react'
 import { useAuth } from '@/components/auth/AuthContext.tsx'
 import { Button } from '@/components/ui/button.tsx'
@@ -72,6 +73,11 @@ const ITEMS = [
         title: 'Question reports',
         url: '/admin/question-reports',
         icon: MessageSquareWarning,
+    },
+    {
+        title: 'Access arrangements',
+        url: '/admin/accommodations',
+        icon: Timer,
     },
     {
         title: 'Season Pass',
