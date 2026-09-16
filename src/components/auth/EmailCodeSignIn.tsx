@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { z } from 'zod'
 import { toast } from 'sonner'
+import { trackAuthFailed, trackAuthSucceeded } from '@/lib/authFunnel.ts'
 import { ArrowLeft, KeyRound, Mail, Send } from 'lucide-react'
 
 import { CardContent, CardFooter } from '@/components/ui/card'
@@ -46,16 +47,23 @@ export const EmailCodeSignIn: React.FC<Props> = ({
                 // part (how long the code lasts).
                 toast.success(data.message)
             },
-            onError: (error) => toast.error(error.message),
+            onError: (error) => {
+                trackAuthFailed('email_code', 'login', error)
+                toast.error(error.message)
+            },
         })
 
     const { mutate: signIn, isPending: isVerifying } =
         useEmailCodeSignInMutation({
-            onSuccess: onSignedIn,
+            onSuccess: (data) => {
+                trackAuthSucceeded('email_code', 'login')
+                onSignedIn(data)
+            },
             onError: (error) => {
                 // Cleared rather than left in place: the next attempt needs a
                 // fresh code from the inbox, not an edit of the failed one.
                 setCode('')
+                trackAuthFailed('email_code', 'login', error)
                 toast.error(error.message)
             },
         })

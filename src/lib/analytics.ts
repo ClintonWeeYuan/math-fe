@@ -53,6 +53,14 @@ export type AnalyticsEventName =
     | 'review_opened'
     | 'solution_viewed'
     | 'incorrect_filter_used'
+    // The sign-in wall. Anonymous counts, no visitor identifier: see
+    // src/lib/authFunnel.ts.
+    | 'sign_in_prompt_clicked'
+    | 'auth_page_viewed'
+    | 'auth_succeeded'
+    | 'auth_failed'
+    | 'signup_submitted'
+    | 'email_verified'
 
 export type AnalyticsPayload = {
     attemptId?: string
