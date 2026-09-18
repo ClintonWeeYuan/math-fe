@@ -47,6 +47,10 @@
     {
       "source": "/questions/**",
       "destination": "/index.html"
+    },
+    {
+      "source": "/email/**",
+      "destination": "/app-shell.html"
     }
   ],
   "headers": [
