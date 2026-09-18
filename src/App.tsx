@@ -24,6 +24,7 @@ import { TermsPage } from '@/pages/TermsPage.tsx'
 import { MyResultsPage } from '@/pages/Diagnostic/MyResultsPage.tsx'
 import { captureAcquisition, captureAgentCode } from '@/lib/acquisition.ts'
 import { PrivacyPage } from '@/pages/PrivacyPage.tsx'
+import { UnsubscribePage } from '@/pages/UnsubscribePage.tsx'
 import { EsatTmuaPage } from '@/pages/EsatTmuaPage.tsx'
 import { DiagnosticsCatalogPage } from '@/pages/DiagnosticsCatalogPage.tsx'
 import { GuidesIndexPage } from '@/pages/GuidesIndexPage.tsx'
@@ -115,6 +116,7 @@ function App() {
                 <Route path="about" element={<AboutPage />} />
                 <Route path="terms" element={<TermsPage />} />
                 <Route path="privacy" element={<PrivacyPage />} />
+                <Route path="email/unsubscribe" element={<UnsubscribePage />} />
                 <Route path="esat-tmua" element={<EsatTmuaPage />} />
                 <Route
                     path="diagnostics"
