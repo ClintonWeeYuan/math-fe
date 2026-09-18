@@ -27,7 +27,7 @@ export const GUIDE = {
     standfirst:
         'ESAT Biology is more quantitative than candidates expect. Not the essay-and-recall paper A-level trains you for: ratios, probabilities and data, at 90 seconds a question.',
     publishedAt: '2026-08-11',
-    updatedAt: '2026-09-15',
+    updatedAt: '2026-09-18',
     sections: [
         {
             id: 'what-it-covers',

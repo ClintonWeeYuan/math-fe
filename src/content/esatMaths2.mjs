@@ -27,7 +27,7 @@ export const GUIDE = {
     standfirst:
         'Mathematics 2 goes past the compulsory module into further calculus, logic and proof. It is the module most often required by the courses with the highest competition.',
     publishedAt: '2026-08-11',
-    updatedAt: '2026-09-15',
+    updatedAt: '2026-09-18',
     sections: [
         {
             id: 'what-it-covers',

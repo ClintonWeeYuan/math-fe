@@ -9,7 +9,7 @@ import { readFileSync } from 'node:fs'
  * hands that path to every bot in the group, and nothing else would notice.
  */
 
-const PRIVATE = ['/admin', '/auth/', '/diagnostic/', '/my-results', '/billing/']
+const PRIVATE = ['/admin', '/auth/', '/my-results', '/billing/']
 
 function groups(text: string): string[][] {
     const out: string[][] = []
@@ -41,5 +41,24 @@ describe('robots.txt', () => {
                 )
             }
         }
+    })
+
+    it('lets crawlers reach /diagnostic/, so they can read its noindex', () => {
+        // Blocking it would let a linked paper be indexed as a bare URL,
+        // because the crawler could never see the tag keeping it out.
+        const text = readFileSync('public/robots.txt', 'utf8')
+        expect(text).not.toMatch(/^Disallow: \/diagnostic/m)
+        const serve = JSON.parse(readFileSync('public/serve.json', 'utf8'))
+        const rewrite = serve.rewrites.find(
+            (r: { source: string }) => r.source === '/diagnostic/**'
+        )
+        expect(rewrite.destination).toBe('/app-shell.html')
+        const shellHeaders = serve.headers.find(
+            (h: { source: string }) => h.source === 'app-shell.html'
+        )
+        expect(shellHeaders.headers).toContainEqual({
+            key: 'X-Robots-Tag',
+            value: 'noindex',
+        })
     })
 })
