@@ -278,7 +278,7 @@ function landingPage(entry) {
         h1: `${t.name} ${subject} practice test`,
         standfirst: `A full ${t.name} ${entry.test === 'tmua' ? subject : `${subject} paper`} in the real format — ${format}, no calculator — with a report that looks past the score to the skills behind it. Set A is free, and shows you the skill to work on first.`,
         publishedAt: entry.test === 'esat' ? '2026-08-17' : '2026-09-15',
-        updatedAt: '2026-09-15',
+        updatedAt: '2026-09-18',
         sections,
         questionPreview: preview,
         faq: [

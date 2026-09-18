@@ -824,6 +824,23 @@ async function main() {
         sitemapIndex(['sitemap-core.xml', 'sitemap-spm.xml'])
     )
 
+    // The shell for the signed-in app — papers, attempts, reports, results,
+    // checkout, sign-in, admin. serve.json rewrites those routes here rather
+    // than to index.html, because index.html is now the prerendered
+    // homepage: a paper's URL was being served the homepage's text, its
+    // canonical and "index, follow", which reads to a crawler as a
+    // duplicate homepage. This is the bare template with nothing in #root,
+    // no canonical, and noindex — the app still mounts exactly as before.
+    await writeFile(
+        join(DIST, 'app-shell.html'),
+        template
+            .replace(
+                /<meta name="robots" content="[^"]*"\s*\/?>/,
+                '<meta name="robots" content="noindex, follow"/>'
+            )
+            .replace(/\s*<link rel="canonical" href="[\s\S]*?"\/>/, '')
+    )
+
     const submitted = coreSubmitted.count + spmSubmitted.count
     console.log(
         `prerender: ${written} pages written, ${submitted} in the sitemaps ` +

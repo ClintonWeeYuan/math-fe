@@ -156,7 +156,9 @@ describe('robots.txt', () => {
         // group matching it and ignores "*" entirely. A group saying only
         // "Allow: /" therefore hands that bot /admin and /diagnostic.
         for (const group of groups.filter((g) => g.rules.includes('allow:/'))) {
-            for (const path of ['/admin', '/auth/', '/diagnostic/']) {
+            // Not /diagnostic/: it is crawlable on purpose, so its noindex can be
+            // read (see public/robots.txt).
+            for (const path of ['/admin', '/auth/']) {
                 expect(
                     group.rules,
                     `${group.agents.join(', ')} must disallow ${path}`

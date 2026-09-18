@@ -10,27 +10,27 @@
     },
     {
       "source": "/admin",
-      "destination": "/index.html"
+      "destination": "/app-shell.html"
     },
     {
       "source": "/admin/**",
-      "destination": "/index.html"
+      "destination": "/app-shell.html"
     },
     {
       "source": "/auth/**",
-      "destination": "/index.html"
+      "destination": "/app-shell.html"
     },
     {
       "source": "/diagnostic/**",
-      "destination": "/index.html"
+      "destination": "/app-shell.html"
     },
     {
       "source": "/billing/**",
-      "destination": "/index.html"
+      "destination": "/app-shell.html"
     },
     {
       "source": "/my-results",
-      "destination": "/index.html"
+      "destination": "/app-shell.html"
     },
     {
       "source": "/syllabus",
@@ -72,6 +72,15 @@
         {
           "key": "Strict-Transport-Security",
           "value": "max-age=31536000; includeSubDomains"
+        }
+      ]
+    },
+    {
+      "source": "app-shell.html",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
         }
       ]
     }

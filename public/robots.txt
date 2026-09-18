@@ -3,8 +3,14 @@
 # Private areas are repeated in EVERY group below, deliberately. A crawler
 # obeys the most specific User-agent group that matches it and ignores the
 # "*" group completely — so naming a bot below and listing only "Allow: /"
-# would hand it /admin and /diagnostic, which the "*" group withholds. Any
-# new group must carry the same five Disallow lines.
+# would hand it /admin and /my-results, which the "*" group withholds. Any
+# new group must carry the same four Disallow lines.
+#
+# /diagnostic/ is deliberately NOT disallowed. Its pages are linked from the
+# public catalogue, and a blocked URL can still be indexed from links alone —
+# as a bare address, because the crawler is never allowed to read the
+# noindex that would keep it out. Those routes are served a shell carrying
+# noindex (meta tag and X-Robots-Tag), and crawling is what lets that land.
 
 # ---------------------------------------------------------------------------
 # Everyone else, including Googlebot and Bingbot.
@@ -13,7 +19,6 @@ User-agent: *
 Allow: /
 Disallow: /admin
 Disallow: /auth/
-Disallow: /diagnostic/
 Disallow: /my-results
 Disallow: /billing/
 
@@ -34,7 +39,6 @@ User-agent: Claude-User
 Allow: /
 Disallow: /admin
 Disallow: /auth/
-Disallow: /diagnostic/
 Disallow: /my-results
 Disallow: /billing/
 

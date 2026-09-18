@@ -32,7 +32,7 @@ export const GUIDE = {
     // because that is when the page gained its byline and dates, which is a
     // change a reader can see.
     publishedAt: '2026-08-01',
-    updatedAt: '2026-08-19',
+    updatedAt: '2026-09-18',
     sections: [
         {
             id: 'format',
