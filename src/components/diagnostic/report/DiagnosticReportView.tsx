@@ -11,7 +11,7 @@ import {
     type SkillInsight,
 } from '@/lib/diagnosticReportInsights.ts'
 import { skillAdvice } from '@/lib/diagnosticSkillAdvice.ts'
-import type { DiagnosticReportResponse } from '@/client'
+import type { DiagnosticReportResponse, SkillScore } from '@/client'
 import type { SeasonOffer } from '@/lib/billingApi.ts'
 
 type Props = {
@@ -27,6 +27,8 @@ type Props = {
     onUnlock?: (seasonKey: string) => void
     /** The seasons on sale, for the paywall's buy buttons. */
     seasons?: SeasonOffer[]
+    /** How many paid papers the pass opens for this test, for the paywall. */
+    paidPaperCount?: number
     /** Rendered at the bottom (a back button). */
     footer?: ReactNode
 }
@@ -45,6 +47,7 @@ export function DiagnosticReportView({
     footer,
     onUnlock,
     seasons,
+    paidPaperCount,
 }: Props) {
     // Default true: an admin read, or any response without the field, must
     // never be paywalled by accident.
@@ -191,6 +194,12 @@ export function DiagnosticReportView({
                                 subject={subject}
                                 onUnlock={onUnlock}
                                 seasons={seasons}
+                                // Narrowed: the generated client predates it.
+                                teaser={
+                                    (report as { radarTeaser?: SkillScore | null })
+                                        .radarTeaser
+                                }
+                                paidPaperCount={paidPaperCount}
                             />
                         )}
                     </CardContent>

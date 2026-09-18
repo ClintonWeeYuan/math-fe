@@ -50,6 +50,12 @@ export class AttemptReviewError extends Error {
     }
 }
 
+/** 402: a paid paper whose Season Pass has ended. The questions and
+ *  solutions are closed, but the student is owed a sentence saying so. */
+export function isPaperClosed(error: unknown): boolean {
+    return (error as AttemptReviewError | undefined)?.status === 402
+}
+
 /** A refusal the student can do nothing about and should not be told about:
  *  409 the attempt is still in progress, 403 it is not theirs, 401 they are
  *  signed out. Nothing to show, and nothing has gone wrong. */

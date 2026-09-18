@@ -143,7 +143,7 @@ export const GUIDE = {
         },
         {
             q: 'Are the JomExam ESAT practice tests free?',
-            a: 'Set A of every module is free to sit, including the full skills report. Further sets are part of the Season Pass.',
+            a: 'Set A of every module is free to sit, with your score, pacing, every worked solution and the skill to work on first. The full skill-by-skill diagnosis and every further set come with the Season Pass.',
         },
     ],
     // Three contextual links rather than every other guide: what a reader of

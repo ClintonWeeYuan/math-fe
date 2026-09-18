@@ -4,6 +4,7 @@ import {
     trackAuthPageViewed,
 } from '@/lib/authFunnel.ts'
 import { trackEvent } from '@/lib/analytics.ts'
+import { rememberReturnTo } from '@/lib/checkoutIntent.ts'
 import {
     Card,
     CardContent,
@@ -78,6 +79,12 @@ export const SignupPage: React.FC = () => {
                 // Not yet a sign-in: the account waits on the emailed link,
                 // and email_verified is the step that closes it.
                 trackEvent('signup_submitted', { metadata: { method: 'password' } })
+                // The emailed link opens a fresh tab with no router state, so
+                // the page they started from is kept for the far side of it.
+                const from = (
+                    location.state as { from?: { pathname?: string } } | null
+                )?.from?.pathname
+                if (from) rememberReturnTo(from)
                 setError(null)
                 setSuccess(data.message)
             } else {

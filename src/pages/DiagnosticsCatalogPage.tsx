@@ -5,7 +5,9 @@ import { Button } from '@/components/ui/button.tsx'
 import useListPublishedSetsQuery from '@/hooks/diagnostic/useListPublishedSetsQuery.ts'
 import type { DiagnosticTest } from '@/hooks/diagnostic/useListPublishedSetsQuery.ts'
 import type { PublishedDiagnosticSet } from '@/client'
-import { BILLING_LIVE } from '@/lib/billing.ts'
+import { BILLING_LIVE, formatSeasonPrice } from '@/lib/billing.ts'
+import { trackEvent } from '@/lib/analytics.ts'
+import type { SeasonOffer } from '@/lib/billingApi.ts'
 import { testFromSubject } from '@/lib/diagnosticNextSteps.ts'
 import { useAuth } from '@/components/auth/AuthContext.tsx'
 import useBillingStatusQuery from '@/hooks/billing/useBillingStatusQuery.ts'
@@ -221,6 +223,7 @@ export function DiagnosticsCatalogPage({ test }: Props) {
                                             set={s}
                                             coveredTests={coveredTests}
                                             canBuy={canBuy}
+                                            seasons={billing?.seasons ?? []}
                                         />
                                     </div>
                                 </div>
@@ -269,11 +272,14 @@ function SetCta({
     set,
     coveredTests,
     canBuy,
+    seasons,
 }: {
     set: PublishedDiagnosticSet
     coveredTests: string[]
     /** Billing is live and at least one sitting is still on sale. */
     canBuy: boolean
+    /** What is on sale, for the price on the button. */
+    seasons: SeasonOffer[]
 }) {
     const navigate = useNavigate()
     const toStartScreen = () => navigate(`/diagnostic/sets/${set.id}`)
@@ -308,9 +314,23 @@ function SetCta({
     // with its own price and end date, and a grid card has no room to put that
     // honestly. The start screen does, and it also shows sample questions and
     // the sign-in wall, so it is the right place to decide from.
+    // The price is on the button, though: a student deciding whether the
+    // papers are worth an account should not find the number one screen on.
+    const offer = seasons.find((s) => s.test === test)
+    const price = offer
+        ? formatSeasonPrice(offer.priceAmount, offer.priceCurrency)
+        : null
     return (
-        <Button className="cursor-pointer" onClick={toStartScreen}>
-            Unlock with Season Pass →
+        <Button
+            className="cursor-pointer"
+            onClick={() => {
+                trackEvent('unlock_clicked', {
+                    metadata: { source: 'catalogue', season: offer?.key ?? null },
+                })
+                toStartScreen()
+            }}
+        >
+            {price ? `Unlock with Season Pass · ${price} →` : 'Unlock with Season Pass →'}
         </Button>
     )
 }

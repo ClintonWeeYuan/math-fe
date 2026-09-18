@@ -61,6 +61,13 @@ export type AnalyticsEventName =
     | 'auth_failed'
     | 'signup_submitted'
     | 'email_verified'
+    // The Season Pass funnel. checkout_started and purchase_completed are
+    // recorded server-side (the checkout endpoint and the Stripe webhook).
+    | 'paywall_shown'
+    | 'unlock_clicked'
+    | 'checkout_started'
+    | 'checkout_cancelled'
+    | 'purchase_completed'
 
 export type AnalyticsPayload = {
     attemptId?: string

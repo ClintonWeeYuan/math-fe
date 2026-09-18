@@ -270,13 +270,13 @@ function landingPage(entry) {
         // Kept inside the ~60 characters Google shows. "& Skills Report" cut
         // every one of these mid-word in results; the description carries it.
         title: `${t.name} ${subject} Practice Test — Free Timed Paper | JomExam`,
-        description: `A free ${t.name} ${subject} practice test in the real format — ${format} — with a report naming the skill behind every wrong answer. Plus a free mini test${pdf ? ' and a downloadable sample paper' : ''}.`,
+        description: `A free ${t.name} ${subject} practice test in the real format — ${format} — with your score, worked solutions and the skill to work on first. Plus a free mini test${pdf ? ' and a downloadable sample paper' : ''}.`,
         parent: t.parent,
         eyebrow: `${t.name} practice test`,
         ctaPath: t.ctaPath,
         ctaLabel: `Sit the free ${paper} →`,
         h1: `${t.name} ${subject} practice test`,
-        standfirst: `A full ${t.name} ${entry.test === 'tmua' ? subject : `${subject} paper`} in the real format — ${format}, no calculator — with a report that names the skill behind every wrong answer, not just a score. Set A is free.`,
+        standfirst: `A full ${t.name} ${entry.test === 'tmua' ? subject : `${subject} paper`} in the real format — ${format}, no calculator — with a report that looks past the score to the skills behind it. Set A is free, and shows you the skill to work on first.`,
         publishedAt: entry.test === 'esat' ? '2026-08-17' : '2026-09-15',
         updatedAt: '2026-09-15',
         sections,
