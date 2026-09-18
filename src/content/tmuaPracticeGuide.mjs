@@ -19,7 +19,7 @@ export const GUIDE = {
     path: '/guides/tmua-practice-tests',
     title: 'TMUA Practice Tests — Free Paper 1 & Paper 2 Diagnostics | JomExam',
     description:
-        'Free TMUA practice tests for Paper 1 and Paper 2 — 20 questions in 75 minutes each, matching the real format. Sit one and get a skills report naming the specific reasoning gaps to fix.',
+        'Free TMUA practice tests for Paper 1 and Paper 2 — 20 questions in 75 minutes each, matching the real format. Sit one free and see the reasoning skill to work on first.',
     eyebrow: 'TMUA guide',
     ctaPath: '/diagnostics/tmua',
     ctaLabel: 'Sit a free TMUA diagnostic →',
@@ -153,7 +153,7 @@ export const GUIDE = {
         },
         {
             q: 'Are the JomExam TMUA practice tests free?',
-            a: 'Set A of both Paper 1 and Paper 2 is free to sit, including the full skills report. Further sets are part of the Season Pass.',
+            a: 'Set A of both Paper 1 and Paper 2 is free to sit, with your score, pacing, every worked solution and the skill to work on first. The full skill-by-skill diagnosis and every further set come with the Season Pass.',
         },
     ],
     related: [

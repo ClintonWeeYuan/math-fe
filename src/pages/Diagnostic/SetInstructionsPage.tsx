@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { LoadingPage } from '@/components/common/FullLoadingPage.tsx'
 import { Button } from '@/components/ui/button.tsx'
@@ -9,7 +9,11 @@ import useStartOrResumeAttemptMutation from '@/hooks/diagnostic/useStartOrResume
 import { testFromSubject } from '@/lib/diagnosticNextSteps.ts'
 import { trackEvent } from '@/lib/analytics.ts'
 import { toast } from 'sonner'
-import { BILLING_LIVE, formatSeasonPrice } from '@/lib/billing.ts'
+import {
+    BILLING_LIVE,
+    formatSeasonEnd,
+    formatSeasonPrice,
+} from '@/lib/billing.ts'
 import { useAuth } from '@/components/auth/AuthContext.tsx'
 import { useQuery } from '@tanstack/react-query'
 import {
@@ -24,6 +28,11 @@ import useBillingStatusQuery from '@/hooks/billing/useBillingStatusQuery.ts'
 import useStartCheckoutMutation from '@/hooks/billing/useStartCheckoutMutation.ts'
 import { SeasonChoice } from '@/components/billing/SeasonChoice.tsx'
 import type { SeasonOffer } from '@/lib/billingApi.ts'
+import {
+    rememberCheckoutIntent,
+    takeCheckoutIntent,
+    useCheckoutCancelledNotice,
+} from '@/lib/checkoutIntent.ts'
 
 /**
  * Landing/instructions screen (§2), before an attempt exists. Shows the
@@ -85,6 +94,30 @@ export function SetInstructionsPage() {
     // below because "is anything on sale at all" and "is there a pass for
     // THIS paper" are different questions, and the copy needs both.
     const allSeasons = BILLING_LIVE ? (billing?.seasons ?? []) : []
+
+    useCheckoutCancelledNotice('start_page')
+
+    // Back from signing in, on the way to buy this paper's pass: carry on to
+    // checkout rather than making them find the button again. Waits for the
+    // offers to load; the intent is consumed only when there is a pass here
+    // to sell them, so it fires once.
+    const previewSubject = (preview as { subject?: string | null } | undefined)
+        ?.subject
+    const previewTest = testFromSubject(previewSubject)
+    const canBuyHere =
+        user !== null &&
+        previewTest !== undefined &&
+        allSeasons.some((s) => s.test === previewTest && !s.alreadyCovered)
+    useEffect(() => {
+        if (!canBuyHere) return
+        const season = takeCheckoutIntent(window.location.pathname)
+        if (!season) return
+        trackEvent('unlock_clicked', {
+            metadata: { source: 'after_sign_in', season },
+        })
+        toast('Taking you to checkout…')
+        startCheckout({ season })
+    }, [canBuyHere, startCheckout])
 
     function handleStart() {
         if (!setId) return
@@ -304,9 +337,15 @@ export function SetInstructionsPage() {
                                     <SeasonChoice
                                         seasons={seasons}
                                         isPending={isCheckoutPending}
-                                        onChoose={(season) =>
+                                        onChoose={(season) => {
+                                            trackEvent('unlock_clicked', {
+                                                metadata: {
+                                                    source: 'start_page',
+                                                    season,
+                                                },
+                                            })
                                             startCheckout({ season })
-                                        }
+                                        }}
                                     />
                                 ) : (
                                     /* Nothing on sale: an unlock CTA would
@@ -446,7 +485,9 @@ function SignInToSit({
                                         : season.label
                                 })
                                 .join(' or ')}
-                            . You&apos;ll pick a sitting after signing in.
+                            . Access runs until{' '}
+                            {formatSeasonEnd(seasons[0].lastDay)}, and you can
+                            buy it straight after signing in.
                         </div>
                     )}
                     <div>
@@ -457,6 +498,20 @@ function SignInToSit({
                                 trackEvent('sign_in_prompt_clicked', {
                                     metadata: { subject: subject ?? null, isMini },
                                 })
+                                // A paid paper: they are signing in to buy,
+                                // so remember that for the way back.
+                                if (seasons.length > 0) {
+                                    trackEvent('unlock_clicked', {
+                                        metadata: {
+                                            source: 'start_page_signed_out',
+                                            season: seasons[0].key,
+                                        },
+                                    })
+                                    rememberCheckoutIntent(
+                                        seasons[0].key,
+                                        location.pathname
+                                    )
+                                }
                                 navigate('/auth/login', {
                                     state: {
                                         from: { pathname: location.pathname },
@@ -464,7 +519,9 @@ function SignInToSit({
                                 })
                             }}
                         >
-                            Sign in to start
+                            {seasons.length > 0
+                                ? 'Sign in to unlock'
+                                : 'Sign in to start'}
                         </Button>
                     </div>
                 </CardContent>

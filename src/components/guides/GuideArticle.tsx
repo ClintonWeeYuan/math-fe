@@ -334,8 +334,8 @@ export function GuideArticle({ guide }: { guide: Guide }) {
                     </h2>
                     <p className="text-slate-400 leading-relaxed mb-6">
                         Set A of every paper is free to sit, written to the real
-                        format. You get a skills report naming what to work on,
-                        not just a score.
+                        format. You get your score, every worked solution and the
+                        skill to work on first.
                     </p>
                     <Button
                         className="bg-white text-slate-900 hover:bg-slate-100 cursor-pointer font-medium"

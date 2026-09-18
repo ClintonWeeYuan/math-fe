@@ -13,6 +13,9 @@ import { trackEvent } from '@/lib/analytics.ts'
 import useStartCheckoutMutation from '@/hooks/billing/useStartCheckoutMutation.ts'
 import { BILLING_LIVE } from '@/lib/billing.ts'
 import useBillingStatusQuery from '@/hooks/billing/useBillingStatusQuery.ts'
+import useListPublishedSetsQuery from '@/hooks/diagnostic/useListPublishedSetsQuery.ts'
+import { testFromSubject } from '@/lib/diagnosticNextSteps.ts'
+import { useCheckoutCancelledNotice } from '@/lib/checkoutIntent.ts'
 
 /**
  * The student's own post-exam report (§6). Fetches the owner-scoped report and
@@ -55,6 +58,38 @@ export function DiagnosticReportPage() {
             trackEvent('report_viewed', { attemptId })
         }
     }, [report, attemptId])
+
+    useCheckoutCancelledNotice('report')
+
+    // The paywall is on screen: a full paper, no pass, and something on sale.
+    // The funnel's first number for the pass — a click rate needs it.
+    const reportTest = testFromSubject(report?.subject)
+    const paywallSeason = seasons.find((s) => s.test === reportTest)?.key
+    const showsPaywall =
+        report !== undefined &&
+        report.hasPass === false &&
+        (report as { format?: 'mini' | 'full' }).format !== 'mini'
+    useEffect(() => {
+        if (showsPaywall && attemptId) {
+            trackEvent('paywall_shown', {
+                attemptId,
+                metadata: { source: 'report', season: paywallSeason ?? null },
+            })
+        }
+    }, [showsPaywall, attemptId, paywallSeason])
+
+    // How many papers the pass would open, for the paywall's list. Only
+    // fetched when there is a paywall to put it on.
+    const { data: testSets } = useListPublishedSetsQuery(
+        showsPaywall ? reportTest : undefined
+    )
+    const paidPaperCount = showsPaywall
+        ? (testSets ?? []).filter(
+              (s) =>
+                  !s.isFree &&
+                  (s as { format?: 'mini' | 'full' }).format !== 'mini'
+          ).length || undefined
+        : undefined
 
     if (isLoading) return <LoadingPage />
 
@@ -102,17 +137,13 @@ export function DiagnosticReportPage() {
             // passed (when checkout would 409 anyway). The blurred radar and
             // its explanation still show — that part is true either way.
             seasons={seasons}
+            paidPaperCount={paidPaperCount}
             onUnlock={
                 seasons.length > 0
                     ? (season: string) => {
-                          trackEvent('diagnostic_cta_clicked', {
+                          trackEvent('unlock_clicked', {
                               attemptId,
-                              metadata: {
-                                  cta: 'unlock_skills_radar',
-                                  // Which sitting converts is the thing worth
-                                  // knowing here — it is a pricing signal.
-                                  season,
-                              },
+                              metadata: { source: 'report', season },
                           })
                           // Abandoning checkout returns them to this report,
                           // not to the catalogue — they were reading it.

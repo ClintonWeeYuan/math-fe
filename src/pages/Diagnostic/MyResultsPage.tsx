@@ -11,11 +11,15 @@ import {
     actionFor,
     coverageFor,
     groupCoverageBySubject,
+    isTerminal,
     type CoverageRow,
     type StudentAttempt,
     type SubjectCoverage,
 } from '@/lib/myResults.ts'
-import { BILLING_LIVE } from '@/lib/billing.ts'
+import { BILLING_LIVE, formatSeasonEnd, formatSeasonPrice } from '@/lib/billing.ts'
+import useStartCheckoutMutation from '@/hooks/billing/useStartCheckoutMutation.ts'
+import { useCheckoutCancelledNotice } from '@/lib/checkoutIntent.ts'
+import type { SeasonOffer } from '@/lib/billingApi.ts'
 import useBillingStatusQuery from '@/hooks/billing/useBillingStatusQuery.ts'
 import { diagnosticsPathFor } from '@/lib/diagnosticsDestination.ts'
 import { trackEvent } from '@/lib/analytics.ts'
@@ -286,6 +290,78 @@ function HistoryRow({ attempt }: { attempt: StudentAttempt }) {
     )
 }
 
+/**
+ * The pass, offered once a student has sat a free full paper and seen what a
+ * report is. Not before: a first-time visitor has nothing to judge it by.
+ * Not to a pass holder, and not to someone who has only done minis, whose
+ * reports never had a radar to unlock.
+ */
+function SeasonPassNudge({
+    offer,
+    testName,
+    freeFullDone,
+    paidPaperCount,
+}: {
+    offer: SeasonOffer
+    testName: string
+    freeFullDone: number
+    paidPaperCount: number
+}) {
+    const { mutate: startCheckout, isPending } = useStartCheckoutMutation()
+    const price = formatSeasonPrice(offer.priceAmount, offer.priceCurrency)
+
+    useEffect(() => {
+        trackEvent('paywall_shown', {
+            metadata: { source: 'dashboard', season: offer.key },
+        })
+    }, [offer.key])
+
+    return (
+        <Card className="mb-10 border-[#4E77B4]/30 bg-[#F3F7FC]">
+            <CardContent className="flex flex-col gap-3 pt-6">
+                <p className="text-lg font-medium">
+                    Ready for the next paper?
+                </p>
+                <p className="text-sm text-slate-600">
+                    You&apos;ve sat {freeFullDone} free {testName}{' '}
+                    {freeFullDone === 1 ? 'paper' : 'papers'}. The {testName}{' '}
+                    Season Pass opens{' '}
+                    {paidPaperCount > 0
+                        ? `${paidPaperCount} more papers`
+                        : 'every paper'}
+                    , plus your skill-by-skill diagnosis on every report —
+                    including the ones you&apos;ve already sat.
+                </p>
+                <div className="flex flex-wrap items-center gap-3">
+                    <Button
+                        className="cursor-pointer"
+                        disabled={isPending}
+                        onClick={() => {
+                            trackEvent('unlock_clicked', {
+                                metadata: { source: 'dashboard', season: offer.key },
+                            })
+                            startCheckout({
+                                season: offer.key,
+                                returnPath: '/my-results',
+                            })
+                        }}
+                    >
+                        {isPending
+                            ? 'Opening checkout…'
+                            : price
+                              ? `Unlock ${testName} — ${price}`
+                              : `Unlock ${testName}`}
+                    </Button>
+                    <span className="text-xs text-slate-500">
+                        One payment, access until{' '}
+                        {formatSeasonEnd(offer.lastDay)}.
+                    </span>
+                </div>
+            </CardContent>
+        </Card>
+    )
+}
+
 export function MyResultsPage() {
     const navigate = useNavigate()
     const { data: attempts, isLoading, isError } = useMyAttemptsQuery()
@@ -315,6 +391,30 @@ export function MyResultsPage() {
     useEffect(() => {
         trackEvent('dashboard_viewed')
     }, [])
+
+    useCheckoutCancelledNotice('dashboard')
+
+    // The nudge's facts: which pass fits the test they have been sitting,
+    // whether they already hold it, and whether they have sat a free full
+    // paper — the moment a report has shown them what the pass unlocks.
+    const nudgeOffer =
+        BILLING_LIVE && test && !(billing?.coveredTests ?? []).includes(test)
+            ? billing?.seasons?.find((s) => s.test === test && !s.alreadyCovered)
+            : undefined
+    const freeFullDone = new Set(
+        (attempts ?? [])
+            .filter(
+                (a) =>
+                    isTerminal(a) &&
+                    a.format !== 'mini' &&
+                    testFromSubject(a.subject) === test
+            )
+            .map((a) => a.setId)
+    ).size
+    const paidPaperCount = (sets ?? []).filter(
+        (s) =>
+            !s.isFree && (s as { format?: 'mini' | 'full' }).format !== 'mini'
+    ).length
 
     return (
         <LandingLayout>
@@ -359,6 +459,14 @@ export function MyResultsPage() {
 
                 {!isLoading && !isError && (attempts?.length ?? 0) > 0 && (
                     <>
+                        {nudgeOffer && freeFullDone > 0 && (
+                            <SeasonPassNudge
+                                offer={nudgeOffer}
+                                testName={test === 'tmua' ? 'TMUA' : 'ESAT'}
+                                freeFullDone={freeFullDone}
+                                paidPaperCount={paidPaperCount}
+                            />
+                        )}
                         {modules.length > 0 && (
                             <section className="mb-12">
                                 <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2">

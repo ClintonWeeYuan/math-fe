@@ -71,7 +71,7 @@ export const GUIDE = {
             id: 'mini-test',
             h2: 'Fifteen minutes spare?',
             paras: [
-                'The four questions above are a warm-up. A mini test is the next step: ten questions in fifteen minutes — the real test’s pace at a quarter of its length — with a short skills report at the end. When you are ready for the full picture, Set A of the complete 27-question paper is free, and its report names the skill behind every wrong answer.',
+                'The four questions above are a warm-up. A mini test is the next step: ten questions in fifteen minutes — the real test’s pace at a quarter of its length — with your score, pacing and worked solutions at the end. When you are ready for the full picture, Set A of the complete 27-question paper is free, and its report shows the skill to work on first.',
             ],
             links: [
                 {
@@ -82,7 +82,7 @@ export const GUIDE = {
                 {
                     path: '/diagnostics/esat',
                     label: 'Sit the full free paper',
-                    note: 'Set A of the 27-question paper, with the full skills report.',
+                    note: 'Set A of the 27-question paper, free, with your score, worked solutions and the skill to work on first.',
                 },
             ],
         },

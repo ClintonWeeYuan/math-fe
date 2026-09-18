@@ -5,6 +5,7 @@ import { SolutionBlock } from '@/components/diagnostic/report/SolutionBlock.tsx'
 import { ReportQuestionDialog } from '@/components/diagnostic/ReportQuestionDialog.tsx'
 import useAttemptReviewQuery, {
     isExpectedRefusal,
+    isPaperClosed,
     type ReviewQuestion,
 } from '@/hooks/diagnostic/useAttemptReviewQuery.ts'
 import { trackEvent } from '@/lib/analytics.ts'
@@ -195,6 +196,25 @@ export function ReviewAnswers({
         // so say nothing — a red block under a working report would be worse
         // than the silence.
         if (isExpectedRefusal(error)) return null
+
+        // The pass that opened this paper has ended. Said, not hidden: a
+        // review section that silently vanished would look like a bug.
+        if (isPaperClosed(error)) {
+            return (
+                <section className="flex flex-col gap-3">
+                    <h2 className="text-xl font-medium">Review your answers</h2>
+                    <Card>
+                        <CardContent className="pt-6">
+                            <p className="text-sm text-slate-600">
+                                Your Season Pass has ended, so this paper&apos;s
+                                questions and worked solutions are now closed.
+                                Your score and skills report above stay yours.
+                            </p>
+                        </CardContent>
+                    </Card>
+                </section>
+            )
+        }
 
         // Anything else is a breakage — a missing endpoint, a 500, no network.
         // This used to be silent too, and that is precisely how an undeployed

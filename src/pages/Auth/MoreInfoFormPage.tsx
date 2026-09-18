@@ -33,6 +33,7 @@ import {
 } from '@/components/ui/select.tsx'
 import useGetLevelsQuery from '@/hooks/useGetLevelsQuery.ts'
 import { toast } from 'sonner'
+import { takeReturnTo } from '@/lib/checkoutIntent.ts'
 
 const MALAYSIA_STATES = [
     'JOHOR',
@@ -66,10 +67,14 @@ export function MoreInfoFormPage() {
 
     const { mutate: signup, isPending } = useMoreInformationMutation({
         onSuccess: () => {
+            // Back to the paper they were on before signing up, if any.
+            const returnTo = takeReturnTo()
             toast.success(
-                'Additional information successfully submitted! Redirecting to main page...'
+                returnTo
+                    ? "You're all set — taking you back to where you were."
+                    : 'Additional information successfully submitted! Redirecting to main page...'
             )
-            navigate('/')
+            navigate(returnTo ?? '/')
         },
         onError: () => {
             toast.error('Something went wrong...')
