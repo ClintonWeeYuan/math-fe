@@ -21,6 +21,7 @@ import {
     MessageSquareWarning,
     PencilIcon,
     Settings,
+    SlidersHorizontal,
     Ticket,
     Timer,
 } from 'lucide-react'
@@ -73,6 +74,11 @@ const ITEMS = [
         title: 'Question reports',
         url: '/admin/question-reports',
         icon: MessageSquareWarning,
+    },
+    {
+        title: 'Paper ratings',
+        url: '/admin/paper-ratings',
+        icon: SlidersHorizontal,
     },
     {
         title: 'Access arrangements',
