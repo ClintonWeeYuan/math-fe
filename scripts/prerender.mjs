@@ -13,9 +13,9 @@
  * and the whole page for crawlers — with no hydration mismatch to manage.
  *
  * Diagnostic listings are baked from the live API at build time, so the
- * catalogue pages carry actual set names. If the API is unreachable the
- * build still succeeds with the static copy only — SEO is never a reason to
- * fail a deploy.
+ * catalogue pages carry actual set names. If the API is still unreachable
+ * after a few retries the build fails, leaving the previous bundle serving:
+ * see the end of main() for why that beats shipping without these pages.
  */
 import { readFile, writeFile, mkdir } from 'node:fs/promises'
 import { join, dirname } from 'node:path'
@@ -47,15 +47,52 @@ const esc = (s) =>
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
 
+/** Waits before each retry, in ms. About 45 seconds in all: long enough to
+ *  ride out the backend restarting, short enough not to stall a deploy. */
+const RETRY_DELAYS_MS = (process.env.PRERENDER_RETRY_DELAYS_MS ?? '3000,6000,12000,24000')
+    .split(',')
+    .map(Number)
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+
+/**
+ * GET some JSON from the API, retrying what a moment's wait can fix.
+ *
+ * A frontend deploy that starts while the backend is restarting — merging
+ * both halves of a feature minutes apart does exactly this — used to fail
+ * outright on the first refused connection (fb5bf98, 22 Sept 2026). So
+ * network errors, timeouts and 5xx are retried with growing waits. A 4xx is
+ * not: the request itself is wrong and asking again will not change that.
+ */
+async function fetchJson(url) {
+    for (let attempt = 0; ; attempt++) {
+        let retryable
+        try {
+            const res = await fetch(url, { signal: AbortSignal.timeout(15000) })
+            if (res.ok) return await res.json()
+            retryable = res.status >= 500
+            if (!retryable || attempt >= RETRY_DELAYS_MS.length) {
+                throw new Error(`HTTP ${res.status}`)
+            }
+        } catch (error) {
+            if (retryable === false || attempt >= RETRY_DELAYS_MS.length) {
+                throw error
+            }
+        }
+        console.warn(
+            `  … ${url} not ready, retrying in ${RETRY_DELAYS_MS[attempt] / 1000}s`
+        )
+        await sleep(RETRY_DELAYS_MS[attempt])
+    }
+}
+
 /** Fetch published sets for a test, or null if the API can't be reached. */
 async function fetchSets(test) {
     const url = test
         ? `${API}/diagnostic/sets/published?test=${test}`
         : `${API}/diagnostic/sets/published`
     try {
-        const res = await fetch(url, { signal: AbortSignal.timeout(15000) })
-        if (!res.ok) throw new Error(`HTTP ${res.status}`)
-        return await res.json()
+        return await fetchJson(url)
     } catch (error) {
         FAILURES.push(`diagnostic sets: ${error.message}`)
         console.warn(`  ! could not fetch ${url}: ${error.message}`)
@@ -76,11 +113,7 @@ const FAILURES = []
 /** Published subjects, or null if the API can't be reached. */
 async function fetchSubjects() {
     try {
-        const res = await fetch(`${API}/subjects`, {
-            signal: AbortSignal.timeout(15000),
-        })
-        if (!res.ok) throw new Error(`HTTP ${res.status}`)
-        return await res.json()
+        return await fetchJson(`${API}/subjects`)
     } catch (error) {
         FAILURES.push(`subject list: ${error.message}`)
         console.warn(`  ! could not fetch subjects: ${error.message}`)
@@ -128,11 +161,7 @@ function topicListMarkup(topics) {
 /** One subject with its topics, or null if the API can't be reached. */
 async function fetchSubjectDetail(slug) {
     try {
-        const res = await fetch(`${API}/subjects/by-slug/${slug}`, {
-            signal: AbortSignal.timeout(15000),
-        })
-        if (!res.ok) throw new Error(`HTTP ${res.status}`)
-        return await res.json()
+        return await fetchJson(`${API}/subjects/by-slug/${slug}`)
     } catch (error) {
         FAILURES.push(`subject ${slug}: ${error.message}`)
         console.warn(`  ! could not fetch subject ${slug}: ${error.message}`)
@@ -143,13 +172,9 @@ async function fetchSubjectDetail(slug) {
 /** Published questions for one topic — what a crawler will actually read. */
 async function fetchTopicQuestions(subjectId, topicId) {
     try {
-        const res = await fetch(
-            `${API}/questions/subject/paginated/${subjectId}?topics=${topicId}&size=6`,
-            { signal: AbortSignal.timeout(15000) }
+        return await fetchJson(
+            `${API}/questions/subject/paginated/${subjectId}?topics=${topicId}&size=6`
         )
-        if (!res.ok) throw new Error(`HTTP ${res.status}`)
-        const page = await res.json()
-        return page
     } catch (error) {
         FAILURES.push(`questions for topic ${topicId}: ${error.message}`)
         console.warn(
