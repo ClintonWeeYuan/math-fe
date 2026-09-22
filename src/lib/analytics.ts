@@ -68,6 +68,8 @@ export type AnalyticsEventName =
     | 'checkout_started'
     | 'checkout_cancelled'
     | 'purchase_completed'
+    // The student's own view of a paper, from its report (PaperRating).
+    | 'paper_rated'
 
 export type AnalyticsPayload = {
     attemptId?: string
