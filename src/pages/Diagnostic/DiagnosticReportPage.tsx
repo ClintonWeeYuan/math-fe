@@ -10,6 +10,7 @@ import { DiagnosticReportView } from '@/components/diagnostic/report/DiagnosticR
 import { WhatNext } from '@/components/diagnostic/report/WhatNext.tsx'
 import { ReviewAnswers } from '@/components/diagnostic/report/ReviewAnswers.tsx'
 import { FollowupOptIn } from '@/components/diagnostic/report/FollowupOptIn.tsx'
+import { PaperRating } from '@/components/diagnostic/report/PaperRating.tsx'
 import { trackEvent } from '@/lib/analytics.ts'
 import useStartCheckoutMutation from '@/hooks/billing/useStartCheckoutMutation.ts'
 import { BILLING_LIVE } from '@/lib/billing.ts'
@@ -160,6 +161,13 @@ export function DiagnosticReportPage() {
                 // because the admin page renders that same view and has no use
                 // for "start a diagnostic" buttons on someone else's results.
                 <div className="flex flex-col gap-8">
+                    {/* First, while the paper is fresh: how it felt is only
+                        worth asking before the review changes their mind. */}
+                    <PaperRating
+                        attemptId={attemptId ?? ''}
+                        subject={report.subject}
+                        isMini={isMini}
+                    />
                     {/* Straight after the locked radar: the moment they have
                         just seen what they are missing is when "email me
                         about this" is a real question. Free papers only. */}
