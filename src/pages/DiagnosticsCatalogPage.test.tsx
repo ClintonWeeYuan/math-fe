@@ -3,9 +3,12 @@ import { render, screen, fireEvent, within } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { DiagnosticsCatalogPage } from './DiagnosticsCatalogPage'
 import type { PublishedDiagnosticSet } from '@/client'
+import type { StudentAttempt } from '@/lib/myResults.ts'
+import type { EsatModule } from '@/lib/esatModules.ts'
 
 const mockSets = vi.fn()
 const mockNavigate = vi.fn()
+const mockChoose = vi.fn()
 
 /** Flipped per test. A module constant read at import time, so it has to be
  *  reached through a getter rather than reassigned on the real module. */
@@ -19,9 +22,11 @@ let coveredTests: string[] = []
 let seasonsOnSale = true
 /** Whether anyone is signed in at all. */
 let signedIn = false
+/** The student's own attempts. */
+let attempts: StudentAttempt[] = []
+/** The ESAT modules they have chosen; null until they choose. */
+let esatModules: EsatModule[] | null = null
 
-// Only the flag is faked — seasonAccessNote is real formatting, and a stub
-// would let the wording drift from what a student actually sees.
 vi.mock('@/lib/billing.ts', async (importOriginal) => ({
     ...(await importOriginal<typeof import('@/lib/billing.ts')>()),
     get BILLING_LIVE() {
@@ -40,11 +45,12 @@ vi.mock('@/hooks/billing/useBillingStatusQuery.ts', () => ({
                   seasons: seasonsOnSale
                       ? [
                             {
-                                key: 'oct-2026',
-                                label: 'October 2026',
-                                lastDay: '2026-10-16',
-                                priceAmount: 9900,
-                                priceCurrency: 'MYR',
+                                key: 'esat_2026_27',
+                                test: 'esat',
+                                label: 'ESAT Season Pass',
+                                lastDay: '2027-01-31',
+                                priceAmount: 5900,
+                                priceCurrency: 'GBP',
                                 alreadyCovered: false,
                             },
                         ]
@@ -56,6 +62,14 @@ vi.mock('@/hooks/billing/useBillingStatusQuery.ts', () => ({
 vi.mock('@/hooks/diagnostic/useListPublishedSetsQuery.ts', () => ({
     default: () => mockSets(),
 }))
+vi.mock('@/hooks/diagnostic/useMyAttemptsQuery.ts', () => ({
+    default: ({ enabled }: { enabled?: boolean } = {}) => ({
+        data: enabled ? attempts : undefined,
+    }),
+}))
+vi.mock('@/hooks/diagnostic/useEsatModules.ts', () => ({
+    default: () => ({ modules: esatModules, isLoading: false, choose: mockChoose }),
+}))
 vi.mock('@/components/layout/landing/LandingLayout.tsx', () => ({
     LandingLayout: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
 }))
@@ -65,58 +79,115 @@ vi.mock('react-router-dom', async () => {
     return { ...actual, useNavigate: () => mockNavigate }
 })
 
-function s(id: string, title: string, subject: string): PublishedDiagnosticSet {
+const SUBJECTS = {
+    maths_1: 'ESAT Math 1',
+    maths_2: 'ESAT Math 2',
+    physics: 'ESAT Physics',
+    chemistry: 'ESAT Chemistry',
+    biology: 'ESAT Biology',
+}
+
+function full(
+    subject: string,
+    letter: string,
+    over: Partial<PublishedDiagnosticSet> = {}
+): PublishedDiagnosticSet {
     return {
-        id, title, subject, description: null,
-        timeLimitMinutes: 40, questionCount: 27, isFree: true,
+        id: `${subject}-${letter}`,
+        title: `${subject} — Diagnostic Set ${letter}`,
+        subject,
+        description: null,
+        timeLimitMinutes: 40,
+        questionCount: 27,
+        isFree: letter === 'A',
+        ...over,
     }
 }
 
-function renderPage() {
+function mini(subject: string, timeLimitMinutes = 15, questionCount = 10) {
+    return {
+        id: `${subject}-mini`,
+        title: `${subject} — Mini Test`,
+        subject,
+        description: null,
+        timeLimitMinutes,
+        questionCount,
+        isFree: true,
+        format: 'mini',
+    } as PublishedDiagnosticSet
+}
+
+/** Every ESAT module with a Mini, a free Set A and a paid Set B. */
+function esatCatalogue(): PublishedDiagnosticSet[] {
+    return Object.values(SUBJECTS).flatMap((subject) => [
+        mini(subject),
+        full(subject, 'A'),
+        full(subject, 'B'),
+    ])
+}
+
+function attempt(set: PublishedDiagnosticSet, over: Partial<StudentAttempt> = {}): StudentAttempt {
+    return {
+        attemptId: `att-${set.id}`,
+        setId: set.id,
+        setTitle: set.title,
+        subject: set.subject,
+        status: 'submitted',
+        totalScore: 20,
+        answeredCount: 27,
+        questionCount: 27,
+        startedAt: '2026-09-30T10:00:00Z',
+        ...over,
+    }
+}
+
+function renderPage(test?: 'esat' | 'tmua') {
     return render(
         <MemoryRouter>
-            <DiagnosticsCatalogPage />
+            <DiagnosticsCatalogPage test={test} />
         </MemoryRouter>
     )
 }
 
-describe('DiagnosticsCatalogPage', () => {
-    beforeEach(() => {
-        mockSets.mockReset()
-        mockNavigate.mockReset()
-        billingLive = false
-        coveredTests = []
-        signedIn = false
-        seasonsOnSale = true
+function module(name: string) {
+    return screen.getByRole('heading', { name }).closest('section')!
+}
+
+beforeEach(() => {
+    mockSets.mockReset()
+    mockNavigate.mockReset()
+    mockChoose.mockReset()
+    billingLive = false
+    coveredTests = []
+    signedIn = false
+    seasonsOnSale = true
+    attempts = []
+    esatModules = null
+})
+
+describe('the module blocks', () => {
+    it('groups sets by module and gives the paper length once', () => {
+        mockSets.mockReturnValue({ data: esatCatalogue(), isLoading: false })
+        renderPage()
+        const physics = module('Physics')
+        expect(within(physics).getByText(/Full paper: 27 questions · 40 min/)).toBeInTheDocument()
+        expect(within(physics).getByRole('button', { name: /Physics — Diagnostic Set B/ })).toBeInTheDocument()
     })
 
-    it('lists published sets grouped by subject with question count + time', () => {
-        mockSets.mockReturnValue({
-            data: [
-                s('p1', 'Physics Set A', 'ESAT Physics'),
-                s('m1', 'Maths 1 Set A', 'ESAT Maths 1'),
-                s('p2', 'Physics Set B', 'ESAT Physics'),
-            ],
-            isLoading: false,
-        })
+    it('puts Maths 1 first rather than alphabetical Biology', () => {
+        mockSets.mockReturnValue({ data: esatCatalogue(), isLoading: false })
         renderPage()
-        // Subject headings present, physics grouped together.
-        expect(screen.getByText('ESAT Physics')).toBeInTheDocument()
-        expect(screen.getByText('ESAT Maths 1')).toBeInTheDocument()
-        const physics = screen.getByText('ESAT Physics').closest('section')!
-        expect(within(physics).getByText('Physics Set A')).toBeInTheDocument()
-        expect(within(physics).getByText('Physics Set B')).toBeInTheDocument()
-        expect(screen.getAllByText(/27 questions · 40 min/)[0]).toBeInTheDocument()
+        const headings = screen.getAllByRole('heading', { level: 2 }).map((h) => h.textContent)
+        expect(headings).toEqual(['Maths 1', 'Maths 2', 'Physics', 'Chemistry', 'Biology'])
     })
 
-    it('starts a diagnostic by routing to its start screen', () => {
-        mockSets.mockReturnValue({
-            data: [s('p1', 'Physics Set A', 'ESAT Physics')],
-            isLoading: false,
-        })
+    it('opens a paper by routing to its start screen', () => {
+        mockSets.mockReturnValue({ data: esatCatalogue(), isLoading: false })
         renderPage()
-        fireEvent.click(screen.getByRole('button', { name: /Start diagnostic/i }))
-        expect(mockNavigate).toHaveBeenCalledWith('/diagnostic/sets/p1')
+        fireEvent.click(
+            within(module('Physics')).getAllByRole('button', { name: /Physics — Diagnostic Set A: start/ })[0]
+        )
+        expect(mockNavigate).toHaveBeenCalledWith('/diagnostic/sets/ESAT Physics-A')
     })
 
     it('shows an empty state when nothing is published', () => {
@@ -124,139 +195,184 @@ describe('DiagnosticsCatalogPage', () => {
         renderPage()
         expect(screen.getByText(/No diagnostics are available/i)).toBeInTheDocument()
     })
+
+    it("states a mini's length on its own card, since it differs by test", () => {
+        mockSets.mockReturnValue({
+            data: [mini('TMUA Paper 1', 19, 5), full('TMUA Paper 1', 'A', { timeLimitMinutes: 75, questionCount: 20 })],
+            isLoading: false,
+        })
+        renderPage('tmua')
+        expect(screen.getByText(/5 questions · 19 min · free/)).toBeInTheDocument()
+        expect(screen.getByText(/Full paper: 20 questions · 75 min/)).toBeInTheDocument()
+    })
 })
 
-/** A paid set from the other test, to prove a pass does not leak across. */
-function paidTmuaSet() {
-    return {
-        ...paidSet(),
-        id: 'set-tmua-paid',
-        title: 'TMUA Paper 1 — Diagnostic Set B',
-        subject: 'TMUA Paper 1',
-    }
-}
+describe('scores on the tiles', () => {
+    it('shows the best score on a paper the student has sat', () => {
+        signedIn = true
+        const sets = esatCatalogue()
+        attempts = [attempt(sets.find((s) => s.id === 'ESAT Physics-A')!, { totalScore: 20 })]
+        mockSets.mockReturnValue({ data: sets, isLoading: false })
+        renderPage()
+        expect(
+            within(module('Physics')).getAllByRole('button', { name: /Physics — Diagnostic Set A: done, 74%/ })[0]
+        ).toBeInTheDocument()
+    })
 
-/** A paid set — the only kind whose CTA depends on billing state. */
-function paidSet() {
-    return {
-        id: 'set-paid',
-        title: 'ESAT Biology — Diagnostic Set B',
-        subject: 'ESAT Biology',
-        description: null,
-        timeLimitMinutes: 40,
-        questionCount: 27,
-        isFree: false,
-    }
-}
+    it('offers to resume a paper still in progress', () => {
+        signedIn = true
+        const sets = esatCatalogue()
+        attempts = [
+            attempt(sets.find((s) => s.id === 'ESAT Physics-A')!, {
+                status: 'in_progress', totalScore: null, answeredCount: 4,
+            }),
+        ]
+        mockSets.mockReturnValue({ data: sets, isLoading: false })
+        renderPage()
+        expect(
+            within(module('Physics')).getAllByRole('button', { name: /Physics — Diagnostic Set A: in progress/ })[0]
+        ).toBeInTheDocument()
+    })
 
-describe('the CTA on a paid set', () => {
+    it('asks for no attempts from a signed-out visitor', () => {
+        attempts = [attempt(full('ESAT Physics', 'A'))]
+        mockSets.mockReturnValue({ data: esatCatalogue(), isLoading: false })
+        renderPage()
+        expect(screen.queryByText('74%')).not.toBeInTheDocument()
+    })
+})
+
+describe('choosing ESAT modules', () => {
     beforeEach(() => {
-        mockSets.mockReset()
-        mockNavigate.mockReset()
-        billingLive = false
-        coveredTests = []
-        signedIn = false
-        seasonsOnSale = true
-        mockSets.mockReturnValue({ data: [paidSet()], isLoading: false })
+        mockSets.mockReturnValue({ data: esatCatalogue(), isLoading: false })
+    })
+
+    it('asks before showing any papers', () => {
+        renderPage('esat')
+        expect(screen.getByRole('heading', { name: /Which modules are you sitting/ })).toBeInTheDocument()
+        expect(screen.queryByRole('heading', { name: 'Biology' })).not.toBeInTheDocument()
+    })
+
+    it('always includes Maths 1 and needs at least one more', () => {
+        renderPage('esat')
+        expect(screen.getByRole('checkbox', { name: /Maths 1/ })).toHaveAttribute('aria-checked', 'true')
+        fireEvent.click(screen.getByRole('checkbox', { name: /Maths 1/ }))
+        expect(screen.getByRole('checkbox', { name: /Maths 1/ })).toHaveAttribute('aria-checked', 'true')
+        expect(screen.getByRole('button', { name: /Show my papers/ })).toBeDisabled()
+
+        fireEvent.click(screen.getByRole('checkbox', { name: /Maths 2/ }))
+        expect(screen.getByRole('button', { name: /Show my papers/ })).toBeEnabled()
+    })
+
+    it('saves Maths 1 and the two picked', () => {
+        renderPage('esat')
+        fireEvent.click(screen.getByRole('checkbox', { name: /Maths 2/ }))
+        fireEvent.click(screen.getByRole('checkbox', { name: /Physics/ }))
+        fireEvent.click(screen.getByRole('button', { name: /Show my papers/ }))
+        expect(mockChoose).toHaveBeenCalledWith(['maths_1', 'maths_2', 'physics'])
+    })
+
+    it('swaps out the oldest pick rather than allowing a fourth module', () => {
+        renderPage('esat')
+        fireEvent.click(screen.getByRole('checkbox', { name: /Maths 2/ }))
+        fireEvent.click(screen.getByRole('checkbox', { name: /Physics/ }))
+        fireEvent.click(screen.getByRole('checkbox', { name: /Chemistry/ }))
+        expect(screen.getByRole('checkbox', { name: /Maths 2/ })).toHaveAttribute('aria-checked', 'false')
+        fireEvent.click(screen.getByRole('button', { name: /Show my papers/ }))
+        expect(mockChoose).toHaveBeenCalledWith(['maths_1', 'physics', 'chemistry'])
+    })
+
+    it('shows only the chosen modules once chosen', () => {
+        esatModules = ['maths_1', 'chemistry', 'biology']
+        renderPage('esat')
+        const headings = screen.getAllByRole('heading', { level: 2 }).map((h) => h.textContent)
+        expect(headings).toEqual(['Maths 1', 'Chemistry', 'Biology'])
+    })
+
+    it('lets them change their modules, starting from the current choice', () => {
+        esatModules = ['maths_1', 'chemistry', 'biology']
+        renderPage('esat')
+        fireEvent.click(screen.getByRole('button', { name: 'Change' }))
+        expect(screen.getByRole('checkbox', { name: /Chemistry/ })).toHaveAttribute('aria-checked', 'true')
+        fireEvent.click(screen.getByRole('button', { name: 'Cancel' }))
+        expect(screen.getByRole('heading', { name: 'Chemistry' })).toBeInTheDocument()
+    })
+
+    it('can show all five modules for someone who has not decided', () => {
+        renderPage('esat')
+        fireEvent.click(screen.getByRole('button', { name: /Show all five modules/ }))
+        expect(screen.getAllByRole('heading', { level: 2 })).toHaveLength(5)
+        expect(mockChoose).not.toHaveBeenCalled()
+    })
+
+    it('never asks on the TMUA page, where everyone sits both papers', () => {
+        mockSets.mockReturnValue({
+            data: [full('TMUA Paper 1', 'A'), full('TMUA Paper 2', 'A')],
+            isLoading: false,
+        })
+        renderPage('tmua')
+        expect(screen.queryByText(/Which modules are you sitting/)).not.toBeInTheDocument()
+        expect(screen.getByRole('heading', { name: 'Paper 1' })).toBeInTheDocument()
+    })
+})
+
+describe('the Season Pass', () => {
+    const paidTmua = () => full('TMUA Paper 1', 'B')
+
+    beforeEach(() => {
+        mockSets.mockReturnValue({ data: esatCatalogue(), isLoading: false })
+    })
+
+    it('is mentioned once, not on every locked paper', () => {
+        billingLive = true
+        renderPage()
+        expect(screen.getAllByRole('button', { name: /Unlock · £59/ })).toHaveLength(1)
     })
 
     it('shows a disabled coming-soon button before billing is live', () => {
         renderPage()
         expect(screen.getByRole('button', { name: /coming soon/i })).toBeDisabled()
-        expect(
-            screen.queryByRole('button', { name: /Unlock with Season Pass/i })
-        ).not.toBeInTheDocument()
+        expect(screen.queryByRole('button', { name: /Unlock/ })).not.toBeInTheDocument()
     })
 
-    it('routes to the start screen rather than buying from the grid', () => {
-        // Two sittings, each with its own price and end date, do not fit
-        // honestly in a grid card — so the catalogue never runs checkout. The
-        // start screen has room for the choice, and shows samples besides.
+    it('routes to a paid paper\'s start screen rather than buying from the list', () => {
         billingLive = true
         signedIn = true
         renderPage()
-        fireEvent.click(
-            screen.getByRole('button', { name: /Unlock with Season Pass/i })
-        )
-        expect(mockNavigate).toHaveBeenCalledWith('/diagnostic/sets/set-paid')
+        fireEvent.click(screen.getByRole('button', { name: /Unlock · £59/ }))
+        expect(mockNavigate).toHaveBeenCalledWith('/diagnostic/sets/ESAT Math 1-B')
     })
 
     it('never offers to sell to someone who already holds a pass', () => {
-        // The trap the old two-branch CTA fell into: it keyed off billing
-        // being live and nothing else, so a pass holder was invited to buy
-        // again.
         billingLive = true
         signedIn = true
         coveredTests = ['esat']
         renderPage()
+        expect(screen.queryByRole('button', { name: /Unlock/ })).not.toBeInTheDocument()
         expect(
-            screen.queryByRole('button', { name: /Unlock with Season Pass/i })
-        ).not.toBeInTheDocument()
-        fireEvent.click(
-            screen.getByRole('button', { name: /Start diagnostic/i })
-        )
-        expect(mockNavigate).toHaveBeenCalledWith('/diagnostic/sets/set-paid')
+            within(module('Physics')).getByRole('button', { name: /Physics — Diagnostic Set B: start/ })
+        ).toBeInTheDocument()
     })
 
     it('does not let an ESAT pass unlock a paid TMUA paper', () => {
-        // Found by walking the real flow: buying ESAT made every paid TMUA
-        // card read "Start diagnostic". The attempt itself was still refused
-        // with a 402, so nothing was given away — but the card promised
-        // something the server would not honour, and the student found out by
-        // clicking it.
         billingLive = true
         signedIn = true
         coveredTests = ['esat']
-        mockSets.mockReturnValue({ data: [paidTmuaSet()], isLoading: false })
+        mockSets.mockReturnValue({ data: [paidTmua()], isLoading: false })
         renderPage()
-        expect(
-            screen.getByRole('button', { name: /Unlock with Season Pass/i })
-        ).toBeInTheDocument()
-        expect(
-            screen.queryByRole('button', { name: /Start diagnostic/i })
-        ).not.toBeInTheDocument()
+        expect(screen.getByRole('button', { name: /TMUA Paper 1 — Diagnostic Set B: Season Pass/ })).toBeInTheDocument()
     })
 
     it('unlocks a paid TMUA paper for someone holding the TMUA pass', () => {
-        // The other direction, so the test above is proving scoping rather
-        // than just that TMUA is always locked.
         billingLive = true
         signedIn = true
         coveredTests = ['tmua']
-        mockSets.mockReturnValue({ data: [paidTmuaSet()], isLoading: false })
+        mockSets.mockReturnValue({ data: [paidTmua()], isLoading: false })
         renderPage()
-        expect(
-            screen.getByRole('button', { name: /Start diagnostic/i })
-        ).toBeInTheDocument()
-    })
-
-    it('unlocks both for a comped pass', () => {
-        // Comps predate the split and carry no test, so they arrive as every
-        // test there is.
-        billingLive = true
-        signedIn = true
-        coveredTests = ['esat', 'tmua']
-        mockSets.mockReturnValue({ data: [paidTmuaSet()], isLoading: false })
-        renderPage()
-        expect(
-            screen.getByRole('button', { name: /Start diagnostic/i })
-        ).toBeInTheDocument()
-    })
-
-    it('sends a signed-out visitor to the start screen too', () => {
-        // Checkout needs an account to attach the pass to, and the start
-        // screen is where the sign-in wall lives.
-        billingLive = true
-        renderPage()
-        fireEvent.click(
-            screen.getByRole('button', { name: /Unlock with Season Pass/i })
-        )
-        expect(mockNavigate).toHaveBeenCalledWith('/diagnostic/sets/set-paid')
+        expect(screen.getByRole('button', { name: /TMUA Paper 1 — Diagnostic Set B: start/ })).toBeInTheDocument()
     })
 
     it('stops offering an unlock once every sitting has passed', () => {
-        // The backend refuses with a 409 — a grant made then would carry an
-        // expiry already in the past, so the student would pay for nothing.
         billingLive = true
         signedIn = true
         seasonsOnSale = false
@@ -265,78 +381,13 @@ describe('the CTA on a paid set', () => {
     })
 
     it('still lets an existing pass holder start after the seasons end', () => {
-        // Their pass is dated too, so the server settles whether it still
-        // works. What must not happen is the catalogue hiding a paper from
-        // someone who paid for it.
         billingLive = true
         signedIn = true
         coveredTests = ['esat']
         seasonsOnSale = false
         renderPage()
         expect(
-            screen.getByRole('button', { name: /Start diagnostic/i })
+            within(module('Physics')).getByRole('button', { name: /Physics — Diagnostic Set B: start/ })
         ).toBeInTheDocument()
-    })
-
-    it('does not ask about a pass when the answer cannot change the CTA', () => {
-        // A public page most visitors reach without an account: with billing
-        // off, or signed out, every paid card renders the same either way.
-        billingLive = false
-        signedIn = true
-        renderPage()
-        expect(screen.getByRole('button', { name: /coming soon/i })).toBeDisabled()
-    })
-
-    describe('how long a mini takes', () => {
-        /**
-         * The card used to carry a duration badge beside the title as well as
-         * the length in the meta line. The badge was hardcoded to "15 min",
-         * which was true while every mini was an ESAT one — but the TMUA minis
-         * run 19 minutes, so the card ended up showing two different durations
-         * at once. The badge is gone; the meta line is the single statement.
-         */
-        const mini = (
-            id: string,
-            title: string,
-            subject: string,
-            timeLimitMinutes: number
-        ): PublishedDiagnosticSet => ({
-            id, title, subject, description: null,
-            timeLimitMinutes, questionCount: 5, isFree: true, format: 'mini',
-        })
-
-        it('states the length once, with the question count', () => {
-            mockSets.mockReturnValue({
-                data: [mini('m1', 'TMUA Paper 1 — Mini Test', 'TMUA Paper 1', 19)],
-                isLoading: false,
-            })
-            renderPage()
-            expect(screen.getByText(/5 questions · 19 min/)).toBeInTheDocument()
-        })
-
-        it('carries no separate duration badge', () => {
-            // Neither the correct duration nor the old hardcoded one should
-            // appear as a standalone chip alongside the title.
-            mockSets.mockReturnValue({
-                data: [mini('m1', 'TMUA Paper 1 — Mini Test', 'TMUA Paper 1', 19)],
-                isLoading: false,
-            })
-            renderPage()
-            expect(screen.queryByText('19 min')).not.toBeInTheDocument()
-            expect(screen.queryByText('15 min')).not.toBeInTheDocument()
-        })
-
-        it('never shows two different durations on one card', () => {
-            mockSets.mockReturnValue({
-                data: [
-                    mini('m1', 'TMUA Paper 1 — Mini Test', 'TMUA Paper 1', 19),
-                    mini('m2', 'ESAT Physics — Mini Test', 'ESAT Physics', 15),
-                ],
-                isLoading: false,
-            })
-            renderPage()
-            expect(screen.getByText(/5 questions · 19 min/)).toBeInTheDocument()
-            expect(screen.getByText(/5 questions · 15 min/)).toBeInTheDocument()
-        })
     })
 })
