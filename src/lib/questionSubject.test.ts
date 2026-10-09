@@ -83,7 +83,7 @@ describe('topicPrefix', () => {
 describe('labelling a skill', () => {
     it('names it when the subject is known', () => {
         expect(skillLabel('S4', 'ESAT Physics')).toBe(
-            'S4 · Multi-Step Problem Solving'
+            'S4 · Data, Graph & Table Extraction'
         )
     })
 

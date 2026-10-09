@@ -17,20 +17,18 @@ describe('skillName', () => {
     it('decodes the SAME code differently per subject', () => {
         // The trap the brief calls out: Physics S3 ≠ Maths S3.
         expect(skillName('ESAT Physics', 'S3')).toBe(
-            'Proportional & Ratio Reasoning'
+            'Formula Selection & Rearrangement'
         )
         expect(skillName('ESAT Math 2', 'S3')).toBe(
-            'Graphical & Geometric Reasoning'
+            'Functions (Composition, Inverse, Domain & Range)'
         )
     })
 
     it('resolves Maths 1 / Maths 2 / Physics via the drifted real names', () => {
-        expect(skillName('ESAT Maths 1', 'S1')).toBe(
-            'Algebraic Manipulation & Fluency'
-        )
-        expect(skillName('ESAT Math 2', 'S6')).toBe('Calculus & Rate of Change')
-        expect(skillName('ESAT Physics', 'S6')).toBe(
-            'Units & Dimensional Reasoning'
+        expect(skillName('ESAT Maths 1', 'S1')).toContain('Number Structure')
+        expect(skillName('ESAT Math 2', 'S8')).toBe('Calculus')
+        expect(skillName('ESAT Physics', 'S6')).toContain(
+            'Model-Based Reasoning'
         )
     })
 
@@ -42,9 +40,13 @@ describe('skillName', () => {
 })
 
 describe('frameworkFor', () => {
-    it('gives Maths 1 no S6 (no calculus), but Maths 2 does', () => {
-        expect(frameworkFor('ESAT Maths 1')).not.toHaveProperty('S6')
-        expect(frameworkFor('ESAT Math 2')).toHaveProperty('S6')
+    it('gives Maths 1 and Maths 2 eight axes each, with different meanings', () => {
+        expect(Object.keys(frameworkFor('ESAT Maths 1') ?? {})).toHaveLength(8)
+        expect(Object.keys(frameworkFor('ESAT Math 2') ?? {})).toHaveLength(8)
+        // Maths 1 S6 is statistics; Maths 2 S6 is binomial/counting.
+        expect(skillName('ESAT Maths 1', 'S6')).not.toBe(
+            skillName('ESAT Math 2', 'S6')
+        )
     })
 
     it('is null for an unrecognised subject', () => {
@@ -58,7 +60,7 @@ describe('TMUA frameworks', () => {
             'Algebraic Manipulation'
         )
         expect(skillName('TMUA Paper 1', 'S8')).toContain('Calculus')
-        expect(skillName('TMUA Paper 1', 'S9')).toContain('Graphs & Functions')
+        expect(skillName('TMUA Paper 1', 'S9')).toContain('Constraint')
     })
 
     it('names all eight Paper 2 skills, distinctly from Paper 1', () => {
@@ -74,12 +76,14 @@ describe('TMUA frameworks', () => {
         )
     })
 
-    it('leaves the ESAT Maths taxonomy untouched', () => {
-        // The docx says Paper 1 shares ESAT Maths 2's spec, but the existing
-        // ESAT questions are tagged against the abstract names — reusing the
-        // TMUA labels would re-interpret every historic tag.
+    it('keeps ESAT Maths 2 on its own table', () => {
+        // Paper 1 shares ESAT Maths 2's spec, but the two banks are tagged
+        // against different house tables — the names must not be shared.
         expect(skillName('ESAT Math 2', 'S2')).toBe(
-            'Strategic & Efficient Problem Solving'
+            'Exponential & Logarithmic Reasoning'
+        )
+        expect(skillName('ESAT Math 2', 'S2')).not.toBe(
+            skillName('TMUA Paper 1', 'S2')
         )
     })
 

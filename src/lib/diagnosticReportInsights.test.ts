@@ -28,7 +28,7 @@ describe('buildReportInsights', () => {
         ]
         const { strengths } = buildReportInsights(skills, SUBJECT, 7, 8)
         expect(strengths.map((i) => i.code)).toEqual(['S1'])
-        expect(strengths[0].name).toBe('Algebraic Manipulation & Fluency')
+        expect(strengths[0].name).toBe('Polynomial & Algebraic Structure')
     })
 
     it('lists focus areas lowest-first with denominator and limited-data flag', () => {

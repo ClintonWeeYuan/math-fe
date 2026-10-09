@@ -154,9 +154,9 @@ describe('DiagnosticReportPage', () => {
         renderPage()
         const summary = screen.getByText('Where you stand').closest('section')!
         // Strength decoded to its full Maths 2 name, with percentage.
-        expect(within(summary).getByText(/Algebraic Manipulation & Fluency/)).toBeInTheDocument()
+        expect(within(summary).getByText(/Polynomial & Algebraic Structure/)).toBeInTheDocument()
         // Focus area decoded, lowest-first, with denominator.
-        const focus = within(summary).getByText(/Graphical & Geometric Reasoning/)
+        const focus = within(summary).getByText(/Functions \(Composition/)
         expect(focus.closest('li')).toHaveTextContent('25%')
         expect(focus.closest('li')).toHaveTextContent('(1 of 4)')
     })
@@ -165,9 +165,9 @@ describe('DiagnosticReportPage', () => {
         mockUseReport.mockReturnValue({ data: report(), isLoading: false, error: null })
         renderPage()
         const steps = screen.getByText('Your next steps').closest('section')!
-        expect(within(steps).getByText(/Graphical & Geometric Reasoning/)).toBeInTheDocument()
-        // The static advice for Maths S3 mentions coordinate geometry.
-        expect(within(steps).getByText(/coordinate geometry/i)).toBeInTheDocument()
+        expect(within(steps).getByText(/Functions \(Composition/)).toBeInTheDocument()
+        // The static advice for Maths 2 S3 (functions) mentions composing functions.
+        expect(within(steps).getByText(/composing and inverting/i)).toBeInTheDocument()
     })
 
     it('radar legend keeps "not assessed" distinct from a low score, in full names', () => {
@@ -176,11 +176,11 @@ describe('DiagnosticReportPage', () => {
         const table = screen.getByRole('table', { name: /skills radar/i })
         // Full subject names as row headers; S5 not measured reads explicitly.
         const s1 = within(table)
-            .getByRole('rowheader', { name: /Algebraic Manipulation & Fluency/ })
+            .getByRole('rowheader', { name: /Polynomial & Algebraic Structure/ })
             .closest('tr')!
         expect(within(s1).getByRole('cell')).toHaveTextContent('83%')
         const s5 = within(table)
-            .getByRole('rowheader', { name: /Proportional & Numerical Fluency/ })
+            .getByRole('rowheader', { name: /Trigonometry/ })
             .closest('tr')!
         expect(within(s5).getByRole('cell')).toHaveTextContent('not assessed in this set')
         expect(within(s5).getByRole('cell')).not.toHaveTextContent('0%')
