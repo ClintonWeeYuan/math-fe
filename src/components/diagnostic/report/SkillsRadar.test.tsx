@@ -45,9 +45,9 @@ describe('SkillsRadar', () => {
                 skills={[{ skill: 'S3', score: 0.5, attempted: 2, correct: 1 }]}
             />
         )
-        // Physics S3 = Proportional & Ratio Reasoning (not the Maths meaning).
+        // Physics S3 = Formula Selection & Rearrangement (not the Maths meaning).
         expect(
-            screen.getByRole('rowheader', { name: /Proportional & Ratio Reasoning/ })
+            screen.getByRole('rowheader', { name: /Formula Selection & Rearrangement/ })
         ).toBeInTheDocument()
     })
 

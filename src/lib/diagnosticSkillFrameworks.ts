@@ -1,9 +1,9 @@
 /**
- * Skill-code → full-name frameworks, per subject. The S1–S7 codes are shared
- * but mean *different things* in each subject (Physics S3 is "Proportional &
- * Ratio Reasoning"; Maths S3 is "Graphical & Geometric Reasoning"), and Maths 1
- * has no S6 (no calculus). Selecting the wrong framework mislabels a student's
- * whole profile, so this is keyed by the diagnostic's subject.
+ * Skill-code → full-name frameworks, per subject. The S1–S9 codes are shared
+ * but mean *different things* in each subject (Physics S3 is "Formula
+ * Selection & Rearrangement"; Maths 2 S3 is "Functions"). Selecting the wrong
+ * framework mislabels a student's whole profile, so this is keyed by the
+ * diagnostic's subject.
  *
  * The canonical `_detail` strings from the import JSON aren't persisted in the
  * DB, so this constant is the single source of truth for names. Subject strings
@@ -11,33 +11,56 @@
  * before matching.
  */
 
-const MATHS_SHARED: Record<string, string> = {
-    S1: 'Algebraic Manipulation & Fluency',
-    S2: 'Strategic & Efficient Problem Solving',
-    S3: 'Graphical & Geometric Reasoning',
-    S4: 'Logical Reasoning & Rigour',
-    S5: 'Proportional & Numerical Fluency',
-    S7: 'Functions, Sequences & Structure',
+/** House skill tables from the ESAT & TMUA code dictionary (8 October 2026).
+ * Every set is tagged against these; the names here are what the Skills
+ * Radar prints, so a change to one table must be matched by a re-tag of the
+ * questions in that subject (and by math-be/app/services/skill_names.py). */
+const ESAT_MATH_1: Record<string, string> = {
+    S1: 'Number Structure (Divisors, Primes, Digits & Remainders)',
+    S2: 'Algebraic Manipulation (Identities, Equations & Integer Solutions)',
+    S3: 'Geometric Reasoning (Circles, Similarity, Pythagoras & Areas)',
+    S4: 'Ratio, Proportion & Scaling',
+    S5: 'Multi-Step Quantitative Synthesis',
+    S6: 'Statistics & Probability Reasoning',
+    S7: 'Units, Bounds, Estimation & Compound Measures',
+    S8: 'Pattern, Sequence & Structural Reasoning',
 }
 
-/** TMUA Paper 1 — Applications of Mathematical Knowledge. Nine topic-named
- * skills, from the TMUA Skills Frameworks reference.
- *
- * Note these are deliberately NOT reused for ESAT Maths 2 even though the two
- * share a specification: the existing ESAT Maths questions are tagged against
- * the more abstract MATHS_SHARED taxonomy above, so borrowing these names
- * would silently re-interpret every historic ESAT tag and change what past
- * reports mean. */
+const ESAT_MATH_2: Record<string, string> = {
+    S1: 'Polynomial & Algebraic Structure',
+    S2: 'Exponential & Logarithmic Reasoning',
+    S3: 'Functions (Composition, Inverse, Domain & Range)',
+    S4: 'Coordinate Geometry',
+    S5: 'Trigonometry',
+    S6: 'Binomial Expansion & Counting',
+    S7: 'Sequences & Series',
+    S8: 'Calculus',
+}
+
+const ESAT_PHYSICS: Record<string, string> = {
+    S1: 'Spec Recall & Qualitative Reasoning',
+    S2: 'Single-Step Proportional Reasoning',
+    S3: 'Formula Selection & Rearrangement',
+    S4: 'Data, Graph & Table Extraction',
+    S5: 'Multi-Step Quantitative Synthesis',
+    S6: 'Model-Based Reasoning (Fields, Particles & Energy)',
+    S7: 'Deduction in Unfamiliar Contexts',
+    S8: 'Extended Two-Principle Problems',
+}
+
+/** TMUA Paper 1 — Applications of Mathematical Knowledge. Nine reasoning
+ * skills (house table). Not reused for ESAT Maths 2 even though the papers
+ * share a specification: the two question banks are tagged separately. */
 const TMUA_PAPER_1: Record<string, string> = {
-    S1: 'Algebraic Manipulation (Indices, Surds & Partial Fractions)',
-    S2: 'Quadratics & Polynomial Equations',
-    S3: 'Inequalities & Case Analysis',
-    S4: 'Coordinate Geometry (Lines & Circles)',
-    S5: 'Trigonometry (Exact Values & Equations)',
-    S6: 'Sequences & Series',
-    S7: 'Exponential & Logarithmic Equations',
-    S8: 'Calculus (Differentiation & Integration)',
-    S9: 'Graphs & Functions (Transformations)',
+    S1: 'Algebraic Manipulation & Polynomial Structure',
+    S2: 'Sequences, Series & Probability Chains',
+    S3: 'Inequalities & Bounding Arguments',
+    S4: 'Geometric & Coordinate Reasoning',
+    S5: 'Trigonometric & Equation Techniques',
+    S6: 'Counting & Case Enumeration',
+    S7: 'Logarithmic, Exponential & Ordering Arguments',
+    S8: 'Calculus & Function Analysis',
+    S9: 'Constraint, Optimisation & Symmetry Reasoning',
 }
 
 /** TMUA Paper 2 — Mathematical Reasoning. Eight skills: the same AS-level
@@ -88,20 +111,9 @@ const ESAT_BIOLOGY: Record<string, string> = {
 }
 
 const FRAMEWORKS: Record<string, Record<string, string>> = {
-    // Maths 1 — no S6 (no calculus in the spec).
-    'esat math 1': { ...MATHS_SHARED },
-    // Maths 2 — Maths 1 plus calculus.
-    'esat math 2': { ...MATHS_SHARED, S6: 'Calculus & Rate of Change' },
-    // Physics — same codes, different meanings.
-    'esat physics': {
-        S1: 'Conceptual Understanding',
-        S2: 'Equation Selection & Substitution',
-        S3: 'Proportional & Ratio Reasoning',
-        S4: 'Multi-Step Problem Solving',
-        S5: 'Novel/Transfer Application',
-        S6: 'Units & Dimensional Reasoning',
-        S7: 'Graphical & Data Interpretation',
-    },
+    'esat math 1': { ...ESAT_MATH_1 },
+    'esat math 2': { ...ESAT_MATH_2 },
+    'esat physics': { ...ESAT_PHYSICS },
     'esat chemistry': { ...ESAT_CHEMISTRY },
     'esat biology': { ...ESAT_BIOLOGY },
     // TMUA — its own taxonomy per paper, and the papers differ from each other.

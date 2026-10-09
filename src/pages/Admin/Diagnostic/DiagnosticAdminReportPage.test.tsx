@@ -81,7 +81,7 @@ describe('DiagnosticAdminReportPage', () => {
         // The decoded skill name appears in both the summary and the radar
         // legend — its presence (not uniqueness) is what matters here.
         expect(
-            screen.getAllByText(/Algebraic Manipulation & Fluency/).length
+            screen.getAllByText(/Polynomial & Algebraic Structure/).length
         ).toBeGreaterThan(0)
     })
 
