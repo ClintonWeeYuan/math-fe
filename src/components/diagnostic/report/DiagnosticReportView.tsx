@@ -13,6 +13,8 @@ import {
 import { skillAdvice } from '@/lib/diagnosticSkillAdvice.ts'
 import type { DiagnosticReportResponse, SkillScore } from '@/client'
 import type { SeasonOffer } from '@/lib/billingApi.ts'
+import { RedemptionOutcomes } from '@/components/diagnostic/report/RedemptionOutcomes.tsx'
+import { outcomeHeadline, type RedemptionOutcome } from '@/lib/redemption.ts'
 
 type Props = {
     report: DiagnosticReportResponse
@@ -59,7 +61,16 @@ export function DiagnosticReportView({
     // generated client yet (regenerating rewrites all ~1500 lines of it), so
     // it is read through a narrowing here; absent, this reads 'full', which
     // is the pre-mini behaviour.
-    const isMini = (report as { format?: 'mini' | 'full' }).format === 'mini'
+    const format = (report as { format?: 'mini' | 'full' | 'redemption' }).format
+    const isMini = format === 'mini'
+    // A redemption sitting has no radar either, for the mini's reason, and
+    // its headline is how many questions were redeemed rather than a score:
+    // the score of a sitting built from one's own mistakes is not a
+    // measurement of anything.
+    const isRedemption = format === 'redemption'
+    const noRadar = isMini || isRedemption
+    const outcomes =
+        (report as { redemption?: RedemptionOutcome[] | null }).redemption ?? []
     const totalScore = report.attempt.totalScore ?? 0
     const { answeredCount, subject } = report
     // The whole paper, not the part they reached. A student who answered 15
@@ -92,7 +103,9 @@ export function DiagnosticReportView({
             <Card>
                 <CardContent className="flex flex-col gap-1 pt-6">
                     <span className="text-3xl font-semibold">
-                        {answeredCount === 0 && paperTotal === 0
+                        {isRedemption && outcomes.length > 0
+                            ? outcomeHeadline(outcomes)
+                            : answeredCount === 0 && paperTotal === 0
                             ? 'No questions answered'
                             : paperTotal > 0
                               ? `${totalScore}/${paperTotal} correct`
@@ -101,7 +114,9 @@ export function DiagnosticReportView({
                                 `${totalScore} correct`}
                     </span>
                     <span className="text-sm text-gray-500">
-                        {paperTotal > 0
+                        {isRedemption && outcomes.length > 0
+                            ? `${totalScore} of ${paperTotal} right`
+                            : paperTotal > 0
                             ? unanswered > 0
                                 ? // Naming the gap explains the score: the
                                   // difference between 15/27 and 15/15 is
@@ -120,7 +135,9 @@ export function DiagnosticReportView({
                 mini for the same reason from the other direction: the radar
                 is empty there for everyone, so "no standout strengths" would
                 be a verdict drawn from nothing. */}
-            {hasPass && !isMini && (
+            {isRedemption && <RedemptionOutcomes outcomes={outcomes} />}
+
+            {hasPass && !noRadar && (
                 <section className="flex flex-col gap-3">
                     <h2 className="text-xl font-medium">Where you stand</h2>
                     <Card>
@@ -178,6 +195,11 @@ export function DiagnosticReportView({
                 the scores never reach the browser. On a mini: neither — the
                 radar is absent rather than withheld, and showing the paywall
                 would sell something no payment can deliver. */}
+            {/* Left out entirely on a redemption sitting: six questions
+                chosen because they went wrong say nothing about skills, and
+                the mini's "sit the full paper" note would point at a paper
+                they have already sat. */}
+            {!isRedemption && (
             <section className="flex flex-col gap-3">
                 <h2 className="text-xl font-medium">Your skills at a glance</h2>
                 <Card>
@@ -205,12 +227,13 @@ export function DiagnosticReportView({
                     </CardContent>
                 </Card>
             </section>
+            )}
 
             {/* Concrete next steps for each focus area — radar-derived, so
                 pass holders only, and never on a mini (whose radar is empty
                 by design, making every "focus area" an artefact of one or two
                 questions). */}
-            {hasPass && !isMini && insights.focusAreas.length > 0 && (
+            {hasPass && !noRadar && insights.focusAreas.length > 0 && (
                 <section className="flex flex-col gap-3">
                     <h2 className="text-xl font-medium">Your next steps</h2>
                     <Card>

@@ -76,9 +76,14 @@ function OptionRow({
 function QuestionCard({
     question,
     reportAttemptId,
+    paperNumber,
 }: {
     question: ReviewQuestion
     reportAttemptId?: string
+    /** On a redemption sitting: this question's number on the paper it came
+     *  from, which is how the student remembers it and how the outcome list
+     *  above names it. */
+    paperNumber?: number
 }) {
     const [open, setOpen] = useState(false)
 
@@ -92,6 +97,11 @@ function QuestionCard({
             >
                 <span className="font-medium">
                     Question {question.questionOrderIndex + 1}
+                    {paperNumber !== undefined && (
+                        <span className="font-normal text-slate-500">
+                            {' '}· Q{paperNumber} on the paper
+                        </span>
+                    )}
                 </span>
                 <span className="flex items-center gap-2">
                     <Verdict question={question} />
@@ -168,8 +178,12 @@ function QuestionCard({
 export function ReviewAnswers({
     attemptId,
     admin = false,
+    paperNumbers,
 }: {
     attemptId: string
+    /** questionId -> 1-based number on the source paper. Only a redemption
+     *  sitting passes this; everywhere else the sitting IS the paper. */
+    paperNumbers?: Map<string, number>
     /** Read through the admin route, for a tutor opening someone else's
      *  report. Also starts the list unfiltered: an admin is checking the
      *  paper, not revising their own mistakes, so "incorrect only" would hide
@@ -281,6 +295,7 @@ export function ReviewAnswers({
                                 // else's review fixes a question in the
                                 // editor, not by reporting it to themselves.
                                 reportAttemptId={admin ? undefined : attemptId}
+                                paperNumber={paperNumbers?.get(question.questionId)}
                             />
                         ))
                     )}
