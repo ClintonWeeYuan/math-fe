@@ -58,9 +58,9 @@ export function SavedToRedeem({
                     <p className="text-gray-700">{queuedSentence(queued)}</p>
                     <p className="text-sm text-slate-600">
                         They unlock on{' '}
-                        <strong>{formatUnlockDay(queued.availableFrom)}</strong>.
-                        A week is long enough to forget the answer and
-                        remember the method.
+                        <strong>{formatUnlockDay(queued.availableFrom)}</strong>
+                        {' '}— long enough to forget the answer and keep the
+                        method.
                     </p>
                     <div className="flex flex-wrap gap-1.5">
                         {queued.items.map((item) => (

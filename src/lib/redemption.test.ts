@@ -152,7 +152,7 @@ describe('the redemption report', () => {
         expect(
             outcomeClosing([outcome(), outcome(), outcome(), outcome(), outcome({ outcome: 'requeued' }), outcome({ outcome: 'requeued' })])
         ).toBe(
-            "Four down. The 2 going back in the queue will come round again in a fortnight — read the worked solutions below while they're fresh."
+            "Four down. The 2 going back in the queue will come round again on the date beside each — read the worked solutions below while they're fresh."
         )
         expect(outcomeClosing([outcome(), outcome({ outcome: 'retired' })])).toBe(
             'One down. The rest are retired — worth a session with a teacher. Their worked solutions are below.'
