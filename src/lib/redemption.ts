@@ -253,7 +253,7 @@ export function outcomeClosing(outcomes: RedemptionOutcome[]): string {
         return `All ${n} redeemed. That's the paper's hardest questions for you, done at pace.`
     }
     if (requeued > 0) {
-        return `${countWord(redeemed)} down. The ${requeued === 1 ? 'one' : requeued} going back in the queue will come round again in a fortnight — read the worked solutions below while they're fresh.`
+        return `${countWord(redeemed)} down. The ${requeued === 1 ? 'one' : requeued} going back in the queue will come round again on the date beside each — read the worked solutions below while they're fresh.`
     }
     if (retired > 0) {
         return `${countWord(redeemed)} down. The rest are retired — worth a session with a teacher. Their worked solutions are below.`
