@@ -23,6 +23,7 @@ import type { SeasonOffer } from '@/lib/billingApi.ts'
 import useBillingStatusQuery from '@/hooks/billing/useBillingStatusQuery.ts'
 import { diagnosticsPathFor } from '@/lib/diagnosticsDestination.ts'
 import { trackEvent } from '@/lib/analytics.ts'
+import { RedemptionSection } from '@/components/diagnostic/results/RedemptionSection.tsx'
 
 /**
  * Everything a student has sat, and what they have not.
@@ -430,6 +431,10 @@ export function MyResultsPage() {
                 <p className="text-slate-500 mb-10 max-w-2xl">
                     Every paper you have sat, and what is left to cover.
                 </p>
+
+                {/* First, because it is the one thing here with a date on it.
+                    Renders nothing for the (usual) empty queue. */}
+                <RedemptionSection />
 
                 {isLoading && <p className="text-slate-500">Loading…</p>}
 

@@ -179,7 +179,12 @@ export function SetInstructionsPage() {
     // Narrowed rather than typed: `format` postdates the generated client, and
     // regenerating it here would drag a whole generator-version migration into
     // a change about one page. Absent, this reads as a full paper.
-    const isMini = (preview as { format?: 'mini' | 'full' }).format === 'mini'
+    const format = (preview as { format?: 'mini' | 'full' | 'redemption' }).format
+    const isMini = format === 'mini'
+    // A private sitting of the student's own missed questions. The title and
+    // description already say so (they are written when the set is built);
+    // this page adds the pace line and names the button.
+    const isRedemption = format === 'redemption'
     // Narrowed for the same reason as `format` and `subject` above: the
     // generated client predates the field. Absent, a set reads as free —
     // which shows "Start", and the server still refuses a paid one with a
@@ -260,6 +265,16 @@ export function SetInstructionsPage() {
                     each wrong answer, and your pacing. Ten questions give an
                     indication, not a diagnosis: the full paper is what resolves
                     every skill.
+                </div>
+            )}
+
+            {isRedemption && (
+                <div className="rounded-md border bg-emerald-50 border-emerald-200 px-4 py-3 text-sm text-emerald-900">
+                    Same pace as the real paper: {preview.questionCount}{' '}
+                    {preview.questionCount === 1 ? 'question' : 'questions'} in{' '}
+                    {preview.timeLimitMinutes} minutes. A question is redeemed
+                    when you get it right within that pace. Your original score
+                    stays exactly as it is.
                 </div>
             )}
 
@@ -375,9 +390,11 @@ export function SetInstructionsPage() {
                                 >
                                     {isPending
                                         ? 'Starting…'
-                                        : isMini
-                                          ? 'Start mini test'
-                                          : 'Start diagnostic'}
+                                        : isRedemption
+                                          ? 'Begin redemption'
+                                          : isMini
+                                            ? 'Start mini test'
+                                            : 'Start diagnostic'}
                                 </Button>
                                 {arrangementsPending && (
                                     <p className="text-sm text-gray-500">

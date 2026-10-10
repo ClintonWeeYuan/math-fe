@@ -11,6 +11,8 @@ import { WhatNext } from '@/components/diagnostic/report/WhatNext.tsx'
 import { ReviewAnswers } from '@/components/diagnostic/report/ReviewAnswers.tsx'
 import { FollowupOptIn } from '@/components/diagnostic/report/FollowupOptIn.tsx'
 import { PaperRating } from '@/components/diagnostic/report/PaperRating.tsx'
+import { SavedToRedeem } from '@/components/diagnostic/report/SavedToRedeem.tsx'
+import type { RedemptionQueuedSummary } from '@/lib/redemption.ts'
 import { trackEvent } from '@/lib/analytics.ts'
 import useStartCheckoutMutation from '@/hooks/billing/useStartCheckoutMutation.ts'
 import { BILLING_LIVE } from '@/lib/billing.ts'
@@ -57,7 +59,12 @@ export function DiagnosticReportPage() {
     // records both.
     useEffect(() => {
         if (report !== undefined && attemptId) {
-            trackEvent('report_viewed', { attemptId })
+            // A redemption sitting is its own funnel, not a paper read.
+            const format = (report as { format?: string }).format
+            trackEvent(
+                format === 'redemption' ? 'redemption_report_viewed' : 'report_viewed',
+                { attemptId }
+            )
         }
     }, [report, attemptId])
 
@@ -70,7 +77,9 @@ export function DiagnosticReportPage() {
     const showsPaywall =
         report !== undefined &&
         report.hasPass === false &&
-        (report as { format?: 'mini' | 'full' }).format !== 'mini'
+        (report as { format?: 'mini' | 'full' | 'redemption' }).format !== 'mini' &&
+        (report as { format?: 'mini' | 'full' | 'redemption' }).format !==
+            'redemption'
     useEffect(() => {
         if (showsPaywall && attemptId) {
             trackEvent('paywall_shown', {
@@ -127,7 +136,54 @@ export function DiagnosticReportPage() {
 
     // Same narrowing the report view uses: `format` is not in the generated
     // client yet, and absent it reads as a full paper.
-    const isMini = (report as { format?: 'mini' | 'full' }).format === 'mini'
+    const format = (report as { format?: 'mini' | 'full' | 'redemption' }).format
+    const isMini = format === 'mini'
+    const isRedemption = format === 'redemption'
+    const queued = (report as { redemptionQueued?: RedemptionQueuedSummary | null })
+        .redemptionQueued
+    const allRight =
+        (report.questionCount ?? 0) > 0 &&
+        (report.attempt.totalScore ?? 0) === report.questionCount
+
+    if (isRedemption) {
+        // A sitting built from the student's own misses. No rating, no
+        // follow-up email, no "what next": the report's own list says what
+        // happens next, and the review below it is the point.
+        const paperNumbers = new Map(
+            (
+                (report as { redemption?: { questionId: string; sourceOrderIndex: number }[] | null })
+                    .redemption ?? []
+            ).map((o) => [o.questionId, o.sourceOrderIndex + 1])
+        )
+        return (
+            <DiagnosticReportView
+                report={report}
+                questionCount={preview?.questionCount}
+                title={preview?.title ?? 'Redemption'}
+                subtitle={
+                    report.attempt.submittedAt
+                        ? `Sat on ${new Date(report.attempt.submittedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'long' })}`
+                        : undefined
+                }
+                footer={
+                    <div className="flex flex-col gap-8">
+                        <ReviewAnswers
+                            attemptId={attemptId ?? ''}
+                            paperNumbers={paperNumbers}
+                        />
+                        <div className="flex flex-wrap gap-3">
+                            <Button
+                                variant="outline"
+                                onClick={() => navigate('/my-results#redemption')}
+                            >
+                                Back to my results
+                            </Button>
+                        </div>
+                    </div>
+                }
+            />
+        )
+    }
 
     return (
         <DiagnosticReportView
@@ -177,6 +233,12 @@ export function DiagnosticReportPage() {
                         so the admin view of the same report does not gain a
                         student's review. */}
                     <ReviewAnswers attemptId={attemptId ?? ''} />
+                    {/* After the review, before "what next": the questions
+                        they just went through are the ones being kept. Full
+                        papers only; a mini queues nothing. */}
+                    {!isMini && (
+                        <SavedToRedeem queued={queued} allRight={allRight} />
+                    )}
                     <WhatNext
                         subject={report.subject}
                         currentSetId={report.attempt.diagnosticSetId}
