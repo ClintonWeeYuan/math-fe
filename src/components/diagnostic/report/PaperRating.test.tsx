@@ -60,6 +60,60 @@ describe('PaperRating', () => {
         expect(screen.getByText('How did this mini test feel?')).toBeInTheDocument()
     })
 
+    it('asks whether the report helped once a rating is tapped, and records the tap', () => {
+        show()
+        expect(screen.queryByText('Did this report help you?')).not.toBeInTheDocument()
+        fireEvent.click(screen.getByRole('button', { name: 'About right' }))
+        expect(screen.getByText('Did this report help you?')).toBeInTheDocument()
+
+        fireEvent.click(screen.getByRole('button', { name: 'A bit' }))
+        expect(mockTrack).toHaveBeenLastCalledWith('report_helped', {
+            attemptId: 'attempt-1',
+            metadata: { answer: 'a_bit', subject: 'ESAT Physics', format: 'full' },
+        })
+    })
+
+    it('sends the words with the tap beside them, then shows them as sent', () => {
+        show()
+        fireEvent.click(screen.getByRole('button', { name: 'About right' }))
+        fireEvent.click(screen.getByRole('button', { name: 'Yes' }))
+        const send = screen.getByRole('button', { name: 'Send' })
+        expect(send).toBeDisabled()
+
+        fireEvent.change(screen.getByLabelText('What would have made it more useful?'), {
+            target: { value: '  Show the topic of each wrong question.  ' },
+        })
+        expect(send).toBeEnabled()
+        fireEvent.click(send)
+
+        expect(mockTrack).toHaveBeenLastCalledWith('report_feedback', {
+            attemptId: 'attempt-1',
+            metadata: {
+                text: 'Show the topic of each wrong question.',
+                helped: 'yes',
+                subject: 'ESAT Physics',
+                format: 'full',
+            },
+        })
+        expect(screen.getByText('Show the topic of each wrong question.')).toBeInTheDocument()
+        expect(screen.getByText(/Hazel reads every one of these/)).toBeInTheDocument()
+        expect(screen.queryByRole('button', { name: 'Send' })).not.toBeInTheDocument()
+    })
+
+    it('keeps the sent words when the report is reopened', () => {
+        const { unmount } = show()
+        fireEvent.click(screen.getByRole('button', { name: 'Too easy' }))
+        fireEvent.change(screen.getByLabelText('What would have made it more useful?'), {
+            target: { value: 'More topics.' },
+        })
+        fireEvent.click(screen.getByRole('button', { name: 'Send' }))
+        unmount()
+
+        show()
+        expect(screen.getByText('More topics.')).toBeInTheDocument()
+        expect(screen.queryByRole('button', { name: 'Send' })).not.toBeInTheDocument()
+    })
+
     it('remembers the answers when the report is reopened', () => {
         const { unmount } = show()
         fireEvent.click(screen.getByRole('button', { name: 'Too hard' }))

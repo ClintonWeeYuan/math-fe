@@ -57,6 +57,9 @@ export type AnalyticsEventName =
     | 'redemption_started'
     | 'redemption_report_viewed'
     | 'redemption_banner_clicked'
+    // The report's own usefulness questions on the rating card.
+    | 'report_helped'
+    | 'report_feedback'
     // The sign-in wall. Anonymous counts, no visitor identifier: see
     // src/lib/authFunnel.ts.
     | 'sign_in_prompt_clicked'
