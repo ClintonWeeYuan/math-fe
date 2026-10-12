@@ -2,6 +2,7 @@ import { LandingLayout } from '@/components/layout/landing/LandingLayout.tsx'
 import { Link } from 'react-router-dom'
 import { Seo } from '@/components/Seo.tsx'
 import { GuideLinks } from '@/components/guides/GuideLinks.tsx'
+import { RedemptionReadyBanner } from '@/components/diagnostic/RedemptionReadyBanner.tsx'
 
 const PERIWINKLE = '#799ED1'
 
@@ -40,6 +41,13 @@ export function LandingPage() {
                     STEM courses — plus free SPM practice. Pick your goal —
                     everything you see after is scoped to it.
                 </p>
+
+                {/* A signed-in student with redemption questions unlocked
+                    sees them before the doors. Renders nothing for everyone
+                    else, including the prerender. */}
+                <div className="mb-8 max-w-5xl">
+                    <RedemptionReadyBanner source="home" />
+                </div>
 
                 {/* The two doors */}
                 <div className="grid md:grid-cols-2 gap-6 max-w-5xl">

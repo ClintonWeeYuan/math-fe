@@ -204,6 +204,39 @@ export function groupAction(g: RedemptionGroup): string {
     return `Redeem ${plural(g.batchSize, 'question')} →`
 }
 
+/** The papers a student can act on right now: questions unlocked, or a
+ *  sitting already built or under way. */
+export function readyGroups(groups: RedemptionGroup[]): RedemptionGroup[] {
+    return groups.filter(
+        (g) => g.batchSize > 0 || !!g.pendingSetId || !!g.pendingAttemptId
+    )
+}
+
+function joinNames(names: string[]): string {
+    if (names.length <= 2) return names.join(' and ')
+    return `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`
+}
+
+/** "20 questions ready to redeem" and "from ESAT Maths 1 and ESAT Physics",
+ *  for the banner. Counts what the next sittings would hold, so a paper
+ *  with a sitting already built counts that sitting. */
+export function readySummary(ready: RedemptionGroup[]): {
+    questions: number
+    headline: string
+    papers: string
+} {
+    const questions = ready.reduce(
+        (n, g) => n + (g.batchSize > 0 ? g.batchSize : g.questionCount),
+        0
+    )
+    const names = ready.map((g) => g.subject ?? g.title)
+    return {
+        questions,
+        headline: `${plural(questions, 'question')} ready to redeem`,
+        papers: `From ${joinNames(names)}`,
+    }
+}
+
 export type OutcomeStatus = 'Redeemed' | 'Not yet' | 'Retired'
 
 export function outcomeStatus(o: RedemptionOutcome): OutcomeStatus {

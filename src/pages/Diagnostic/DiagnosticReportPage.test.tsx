@@ -19,6 +19,12 @@ vi.mock('@/hooks/diagnostic/useGetAttemptReportQuery.ts', async () => {
         default: (...args: unknown[]) => mockUseReport(...args),
     }
 })
+// The banner is its own component with its own tests; here it would only
+// need a QueryClient and an auth context the page's tests do not set up.
+vi.mock('@/components/diagnostic/RedemptionReadyBanner.tsx', () => ({
+    RedemptionReadyBanner: () => null,
+}))
+
 vi.mock('@/hooks/diagnostic/useGetSetPreviewQuery.ts', () => ({
     default: (...args: unknown[]) => mockUsePreview(...args),
 }))

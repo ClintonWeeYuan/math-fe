@@ -1,7 +1,16 @@
-import { describe, expect, it } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { describe, expect, it, vi } from 'vitest'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { SavedToRedeem } from './SavedToRedeem'
+
+const mockFetchConsent = vi.fn()
+const mockSaveConsent = vi.fn()
+vi.mock('@/lib/emailConsentApi.ts', () => ({
+    REDEMPTION_EMAIL_CONSENT_QUERY_KEY: ['redemption-email-consent'],
+    fetchRedemptionEmailConsent: () => mockFetchConsent(),
+    saveRedemptionEmailConsent: (v: boolean) => mockSaveConsent(v),
+}))
 
 /**
  * The "Saved to redeem" card on a full paper's report. It must say what was
@@ -22,12 +31,20 @@ const queued = {
     ],
 }
 
-const show = (props: Parameters<typeof SavedToRedeem>[0]) =>
-    render(
-        <MemoryRouter>
-            <SavedToRedeem {...props} />
-        </MemoryRouter>
+const show = (props: Parameters<typeof SavedToRedeem>[0]) => {
+    mockFetchConsent.mockResolvedValue({
+        optedIn: false,
+        wording: 'Email me when these questions unlock.',
+    })
+    const client = new QueryClient({ defaultOptions: { queries: { retry: false } } })
+    return render(
+        <QueryClientProvider client={client}>
+            <MemoryRouter>
+                <SavedToRedeem {...props} />
+            </MemoryRouter>
+        </QueryClientProvider>
     )
+}
 
 describe('SavedToRedeem', () => {
     it('says what was kept, when it unlocks, and which questions', () => {
@@ -45,6 +62,15 @@ describe('SavedToRedeem', () => {
         expect(
             screen.getByRole('button', { name: 'See all my redemption questions →' })
         ).toBeInTheDocument()
+    })
+
+    it('offers the unlock email with the backend\'s wording and saves a tick', async () => {
+        mockSaveConsent.mockResolvedValue({ optedIn: true, wording: 'Email me when these questions unlock.' })
+        show({ queued, allRight: false })
+        const box = await screen.findByRole('checkbox')
+        expect(screen.getByText('Email me when these questions unlock.')).toBeInTheDocument()
+        fireEvent.click(box)
+        await waitFor(() => expect(mockSaveConsent).toHaveBeenCalledWith(true))
     })
 
     it('praises a perfect paper', () => {
