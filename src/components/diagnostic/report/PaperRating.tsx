@@ -1,11 +1,25 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/button.tsx'
 import { Card, CardContent } from '@/components/ui/card.tsx'
+import { Textarea } from '@/components/ui/textarea.tsx'
 import { trackEvent } from '@/lib/analytics.ts'
 import { testFromSubject } from '@/lib/diagnosticNextSteps.ts'
 
-type Question = 'feel' | 'vs_past_papers'
-type Answers = Partial<Record<Question, string>>
+type Question = 'feel' | 'vs_past_papers' | 'helped'
+type Answers = Partial<Record<Question, string>> & {
+    /** What they wrote, kept once sent so a reopened report shows it went. */
+    feedback?: string
+}
+
+/** The answers the backend accepts for report_helped — REPORT_HELPED_ANSWERS
+ *  on app/models/analytics.py. */
+const HELPED = [
+    { value: 'yes', label: 'Yes' },
+    { value: 'a_bit', label: 'A bit' },
+    { value: 'not_really', label: 'Not really' },
+]
+/** REPORT_FEEDBACK_MAX_CHARS on the backend; longer is a 4xx and dropped. */
+const FEEDBACK_MAX = 500
 
 /** The answers the backend accepts for paper_rated — PAPER_RATING_ANSWERS on
  *  app/models/analytics.py. A value not listed there is a 4xx and is dropped. */
@@ -64,19 +78,38 @@ export function PaperRating({
     isMini: boolean
 }) {
     const [answers, setAnswers] = useState<Answers>(() => load(attemptId))
+    const [draft, setDraft] = useState('')
     const test = testFromSubject(subject)?.toUpperCase() ?? 'admissions test'
+    const format = isMini ? 'mini' : 'full'
 
     const answer = (question: Question, value: string) => {
         const next = { ...answers, [question]: value }
         setAnswers(next)
         save(attemptId, next)
-        trackEvent('paper_rated', {
+        trackEvent(question === 'helped' ? 'report_helped' : 'paper_rated', {
+            attemptId,
+            metadata:
+                question === 'helped'
+                    ? { answer: value, subject: subject ?? null, format }
+                    : { question, answer: value, subject: subject ?? null, format },
+        })
+    }
+
+    // The words go with the tap they already made, so the inbox email can
+    // show both; the backend keeps them as one event on the attempt.
+    const send = () => {
+        const text = draft.trim()
+        if (!text) return
+        const next = { ...answers, feedback: text }
+        setAnswers(next)
+        save(attemptId, next)
+        trackEvent('report_feedback', {
             attemptId,
             metadata: {
-                question,
-                answer: value,
+                text,
+                helped: answers.helped ?? null,
                 subject: subject ?? null,
-                format: isMini ? 'mini' : 'full',
+                format,
             },
         })
     }
@@ -104,6 +137,56 @@ export function PaperRating({
                     <p className="text-sm text-slate-600">
                         Thank you! This helps us pitch our papers at the real exam.
                     </p>
+                )}
+
+                {/* Usefulness, asked of someone already answering: a tap that
+                    gives the one number the usage review could not, and a box
+                    for the why. Either can be answered alone. */}
+                {answers.feel !== undefined && (
+                    <>
+                        <Choices
+                            prompt="Did this report help you?"
+                            options={HELPED}
+                            selected={answers.helped}
+                            onSelect={(v) => answer('helped', v)}
+                        />
+                        <div className="flex flex-col gap-2">
+                            <label htmlFor="report-feedback" className="font-medium">
+                                What would have made it more useful?
+                            </label>
+                            {answers.feedback !== undefined ? (
+                                <>
+                                    <p className="whitespace-pre-wrap rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                                        {answers.feedback}
+                                    </p>
+                                    <p className="text-sm text-slate-600">
+                                        Thank you — Hazel reads every one of these.
+                                    </p>
+                                </>
+                            ) : (
+                                <>
+                                    <Textarea
+                                        id="report-feedback"
+                                        value={draft}
+                                        maxLength={FEEDBACK_MAX}
+                                        onChange={(e) => setDraft(e.target.value)}
+                                        placeholder="Anything at all — an explanation that was missing, a chart that didn't make sense, something you wanted to know and couldn't find."
+                                    />
+                                    <div>
+                                        <Button
+                                            type="button"
+                                            size="sm"
+                                            className="cursor-pointer"
+                                            disabled={draft.trim() === ''}
+                                            onClick={send}
+                                        >
+                                            Send
+                                        </Button>
+                                    </div>
+                                </>
+                            )}
+                        </div>
+                    </>
                 )}
             </CardContent>
         </Card>
