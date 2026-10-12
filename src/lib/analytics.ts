@@ -56,6 +56,7 @@ export type AnalyticsEventName =
     // Redemption questions. Started is server-side; the report view is ours.
     | 'redemption_started'
     | 'redemption_report_viewed'
+    | 'redemption_banner_clicked'
     // The sign-in wall. Anonymous counts, no visitor identifier: see
     // src/lib/authFunnel.ts.
     | 'sign_in_prompt_clicked'

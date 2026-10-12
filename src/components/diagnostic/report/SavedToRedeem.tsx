@@ -1,6 +1,14 @@
 import { useNavigate } from 'react-router-dom'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
 import { Button } from '@/components/ui/button.tsx'
 import { Card, CardContent } from '@/components/ui/card.tsx'
+import { Checkbox } from '@/components/ui/checkbox.tsx'
+import {
+    REDEMPTION_EMAIL_CONSENT_QUERY_KEY,
+    fetchRedemptionEmailConsent,
+    saveRedemptionEmailConsent,
+} from '@/lib/emailConsentApi.ts'
 import {
     formatUnlockDay,
     queuedChip,
@@ -72,6 +80,7 @@ export function SavedToRedeem({
                             </span>
                         ))}
                     </div>
+                    <UnlockEmailOptIn />
                     <div>
                         <Button
                             variant="outline"
@@ -84,5 +93,40 @@ export function SavedToRedeem({
                 </CardContent>
             </Card>
         </section>
+    )
+}
+
+/**
+ * "Email me when these questions unlock." Its own consent, asked at the one
+ * moment it is an obvious question, because the general follow-up opt-in is
+ * ticked by almost nobody. The label is the backend's, so the stored record
+ * is the words the student saw; nothing renders until it has loaded.
+ */
+function UnlockEmailOptIn() {
+    const queryClient = useQueryClient()
+    const { data } = useQuery({
+        queryKey: REDEMPTION_EMAIL_CONSENT_QUERY_KEY,
+        queryFn: fetchRedemptionEmailConsent,
+        staleTime: 5 * 60_000,
+    })
+    const { mutate, isPending } = useMutation({
+        mutationFn: (optedIn: boolean) => saveRedemptionEmailConsent(optedIn),
+        onSuccess: (saved) => {
+            queryClient.setQueryData(REDEMPTION_EMAIL_CONSENT_QUERY_KEY, saved)
+            if (saved.optedIn) toast.success("Done — we'll email you when they unlock.")
+        },
+        onError: (err) => toast.error((err as Error).message),
+    })
+    if (!data) return null
+    return (
+        <label className="flex cursor-pointer items-start gap-3 text-sm text-slate-700">
+            <Checkbox
+                className="mt-0.5"
+                checked={data.optedIn}
+                disabled={isPending}
+                onCheckedChange={(v) => mutate(v === true)}
+            />
+            <span>{data.wording}</span>
+        </label>
     )
 }

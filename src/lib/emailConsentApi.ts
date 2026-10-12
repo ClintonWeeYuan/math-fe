@@ -45,6 +45,35 @@ export async function saveEmailConsent(
     return result.data as EmailConsent
 }
 
+/** The box on the "Saved to redeem" card: email me when these unlock. Its
+ *  own consent, separate from the follow-up email's. */
+export const REDEMPTION_EMAIL_CONSENT_QUERY_KEY = ['redemption-email-consent']
+
+export async function fetchRedemptionEmailConsent(): Promise<EmailConsent> {
+    const result = await client.get({
+        url: '/users/redemption-email-consent',
+        headers: getAuthHeaders(),
+    })
+    if (result.error !== undefined) {
+        throw toDiagnosticApiError(result, 'Could not load your email preference.')
+    }
+    return result.data as EmailConsent
+}
+
+export async function saveRedemptionEmailConsent(
+    optedIn: boolean
+): Promise<EmailConsent> {
+    const result = await client.put({
+        url: '/users/redemption-email-consent',
+        headers: getAuthHeaders(),
+        body: { optedIn, source: 'saved_to_redeem' },
+    })
+    if (result.error !== undefined) {
+        throw toDiagnosticApiError(result, "Couldn't save that. Please try again.")
+    }
+    return result.data as EmailConsent
+}
+
 export async function unsubscribe(token: string): Promise<void> {
     const result = await client.post({
         url: '/users/email-unsubscribe',

@@ -12,6 +12,7 @@ import { ReviewAnswers } from '@/components/diagnostic/report/ReviewAnswers.tsx'
 import { FollowupOptIn } from '@/components/diagnostic/report/FollowupOptIn.tsx'
 import { PaperRating } from '@/components/diagnostic/report/PaperRating.tsx'
 import { SavedToRedeem } from '@/components/diagnostic/report/SavedToRedeem.tsx'
+import { RedemptionReadyBanner } from '@/components/diagnostic/RedemptionReadyBanner.tsx'
 import type { RedemptionQueuedSummary } from '@/lib/redemption.ts'
 import { trackEvent } from '@/lib/analytics.ts'
 import useStartCheckoutMutation from '@/hooks/billing/useStartCheckoutMutation.ts'
@@ -189,6 +190,11 @@ export function DiagnosticReportPage() {
         <DiagnosticReportView
             report={report}
             questionCount={preview?.questionCount}
+            // Questions from earlier papers that have unlocked. Under the
+            // title, because a student reading a fresh report is the one
+            // most likely to act on them, and the results page is not where
+            // they go next.
+            banner={<RedemptionReadyBanner source="report" />}
             // Only while there is something to sell: undefined leaves the
             // paywall's buy buttons out entirely, which is the honest
             // rendering both before billing ships and after both windows have

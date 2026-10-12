@@ -24,6 +24,9 @@ type Props = {
     title?: string
     /** Optional line under the title — e.g. which student's report this is. */
     subtitle?: ReactNode
+    /** Rendered between the title and the score: the one thing the student
+     *  should see before reading on, such as redemption questions waiting. */
+    banner?: ReactNode
     /** Opens checkout from the paywall. Omitted (e.g. on the admin view)
      * leaves the unlock CTA out. */
     onUnlock?: (seasonKey: string) => void
@@ -46,6 +49,7 @@ export function DiagnosticReportView({
     questionCount,
     title = 'Your diagnostic report',
     subtitle,
+    banner,
     footer,
     onUnlock,
     seasons,
@@ -98,6 +102,8 @@ export function DiagnosticReportView({
                     <p className="mt-1 text-sm text-gray-500">{subtitle}</p>
                 )}
             </div>
+
+            {banner}
 
             {/* Score out of the whole paper, with completion underneath. */}
             <Card>
