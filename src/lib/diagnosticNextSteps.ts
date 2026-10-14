@@ -26,6 +26,22 @@ function isMiniSet(set: PublishedDiagnosticSet): boolean {
     return (set as { format?: 'mini' | 'full' }).format === 'mini'
 }
 
+/** "ESAT Physics — Diagnostic Set C" → "C"; anything unrecognised keeps its
+ *  whole title, so a set named differently still sorts somewhere sensible. */
+export function setLetter(set: PublishedDiagnosticSet): string {
+    return set.title.match(/Set\s+([A-Z0-9]+)\s*$/i)?.[1] ?? set.title
+}
+
+/** Full papers in paper order (A, B, C …), whatever order the catalogue
+ *  returned them in. */
+function fullPapersInOrder(sets: PublishedDiagnosticSet[]): PublishedDiagnosticSet[] {
+    return sets
+        .filter((s) => !isMiniSet(s))
+        .sort((a, b) =>
+            setLetter(a).localeCompare(setLetter(b), undefined, { numeric: true })
+        )
+}
+
 /**
  * Which admissions test a subject belongs to.
  *
@@ -44,8 +60,10 @@ export function testFromSubject(
 }
 
 export type NextSteps = {
-    /** The full paper for the subject just sat — only after a mini, where the
-     *  report itself says the radar needs a longer paper. */
+    /** The next full paper in the subject just sat. After a mini, because the
+     *  report itself says the radar needs a longer paper; and for a Season
+     *  Pass holder after any paper, because the next paper is what they paid
+     *  for. Never one they have already sat. */
     sameSubject?: PublishedDiagnosticSet
     /** One set per other subject in the same test. */
     otherSubjects: PublishedDiagnosticSet[]
@@ -65,6 +83,14 @@ export type NextSteps = {
  *    their attention — fifteen minutes is a far easier yes than forty, and
  *    the full paper is one click further on from there.
  *
+ * A Season Pass holder is a different student. They have already made the
+ * commitment, and what they bought is the full papers. Steering them to the
+ * free Mini and Set A of each module — what the rules above do — is how buyers
+ * in October 2026 spent their first week on papers they could have sat for
+ * nothing. So for them: the next paper they have not sat in this module
+ * first, after any paper, and then the next unsat full paper in each other
+ * module. A module they have sat every paper of is not offered.
+ *
  * Subjects keep the order the catalogue returned them in, which is
  * alphabetical. Ranking them by usefulness would mean guessing at a course we
  * never asked for — Cambridge Engineering needs Maths 2 and Physics where
@@ -79,6 +105,8 @@ export function nextStepsFor({
     isMini,
     billingLive,
     completedSubjects,
+    satSetIds,
+    holdsPass = false,
 }: {
     subject: string | null | undefined
     sets: PublishedDiagnosticSet[] | undefined
@@ -88,14 +116,32 @@ export function nextStepsFor({
     /** Subjects this student has already finished a paper in, so they are not
      *  offered again. Undefined means we do not know — see below. */
     completedSubjects?: Set<string>
+    /** Sets this student has already sat, so none is offered again. Undefined
+     *  means we do not know, and nothing is subtracted. */
+    satSetIds?: Set<string>
+    /** Whether they hold a Season Pass for this subject's test. */
+    holdsPass?: boolean
 }): NextSteps {
     const available = (sets ?? []).filter(
         (s) => startable(s, billingLive) && s.id !== currentSetId
     )
+    const unsat = (s: PublishedDiagnosticSet) => !satSetIds?.has(s.id)
+    const nextPaperIn = (subj: string | null | undefined) =>
+        fullPapersInOrder(available.filter((s) => s.subject === subj)).find(unsat)
 
-    const sameSubject = isMini
-        ? available.find((s) => s.subject === subject && !isMiniSet(s))
-        : undefined
+    const sameSubject = isMini || holdsPass ? nextPaperIn(subject) : undefined
+
+    if (holdsPass) {
+        const others: PublishedDiagnosticSet[] = []
+        const seen = new Set<string>()
+        for (const set of available) {
+            if (!set.subject || set.subject === subject || seen.has(set.subject)) continue
+            seen.add(set.subject)
+            const next = nextPaperIn(set.subject)
+            if (next) others.push(next)
+        }
+        return { sameSubject, otherSubjects: others }
+    }
 
     const shortestBySubject = new Map<string, PublishedDiagnosticSet>()
     for (const set of available) {

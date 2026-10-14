@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
 import { createCheckoutSession } from '@/lib/billingApi.ts'
 import { toast } from 'sonner'
+import { rememberCheckoutPaper } from '@/lib/checkoutIntent.ts'
 
 type Variables = {
     /** Which season to buy: "oct-2026" | "jan-2027". Omitted, the backend
@@ -26,13 +27,15 @@ type Variables = {
 export default function useStartCheckoutMutation() {
     return useMutation({
         mutationFn: async ({ season, returnPath }: Variables = {}) => {
-            const url = await createCheckoutSession(
-                season,
+            const from =
                 returnPath ??
-                    (typeof window !== 'undefined'
-                        ? window.location.pathname
-                        : undefined)
-            )
+                (typeof window !== 'undefined'
+                    ? window.location.pathname
+                    : undefined)
+            const url = await createCheckoutSession(season, from)
+            // So the return page can offer the paper they were opening,
+            // rather than the whole catalogue.
+            rememberCheckoutPaper(from)
             // assign, not replace: the student should be able to come back
             // with the browser's back button if they change their mind on
             // Stripe's page.

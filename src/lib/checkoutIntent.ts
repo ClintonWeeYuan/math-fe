@@ -22,11 +22,14 @@ import { trackEvent } from '@/lib/analytics.ts'
  */
 
 const INTENT_KEY = 'jomexam.checkoutIntent'
+const PAPER_KEY = 'jomexam.checkoutPaper'
 const RETURN_KEY = 'jomexam.returnTo'
 /** Long enough to sign in (or sign up and verify), short enough that an
  *  abandoned intent does not fire on a later, unrelated visit. */
 const INTENT_TTL_MS = 30 * 60_000
 const RETURN_TTL_MS = 24 * 60 * 60_000
+/** Stripe's page plus a slow bank check, with room to spare. */
+const PAPER_TTL_MS = 2 * 60 * 60_000
 
 type Stored<T> = T & { at: number }
 
@@ -100,6 +103,39 @@ export function rememberReturnTo(path: string) {
 export function takeReturnTo(): string | null {
     const stored = take<{ path: string }>(RETURN_KEY, RETURN_TTL_MS)
     return stored && isSafePath(stored.path) ? stored.path : null
+}
+
+/** The start page of one paper: /diagnostic/sets/<id>. */
+const PAPER_PATH = /^\/diagnostic\/sets\/([0-9a-f-]{36})$/i
+
+/**
+ * The paper a checkout was started from, for the page Stripe returns a buyer
+ * to.
+ *
+ * Stripe's success URL carries only the session id, and the return page used
+ * to offer "Browse the papers" — which put the free Mini and Set A back in
+ * front of someone who had just paid to open Set D. One October 2026 buyer
+ * did exactly that, retook Set A, and never came back. Only a paper's start
+ * page is kept: anywhere else (a report, My results) has no single paper to
+ * go back to.
+ */
+export function rememberCheckoutPaper(path: string | undefined) {
+    if (path && PAPER_PATH.test(path)) write(PAPER_KEY, { path })
+}
+
+/** The set id the buyer was trying to open, or null. Not consumed: the
+ *  return page may render more than once while it waits for the pass. */
+export function peekCheckoutPaper(): string | null {
+    const stored = peek<{ path: string }>(PAPER_KEY, PAPER_TTL_MS)
+    return stored?.path.match(PAPER_PATH)?.[1] ?? null
+}
+
+export function forgetCheckoutPaper() {
+    try {
+        localStorage.removeItem(PAPER_KEY)
+    } catch {
+        // Nothing to forget, or storage blocked: either way, nothing to do.
+    }
 }
 
 /**

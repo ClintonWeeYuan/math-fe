@@ -17,6 +17,18 @@ const mockNavigate = vi.fn()
 vi.mock('@/hooks/billing/useBillingStatusQuery.ts', () => ({
     default: (...a: unknown[]) => mockStatus(...a),
 }))
+vi.mock('@/hooks/diagnostic/useListPublishedSetsQuery.ts', () => ({
+    default: () => ({
+        data: [
+            {
+                id: '4ef96f83-c5ce-4062-80a7-92c7cf8aea57',
+                title: 'ESAT Physics — Diagnostic Set D',
+                subject: 'ESAT Physics',
+                isFree: false,
+            },
+        ],
+    }),
+}))
 vi.mock('react-router-dom', async () => {
     const actual =
         await vi.importActual<typeof import('react-router-dom')>('react-router-dom')
@@ -41,6 +53,7 @@ beforeEach(() => {
     mockStatus.mockReset()
     mockNavigate.mockReset()
     mockStatus.mockReturnValue({ data: undefined, isError: false })
+    localStorage.clear()
 })
 
 afterEach(() => {
@@ -173,5 +186,34 @@ describe('CheckoutReturnPage', () => {
             expect(screen.getByText(/Every TMUA paper is open/i)).toBeInTheDocument()
             expect(screen.queryByText(/^Every paper is open/i)).not.toBeInTheDocument()
         })
+    })
+})
+
+describe('CheckoutReturnPage, after buying from a paper', () => {
+    const id = '4ef96f83-c5ce-4062-80a7-92c7cf8aea57'
+    const owned = () =>
+        mockStatus.mockReturnValue({
+            data: { hasPass: true, coveredTests: ['esat'], seasons: [] },
+            isError: false,
+        })
+
+    it('offers the paper they were opening, first', async () => {
+        const { rememberCheckoutPaper } = await import('@/lib/checkoutIntent.ts')
+        rememberCheckoutPaper(`/diagnostic/sets/${id}`)
+        owned()
+        renderPage()
+        const buttons = screen.getAllByRole('button')
+        expect(buttons[0]).toHaveTextContent('Start Physics Set D →')
+        act(() => buttons[0].click())
+        expect(mockNavigate).toHaveBeenCalledWith(`/diagnostic/sets/${id}`)
+        const { peekCheckoutPaper } = await import('@/lib/checkoutIntent.ts')
+        expect(peekCheckoutPaper()).toBeNull()
+    })
+
+    it('keeps browsing as the main button when they did not start from a paper', () => {
+        owned()
+        renderPage()
+        expect(screen.getAllByRole('button')[0]).toHaveTextContent('Browse the papers')
+        expect(screen.queryByText(/Start Physics/)).not.toBeInTheDocument()
     })
 })

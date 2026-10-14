@@ -391,3 +391,35 @@ describe('the Season Pass', () => {
         ).toBeInTheDocument()
     })
 })
+
+describe('the next paper, for a Season Pass holder', () => {
+    beforeEach(() => {
+        billingLive = true
+        signedIn = true
+        esatModules = ['physics']
+        mockSets.mockReturnValue({ data: esatCatalogue(), isLoading: false })
+    })
+
+    it('leads the module with the next unsat paper instead of the free Set A', () => {
+        coveredTests = ['esat']
+        attempts = [attempt(full('ESAT Physics', 'A'))]
+        renderPage('esat')
+        const physics = within(module('Physics'))
+        expect(physics.getByRole('button', { name: 'ESAT Physics — Diagnostic Set B: next up' })).toBeInTheDocument()
+        expect(physics.getByText(/in your Season Pass/)).toBeInTheDocument()
+        // Set A is still there as a done tile, just not one of the big rows.
+        expect(physics.getAllByRole('button', { name: /Diagnostic Set A:/ })).toHaveLength(1)
+        expect(physics.queryByText('Full paper · free')).not.toBeInTheDocument()
+    })
+
+    it('keeps the free Mini and Set A at the top for everyone else', () => {
+        coveredTests = []
+        attempts = []
+        renderPage('esat')
+        const physics = within(module('Physics'))
+        expect(physics.queryByText(/Next up/)).not.toBeInTheDocument()
+        // The big row and its tile both open Set A.
+        expect(physics.getAllByRole('button', { name: 'ESAT Physics — Diagnostic Set A: start' })).toHaveLength(2)
+        expect(physics.getByText('Full paper · free')).toBeInTheDocument()
+    })
+})

@@ -1,5 +1,8 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import {
+    forgetCheckoutPaper,
+    peekCheckoutPaper,
+    rememberCheckoutPaper,
     rememberCheckoutIntent,
     rememberReturnTo,
     takeCheckoutIntent,
@@ -41,4 +44,31 @@ describe('return path', () => {
             expect(takeReturnTo()).toBeNull()
         }
     )
+})
+
+describe('the paper a checkout started from', () => {
+    const id = '4ef96f83-c5ce-4062-80a7-92c7cf8aea57'
+
+    it("is kept for a paper's start page, and read without being used up", () => {
+        rememberCheckoutPaper(`/diagnostic/sets/${id}`)
+        expect(peekCheckoutPaper()).toBe(id)
+        expect(peekCheckoutPaper()).toBe(id)
+        forgetCheckoutPaper()
+        expect(peekCheckoutPaper()).toBeNull()
+    })
+
+    it('is not kept for anywhere that is not one paper', () => {
+        rememberCheckoutPaper('/my-results')
+        rememberCheckoutPaper(`/diagnostic/attempts/${id}/report`)
+        rememberCheckoutPaper(undefined)
+        expect(peekCheckoutPaper()).toBeNull()
+    })
+
+    it('expires after two hours', () => {
+        vi.useFakeTimers()
+        rememberCheckoutPaper(`/diagnostic/sets/${id}`)
+        vi.advanceTimersByTime(2 * 60 * 60_000 + 1)
+        expect(peekCheckoutPaper()).toBeNull()
+        vi.useRealTimers()
+    })
 })
