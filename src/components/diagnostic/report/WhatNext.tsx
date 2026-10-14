@@ -4,14 +4,25 @@ import { Card, CardContent } from '@/components/ui/card.tsx'
 import useListPublishedSetsQuery from '@/hooks/diagnostic/useListPublishedSetsQuery.ts'
 import type { PublishedDiagnosticSet } from '@/client'
 import { BILLING_LIVE } from '@/lib/billing.ts'
-import { nextStepsFor, testFromSubject } from '@/lib/diagnosticNextSteps.ts'
+import { nextStepsFor, setLetter, testFromSubject } from '@/lib/diagnosticNextSteps.ts'
 import useMyAttemptsQuery from '@/hooks/diagnostic/useMyAttemptsQuery.ts'
-import { completedSubjects } from '@/lib/myResults.ts'
+import { completedSubjects, satSetIds } from '@/lib/myResults.ts'
+import useBillingStatusQuery from '@/hooks/billing/useBillingStatusQuery.ts'
 
 /** "ESAT Math 1" -> "Math 1". The test is already named by the heading, so
  *  repeating it on five cards is noise. */
 function withoutTestPrefix(subject: string): string {
     return subject.replace(/^(ESAT|TMUA)\s+/i, '')
+}
+
+function isMini(set: PublishedDiagnosticSet): boolean {
+    return (set as { format?: 'mini' | 'full' }).format === 'mini'
+}
+
+/** "Set C", or the title when the set is not lettered. */
+function paperName(set: PublishedDiagnosticSet): string {
+    const letter = setLetter(set)
+    return letter === set.title ? set.title : `Set ${letter}`
 }
 
 /** `primary` is the one recommendation being argued for in the prose above
@@ -33,7 +44,12 @@ function SetCard({
                 primary ? 'border-slate-300 bg-slate-50' : 'border-slate-200'
             }`}
         >
-            <p className="font-medium">{label}</p>
+            <p className="font-medium">
+                {label}
+                {!isMini(set) && setLetter(set) !== set.title
+                    ? ` · Set ${setLetter(set)}`
+                    : ''}
+            </p>
             <p className="text-sm text-slate-500">
                 {set.questionCount} questions · {set.timeLimitMinutes} min
                 {set.isFree ? ' · free' : ''}
@@ -78,6 +94,15 @@ export function WhatNext({
     // student a module they have already sat is a small waste; showing them
     // nothing because a request failed is a broken page.
     const { data: attempts } = useMyAttemptsQuery()
+    // Only rendered on the student's own report, so they are signed in. Fails
+    // closed: if this does not load, they get the free-paper suggestions,
+    // which is what every non-holder sees.
+    const { data: billing } = useBillingStatusQuery({
+        enabled: BILLING_LIVE,
+        signedIn: true,
+    })
+    const holdsPass =
+        test !== undefined && (billing?.coveredTests ?? []).includes(test)
 
     const { sameSubject, otherSubjects } = nextStepsFor({
         subject,
@@ -86,6 +111,8 @@ export function WhatNext({
         isMini,
         billingLive: BILLING_LIVE,
         completedSubjects: attempts ? completedSubjects(attempts) : undefined,
+        satSetIds: attempts ? satSetIds(attempts) : undefined,
+        holdsPass,
     })
 
     // Nothing startable to point at — say nothing rather than render an empty
@@ -105,9 +132,9 @@ export function WhatNext({
                     {sameSubject && (
                         <div className="flex flex-col gap-3">
                             <p className="text-sm text-slate-600">
-                                You sat the short version. The full paper is
-                                what resolves every skill on the radar above —
-                                same subject, same format as the real thing.
+                                {holdsPass && !isMini
+                                    ? `Next in this module — ${paperName(sameSubject)}, included in your Season Pass.`
+                                    : 'You sat the short version. The full paper is what resolves every skill on the radar above — same subject, same format as the real thing.'}
                             </p>
                             <div className="sm:max-w-sm">
                                 <SetCard set={sameSubject} primary />
@@ -118,9 +145,13 @@ export function WhatNext({
                     {otherSubjects.length > 0 && (
                         <div className="flex flex-col gap-3">
                             <p className="text-sm text-slate-600">
-                                {sameSubject
-                                    ? 'Or start another module:'
-                                    : `The other ${testName} modules, each with its own skills report:`}
+                                {holdsPass
+                                    ? sameSubject
+                                        ? 'Or the next paper in another module:'
+                                        : `The next paper in your other ${testName} modules:`
+                                    : sameSubject
+                                      ? 'Or start another module:'
+                                      : `The other ${testName} modules, each with its own skills report:`}
                             </p>
                             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                                 {otherSubjects.map((set) => (

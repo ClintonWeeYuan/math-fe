@@ -11,7 +11,7 @@ import type { PublishedDiagnosticSet } from '@/client'
 import { BILLING_LIVE, formatSeasonPrice } from '@/lib/billing.ts'
 import { trackEvent } from '@/lib/analytics.ts'
 import type { SeasonOffer } from '@/lib/billingApi.ts'
-import { testFromSubject } from '@/lib/diagnosticNextSteps.ts'
+import { setLetter, testFromSubject } from '@/lib/diagnosticNextSteps.ts'
 import { coverageFor, type CoverageRow } from '@/lib/myResults.ts'
 import {
     ESAT_MODULES,
@@ -46,12 +46,6 @@ function moduleName(subject: string): string {
         ESAT_MODULES.find((m) => m.subject === subject)?.label ??
         subject.replace(/^(ESAT|TMUA)\s+/i, '')
     )
-}
-
-/** "ESAT Physics — Diagnostic Set C" → "C"; anything unrecognised keeps its
- *  whole title, so a set named differently still shows something sensible. */
-function setLetter(set: PublishedDiagnosticSet): string {
-    return set.title.match(/Set\s+([A-Z0-9]+)\s*$/i)?.[1] ?? set.title
 }
 
 type Group = { subject: string; sets: PublishedDiagnosticSet[] }
@@ -568,11 +562,19 @@ function ModuleBlock({
     const full = group.sets
         .filter((s) => !isMini(s))
         .sort((a, b) => setLetter(a).localeCompare(setLetter(b), undefined, { numeric: true }))
-    const starters = [...minis, ...full.filter((s) => s.isFree)]
     const sample = full[0]
     const state = (s: PublishedDiagnosticSet) => stateFor(s, coverage.get(s.id), unlocked)
     // The paper to suggest next: the first one they can open and have not.
     const nextId = full.find((s) => state(s).kind === 'start')?.id
+    const nextSet = full.find((s) => s.id === nextId)
+    // The big rows at the top of a module are what a student presses. For
+    // everyone else they are the free Mini and Set A. For a pass holder they
+    // lead with the next paper they have not sat — in October 2026 buyers
+    // kept pressing the free rows and never reached the papers they paid for.
+    const starters =
+        unlocked && nextSet
+            ? [nextSet, ...minis]
+            : [...minis, ...full.filter((s) => s.isFree)]
 
     const open = (s: PublishedDiagnosticSet) => {
         if (state(s).kind === 'locked' && canBuy) {
@@ -606,21 +608,34 @@ function ModuleBlock({
                             >
                                 <div>
                                     <p className="text-sm font-bold">
+                                        {unlocked && s.id === nextId ? 'Next up: ' : ''}
                                         {isMini(s) ? 'Mini test' : `Set ${setLetter(s)}`}
                                     </p>
                                     <p className="text-xs text-slate-500">
                                         {isMini(s)
                                             ? `${s.questionCount} questions · ${s.timeLimitMinutes} min`
                                             : 'Full paper'}
-                                        {s.isFree ? ' · free' : ''}
+                                        {s.isFree
+                                            ? ' · free'
+                                            : unlocked
+                                              ? ' · in your Season Pass'
+                                              : ''}
                                     </p>
                                 </div>
                                 <Button
                                     size="sm"
-                                    variant={st.kind === 'done' ? 'outline' : 'default'}
+                                    variant={
+                                        st.kind === 'done' || (unlocked && nextSet && isMini(s))
+                                            ? 'outline'
+                                            : 'default'
+                                    }
                                     className="cursor-pointer whitespace-nowrap"
                                     onClick={() => open(s)}
-                                    aria-label={`${s.title}: ${describe(st)}`}
+                                    aria-label={
+                                        unlocked && s.id === nextId
+                                            ? `${s.title}: next up`
+                                            : `${s.title}: ${describe(st)}`
+                                    }
                                 >
                                     {st.kind === 'done'
                                         ? `✓ ${st.label}`

@@ -203,6 +203,23 @@ export function completedSubjects(
 }
 
 /**
+ * The sets this student has properly sat, by id.
+ *
+ * Same bar as completedSubjects, one level down: a paper counts once it has
+ * ended with at least half its questions answered. What the recommendations
+ * subtract so a pass holder is never sent back to a paper they have done.
+ */
+export function satSetIds(attempts: StudentAttempt[] | undefined): Set<string> {
+    const done = new Set<string>()
+    for (const attempt of attempts ?? []) {
+        if (isTerminal(attempt) && completion(attempt) >= LOW_COMPLETION) {
+            done.add(attempt.setId)
+        }
+    }
+    return done
+}
+
+/**
  * Not here, deliberately: a cross-attempt weakest-skills rollup.
  *
  * Skills live in each attempt's own report response, so summarising them

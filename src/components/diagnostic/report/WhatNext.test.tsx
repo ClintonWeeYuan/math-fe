@@ -12,6 +12,17 @@ const mockAttempts = vi.fn()
 vi.mock('@/hooks/diagnostic/useMyAttemptsQuery.ts', () => ({
     default: () => ({ data: mockAttempts() }),
 }))
+let coveredTests: string[] = []
+vi.mock('@/hooks/billing/useBillingStatusQuery.ts', () => ({
+    default: () => ({ data: { hasPass: coveredTests.length > 0, coveredTests, seasons: [] } }),
+}))
+let billingLive = false
+vi.mock('@/lib/billing.ts', async (importOriginal) => ({
+    ...(await importOriginal<typeof import('@/lib/billing.ts')>()),
+    get BILLING_LIVE() {
+        return billingLive
+    },
+}))
 
 let n = 0
 const set = (over: Partial<PublishedDiagnosticSet> = {}) =>
@@ -43,6 +54,8 @@ beforeEach(() => {
     // and the behaviour every test below assumed before this block knew about
     // history at all.
     mockAttempts.mockReturnValue(undefined)
+    coveredTests = []
+    billingLive = false
 })
 
 describe('what to do next, at the foot of a report', () => {
@@ -159,5 +172,66 @@ describe('what to do next, at the foot of a report', () => {
         show()
 
         expect(screen.getByText('Physics')).toBeInTheDocument()
+    })
+})
+
+describe('what to do next, for a Season Pass holder', () => {
+    const lettered = (subject: string, letter: string, isFree = false) =>
+        set({ subject, title: `${subject} — Diagnostic Set ${letter}`, isFree })
+    const miniOf = (subject: string) =>
+        ({
+            ...set({ subject, title: `${subject} — Mini Test`, timeLimitMinutes: 15, questionCount: 10 }),
+            format: 'mini',
+        }) as PublishedDiagnosticSet
+    const sat = (setId: string, subject: string) => ({
+        attemptId: `a-${setId}`,
+        setId,
+        subject,
+        status: 'submitted',
+        answeredCount: 27,
+        questionCount: 27,
+        startedAt: '2026-10-10T10:00:00Z',
+    })
+
+    beforeEach(() => {
+        billingLive = true
+        coveredTests = ['esat']
+    })
+
+    it('offers the next paper in the same module, skipping ones already sat', () => {
+        const a = lettered('ESAT Math 1', 'A', true)
+        const b = lettered('ESAT Math 1', 'B')
+        const c = lettered('ESAT Math 1', 'C')
+        mockSets.mockReturnValue([c, miniOf('ESAT Math 1'), a, b])
+        mockAttempts.mockReturnValue([sat(a.id, 'ESAT Math 1'), sat(b.id, 'ESAT Math 1')])
+        show({ currentSetId: b.id })
+        expect(screen.getByText(/Next in this module — Set C, included in your Season Pass/)).toBeInTheDocument()
+    })
+
+    it('offers the next full paper in other modules, not their free Mini', () => {
+        const physA = lettered('ESAT Physics', 'A', true)
+        const physB = lettered('ESAT Physics', 'B')
+        mockSets.mockReturnValue([miniOf('ESAT Physics'), physA, physB])
+        mockAttempts.mockReturnValue([sat(physA.id, 'ESAT Physics')])
+        show()
+        expect(screen.getByText(/Physics · Set B/)).toBeInTheDocument()
+        expect(screen.queryByText(/15 min/)).not.toBeInTheDocument()
+    })
+
+    it('drops a module once every paper in it has been sat', () => {
+        const physA = lettered('ESAT Physics', 'A', true)
+        mockSets.mockReturnValue([physA])
+        mockAttempts.mockReturnValue([sat(physA.id, 'ESAT Physics')])
+        const { container } = show()
+        expect(container).toBeEmptyDOMElement()
+    })
+
+    it('treats an ESAT pass as no pass on a TMUA report', () => {
+        coveredTests = ['esat']
+        const p2 = lettered('TMUA Paper 2', 'A', true)
+        mockSets.mockReturnValue([miniOf('TMUA Paper 2'), p2])
+        show({ subject: 'TMUA Paper 1' })
+        expect(screen.queryByText(/Season Pass/)).not.toBeInTheDocument()
+        expect(screen.getByText(/15 min/)).toBeInTheDocument()
     })
 })

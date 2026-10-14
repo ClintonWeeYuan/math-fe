@@ -8,6 +8,11 @@ import {
     diagnosticsPathFor,
     unlockedLabel,
 } from '@/lib/diagnosticsDestination.ts'
+import useListPublishedSetsQuery from '@/hooks/diagnostic/useListPublishedSetsQuery.ts'
+import {
+    forgetCheckoutPaper,
+    peekCheckoutPaper,
+} from '@/lib/checkoutIntent.ts'
 
 /**
  * How long to keep waiting before switching to the "we have your payment,
@@ -51,6 +56,16 @@ export function CheckoutReturnPage() {
     // opens on the ESAT subjects their pass does not cover.
     const browsePath = diagnosticsPathFor(data?.coveredTests)
 
+    // The paper they were opening when they chose to buy, if they started
+    // from one. Read once: the page re-renders while it waits for the pass.
+    const [paperId] = useState(peekCheckoutPaper)
+    const { data: allSets } = useListPublishedSetsQuery()
+    const paper = paperId ? allSets?.find((s) => s.id === paperId) : undefined
+    const go = (path: string) => {
+        forgetCheckoutPaper()
+        navigate(path)
+    }
+
     useEffect(() => {
         if (hasPass) return
         const timer = setTimeout(() => setWaitedTooLong(true), PATIENCE_MS)
@@ -78,12 +93,25 @@ export function CheckoutReturnPage() {
                     as well as the ones ahead.
                 </p>
                 <div className="flex flex-wrap gap-3">
-                    <Button onClick={() => navigate(browsePath)}>
+                    {/* The paper they paid to open comes first. Sending a
+                        buyer to the whole catalogue put the free Mini and
+                        Set A back in front of them instead. */}
+                    {paperId && (
+                        <Button onClick={() => go(`/diagnostic/sets/${paperId}`)}>
+                            {paper
+                                ? `Start ${paperTitle(paper.title)} →`
+                                : 'Go to the paper you chose →'}
+                        </Button>
+                    )}
+                    <Button
+                        variant={paperId ? 'outline' : 'default'}
+                        onClick={() => go(browsePath)}
+                    >
                         Browse the papers
                     </Button>
                     <Button
                         variant="outline"
-                        onClick={() => navigate('/my-results')}
+                        onClick={() => go('/my-results')}
                     >
                         See my results
                     </Button>
@@ -134,6 +162,13 @@ export function CheckoutReturnPage() {
             </p>
         </Shell>
     )
+}
+
+/** "ESAT Physics — Diagnostic Set D" → "Physics Set D". */
+function paperTitle(title: string): string {
+    return title
+        .replace(/^(ESAT|TMUA)\s+/i, '')
+        .replace(/\s*[—–-]\s*Diagnostic\s+/i, ' ')
 }
 
 function Shell({
