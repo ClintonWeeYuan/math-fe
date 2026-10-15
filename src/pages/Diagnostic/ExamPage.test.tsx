@@ -4,6 +4,17 @@ import { MemoryRouter } from 'react-router-dom'
 import { ExamPage } from './ExamPage'
 import type { DiagnosticAttemptStateResponse } from '@/client'
 
+// The follow-up email ask in the post-paper questions needs the set and the
+// billing status; with neither, it asks nothing, which is what these tests
+// assume.
+vi.mock('@/hooks/diagnostic/useListPublishedSetsQuery.ts', () => ({
+    default: () => ({ data: undefined }),
+}))
+vi.mock('@/hooks/billing/useBillingStatusQuery.ts', () => ({
+    default: () => ({ data: undefined }),
+}))
+
+
 const mockUseGetAttemptStateQuery = vi.fn()
 const mockMutate = vi.fn()
 const mockSubmit = vi.fn()

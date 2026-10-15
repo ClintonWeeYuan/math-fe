@@ -97,10 +97,13 @@ export function SavedToRedeem({
 }
 
 /**
- * "Email me when these questions unlock." Its own consent, asked at the one
- * moment it is an obvious question, because the general follow-up opt-in is
- * ticked by almost nobody. The label is the backend's, so the stored record
- * is the words the student saw; nothing renders until it has loaded.
+ * "Email me when these questions unlock." On unless the student turns it off:
+ * it was opt-in until 15 October 2026, when not one student had ticked it
+ * and 26 had questions waiting that nobody told them about. It is a service
+ * email about their own practice with no offer in it, so the Privacy Policy
+ * allows it without a separate opt-in. The label is the backend's, so the
+ * stored record is the words the student saw; nothing renders until it has
+ * loaded.
  */
 function UnlockEmailOptIn() {
     const queryClient = useQueryClient()
@@ -113,7 +116,11 @@ function UnlockEmailOptIn() {
         mutationFn: (optedIn: boolean) => saveRedemptionEmailConsent(optedIn),
         onSuccess: (saved) => {
             queryClient.setQueryData(REDEMPTION_EMAIL_CONSENT_QUERY_KEY, saved)
-            if (saved.optedIn) toast.success("Done — we'll email you when they unlock.")
+            toast.success(
+                saved.optedIn
+                    ? "Done — we'll email you when they unlock."
+                    : "OK — we won't email you about these."
+            )
         },
         onError: (err) => toast.error((err as Error).message),
     })

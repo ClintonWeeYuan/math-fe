@@ -36,7 +36,7 @@ export function AttemptClosedView({ attempt }: Props) {
                 student will answer something about themselves. It sits above
                 the buttons but cannot gate them: "View your report" is
                 outside it and never disabled. */}
-            <PostSubmissionSurvey />
+            <PostSubmissionSurvey setId={attempt.diagnosticSetId} />
 
             <div className="flex gap-3">
                 <Button
