@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { CONTACT_EMAIL } from '@/content/legal.ts'
 
 /**
  * The site footer, which until now did not exist.
@@ -43,6 +44,16 @@ export function SiteFooter() {
                     >
                         Terms of Use
                     </Link>
+                    {/* The address was only inside the Terms and Privacy
+                        pages. In October 2026 a Season Pass buyer wrote that
+                        he had tried to contact us about his purchase and
+                        could not find a way. */}
+                    <a
+                        href={`mailto:${CONTACT_EMAIL}`}
+                        className="text-sm text-slate-500 underline underline-offset-4 hover:text-slate-900"
+                    >
+                        Contact us: {CONTACT_EMAIL}
+                    </a>
                 </nav>
             </div>
             {/* On every page, not just the Terms: the guides name UAT-UK and
