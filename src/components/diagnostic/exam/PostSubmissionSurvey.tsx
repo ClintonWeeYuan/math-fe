@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react'
 import { client } from '@/client/client.gen'
 import { CountrySelect } from '@/components/common/CountrySelect.tsx'
+import { FollowupOptIn } from '@/components/diagnostic/report/FollowupOptIn.tsx'
+import useListPublishedSetsQuery from '@/hooks/diagnostic/useListPublishedSetsQuery.ts'
+import useBillingStatusQuery from '@/hooks/billing/useBillingStatusQuery.ts'
+import { BILLING_LIVE } from '@/lib/billing.ts'
+import { testFromSubject } from '@/lib/diagnosticNextSteps.ts'
 
 /**
  * A few questions, in the gap between submitting and reading the
@@ -106,12 +111,34 @@ function Chip({
     )
 }
 
-export function PostSubmissionSurvey() {
+/**
+ * Whether to ask about the follow-up email here: only after a free full
+ * paper, for someone without a pass for its test — the only case in which
+ * that email is ever sent, and the one the report asks about too. Anything
+ * unknown (sets or billing still loading) means no: a missing question costs
+ * nothing, a promise of an email that never comes does.
+ */
+function useAsksAboutFollowup(setId: string | undefined): boolean {
+    const { data: sets } = useListPublishedSetsQuery()
+    const { data: billing } = useBillingStatusQuery({
+        enabled: BILLING_LIVE,
+        signedIn: true,
+    })
+    const set = setId ? sets?.find((s) => s.id === setId) : undefined
+    if (!set || !set.isFree) return false
+    if ((set as { format?: string }).format === 'mini') return false
+    if (BILLING_LIVE && billing === undefined) return false
+    const test = testFromSubject(set.subject)
+    return !(test && (billing?.coveredTests ?? []).includes(test))
+}
+
+export function PostSubmissionSurvey({ setId }: { setId?: string } = {}) {
     const [dismissed, setDismissed] = useState(false)
     const [sitting, setSitting] = useState<string | null>(null)
     const [universities, setUniversities] = useState<string[]>([])
     const [country, setCountry] = useState<string | null>(null)
     const needsCountry = useNeedsCountry()
+    const asksAboutFollowup = useAsksAboutFollowup(setId)
 
     if (dismissed) return null
 
@@ -180,6 +207,12 @@ export function PostSubmissionSurvey() {
                     </Chip>
                 ))}
             </div>
+
+            {asksAboutFollowup && (
+                <div className="mt-5">
+                    <FollowupOptIn source="survey" compact />
+                </div>
+            )}
 
             {/* Kept once answered in this sitting, so choosing a country does
                 not make the question disappear from under the student. */}

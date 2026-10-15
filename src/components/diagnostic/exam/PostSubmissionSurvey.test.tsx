@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { AttemptClosedView } from './AttemptClosedView'
 import { client } from '@/client/client.gen'
 
@@ -11,6 +12,28 @@ import { client } from '@/client/client.gen'
  * mostly about that: the report button works whatever the survey is doing, and
  * a failing save is invisible.
  */
+
+let sets: unknown[] | undefined
+let coveredTests: string[] | undefined
+vi.mock('@/hooks/diagnostic/useListPublishedSetsQuery.ts', () => ({
+    default: () => ({ data: sets }),
+}))
+vi.mock('@/hooks/billing/useBillingStatusQuery.ts', () => ({
+    default: () => ({
+        data: coveredTests === undefined ? undefined : { hasPass: coveredTests.length > 0, coveredTests, seasons: [] },
+    }),
+}))
+vi.mock('@/lib/billing.ts', async (importOriginal) => ({
+    ...(await importOriginal<typeof import('@/lib/billing.ts')>()),
+    BILLING_LIVE: true,
+}))
+const mockConsent = vi.fn()
+const mockSaveConsent = vi.fn()
+vi.mock('@/lib/emailConsentApi.ts', async (importOriginal) => ({
+    ...(await importOriginal<typeof import('@/lib/emailConsentApi.ts')>()),
+    fetchEmailConsent: () => mockConsent(),
+    saveEmailConsent: (...a: unknown[]) => mockSaveConsent(...a),
+}))
 
 const post = vi.spyOn(client, 'post')
 const get = vi.spyOn(client, 'get')
@@ -29,9 +52,11 @@ const attempt = {
 
 const show = () =>
     render(
-        <MemoryRouter>
-            <AttemptClosedView attempt={attempt} />
-        </MemoryRouter>
+        <QueryClientProvider client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}>
+            <MemoryRouter>
+                <AttemptClosedView attempt={attempt} />
+            </MemoryRouter>
+        </QueryClientProvider>
     )
 
 beforeEach(() => {
@@ -40,6 +65,12 @@ beforeEach(() => {
     get.mockReset()
     get.mockResolvedValue({ data: { country: null } } as never)
     localStorage.clear()
+    sets = undefined
+    coveredTests = undefined
+    mockConsent.mockReset()
+    mockConsent.mockResolvedValue({ optedIn: false, wording: 'Email me tomorrow about this paper.' })
+    mockSaveConsent.mockReset()
+    mockSaveConsent.mockResolvedValue({ optedIn: true, wording: 'Email me tomorrow about this paper.' })
 })
 
 describe('the country question', () => {
@@ -148,5 +179,51 @@ describe('the survey after a submission', () => {
             'true'
         )
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    })
+})
+
+describe('the follow-up email question', () => {
+    const freeFull = { id: 'set-1', title: 'ESAT Math 1 — Diagnostic Set A', subject: 'ESAT Math 1', isFree: true }
+
+    it('is asked after a free full paper, and a yes is saved as from the survey', async () => {
+        sets = [freeFull]
+        coveredTests = []
+        show()
+        await userEvent.click(await screen.findByRole('button', { name: 'Yes, email me tomorrow' }))
+        expect(mockSaveConsent).toHaveBeenCalledWith(true, 'survey')
+        expect(await screen.findByText(/we'll email you tomorrow about this paper/)).toBeInTheDocument()
+    })
+
+    it('is not asked after a mini, a paid paper, or by a pass holder', async () => {
+        for (const [s, c] of [
+            [[{ ...freeFull, format: 'mini' }], []],
+            [[{ ...freeFull, isFree: false }], []],
+            [[freeFull], ['esat']],
+        ] as const) {
+            sets = [...s]
+            coveredTests = [...c]
+            const { unmount } = show()
+            await screen.findByText(/When are you sitting the test/)
+            expect(screen.queryByText('Want a short email about this paper tomorrow?')).not.toBeInTheDocument()
+            unmount()
+        }
+    })
+
+    it('is not asked again once they have said yes', async () => {
+        sets = [freeFull]
+        coveredTests = []
+        mockConsent.mockResolvedValue({ optedIn: true, wording: 'Email me tomorrow about this paper.' })
+        show()
+        await screen.findByText(/When are you sitting the test/)
+        expect(screen.queryByRole('button', { name: 'Yes, email me tomorrow' })).not.toBeInTheDocument()
+    })
+
+    it('"No thanks" records nothing', async () => {
+        sets = [freeFull]
+        coveredTests = []
+        show()
+        await userEvent.click(await screen.findByRole('button', { name: 'No thanks' }))
+        expect(mockSaveConsent).not.toHaveBeenCalled()
+        expect(screen.queryByText('Want a short email about this paper tomorrow?')).not.toBeInTheDocument()
     })
 })

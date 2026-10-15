@@ -172,6 +172,12 @@ export function PrivacyPage() {
                     in, and you can unsubscribe at any time.
                 </P>
                 <P>
+                    We also email you about your own practice — for example,
+                    when questions saved from a paper you sat are ready to try
+                    again. These emails contain no offers. You can turn them off
+                    on the report page or with the link in any of them.
+                </P>
+                <P>
                     We do not sell your personal information, and we do not show
                     advertising.
                 </P>
@@ -199,8 +205,9 @@ export function PrivacyPage() {
                         <span className="font-semibold text-slate-900">
                             Resend
                         </span>{' '}
-                        delivers our verification and sign-in emails. Messages
-                        are sent through Amazon SES in Japan.
+                        delivers our emails: verification and sign-in messages,
+                        practice reminders, and any emails you have opted in to.
+                        Messages are sent through Amazon SES in Japan.
                     </li>
                     <li>
                         <span className="font-semibold text-slate-900">
@@ -252,8 +259,8 @@ export function PrivacyPage() {
                     is handled as this notice describes.
                 </P>
                 <P>
-                    One exception: the emails we send you — verification and
-                    sign-in messages — are delivered through Amazon SES in
+                    One exception: the emails we send you are delivered
+                    through Amazon SES in
                     Japan, so your email address is processed there when we
                     send you one.
                 </P>
