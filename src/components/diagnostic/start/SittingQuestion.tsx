@@ -30,7 +30,7 @@ export function SittingQuestion() {
         retry: false,
     })
     const [chosen, setChosen] = useState<TestSitting | null>(null)
-    const { mutate, isPending } = useMutation({
+    const { mutate, isPending, data: saved } = useMutation({
         mutationFn: saveSitting,
         onSuccess: (saved, sitting) => {
             if (!saved) return
@@ -80,7 +80,10 @@ export function SittingQuestion() {
                 })}
             </div>
             <p className="mt-2 text-xs text-slate-500">
-                {chosen
+                {/* "Saved" only once the server says so. A failed save is
+                    still not shown as an error, but it is not claimed as a
+                    success either: the hint stays, and a second tap retries. */}
+                {saved === true
                     ? 'Thanks — saved. You can change it after any paper.'
                     : 'One tap, and optional. It helps us show you what matters for your sitting.'}
             </p>
