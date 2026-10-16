@@ -57,8 +57,9 @@ function save(attemptId: string, answers: Answers): void {
 }
 
 /**
- * Two one-tap questions on a student's report: how the paper felt, and how it
- * compared with the real exam's past papers.
+ * Three one-tap questions on a student's report: whether the report helped,
+ * how the paper felt, and how it compared with the real exam's past papers,
+ * with a box for what would have made the report more useful.
  *
  * Scores alone cannot say whether a paper is pitched right — a keen cohort
  * scoring 75% could mean an easy paper or strong students. The second question
@@ -114,79 +115,82 @@ export function PaperRating({
         })
     }
 
-    const done = answers.feel !== undefined && answers.vs_past_papers !== undefined
+    const done =
+        answers.helped !== undefined &&
+        answers.feel !== undefined &&
+        answers.vs_past_papers !== undefined
 
+    // All three questions from the start, usefulness first. From 12 to 16
+    // October 2026, 67 reports were opened, 11 students rated the paper, 7
+    // compared it with past papers, 1 said whether the report helped and none
+    // wrote anything. "Did this report help?" only appeared after a first tap,
+    // and a thank-you arrived after the second, which read as the end. Now
+    // nothing is hidden behind a tap except the box for the why, and the
+    // thank-you waits until all three are answered.
     return (
         <Card>
             <CardContent className="flex flex-col gap-5 pt-6">
+                <Choices
+                    prompt="Did this report help you?"
+                    options={HELPED}
+                    selected={answers.helped}
+                    onSelect={(v) => answer('helped', v)}
+                />
+                {answers.helped !== undefined && (
+                    <div className="flex flex-col gap-2">
+                        <label htmlFor="report-feedback" className="font-medium">
+                            What would have made it more useful?
+                        </label>
+                        {answers.feedback !== undefined ? (
+                            <>
+                                <p className="whitespace-pre-wrap rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                                    {answers.feedback}
+                                </p>
+                                <p className="text-sm text-slate-600">
+                                    Thank you — Hazel reads every one of these.
+                                </p>
+                            </>
+                        ) : (
+                            <>
+                                <Textarea
+                                    id="report-feedback"
+                                    value={draft}
+                                    maxLength={FEEDBACK_MAX}
+                                    onChange={(e) => setDraft(e.target.value)}
+                                    placeholder="Anything at all — an explanation that was missing, a chart that didn't make sense, something you wanted to know and couldn't find."
+                                />
+                                <div>
+                                    <Button
+                                        type="button"
+                                        size="sm"
+                                        className="cursor-pointer"
+                                        disabled={draft.trim() === ''}
+                                        onClick={send}
+                                    >
+                                        Send
+                                    </Button>
+                                </div>
+                            </>
+                        )}
+                    </div>
+                )}
                 <Choices
                     prompt={`How did this ${isMini ? 'mini test' : 'paper'} feel?`}
                     options={FEEL}
                     selected={answers.feel}
                     onSelect={(v) => answer('feel', v)}
                 />
-                {answers.feel !== undefined && (
-                    <Choices
-                        prompt={`Compared with real ${test} past papers, was it…`}
-                        options={VS_PAST_PAPERS}
-                        selected={answers.vs_past_papers}
-                        onSelect={(v) => answer('vs_past_papers', v)}
-                    />
-                )}
+                <Choices
+                    prompt={`Compared with real ${test} past papers, was it…`}
+                    options={VS_PAST_PAPERS}
+                    selected={answers.vs_past_papers}
+                    onSelect={(v) => answer('vs_past_papers', v)}
+                />
                 {done && (
                     <p className="text-sm text-slate-600">
-                        Thank you! This helps us pitch our papers at the real exam.
+                        Thank you! This helps us improve the reports and pitch
+                        the papers at the real exam.
                     </p>
-                )}
-
-                {/* Usefulness, asked of someone already answering: a tap that
-                    gives the one number the usage review could not, and a box
-                    for the why. Either can be answered alone. */}
-                {answers.feel !== undefined && (
-                    <>
-                        <Choices
-                            prompt="Did this report help you?"
-                            options={HELPED}
-                            selected={answers.helped}
-                            onSelect={(v) => answer('helped', v)}
-                        />
-                        <div className="flex flex-col gap-2">
-                            <label htmlFor="report-feedback" className="font-medium">
-                                What would have made it more useful?
-                            </label>
-                            {answers.feedback !== undefined ? (
-                                <>
-                                    <p className="whitespace-pre-wrap rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
-                                        {answers.feedback}
-                                    </p>
-                                    <p className="text-sm text-slate-600">
-                                        Thank you — Hazel reads every one of these.
-                                    </p>
-                                </>
-                            ) : (
-                                <>
-                                    <Textarea
-                                        id="report-feedback"
-                                        value={draft}
-                                        maxLength={FEEDBACK_MAX}
-                                        onChange={(e) => setDraft(e.target.value)}
-                                        placeholder="Anything at all — an explanation that was missing, a chart that didn't make sense, something you wanted to know and couldn't find."
-                                    />
-                                    <div>
-                                        <Button
-                                            type="button"
-                                            size="sm"
-                                            className="cursor-pointer"
-                                            disabled={draft.trim() === ''}
-                                            onClick={send}
-                                        >
-                                            Send
-                                        </Button>
-                                    </div>
-                                </>
-                            )}
-                        </div>
-                    </>
                 )}
             </CardContent>
         </Card>
