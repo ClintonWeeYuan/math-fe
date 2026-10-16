@@ -25,19 +25,21 @@ export const GUIDE = {
     standfirst:
         'Everything time-sensitive about the TMUA lives on this page, and nowhere else on this site. Dates move each cycle — confirm anything you are about to rely on against the official source.',
     publishedAt: '2026-08-17',
-    updatedAt: '2026-08-17',
+    updatedAt: '2026-10-16',
     sections: [
         {
             id: 'sittings',
             h2: 'Sittings for 2026–27 entry',
             paras: [
-                'The October rule has two narrow exceptions: mature applicants to a Cambridge mature college with a January admissions deadline, and Oxford Astrophoria Foundation Year applicants. If neither is you, October it is.',
-                'Note the deadline that comes before the deadline: access arrangements must be requested by 14 September 2026, and UAT-UK advises applying at least ten working days before you book.',
+                'The October 2026 sitting has finished. The next, and last, sitting for 2026–27 entry is 4–8 January 2027, and booking closes on 21 December 2026 at 6pm GMT.',
+                'January is for courses that accept it. Oxford and Cambridge required October, except for two narrow groups who can sit in January: mature applicants to a Cambridge mature college with a January admissions deadline, and Oxford Astrophoria Foundation Year applicants.',
+                'Note the deadline that comes before the deadline: access arrangements must be requested through UAT-UK before you book — UAT-UK advises at least ten working days before — so if you need them for January, check UAT-UK’s date now.',
+                'Starting early, for 2027–28 entry? UAT-UK publishes the next cycle’s dates; check there before planning around them.',
             ],
             table: {
                 caption:
                     'TMUA test windows, booking deadlines and eligibility for 2026–27 entry',
-                head: ['', 'October sitting', 'January sitting'],
+                head: ['', 'October sitting (finished)', 'January sitting (next)'],
                 rows: [
                     ['Test window', '12–16 October 2026', '4–8 January 2027'],
                     [
@@ -47,7 +49,7 @@ export const GUIDE = {
                     ],
                     [
                         'Who must take it',
-                        'Oxford and Cambridge applicants, with two exceptions below',
+                        'Oxford and Cambridge applicants, with two exceptions above',
                         'Other courses, where accepted',
                     ],
                     [
@@ -63,7 +65,7 @@ export const GUIDE = {
             h2: 'How to register',
             paras: [
                 'You register yourself; your school will not do it for you.',
-                'Create a UAT-UK account and select the TMUA to generate your Test Card. Then book a seat at a Pearson VUE test centre through that account — booking for October opens 20 July, and seats are allocated by centre, so the popular ones fill well before the deadline.',
+                'Create a UAT-UK account and select the TMUA to generate your Test Card. Then book a seat at a Pearson VUE test centre through that account. Seats are allocated by centre, so the popular ones fill well before the deadline.',
                 'Enter your name, date of birth and UCAS ID exactly as they appear in your UCAS Hub. Your score is matched to your application by those details.',
             ],
         },
@@ -82,11 +84,11 @@ export const GUIDE = {
         },
         {
             q: 'I sit my school exams with extra time — does that carry over?',
-            a: 'Not automatically. Access arrangements must be applied for through UAT-UK with evidence, by 14 September for the October sitting — a fortnight before the booking deadline, which is the gap that catches people.',
+            a: 'Not automatically. Access arrangements must be applied for through UAT-UK with evidence, and their deadline comes before the booking deadline — for the October 2026 sitting it was a fortnight earlier, which is the gap that catches people. Check UAT-UK for the January date.',
         },
         {
             q: 'Which sitting should I take?',
-            a: 'October if Oxford or Cambridge is on your form — it is required, with the two exceptions above. Otherwise check what your course accepts before assuming January is available to you.',
+            a: 'For 2026–27 entry, January 2027 is the only sitting left, and it counts only for courses that accept it — Oxford and Cambridge required October, with the two exceptions above. Check what each of your courses accepts before you book. If you are applying for 2027–28 entry, check UAT-UK for that cycle’s sittings.',
             link: {
                 label: 'Official TMUA dates and deadlines (UAT-UK)',
                 url: 'https://esat-tmua.ac.uk/about-the-tests/tmua-test/',

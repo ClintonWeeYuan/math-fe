@@ -1589,7 +1589,7 @@ export type DiagnosticSurveyAnswers = {
     /**
      * Testsitting
      */
-    testSitting?: 'october_2026' | 'january_2027' | 'undecided' | null;
+    testSitting?: 'october_2026' | 'january_2027' | 'later' | 'undecided' | null;
     /**
      * Targetuniversities
      */
@@ -1613,7 +1613,7 @@ export type DiagnosticSurveyBody = {
     /**
      * Testsitting
      */
-    testSitting?: 'october_2026' | 'january_2027' | 'undecided' | null;
+    testSitting?: 'october_2026' | 'january_2027' | 'later' | 'undecided' | null;
     /**
      * Targetuniversities
      */

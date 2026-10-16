@@ -32,7 +32,7 @@ export const GUIDE = {
     // because that is when the page gained its byline and dates, which is a
     // change a reader can see.
     publishedAt: '2026-08-01',
-    updatedAt: '2026-09-18',
+    updatedAt: '2026-10-16',
     sections: [
         {
             id: 'format',
@@ -135,7 +135,7 @@ export const GUIDE = {
         },
         {
             q: 'When is the ESAT sat?',
-            a: 'Two sittings a year, October and January, with Oxford and Cambridge applicants required to sit October. Dates, deadlines and fees are on the ESAT dates and registration page, which is updated each cycle.',
+            a: 'Two sittings a year, October and January, with Oxford and Cambridge applicants required to sit October. The October 2026 sitting has finished; the next is 4–8 January 2027, for courses that accept January scores. Dates, deadlines and fees are on the ESAT dates and registration page, which is updated each cycle.',
         },
         {
             q: "I don't have 40 minutes — is there a shorter test?",

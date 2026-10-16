@@ -32,7 +32,7 @@ export const GUIDE = {
     // because that is when the page gained its byline and dates, which is a
     // change a reader can see.
     publishedAt: '2026-08-01',
-    updatedAt: '2026-09-18',
+    updatedAt: '2026-10-16',
     sections: [
         {
             id: 'two-papers',
@@ -149,7 +149,7 @@ export const GUIDE = {
         },
         {
             q: 'When is the TMUA sat?',
-            a: 'Two sittings a year, October and January, with Oxford and Cambridge applicants required to sit October apart from two narrow exceptions. Dates, deadlines, fees and how to register are on the TMUA dates and registration page, which is updated each cycle.',
+            a: 'Two sittings a year, October and January, with Oxford and Cambridge applicants required to sit October apart from two narrow exceptions. The October 2026 sitting has finished; the next is 4–8 January 2027, for courses that accept January scores. Dates, deadlines, fees and how to register are on the TMUA dates and registration page, which is updated each cycle.',
         },
         {
             q: 'Are the JomExam TMUA practice tests free?',

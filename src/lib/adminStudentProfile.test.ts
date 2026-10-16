@@ -5,6 +5,7 @@ describe('sittingLabel', () => {
     it('reads the stored value back as a person would say it', () => {
         expect(sittingLabel('october_2026')).toBe('October 2026')
         expect(sittingLabel('january_2027')).toBe('January 2027')
+        expect(sittingLabel('later')).toBe('Later (2027–28 entry)')
         expect(sittingLabel('undecided')).toBe('Not decided')
     })
 

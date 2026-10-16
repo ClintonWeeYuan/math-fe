@@ -138,3 +138,17 @@ describe('SeasonChoice', () => {
         expect(container).toBeEmptyDOMElement()
     })
 })
+
+describe('naming the next sitting', () => {
+    it('says the pass runs through January 2027 when it does', () => {
+        render(<SeasonChoice seasons={[season({ lastDay: '2027-01-31' })]} onChoose={() => {}} />)
+        expect(
+            screen.getByText(/through the January 2027 sitting/)
+        ).toBeInTheDocument()
+    })
+
+    it('says nothing about it for a season that ends first', () => {
+        render(<SeasonChoice seasons={[season({ lastDay: '2026-12-31' })]} onChoose={() => {}} />)
+        expect(screen.queryByText(/January 2027 sitting/)).not.toBeInTheDocument()
+    })
+})
