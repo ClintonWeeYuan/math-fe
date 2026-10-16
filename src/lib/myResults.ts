@@ -288,3 +288,73 @@ export function groupCoverageBySubject(
         }
     })
 }
+
+/**
+ * Progress across papers: a student's full papers in one module, in the order
+ * they sat them, as percentages.
+ *
+ * Most students come once (two thirds of October's were active on one day
+ * only), and nothing on this page showed a returning student that coming back
+ * had done anything. This is that picture.
+ *
+ * What counts is chosen so the line means something:
+ *  - full papers only: a ten-question mini is too short to compare;
+ *  - properly sat (three-quarters answered): an abandoned paper is not a score;
+ *  - the first sitting of each set only: a second go at the same questions
+ *    measures memory as much as progress.
+ * Papers differ in difficulty, so the page says so beside the numbers.
+ */
+export const PROGRESS_MIN_ANSWERED = 0.75
+
+export type ProgressPoint = {
+    attemptId: string
+    setTitle: string
+    pct: number
+    submittedAt: string
+}
+
+export type SubjectProgress = {
+    subject: string
+    points: ProgressPoint[]
+    /** Latest minus first, in percentage points. Null with one paper. */
+    change: number | null
+}
+
+export function progressBySubject(
+    attempts: StudentAttempt[] | undefined
+): SubjectProgress[] {
+    const firstPerSet = new Map<string, StudentAttempt>()
+    for (const a of attempts ?? []) {
+        if (!isTerminal(a) || !a.submittedAt || !a.subject) continue
+        if ((a.format ?? 'full') !== 'full') continue
+        if (a.questionCount <= 0 || completion(a) < PROGRESS_MIN_ANSWERED) continue
+        const seen = firstPerSet.get(a.setId)
+        if (!seen || a.startedAt < seen.startedAt) firstPerSet.set(a.setId, a)
+    }
+
+    const bySubject = new Map<string, ProgressPoint[]>()
+    for (const a of firstPerSet.values()) {
+        const points = bySubject.get(a.subject as string) ?? []
+        points.push({
+            attemptId: a.attemptId,
+            setTitle: a.setTitle ?? 'Paper',
+            pct: Math.round(((a.totalScore ?? 0) / a.questionCount) * 100),
+            submittedAt: a.submittedAt as string,
+        })
+        bySubject.set(a.subject as string, points)
+    }
+
+    return [...bySubject.entries()]
+        .map(([subject, points]) => {
+            points.sort((x, y) => x.submittedAt.localeCompare(y.submittedAt))
+            return {
+                subject,
+                points,
+                change:
+                    points.length > 1
+                        ? points[points.length - 1].pct - points[0].pct
+                        : null,
+            }
+        })
+        .sort((x, y) => y.points.length - x.points.length || x.subject.localeCompare(y.subject))
+}

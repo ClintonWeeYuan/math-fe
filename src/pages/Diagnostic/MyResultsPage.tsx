@@ -12,6 +12,7 @@ import {
     coverageFor,
     groupCoverageBySubject,
     isTerminal,
+    progressBySubject,
     type CoverageRow,
     type StudentAttempt,
     type SubjectCoverage,
@@ -24,6 +25,7 @@ import useBillingStatusQuery from '@/hooks/billing/useBillingStatusQuery.ts'
 import { diagnosticsPathFor } from '@/lib/diagnosticsDestination.ts'
 import { trackEvent } from '@/lib/analytics.ts'
 import { RedemptionSection } from '@/components/diagnostic/results/RedemptionSection.tsx'
+import { ProgressSection } from '@/components/diagnostic/results/ProgressSection.tsx'
 
 /**
  * Everything a student has sat, and what they have not.
@@ -472,6 +474,9 @@ export function MyResultsPage() {
                                 paidPaperCount={paidPaperCount}
                             />
                         )}
+                        <ProgressSection
+                            progress={progressBySubject(attempts)}
+                        />
                         {modules.length > 0 && (
                             <section className="mb-12">
                                 <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2">
