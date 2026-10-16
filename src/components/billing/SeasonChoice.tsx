@@ -1,5 +1,9 @@
 import { Button } from '@/components/ui/button.tsx'
-import { formatSeasonEnd, formatSeasonPrice } from '@/lib/billing.ts'
+import {
+    formatSeasonEnd,
+    formatSeasonPrice,
+    nextSittingNote,
+} from '@/lib/billing.ts'
 import type { SeasonOffer } from '@/lib/billingApi.ts'
 
 type Props = {
@@ -15,8 +19,8 @@ type Props = {
 /**
  * The buy control: one button per season on sale.
  *
- * One season is sold today — a single pass running past both the October and
- * January sittings — so in practice this renders one button. It is still
+ * One season is sold today — a single pass that, from 16 October 2026, runs
+ * through the January 2027 sitting — so in practice this renders one button. It is still
  * written for a list, because the backend offers a list and a second window
  * should be a data change rather than a rewrite of the point of sale.
  *
@@ -95,7 +99,7 @@ export function SeasonChoice({ seasons, onChoose, isPending, compact }: Props) {
                           `Access runs until ${buyable
                               .map((s) => formatSeasonEnd(s.lastDay))
                               .join(' or ')} — pick the sitting you're taking.`
-                        : `Access runs until ${formatSeasonEnd(buyable[0].lastDay)}.`}
+                        : `Access runs until ${formatSeasonEnd(buyable[0].lastDay)}${nextSittingNote(buyable[0].lastDay)}.`}
                 </p>
             )}
         </div>

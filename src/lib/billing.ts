@@ -68,3 +68,20 @@ export function formatSeasonPrice(
         return `${currency} ${(amount / 100).toFixed(2)}`
     }
 }
+
+/**
+ * The next test sitting, which the pass copy names when a season runs past it.
+ *
+ * This is a fact about the test, not about the season, so it does live here:
+ * the season's end still comes from the backend, and the sentence is only
+ * added when that end is on or after the sitting's last day. Once the January
+ * window has passed, update or remove it.
+ */
+export const NEXT_SITTING = { label: 'January 2027', lastDay: '2027-01-08' }
+
+/** " — through the January 2027 sitting", or nothing if the season ends first. */
+export function nextSittingNote(seasonLastDay: string): string {
+    return seasonLastDay >= NEXT_SITTING.lastDay
+        ? ` — through the ${NEXT_SITTING.label} sitting`
+        : ''
+}

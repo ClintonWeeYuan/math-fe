@@ -37,6 +37,7 @@ export function profileOf(row: AdminAttemptResultRow): StudentProfile {
 const SITTING_LABELS: Record<string, string> = {
     october_2026: 'October 2026',
     january_2027: 'January 2027',
+    later: 'Later (2027–28 entry)',
     undecided: 'Not decided',
 }
 

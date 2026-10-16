@@ -12,6 +12,7 @@ import { toast } from 'sonner'
 import {
     BILLING_LIVE,
     formatSeasonEnd,
+    nextSittingNote,
     formatSeasonPrice,
 } from '@/lib/billing.ts'
 import { useAuth } from '@/components/auth/AuthContext.tsx'
@@ -22,6 +23,7 @@ import {
     mustAnswerArrangements,
 } from '@/lib/accommodationsApi.ts'
 import { AccessArrangementsPrompt } from '@/components/diagnostic/arrangements/AccessArrangementsPrompt.tsx'
+import { SittingQuestion } from '@/components/diagnostic/start/SittingQuestion.tsx'
 import { samplesFor } from '@/content/diagnosticSamples.mjs'
 import { Link } from 'react-router-dom'
 import useBillingStatusQuery from '@/hooks/billing/useBillingStatusQuery.ts'
@@ -251,6 +253,10 @@ export function SetInstructionsPage() {
                     testName={testName}
                 />
             )}
+
+            {/* Asked once, before the first paper, of anyone who has not
+                said. It renders nothing once the sitting is known. */}
+            {user !== null && <SittingQuestion />}
 
             {/* Said before committing, not discovered afterwards. A mini's
                 report has no Skills Radar, and a student who expected one
@@ -503,7 +509,8 @@ function SignInToSit({
                                 })
                                 .join(' or ')}
                             . Access runs until{' '}
-                            {formatSeasonEnd(seasons[0].lastDay)}, and you can
+                            {formatSeasonEnd(seasons[0].lastDay)}
+                            {nextSittingNote(seasons[0].lastDay)}, and you can
                             buy it straight after signing in.
                         </div>
                     )}

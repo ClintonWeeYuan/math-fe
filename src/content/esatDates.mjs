@@ -28,18 +28,20 @@ export const GUIDE = {
     standfirst:
         'Everything time-sensitive about the ESAT lives on this page, and nowhere else on this site. Dates move each cycle — confirm anything you are about to rely on against the official source.',
     publishedAt: '2026-08-16',
-    updatedAt: '2026-08-16',
+    updatedAt: '2026-10-16',
     sections: [
         {
             id: 'sittings',
             h2: 'Sittings for 2026–27 entry',
             paras: [
-                'If you are applying to Oxford or Cambridge, the October window is not a choice — book it, and book early, because seats are allocated by test centre and they fill.',
+                'The October 2026 sitting has finished. The next, and last, sitting for 2026–27 entry is 4–8 January 2027, and booking closes on 21 December 2026 at 6pm GMT. Seats are allocated by test centre and the popular ones fill, so book early.',
+                'January counts only where your course accepts it. Oxford and Cambridge required the October sitting, so check with each of your other universities that a January score is accepted before you book.',
+                'Starting early, for 2027–28 entry? UAT-UK publishes the next cycle’s dates; check there before planning around them.',
             ],
             table: {
                 caption:
                     'ESAT test windows, booking deadlines and eligibility for 2026–27 entry',
-                head: ['', 'October sitting', 'January sitting'],
+                head: ['', 'October sitting (finished)', 'January sitting (next)'],
                 rows: [
                     ['Test window', '12–16 October 2026', '4–8 January 2027'],
                     [
@@ -87,7 +89,7 @@ export const GUIDE = {
         },
         {
             q: 'Which sitting should I take?',
-            a: 'October if Oxford or Cambridge is on your form — it is required. Otherwise check what your course accepts, and remember that an October sitting leaves January free as a fallback only where the course accepts January scores.',
+            a: 'For 2026–27 entry, January 2027 is the only sitting left, and it counts only for courses that accept it — Oxford and Cambridge required October. Check what each of your courses accepts before you book. If you are applying for 2027–28 entry, check UAT-UK for that cycle’s sittings and which one your universities require.',
             link: {
                 label: 'Official ESAT dates and registration (UAT-UK)',
                 url: 'https://esat-tmua.ac.uk/about-the-tests/esat-test/',

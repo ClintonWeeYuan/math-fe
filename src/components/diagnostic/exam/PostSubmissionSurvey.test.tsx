@@ -114,7 +114,7 @@ describe('the survey after a submission', () => {
         const report = screen.getByRole('button', { name: /view your report/i })
         expect(report).toBeEnabled()
 
-        await userEvent.click(screen.getByRole('button', { name: 'October 2026' }))
+        await userEvent.click(screen.getByRole('button', { name: 'October 2026 (already sat)' }))
         expect(
             screen.getByRole('button', { name: /view your report/i })
         ).toBeEnabled()

@@ -6,6 +6,7 @@ import useListPublishedSetsQuery from '@/hooks/diagnostic/useListPublishedSetsQu
 import useBillingStatusQuery from '@/hooks/billing/useBillingStatusQuery.ts'
 import { BILLING_LIVE } from '@/lib/billing.ts'
 import { testFromSubject } from '@/lib/diagnosticNextSteps.ts'
+import { SITTING_OPTIONS } from '@/lib/testSitting.ts'
 
 /**
  * A few questions, in the gap between submitting and reading the
@@ -21,12 +22,6 @@ import { testFromSubject } from '@/lib/diagnosticNextSteps.ts'
  * disabled, answers save fire-and-forget as they are tapped, and a failed save
  * is not surfaced. Nothing here is on the path to the thing they came for.
  */
-
-const SITTINGS = [
-    { value: 'october_2026', label: 'October 2026' },
-    { value: 'january_2027', label: 'January 2027' },
-    { value: 'undecided', label: 'Not decided' },
-] as const
 
 const UNIVERSITIES = [
     'Cambridge',
@@ -182,7 +177,7 @@ export function PostSubmissionSurvey({ setId }: { setId?: string } = {}) {
                 When are you sitting the test?
             </p>
             <div className="mb-5 flex flex-wrap gap-2">
-                {SITTINGS.map((option) => (
+                {SITTING_OPTIONS.map((option) => (
                     <Chip
                         key={option.value}
                         selected={sitting === option.value}
