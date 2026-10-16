@@ -9,6 +9,7 @@ import { ExamTimer } from '@/components/diagnostic/exam/ExamTimer.tsx'
 import { ReviewDialog } from '@/components/diagnostic/exam/ReviewDialog.tsx'
 import { RestBreakPanel } from '@/components/diagnostic/exam/RestBreakPanel.tsx'
 import { RestBreakOverlay } from '@/components/diagnostic/exam/RestBreakOverlay.tsx'
+import { PaceGuide } from '@/components/diagnostic/exam/PaceGuide.tsx'
 import useGetAttemptStateQuery from '@/hooks/diagnostic/useGetAttemptStateQuery.ts'
 import useUpsertResponseMutation from '@/hooks/diagnostic/useUpsertResponseMutation.ts'
 import useSubmitAttemptMutation from '@/hooks/diagnostic/useSubmitAttemptMutation.ts'
@@ -225,6 +226,16 @@ export function ExamPage() {
                     serverDeadlineAt={state.attempt.serverDeadlineAt}
                     onExpire={handleExpire}
                     pausedAt={state.attempt.pausedAt}
+                />
+                <PaceGuide
+                    attemptId={state.attempt.id}
+                    startedAt={state.attempt.startedAt}
+                    serverDeadlineAt={state.attempt.serverDeadlineAt}
+                    breakBudgetSeconds={state.attempt.breakBudgetSeconds}
+                    breakSecondsRemaining={state.attempt.breakSecondsRemaining}
+                    isPaused={isPaused}
+                    questionCount={questions.length}
+                    answered={summary.answered}
                 />
                 <RestBreakPanel
                     breakSecondsRemaining={state.attempt.breakSecondsRemaining ?? 0}

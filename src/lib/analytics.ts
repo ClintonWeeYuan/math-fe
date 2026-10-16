@@ -60,6 +60,9 @@ export type AnalyticsEventName =
     // The report's own usefulness questions on the rating card.
     | 'report_helped'
     | 'report_feedback'
+    // The pace guide under the exam timer, hidden or shown again
+    // (metadata.shown).
+    | 'pace_guide_toggled'
     // The sign-in wall. Anonymous counts, no visitor identifier: see
     // src/lib/authFunnel.ts.
     | 'sign_in_prompt_clicked'
