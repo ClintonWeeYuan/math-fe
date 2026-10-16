@@ -10,6 +10,7 @@ import useEsatModules from '@/hooks/diagnostic/useEsatModules.ts'
 import type { PublishedDiagnosticSet } from '@/client'
 import { BILLING_LIVE, formatSeasonPrice } from '@/lib/billing.ts'
 import { trackEvent } from '@/lib/analytics.ts'
+import { MINI_FIRST_TESTS } from '@/lib/miniFirst.ts'
 import type { SeasonOffer } from '@/lib/billingApi.ts'
 import { setLetter, testFromSubject } from '@/lib/diagnosticNextSteps.ts'
 import { coverageFor, type CoverageRow } from '@/lib/myResults.ts'
@@ -29,6 +30,7 @@ import useBillingStatusQuery from '@/hooks/billing/useBillingStatusQuery.ts'
 function isMini(set: PublishedDiagnosticSet): boolean {
     return (set as { format?: 'mini' | 'full' }).format === 'mini'
 }
+
 
 /** The order modules appear in: the ESAT's own order (Maths 1 first, because
  *  everyone sits it), then the TMUA papers, then anything else alphabetically.
@@ -575,6 +577,17 @@ function ModuleBlock({
         unlocked && nextSet
             ? [nextSet, ...minis]
             : [...minis, ...full.filter((s) => s.isFree)]
+    // A newcomer to this module, on a mini-first test: the mini is the one
+    // primary button, labelled as the place to start, and the free full
+    // paper is still there beside it for anyone who wants it.
+    const miniFirst =
+        test !== undefined &&
+        MINI_FIRST_TESTS.has(test) &&
+        !unlocked &&
+        minis.length > 0 &&
+        group.sets.every(
+            (s) => (coverage.get(s.id)?.state ?? 'not_attempted') === 'not_attempted'
+        )
 
     const open = (s: PublishedDiagnosticSet) => {
         if (state(s).kind === 'locked' && canBuy) {
@@ -597,6 +610,15 @@ function ModuleBlock({
                 )}
             </div>
 
+            {miniFirst && sample && (
+                <p className="text-sm text-slate-600 mb-3">
+                    New to the TMUA? Start with the mini: {minis[0].questionCount}{' '}
+                    questions in {minis[0].timeLimitMinutes} minutes, at the real
+                    paper&apos;s pace, with a score and a review of every answer.
+                    The full paper is {sample.timeLimitMinutes} minutes.
+                </p>
+            )}
+
             {starters.length > 0 && (
                 <div className="grid sm:grid-cols-2 gap-2.5 mb-4">
                     {starters.map((s) => {
@@ -609,6 +631,7 @@ function ModuleBlock({
                                 <div>
                                     <p className="text-sm font-bold">
                                         {unlocked && s.id === nextId ? 'Next up: ' : ''}
+                                        {miniFirst && isMini(s) ? 'Start here: ' : ''}
                                         {isMini(s) ? 'Mini test' : `Set ${setLetter(s)}`}
                                     </p>
                                     <p className="text-xs text-slate-500">
@@ -625,7 +648,9 @@ function ModuleBlock({
                                 <Button
                                     size="sm"
                                     variant={
-                                        st.kind === 'done' || (unlocked && nextSet && isMini(s))
+                                        st.kind === 'done' ||
+                                        (unlocked && nextSet && isMini(s)) ||
+                                        (miniFirst && !isMini(s))
                                             ? 'outline'
                                             : 'default'
                                     }

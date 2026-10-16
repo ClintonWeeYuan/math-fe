@@ -6,6 +6,8 @@ type Props = {
     /** The set's question count, so the copy names the real number rather
      * than assuming 27 — TMUA papers are 20. */
     fullPaperQuestions?: number
+    /** The mini's own length: 10 for ESAT, 5 for TMUA. */
+    miniQuestions?: number
 }
 
 /**
@@ -22,7 +24,10 @@ type Props = {
  * withheld is more persuasive than a blank space — and naming them is only
  * possible now that Biology and Chemistry have frameworks at all.
  */
-export function MiniRadarLocked({ subject, fullPaperQuestions = 27 }: Props) {
+const NUMBER_WORDS = ['No', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten']
+
+export function MiniRadarLocked({ subject, fullPaperQuestions = 27, miniQuestions = 10 }: Props) {
+    const miniWords = NUMBER_WORDS[miniQuestions] ?? String(miniQuestions)
     const framework = frameworkFor(subject)
     const axes = Object.values(framework ?? {})
 
@@ -37,7 +42,7 @@ export function MiniRadarLocked({ subject, fullPaperQuestions = 27 }: Props) {
                     Your skills radar needs a full paper
                 </p>
                 <p className="mx-auto max-w-md text-sm text-slate-500 dark:text-slate-400">
-                    Ten questions give an indication, not a diagnosis.{' '}
+                    {miniWords} questions give an indication, not a diagnosis.{' '}
                     {fullPaperQuestions} questions resolve every axis properly.
                 </p>
             </div>
@@ -60,8 +65,9 @@ export function MiniRadarLocked({ subject, fullPaperQuestions = 27 }: Props) {
             )}
 
             <p className="text-sm text-slate-500 dark:text-slate-400">
-                Your score, per-question review and pacing above are the parts
-                ten questions can measure — and they are yours free.
+                Your score, per-question review and pacing above are the parts{' '}
+                {miniWords.toLowerCase()} questions can measure — and they are
+                yours free.
             </p>
         </div>
     )

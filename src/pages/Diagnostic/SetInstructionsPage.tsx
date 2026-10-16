@@ -24,6 +24,7 @@ import {
 } from '@/lib/accommodationsApi.ts'
 import { AccessArrangementsPrompt } from '@/components/diagnostic/arrangements/AccessArrangementsPrompt.tsx'
 import { SittingQuestion } from '@/components/diagnostic/start/SittingQuestion.tsx'
+import { TryMiniFirst } from '@/components/diagnostic/start/TryMiniFirst.tsx'
 import { samplesFor } from '@/content/diagnosticSamples.mjs'
 import { Link } from 'react-router-dom'
 import useBillingStatusQuery from '@/hooks/billing/useBillingStatusQuery.ts'
@@ -258,6 +259,14 @@ export function SetInstructionsPage() {
                 said. It renders nothing once the sitting is known. */}
             {user !== null && <SittingQuestion />}
 
+            {!isMini && !isRedemption && isFree && (
+                <TryMiniFirst
+                    subject={(preview as { subject?: string | null }).subject}
+                    fullMinutes={preview.timeLimitMinutes}
+                    signedIn={user !== null}
+                />
+            )}
+
             {/* Said before committing, not discovered afterwards. A mini's
                 report has no Skills Radar, and a student who expected one
                 would read its absence as something withheld — which is
@@ -268,9 +277,9 @@ export function SetInstructionsPage() {
                     its length — {preview.questionCount} questions in{' '}
                     {preview.timeLimitMinutes} minutes. You&apos;ll get your
                     score, a per-question review naming the misconception behind
-                    each wrong answer, and your pacing. Ten questions give an
-                    indication, not a diagnosis: the full paper is what resolves
-                    every skill.
+                    each wrong answer, and your pacing. {preview.questionCount}{' '}
+                    questions give an indication, not a diagnosis: the full paper
+                    is what resolves every skill.
                 </div>
             )}
 
