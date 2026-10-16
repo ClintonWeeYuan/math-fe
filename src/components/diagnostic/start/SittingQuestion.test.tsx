@@ -76,10 +76,33 @@ describe('SittingQuestion', () => {
         expect(container).toBeEmptyDOMElement()
     })
 
-    it('does not surface a failed save', async () => {
+    it('does not surface a failed save, or claim it saved', async () => {
         post.mockResolvedValue({ error: { detail: 'nope' } } as never)
         show()
         await userEvent.click(await screen.findByRole('button', { name: 'January 2027' }))
+        await waitFor(() => expect(post).toHaveBeenCalledTimes(1))
+        await new Promise((r) => setTimeout(r, 0))
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        expect(screen.queryByText(/saved/i)).not.toBeInTheDocument()
+    })
+
+    it('does not claim it saved when the request never arrives', async () => {
+        post.mockRejectedValue(new Error('offline'))
+        show()
+        await userEvent.click(await screen.findByRole('button', { name: 'January 2027' }))
+        await waitFor(() => expect(post).toHaveBeenCalledTimes(1))
+        await new Promise((r) => setTimeout(r, 0))
+        expect(screen.queryByText(/saved/i)).not.toBeInTheDocument()
+    })
+
+    it('saves on a second tap after a failed one', async () => {
+        post.mockResolvedValueOnce({ error: { detail: 'nope' } } as never)
+        show()
+        const january = await screen.findByRole('button', { name: 'January 2027' })
+        await userEvent.click(january)
+        await waitFor(() => expect(january).toBeEnabled())
+        await userEvent.click(january)
+        expect(await screen.findByText(/saved/i)).toBeInTheDocument()
+        expect(post).toHaveBeenCalledTimes(2)
     })
 })
