@@ -220,7 +220,14 @@ export function DiagnosticReportView({
                 <Card>
                     <CardContent className="pt-6">
                         {isMini ? (
-                            <MiniRadarLocked subject={subject} />
+                            <MiniRadarLocked
+                                subject={subject}
+                                miniQuestions={paperTotal || undefined}
+                                // TMUA papers are 20 questions, ESAT 27.
+                                fullPaperQuestions={
+                                    subject?.startsWith('TMUA') ? 20 : 27
+                                }
+                            />
                         ) : hasPass ? (
                             <SkillsRadar
                                 skills={report.skillsRadar}

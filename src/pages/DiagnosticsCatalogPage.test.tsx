@@ -423,3 +423,48 @@ describe('the next paper, for a Season Pass holder', () => {
         expect(physics.getByText('Full paper · free')).toBeInTheDocument()
     })
 })
+
+describe('TMUA: the mini first, for a newcomer', () => {
+    const tmua = () => [
+        mini('TMUA Paper 1', 19, 5),
+        full('TMUA Paper 1', 'A', { timeLimitMinutes: 75, questionCount: 20 }),
+        full('TMUA Paper 1', 'B', { timeLimitMinutes: 75, questionCount: 20 }),
+    ]
+
+    it('labels the mini as the place to start and says why', () => {
+        mockSets.mockReturnValue({ data: tmua(), isLoading: false })
+        renderPage('tmua')
+        const block = module('Paper 1')
+        expect(within(block).getByText(/Start here:/)).toBeInTheDocument()
+        expect(
+            within(block).getByText(/New to the TMUA\? Start with the mini: 5 questions in 19 minutes/)
+        ).toBeInTheDocument()
+        expect(within(block).getByText(/The full paper is 75 minutes/)).toBeInTheDocument()
+    })
+
+    it('still offers the free full paper beside it', () => {
+        mockSets.mockReturnValue({ data: tmua(), isLoading: false })
+        renderPage('tmua')
+        // In the starter row and as the lettered tile.
+        expect(
+            within(module('Paper 1')).getAllByRole('button', { name: /Set A: start/ })
+        ).toHaveLength(2)
+    })
+
+    it('drops the steer once the student has sat something in that paper', () => {
+        signedIn = true
+        const sets = tmua()
+        attempts = [attempt(sets[0], { questionCount: 5, answeredCount: 5 })]
+        mockSets.mockReturnValue({ data: sets, isLoading: false })
+        renderPage('tmua')
+        expect(within(module('Paper 1')).queryByText(/Start here:/)).not.toBeInTheDocument()
+        expect(within(module('Paper 1')).queryByText(/New to the TMUA/)).not.toBeInTheDocument()
+    })
+
+    it('leaves ESAT with the mini and Set A side by side', () => {
+        esatModules = ['maths_1', 'physics'] as EsatModule[]
+        mockSets.mockReturnValue({ data: esatCatalogue(), isLoading: false })
+        renderPage('esat')
+        expect(screen.queryByText(/Start here:/)).not.toBeInTheDocument()
+    })
+})

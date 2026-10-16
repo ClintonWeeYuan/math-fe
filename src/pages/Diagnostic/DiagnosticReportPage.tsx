@@ -11,6 +11,7 @@ import { WhatNext } from '@/components/diagnostic/report/WhatNext.tsx'
 import { ReviewAnswers } from '@/components/diagnostic/report/ReviewAnswers.tsx'
 import { FollowupOptIn } from '@/components/diagnostic/report/FollowupOptIn.tsx'
 import { PaperRating } from '@/components/diagnostic/report/PaperRating.tsx'
+import { TmuaPassOffer } from '@/components/diagnostic/report/TmuaPassOffer.tsx'
 import { SavedToRedeem } from '@/components/diagnostic/report/SavedToRedeem.tsx'
 import { RedemptionReadyBanner } from '@/components/diagnostic/RedemptionReadyBanner.tsx'
 import type { RedemptionQueuedSummary } from '@/lib/redemption.ts'
@@ -89,6 +90,11 @@ export function DiagnosticReportPage() {
             })
         }
     }, [showsPaywall, attemptId, paywallSeason])
+
+    // The TMUA pass, for a TMUA mini's report: on sale, and not already held.
+    const tmuaOffers = (billing?.coveredTests ?? []).includes('tmua')
+        ? []
+        : seasons.filter((s) => s.test === 'tmua' && !s.alreadyCovered)
 
     // How many papers the pass would open, for the paywall's list. Only
     // fetched when there is a paywall to put it on.
@@ -250,6 +256,21 @@ export function DiagnosticReportPage() {
                         currentSetId={report.attempt.diagnosticSetId}
                         isMini={isMini}
                     />
+                    {/* After the next step, not instead of it: the free
+                        Set A is still the first thing to do. TMUA minis
+                        only; see the component for why. */}
+                    {isMini && reportTest === 'tmua' && tmuaOffers.length > 0 && (
+                        <TmuaPassOffer
+                            attemptId={attemptId ?? ''}
+                            seasons={tmuaOffers}
+                            onChoose={(season) =>
+                                startCheckout({
+                                    season,
+                                    returnPath: `/diagnostic/attempts/${attemptId}/report`,
+                                })
+                            }
+                        />
+                    )}
                     <div className="flex flex-wrap gap-3">
                         <Button
                             variant="outline"
