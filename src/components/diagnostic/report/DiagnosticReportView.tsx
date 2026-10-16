@@ -5,6 +5,8 @@ import { SkillsRadar } from '@/components/diagnostic/report/SkillsRadar.tsx'
 import { SkillsRadarPaywall } from '@/components/diagnostic/report/SkillsRadarPaywall.tsx'
 import { MiniRadarLocked } from '@/components/diagnostic/report/MiniRadarLocked.tsx'
 import { PacingCurve } from '@/components/diagnostic/report/PacingCurve.tsx'
+import { ClockSummary } from '@/components/diagnostic/report/ClockSummary.tsx'
+import { buildClockStory } from '@/lib/clockStory.ts'
 import { questionLabelByIdFrom } from '@/lib/diagnosticReport.ts'
 import {
     buildReportInsights,
@@ -93,6 +95,11 @@ export function DiagnosticReportView({
         answeredCount,
         paperTotal
     )
+    // Not on a redemption sitting: its outcomes already say which questions
+    // were slow, and the backend sends no summary for one.
+    const clockStory = isRedemption
+        ? null
+        : buildClockStory(report.pacing, { answeredCount, unanswered })
 
     return (
         <div className="mx-auto mt-12 flex max-w-2xl flex-col gap-6 px-4">
@@ -133,6 +140,8 @@ export function DiagnosticReportView({
                     </span>
                 </CardContent>
             </Card>
+
+            {clockStory && <ClockSummary story={clockStory} />}
 
             {/* Written strengths & focus areas — the plain-English layer.
                 Derived from skillsRadar, which the free tier does not

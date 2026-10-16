@@ -1403,6 +1403,11 @@ export type DiagnosticReportResponse = {
      */
     perQuestionTime: Array<PerQuestionTime>;
     /**
+     * What the clock did, in facts a sentence can use. None on a redemption
+     * sitting, whose outcomes already say which questions were slow.
+     */
+    pacing?: PacingSummary | null;
+    /**
      * Haspass
      */
     hasPass?: boolean;
@@ -2083,6 +2088,36 @@ export type PaperVariant = {
  * student navigated (back) to it — two distinct pacing signals (§6). Read
  * in question_order_index order, this list is the pacing curve.
  */
+/**
+ * PacingSummary
+ *
+ * What the clock did on this sitting, for the report's sentence about
+ * time. See app/services/pacing.py.
+ */
+export type PacingSummary = {
+    allowanceSeconds: number;
+    slowAfterSeconds: number;
+    ranOut: boolean;
+    spareSeconds: number;
+    engagedSeconds: number;
+    slowCount: number;
+    slowSeconds: number;
+    excessSeconds: number;
+    slowQuestions: Array<SlowQuestion>;
+};
+
+/**
+ * SlowQuestion
+ *
+ * A question that took more than twice the student's per-question
+ * allowance, and what became of it.
+ */
+export type SlowQuestion = {
+    questionOrderIndex: number;
+    seconds: number;
+    outcome: 'right' | 'wrong' | 'blank';
+};
+
 export type PerQuestionTime = {
     /**
      * Questionid
