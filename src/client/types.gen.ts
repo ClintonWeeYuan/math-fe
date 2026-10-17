@@ -1253,6 +1253,13 @@ export type DiagnosticAttemptResponse = {
 export type DiagnosticAttemptStateResponse = {
     attempt: DiagnosticAttemptResponse;
     /**
+     * Server Now
+     *
+     * The server's clock when this response was built, for the exam timer
+     * to correct the device's clock against.
+     */
+    serverNow?: string;
+    /**
      * Questions
      */
     questions: Array<StudentDiagnosticQuestionResponse>;

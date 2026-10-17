@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { getAttemptStateDiagnosticAttemptsAttemptIdGet } from '@/client'
 import { getAuthHeaders } from '@/lib/authHeaders.ts'
 import { diagnosticAttemptQueryKey } from '@/lib/diagnosticAttemptQueryKey.ts'
+import { clockOffsetMs } from '@/lib/serverClock.ts'
 
 type Props = {
     attemptId: string
@@ -27,17 +28,28 @@ type Props = {
  * (ExamTimer), a write against an expired attempt 409s and invalidates
  * this query itself, and a genuine reload still refetches via
  * refetchOnMount.
+ *
+ * Each fetch also measures this device's clock against the server's
+ * (clockOffsetMs), so the countdown runs on the server's time even when the
+ * device's clock is wrong. See src/lib/serverClock.ts.
  */
 export default function useGetAttemptStateQuery({ attemptId, enabled = true }: Props) {
     return useQuery({
         queryKey: diagnosticAttemptQueryKey(attemptId),
-        queryFn: async () =>
-            (
+        queryFn: async () => {
+            const sentAt = Date.now()
+            const data = (
                 await getAttemptStateDiagnosticAttemptsAttemptIdGet({
                     path: { attempt_id: attemptId },
                     headers: getAuthHeaders(),
                 })
-            ).data,
+            ).data
+            if (data === undefined) return data
+            return {
+                ...data,
+                clockOffsetMs: clockOffsetMs(data.serverNow, sentAt, Date.now()),
+            }
+        },
         enabled: enabled && attemptId !== '',
         refetchOnWindowFocus: false,
     })

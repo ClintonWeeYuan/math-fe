@@ -226,6 +226,7 @@ export function ExamPage() {
                     serverDeadlineAt={state.attempt.serverDeadlineAt}
                     onExpire={handleExpire}
                     pausedAt={state.attempt.pausedAt}
+                    clockOffsetMs={state.clockOffsetMs}
                 />
                 <PaceGuide
                     attemptId={state.attempt.id}
@@ -236,6 +237,7 @@ export function ExamPage() {
                     isPaused={isPaused}
                     questionCount={questions.length}
                     answered={summary.answered}
+                    clockOffsetMs={state.clockOffsetMs}
                 />
                 <RestBreakPanel
                     breakSecondsRemaining={state.attempt.breakSecondsRemaining ?? 0}
@@ -265,6 +267,7 @@ export function ExamPage() {
                     serverDeadlineAt={state.attempt.serverDeadlineAt}
                     onResume={() => endBreak.mutate()}
                     isResuming={endBreak.isPending}
+                    clockOffsetMs={state.clockOffsetMs}
                 />
             ) : null}
 

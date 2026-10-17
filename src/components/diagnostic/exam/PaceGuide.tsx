@@ -3,6 +3,7 @@ import { cn } from '@/lib/utils.ts'
 import { trackEvent } from '@/lib/analytics.ts'
 import { paceLabel, paceStatus } from '@/lib/paceGuide.ts'
 import { spokenDuration } from '@/lib/clockStory.ts'
+import { serverNowMs } from '@/lib/serverClock.ts'
 
 type Props = {
     attemptId: string
@@ -13,6 +14,8 @@ type Props = {
     isPaused: boolean
     questionCount: number
     answered: number
+    /** How far the server's clock is ahead of this device's. */
+    clockOffsetMs?: number
 }
 
 const STORAGE_KEY = 'jomexam.paceGuide'
@@ -55,20 +58,21 @@ export function PaceGuide({
     isPaused,
     questionCount,
     answered,
+    clockOffsetMs = 0,
 }: Props) {
     const [hidden, setHidden] = useState(readHidden)
-    const [now, setNow] = useState(() => Date.now())
+    const [now, setNow] = useState(() => serverNowMs(clockOffsetMs))
 
     useEffect(() => {
         if (hidden || isPaused) return
-        const id = setInterval(() => setNow(Date.now()), 5000)
+        const id = setInterval(() => setNow(serverNowMs(clockOffsetMs)), 5000)
         return () => clearInterval(id)
-    }, [hidden, isPaused])
+    }, [hidden, isPaused, clockOffsetMs])
 
     function toggle(nextHidden: boolean) {
         setHidden(nextHidden)
         writeHidden(nextHidden)
-        setNow(Date.now())
+        setNow(serverNowMs(clockOffsetMs))
         trackEvent('pace_guide_toggled', {
             attemptId,
             metadata: { shown: !nextHidden },
