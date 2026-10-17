@@ -59,4 +59,46 @@ describe('ExamTimer', () => {
         expect(onExpire).toHaveBeenCalledTimes(1)
         expect(screen.getByRole('timer')).toHaveTextContent('0:00')
     })
+
+    describe('on a device whose clock is wrong', () => {
+        it('does not end the paper early when the device clock is fast', () => {
+            // The device reads 4 minutes later than the server. Before the
+            // correction it showed 4 minutes less, and expired 4 minutes
+            // early, submitting the paper.
+            vi.setSystemTime(new Date(BASE.getTime() + 240_000))
+            const onExpire = vi.fn()
+            render(
+                <ExamTimer
+                    serverDeadlineAt={at(300)}
+                    onExpire={onExpire}
+                    clockOffsetMs={-240_000}
+                />
+            )
+            expect(screen.getByRole('timer')).toHaveTextContent('5:00')
+            act(() => vi.advanceTimersByTime(60_000))
+            expect(onExpire).not.toHaveBeenCalled()
+            expect(screen.getByRole('timer')).toHaveTextContent('4:00')
+        })
+
+        it('expires at the real deadline when the device clock is fast', () => {
+            vi.setSystemTime(new Date(BASE.getTime() + 240_000))
+            const onExpire = vi.fn()
+            render(
+                <ExamTimer serverDeadlineAt={at(10)} onExpire={onExpire} clockOffsetMs={-240_000} />
+            )
+            act(() => vi.advanceTimersByTime(9000))
+            expect(onExpire).not.toHaveBeenCalled()
+            act(() => vi.advanceTimersByTime(1000))
+            expect(onExpire).toHaveBeenCalledTimes(1)
+        })
+
+        it('does not show time that has gone when the device clock is slow', () => {
+            // The device reads 2 minutes earlier than the server.
+            vi.setSystemTime(new Date(BASE.getTime() - 120_000))
+            render(
+                <ExamTimer serverDeadlineAt={at(300)} onExpire={() => {}} clockOffsetMs={120_000} />
+            )
+            expect(screen.getByRole('timer')).toHaveTextContent('5:00')
+        })
+    })
 })

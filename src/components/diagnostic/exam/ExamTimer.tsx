@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { cn } from '@/lib/utils.ts'
+import { serverNowMs } from '@/lib/serverClock.ts'
 
 type Props = {
     serverDeadlineAt: string
@@ -11,6 +12,10 @@ type Props = {
      * paused, and onExpire cannot fire — a paused attempt is never late.
      */
     pausedAt?: string | null
+    /** How far the server's clock is ahead of this device's. The countdown
+     *  runs on the server's time, so a device clock that is wrong cannot end
+     *  the paper early or show time that has already gone. */
+    clockOffsetMs?: number
 }
 
 function formatRemaining(ms: number): string {
@@ -38,10 +43,10 @@ function formatRemaining(ms: number): string {
  * callback from the parent doesn't tear down and rebuild the interval each
  * render.
  */
-export function ExamTimer({ serverDeadlineAt, onExpire, pausedAt }: Props) {
+export function ExamTimer({ serverDeadlineAt, onExpire, pausedAt, clockOffsetMs = 0 }: Props) {
     const deadlineMs = new Date(serverDeadlineAt).getTime()
     const pausedAtMs = pausedAt ? new Date(pausedAt).getTime() : null
-    const [remainingMs, setRemainingMs] = useState(() => deadlineMs - Date.now())
+    const [remainingMs, setRemainingMs] = useState(() => deadlineMs - serverNowMs(clockOffsetMs))
 
     const onExpireRef = useRef(onExpire)
     onExpireRef.current = onExpire
@@ -56,7 +61,7 @@ export function ExamTimer({ serverDeadlineAt, onExpire, pausedAt }: Props) {
             return
         }
         function tick() {
-            const remaining = deadlineMs - Date.now()
+            const remaining = deadlineMs - serverNowMs(clockOffsetMs)
             setRemainingMs(remaining)
             if (remaining <= 0 && !expiredRef.current) {
                 expiredRef.current = true
@@ -73,7 +78,7 @@ export function ExamTimer({ serverDeadlineAt, onExpire, pausedAt }: Props) {
             clearInterval(intervalId)
             document.removeEventListener('visibilitychange', onVisibility)
         }
-    }, [deadlineMs, pausedAtMs])
+    }, [deadlineMs, pausedAtMs, clockOffsetMs])
 
     const paused = pausedAtMs !== null
     const urgent = !paused && remainingMs <= 60_000

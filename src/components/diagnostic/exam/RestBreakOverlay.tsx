@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Button } from '@/components/ui/button.tsx'
 import { cn } from '@/lib/utils.ts'
 import { BREAK_WARNING_MS, formatClock } from '@/lib/restBreak.ts'
+import { serverNowMs } from '@/lib/serverClock.ts'
 
 type Props = {
     pausedAt: string
@@ -11,6 +12,9 @@ type Props = {
     serverDeadlineAt: string
     onResume: () => void
     isResuming: boolean
+    /** How far the server's clock is ahead of this device's: the break is
+     *  timed on the server's clock, like the exam. */
+    clockOffsetMs?: number
 }
 
 /**
@@ -34,15 +38,16 @@ export function RestBreakOverlay({
     serverDeadlineAt,
     onResume,
     isResuming,
+    clockOffsetMs = 0,
 }: Props) {
     const pausedAtMs = new Date(pausedAt).getTime()
     const endsAtMs = pausedAtMs + breakSecondsRemaining * 1000
     const examLeftMs = new Date(serverDeadlineAt).getTime() - pausedAtMs
-    const [leftMs, setLeftMs] = useState(() => endsAtMs - Date.now())
+    const [leftMs, setLeftMs] = useState(() => endsAtMs - serverNowMs(clockOffsetMs))
     const endedRef = useRef(false)
 
     useEffect(() => {
-        const tick = () => setLeftMs(endsAtMs - Date.now())
+        const tick = () => setLeftMs(endsAtMs - serverNowMs(clockOffsetMs))
         tick()
         const id = setInterval(tick, 1000)
         // Browsers throttle timers in background tabs; recompute the moment
@@ -55,7 +60,7 @@ export function RestBreakOverlay({
             clearInterval(id)
             document.removeEventListener('visibilitychange', onVisible)
         }
-    }, [endsAtMs])
+    }, [endsAtMs, clockOffsetMs])
 
     // The server ends a break the moment its allowance is spent, and the exam
     // clock restarts there whether or not anyone is looking. So the screen
