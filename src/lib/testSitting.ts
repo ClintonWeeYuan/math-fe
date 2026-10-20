@@ -50,3 +50,19 @@ export async function saveSitting(testSitting: TestSitting): Promise<boolean> {
     })
     return result.error === undefined
 }
+
+/** The last day of each sitting, matching SITTING_LAST_DAY in the backend's
+ *  app/services/sittings.py. A student is finished the day after. */
+const SITTING_LAST_DAY: Partial<Record<TestSitting, string>> = {
+    october_2026: '2026-10-16',
+    january_2027: '2027-01-08',
+}
+
+export function sittingIsOver(
+    sitting: TestSitting | null | undefined,
+    today: Date = new Date()
+): boolean {
+    const last = sitting ? SITTING_LAST_DAY[sitting] : undefined
+    if (!last) return false
+    return today.toISOString().slice(0, 10) > last
+}
