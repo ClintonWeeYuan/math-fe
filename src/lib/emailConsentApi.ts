@@ -83,3 +83,35 @@ export async function unsubscribe(token: string): Promise<void> {
         throw toDiagnosticApiError(result, "Couldn't unsubscribe just now.")
     }
 }
+
+/** The weekly plan email: its own opt-in. `available` is whether the email is
+ *  switched on at all; the box is only offered when it is. */
+export type PlanEmailConsent = EmailConsent & { available: boolean }
+
+export const PLAN_EMAIL_CONSENT_QUERY_KEY = ['plan-email-consent']
+
+export async function fetchPlanEmailConsent(): Promise<PlanEmailConsent> {
+    const result = await client.get({
+        url: '/users/plan-email-consent',
+        headers: getAuthHeaders(),
+    })
+    if (result.error !== undefined) {
+        throw toDiagnosticApiError(result, 'Could not load your email preference.')
+    }
+    return result.data as PlanEmailConsent
+}
+
+export async function savePlanEmailConsent(
+    optedIn: boolean,
+    source: string
+): Promise<PlanEmailConsent> {
+    const result = await client.put({
+        url: '/users/plan-email-consent',
+        headers: getAuthHeaders(),
+        body: { optedIn, source },
+    })
+    if (result.error !== undefined) {
+        throw toDiagnosticApiError(result, "Couldn't save that. Please try again.")
+    }
+    return result.data as PlanEmailConsent
+}

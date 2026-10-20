@@ -21,3 +21,20 @@ describe('SITTING_OPTIONS', () => {
         }
     })
 })
+
+import { sittingIsOver } from './testSitting'
+
+describe('sittingIsOver', () => {
+    it('is over the day after the last day, as in the backend', () => {
+        expect(sittingIsOver('october_2026', new Date('2026-10-16T12:00:00Z'))).toBe(false)
+        expect(sittingIsOver('october_2026', new Date('2026-10-17T00:00:01Z'))).toBe(true)
+        expect(sittingIsOver('january_2027', new Date('2026-10-20T09:00:00Z'))).toBe(false)
+        expect(sittingIsOver('january_2027', new Date('2027-01-09T09:00:00Z'))).toBe(true)
+    })
+
+    it('is never over for later, undecided or blank', () => {
+        for (const s of ['later', 'undecided', null, undefined] as const) {
+            expect(sittingIsOver(s, new Date('2030-01-01T00:00:00Z'))).toBe(false)
+        }
+    })
+})

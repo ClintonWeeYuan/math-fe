@@ -26,6 +26,7 @@ import { diagnosticsPathFor } from '@/lib/diagnosticsDestination.ts'
 import { trackEvent } from '@/lib/analytics.ts'
 import { RedemptionSection } from '@/components/diagnostic/results/RedemptionSection.tsx'
 import { ProgressSection } from '@/components/diagnostic/results/ProgressSection.tsx'
+import { WeeklyPlanCard } from '@/components/diagnostic/results/WeeklyPlanCard.tsx'
 
 /**
  * Everything a student has sat, and what they have not.
@@ -437,6 +438,9 @@ export function MyResultsPage() {
                 {/* First, because it is the one thing here with a date on it.
                     Renders nothing for the (usual) empty queue. */}
                 <RedemptionSection />
+
+                {/* Offered only once the email is switched on. */}
+                <WeeklyPlanCard />
 
                 {isLoading && <p className="text-slate-500">Loading…</p>}
 

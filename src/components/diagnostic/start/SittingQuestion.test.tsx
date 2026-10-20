@@ -106,3 +106,26 @@ describe('SittingQuestion', () => {
         expect(post).toHaveBeenCalledTimes(2)
     })
 })
+
+describe('the weekly plan ask after the sitting is saved', () => {
+    beforeEach(() => {
+        get.mockImplementation(async ({ url }: { url: string }) =>
+            url === '/users/plan-email-consent'
+                ? { data: { optedIn: false, wording: 'Email me a short plan each Monday.', available: true } }
+                : { data: { testSitting: null } }
+        )
+    })
+
+    it('follows a sitting that is still ahead', async () => {
+        show()
+        await userEvent.click(await screen.findByRole('button', { name: 'January 2027' }))
+        expect(await screen.findByText('Want a short plan each Monday until your sitting?')).toBeInTheDocument()
+    })
+
+    it('does not follow October, which is over', async () => {
+        show()
+        await userEvent.click(await screen.findByRole('button', { name: 'October 2026 (already sat)' }))
+        await screen.findByText(/saved/i)
+        expect(screen.queryByText(/plan each Monday/)).not.toBeInTheDocument()
+    })
+})
