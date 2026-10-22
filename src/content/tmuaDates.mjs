@@ -25,15 +25,15 @@ export const GUIDE = {
     standfirst:
         'Everything time-sensitive about the TMUA lives on this page, and nowhere else on this site. Dates move each cycle — confirm anything you are about to rely on against the official source.',
     publishedAt: '2026-08-17',
-    updatedAt: '2026-10-16',
+    updatedAt: '2026-10-22',
     sections: [
         {
             id: 'sittings',
             h2: 'Sittings for 2026–27 entry',
             paras: [
-                'The October 2026 sitting has finished. The next, and last, sitting for 2026–27 entry is 4–8 January 2027, and booking closes on 21 December 2026 at 6pm GMT.',
-                'January is for courses that accept it. Oxford and Cambridge required October, except for two narrow groups who can sit in January: mature applicants to a Cambridge mature college with a January admissions deadline, and Oxford Astrophoria Foundation Year applicants.',
-                'Note the deadline that comes before the deadline: access arrangements must be requested through UAT-UK before you book — UAT-UK advises at least ten working days before — so if you need them for January, check UAT-UK’s date now.',
+                'The October 2026 sitting has finished. The next, and last, sitting for 2026–27 entry is 4–8 January 2027. Booking opens on 26 October 2026 at 3pm UK time and closes on 21 December 2026 at 6pm.',
+                'January is for courses that accept it. Imperial and LSE both say either sitting is acceptable. Oxford and Cambridge required October, except for two narrow groups who can sit in January: mature applicants to a Cambridge mature college with a January admissions deadline, and Oxford Astrophoria Foundation Year applicants.',
+                'Note the deadline that comes before the deadline: access arrangements must be requested through UAT-UK before you book. For January, requests close on 7 December 2026 at 6pm UK time, two weeks before booking does.',
                 'Starting early, for 2027–28 entry? UAT-UK publishes the next cycle’s dates; check there before planning around them.',
             ],
             table: {
@@ -42,6 +42,12 @@ export const GUIDE = {
                 head: ['', 'October sitting (finished)', 'January sitting (next)'],
                 rows: [
                     ['Test window', '12–16 October 2026', '4–8 January 2027'],
+                    ['Booking opens', '20 July 2026, 3pm', '26 October 2026, 3pm UK time'],
+                    [
+                        'Access arrangements requested by',
+                        '14 September 2026, 6pm',
+                        '7 December 2026, 6pm UK time',
+                    ],
                     [
                         'Booking deadline',
                         '28 September 2026, 6pm BST',
@@ -84,7 +90,7 @@ export const GUIDE = {
         },
         {
             q: 'I sit my school exams with extra time — does that carry over?',
-            a: 'Not automatically. Access arrangements must be applied for through UAT-UK with evidence, and their deadline comes before the booking deadline — for the October 2026 sitting it was a fortnight earlier, which is the gap that catches people. Check UAT-UK for the January date.',
+            a: 'Not automatically. Access arrangements must be applied for through UAT-UK with evidence, and their deadline comes before the booking deadline — for the January sitting it is 7 December 2026, a fortnight before booking closes, which is the gap that catches people.',
         },
         {
             q: 'Which sitting should I take?',
@@ -113,6 +119,14 @@ export const GUIDE = {
         {
             label: 'UAT-UK registration',
             url: 'https://esat-tmua.ac.uk/register/',
+        },
+        {
+            label: 'TMUA at Imperial: courses and dates',
+            url: 'https://www.imperial.ac.uk/study/apply/undergraduate/process/admissions-tests/tmua',
+        },
+        {
+            label: 'TMUA at LSE: programmes and dates',
+            url: 'https://www.lse.ac.uk/study-at-lse/Undergraduate/Prospective-Students/How-to-Apply/Test-of-Mathematics-for-University-Admission-TMUA',
         },
     ],
 }
