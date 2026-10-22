@@ -6,7 +6,8 @@
  * what a reader sees would be worse than having no static copy at all.
  *
  * Every factual claim here comes from UAT-UK (the body that runs the test)
- * or the Cambridge and Imperial admissions pages, checked August 2026: the
+ * or the Cambridge and Imperial admissions pages, checked August 2026 (the
+ * module table re-checked for 2027 entry on 22 October 2026): the
  * 1-9 reporting scale, 27 questions per 40-minute module, no calculator, no
  * negative marking, the October and January windows, the fees, and which
  * courses need which modules. Deliberately absent are the "average is 4.5"
@@ -32,7 +33,7 @@ export const GUIDE = {
     // because that is when the page gained its byline and dates, which is a
     // change a reader can see.
     publishedAt: '2026-08-01',
-    updatedAt: '2026-10-16',
+    updatedAt: '2026-10-22',
     sections: [
         {
             id: 'format',
@@ -53,7 +54,7 @@ export const GUIDE = {
                 },
             ],
             table: {
-                caption: 'Modules by course (2026 entry)',
+                caption: 'Modules by course (2027 entry)',
                 head: ['Course', 'Modules'],
                 rows: [
                     ['Cambridge — Engineering', 'Maths 1, Maths 2, Physics'],
@@ -66,7 +67,11 @@ export const GUIDE = {
                         'Maths 1, Maths 2, Physics',
                     ],
                     [
-                        'Imperial — Engineering (Chemical, Design)',
+                        'Imperial — Chemical Engineering',
+                        'Maths 1, Maths 2, Chemistry',
+                    ],
+                    [
+                        'Imperial — Design Engineering',
                         'Maths 1, Maths 2',
                     ],
                     ['Imperial — Life Sciences', 'Maths 1, Chemistry, Biology'],
