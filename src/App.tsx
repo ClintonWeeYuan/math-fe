@@ -31,6 +31,8 @@ import { GuidesIndexPage } from '@/pages/GuidesIndexPage.tsx'
 import { EsatPracticeGuidePage } from '@/pages/EsatPracticeGuidePage.tsx'
 import { EsatPastPapersPage } from '@/pages/EsatPastPapersPage.tsx'
 import { EsatDatesPage } from '@/pages/EsatDatesPage.tsx'
+import { EsatImperialJanuaryPage } from '@/pages/EsatImperialJanuaryPage.tsx'
+import { TmuaJanuaryPage } from '@/pages/TmuaJanuaryPage.tsx'
 import { TmuaDatesPage } from '@/pages/TmuaDatesPage.tsx'
 import { TmuaPastPapersPage } from '@/pages/TmuaPastPapersPage.tsx'
 import { EsatPracticeTestLandingPage } from '@/pages/EsatPracticeTestLandingPage.tsx'
@@ -136,6 +138,11 @@ function App() {
                 />
                 <Route path="guides/esat-dates" element={<EsatDatesPage />} />
                 <Route path="guides/tmua-dates" element={<TmuaDatesPage />} />
+                <Route
+                    path="guides/esat-imperial-january"
+                    element={<EsatImperialJanuaryPage />}
+                />
+                <Route path="guides/tmua-january" element={<TmuaJanuaryPage />} />
                 <Route
                     path="guides/tmua-past-papers"
                     element={<TmuaPastPapersPage />}
