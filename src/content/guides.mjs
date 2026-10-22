@@ -1,6 +1,7 @@
 import { GUIDE as esatPracticeGuide } from './esatPracticeGuide.mjs'
 import { GUIDE as esatPastPapers } from './esatPastPapers.mjs'
 import { GUIDE as esatDates } from './esatDates.mjs'
+import { GUIDE as esatImperialJanuary } from './esatImperialJanuary.mjs'
 import { GUIDE as esatMaths1 } from './esatMaths1.mjs'
 import { GUIDE as esatMaths2 } from './esatMaths2.mjs'
 import { GUIDE as esatPhysics } from './esatPhysics.mjs'
@@ -8,6 +9,7 @@ import { GUIDE as esatChemistry } from './esatChemistry.mjs'
 import { GUIDE as esatBiology } from './esatBiology.mjs'
 import { GUIDE as tmuaPracticeGuide } from './tmuaPracticeGuide.mjs'
 import { GUIDE as tmuaDates } from './tmuaDates.mjs'
+import { GUIDE as tmuaJanuary } from './tmuaJanuary.mjs'
 import { GUIDE as tmuaPastPapers } from './tmuaPastPapers.mjs'
 import { LANDING_PAGES } from './landingPages.mjs'
 
@@ -23,6 +25,7 @@ export const GUIDES = [
     esatPracticeGuide,
     esatPastPapers,
     esatDates,
+    esatImperialJanuary,
     esatMaths1,
     esatMaths2,
     esatPhysics,
@@ -31,6 +34,7 @@ export const GUIDES = [
     tmuaPracticeGuide,
     tmuaPastPapers,
     tmuaDates,
+    tmuaJanuary,
 ]
 
 /**
