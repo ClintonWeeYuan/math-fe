@@ -28,14 +28,15 @@ export const GUIDE = {
     standfirst:
         'Everything time-sensitive about the ESAT lives on this page, and nowhere else on this site. Dates move each cycle — confirm anything you are about to rely on against the official source.',
     publishedAt: '2026-08-16',
-    updatedAt: '2026-10-16',
+    updatedAt: '2026-10-22',
     sections: [
         {
             id: 'sittings',
             h2: 'Sittings for 2026–27 entry',
             paras: [
-                'The October 2026 sitting has finished. The next, and last, sitting for 2026–27 entry is 4–8 January 2027, and booking closes on 21 December 2026 at 6pm GMT. Seats are allocated by test centre and the popular ones fill, so book early.',
-                'January counts only where your course accepts it. Oxford and Cambridge required the October sitting, so check with each of your other universities that a January score is accepted before you book.',
+                'The October 2026 sitting has finished. The next, and last, sitting for 2026–27 entry is 4–8 January 2027. Booking opens on 26 October 2026 at 3pm UK time and closes on 21 December 2026 at 6pm. Seats are allocated by test centre and the popular ones fill, so book early.',
+                'If you need access arrangements, such as extra time, request them first: for January, requests close on 7 December 2026 at 6pm UK time, two weeks before booking does.',
+                'January counts only where your course accepts it. Oxford and Cambridge required the October sitting. Imperial, which uses the ESAT for eight departments, says you can choose to sit the test in either October or January. Check each of your other universities before you book.',
                 'Starting early, for 2027–28 entry? UAT-UK publishes the next cycle’s dates; check there before planning around them.',
             ],
             table: {
@@ -44,6 +45,12 @@ export const GUIDE = {
                 head: ['', 'October sitting (finished)', 'January sitting (next)'],
                 rows: [
                     ['Test window', '12–16 October 2026', '4–8 January 2027'],
+                    ['Booking opens', '—', '26 October 2026, 3pm UK time'],
+                    [
+                        'Access arrangements requested by',
+                        '14 September 2026, 6pm',
+                        '7 December 2026, 6pm UK time',
+                    ],
                     [
                         'Booking deadline',
                         '28 September 2026, 6pm BST',
@@ -104,6 +111,10 @@ export const GUIDE = {
         {
             label: 'ESAT preparation materials (UAT-UK)',
             url: 'https://esat-tmua.ac.uk/prepare/',
+        },
+        {
+            label: 'ESAT at Imperial: courses, modules and dates',
+            url: 'https://www.imperial.ac.uk/study/apply/undergraduate/process/admissions-tests/esat/',
         },
     ],
 }
