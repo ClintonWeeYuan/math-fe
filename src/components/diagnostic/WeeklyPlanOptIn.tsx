@@ -10,16 +10,18 @@ import {
 } from '@/lib/emailConsentApi.ts'
 
 /**
- * The ask for the weekly plan email: each Monday until the student's sitting,
- * what to practise that week.
+ * The ask for the weekly plan email: each Monday until the January 2027
+ * sitting, what to practise that week. For January students only.
  *
  * Opt-in, because the email mentions the Season Pass, and asked as a question
  * with two answers, which is what finally got students answering the
  * follow-up email's ask. The backend's wording is shown verbatim, so what is
  * stored as consent is what the student read.
  *
- * Renders nothing until the email is switched on (`available`), so nobody
- * signs up for an email that is not being sent. "No thanks" records nothing.
+ * Renders nothing unless the backend offers it to this student (`available`:
+ * switched on, and they are sitting in January), so nobody signs up for an
+ * email that is not being sent or not meant for them. "No thanks" records
+ * nothing.
  *
  * `compact` is the short form under the sitting question on the start screen;
  * the full form is a card on My results, which is also where it is turned off.
@@ -55,7 +57,7 @@ export function WeeklyPlanOptIn({
         return (
             <div className={cn(frame, 'text-sm text-slate-700')}>
                 <p className={compact ? '' : 'font-medium'}>
-                    Your weekly plan arrives each Monday until your sitting.
+                    Your weekly plan arrives each Monday until the January sitting.
                 </p>
                 <button
                     type="button"
@@ -72,7 +74,7 @@ export function WeeklyPlanOptIn({
     return (
         <div className={frame}>
             <p className={cn('font-medium', compact ? 'text-sm' : '')}>
-                Want a short plan each Monday until your sitting?
+                Want a short plan each Monday until the January sitting?
             </p>
             <p className="mt-1 text-xs text-slate-500">{data.wording}</p>
             <div className="mt-2 flex gap-2">

@@ -107,7 +107,7 @@ describe('SittingQuestion', () => {
     })
 })
 
-describe('the weekly plan ask after the sitting is saved', () => {
+describe('the weekly plan ask after January is saved', () => {
     beforeEach(() => {
         get.mockImplementation(async ({ url }: { url: string }) =>
             url === '/users/plan-email-consent'
@@ -116,10 +116,17 @@ describe('the weekly plan ask after the sitting is saved', () => {
         )
     })
 
-    it('follows a sitting that is still ahead', async () => {
+    it('follows January', async () => {
         show()
         await userEvent.click(await screen.findByRole('button', { name: 'January 2027' }))
-        expect(await screen.findByText('Want a short plan each Monday until your sitting?')).toBeInTheDocument()
+        expect(await screen.findByText('Want a short plan each Monday until the January sitting?')).toBeInTheDocument()
+    })
+
+    it('is for January only: not after Later', async () => {
+        show()
+        await userEvent.click(await screen.findByRole('button', { name: /later \(2027–28 entry\)/i }))
+        await screen.findByText(/saved/i)
+        expect(screen.queryByText(/plan each Monday/)).not.toBeInTheDocument()
     })
 
     it('does not follow October, which is over', async () => {
