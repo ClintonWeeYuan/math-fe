@@ -37,7 +37,7 @@ describe('WeeklyPlanOptIn', () => {
         fetchConsent.mockResolvedValue({ optedIn: false, wording: WORDING, available: true })
         saveConsent.mockResolvedValue({ optedIn: true, wording: WORDING, available: true })
         show()
-        expect(await screen.findByText('Want a short plan each Monday until your sitting?')).toBeInTheDocument()
+        expect(await screen.findByText('Want a short plan each Monday until the January sitting?')).toBeInTheDocument()
         expect(screen.getByText(WORDING)).toBeInTheDocument()
         await userEvent.click(screen.getByRole('button', { name: 'Yes, send it' }))
         expect(saveConsent).toHaveBeenCalledWith(true, 'my_results')

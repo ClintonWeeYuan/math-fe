@@ -8,6 +8,7 @@ import {
     type TestSitting,
 } from '@/lib/testSitting.ts'
 import { WeeklyPlanOptIn } from '@/components/diagnostic/WeeklyPlanOptIn.tsx'
+import { PLAN_EMAIL_CONSENT_QUERY_KEY } from '@/lib/emailConsentApi.ts'
 
 /**
  * "Which sitting are you preparing for?", asked on the start screen, once.
@@ -39,6 +40,8 @@ export function SittingQuestion() {
                 ...(data ?? {}),
                 testSitting: sitting,
             })
+            // Whether the weekly plan is offered depends on the sitting.
+            void queryClient.invalidateQueries({ queryKey: PLAN_EMAIL_CONSENT_QUERY_KEY })
         },
     })
 
@@ -88,9 +91,9 @@ export function SittingQuestion() {
                     ? 'Thanks — saved. You can change it after any paper.'
                     : 'One tap, and optional. It helps us show you what matters for your sitting.'}
             </p>
-            {/* Once a sitting still ahead is saved, the natural next question:
-                a plan each week until then. Not for October, which is over. */}
-            {saved === true && chosen !== null && chosen !== 'october_2026' && (
+            {/* Once January is saved, the natural next question: a plan each
+                week until then. January only. */}
+            {saved === true && chosen === 'january_2027' && (
                 <WeeklyPlanOptIn source="start_screen" compact />
             )}
         </div>
