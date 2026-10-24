@@ -27,6 +27,7 @@ import { trackEvent } from '@/lib/analytics.ts'
 import { RedemptionSection } from '@/components/diagnostic/results/RedemptionSection.tsx'
 import { ProgressSection } from '@/components/diagnostic/results/ProgressSection.tsx'
 import { WeeklyPlanCard } from '@/components/diagnostic/results/WeeklyPlanCard.tsx'
+import { isSinglePaper } from '@/lib/singlePapers.ts'
 
 /**
  * Everything a student has sat, and what they have not.
@@ -417,7 +418,9 @@ export function MyResultsPage() {
     ).size
     const paidPaperCount = (sets ?? []).filter(
         (s) =>
-            !s.isFree && (s as { format?: 'mini' | 'full' }).format !== 'mini'
+            !s.isFree &&
+            (s as { format?: 'mini' | 'full' }).format !== 'mini' &&
+            !isSinglePaper(s)
     ).length
 
     return (

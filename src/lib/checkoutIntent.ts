@@ -119,15 +119,30 @@ const PAPER_PATH = /^\/diagnostic\/sets\/([0-9a-f-]{36})$/i
  * page is kept: anywhere else (a report, My results) has no single paper to
  * go back to.
  */
-export function rememberCheckoutPaper(path: string | undefined) {
-    if (path && PAPER_PATH.test(path)) write(PAPER_KEY, { path })
+export function rememberCheckoutPaper(
+    path: string | undefined,
+    bought: CheckoutKind = 'pass'
+) {
+    if (path && PAPER_PATH.test(path)) write(PAPER_KEY, { path, bought })
 }
+
+/** What the checkout was for: the Season Pass, or the paper alone. The
+ *  return page waits for a different answer in each case — a single paper
+ *  never makes `hasPass` true. */
+export type CheckoutKind = 'pass' | 'paper'
 
 /** The set id the buyer was trying to open, or null. Not consumed: the
  *  return page may render more than once while it waits for the pass. */
 export function peekCheckoutPaper(): string | null {
     const stored = peek<{ path: string }>(PAPER_KEY, PAPER_TTL_MS)
     return stored?.path.match(PAPER_PATH)?.[1] ?? null
+}
+
+/** Whether that checkout was for the paper alone. Entries written before
+ *  single papers existed carry no kind, and were all for the pass. */
+export function peekCheckoutKind(): CheckoutKind {
+    const stored = peek<{ bought?: CheckoutKind }>(PAPER_KEY, PAPER_TTL_MS)
+    return stored?.bought === 'paper' ? 'paper' : 'pass'
 }
 
 export function forgetCheckoutPaper() {

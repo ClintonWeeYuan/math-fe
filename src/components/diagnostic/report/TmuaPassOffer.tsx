@@ -4,6 +4,7 @@ import { SeasonChoice } from '@/components/billing/SeasonChoice.tsx'
 import useListPublishedSetsQuery from '@/hooks/diagnostic/useListPublishedSetsQuery.ts'
 import { trackEvent } from '@/lib/analytics.ts'
 import type { SeasonOffer } from '@/lib/billingApi.ts'
+import { isSinglePaper } from '@/lib/singlePapers.ts'
 
 /**
  * The TMUA Season Pass, offered on a TMUA mini's report.
@@ -30,7 +31,10 @@ export function TmuaPassOffer({
 }) {
     const { data: sets } = useListPublishedSetsQuery('tmua')
     const paid = (sets ?? []).filter(
-        (s) => !s.isFree && (s as { format?: string }).format !== 'mini'
+        (s) =>
+            !s.isFree &&
+            (s as { format?: string }).format !== 'mini' &&
+            !isSinglePaper(s)
     )
     const perPaper = (paper: string) => paid.filter((s) => s.subject === paper).length
     const p1 = perPaper('TMUA Paper 1')

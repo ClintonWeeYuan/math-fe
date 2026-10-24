@@ -1,4 +1,5 @@
 import type { PublishedDiagnosticSet } from '@/client'
+import { isSinglePaper } from '@/lib/singlePapers.ts'
 import type { DiagnosticTest } from '@/hooks/diagnostic/useListPublishedSetsQuery.ts'
 
 /**
@@ -33,10 +34,11 @@ export function setLetter(set: PublishedDiagnosticSet): string {
 }
 
 /** Full papers in paper order (A, B, C …), whatever order the catalogue
- *  returned them in. */
+ *  returned them in. Single papers are left out: they reuse the lettered
+ *  sets' questions, so they are never the next paper to suggest. */
 function fullPapersInOrder(sets: PublishedDiagnosticSet[]): PublishedDiagnosticSet[] {
     return sets
-        .filter((s) => !isMiniSet(s))
+        .filter((s) => !isMiniSet(s) && !isSinglePaper(s))
         .sort((a, b) =>
             setLetter(a).localeCompare(setLetter(b), undefined, { numeric: true })
         )

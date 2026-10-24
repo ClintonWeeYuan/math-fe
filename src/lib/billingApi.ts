@@ -29,6 +29,16 @@ export type SeasonOffer = {
     alreadyCovered: boolean
 }
 
+/** Single papers on sale for one test, as GET /billing/me describes them. */
+export type PaperOffer = {
+    test: string
+    /** ISO date of the last day a paper bought now can be opened — the same
+     *  day as that test's Season Pass. */
+    lastDay: string
+    priceAmount: number | null
+    priceCurrency: string | null
+}
+
 export type BillingStatus = {
     /** Any live pass, for any test. Right for the report's radar card and the
      *  return page, both of which only ask whether anything was bought. */
@@ -39,6 +49,11 @@ export type BillingStatus = {
     coveredTests: string[]
     /** On sale right now, soonest first. Empty means nothing to sell. */
     seasons: SeasonOffer[]
+    /** Single papers on sale, one entry per test. Empty while switched off.
+     *  Optional so a backend that predates them reads as "none on sale". */
+    paperOffers?: PaperOffer[]
+    /** Set ids of the single papers this student owns and can open. */
+    ownedPapers?: string[]
 }
 
 /**
@@ -86,6 +101,27 @@ export async function createCheckoutSession(
         // The season is a key, not a price — the server looks it up against
         // its own list, so a client cannot name what it pays.
         body: { season: season ?? null, returnPath: returnPath ?? null },
+        headers: getAuthHeaders(),
+    })
+    if (result.error !== undefined) {
+        throw toDiagnosticApiError(result, 'Could not start checkout.')
+    }
+    return (result.data as { checkoutUrl: string }).checkoutUrl
+}
+
+/**
+ * Open a Stripe Checkout Session for one single paper and return its URL.
+ *
+ * Only the paper is named — the price is the server's, and the server checks
+ * the paper is one sold on its own.
+ */
+export async function createPaperCheckoutSession(
+    paperId: string,
+    returnPath?: string
+): Promise<string> {
+    const result = await client.post({
+        url: '/billing/checkout/paper',
+        body: { paperId, returnPath: returnPath ?? null },
         headers: getAuthHeaders(),
     })
     if (result.error !== undefined) {
