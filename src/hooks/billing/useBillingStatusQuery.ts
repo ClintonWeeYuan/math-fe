@@ -19,6 +19,12 @@ type Props = {
      * the answer is still "no". Everywhere else asks once.
      */
     pollUntilPass?: boolean
+    /**
+     * With pollUntilPass, wait for this single paper to be owned instead of
+     * for a pass — what the return page waits on after a paper is bought,
+     * since buying one paper never makes `hasPass` true.
+     */
+    pollUntilPaper?: string | null
 }
 
 /**
@@ -36,6 +42,7 @@ export default function useBillingStatusQuery({
     enabled = true,
     signedIn = false,
     pollUntilPass = false,
+    pollUntilPaper,
 }: Props = {}) {
     return useQuery<BillingStatus>({
         // Keyed on signed-in-ness: the two endpoints return the same shape but
@@ -48,7 +55,13 @@ export default function useBillingStatusQuery({
         // Stops itself once the answer is yes, rather than leaving a timer
         // running on a page the student may sit on.
         refetchInterval: pollUntilPass
-            ? (query) => (query.state.data?.hasPass ? false : POLL_MS)
+            ? (query) => {
+                  const data = query.state.data
+                  const landed = pollUntilPaper
+                      ? (data?.ownedPapers ?? []).includes(pollUntilPaper)
+                      : data?.hasPass
+                  return landed ? false : POLL_MS
+              }
             : false,
     })
 }

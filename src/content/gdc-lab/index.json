@@ -1,0 +1,190 @@
+{
+ "schemaVersion": "1.0",
+ "generated": "2026-10-24",
+ "calculators": {
+  "ti84": "TI-84 Plus CE",
+  "nspire": "TI-Nspire CX II",
+  "cg50": "Casio fx-CG50"
+ },
+ "techniques": [
+  {
+   "id": "t1",
+   "number": 1,
+   "title": "Where two curves meet",
+   "syllabus": "SL 2.4, 2.10",
+   "level": "SL (and HL)",
+   "file": "techniques/t1.json",
+   "rungs": [
+    "lesson",
+    "drill",
+    "apply"
+   ],
+   "lessonSteps": 19,
+   "part1Ends": 10
+  },
+  {
+   "id": "t2",
+   "number": 2,
+   "title": "Zeros of a function",
+   "syllabus": "SL 2.4, 2.10",
+   "level": "SL (and HL)",
+   "file": "techniques/t2.json",
+   "rungs": [
+    "lesson",
+    "drill",
+    "apply"
+   ],
+   "lessonSteps": 19,
+   "part1Ends": 10
+  },
+  {
+   "id": "t3",
+   "number": 3,
+   "title": "Max/min on a domain",
+   "syllabus": "SL 2.4, 5.8",
+   "level": "SL (and HL)",
+   "file": "techniques/t3.json",
+   "rungs": [
+    "lesson",
+    "drill",
+    "apply"
+   ],
+   "lessonSteps": 19,
+   "part1Ends": 10
+  },
+  {
+   "id": "t4",
+   "number": 4,
+   "title": "Trig equation in an interval",
+   "syllabus": "SL 3.7, 3.8",
+   "level": "SL (and HL)",
+   "file": "techniques/t4.json",
+   "rungs": [
+    "lesson",
+    "drill",
+    "apply"
+   ],
+   "lessonSteps": 19,
+   "part1Ends": 10
+  },
+  {
+   "id": "t5",
+   "number": 5,
+   "title": "Definite integral and area",
+   "syllabus": "SL 5.5, 5.11",
+   "level": "SL (and HL)",
+   "file": "techniques/t5.json",
+   "rungs": [
+    "lesson",
+    "drill",
+    "apply"
+   ],
+   "lessonSteps": 19,
+   "part1Ends": 10
+  },
+  {
+   "id": "t6",
+   "number": 6,
+   "title": "Distance travelled, ∫|v| dt",
+   "syllabus": "SL 5.9",
+   "level": "SL (and HL)",
+   "file": "techniques/t6.json",
+   "rungs": [
+    "lesson",
+    "drill"
+   ],
+   "lessonSteps": 19,
+   "part1Ends": 10
+  },
+  {
+   "id": "t8",
+   "number": 8,
+   "title": "Normal probabilities",
+   "syllabus": "SL 4.9",
+   "level": "SL (and HL)",
+   "file": "techniques/t8.json",
+   "rungs": [
+    "lesson",
+    "drill",
+    "apply"
+   ],
+   "lessonSteps": 23,
+   "part1Ends": 12
+  },
+  {
+   "id": "t9",
+   "number": 9,
+   "title": "Inverse normal",
+   "syllabus": "SL 4.9",
+   "level": "SL (and HL)",
+   "file": "techniques/t9.json",
+   "rungs": [
+    "lesson",
+    "drill",
+    "apply"
+   ],
+   "lessonSteps": 18,
+   "part1Ends": 8
+  },
+  {
+   "id": "t10",
+   "number": 10,
+   "title": "Unknown μ and σ; z-values",
+   "syllabus": "SL 4.12 · HL 4.14",
+   "level": "SL (and HL)",
+   "file": "techniques/t10.json",
+   "rungs": [
+    "lesson",
+    "drill",
+    "apply"
+   ],
+   "lessonSteps": 21,
+   "part1Ends": 12
+  },
+  {
+   "id": "t11",
+   "number": 11,
+   "title": "Binomial; least n",
+   "syllabus": "SL 4.8",
+   "level": "SL (and HL)",
+   "file": "techniques/t11.json",
+   "rungs": [
+    "lesson",
+    "drill",
+    "apply"
+   ],
+   "lessonSteps": 19,
+   "part1Ends": 10
+  },
+  {
+   "id": "t12",
+   "number": 12,
+   "title": "1-variable statistics",
+   "syllabus": "SL 4.2, 4.3",
+   "level": "SL (and HL)",
+   "file": "techniques/t12.json",
+   "rungs": [
+    "lesson",
+    "drill",
+    "apply"
+   ],
+   "lessonSteps": 19,
+   "part1Ends": 11
+  },
+  {
+   "id": "t13",
+   "number": 13,
+   "title": "Regression and r",
+   "syllabus": "SL 4.4, 4.10",
+   "level": "SL (and HL)",
+   "file": "techniques/t13.json",
+   "rungs": [
+    "lesson",
+    "drill",
+    "apply"
+   ],
+   "lessonSteps": 18,
+   "part1Ends": 10
+  }
+ ]
+}

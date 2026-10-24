@@ -1,0 +1,3465 @@
+{
+ "id": "t10",
+ "number": 10,
+ "title": "Unknown μ and σ; z-values",
+ "syllabus": "SL 4.12 · HL 4.14",
+ "level": "SL (and HL)",
+ "lesson": {
+  "part1Ends": 12,
+  "calculatorPaths": {
+   "nspire": [
+    "Standard normal: Normal Cdf or Inverse Normal with \\(\\mu=0\\), \\(\\sigma=1\\) (the defaults if you leave them blank). invNorm(0.9) gives 1.28155.",
+    "Store \\(z\\): type the invNorm line, then ctrl + var (sto→) z. Reuse z in the next line instead of retyping 1.28.",
+    "One unknown: nSolve((25 − m)/4 = z, m) from menu → Algebra → Numerical Solve.",
+    "Both unknown: menu → Algebra → Solve System of Linear Equations, unknowns m and s, after rearranging to 480 − m = z1·s and 530 − m = z2·s."
+   ],
+   "ti84": [
+    "Standard normal: normalcdf and invNorm with \\(\\mu=0\\), \\(\\sigma=1\\) (the defaults). invNorm(0.9) gives 1.2816.",
+    "Store \\(z\\): after invNorm(0.9) press STO→ ALPHA Z. Reuse Z in later lines.",
+    "One unknown: rearrange by hand, \\(\\mu=25-4Z\\), and type it.",
+    "Both unknown: rearrange to two linear equations and use the matrix or PlySmlt2 app (APPS → PlySmlt2 → Simultaneous Eqn Solver), or subtract by hand."
+   ],
+   "cg50": [
+    "Standard normal: InvN with \\(\\sigma=1\\), \\(\\mu=0\\); the fx-CG100 has a DisplayZ switch that shows z directly. InvN(0.9) gives 1.2816.",
+    "Store \\(z\\): in RUN-MAT, type the value (or Ans) then → Z. Reuse Z in later lines.",
+    "One unknown: rearrange by hand, \\(\\mu=25-4Z\\), and type it. Or MENU → EQUA → Solver.",
+    "Both unknown: MENU → EQUA → Simultaneous, 2 unknowns, after rearranging to \\(-\\mu-z_1\\sigma=-480\\) and \\(-\\mu-z_2\\sigma=-530\\); or subtract by hand."
+   ]
+  },
+  "menuOptions": null,
+  "steps": [
+   {
+    "parts": [
+     [
+      "n",
+      "How far above the mean is \\(182\\), in cm?",
+      "Distance \\(=\\)",
+      12,
+      0.01,
+      "✓ \\(182-170=12\\) cm.",
+      [
+       [
+        182,
+        "Subtract the mean."
+       ]
+      ]
+     ],
+     [
+      "c",
+      "One standard deviation is \\(8\\) cm. To count standard deviations:",
+      [
+       "Divide \\(12\\) by \\(8\\)",
+       "Multiply \\(12\\) by \\(8\\)",
+       "Subtract \\(8\\) from \\(12\\)"
+      ],
+      0,
+      "✓ \\(12\\div8\\).",
+      "✗ How many 8s fit into 12: divide."
+     ]
+    ],
+    "given": "\\(X \\sim \\mathrm{N}(170,\\,8^2)\\)",
+    "label": "Standard deviations above the mean \\(=\\)",
+    "tag": "TRY IT FIRST · enter your answer",
+    "worked": "\\(z=\\dfrac{x-\\mu}{\\sigma}=\\dfrac{182-170}{8}=1.5\\)",
+    "title": "A student is \\(182\\) cm tall. How many standard deviations above the mean is this?",
+    "instr": [
+     "No calculator function is needed: work it out by hand.",
+     "First find how far 182 is above the mean, in cm.",
+     "Then ask how many lots of \\(\\sigma=8\\) cm that is. Type that number."
+    ],
+    "fig": {
+     "kind": "shade",
+     "lo": null,
+     "hi": null,
+     "ticks": [
+      [
+       -1,
+       "162"
+      ],
+      [
+       0,
+       "μ = 170"
+      ],
+      [
+       1,
+       "178"
+      ],
+      [
+       1.5,
+       "182"
+      ]
+     ],
+     "notes": [
+      [
+       0.5,
+       60,
+       "one σ = 8 cm",
+       "#4A5856"
+      ]
+     ],
+     "caption": "The mean is 170 and each step of one σ is 8 cm. Where does 182 fall?"
+    },
+    "ans": 1.5,
+    "placeholder": "_._",
+    "ok": "✓ \\(1.5\\). That number is the z-value, and this lesson is about using it when \\(\\mu\\) or \\(\\sigma\\) is missing.",
+    "givenNote": "heights of students, in cm",
+    "t": "numeric",
+    "wrongs": [
+     [
+      12,
+      "\\(12\\) is the difference \\(182-170\\) in cm. Divide by \\(\\sigma=8\\) to count standard deviations."
+     ],
+     [
+      0.0668,
+      "\\(0.0668\\) is a probability, \\(\\mathrm{P}(X>182)\\). The question asks how many standard deviations, a \\(z\\)-value."
+     ]
+    ],
+    "tol": 0.006,
+    "err": "Concept",
+    "byCalc": {
+     "nspire": {
+      "path": [
+       "Standard normal: Normal Cdf or Inverse Normal with \\(\\mu=0\\), \\(\\sigma=1\\) (the defaults if you leave them blank). invNorm(0.9) gives 1.28155.",
+       "Store \\(z\\): type the invNorm line, then ctrl + var (sto→) z. Reuse z in the next line instead of retyping 1.28.",
+       "One unknown: nSolve((25 − m)/4 = z, m) from menu → Algebra → Numerical Solve.",
+       "Both unknown: menu → Algebra → Solve System of Linear Equations, unknowns m and s, after rearranging to 480 − m = z1·s and 530 − m = z2·s."
+      ]
+     },
+     "ti84": {
+      "path": [
+       "Standard normal: normalcdf and invNorm with \\(\\mu=0\\), \\(\\sigma=1\\) (the defaults). invNorm(0.9) gives 1.2816.",
+       "Store \\(z\\): after invNorm(0.9) press STO→ ALPHA Z. Reuse Z in later lines.",
+       "One unknown: rearrange by hand, \\(\\mu=25-4Z\\), and type it.",
+       "Both unknown: rearrange to two linear equations and use the matrix or PlySmlt2 app (APPS → PlySmlt2 → Simultaneous Eqn Solver), or subtract by hand."
+      ]
+     },
+     "cg50": {
+      "path": [
+       "Standard normal: InvN with \\(\\sigma=1\\), \\(\\mu=0\\); the fx-CG100 has a DisplayZ switch that shows z directly. InvN(0.9) gives 1.2816.",
+       "Store \\(z\\): in RUN-MAT, type the value (or Ans) then → Z. Reuse Z in later lines.",
+       "One unknown: rearrange by hand, \\(\\mu=25-4Z\\), and type it. Or MENU → EQUA → Solver.",
+       "Both unknown: MENU → EQUA → Simultaneous, 2 unknowns, after rearranging to \\(-\\mu-z_1\\sigma=-480\\) and \\(-\\mu-z_2\\sigma=-530\\); or subtract by hand."
+      ]
+     }
+    }
+   },
+   {
+    "t": "note",
+    "fig": {
+     "kind": "shade",
+     "lo": null,
+     "hi": null,
+     "ticks": [
+      [
+       -2,
+       "−2"
+      ],
+      [
+       -1,
+       "−1"
+      ],
+      [
+       0,
+       "0"
+      ],
+      [
+       1,
+       "1"
+      ],
+      [
+       2,
+       "2"
+      ]
+     ],
+     "notes": [
+      [
+       0,
+       22,
+       "Z ~ N(0, 1)",
+       "#12201E"
+      ]
+     ],
+     "caption": "The standard normal: z counts standard deviations from the mean. Negative z is below the mean."
+    },
+    "tag": "NOTE",
+    "title": "\\(z\\) counts standard deviations",
+    "body": "\\(z=\\dfrac{x-\\mu}{\\sigma}\\) is in the formula booklet.\n•  \\(z\\) has no units: it counts standard deviations from the mean\n•  a negative \\(z\\) means the value is below the mean\n•  the probability does not change when you standardise: \\(\\mathrm{P}(X<x)=\\mathrm{P}(Z<z)\\), where \\(Z \\sim \\mathrm{N}(0,\\,1)\\)",
+    "code": "\\(x=182,\\ \\mu=170,\\ \\sigma=8 \\ \\Rightarrow\\ z=1.5\\)\n\\(\\mathrm{P}(X<182)=\\mathrm{P}(Z<1.5)=0.933\\)"
+   },
+   {
+    "t": "choice",
+    "tag": "ACTIVITY · compare",
+    "given": "Anna: \\(\\mathrm{N}(70,\\,5^2)\\) · Ben: \\(\\mathrm{N}(60,\\,4^2)\\)",
+    "givenNote": "two different tests",
+    "title": "Anna scored \\(80\\) on her test and Ben scored \\(65\\) on his. Who did better relative to their class?",
+    "opts": [
+     "Anna, \\(z=2\\)",
+     "Ben, \\(z=1.25\\)",
+     "The same",
+     "Cannot tell"
+    ],
+    "right": 0,
+    "ok": "✓ Right. Anna is \\(2\\) standard deviations above her mean, \\(\\frac{80-70}{5}=2\\); Ben is \\(\\frac{65-60}{4}=1.25\\) above his. Compare \\(z\\), not raw scores or differences.",
+    "bad": "✗ Not quite. Anna: \\(z=\\frac{80-70}{5}=2\\). Ben: \\(z=\\frac{65-60}{4}=1.25\\). Anna is further above her mean, so she did better relative to her class.",
+    "err": "Concept"
+   },
+   {
+    "t": "numeric",
+    "fig": {
+     "kind": "shade",
+     "lo": null,
+     "hi": 1.5,
+     "ticks": [
+      [
+       0,
+       "0"
+      ],
+      [
+       1.5,
+       "1.5"
+      ]
+     ],
+     "notes": [
+      [
+       -0.3,
+       100,
+       "area = ?",
+       "#08504C"
+      ]
+     ],
+     "caption": "P(Z < 1.5) on the standard normal, μ = 0 and σ = 1: the shaded area is what you find."
+    },
+    "tag": "ACTIVITY · enter your calculator’s answer",
+    "given": "\\(Z \\sim \\mathrm{N}(0,\\,1)\\)",
+    "givenNote": "the standard normal",
+    "parts": [
+     [
+      "c",
+      "Which entries give \\(\\mathrm{P}(Z<1.5)\\)?",
+      [
+       "Normal Cdf: Lower \\(-\\infty\\), Upper \\(1.5\\), \\(\\mu=0\\), \\(\\sigma=1\\)",
+       "Normal Cdf: Lower \\(1.5\\), Upper \\(\\infty\\), \\(\\mu=0\\), \\(\\sigma=1\\)",
+       "Inverse Normal with Area \\(1.5\\)"
+      ],
+      0,
+      "✓ The standard normal has \\(\\mu=0\\), \\(\\sigma=1\\).",
+      "✗ \\(\\mathrm{P}(Z<1.5)\\) is a left area on \\(\\mathrm{N}(0,\\,1)\\): Normal Cdf up to \\(1.5\\)."
+     ]
+    ],
+    "title": "Find \\(\\mathrm{P}(Z<1.5)\\).",
+    "instr": [
+     "Normal Cdf with \\(\\mu=0\\) and \\(\\sigma=1\\).",
+     "Type the value to 3 significant figures."
+    ],
+    "label": "\\(\\mathrm{P}(Z<1.5)=\\)",
+    "ans": 0.9332,
+    "tol": 0.0006,
+    "worked": "\\(\\mathrm{P}(Z<1.5)=0.933\\)   (Lower \\(-\\infty\\), Upper \\(1.5\\), \\(\\mu=0\\), \\(\\sigma=1\\))",
+    "ok": "✓ \\(0.933\\). The same as \\(\\mathrm{P}(X<182)\\) for the heights: standardising does not change the probability.",
+    "wrongs": [
+     [
+      0.0668,
+      "\\(0.0668\\) is \\(\\mathrm{P}(Z>1.5)\\), the other tail."
+     ],
+     [
+      1.5,
+      "\\(1.5\\) is the \\(z\\)-value, not a probability. Use Normal Cdf."
+     ]
+    ],
+    "err": "Set-up"
+   },
+   {
+    "title": "The standard normal on your calculator",
+    "fig": {
+     "kind": "shade",
+     "lo": null,
+     "hi": 1.2816,
+     "ticks": [
+      [
+       0,
+       "0"
+      ],
+      [
+       1.2816,
+       "1.2816"
+      ]
+     ],
+     "notes": [
+      [
+       -0.3,
+       100,
+       "area 0.9",
+       "#08504C"
+      ]
+     ],
+     "caption": "invNorm(0.9, 0, 1) = 1.2816: the z with 90% below it."
+    },
+    "t": "note",
+    "body": "Normal Cdf and Inverse Normal with \\(\\mu=0\\) and \\(\\sigma=1\\); on most models these are the defaults.\n•  \\(\\mathrm{invNorm}(0.9,\\,0,\\,1)=1.2816\\): the \\(z\\) with \\(90\\%\\) below it\n•  keep it to 4 figures, or store it",
+    "byCalc": {
+     "nspire": {
+      "path": [
+       "Standard normal: Normal Cdf or Inverse Normal with \\(\\mu=0\\), \\(\\sigma=1\\) (the defaults if you leave them blank). invNorm(0.9) gives 1.28155.",
+       "Store \\(z\\): type the invNorm line, then ctrl + var (sto→) z. Reuse z in the next line instead of retyping 1.28.",
+       "One unknown: nSolve((25 − m)/4 = z, m) from menu → Algebra → Numerical Solve.",
+       "Both unknown: menu → Algebra → Solve System of Linear Equations, unknowns m and s, after rearranging to 480 − m = z1·s and 530 − m = z2·s."
+      ],
+      "tag": "NOTE · TI-Nspire CX II"
+     },
+     "ti84": {
+      "path": [
+       "Standard normal: normalcdf and invNorm with \\(\\mu=0\\), \\(\\sigma=1\\) (the defaults). invNorm(0.9) gives 1.2816.",
+       "Store \\(z\\): after invNorm(0.9) press STO→ ALPHA Z. Reuse Z in later lines.",
+       "One unknown: rearrange by hand, \\(\\mu=25-4Z\\), and type it.",
+       "Both unknown: rearrange to two linear equations and use the matrix or PlySmlt2 app (APPS → PlySmlt2 → Simultaneous Eqn Solver), or subtract by hand."
+      ],
+      "tag": "NOTE · TI-84 Plus CE"
+     },
+     "cg50": {
+      "path": [
+       "Standard normal: InvN with \\(\\sigma=1\\), \\(\\mu=0\\); the fx-CG100 has a DisplayZ switch that shows z directly. InvN(0.9) gives 1.2816.",
+       "Store \\(z\\): in RUN-MAT, type the value (or Ans) then → Z. Reuse Z in later lines.",
+       "One unknown: rearrange by hand, \\(\\mu=25-4Z\\), and type it. Or MENU → EQUA → Solver.",
+       "Both unknown: MENU → EQUA → Simultaneous, 2 unknowns, after rearranging to \\(-\\mu-z_1\\sigma=-480\\) and \\(-\\mu-z_2\\sigma=-530\\); or subtract by hand."
+      ],
+      "tag": "NOTE · Casio fx-CG50"
+     }
+    }
+   },
+   {
+    "t": "numeric",
+    "tag": "ACTIVITY · enter your calculator’s answer",
+    "given": "\\(Z \\sim \\mathrm{N}(0,\\,1)\\)",
+    "parts": [
+     [
+      "c",
+      "Which function?",
+      [
+       "Inverse Normal: Area \\(0.9\\), \\(\\mu=0\\), \\(\\sigma=1\\)",
+       "Normal Cdf with upper bound \\(0.9\\)",
+       "Inverse Normal: Area \\(0.1\\)"
+      ],
+      0,
+      "✓ Area in, \\(z\\) out.",
+      "✗ We know the area (\\(0.9\\)) and want the value: Inverse Normal, left area \\(0.9\\)."
+     ]
+    ],
+    "title": "Find \\(z\\) such that \\(\\mathrm{P}(Z<z)=0.9\\). Give 4 significant figures.",
+    "instr": [
+     "Inverse Normal with area \\(0.9\\), \\(\\mu=0\\), \\(\\sigma=1\\).",
+     "Type the value to 4 significant figures, for example 1.234."
+    ],
+    "label": "\\(z=\\)",
+    "ans": 1.2816,
+    "tol": 0.0006,
+    "placeholder": "_.___",
+    "worked": "\\(z=\\mathrm{invNorm}(0.9,\\,0,\\,1)=1.2816\\)",
+    "ok": "✓ \\(1.282\\). Store it: the next steps reuse this \\(z\\).",
+    "wrongs": [
+     [
+      -1.2816,
+      "\\(-1.282\\) comes from area \\(0.1\\). \\(90\\%\\) below \\(z\\) means area \\(0.9\\), and \\(z\\) is positive."
+     ],
+     [
+      0.9,
+      "\\(0.9\\) is the area. The question asks for \\(z\\): use the inverse normal."
+     ],
+     [
+      1.28,
+      "Right value, but \\(1.28\\) is only 3 significant figures. Give \\(1.282\\), and keep \\(1.2816\\) stored for later working."
+     ]
+    ],
+    "err": "Set-up"
+   },
+   {
+    "t": "note",
+    "fig": {
+     "kind": "shade",
+     "lo": 1.2816,
+     "hi": null,
+     "ticks": [
+      [
+       0,
+       "μ = ?"
+      ],
+      [
+       1.2816,
+       "25"
+      ]
+     ],
+     "notes": [
+      [
+       2.3,
+       118,
+       "0.1",
+       "#B45309"
+      ],
+      [
+       0.64,
+       60,
+       "1.2816σ = 1.2816 × 4",
+       "#12201E"
+      ]
+     ],
+     "caption": "σ is known, μ is not. The 10% tail fixes how many σ the value 25 sits above μ: z = 1.2816."
+    },
+    "tag": "NOTE",
+    "title": "One unknown",
+    "body": "If \\(\\sigma\\) is known and a probability is given, the calculator cannot find \\(\\mu\\) directly:\n•  turn the probability into \\(z\\) with Inverse Normal \\((0,\\,1)\\)\n•  write \\(\\dfrac{x-\\mu}{\\sigma}=z\\)\n•  solve for \\(\\mu\\), keeping \\(z\\) to at least 4 figures",
+    "code": "Calls: \\(X \\sim \\mathrm{N}(\\mu,\\,4^2)\\), \\(\\mathrm{P}(X>25)=0.1\\)\n\\(\\mathrm{P}(X<25)=0.9 \\ \\Rightarrow\\ z=1.2816\\)\n\\(\\dfrac{25-\\mu}{4}=1.2816 \\ \\Rightarrow\\ \\mu=25-1.2816\\times4\\)"
+   },
+   {
+    "t": "choice",
+    "tag": "ACTIVITY · order the steps",
+    "given": "\\(X \\sim \\mathrm{N}(\\mu,\\,4^2)\\)",
+    "givenNote": "call lengths, in minutes; 10% of calls exceed 25 minutes",
+    "title": "Put the working in order.",
+    "body": "(a) \\(\\mu=25-1.2816\\times4\\)\n(b) \\(\\mathrm{P}(X>25)=0.1\\), so \\(\\mathrm{P}(X<25)=0.9\\)\n(c) \\(z=\\mathrm{invNorm}(0.9)=1.2816\\)\n(d) \\(\\dfrac{25-\\mu}{4}=1.2816\\)",
+    "opts": [
+     "b, c, d, a",
+     "c, b, d, a",
+     "b, d, c, a",
+     "d, c, b, a"
+    ],
+    "right": 0,
+    "ok": "✓ Right. Probability statement, \\(z\\), equation, solve. That order is also the order of the marks.",
+    "bad": "✗ Not quite. Probability statement first (b), then the \\(z\\) it gives (c), then the equation in \\(\\mu\\) (d), then solve (a).",
+    "err": "Communication"
+   },
+   {
+    "t": "numeric",
+    "tag": "ACTIVITY · enter your answer",
+    "given": "\\(X \\sim \\mathrm{N}(\\mu,\\,4^2)\\)",
+    "givenNote": "call lengths, in minutes; 10% of calls exceed 25 minutes",
+    "carry": [
+     "\\(\\mathrm{P}(X>25)=0.1\\), so \\(\\mathrm{P}(X<25)=0.9\\) and \\(z=\\mathrm{invNorm}(0.9)=1.2816\\) (step 6)",
+     "Equation: \\(\\dfrac{25-\\mu}{4}=1.2816\\) (step 7)"
+    ],
+    "parts": [
+     [
+      "c",
+      "From \\(\\dfrac{25-\\mu}{4}=1.2816\\), which rearrangement is right?",
+      [
+       "\\(\\mu=25-1.2816\\times4\\)",
+       "\\(\\mu=25+1.2816\\times4\\)",
+       "\\(\\mu=\\dfrac{25-1.2816}{4}\\)"
+      ],
+      0,
+      "✓ Multiply by \\(4\\), then move \\(\\mu\\).",
+      "✗ \\(25-\\mu=1.2816\\times4\\), so \\(\\mu=25-1.2816\\times4\\)."
+     ]
+    ],
+    "title": "Find \\(\\mu\\).",
+    "instr": [
+     "Rearrange the equation for \\(\\mu\\), using the stored \\(z\\).",
+     "Type the value to 3 significant figures."
+    ],
+    "label": "\\(\\mu=\\)",
+    "unit": "min",
+    "ans": 19.874,
+    "tol": 0.06,
+    "placeholder": "__._",
+    "worked": "\\(\\dfrac{25-\\mu}{4}=1.2816\\)\n\\(\\mu=25-1.2816\\times4=19.87\\), so \\(\\mu=19.9\\) minutes",
+    "ok": "✓ \\(19.9\\). The mean is below \\(25\\), as it must be when only \\(10\\%\\) of calls exceed \\(25\\).",
+    "wrongs": [
+     [
+      30.126,
+      "\\(30.1\\) comes from \\(z=-1.28\\). Only \\(10\\%\\) exceed \\(25\\), so \\(25\\) is above the mean and \\(z\\) is positive: \\(\\mu\\) must be less than \\(25\\)."
+     ],
+     [
+      19.8,
+      "\\(19.8\\) comes from rounding \\(z\\) to \\(1.3\\). Keep \\(z=1.2816\\)."
+     ],
+     [
+      19.88,
+      "\\(19.88\\) comes from \\(z=1.28\\). Rounded \\(z\\) drifts the answer; keep 4 figures."
+     ]
+    ],
+    "err": "Accuracy"
+   },
+   {
+    "t": "choice",
+    "tag": "ACTIVITY · spot the error",
+    "given": "mark scheme: \\(19.9\\ (19.87)\\)",
+    "title": "A student writes “\\(z=1.28\\), so \\(\\mu=25-1.28\\times4=19.88\\)”. Full marks?",
+    "opts": [
+     "Yes",
+     "Probably not: \\(z\\) rounded to 3 s.f. gives \\(19.88\\), outside the tolerance in some schemes",
+     "No, the method is wrong"
+    ],
+    "right": 1,
+    "ok": "✓ Right. The method is sound, so the method mark is safe; the accuracy mark is the risk. \\(z=1.28\\) is only 3 significant figures, and multiplying it by \\(4\\) turns a small rounding into \\(19.88\\), while the scheme expects \\(19.87\\). The next note shows how to keep \\(z\\) exact on your calculator.",
+    "bad": "✗ Not quite. The method is right, so it is not “wrong”, but it is not safely full marks either: \\(z\\) was rounded to \\(1.28\\) before being used, and \\(25-1.28\\times4=19.88\\) where the scheme has \\(19.87\\). Rounding an intermediate value early is an accuracy slip. The next note shows how to keep \\(z\\) exact.",
+    "err": "Accuracy"
+   },
+   {
+    "title": "Keep \\(z\\) exact: store it, don’t retype it",
+    "t": "note",
+    "body": "The calculator gives \\(z=1.281551\\ldots\\). Every digit you drop before using it moves the final answer:\n\n• \\(z=1.3\\) (2 s.f.) gives \\(\\mu=25-1.3\\times4=19.8\\)\n• \\(z=1.28\\) (3 s.f.) gives \\(19.88\\)\n• \\(z=1.282\\) (4 s.f.) gives \\(19.87\\)\n• stored \\(z\\) gives \\(19.874\\), so \\(19.9\\)\n\nTwo habits keep the accuracy mark. On paper, write \\(z\\) to at least 4 significant figures (\\(z=1.282\\)) so the examiner sees an unrounded value. On the calculator, store \\(z\\) in a variable and use the variable in the next line, so no rounding happens at all. Round once, at the end, to 3 s.f.",
+    "byCalc": {
+     "nspire": {
+      "path": [
+       "Type invNorm(0.9) and press enter: the screen shows 1.28155.",
+       "Press ctrl then var (the sto→ key). The line now reads Ans →. Type z and press enter. z holds 1.28155…",
+       "In the next line type 25 − z × 4 and press enter: 19.874. Typing the letter z recalls the full value.",
+       "Tip: ctrl + var again to store σ or μ once found, before reusing them in part (b)."
+      ],
+      "tag": "NOTE · TI-Nspire CX II"
+     },
+     "ti84": {
+      "path": [
+       "Type invNorm(0.9) and press ENTER: 1.281551566 appears.",
+       "Press STO→ (above ON), then ALPHA and Z (the letter Z is on the key labelled with it), then ENTER. Z now holds the full value.",
+       "Type 25 − Z × 4 and press ENTER: 19.87379. Typing ALPHA Z recalls it.",
+       "Tip: the answer line can also be reused with 2nd (−) for ANS, but a named variable survives later calculations."
+      ],
+      "tag": "NOTE · TI-84 Plus CE"
+     },
+     "cg50": {
+      "path": [
+       "In RUN-MAT, find z with OPTN → STAT → DIST → NORM → InvN(0.9) (or copy it from the STAT app), press EXE: 1.281551566.",
+       "Press → (the store arrow key, above AC), then ALPHA and Z, then EXE. Z now holds the full value.",
+       "Type 25 − Z × 4 and press EXE: 19.87379. ALPHA Z recalls it.",
+       "Tip: Ans → Z works too if the value is already on screen: type Ans, press →, ALPHA Z, EXE."
+      ],
+      "tag": "NOTE · Casio fx-CG50"
+     }
+    }
+   },
+   {
+    "t": "numeric",
+    "fig": {
+     "kind": "shade",
+     "lo": null,
+     "hi": -1.6449,
+     "ticks": [
+      [
+       -1.6449,
+       "100"
+      ],
+      [
+       0,
+       "120"
+      ]
+     ],
+     "notes": [
+      [
+       -2.5,
+       118,
+       "0.05",
+       "#B45309"
+      ],
+      [
+       -0.82,
+       60,
+       "σ = ?",
+       "#12201E"
+      ]
+     ],
+     "caption": "μ is known, σ is not. 5% lies below 100, so 100 is some number of σ below the mean: find that z from the area, then solve for σ."
+    },
+    "tag": "ACTIVITY · enter your answer",
+    "given": "\\(X \\sim \\mathrm{N}(120,\\,\\sigma^2)\\)",
+    "givenNote": "masses, in grams; 5% of items are under 100 g",
+    "parts": [
+     [
+      "c",
+      "Which probability statement matches the words?",
+      [
+       "\\(\\mathrm{P}(X<100)=0.05\\)",
+       "\\(\\mathrm{P}(X>100)=0.05\\)",
+       "\\(\\mathrm{P}(X<100)=0.95\\)"
+      ],
+      0,
+      "✓ Under \\(100\\): a left area.",
+      "✗ \\(5\\%\\) are under \\(100\\): \\(\\mathrm{P}(X<100)=0.05\\)."
+     ],
+     [
+      "n",
+      "Find \\(z\\) for area \\(0.05\\).",
+      "\\(z=\\)",
+      -1.6449,
+      0.0006,
+      "✓ \\(z=-1.6449\\): negative, since \\(100\\) is below the mean.",
+      [
+       [
+        1.6449,
+        "Negative: area \\(0.05\\) is below \\(0.5\\)."
+       ]
+      ]
+     ],
+     [
+      "c",
+      "Which equation?",
+      [
+       "\\(\\dfrac{100-120}{\\sigma}=-1.6449\\)",
+       "\\(\\dfrac{120-100}{\\sigma}=-1.6449\\)",
+       "\\(100-120=-1.6449\\)"
+      ],
+      0,
+      "✓ Solve for \\(\\sigma\\).",
+      "✗ \\(\\dfrac{x-\\mu}{\\sigma}=z\\) with \\(x=100\\), \\(\\mu=120\\)."
+     ]
+    ],
+    "title": "Find \\(\\sigma\\).",
+    "instr": [
+     "Write the probability statement, then find \\(z\\) for area \\(0.05\\).",
+     "Solve \\(\\dfrac{100-120}{\\sigma}=z\\).",
+     "Type the value to 3 significant figures."
+    ],
+    "label": "\\(\\sigma=\\)",
+    "unit": "g",
+    "ans": 12.159,
+    "tol": 0.06,
+    "placeholder": "__._",
+    "worked": "\\(\\mathrm{P}(X<100)=0.05 \\ \\Rightarrow\\ z=-1.6449\\)\n\\(\\dfrac{100-120}{\\sigma}=-1.6449\\)\n\\(\\sigma=\\dfrac{-20}{-1.6449}=12.2\\) g",
+    "ok": "✓ \\(12.2\\). Both sides are negative, so \\(\\sigma\\) comes out positive, as it must.",
+    "wrongs": [
+     [
+      -12.159,
+      "\\(-12.2\\): a standard deviation cannot be negative. \\(100-120=-20\\) and \\(z=-1.6449\\) are both negative, so \\(\\sigma=+12.2\\)."
+     ],
+     [
+      20,
+      "\\(20\\) is \\(120-100\\), not yet divided by \\(z\\)."
+     ],
+     [
+      12.16,
+      "\\(12.16\\) is right but 4 s.f.: give \\(12.2\\)."
+     ]
+    ],
+    "err": "Set-up"
+   },
+   {
+    "t": "note",
+    "fig": {
+     "kind": "shade",
+     "lo": null,
+     "hi": -1.0364,
+     "lo2": 1.6449,
+     "ticks": [
+      [
+       -1.0364,
+       "480"
+      ],
+      [
+       0,
+       "μ = ?"
+      ],
+      [
+       1.6449,
+       "530"
+      ]
+     ],
+     "notes": [
+      [
+       -2.1,
+       118,
+       "0.15",
+       "#B45309"
+      ],
+      [
+       2.5,
+       118,
+       "0.05",
+       "#B45309"
+      ],
+      [
+       0.3,
+       60,
+       "σ = ?",
+       "#12201E"
+      ]
+     ],
+     "caption": "Two probabilities, two z-values, two equations: enough to find both μ and σ."
+    },
+    "tag": "NOTE",
+    "title": "Both unknown",
+    "body": "Two probabilities give two equations:\n•  \\(\\dfrac{x_1-\\mu}{\\sigma}=z_1\\)\n•  \\(\\dfrac{x_2-\\mu}{\\sigma}=z_2\\)\n\nThen either:\n•  subtract to get \\(\\sigma=\\dfrac{x_2-x_1}{z_2-z_1}\\), then \\(\\mu\\)\n•  or type both into the GDC’s simultaneous solver with \\(\\mu\\) and \\(\\sigma\\) as the unknowns\n\nEither way, write both equations.",
+    "code": "Loaves: \\(15\\%\\) under \\(480\\) g, \\(5\\%\\) over \\(530\\) g\n\\(\\mathrm{P}(X<480)=0.15 \\Rightarrow z_1=-1.0364\\)\n\\(\\mathrm{P}(X<530)=0.95 \\Rightarrow z_2=1.6449\\)\nMultiply \\(\\dfrac{x-\\mu}{\\sigma}=z\\) through by \\(\\sigma\\) and label the equations:\n\\[\\begin{array}{rrcl}(1)\\quad & 480-\\mu &=& -1.0364\\sigma \\\\ (2)\\quad & 530-\\mu &=& 1.6449\\sigma \\\\ \\hline (2)-(1):\\quad & 50 &=& 2.6813\\sigma \\end{array}\\]\nThe \\(\\mu\\) terms cancel in the subtraction; \\(1.6449-(-1.0364)=2.6813\\)."
+   },
+   {
+    "t": "choice",
+    "tag": "ACTIVITY · signs of z",
+    "given": "\\(X \\sim \\mathrm{N}(\\mu,\\,\\sigma^2)\\)",
+    "givenNote": "masses of loaves, in grams; 15% under 480 g, 5% over 530 g",
+    "title": "Which pair of \\(z\\)-values is right?",
+    "opts": [
+     "\\(z_1=1.036,\\ z_2=1.645\\)",
+     "\\(z_1=-1.036,\\ z_2=1.645\\)",
+     "\\(z_1=-1.036,\\ z_2=-1.645\\)",
+     "\\(z_1=0.15,\\ z_2=0.95\\)"
+    ],
+    "right": 1,
+    "ok": "✓ Right. \\(480\\) g has only \\(15\\%\\) below it, so it is below the mean: \\(z_1<0\\). \\(530\\) g has \\(95\\%\\) below it: \\(z_2=1.645\\).",
+    "bad": "✗ Not quite. \\(480\\) is below the mean (\\(15\\%\\) below it), so \\(z_1=-1.036\\). \\(530\\) has \\(95\\%\\) below it (\\(5\\%\\) over), so \\(z_2=+1.645\\). The areas themselves are not \\(z\\)-values.",
+    "err": "Set-up"
+   },
+   {
+    "t": "numeric",
+    "tag": "ACTIVITY · enter your answer",
+    "given": "\\(X \\sim \\mathrm{N}(\\mu,\\,\\sigma^2)\\)",
+    "givenNote": "loaves: 15% under 480 g, 5% over 530 g",
+    "carry": [
+     "\\(\\mathrm{P}(X<480)=0.15 \\Rightarrow z_1=\\mathrm{invNorm}(0.15)=-1.0364\\)",
+     "\\(\\mathrm{P}(X<530)=0.95 \\Rightarrow z_2=\\mathrm{invNorm}(0.95)=1.6449\\)",
+     "Equations: \\(480-\\mu=-1.0364\\sigma\\) and \\(530-\\mu=1.6449\\sigma\\)"
+    ],
+    "parts": [
+     [
+      "c",
+      "The two equations, labelled: \\[\\begin{array}{rrcl}(1)\\quad & 480-\\mu &=& -1.0364\\sigma \\\\ (2)\\quad & 530-\\mu &=& 1.6449\\sigma \\end{array}\\] Which operation eliminates \\(\\mu\\)?",
+      [
+       "\\((2)-(1)\\): \\(\\mu\\) cancels, leaving \\(50=(1.6449+1.0364)\\sigma\\)",
+       "\\((2)+(1)\\): \\(1010-2\\mu=0.6085\\sigma\\)",
+       "\\((2)\\div(1)\\): \\(\\dfrac{530}{480}=\\dfrac{1.6449}{-1.0364}\\)"
+      ],
+      0,
+      "✓ Both equations contain \\(-\\mu\\), so subtracting one from the other removes it: \\[\\begin{array}{rrcl}(1)\\quad & 480-\\mu &=& -1.0364\\sigma \\\\ (2)\\quad & 530-\\mu &=& 1.6449\\sigma \\\\ \\hline (2)-(1):\\quad & 50 &=& 2.6813\\sigma \\end{array}\\]",
+      "✗ Adding keeps \\(\\mu\\) (as \\(-2\\mu\\)); dividing mixes everything. Both equations contain \\(-\\mu\\), so subtract: \\[\\begin{array}{rrcl}(1)\\quad & 480-\\mu &=& -1.0364\\sigma \\\\ (2)\\quad & 530-\\mu &=& 1.6449\\sigma \\\\ \\hline (2)-(1):\\quad & 50 &=& 2.6813\\sigma \\end{array}\\]"
+     ]
+    ],
+    "title": "Find \\(\\sigma\\) for the loaves.",
+    "instr": [
+     "Subtract the first equation from the second: \\(\\mu\\) cancels.",
+     "Or enter both in the simultaneous solver with unknowns \\(\\mu\\) and \\(\\sigma\\).",
+     "Type the value to 3 significant figures."
+    ],
+    "label": "\\(\\sigma=\\)",
+    "unit": "g",
+    "ans": 18.648,
+    "tol": 0.06,
+    "placeholder": "__._",
+    "worked": "From the two probabilities: \\(z_1=-1.0364\\), \\(z_2=1.6449\\). Label the equations and subtract:\n\\[\\begin{array}{rrcl}(1)\\quad & 480-\\mu &=& -1.0364\\sigma \\\\ (2)\\quad & 530-\\mu &=& 1.6449\\sigma \\\\ \\hline (2)-(1):\\quad & 50 &=& 2.6813\\sigma \\end{array}\\]\nThe \\(\\mu\\) terms cancel. \\(\\sigma=\\dfrac{50}{2.6813}=18.6\\) g",
+    "ok": "✓ \\(18.6\\). Now \\(\\mu\\) from either equation.",
+    "wrongs": [
+     [
+      18.7,
+      "\\(18.7\\) comes from \\(z\\)-values rounded to 2 d.p. Keep 4 figures: \\(18.6\\)."
+     ],
+     [
+      82.1,
+      "\\(82.1\\) comes from \\(z_1=+1.036\\). \\(480\\) is below the mean, so \\(z_1\\) is negative and the two \\(z\\)-values are \\(2.68\\) apart, not \\(0.61\\)."
+     ]
+    ],
+    "err": "Accuracy"
+   },
+   {
+    "t": "numeric",
+    "tag": "ACTIVITY · enter your answer",
+    "given": "\\(X \\sim \\mathrm{N}(\\mu,\\,18.65^2)\\)",
+    "givenNote": "loaves, continuing from the previous step",
+    "carry": [
+     "\\(\\sigma=18.65\\) g (previous step; use your stored value)",
+     "Either equation: \\(480-\\mu=-1.0364\\sigma\\) or \\(530-\\mu=1.6449\\sigma\\)"
+    ],
+    "ftFrom": 3,
+    "ft": {
+     "$fn": "(sig) => 480 + 1.0364 * sig"
+    },
+    "parts": [
+     [
+      "c",
+      "With \\(\\sigma=18.65\\), which substitution gives \\(\\mu\\)?",
+      [
+       "\\(\\mu=480+1.0364\\times18.65\\)",
+       "\\(\\mu=480-1.0364\\times18.65\\)",
+       "\\(\\mu=530+1.6449\\times18.65\\)"
+      ],
+      0,
+      "✓ From \\(480-\\mu=-1.0364\\sigma\\).",
+      "✗ \\(480-\\mu=-1.0364\\sigma\\) gives \\(\\mu=480+1.0364\\sigma\\); the other equation gives \\(\\mu=530-1.6449\\sigma\\), the same value."
+     ]
+    ],
+    "title": "Find \\(\\mu\\) for the loaves.",
+    "instr": [
+     "Substitute \\(\\sigma\\) into either equation and solve for \\(\\mu\\).",
+     "Type the value to 3 significant figures."
+    ],
+    "label": "\\(\\mu=\\)",
+    "unit": "g",
+    "ans": 499.33,
+    "tol": 0.6,
+    "placeholder": "___",
+    "worked": "Take the first equation: \\(480-\\mu=-1.0364\\sigma\\)\n\\(\\mu=480+1.0364\\times18.648=499.3\\), so \\(\\mu=499\\) g\nCheck with the second: \\(530-1.6449\\times18.648=499.3\\) ✓ (both equations must agree)",
+    "ok": "✓ \\(499\\). Both equations give the same \\(\\mu\\): a free check.",
+    "wrongs": [
+     [
+      460.67,
+      "\\(461\\) comes from \\(480-1.036\\sigma\\): the sign of \\(z_1\\) is negative, so \\(\\mu=480+1.036\\sigma\\)."
+     ]
+    ],
+    "err": "Set-up"
+   },
+   {
+    "t": "choice",
+    "tag": "ACTIVITY · write the line",
+    "given": "loaves, both unknown",
+    "title": "Which working earns full method marks for \\(\\sigma\\) and \\(\\mu\\)?",
+    "opts": [
+     "“By GDC, \\(\\sigma=18.6\\), \\(\\mu=499\\)”",
+     "“\\(\\frac{480-\\mu}{\\sigma}=-1.0364\\), \\(\\frac{530-\\mu}{\\sigma}=1.6449\\); subtracting, \\(\\sigma=\\frac{50}{2.6813}=18.6\\); \\(\\mu=499\\)”",
+     "“\\(z=-1.04\\) and \\(1.64\\), so \\(\\sigma=18.7\\), \\(\\mu=499\\)”"
+    ],
+    "right": 1,
+    "ok": "✓ Right. Both equations, the \\(z\\)-values to 4 figures, the method of solving, the answers.",
+    "bads": [
+     "✗ No equations: examiners note that guess-and-check on the GDC is not valid working here.",
+     "",
+     "✗ \\(z\\) rounded to 3 s.f. drifts \\(\\sigma\\) to \\(18.7\\), and the equations are missing."
+    ],
+    "err": "Communication"
+   },
+   {
+    "t": "numeric",
+    "fig": {
+     "kind": "shade",
+     "lo": null,
+     "hi": -0.8416,
+     "ticks": [
+      [
+       -0.8416,
+       "23"
+      ],
+      [
+       0,
+       "25"
+      ]
+     ],
+     "notes": [
+      [
+       -1.9,
+       118,
+       "0.2",
+       "#B45309"
+      ],
+      [
+       -0.42,
+       60,
+       "σ = ?",
+       "#12201E"
+      ]
+     ],
+     "caption": "20% of shells are shorter than 23 mm: 23 sits below the mean of 25, so its z is negative. Find z from the 0.2, then σ."
+    },
+    "tag": "EXAM-STYLE PART · 5 marks · hints available",
+    "given": "\\(X \\sim \\mathrm{N}(25,\\,\\sigma^2)\\)",
+    "givenNote": "shell lengths, in mm; 20% of shells are shorter than 23 mm",
+    "parts": [
+     [
+      "c",
+      "Which probability statement matches the words?",
+      [
+       "\\(\\mathrm{P}(X<23)=0.2\\)",
+       "\\(\\mathrm{P}(X>23)=0.2\\)",
+       "\\(\\mathrm{P}(X<23)=0.8\\)"
+      ],
+      0,
+      "✓ Shorter than \\(23\\): left area \\(0.2\\).",
+      "✗ \\(20\\%\\) are shorter than \\(23\\): \\(\\mathrm{P}(X<23)=0.2\\)."
+     ],
+     [
+      "n",
+      "Find \\(z\\) for area \\(0.2\\).",
+      "\\(z=\\)",
+      -0.8416,
+      0.0006,
+      "✓ Negative.",
+      [
+       [
+        0.8416,
+        "Negative: \\(23\\) is below the mean."
+       ]
+      ]
+     ],
+     [
+      "n",
+      "Solve \\(\\dfrac{23-25}{\\sigma}=-0.8416\\) for \\(\\sigma\\).",
+      "\\(\\sigma=\\)",
+      2.376,
+      0.03,
+      "✓ \\(\\sigma=2.376\\). Store it, then find \\(\\mathrm{P}(X>26)\\) with \\(\\mu=25\\).",
+      [
+       [
+        -2.376,
+        "\\(\\sigma\\) is positive: two negatives divide to a positive."
+       ],
+       [
+        2,
+        "\\(2\\) is the gap, not yet divided by \\(0.8416\\)."
+       ]
+      ]
+     ]
+    ],
+    "title": "Find \\(\\sigma\\), then find \\(\\mathrm{P}(X>26)\\). Enter the probability.",
+    "instr": [
+     "Find \\(\\sigma\\) first and keep it stored.",
+     "Then Normal Cdf with the full value of \\(\\sigma\\).",
+     "Type the probability to 3 significant figures."
+    ],
+    "label": "\\(\\mathrm{P}(X>26)=\\)",
+    "ans": 0.3369,
+    "tol": 0.0006,
+    "worked": "\\(\\mathrm{P}(X<23)=0.2 \\Rightarrow z=-0.8416\\)\n\\(\\dfrac{23-25}{\\sigma}=-0.8416 \\Rightarrow \\sigma=\\dfrac{2}{0.8416}=2.376\\)\n\\(\\mathrm{P}(X>26)=0.337\\)   (Lower \\(26\\), Upper \\(\\infty\\), \\(\\mu=25\\), \\(\\sigma=2.376\\))",
+    "ok": "✓ \\(0.337\\). Two techniques in one part: \\(z\\) to find \\(\\sigma\\), then a plain probability.",
+    "wrongs": [
+     [
+      0.6631,
+      "\\(0.663\\) is \\(\\mathrm{P}(X<26)\\), the other tail."
+     ],
+     [
+      0.3385,
+      "\\(0.339\\) comes from rounding \\(\\sigma\\) to \\(2.4\\) before reusing it. Store \\(\\sigma=2.376\\)."
+     ],
+     [
+      2.376,
+      "\\(2.38\\) is \\(\\sigma\\). The question asks for the probability \\(\\mathrm{P}(X>26)\\) as well."
+     ]
+    ],
+    "hints": [
+     "\\(20\\%\\) below \\(23\\) means area \\(0.2\\), so \\(z\\) is negative.",
+     "\\(\\dfrac{23-25}{\\sigma}=-0.8416\\).",
+     "\\(\\sigma=\\dfrac{2}{0.8416}=2.376\\). Now \\(\\mathrm{P}(X>26)\\) with \\(\\mu=25\\), \\(\\sigma=2.376\\)."
+    ],
+    "err": "Set-up"
+   },
+   {
+    "t": "choice",
+    "tag": "ACTIVITY · show that",
+    "given": "\\(X \\sim \\mathrm{N}(290,\\,5^2)\\)",
+    "givenNote": "a “show that” question",
+    "title": "“Using \\(z\\)-values, show that \\(\\mathrm{P}(284<X<295)\\approx0.726\\).” Which answer earns the marks?",
+    "opts": [
+     "\\(\\mathrm{normCdf}(284,\\,295,\\,290,\\,5)=0.726\\)",
+     "\\(z=-1.2\\) and \\(z=1\\), so \\(\\mathrm{P}(-1.2<Z<1)=0.8413-0.1151=0.726\\)",
+     "\\(0.726\\), as required"
+    ],
+    "right": 1,
+    "ok": "✓ Right. “Using \\(z\\)-values” means the \\(z\\)-values and the standard-normal probabilities are the working.",
+    "bad": "✗ Not quite. The question says using \\(z\\)-values: \\(z=\\frac{284-290}{5}=-1.2\\) and \\(z=\\frac{295-290}{5}=1\\), then \\(\\mathrm{P}(-1.2<Z<1)=0.8413-0.1151=0.726\\). The GDC value alone scores nothing here.",
+    "err": "Communication"
+   },
+   {
+    "t": "choice",
+    "tag": "HL · linear transformation",
+    "given": "\\(X \\sim \\mathrm{N}(20,\\,2^2)\\)",
+    "givenNote": "temperatures in °C; \\(Y=1.8X+32\\) converts to °F. SL students may skip this step",
+    "title": "If \\(Y=aX+b\\) then \\(\\mathrm{E}(Y)=a\\,\\mathrm{E}(X)+b\\) and \\(\\mathrm{Var}(Y)=a^2\\,\\mathrm{Var}(X)\\), and \\(Y\\) is still normal. Find \\(\\mathrm{Var}(Y)\\).",
+    "opts": [
+     "\\(7.2\\)",
+     "\\(12.96\\)",
+     "\\(3.6\\)",
+     "\\(44.96\\)"
+    ],
+    "right": 1,
+    "ok": "✓ Right. \\(\\mathrm{Var}(Y)=1.8^2\\times4=12.96\\), so \\(\\sigma_Y=3.6\\). The \\(+32\\) moves the mean to \\(68\\) but not the spread.",
+    "bad": "✗ Not quite. \\(\\mathrm{Var}(Y)=a^2\\,\\mathrm{Var}(X)=1.8^2\\times2^2=12.96\\). \\(3.6\\) is \\(\\sigma_Y\\); \\(7.2\\) forgets to square \\(a\\); the \\(+32\\) affects only the mean.",
+    "err": "Concept"
+   },
+   {
+    "t": "finish",
+    "tag": "LESSON COMPLETE",
+    "title": "Standardising and unknown parameters: Learn passed"
+   }
+  ]
+ },
+ "drill": {
+  "intro": "Each gives a probability with \\(\\mu\\) or \\(\\sigma\\) (or both) missing. Turn the probability into a \\(z\\)-value, write the equation, solve, and type the value. Keep every \\(z\\) to 4 figures.",
+  "challengeIntro": "a symmetric band with σ unknown, a non-symmetric pair, changing σ to meet a target, and an HL linear transformation. Optional: getting them wrong cannot undo your drill result.",
+  "keys": {
+   "nspire": [
+    "Write the probability statement with the LEFT area, e.g. P(X < 70) = 0.2.",
+    "Find z: menu → 6: Statistics → 5: Distributions → 3: Inverse Normal with Area = that left area, μ = 0, σ = 1. (Leave μ and σ blank and they default to 0 and 1.)",
+    "Store it: press ctrl then var (sto→), type z, press enter. Keep all the figures.",
+    "Write the equation on paper: (x − μ)/σ = z.",
+    "One unknown: solve by hand, e.g. μ = 70 − z×6, typing z from the stored variable. Or menu → 3: Algebra → 1: Numerical Solve.",
+    "Two unknowns: rearrange both to x − μ = z·σ, then menu → 3: Algebra → 7: Solve System of Linear Equations with unknowns m and s.",
+    "Round only at the end, to 3 s.f."
+   ],
+   "ti84": [
+    "Write the probability statement with the LEFT area, e.g. P(X < 70) = 0.2.",
+    "Find z: 2nd VARS (DISTR) → 3: invNorm(area) with μ = 0 and σ = 1 (the defaults). Press ENTER.",
+    "Store it: press STO→, then ALPHA, Z, then ENTER. Keep all the figures.",
+    "Write the equation on paper: (x − μ)/σ = z.",
+    "One unknown: rearrange by hand and type it, e.g. 70 − Z×6 for μ, or (540 − 500)/Z for σ.",
+    "Two unknowns: rearrange to x − μ = z·σ, then APPS → PlySmlt2 → Simultaneous Eqn Solver (2 equations, 2 unknowns), or subtract the equations by hand.",
+    "Round only at the end, to 3 s.f."
+   ],
+   "cg50": [
+    "Write the probability statement with the LEFT area, e.g. P(X < 70) = 0.2.",
+    "Find z: MENU STAT → F5 DIST → F1 NORM → F3 InvN with Tail Left, Area = that left area, σ = 1, μ = 0. (On the fx-CG100, DisplayZ shows z directly.)",
+    "Store it: in RUN-MAT type the value (or Ans), press →, then Z, then EXE. Keep all the figures.",
+    "Write the equation on paper: (x − μ)/σ = z.",
+    "One unknown: rearrange by hand and type it, e.g. 70 − Z×6 for μ, or (540 − 500)/Z for σ. Or MENU EQUA → F3 Solver.",
+    "Two unknowns: rearrange to −μ − z·σ = −x for each line, then MENU EQUA → F1 Simultaneous, 2 unknowns.",
+    "Round only at the end, to 3 s.f."
+   ]
+  },
+  "sets": [
+   [
+    {
+     "fig": {
+      "lo": 1.75,
+      "hi": null,
+      "ticks": [
+       [
+        1.75,
+        "3.9"
+       ]
+      ],
+      "notes": [
+       [
+        2.65,
+        118,
+        "z = 1.75"
+       ]
+      ],
+      "caption": "3.9 is 0.7 cm above the mean; one σ is 0.4 cm, so z = 1.75."
+     },
+     "parts": [
+      [
+       "c",
+       "Which formula gives a \\(z\\)-value?",
+       [
+        "\\(z=\\dfrac{x-\\mu}{\\sigma}\\)",
+        "\\(z=\\dfrac{\\mu-x}{\\sigma}\\)",
+        "\\(z=x-\\mu\\)"
+       ],
+       0,
+       "✓ \\(z\\) is the distance from the mean, divided by \\(\\sigma\\). It is in the formula booklet.",
+       "✗ \\(z=\\dfrac{x-\\mu}{\\sigma}\\): distance above the mean, in units of \\(\\sigma\\). Above the mean gives a positive \\(z\\)."
+      ]
+     ],
+     "name": "D1 z-value",
+     "instr": "No probability is involved: use \\(z=\\dfrac{x-\\mu}{\\sigma}\\) and type \\(z\\) to 3 decimal places.",
+     "given": "\\(X \\sim \\mathrm{N}(3.2,\\,0.4^2)\\)",
+     "givenNote": "lengths of bolts, in cm",
+     "q": "Find the \\(z\\)-value of a bolt of length \\(3.9\\) cm.",
+     "label": "\\(z=\\)",
+     "ans": 1.75,
+     "tol": 0.006,
+     "target": 45,
+     "line": "\\(z=\\dfrac{3.9-3.2}{0.4}=1.75\\)",
+     "steps": [
+      [
+       "Read it",
+       "\\(X \\sim \\mathrm{N}(3.2,\\,0.4^2)\\). A \\(z\\)-value counts how many standard deviations a value is from the mean; no probability is involved."
+      ],
+      [
+       "Formula",
+       "\\(z=\\dfrac{x-\\mu}{\\sigma}\\) (formula booklet)"
+      ],
+      [
+       "Calculator",
+       "Plain arithmetic: \\((3.9-3.2)\\div0.4\\)."
+      ],
+      [
+       "Answer",
+       "\\(z=1.75\\). Check: \\(3.9\\) is above the mean, so \\(z\\) is positive; \\(0.7\\) alone is the gap in cm, not in standard deviations."
+      ]
+     ],
+     "wrongs": [
+      [
+       0.7,
+       "\\(0.7\\) is \\(3.9-3.2\\), not yet divided by \\(\\sigma=0.4\\)."
+      ],
+      [
+       0.0401,
+       "\\(0.0401\\) is a probability, \\(\\mathrm{P}(X>3.9)\\). A \\(z\\)-value counts standard deviations."
+      ]
+     ]
+    },
+    {
+     "fig": {
+      "lo": null,
+      "hi": -0.8416,
+      "ticks": [
+       [
+        -0.8416,
+        "70"
+       ]
+      ],
+      "notes": [
+       [
+        -1.74,
+        118,
+        "0.2"
+       ]
+      ],
+      "caption": "20% under 70: z = −0.8416, so μ is above 70."
+     },
+     "parts": [
+      [
+       "c",
+       "Which probability statement, with a LEFT area, matches the words?",
+       [
+        "\\(\\mathrm{P}(X<70)=0.2\\)",
+        "\\(\\mathrm{P}(X>70)=0.2\\)",
+        "\\(\\mathrm{P}(X<70)=0.8\\)"
+       ],
+       0,
+       "✓ “\\(20\\%\\) of times are under \\(70\\)” is a left area of \\(0.2\\) already.",
+       "✗ “Under \\(70\\)” means less than \\(70\\): \\(\\mathrm{P}(X<70)=0.2\\), a left area, no conversion needed."
+      ],
+      [
+       "c",
+       "Which calculator function turns that area into \\(z\\)?",
+       [
+        "Inverse Normal with Area = that left area, \\(\\mu=0\\), \\(\\sigma=1\\)",
+        "Normal Cdf with the given \\(x\\) as the upper bound",
+        "Inverse Normal with the given \\(\\mu\\) and \\(\\sigma\\) of \\(X\\)"
+       ],
+       0,
+       "✓ Inverse Normal on the standard normal gives \\(z\\) directly.",
+       "✗ Normal Cdf gives an area from a value, the wrong direction; using the given \\(\\mu\\) and \\(\\sigma\\) returns \\(x\\), not \\(z\\). Use Inverse Normal with \\(\\mu=0\\), \\(\\sigma=1\\)."
+      ],
+      [
+       "n",
+       "Find \\(z\\) (keep 4 figures; type at least 3 decimal places).",
+       "\\(z=\\)",
+       -0.8416,
+       0.0006,
+       "✓ \\(z=-0.8416\\). Store it before going on.",
+       [
+        [
+         0.8416,
+         "\\(+0.8416\\): the area \\(0.2\\) is less than \\(0.5\\), so \\(70\\) is below the mean and \\(z\\) is negative."
+        ],
+        [
+         0.2,
+         "\\(0.2\\) is the area, not \\(z\\). Use Inverse Normal with \\(\\mu=0\\), \\(\\sigma=1\\)."
+        ]
+       ]
+      ],
+      [
+       "c",
+       "Which equation follows from \\(z=\\dfrac{x-\\mu}{\\sigma}\\)?",
+       [
+        "\\(\\dfrac{70-\\mu}{6}=-0.8416\\)",
+        "\\(\\dfrac{\\mu-70}{6}=-0.8416\\)",
+        "\\(70-\\mu=-0.8416\\)"
+       ],
+       0,
+       "✓ \\(x=70\\), \\(\\sigma=6\\), \\(z=-0.8416\\). Now solve for \\(\\mu\\).",
+       "✗ Substitute into \\(\\dfrac{x-\\mu}{\\sigma}=z\\) exactly: \\(\\dfrac{70-\\mu}{6}=-0.8416\\). Don’t swap the numerator or drop the \\(\\sigma\\)."
+      ]
+     ],
+     "name": "D2 Unknown μ",
+     "instr": "Write the probability statement, find \\(z\\) (left area, \\(\\mu=0\\), \\(\\sigma=1\\)), write \\(\\dfrac{x-\\mu}{\\sigma}=z\\) and solve for \\(\\mu\\). Type \\(\\mu\\) to 3 significant figures.",
+     "given": "\\(X \\sim \\mathrm{N}(\\mu,\\,6^2)\\)",
+     "givenNote": "times, in seconds; 20% of times are under 70 s",
+     "q": "Find \\(\\mu\\).",
+     "label": "\\(\\mu=\\)",
+     "unit": "s",
+     "ans": 75.05,
+     "tol": 0.1,
+     "target": 120,
+     "line": "\\(\\mathrm{P}(X<70)=0.2 \\Rightarrow z=-0.8416;\\ \\dfrac{70-\\mu}{6}=-0.8416;\\ \\mu=75.0\\)",
+     "steps": [
+      [
+       "Read it",
+       "\\(X \\sim \\mathrm{N}(\\mu,\\,6^2)\\): \\(\\sigma\\) is known, \\(\\mu\\) is not. The calculator cannot find \\(\\mu\\) directly, so turn the probability into a \\(z\\)-value first."
+      ],
+      [
+       "Statement",
+       "\\(\\mathrm{P}(X<70)=0.2\\), a left area, so \\(z=\\mathrm{invNorm}(0.2,\\,0,\\,1)=-0.8416\\). Negative, because \\(70\\) has less than half below it: \\(70\\) is below the mean."
+      ],
+      [
+       "Equation",
+       "\\(\\dfrac{70-\\mu}{6}=-0.8416\\), so \\(\\mu=70+0.8416\\times6\\)"
+      ],
+      [
+       "Answer",
+       "\\(\\mu=75.0\\) s. Check: \\(\\mu\\) came out above \\(70\\), as it must. Using \\(z=+0.8416\\) would give \\(64.9\\), on the wrong side."
+      ]
+     ],
+     "wrongs": [
+      [
+       64.95,
+       "\\(64.9\\) comes from \\(z=+0.8416\\). Only \\(20\\%\\) are under \\(70\\), so \\(70\\) is below the mean and \\(z\\) is negative: \\(\\mu>70\\)."
+      ],
+      [
+       -0.8416,
+       "\\(-0.8416\\) is \\(z\\). Now solve \\(\\dfrac{70-\\mu}{6}=z\\) for \\(\\mu\\)."
+      ]
+     ]
+    },
+    {
+     "fig": {
+      "lo": 1.2816,
+      "hi": null,
+      "ticks": [
+       [
+        1.2816,
+        "540"
+       ]
+      ],
+      "notes": [
+       [
+        2.18,
+        118,
+        "0.1"
+       ]
+      ],
+      "caption": "10% exceed 540: 540 is 1.2816σ above 500."
+     },
+     "parts": [
+      [
+       "c",
+       "Which probability statement, with a LEFT area, matches the words?",
+       [
+        "\\(\\mathrm{P}(X<540)=0.9\\)",
+        "\\(\\mathrm{P}(X<540)=0.1\\)",
+        "\\(\\mathrm{P}(X>540)=0.9\\)"
+       ],
+       0,
+       "✓ \\(10\\%\\) exceed \\(540\\), so \\(90\\%\\) are below it: left area \\(0.9\\).",
+       "✗ “\\(10\\%\\) exceed \\(540\\)” is a right tail. Convert: \\(\\mathrm{P}(X<540)=0.9\\)."
+      ],
+      [
+       "c",
+       "Which calculator function turns that area into \\(z\\)?",
+       [
+        "Inverse Normal with Area = that left area, \\(\\mu=0\\), \\(\\sigma=1\\)",
+        "Normal Cdf with the given \\(x\\) as the upper bound",
+        "Inverse Normal with the given \\(\\mu\\) and \\(\\sigma\\) of \\(X\\)"
+       ],
+       0,
+       "✓ Inverse Normal on the standard normal gives \\(z\\) directly.",
+       "✗ Normal Cdf gives an area from a value, the wrong direction; using the given \\(\\mu\\) and \\(\\sigma\\) returns \\(x\\), not \\(z\\). Use Inverse Normal with \\(\\mu=0\\), \\(\\sigma=1\\)."
+      ],
+      [
+       "n",
+       "Find \\(z\\) (keep 4 figures; type at least 3 decimal places).",
+       "\\(z=\\)",
+       1.2816,
+       0.0006,
+       "✓ \\(z=1.2816\\). Store it before going on.",
+       [
+        [
+         -1.2816,
+         "\\(-1.2816\\) comes from area \\(0.1\\). \\(540\\) is above the mean: use \\(0.9\\), giving a positive \\(z\\)."
+        ],
+        [
+         0.9,
+         "\\(0.9\\) is the area, not \\(z\\)."
+        ]
+       ]
+      ],
+      [
+       "c",
+       "Which equation follows from \\(z=\\dfrac{x-\\mu}{\\sigma}\\)?",
+       [
+        "\\(\\dfrac{540-500}{\\sigma}=1.2816\\)",
+        "\\(\\dfrac{500-540}{\\sigma}=1.2816\\)",
+        "\\(40\\sigma=1.2816\\)"
+       ],
+       0,
+       "✓ \\(x=540\\), \\(\\mu=500\\). Now solve for \\(\\sigma\\).",
+       "✗ \\(\\dfrac{x-\\mu}{\\sigma}=z\\) with \\(x=540\\), \\(\\mu=500\\): \\(\\dfrac{40}{\\sigma}=1.2816\\), so \\(\\sigma=40\\div1.2816\\)."
+      ]
+     ],
+     "name": "D3 Unknown σ",
+     "instr": "Convert the upper tail to a left area, find \\(z\\), write \\(\\dfrac{x-\\mu}{\\sigma}=z\\) and solve for \\(\\sigma\\). Type \\(\\sigma\\) to 3 significant figures.",
+     "given": "\\(X \\sim \\mathrm{N}(500,\\,\\sigma^2)\\)",
+     "givenNote": "masses, in grams; 10% of items exceed 540 g",
+     "q": "Find \\(\\sigma\\).",
+     "label": "\\(\\sigma=\\)",
+     "unit": "g",
+     "ans": 31.21,
+     "tol": 0.1,
+     "target": 120,
+     "line": "\\(\\mathrm{P}(X<540)=0.9 \\Rightarrow z=1.2816;\\ \\dfrac{540-500}{\\sigma}=1.2816;\\ \\sigma=31.2\\)",
+     "steps": [
+      [
+       "Read it",
+       "\\(X \\sim \\mathrm{N}(500,\\,\\sigma^2)\\): \\(\\mu\\) is known, \\(\\sigma\\) is not. \\(10\\%\\) exceed \\(540\\): a right tail."
+      ],
+      [
+       "Statement",
+       "\\(\\mathrm{P}(X>540)=0.1\\), so \\(\\mathrm{P}(X<540)=0.9\\) and \\(z=\\mathrm{invNorm}(0.9)=1.2816\\)."
+      ],
+      [
+       "Equation",
+       "\\(\\dfrac{540-500}{\\sigma}=1.2816\\), so \\(\\sigma=\\dfrac{40}{1.2816}\\)"
+      ],
+      [
+       "Answer",
+       "\\(\\sigma=31.2\\) g. Check: \\(\\sigma\\) is positive and smaller than the gap \\(40\\), since \\(540\\) is more than one \\(\\sigma\\) above the mean."
+      ]
+     ],
+     "wrongs": [
+      [
+       40,
+       "\\(40\\) is \\(540-500\\), not yet divided by \\(z\\)."
+      ],
+      [
+       -31.21,
+       "\\(-31.2\\): a standard deviation is positive. \\(540\\) is above the mean, so \\(z=+1.2816\\)."
+      ],
+      [
+       51.26,
+       "\\(51.3\\) comes from dividing by \\(0.78\\), or by \\(z\\) for area \\(0.1\\) with the sign dropped. Use \\(z=1.2816\\)."
+      ]
+     ]
+    },
+    {
+     "fig": {
+      "lo": null,
+      "hi": -1.2816,
+      "lo2": 1.2816,
+      "ticks": [
+       [
+        -1.2816,
+        "40"
+       ],
+       [
+        1.2816,
+        "60"
+       ]
+      ],
+      "notes": [
+       [
+        -2.18,
+        118,
+        "0.1",
+        "#B45309"
+       ],
+       [
+        2.18,
+        118,
+        "0.1",
+        "#B45309"
+       ],
+       [
+        0,
+        60,
+        "μ = ?, σ = ?",
+        "#12201E"
+       ]
+      ],
+      "caption": "Two probabilities give two z-values, −1.2816 and 1.2816: symmetric, so μ is halfway."
+     },
+     "parts": [
+      [
+       "c",
+       "Two probabilities. Which pair of \\(z\\)-values is right?",
+       [
+        "\\(z_1=-1.2816\\) for \\(x=40\\), \\(z_2=1.2816\\) for \\(x=60\\)",
+        "\\(z_1=1.2816\\), \\(z_2=1.2816\\)",
+        "\\(z_1=0.1\\), \\(z_2=0.9\\)"
+       ],
+       0,
+       "✓ Area \\(0.1\\) gives a negative \\(z\\); area \\(0.9\\) gives the positive one.",
+       "✗ Each area gives its own \\(z\\) from Inverse Normal (\\(\\mu=0,\\sigma=1\\)): \\(0.1 \\to -1.2816\\), \\(0.9 \\to 1.2816\\). The areas themselves are not \\(z\\)-values."
+      ],
+      [
+       "c",
+       "Which equation follows from \\(z=\\dfrac{x-\\mu}{\\sigma}\\)?",
+       [
+        "\\(40-\\mu=-1.2816\\sigma\\) and \\(60-\\mu=1.2816\\sigma\\)",
+        "\\(40-\\mu=1.2816\\sigma\\) and \\(60-\\mu=-1.2816\\sigma\\)",
+        "\\(40=-1.2816\\sigma\\) and \\(60=1.2816\\sigma\\)"
+       ],
+       0,
+       "✓ Two equations, two unknowns. Subtract them: \\(\\mu\\) cancels.",
+       "✗ Multiply \\(\\dfrac{x-\\mu}{\\sigma}=z\\) through by \\(\\sigma\\): \\(x-\\mu=z\\sigma\\), keeping each \\(z\\) with its own \\(x\\) and the \\(\\mu\\) in both."
+      ],
+      [
+       "n",
+       "Label the equations and subtract, \\((2)-(1)\\), so that \\(\\mu\\) cancels: \\[\\begin{array}{rrcl}(1)\\quad & 40-\\mu &=& -1.2816\\sigma \\\\ (2)\\quad & 60-\\mu &=& 1.2816\\sigma \\\\ \\hline (2)-(1):\\quad & 20 &=& 2.5631\\sigma \\end{array}\\] Solve for \\(\\sigma\\).",
+       "\\(\\sigma=\\)",
+       7.803,
+       0.06,
+       "✓ \\(20=2.5631\\sigma\\), so \\(\\sigma=7.80\\). Now substitute back for \\(\\mu\\).",
+       [
+        [
+         15.61,
+         "\\(15.6\\) divides \\(20\\) by one \\(z\\). The difference of the two \\(z\\)-values is \\(2.5631\\)."
+        ],
+        [
+         3.9,
+         "\\(3.90\\): you added the equations instead of subtracting."
+        ]
+       ]
+      ]
+     ],
+     "name": "D4 Both unknown",
+     "instr": "Two statements give two \\(z\\)-values and two equations. Solve them (subtract, or use the simultaneous solver) and type both \\(\\mu\\) and \\(\\sigma\\) to 3 significant figures.",
+     "given": "\\(X \\sim \\mathrm{N}(\\mu,\\,\\sigma^2)\\)",
+     "givenNote": "with \\(\\mathrm{P}(X<40)=0.1\\) and \\(\\mathrm{P}(X<60)=0.9\\)",
+     "q": "Find \\(\\mu\\) and \\(\\sigma\\).",
+     "label": "\\(\\mu=\\)",
+     "label2": "\\(\\sigma=\\)",
+     "ans": 50,
+     "ans2": 7.803,
+     "tol": 0.06,
+     "target": 180,
+     "line": "\\(\\dfrac{40-\\mu}{\\sigma}=-1.2816,\\ \\dfrac{60-\\mu}{\\sigma}=1.2816;\\ \\sigma=\\dfrac{20}{2.5631}=7.80,\\ \\mu=50\\)",
+     "steps": [
+      [
+       "Read it",
+       "Two probabilities, two unknowns. Each probability gives a \\(z\\)-value and an equation; two equations find \\(\\mu\\) and \\(\\sigma\\)."
+      ],
+      [
+       "Statement",
+       "\\(\\mathrm{P}(X<40)=0.1 \\Rightarrow z_1=-1.2816\\); \\(\\mathrm{P}(X<60)=0.9 \\Rightarrow z_2=1.2816\\)."
+      ],
+      [
+       "Equations",
+       "Multiply \\(\\dfrac{x-\\mu}{\\sigma}=z\\) through by \\(\\sigma\\), label the equations and subtract so that \\(\\mu\\) cancels: \\[\\begin{array}{rrcl}(1)\\quad & 40-\\mu &=& -1.2816\\sigma \\\\ (2)\\quad & 60-\\mu &=& 1.2816\\sigma \\\\ \\hline (2)-(1):\\quad & 20 &=& 2.5631\\sigma \\end{array}\\] So \\(\\sigma=\\dfrac{20}{2.5631}=7.80\\)."
+      ],
+      [
+       "Answer",
+       "\\(\\mu=50\\), \\(\\sigma=7.80\\). Check: the areas \\(0.1\\) and \\(0.9\\) are symmetric, so \\(\\mu\\) is exactly halfway between \\(40\\) and \\(60\\). Dividing \\(20\\) by one \\(z\\) (\\(15.6\\)) is the common slip."
+      ]
+     ],
+     "wrongs": [
+      [
+       15.61,
+       "\\(15.6\\) comes from dividing \\(20\\) by one \\(z\\) instead of the difference \\(z_2-z_1=2.5631\\)."
+      ],
+      [
+       3.9,
+       "\\(3.90\\) is half the right \\(\\sigma\\): check you subtracted the equations, not added them."
+      ]
+     ]
+    },
+    {
+     "fig": {
+      "lo": null,
+      "hi": -0.5244,
+      "lo2": 0.8416,
+      "ticks": [
+       [
+        -0.5244,
+        "12"
+       ],
+       [
+        0.8416,
+        "20"
+       ]
+      ],
+      "notes": [
+       [
+        -1.42,
+        118,
+        "0.3",
+        "#B45309"
+       ],
+       [
+        1.74,
+        118,
+        "0.2",
+        "#B45309"
+       ],
+       [
+        0,
+        60,
+        "μ = ?, σ = ?",
+        "#12201E"
+       ]
+      ],
+      "caption": "P(X > 20) = 0.2 is a right tail: convert to P(X < 20) = 0.8 before finding z₂ = +0.8416."
+     },
+     "parts": [
+      [
+       "c",
+       "One probability is an upper tail. Which pair of \\(z\\)-values is right?",
+       [
+        "\\(z_1=-0.5244\\) (area \\(0.3\\)), \\(z_2=+0.8416\\) (area \\(0.8\\))",
+        "\\(z_1=-0.5244\\), \\(z_2=-0.8416\\) (area \\(0.2\\))",
+        "\\(z_1=0.3\\), \\(z_2=0.2\\)"
+       ],
+       0,
+       "✓ \\(\\mathrm{P}(X>20)=0.2\\) becomes \\(\\mathrm{P}(X<20)=0.8\\) first, so \\(z_2\\) is positive.",
+       "✗ \\(\\mathrm{P}(X>20)=0.2\\) is a right tail: convert to \\(\\mathrm{P}(X<20)=0.8\\) before Inverse Normal, giving \\(z_2=+0.8416\\). Using \\(0.2\\) gives the wrong sign and a negative \\(\\sigma\\)."
+      ],
+      [
+       "c",
+       "Which equation follows from \\(z=\\dfrac{x-\\mu}{\\sigma}\\)?",
+       [
+        "\\(12-\\mu=-0.5244\\sigma\\) and \\(20-\\mu=0.8416\\sigma\\)",
+        "\\(12-\\mu=0.5244\\sigma\\) and \\(20-\\mu=0.8416\\sigma\\)",
+        "\\(12-\\mu=-0.5244\\sigma\\) and \\(20-\\mu=-0.8416\\sigma\\)"
+       ],
+       0,
+       "✓ Subtract: \\(8=1.3660\\sigma\\).",
+       "✗ Keep the signs: \\(z_1=-0.5244\\) with \\(x=12\\), \\(z_2=+0.8416\\) with \\(x=20\\)."
+      ],
+      [
+       "n",
+       "Label the equations and subtract, \\((2)-(1)\\), so that \\(\\mu\\) cancels: \\[\\begin{array}{rrcl}(1)\\quad & 12-\\mu &=& -0.5244\\sigma \\\\ (2)\\quad & 20-\\mu &=& 0.8416\\sigma \\\\ \\hline (2)-(1):\\quad & 8 &=& 1.3660\\sigma \\end{array}\\] Solve for \\(\\sigma\\).",
+       "\\(\\sigma=\\)",
+       5.856,
+       0.06,
+       "✓ \\(\\sigma=5.86\\). Now \\(\\mu\\).",
+       [
+        [
+         -25.22,
+         "A negative \\(\\sigma\\): \\(z_2\\) was taken as \\(-0.8416\\)."
+        ]
+       ]
+      ]
+     ],
+     "name": "D5 Both unknown, one upper tail",
+     "instr": "Convert the upper-tail probability to a left area first. Then two \\(z\\)-values, two equations, solve for both. Type \\(\\mu\\) and \\(\\sigma\\) to 3 significant figures.",
+     "given": "\\(X \\sim \\mathrm{N}(\\mu,\\,\\sigma^2)\\)",
+     "givenNote": "with \\(\\mathrm{P}(X<12)=0.3\\) and \\(\\mathrm{P}(X>20)=0.2\\)",
+     "q": "Find \\(\\mu\\) and \\(\\sigma\\).",
+     "label": "\\(\\mu=\\)",
+     "label2": "\\(\\sigma=\\)",
+     "ans": 15.07,
+     "ans2": 5.856,
+     "tol": 0.06,
+     "target": 180,
+     "line": "\\(z_1=-0.5244,\\ z_2=0.8416;\\ \\sigma=\\dfrac{8}{1.3660}=5.86,\\ \\mu=15.1\\)",
+     "steps": [
+      [
+       "Read it",
+       "Two probabilities, but one is an upper tail: \\(\\mathrm{P}(X>20)=0.2\\) must be converted before finding its \\(z\\)."
+      ],
+      [
+       "Statement",
+       "\\(\\mathrm{P}(X<12)=0.3 \\Rightarrow z_1=-0.5244\\); \\(\\mathrm{P}(X<20)=0.8 \\Rightarrow z_2=+0.8416\\)."
+      ],
+      [
+       "Equations",
+       "Multiply \\(\\dfrac{x-\\mu}{\\sigma}=z\\) through by \\(\\sigma\\), label the equations and subtract so that \\(\\mu\\) cancels: \\[\\begin{array}{rrcl}(1)\\quad & 12-\\mu &=& -0.5244\\sigma \\\\ (2)\\quad & 20-\\mu &=& 0.8416\\sigma \\\\ \\hline (2)-(1):\\quad & 8 &=& 1.3660\\sigma \\end{array}\\] So \\(\\sigma=\\dfrac{8}{1.3660}=5.86\\)."
+      ],
+      [
+       "Answer",
+       "\\(\\mu=15.1\\), \\(\\sigma=5.86\\). Check: \\(\\mu\\) lies between \\(12\\) and \\(20\\), and \\(\\sigma>0\\). A negative \\(\\sigma\\) means \\(z_2\\) was taken as \\(-0.8416\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       -25.22,
+       "A negative \\(\\sigma\\) means \\(z_2\\) was taken as \\(-0.8416\\). \\(\\mathrm{P}(X>20)=0.2\\) is an upper tail: \\(\\mathrm{P}(X<20)=0.8\\), so \\(z_2=+0.8416\\)."
+      ],
+      [
+       -25.2,
+       "A negative \\(\\sigma\\) means \\(z_2\\) was taken as \\(-0.8416\\). Convert the upper tail: \\(\\mathrm{P}(X<20)=0.8\\), so \\(z_2=+0.8416\\)."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "\\(|X-50|<6\\) is the symmetric band \\(44<X<56\\) holding \\(90\\%\\): \\(5\\%\\) in each tail.",
+      "The upper end \\(56\\) has area \\(0.95\\) below it: \\(z=1.6449\\). Then \\(\\dfrac{56-50}{\\sigma}=1.6449\\)."
+     ],
+     "fig": {
+      "lo": -1.6449,
+      "hi": 1.6449,
+      "ticks": [
+       [
+        -1.6449,
+        "44"
+       ],
+       [
+        1.6449,
+        "56"
+       ]
+      ],
+      "notes": [
+       [
+        0,
+        100,
+        "0.9"
+       ]
+      ],
+      "caption": "Symmetric band: 5% in each tail, so 56 sits 1.6449σ above the mean."
+     },
+     "parts": [
+      [
+       "c",
+       "\\(\\mathrm{P}(|X-50|<6)=0.9\\). Which single left area goes into Inverse Normal?",
+       [
+        "\\(0.95\\): the band \\(44<X<56\\) leaves \\(0.05\\) in each tail",
+        "\\(0.9\\)",
+        "\\(0.45\\)"
+       ],
+       0,
+       "✓ Symmetric band, \\(5\\%\\) in each tail, so \\(\\mathrm{P}(X<56)=0.95\\).",
+       "✗ The band \\(44<X<56\\) holds \\(0.9\\); what is left, \\(0.1\\), splits \\(0.05\\) into each tail. So \\(\\mathrm{P}(X<56)=0.95\\)."
+      ],
+      [
+       "n",
+       "Find \\(z\\) (keep 4 figures; type at least 3 decimal places).",
+       "\\(z=\\)",
+       1.6449,
+       0.0006,
+       "✓ \\(z=1.6449\\). Store it before going on.",
+       [
+        [
+         1.2816,
+         "\\(1.2816\\) comes from area \\(0.9\\). Use \\(0.95\\)."
+        ]
+       ]
+      ],
+      [
+       "c",
+       "Which equation follows from \\(z=\\dfrac{x-\\mu}{\\sigma}\\)?",
+       [
+        "\\(\\dfrac{56-50}{\\sigma}=1.6449\\)",
+        "\\(\\dfrac{50-56}{\\sigma}=1.6449\\)",
+        "\\(\\dfrac{6}{\\sigma}=0.95\\)"
+       ],
+       0,
+       "✓ Now solve for \\(\\sigma\\).",
+       "✗ \\(x=56\\), \\(\\mu=50\\), \\(z=1.6449\\): \\(\\dfrac{6}{\\sigma}=1.6449\\)."
+      ]
+     ],
+     "name": "C1 Symmetric, σ unknown",
+     "instr": "Turn the symmetric band into one left area, find its \\(z\\), and solve \\(\\dfrac{x-\\mu}{\\sigma}=z\\) for \\(\\sigma\\). Type \\(\\sigma\\) to 3 significant figures.",
+     "given": "\\(X \\sim \\mathrm{N}(50,\\,\\sigma^2)\\)",
+     "givenNote": "with \\(\\mathrm{P}(|X-50|<6)=0.9\\)",
+     "q": "Find \\(\\sigma\\).",
+     "label": "\\(\\sigma=\\)",
+     "ans": 3.648,
+     "tol": 0.03,
+     "target": 150,
+     "line": "\\(\\mathrm{P}(44<X<56)=0.9 \\Rightarrow \\mathrm{P}(X<56)=0.95 \\Rightarrow z=1.6449;\\ \\sigma=\\dfrac{6}{1.6449}=3.65\\)",
+     "steps": [
+      [
+       "Read it",
+       "\\(X \\sim \\mathrm{N}(50,\\,\\sigma^2)\\). \\(|X-50|<6\\) is the band \\(44<X<56\\) holding \\(90\\%\\): \\(5\\%\\) in each tail."
+      ],
+      [
+       "Statement",
+       "\\(\\mathrm{P}(X<56)=0.95\\), so \\(z=\\mathrm{invNorm}(0.95)=1.6449\\)."
+      ],
+      [
+       "Equation",
+       "\\(\\dfrac{56-50}{\\sigma}=1.6449\\), so \\(\\sigma=\\dfrac{6}{1.6449}\\)"
+      ],
+      [
+       "Answer",
+       "\\(\\sigma=3.65\\). Check: \\(6\\) is \\(1.645\\sigma\\), so \\(\\sigma\\) is a bit less than \\(6/1.5=4\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       4.683,
+       "\\(4.68\\) comes from \\(z\\) for area \\(0.9\\). The band is symmetric: \\(0.05\\) in each tail, so the upper end has area \\(0.95\\)."
+      ],
+      [
+       1.6449,
+       "\\(1.64\\) is \\(z\\). Now solve \\(6/\\sigma=1.6449\\)."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "Both areas are left areas already: \\(z_1=\\mathrm{invNorm}(0.2)\\), \\(z_2=\\mathrm{invNorm}(0.7)\\).",
+      "\\(\\sigma=\\dfrac{60-40}{z_2-z_1}\\), then \\(\\mu=40-z_1\\sigma\\)."
+     ],
+     "fig": {
+      "lo": null,
+      "hi": -0.8416,
+      "lo2": 0.5244,
+      "ticks": [
+       [
+        -0.8416,
+        "40"
+       ],
+       [
+        0.5244,
+        "60"
+       ]
+      ],
+      "notes": [
+       [
+        -1.74,
+        118,
+        "0.2",
+        "#B45309"
+       ],
+       [
+        1.42,
+        118,
+        "0.3",
+        "#B45309"
+       ],
+       [
+        0,
+        60,
+        "μ = ?, σ = ?",
+        "#12201E"
+       ]
+      ],
+      "caption": "Not symmetric this time: z₁ = −0.8416 and z₂ = 0.5244, so μ is nearer 60 than 40."
+     },
+     "parts": [
+      [
+       "c",
+       "Which pair of \\(z\\)-values is right?",
+       [
+        "\\(z_1=-0.8416\\) (area \\(0.2\\)), \\(z_2=0.5244\\) (area \\(0.7\\))",
+        "\\(z_1=-0.8416\\), \\(z_2=0.8416\\)",
+        "\\(z_1=0.2\\), \\(z_2=0.7\\)"
+       ],
+       0,
+       "✓ Different sizes: the areas are not symmetric about \\(0.5\\).",
+       "✗ Area \\(0.7\\) gives \\(z=0.5244\\), not the mirror of \\(z_1\\). The areas \\(0.2\\) and \\(0.7\\) are not symmetric."
+      ],
+      [
+       "n",
+       "Label the equations and subtract, \\((2)-(1)\\), so that \\(\\mu\\) cancels: \\[\\begin{array}{rrcl}(1)\\quad & 40-\\mu &=& -0.8416\\sigma \\\\ (2)\\quad & 60-\\mu &=& 0.5244\\sigma \\\\ \\hline (2)-(1):\\quad & 20 &=& 1.3660\\sigma \\end{array}\\] Solve for \\(\\sigma\\).",
+       "\\(\\sigma=\\)",
+       14.64,
+       0.1,
+       "✓ \\(20=1.3660\\sigma\\), so \\(\\sigma=14.6\\).",
+       [
+        [
+         23.76,
+         "\\(23.8\\) divides by one \\(z\\). Use the difference \\(1.3660\\)."
+        ]
+       ]
+      ]
+     ],
+     "name": "C2 Both unknown, not symmetric",
+     "instr": "Two \\(z\\)-values, two equations; \\(\\mu\\) will not be halfway. Solve for both and type them to 3 significant figures.",
+     "given": "\\(X \\sim \\mathrm{N}(\\mu,\\,\\sigma^2)\\)",
+     "givenNote": "with \\(\\mathrm{P}(X<40)=0.2\\) and \\(\\mathrm{P}(X<60)=0.7\\)",
+     "q": "Find \\(\\mu\\) and \\(\\sigma\\).",
+     "label": "\\(\\mu=\\)",
+     "label2": "\\(\\sigma=\\)",
+     "ans": 52.32,
+     "ans2": 14.64,
+     "tol": 0.1,
+     "target": 180,
+     "line": "\\(z_1=-0.8416,\\ z_2=0.5244;\\ \\sigma=\\dfrac{20}{1.3660}=14.6,\\ \\mu=52.3\\)",
+     "steps": [
+      [
+       "Read it",
+       "Two left areas, \\(0.2\\) and \\(0.7\\), not symmetric about \\(0.5\\), so \\(\\mu\\) is not halfway between \\(40\\) and \\(60\\)."
+      ],
+      [
+       "Statement",
+       "\\(z_1=\\mathrm{invNorm}(0.2)=-0.8416\\), \\(z_2=\\mathrm{invNorm}(0.7)=0.5244\\)."
+      ],
+      [
+       "Equations",
+       "Multiply \\(\\dfrac{x-\\mu}{\\sigma}=z\\) through by \\(\\sigma\\), label the equations and subtract so that \\(\\mu\\) cancels: \\[\\begin{array}{rrcl}(1)\\quad & 40-\\mu &=& -0.8416\\sigma \\\\ (2)\\quad & 60-\\mu &=& 0.5244\\sigma \\\\ \\hline (2)-(1):\\quad & 20 &=& 1.3660\\sigma \\end{array}\\] So \\(\\sigma=\\dfrac{20}{1.3660}=14.6\\)."
+      ],
+      [
+       "Answer",
+       "\\(\\mu=52.3\\), \\(\\sigma=14.6\\). Check: \\(\\mu\\) is nearer \\(60\\) than \\(40\\), because \\(60\\) sits at area \\(0.7\\), close to the middle."
+      ]
+     ],
+     "wrongs": [
+      [
+       50,
+       "\\(50\\) assumes \\(\\mu\\) is halfway. The areas \\(0.2\\) and \\(0.7\\) are not symmetric, so it is not."
+      ],
+      [
+       23.76,
+       "\\(23.8\\) comes from dividing \\(20\\) by one \\(z\\). Use the difference \\(z_2-z_1=1.3660\\)."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "Keep \\(\\mu=500\\). The target is \\(\\mathrm{P}(X<480)=0.02\\).",
+      "\\(z=\\mathrm{invNorm}(0.02)=-2.0537\\), then \\(\\dfrac{480-500}{\\sigma}=-2.0537\\)."
+     ],
+     "fig": {
+      "lo": null,
+      "hi": -2.0537,
+      "ticks": [
+       [
+        -2.0537,
+        "480"
+       ]
+      ],
+      "notes": [
+       [
+        -2.95,
+        118,
+        "0.02"
+       ]
+      ],
+      "caption": "The tail must shrink to 2%: 480 has to sit 2.0537σ below 500, so σ must fall to 9.74."
+     },
+     "parts": [
+      [
+       "c",
+       "Which probability statement, with a LEFT area, matches the words?",
+       [
+        "\\(\\mathrm{P}(X<480)=0.02\\) with \\(\\mu=500\\), \\(\\sigma\\) unknown",
+        "\\(\\mathrm{P}(X<480)=0.02\\) with \\(\\sigma=20\\), \\(\\mu\\) unknown",
+        "\\(\\mathrm{P}(X>480)=0.02\\)"
+       ],
+       0,
+       "✓ The mean stays; the spread must change to shrink the tail.",
+       "✗ The factory keeps \\(\\mu=500\\) and wants only \\(2\\%\\) under \\(480\\): \\(\\mathrm{P}(X<480)=0.02\\), solve for a new \\(\\sigma\\)."
+      ],
+      [
+       "n",
+       "Find \\(z\\) (keep 4 figures; type at least 3 decimal places).",
+       "\\(z=\\)",
+       -2.0537,
+       0.0006,
+       "✓ \\(z=-2.0537\\). Store it before going on.",
+       [
+        [
+         2.0537,
+         "Negative: \\(480\\) is below the mean."
+        ]
+       ]
+      ]
+     ],
+     "name": "C3 Change σ to meet a target",
+     "instr": "Keep \\(\\mu\\), write the target probability, find its \\(z\\), and solve for the new \\(\\sigma\\). Type it to 3 significant figures.",
+     "given": "\\(X \\sim \\mathrm{N}(500,\\,20^2)\\)",
+     "givenNote": "masses of bags, in grams; currently 15.9% are under 480 g",
+     "q": "The factory wants only \\(2\\%\\) of bags under \\(480\\) g, keeping the mean at \\(500\\). Find the new \\(\\sigma\\).",
+     "label": "\\(\\sigma=\\)",
+     "unit": "g",
+     "ans": 9.738,
+     "tol": 0.03,
+     "target": 150,
+     "line": "\\(\\mathrm{P}(X<480)=0.02 \\Rightarrow z=-2.0537;\\ \\dfrac{-20}{\\sigma}=-2.0537;\\ \\sigma=9.74\\)",
+     "steps": [
+      [
+       "Read it",
+       "\\(X \\sim \\mathrm{N}(500,\\,20^2)\\) now; the mean stays at \\(500\\) and the factory wants \\(\\mathrm{P}(X<480)=0.02\\). So \\(\\sigma\\) is the unknown."
+      ],
+      [
+       "Statement",
+       "\\(\\mathrm{P}(X<480)=0.02\\), so \\(z=\\mathrm{invNorm}(0.02)=-2.0537\\)."
+      ],
+      [
+       "Equation",
+       "\\(\\dfrac{480-500}{\\sigma}=-2.0537\\), so \\(\\sigma=\\dfrac{20}{2.0537}\\)"
+      ],
+      [
+       "Answer",
+       "\\(\\sigma=9.74\\) g. Check: a smaller tail needs a tighter spread, so the new \\(\\sigma\\) must be less than \\(20\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       20,
+       "\\(20\\) is the current \\(\\sigma\\). The question asks for the new one that makes the tail \\(2\\%\\)."
+      ],
+      [
+       -9.738,
+       "\\(-9.74\\): both \\(480-500\\) and \\(z\\) are negative, so \\(\\sigma=+9.74\\)."
+      ],
+      [
+       9.6,
+       "\\(9.6\\) comes from \\(z=2.08\\) or rounding. Use \\(z=2.0537\\)."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "\\(\\mathrm{E}(Y)=3\\times10+2=32\\) and \\(\\mathrm{Var}(Y)=3^2\\times2^2=36\\), so \\(Y \\sim \\mathrm{N}(32,\\,6^2)\\).",
+      "\\(\\mathrm{P}(Y>38)=\\mathrm{P}(Z>1)\\)."
+     ],
+     "fig": {
+      "lo": 1,
+      "hi": null,
+      "ticks": [
+       [
+        1,
+        "38"
+       ]
+      ],
+      "notes": [
+       [
+        1.9,
+        118,
+        "0.159"
+       ]
+      ],
+      "caption": "Y ~ N(32, 6²): 38 is exactly one σ above the mean of Y."
+     },
+     "parts": [
+      [
+       "n",
+       "Find \\(\\mathrm{E}(Y)\\) for \\(Y=3X+2\\).",
+       "\\(\\mathrm{E}(Y)=\\)",
+       32,
+       0.01,
+       "✓ \\(\\mathrm{E}(Y)=3\\times10+2=32\\).",
+       [
+        [
+         30,
+         "\\(30\\) forgets the \\(+2\\)."
+        ]
+       ]
+      ],
+      [
+       "n",
+       "Find \\(\\mathrm{Var}(Y)\\).",
+       "\\(\\mathrm{Var}(Y)=\\)",
+       36,
+       0.01,
+       "✓ \\(\\mathrm{Var}(Y)=3^2\\times2^2=36\\); the \\(+2\\) does not change the spread.",
+       [
+        [
+         12,
+         "\\(12\\) uses \\(3\\times4\\): \\(a\\) must be squared."
+        ],
+        [
+         38,
+         "\\(38\\) adds the \\(2\\): a shift does not change variance."
+        ],
+        [
+         6,
+         "\\(6\\) is \\(\\sigma_Y\\), not the variance."
+        ]
+       ]
+      ],
+      [
+       "c",
+       "So the distribution of \\(Y\\) is",
+       [
+        "\\(Y \\sim \\mathrm{N}(32,\\,6^2)\\)",
+        "\\(Y \\sim \\mathrm{N}(32,\\,36^2)\\)",
+        "\\(Y \\sim \\mathrm{N}(32,\\,3^2)\\)"
+       ],
+       0,
+       "✓ \\(\\sigma_Y=\\sqrt{36}=6\\).",
+       "✗ \\(\\mathrm{Var}(Y)=36\\), so \\(\\sigma_Y=6\\): \\(Y \\sim \\mathrm{N}(32,\\,6^2)\\)."
+      ]
+     ],
+     "name": "C4 HL transformation",
+     "instr": "Find \\(\\mathrm{E}(Y)\\) and \\(\\mathrm{Var}(Y)\\) first, write the distribution of \\(Y\\), then find the probability with Normal Cdf. Type it to 3 significant figures.",
+     "given": "\\(X \\sim \\mathrm{N}(10,\\,2^2)\\), \\(Y=3X+2\\)",
+     "givenNote": "HL only",
+     "q": "Find \\(\\mathrm{P}(Y>38)\\).",
+     "label": "\\(\\mathrm{P}(Y>38)=\\)",
+     "ans": 0.1587,
+     "tol": 0.0006,
+     "target": 150,
+     "line": "\\(Y \\sim \\mathrm{N}(32,\\,6^2);\\ \\mathrm{P}(Y>38)=\\mathrm{P}(Z>1)=0.159\\)",
+     "steps": [
+      [
+       "Read it",
+       "\\(Y=3X+2\\) with \\(X \\sim \\mathrm{N}(10,\\,2^2)\\). A linear transformation of a normal variable is still normal, with \\(\\mathrm{E}(Y)=a\\,\\mathrm{E}(X)+b\\) and \\(\\mathrm{Var}(Y)=a^2\\,\\mathrm{Var}(X)\\)."
+      ],
+      [
+       "Distribution of Y",
+       "\\(\\mathrm{E}(Y)=3\\times10+2=32\\); \\(\\mathrm{Var}(Y)=3^2\\times2^2=36\\), so \\(\\sigma_Y=6\\) and \\(Y \\sim \\mathrm{N}(32,\\,6^2)\\)."
+      ],
+      [
+       "Calculator",
+       "Normal Cdf with Lower \\(=38\\), Upper \\(=\\infty\\), \\(\\mu=32\\), \\(\\sigma=6\\)."
+      ],
+      [
+       "Answer",
+       "\\(\\mathrm{P}(Y>38)=0.159\\). Check: \\(38\\) is exactly one \\(\\sigma_Y\\) above \\(32\\), and \\(\\mathrm{P}(Z>1)=0.159\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       0.4338,
+       "\\(0.434\\) uses \\(\\mathrm{Var}(Y)=36\\) as \\(\\sigma\\). \\(\\sigma_Y=\\sqrt{36}=6\\)."
+      ],
+      [
+       0.0228,
+       "\\(0.0228\\) uses \\(\\sigma_Y=3\\): \\(a\\) must be squared in the variance, \\(3^2\\times4=36\\), so \\(\\sigma_Y=6\\)."
+      ]
+     ]
+    }
+   ],
+   [
+    {
+     "fig": {
+      "lo": 1.6,
+      "hi": null,
+      "ticks": [
+       [
+        1.6,
+        "88"
+       ]
+      ],
+      "notes": [
+       [
+        2.5,
+        118,
+        "z = 1.6"
+       ]
+      ],
+      "caption": "88 is 8 above the mean; σ = 5, so z = 1.6."
+     },
+     "parts": [
+      [
+       "c",
+       "Which formula gives a \\(z\\)-value?",
+       [
+        "\\(z=\\dfrac{x-\\mu}{\\sigma}\\)",
+        "\\(z=\\dfrac{\\mu-x}{\\sigma}\\)",
+        "\\(z=x-\\mu\\)"
+       ],
+       0,
+       "✓ \\(z\\) is the distance from the mean, divided by \\(\\sigma\\). It is in the formula booklet.",
+       "✗ \\(z=\\dfrac{x-\\mu}{\\sigma}\\): distance above the mean, in units of \\(\\sigma\\). Above the mean gives a positive \\(z\\)."
+      ]
+     ],
+     "name": "D1 z-value",
+     "instr": "No probability is involved: use \\(z=\\dfrac{x-\\mu}{\\sigma}\\) and type \\(z\\) to 3 decimal places.",
+     "given": "\\(X \\sim \\mathrm{N}(80,\\,5^2)\\)",
+     "givenNote": "test scores",
+     "q": "Find the \\(z\\)-value of a score of \\(88\\).",
+     "label": "\\(z=\\)",
+     "ans": 1.6,
+     "tol": 0.006,
+     "target": 45,
+     "line": "\\(z=\\dfrac{88-80}{5}=1.6\\)",
+     "steps": [
+      [
+       "Read it",
+       "\\(X \\sim \\mathrm{N}(80,\\,5^2)\\). How many standard deviations is \\(88\\) above \\(80\\)?"
+      ],
+      [
+       "Formula",
+       "\\(z=\\dfrac{x-\\mu}{\\sigma}\\)"
+      ],
+      [
+       "Calculator",
+       "\\((88-80)\\div5\\)."
+      ],
+      [
+       "Answer",
+       "\\(z=1.6\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       8,
+       "\\(8\\) is the difference. Divide by \\(\\sigma=5\\)."
+      ],
+      [
+       0.0548,
+       "\\(0.0548\\) is a probability, not \\(z\\)."
+      ]
+     ]
+    },
+    {
+     "fig": {
+      "lo": 1.6449,
+      "hi": null,
+      "ticks": [
+       [
+        1.6449,
+        "20"
+       ]
+      ],
+      "notes": [
+       [
+        2.54,
+        118,
+        "0.05"
+       ]
+      ],
+      "caption": "5% exceed 20: 20 is 1.6449σ above μ, so μ is below 20."
+     },
+     "parts": [
+      [
+       "c",
+       "Which probability statement, with a LEFT area, matches the words?",
+       [
+        "\\(\\mathrm{P}(X<20)=0.95\\)",
+        "\\(\\mathrm{P}(X<20)=0.05\\)",
+        "\\(\\mathrm{P}(X>20)=0.95\\)"
+       ],
+       0,
+       "✓ \\(\\mathrm{P}(X>20)=0.05\\) converts to a left area of \\(0.95\\).",
+       "✗ \\(\\mathrm{P}(X>20)=0.05\\) is a right tail: \\(\\mathrm{P}(X<20)=0.95\\)."
+      ],
+      [
+       "c",
+       "Which calculator function turns that area into \\(z\\)?",
+       [
+        "Inverse Normal with Area = that left area, \\(\\mu=0\\), \\(\\sigma=1\\)",
+        "Normal Cdf with the given \\(x\\) as the upper bound",
+        "Inverse Normal with the given \\(\\mu\\) and \\(\\sigma\\) of \\(X\\)"
+       ],
+       0,
+       "✓ Inverse Normal on the standard normal gives \\(z\\) directly.",
+       "✗ Normal Cdf gives an area from a value, the wrong direction; using the given \\(\\mu\\) and \\(\\sigma\\) returns \\(x\\), not \\(z\\). Use Inverse Normal with \\(\\mu=0\\), \\(\\sigma=1\\)."
+      ],
+      [
+       "n",
+       "Find \\(z\\) (keep 4 figures; type at least 3 decimal places).",
+       "\\(z=\\)",
+       1.6449,
+       0.0006,
+       "✓ \\(z=1.6449\\). Store it before going on.",
+       [
+        [
+         -1.6449,
+         "Positive: \\(20\\) is above the mean (only \\(5\\%\\) exceed it)."
+        ]
+       ]
+      ],
+      [
+       "c",
+       "Which equation follows from \\(z=\\dfrac{x-\\mu}{\\sigma}\\)?",
+       [
+        "\\(\\dfrac{20-\\mu}{3}=1.6449\\)",
+        "\\(\\dfrac{\\mu-20}{3}=1.6449\\)",
+        "\\(20-\\mu=1.6449\\)"
+       ],
+       0,
+       "✓ Now solve for \\(\\mu\\).",
+       "✗ \\(\\dfrac{20-\\mu}{3}=1.6449\\), so \\(\\mu=20-1.6449\\times3\\)."
+      ]
+     ],
+     "name": "D2 Unknown μ",
+     "instr": "Write the probability statement, find \\(z\\) (left area, \\(\\mu=0\\), \\(\\sigma=1\\)), write \\(\\dfrac{x-\\mu}{\\sigma}=z\\) and solve for \\(\\mu\\). Type \\(\\mu\\) to 3 significant figures.",
+     "given": "\\(X \\sim \\mathrm{N}(\\mu,\\,3^2)\\)",
+     "givenNote": "with \\(\\mathrm{P}(X>20)=0.05\\)",
+     "q": "Find \\(\\mu\\).",
+     "label": "\\(\\mu=\\)",
+     "ans": 15.07,
+     "tol": 0.1,
+     "target": 120,
+     "line": "\\(\\mathrm{P}(X<20)=0.95 \\Rightarrow z=1.6449;\\ \\mu=20-1.6449\\times3=15.1\\)",
+     "steps": [
+      [
+       "Read it",
+       "\\(X \\sim \\mathrm{N}(\\mu,\\,3^2)\\); \\(\\mathrm{P}(X>20)=0.05\\) is a right tail."
+      ],
+      [
+       "Statement",
+       "\\(\\mathrm{P}(X<20)=0.95\\), so \\(z=\\mathrm{invNorm}(0.95)=1.6449\\)."
+      ],
+      [
+       "Equation",
+       "\\(\\dfrac{20-\\mu}{3}=1.6449\\), so \\(\\mu=20-1.6449\\times3\\)"
+      ],
+      [
+       "Answer",
+       "\\(\\mu=15.1\\). Check: only \\(5\\%\\) exceed \\(20\\), so the mean is below \\(20\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       24.93,
+       "\\(24.9\\) comes from \\(z=-1.6449\\). Only \\(5\\%\\) exceed \\(20\\), so \\(20\\) is above the mean: \\(\\mu<20\\)."
+      ]
+     ]
+    },
+    {
+     "fig": {
+      "lo": null,
+      "hi": -1.2816,
+      "ticks": [
+       [
+        -1.2816,
+        "90"
+       ]
+      ],
+      "notes": [
+       [
+        -2.18,
+        118,
+        "0.1"
+       ]
+      ],
+      "caption": "10% under 90: 90 is 1.2816σ below 100."
+     },
+     "parts": [
+      [
+       "c",
+       "Which probability statement, with a LEFT area, matches the words?",
+       [
+        "\\(\\mathrm{P}(X<90)=0.1\\)",
+        "\\(\\mathrm{P}(X<90)=0.9\\)",
+        "\\(\\mathrm{P}(X>90)=0.1\\)"
+       ],
+       0,
+       "✓ Already a left area.",
+       "✗ “\\(\\mathrm{P}(X<90)=0.1\\)” is given directly as a left area."
+      ],
+      [
+       "c",
+       "Which calculator function turns that area into \\(z\\)?",
+       [
+        "Inverse Normal with Area = that left area, \\(\\mu=0\\), \\(\\sigma=1\\)",
+        "Normal Cdf with the given \\(x\\) as the upper bound",
+        "Inverse Normal with the given \\(\\mu\\) and \\(\\sigma\\) of \\(X\\)"
+       ],
+       0,
+       "✓ Inverse Normal on the standard normal gives \\(z\\) directly.",
+       "✗ Normal Cdf gives an area from a value, the wrong direction; using the given \\(\\mu\\) and \\(\\sigma\\) returns \\(x\\), not \\(z\\). Use Inverse Normal with \\(\\mu=0\\), \\(\\sigma=1\\)."
+      ],
+      [
+       "n",
+       "Find \\(z\\) (keep 4 figures; type at least 3 decimal places).",
+       "\\(z=\\)",
+       -1.2816,
+       0.0006,
+       "✓ \\(z=-1.2816\\). Store it before going on.",
+       [
+        [
+         1.2816,
+         "Negative: area \\(0.1\\) is below \\(0.5\\)."
+        ]
+       ]
+      ],
+      [
+       "c",
+       "Which equation follows from \\(z=\\dfrac{x-\\mu}{\\sigma}\\)?",
+       [
+        "\\(\\dfrac{90-100}{\\sigma}=-1.2816\\)",
+        "\\(\\dfrac{100-90}{\\sigma}=-1.2816\\)",
+        "\\(90-100=-1.2816\\)"
+       ],
+       0,
+       "✓ Two negatives: \\(\\sigma\\) comes out positive.",
+       "✗ \\(\\dfrac{x-\\mu}{\\sigma}=z\\) with \\(x=90\\), \\(\\mu=100\\)."
+      ]
+     ],
+     "name": "D3 Unknown σ",
+     "instr": "Convert the upper tail to a left area, find \\(z\\), write \\(\\dfrac{x-\\mu}{\\sigma}=z\\) and solve for \\(\\sigma\\). Type \\(\\sigma\\) to 3 significant figures.",
+     "given": "\\(X \\sim \\mathrm{N}(100,\\,\\sigma^2)\\)",
+     "givenNote": "with \\(\\mathrm{P}(X<90)=0.1\\)",
+     "q": "Find \\(\\sigma\\).",
+     "label": "\\(\\sigma=\\)",
+     "ans": 7.803,
+     "tol": 0.03,
+     "target": 120,
+     "line": "\\(z=-1.2816;\\ \\dfrac{90-100}{\\sigma}=-1.2816;\\ \\sigma=7.80\\)",
+     "steps": [
+      [
+       "Read it",
+       "\\(X \\sim \\mathrm{N}(100,\\,\\sigma^2)\\); \\(\\mathrm{P}(X<90)=0.1\\) is a left area already."
+      ],
+      [
+       "Statement",
+       "\\(z=\\mathrm{invNorm}(0.1)=-1.2816\\)."
+      ],
+      [
+       "Equation",
+       "\\(\\dfrac{90-100}{\\sigma}=-1.2816\\), so \\(\\sigma=\\dfrac{-10}{-1.2816}\\)"
+      ],
+      [
+       "Answer",
+       "\\(\\sigma=7.80\\). Check: two negatives give a positive \\(\\sigma\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       -7.803,
+       "\\(-7.80\\): \\(\\sigma\\) is positive. Both \\(90-100\\) and \\(z\\) are negative."
+      ],
+      [
+       10,
+       "\\(10\\) is \\(100-90\\), not yet divided by \\(z\\)."
+      ]
+     ]
+    },
+    {
+     "fig": {
+      "lo": null,
+      "hi": -0.6745,
+      "lo2": 1.2816,
+      "ticks": [
+       [
+        -0.6745,
+        "60"
+       ],
+       [
+        1.2816,
+        "75"
+       ]
+      ],
+      "notes": [
+       [
+        -1.57,
+        118,
+        "0.25",
+        "#B45309"
+       ],
+       [
+        2.18,
+        118,
+        "0.1",
+        "#B45309"
+       ],
+       [
+        0,
+        60,
+        "μ = ?, σ = ?",
+        "#12201E"
+       ]
+      ],
+      "caption": "z₁ = −0.6745 (area 0.25) and z₂ = 1.2816 (area 0.9)."
+     },
+     "parts": [
+      [
+       "c",
+       "Which pair of \\(z\\)-values is right?",
+       [
+        "\\(z_1=-0.6745\\) (area \\(0.25\\)), \\(z_2=1.2816\\) (area \\(0.9\\))",
+        "\\(z_1=0.6745\\), \\(z_2=1.2816\\)",
+        "\\(z_1=-1.2816\\), \\(z_2=1.2816\\)"
+       ],
+       0,
+       "✓ Area \\(0.25\\) is below \\(0.5\\): negative \\(z\\).",
+       "✗ \\(0.25 \\to -0.6745\\), \\(0.9 \\to 1.2816\\)."
+      ],
+      [
+       "c",
+       "Which equation follows from \\(z=\\dfrac{x-\\mu}{\\sigma}\\)?",
+       [
+        "\\(60-\\mu=-0.6745\\sigma\\) and \\(75-\\mu=1.2816\\sigma\\)",
+        "\\(60-\\mu=0.6745\\sigma\\) and \\(75-\\mu=1.2816\\sigma\\)",
+        "\\(60=-0.6745\\sigma\\) and \\(75=1.2816\\sigma\\)"
+       ],
+       0,
+       "✓ Subtract: \\(15=1.9561\\sigma\\).",
+       "✗ Keep \\(\\mu\\) in both and each \\(z\\) with its own \\(x\\)."
+      ],
+      [
+       "n",
+       "Label the equations and subtract, \\((2)-(1)\\), so that \\(\\mu\\) cancels: \\[\\begin{array}{rrcl}(1)\\quad & 60-\\mu &=& -0.6745\\sigma \\\\ (2)\\quad & 75-\\mu &=& 1.2816\\sigma \\\\ \\hline (2)-(1):\\quad & 15 &=& 1.9561\\sigma \\end{array}\\] Solve for \\(\\sigma\\).",
+       "\\(\\sigma=\\)",
+       7.669,
+       0.06,
+       "✓ \\(\\sigma=7.67\\).",
+       [
+        [
+         11.7,
+         "\\(11.7\\) divides by one \\(z\\)."
+        ]
+       ]
+      ]
+     ],
+     "name": "D4 Both unknown",
+     "instr": "Two statements give two \\(z\\)-values and two equations. Solve them (subtract, or use the simultaneous solver) and type both \\(\\mu\\) and \\(\\sigma\\) to 3 significant figures.",
+     "given": "\\(X \\sim \\mathrm{N}(\\mu,\\,\\sigma^2)\\)",
+     "givenNote": "with \\(\\mathrm{P}(X<60)=0.25\\) and \\(\\mathrm{P}(X<75)=0.9\\)",
+     "q": "Find \\(\\mu\\) and \\(\\sigma\\).",
+     "label": "\\(\\mu=\\)",
+     "label2": "\\(\\sigma=\\)",
+     "ans": 65.17,
+     "ans2": 7.669,
+     "tol": 0.06,
+     "target": 180,
+     "line": "\\(z_1=-0.6745,\\ z_2=1.2816;\\ \\sigma=\\dfrac{15}{1.9561}=7.67,\\ \\mu=65.2\\)",
+     "steps": [
+      [
+       "Read it",
+       "Two left areas, \\(0.25\\) and \\(0.9\\)."
+      ],
+      [
+       "Statement",
+       "\\(z_1=\\mathrm{invNorm}(0.25)=-0.6745\\), \\(z_2=\\mathrm{invNorm}(0.9)=1.2816\\)."
+      ],
+      [
+       "Equations",
+       "Multiply \\(\\dfrac{x-\\mu}{\\sigma}=z\\) through by \\(\\sigma\\), label the equations and subtract so that \\(\\mu\\) cancels: \\[\\begin{array}{rrcl}(1)\\quad & 60-\\mu &=& -0.6745\\sigma \\\\ (2)\\quad & 75-\\mu &=& 1.2816\\sigma \\\\ \\hline (2)-(1):\\quad & 15 &=& 1.9561\\sigma \\end{array}\\] So \\(\\sigma=\\dfrac{15}{1.9561}=7.67\\)."
+      ],
+      [
+       "Answer",
+       "\\(\\mu=65.2\\), \\(\\sigma=7.67\\). Check: \\(\\mu\\) is between \\(60\\) and \\(75\\), nearer \\(60\\) since \\(0.25\\) is closer to \\(0.5\\) than \\(0.9\\) is."
+      ]
+     ],
+     "wrongs": [
+      [
+       11.7,
+       "\\(11.7\\) comes from dividing \\(15\\) by one \\(z\\). Use \\(z_2-z_1=1.9561\\)."
+      ],
+      [
+       67.5,
+       "\\(67.5\\) assumes \\(\\mu\\) is halfway between \\(60\\) and \\(75\\). The areas are not symmetric."
+      ]
+     ]
+    },
+    {
+     "fig": {
+      "lo": null,
+      "hi": -0.2533,
+      "lo2": 1.2816,
+      "ticks": [
+       [
+        -0.2533,
+        "30"
+       ],
+       [
+        1.2816,
+        "40"
+       ]
+      ],
+      "notes": [
+       [
+        -1.15,
+        118,
+        "0.4",
+        "#B45309"
+       ],
+       [
+        2.18,
+        118,
+        "0.1",
+        "#B45309"
+       ],
+       [
+        0,
+        60,
+        "μ = ?, σ = ?",
+        "#12201E"
+       ]
+      ],
+      "caption": "P(X > 40) = 0.1 converts to P(X < 40) = 0.9: z₂ = +1.2816."
+     },
+     "parts": [
+      [
+       "c",
+       "Which pair of \\(z\\)-values is right?",
+       [
+        "\\(z_1=-0.2533\\) (area \\(0.4\\)), \\(z_2=+1.2816\\) (area \\(0.9\\))",
+        "\\(z_1=-0.2533\\), \\(z_2=-1.2816\\) (area \\(0.1\\))",
+        "\\(z_1=0.4\\), \\(z_2=0.1\\)"
+       ],
+       0,
+       "✓ \\(\\mathrm{P}(X>40)=0.1\\) becomes \\(\\mathrm{P}(X<40)=0.9\\) first.",
+       "✗ Convert the upper tail: \\(\\mathrm{P}(X<40)=0.9\\), so \\(z_2=+1.2816\\)."
+      ],
+      [
+       "c",
+       "Which equation follows from \\(z=\\dfrac{x-\\mu}{\\sigma}\\)?",
+       [
+        "\\(30-\\mu=-0.2533\\sigma\\) and \\(40-\\mu=1.2816\\sigma\\)",
+        "\\(30-\\mu=0.2533\\sigma\\) and \\(40-\\mu=1.2816\\sigma\\)",
+        "\\(30-\\mu=-0.2533\\sigma\\) and \\(40-\\mu=-1.2816\\sigma\\)"
+       ],
+       0,
+       "✓ Subtract: \\(10=1.5349\\sigma\\).",
+       "✗ Keep the signs with their areas."
+      ],
+      [
+       "n",
+       "Label the equations and subtract, \\((2)-(1)\\), so that \\(\\mu\\) cancels: \\[\\begin{array}{rrcl}(1)\\quad & 30-\\mu &=& -0.2533\\sigma \\\\ (2)\\quad & 40-\\mu &=& 1.2816\\sigma \\\\ \\hline (2)-(1):\\quad & 10 &=& 1.5349\\sigma \\end{array}\\] Solve for \\(\\sigma\\).",
+       "\\(\\sigma=\\)",
+       6.515,
+       0.06,
+       "✓ \\(\\sigma=6.52\\).",
+       [
+        [
+         -9.72,
+         "Negative \\(\\sigma\\): \\(z_2\\) sign."
+        ]
+       ]
+      ]
+     ],
+     "name": "D5 Both unknown, one upper tail",
+     "instr": "Convert the upper-tail probability to a left area first. Then two \\(z\\)-values, two equations, solve for both. Type \\(\\mu\\) and \\(\\sigma\\) to 3 significant figures.",
+     "given": "\\(X \\sim \\mathrm{N}(\\mu,\\,\\sigma^2)\\)",
+     "givenNote": "with \\(\\mathrm{P}(X<30)=0.4\\) and \\(\\mathrm{P}(X>40)=0.1\\)",
+     "q": "Find \\(\\mu\\) and \\(\\sigma\\).",
+     "label": "\\(\\mu=\\)",
+     "label2": "\\(\\sigma=\\)",
+     "ans": 31.65,
+     "ans2": 6.515,
+     "tol": 0.06,
+     "target": 180,
+     "line": "\\(z_1=-0.2533,\\ z_2=1.2816;\\ \\sigma=\\dfrac{10}{1.5349}=6.52,\\ \\mu=31.7\\)",
+     "steps": [
+      [
+       "Read it",
+       "\\(\\mathrm{P}(X>40)=0.1\\) is an upper tail: convert it first."
+      ],
+      [
+       "Statement",
+       "\\(\\mathrm{P}(X<30)=0.4 \\Rightarrow z_1=-0.2533\\); \\(\\mathrm{P}(X<40)=0.9 \\Rightarrow z_2=1.2816\\)."
+      ],
+      [
+       "Equations",
+       "Multiply \\(\\dfrac{x-\\mu}{\\sigma}=z\\) through by \\(\\sigma\\), label the equations and subtract so that \\(\\mu\\) cancels: \\[\\begin{array}{rrcl}(1)\\quad & 30-\\mu &=& -0.2533\\sigma \\\\ (2)\\quad & 40-\\mu &=& 1.2816\\sigma \\\\ \\hline (2)-(1):\\quad & 10 &=& 1.5349\\sigma \\end{array}\\] So \\(\\sigma=\\dfrac{10}{1.5349}=6.52\\)."
+      ],
+      [
+       "Answer",
+       "\\(\\mu=31.7\\), \\(\\sigma=6.52\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       -9.72,
+       "A negative \\(\\sigma\\): \\(z_2\\) was taken as \\(-1.2816\\). Convert the upper tail first: \\(\\mathrm{P}(X<40)=0.9\\)."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "\\(|X-80|<5\\) is \\(75<X<85\\) holding \\(95\\%\\): \\(2.5\\%\\) in each tail.",
+      "\\(\\mathrm{P}(X<85)=0.975 \\Rightarrow z=1.96\\). Then \\(5/\\sigma=1.96\\)."
+     ],
+     "fig": {
+      "lo": -1.96,
+      "hi": 1.96,
+      "ticks": [
+       [
+        -1.96,
+        "75"
+       ],
+       [
+        1.96,
+        "85"
+       ]
+      ],
+      "notes": [
+       [
+        0,
+        100,
+        "0.95"
+       ]
+      ],
+      "caption": "2.5% in each tail: 85 sits 1.96σ above 80."
+     },
+     "parts": [
+      [
+       "c",
+       "\\(\\mathrm{P}(|X-80|<5)=0.95\\). Which single left area goes into Inverse Normal?",
+       [
+        "\\(0.975\\): \\(0.025\\) in each tail",
+        "\\(0.95\\)",
+        "\\(0.475\\)"
+       ],
+       0,
+       "✓ \\(\\mathrm{P}(X<85)=0.975\\).",
+       "✗ \\(0.05\\) is left over, \\(0.025\\) per tail: \\(\\mathrm{P}(X<85)=0.975\\)."
+      ],
+      [
+       "n",
+       "Find \\(z\\) (keep 4 figures; type at least 3 decimal places).",
+       "\\(z=\\)",
+       1.96,
+       0.0006,
+       "✓ \\(z=1.9600\\). Store it before going on.",
+       [
+        [
+         1.6449,
+         "\\(1.645\\) comes from area \\(0.95\\). Use \\(0.975\\)."
+        ]
+       ]
+      ],
+      [
+       "c",
+       "Which equation follows from \\(z=\\dfrac{x-\\mu}{\\sigma}\\)?",
+       [
+        "\\(\\dfrac{85-80}{\\sigma}=1.96\\)",
+        "\\(\\dfrac{80-85}{\\sigma}=1.96\\)",
+        "\\(\\dfrac{5}{\\sigma}=0.975\\)"
+       ],
+       0,
+       "✓ Solve for \\(\\sigma\\).",
+       "✗ \\(\\dfrac{5}{\\sigma}=1.96\\)."
+      ]
+     ],
+     "name": "C1 Symmetric, σ unknown",
+     "instr": "Turn the symmetric band into one left area, find its \\(z\\), and solve \\(\\dfrac{x-\\mu}{\\sigma}=z\\) for \\(\\sigma\\). Type \\(\\sigma\\) to 3 significant figures.",
+     "given": "\\(X \\sim \\mathrm{N}(80,\\,\\sigma^2)\\)",
+     "givenNote": "with \\(\\mathrm{P}(|X-80|<5)=0.95\\)",
+     "q": "Find \\(\\sigma\\).",
+     "label": "\\(\\sigma=\\)",
+     "ans": 2.551,
+     "tol": 0.03,
+     "target": 150,
+     "line": "\\(\\mathrm{P}(X<85)=0.975 \\Rightarrow z=1.96;\\ \\sigma=\\dfrac{5}{1.96}=2.55\\)",
+     "steps": [
+      [
+       "Read it",
+       "\\(|X-80|<5\\) is \\(75<X<85\\) holding \\(95\\%\\): \\(2.5\\%\\) in each tail."
+      ],
+      [
+       "Statement",
+       "\\(\\mathrm{P}(X<85)=0.975\\), so \\(z=1.9600\\)."
+      ],
+      [
+       "Equation",
+       "\\(\\dfrac{85-80}{\\sigma}=1.96\\), so \\(\\sigma=\\dfrac{5}{1.96}\\)"
+      ],
+      [
+       "Answer",
+       "\\(\\sigma=2.55\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       3.04,
+       "\\(3.04\\) comes from \\(z\\) for area \\(0.95\\). Each tail holds \\(0.025\\): use \\(0.975\\)."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "\\(z_1=\\mathrm{invNorm}(0.1)=-1.2816\\), \\(z_2=\\mathrm{invNorm}(0.6)=0.2533\\).",
+      "\\(\\sigma=\\dfrac{125-100}{z_2-z_1}\\)."
+     ],
+     "fig": {
+      "lo": null,
+      "hi": -1.2816,
+      "lo2": 0.2533,
+      "ticks": [
+       [
+        -1.2816,
+        "100"
+       ],
+       [
+        0.2533,
+        "125"
+       ]
+      ],
+      "notes": [
+       [
+        -2.18,
+        118,
+        "0.1",
+        "#B45309"
+       ],
+       [
+        1.15,
+        118,
+        "0.4",
+        "#B45309"
+       ],
+       [
+        0,
+        60,
+        "μ = ?, σ = ?",
+        "#12201E"
+       ]
+      ],
+      "caption": "Not symmetric: μ is close to 125."
+     },
+     "parts": [
+      [
+       "c",
+       "Which pair of \\(z\\)-values is right?",
+       [
+        "\\(z_1=-1.2816\\) (area \\(0.1\\)), \\(z_2=0.2533\\) (area \\(0.6\\))",
+        "\\(z_1=-1.2816\\), \\(z_2=1.2816\\)",
+        "\\(z_1=0.1\\), \\(z_2=0.6\\)"
+       ],
+       0,
+       "✓ Not symmetric.",
+       "✗ Area \\(0.6\\) gives \\(z=0.2533\\)."
+      ],
+      [
+       "n",
+       "Label the equations and subtract, \\((2)-(1)\\), so that \\(\\mu\\) cancels: \\[\\begin{array}{rrcl}(1)\\quad & 100-\\mu &=& -1.2816\\sigma \\\\ (2)\\quad & 125-\\mu &=& 0.2533\\sigma \\\\ \\hline (2)-(1):\\quad & 25 &=& 1.5349\\sigma \\end{array}\\] Solve for \\(\\sigma\\).",
+       "\\(\\sigma=\\)",
+       16.29,
+       0.1,
+       "✓ \\(25=1.5349\\sigma\\), so \\(\\sigma=16.3\\).",
+       [
+        [
+         19.5,
+         "\\(19.5\\) divides by one \\(z\\)."
+        ]
+       ]
+      ]
+     ],
+     "name": "C2 Both unknown, not symmetric",
+     "instr": "Two \\(z\\)-values, two equations; \\(\\mu\\) will not be halfway. Solve for both and type them to 3 significant figures.",
+     "given": "\\(X \\sim \\mathrm{N}(\\mu,\\,\\sigma^2)\\)",
+     "givenNote": "with \\(\\mathrm{P}(X<100)=0.1\\) and \\(\\mathrm{P}(X<125)=0.6\\)",
+     "q": "Find \\(\\mu\\) and \\(\\sigma\\).",
+     "label": "\\(\\mu=\\)",
+     "label2": "\\(\\sigma=\\)",
+     "ans": 120.87,
+     "ans2": 16.29,
+     "tol": 0.2,
+     "target": 180,
+     "line": "\\(\\sigma=\\dfrac{25}{1.5349}=16.3,\\ \\mu=100+1.2816\\times16.29=121\\)",
+     "steps": [
+      [
+       "Read it",
+       "Left areas \\(0.1\\) and \\(0.6\\)."
+      ],
+      [
+       "Statement",
+       "\\(z_1=-1.2816\\), \\(z_2=0.2533\\)."
+      ],
+      [
+       "Equations",
+       "Multiply \\(\\dfrac{x-\\mu}{\\sigma}=z\\) through by \\(\\sigma\\), label the equations and subtract so that \\(\\mu\\) cancels: \\[\\begin{array}{rrcl}(1)\\quad & 100-\\mu &=& -1.2816\\sigma \\\\ (2)\\quad & 125-\\mu &=& 0.2533\\sigma \\\\ \\hline (2)-(1):\\quad & 25 &=& 1.5349\\sigma \\end{array}\\] So \\(\\sigma=\\dfrac{25}{1.5349}=16.3\\)."
+      ],
+      [
+       "Answer",
+       "\\(\\mu=121\\), \\(\\sigma=16.3\\). Check: \\(125\\) is at area \\(0.6\\), just above the middle, so \\(\\mu\\) is just below \\(125\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       112.5,
+       "\\(112.5\\) assumes \\(\\mu\\) is halfway. The areas \\(0.1\\) and \\(0.6\\) are not symmetric."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "Target: \\(\\mathrm{P}(X<185)=0.01\\) with \\(\\mu=200\\).",
+      "\\(z=\\mathrm{invNorm}(0.01)=-2.3263\\); solve \\(\\dfrac{185-200}{\\sigma}=z\\)."
+     ],
+     "fig": {
+      "lo": null,
+      "hi": -2.3263,
+      "ticks": [
+       [
+        -2.3263,
+        "185"
+       ]
+      ],
+      "notes": [
+       [
+        -3.23,
+        118,
+        "0.01"
+       ]
+      ],
+      "caption": "To make the tail 1%, 185 must be 2.3263σ below 200."
+     },
+     "parts": [
+      [
+       "c",
+       "Which probability statement, with a LEFT area, matches the words?",
+       [
+        "\\(\\mathrm{P}(X<185)=0.01\\) with \\(\\mu=200\\), \\(\\sigma\\) unknown",
+        "\\(\\mathrm{P}(X<185)=0.01\\) with \\(\\sigma=10\\), \\(\\mu\\) unknown",
+        "\\(\\mathrm{P}(X>185)=0.01\\)"
+       ],
+       0,
+       "✓ Mean fixed, spread to find.",
+       "✗ Keep \\(\\mu=200\\); \\(\\mathrm{P}(X<185)=0.01\\); solve for \\(\\sigma\\)."
+      ],
+      [
+       "n",
+       "Find \\(z\\) (keep 4 figures; type at least 3 decimal places).",
+       "\\(z=\\)",
+       -2.3263,
+       0.0006,
+       "✓ \\(z=-2.3263\\). Store it before going on.",
+       [
+        [
+         2.3263,
+         "Negative: \\(185\\) is below the mean."
+        ]
+       ]
+      ]
+     ],
+     "name": "C3 Change σ to meet a target",
+     "instr": "Keep \\(\\mu\\), write the target probability, find its \\(z\\), and solve for the new \\(\\sigma\\). Type it to 3 significant figures.",
+     "given": "\\(X \\sim \\mathrm{N}(200,\\,10^2)\\)",
+     "givenNote": "volumes, in ml; currently 6.7% are under 185 ml",
+     "q": "The supplier wants only \\(1\\%\\) of volumes under \\(185\\) ml, keeping the mean at \\(200\\). Find the new \\(\\sigma\\).",
+     "label": "\\(\\sigma=\\)",
+     "unit": "ml",
+     "ans": 6.448,
+     "tol": 0.03,
+     "target": 150,
+     "line": "\\(z=-2.3263;\\ \\sigma=\\dfrac{15}{2.3263}=6.45\\)",
+     "steps": [
+      [
+       "Read it",
+       "Mean fixed at \\(200\\); target \\(\\mathrm{P}(X<185)=0.01\\); \\(\\sigma\\) unknown."
+      ],
+      [
+       "Statement",
+       "\\(z=\\mathrm{invNorm}(0.01)=-2.3263\\)."
+      ],
+      [
+       "Equation",
+       "\\(\\dfrac{185-200}{\\sigma}=-2.3263\\), so \\(\\sigma=\\dfrac{15}{2.3263}\\)"
+      ],
+      [
+       "Answer",
+       "\\(\\sigma=6.45\\) ml, down from \\(10\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       10,
+       "\\(10\\) is the current \\(\\sigma\\). Find the new one."
+      ],
+      [
+       -6.448,
+       "\\(-6.45\\): \\(\\sigma\\) is positive."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "\\(\\mathrm{E}(Y)=2(10)-5=15\\), \\(\\mathrm{Var}(Y)=2^2\\times9=36\\): \\(Y \\sim \\mathrm{N}(15,\\,6^2)\\).",
+      "\\(\\mathrm{P}(Y<21)=\\mathrm{P}(Z<1)\\)."
+     ],
+     "fig": {
+      "lo": null,
+      "hi": 1,
+      "ticks": [
+       [
+        1,
+        "21"
+       ]
+      ],
+      "notes": [
+       [
+        0.1,
+        118,
+        "0.841"
+       ]
+      ],
+      "caption": "Y ~ N(15, 6²): 21 is one σ above the mean of Y."
+     },
+     "parts": [
+      [
+       "n",
+       "Find \\(\\mathrm{E}(Y)\\) for \\(Y=2X-5\\).",
+       "\\(\\mathrm{E}(Y)=\\)",
+       15,
+       0.01,
+       "✓ \\(2\\times10-5=15\\).",
+       [
+        [
+         20,
+         "\\(20\\) forgets the \\(-5\\)."
+        ]
+       ]
+      ],
+      [
+       "n",
+       "Find \\(\\mathrm{Var}(Y)\\).",
+       "\\(\\mathrm{Var}(Y)=\\)",
+       36,
+       0.01,
+       "✓ \\(2^2\\times9=36\\).",
+       [
+        [
+         18,
+         "\\(18\\) uses \\(2\\times9\\): square \\(a\\)."
+        ],
+        [
+         31,
+         "\\(31\\) subtracts the \\(5\\): shifts don’t change variance."
+        ]
+       ]
+      ],
+      [
+       "c",
+       "So the distribution of \\(Y\\) is",
+       [
+        "\\(Y \\sim \\mathrm{N}(15,\\,6^2)\\)",
+        "\\(Y \\sim \\mathrm{N}(15,\\,36^2)\\)",
+        "\\(Y \\sim \\mathrm{N}(15,\\,3^2)\\)"
+       ],
+       0,
+       "✓ \\(\\sigma_Y=6\\).",
+       "✗ \\(\\sqrt{36}=6\\)."
+      ]
+     ],
+     "name": "C4 HL transformation",
+     "instr": "Find \\(\\mathrm{E}(Y)\\) and \\(\\mathrm{Var}(Y)\\) first, write the distribution of \\(Y\\), then find the probability with Normal Cdf. Type it to 3 significant figures.",
+     "given": "\\(X \\sim \\mathrm{N}(10,\\,3^2)\\), \\(Y=2X-5\\)",
+     "givenNote": "HL only",
+     "q": "Find \\(\\mathrm{P}(Y<21)\\).",
+     "label": "\\(\\mathrm{P}(Y<21)=\\)",
+     "ans": 0.8413,
+     "tol": 0.0006,
+     "target": 150,
+     "line": "\\(Y \\sim \\mathrm{N}(15,\\,6^2);\\ \\mathrm{P}(Y<21)=\\mathrm{P}(Z<1)=0.841\\)",
+     "steps": [
+      [
+       "Read it",
+       "\\(Y=2X-5\\) with \\(X \\sim \\mathrm{N}(10,\\,3^2)\\)."
+      ],
+      [
+       "Distribution of Y",
+       "\\(\\mathrm{E}(Y)=2\\times10-5=15\\); \\(\\mathrm{Var}(Y)=2^2\\times9=36\\), \\(\\sigma_Y=6\\); \\(Y \\sim \\mathrm{N}(15,\\,6^2)\\)."
+      ],
+      [
+       "Calculator",
+       "Normal Cdf with Lower \\(=-\\infty\\), Upper \\(=21\\), \\(\\mu=15\\), \\(\\sigma=6\\)."
+      ],
+      [
+       "Answer",
+       "\\(\\mathrm{P}(Y<21)=0.841\\). Check: \\(21\\) is one \\(\\sigma_Y\\) above \\(15\\): \\(\\mathrm{P}(Z<1)=0.841\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       0.9772,
+       "\\(0.977\\) uses \\(\\sigma_Y=3\\). \\(\\mathrm{Var}(Y)=2^2\\times3^2=36\\), so \\(\\sigma_Y=6\\)."
+      ],
+      [
+       0.5662,
+       "\\(0.566\\) uses \\(\\mathrm{Var}(Y)=36\\) as \\(\\sigma\\). Take the square root: \\(6\\)."
+      ]
+     ]
+    }
+   ]
+  ],
+  "rules": {
+   "coreItems": 5,
+   "challengeItems": 4,
+   "tries": 2,
+   "passCore": 4
+  }
+ },
+ "apply": {
+  "questions": [
+   {
+    "max": 7,
+    "stem": "A random variable \\(X\\) is normally distributed with mean \\(\\mu\\) and standard deviation \\(5\\). It is known that \\(\\mathrm{P}(X<30)=0.12\\).",
+    "parts": [
+     {
+      "label": "(a)",
+      "marks": 2,
+      "text": "Find the value of \\(z\\) such that \\(\\mathrm{P}(Z<z)=0.12\\), where \\(Z \\sim \\mathrm{N}(0,\\,1)\\).",
+      "ansLabel": "\\(z=\\)",
+      "ans": -1.175,
+      "tol": 0.006,
+      "fig": {
+       "hi": -1.175,
+       "mu": "0",
+       "ticks": [
+        [
+         -1.175,
+         "z"
+        ]
+       ],
+       "notes": [
+        [
+         -2.1,
+         118,
+         "0.12"
+        ]
+       ]
+      },
+      "figCap": "Standard normal: area 0.12 on the left, so z is negative.",
+      "ms": [
+       [
+        "M1",
+        "inverse normal with area \\(0.12\\), \\(\\mu=0\\), \\(\\sigma=1\\)"
+       ],
+       [
+        "A1",
+        "\\(z=-1.175\\)   (\\(-1.1750\\))"
+       ]
+      ],
+      "wrongs": [
+       [
+        1.175,
+        "Sign: an area of \\(0.12\\) on the left puts \\(z\\) below \\(0\\)."
+       ],
+       [
+        0.12,
+        "That is the area; the question asks for \\(z\\)."
+       ]
+      ]
+     },
+     {
+      "label": "(b)",
+      "marks": 3,
+      "text": "Hence find the value of \\(\\mu\\).",
+      "ansLabel": "\\(\\mu=\\)",
+      "ans": 35.875,
+      "tol": 0.06,
+      "ftFrom": 0,
+      "ft": {
+       "$fn": "(z) => 30 - 5 * z"
+      },
+      "fig": {
+       "hi": -1.175,
+       "mu": "μ = ?",
+       "ticks": [
+        [
+         -1.175,
+         "30"
+        ]
+       ],
+       "notes": [
+        [
+         -2.1,
+         118,
+         "0.12"
+        ],
+        [
+         -0.3,
+         60,
+         "30 is 1.175σ below μ",
+         "#B45309"
+        ]
+       ]
+      },
+      "figCap": "30 sits 1.175 standard deviations below the unknown mean.",
+      "ms": [
+       [
+        "M1",
+        "\\(\\dfrac{30-\\mu}{5}=-1.175\\)"
+       ],
+       [
+        "M1",
+        "\\(\\mu=30+5\\times1.175\\)"
+       ],
+       [
+        "A1",
+        "\\(\\mu=35.9\\)   (\\(35.87\\))"
+       ]
+      ],
+      "note": "“Hence” means use part (a). Keep \\(z\\) to 4 figures; \\(z=-1.18\\) gives \\(35.9\\) here but can cost the accuracy mark elsewhere.",
+      "wrongs": [
+       [
+        24.125,
+        "\\(24.1\\) used \\(z=+1.175\\): the sign is negative, so \\(\\mu\\) is above \\(30\\)."
+       ],
+       [
+        30,
+        "\\(30\\) is the given value, not the mean."
+       ],
+       [
+        -1.175,
+        "That is \\(z\\) from part (a)."
+       ]
+      ]
+     },
+     {
+      "label": "(c)",
+      "marks": 2,
+      "text": "Find \\(\\mathrm{P}(X>40)\\).",
+      "ansLabel": "\\(\\mathrm{P}(X>40)=\\)",
+      "ans": 0.2047,
+      "tol": 0.006,
+      "ftFrom": 1,
+      "ft": {
+       "$fn": "function (mu) { var z = (40 - mu) / 5; return 0.5 * (1 - erf(z / Math.SQRT2)); }"
+      },
+      "fig": {
+       "lo": 0.825,
+       "mu": "35.9",
+       "ticks": [
+        [
+         0.825,
+         "40"
+        ]
+       ],
+       "notes": [
+        [
+         1.8,
+         118,
+         "0.205"
+        ]
+       ]
+      },
+      "figCap": "With μ = 35.9 and σ = 5: the right tail above 40.",
+      "ms": [
+       [
+        "M1",
+        "\\(X \\sim \\mathrm{N}(35.87,\\,5^{2})\\), \\(\\mathrm{P}(X>40)\\)"
+       ],
+       [
+        "A1",
+        "\\(0.205\\)   (\\(0.2047\\))"
+       ]
+      ],
+      "wrongs": [
+       [
+        0.7953,
+        "Wrong tail."
+       ],
+       [
+        0.12,
+        "That is the given probability for \\(X<30\\)."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "max": 8,
+    "stem": "The random variable \\(Y\\) is normally distributed with mean \\(50\\) and standard deviation \\(\\sigma\\). It is known that \\(\\mathrm{P}(Y>58)=0.09\\).",
+    "parts": [
+     {
+      "label": "(a)",
+      "marks": 2,
+      "text": "Find the value of \\(z\\) such that \\(\\mathrm{P}(Z>z)=0.09\\).",
+      "ansLabel": "\\(z=\\)",
+      "ans": 1.3408,
+      "tol": 0.006,
+      "fig": {
+       "lo": 1.3408,
+       "mu": "0",
+       "ticks": [
+        [
+         1.3408,
+         "z"
+        ]
+       ],
+       "notes": [
+        [
+         2.2,
+         118,
+         "0.09"
+        ],
+        [
+         -1,
+         100,
+         "0.91 below z",
+         "#4A5856"
+        ]
+       ]
+      },
+      "figCap": "An upper tail of 0.09 means a left area of 0.91: inverse normal with 0.91.",
+      "ms": [
+       [
+        "M1",
+        "converting to a left area: \\(\\mathrm{P}(Z<z)=0.91\\)"
+       ],
+       [
+        "A1",
+        "\\(z=1.341\\)   (\\(1.3408\\))"
+       ]
+      ],
+      "wrongs": [
+       [
+        -1.3408,
+        "\\(-1.34\\) used area \\(0.09\\) directly: that gives the lower tail. Convert to \\(0.91\\)."
+       ],
+       [
+        0.09,
+        "That is the area."
+       ]
+      ]
+     },
+     {
+      "label": "(b)",
+      "marks": 3,
+      "text": "Hence find the value of \\(\\sigma\\).",
+      "ansLabel": "\\(\\sigma=\\)",
+      "ans": 5.967,
+      "tol": 0.012,
+      "ftFrom": 0,
+      "ft": {
+       "$fn": "(z) => 8 / z"
+      },
+      "fig": {
+       "lo": 1.3408,
+       "mu": "50",
+       "ticks": [
+        [
+         1.3408,
+         "58"
+        ]
+       ],
+       "notes": [
+        [
+         2.2,
+         118,
+         "0.09"
+        ],
+        [
+         0.6,
+         60,
+         "58 − 50 = 1.341σ",
+         "#B45309"
+        ]
+       ]
+      },
+      "figCap": "The gap of 8 from the mean is 1.341 standard deviations.",
+      "ms": [
+       [
+        "M1",
+        "\\(\\dfrac{58-50}{\\sigma}=1.3408\\)"
+       ],
+       [
+        "M1",
+        "\\(\\sigma=\\dfrac{8}{1.3408}\\)"
+       ],
+       [
+        "A1",
+        "\\(\\sigma=5.97\\)   (\\(5.967\\))"
+       ]
+      ],
+      "wrongs": [
+       [
+        -5.967,
+        "Negative σ: the \\(z\\) in (a) should be positive (\\(58\\) is above the mean)."
+       ],
+       [
+        10.73,
+        "\\(10.7\\) is \\(8\\times1.34\\): divide, not multiply."
+       ],
+       [
+        8,
+        "\\(8\\) is \\(58-50\\), the gap; divide it by \\(z\\)."
+       ]
+      ]
+     },
+     {
+      "label": "(c)",
+      "marks": 3,
+      "text": "Find \\(\\mathrm{P}(45<Y<55)\\).",
+      "ansLabel": "\\(\\mathrm{P}(45<Y<55)=\\)",
+      "ans": 0.598,
+      "tol": 0.006,
+      "ftFrom": 1,
+      "ft": {
+       "$fn": "function (sg) { var z = 5 / sg; return erf(z / Math.SQRT2); }"
+      },
+      "fig": {
+       "lo": -0.838,
+       "hi": 0.838,
+       "mu": "50",
+       "ticks": [
+        [
+         -0.838,
+         "45"
+        ],
+        [
+         0.838,
+         "55"
+        ]
+       ],
+       "notes": [
+        [
+         0,
+         100,
+         "0.598"
+        ]
+       ]
+      },
+      "figCap": "With σ = 5.97: the band from 45 to 55 is ±0.838σ around the mean.",
+      "ms": [
+       [
+        "M1",
+        "\\(Y \\sim \\mathrm{N}(50,\\,5.967^{2})\\)"
+       ],
+       [
+        "M1",
+        "\\(\\mathrm{P}(45<Y<55)\\) with both bounds"
+       ],
+       [
+        "A1",
+        "\\(0.598\\)   (\\(0.5980\\))"
+       ]
+      ],
+      "wrongs": [
+       [
+        0.799,
+        "\\(0.799\\) is \\(\\mathrm{P}(Y<55)\\): the lower bound \\(45\\) was left off."
+       ],
+       [
+        0.201,
+        "\\(0.201\\) is one tail."
+       ],
+       [
+        0.6827,
+        "\\(0.683\\) is \\(\\mathrm{P}(|Z|<1)\\): \\(5\\) is not one σ here, σ \\(=5.97\\)."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "max": 9,
+    "stem": "The random variable \\(W\\) is normally distributed with mean \\(\\mu\\) and standard deviation \\(\\sigma\\). It is known that \\(\\mathrm{P}(W<40)=0.15\\) and \\(\\mathrm{P}(W>70)=0.1\\).",
+    "parts": [
+     {
+      "label": "(a)",
+      "marks": 2,
+      "text": "Find the values of \\(z_1\\) and \\(z_2\\) such that \\(\\mathrm{P}(Z<z_1)=0.15\\) and \\(\\mathrm{P}(Z>z_2)=0.1\\).",
+      "ansLabel": "\\(z_1=\\)",
+      "ansLabel2": "\\(z_2=\\)",
+      "ans": -1.0364,
+      "ans2": 1.2816,
+      "tol": 0.006,
+      "fig": {
+       "hi": -1.0364,
+       "lo2": 1.2816,
+       "mu": "0",
+       "ticks": [
+        [
+         -1.0364,
+         "z₁"
+        ],
+        [
+         1.2816,
+         "z₂"
+        ]
+       ],
+       "notes": [
+        [
+         -1.9,
+         118,
+         "0.15"
+        ],
+        [
+         2.1,
+         118,
+         "0.1"
+        ]
+       ]
+      },
+      "figCap": "Two tails: 0.15 on the left gives z₁; 0.1 on the right means left area 0.9 for z₂.",
+      "ms": [
+       [
+        "A1",
+        "\\(z_1=-1.036\\)   (\\(-1.0364\\))"
+       ],
+       [
+        "A1",
+        "\\(z_2=1.282\\)   (\\(1.2816\\), from area \\(0.9\\))"
+       ]
+      ],
+      "wrongs": [
+       [
+        -1.2816,
+        "For \\(z_2\\) the area to the left is \\(0.9\\), so \\(z_2\\) is positive."
+       ],
+       [
+        1.0364,
+        "Sign of \\(z_1\\): \\(40\\) is below the mean."
+       ]
+      ]
+     },
+     {
+      "label": "(b)",
+      "marks": 5,
+      "text": "Hence find the values of \\(\\mu\\) and \\(\\sigma\\).",
+      "ansLabel": "\\(\\mu=\\)",
+      "ansLabel2": "\\(\\sigma=\\)",
+      "ans": 53.41,
+      "ans2": 12.94,
+      "tol": 0.06,
+      "fig": {
+       "hi": -1.0364,
+       "lo2": 1.2816,
+       "mu": "μ = ?",
+       "ticks": [
+        [
+         -1.0364,
+         "40"
+        ],
+        [
+         1.2816,
+         "70"
+        ]
+       ],
+       "notes": [
+        [
+         -1.9,
+         118,
+         "0.15"
+        ],
+        [
+         2.1,
+         118,
+         "0.1"
+        ],
+        [
+         0.1,
+         60,
+         "σ = ?",
+         "#B45309"
+        ]
+       ]
+      },
+      "figCap": "Two known points, two unknowns: 40 is 1.036σ below μ, 70 is 1.282σ above.",
+      "ms": [
+       [
+        "M1",
+        "\\(\\dfrac{40-\\mu}{\\sigma}=-1.0364\\) and \\(\\dfrac{70-\\mu}{\\sigma}=1.2816\\)"
+       ],
+       [
+        "M1",
+        "\\(40-\\mu=-1.0364\\sigma\\), \\(70-\\mu=1.2816\\sigma\\); subtract: \\(30=2.318\\sigma\\)"
+       ],
+       [
+        "A1",
+        "\\(\\sigma=12.9\\)   (\\(12.94\\))"
+       ],
+       [
+        "M1",
+        "substituting back: \\(\\mu=40+1.0364\\times12.94\\)"
+       ],
+       [
+        "A1",
+        "\\(\\mu=53.4\\)   (\\(53.41\\))"
+       ]
+      ],
+      "note": "Both equations must be written for the first method mark; the GDC’s simultaneous solver is fine for the rest, but show the two lines.",
+      "wrongs": [
+       [
+        55,
+        "\\(55\\) is the midpoint of \\(40\\) and \\(70\\); the tails are not equal, so the mean is not in the middle."
+       ],
+       [
+        30,
+        "\\(30\\) is \\(70-40\\), the gap; divide it by \\(z_2-z_1\\) for \\(\\sigma\\)."
+       ],
+       [
+        12.94,
+        "That is \\(\\sigma\\); the first box asks for \\(\\mu\\)."
+       ]
+      ]
+     },
+     {
+      "label": "(c)",
+      "marks": 2,
+      "text": "Find \\(\\mathrm{P}(W<50)\\).",
+      "ansLabel": "\\(\\mathrm{P}(W<50)=\\)",
+      "ans": 0.396,
+      "tol": 0.006,
+      "fig": {
+       "hi": -0.2637,
+       "mu": "53.4",
+       "ticks": [
+        [
+         -0.2637,
+         "50"
+        ]
+       ],
+       "notes": [
+        [
+         -1.4,
+         100,
+         "0.396"
+        ]
+       ]
+      },
+      "figCap": "With μ = 53.4 and σ = 12.9: the left tail below 50.",
+      "ms": [
+       [
+        "M1",
+        "\\(W \\sim \\mathrm{N}(53.41,\\,12.94^{2})\\), \\(\\mathrm{P}(W<50)\\)"
+       ],
+       [
+        "A1",
+        "\\(0.396\\)   (\\(0.3960\\))"
+       ]
+      ],
+      "wrongs": [
+       [
+        0.604,
+        "Wrong tail."
+       ],
+       [
+        0.15,
+        "That is the given \\(\\mathrm{P}(W<40)\\)."
+       ]
+      ]
+     }
+    ]
+   }
+  ],
+  "passMark": 17,
+  "maxMarks": 24,
+  "lostMarksHint": "most lost marks here are the sign of z, rounding z to 2 figures, and not writing the standardising equation."
+ }
+}

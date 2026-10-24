@@ -1,0 +1,2904 @@
+{
+ "id": "t12",
+ "number": 12,
+ "title": "1-variable statistics",
+ "syllabus": "SL 4.2, 4.3",
+ "level": "SL (and HL)",
+ "lesson": {
+  "part1Ends": 11,
+  "calculatorPaths": {
+   "nspire": [
+    "Add a Lists & Spreadsheet page (ctrl + doc, or the + tab).",
+    "Click the header cell of column A, type a name such as time, press enter, then type the values down the column.",
+    "menu → 4: Statistics → 1: Stat Calculations → 1: One-Variable Statistics. Num of Lists: 1. OK.",
+    "X1 List: time. Frequency List: 1 (or the name of a frequency column). OK.",
+    "The results appear in the next columns: \\(\\bar x\\), \\(\\Sigma x\\), \\(\\Sigma x^2\\), sx, σx, n, MinX, Q1X, MedianX, Q3X, MaxX. Read σx for the standard deviation."
+   ],
+   "ti84": [
+    "STAT → 1: Edit… Clear L1 first (▲ onto the L1 heading, CLEAR, ENTER), then type the values, ENTER after each.",
+    "STAT → ▶ CALC → 1: 1-Var Stats.",
+    "List: L1. FreqList: leave blank for a plain list, or L2 for a frequency table. Calculate.",
+    "Read \\(\\bar x\\), \\(\\Sigma x\\), \\(\\Sigma x^2\\), Sx, σx, n; scroll down for minX, Q1, Med, Q3, maxX. Read σx for the standard deviation."
+   ],
+   "cg50": [
+    "MENU → STAT. Type the values into List 1, EXE after each.",
+    "F2 (CALC) → F6 (SET): 1Var XList: List1, 1Var Freq: 1 (or List2 for a frequency table). EXIT.",
+    "F1 (1VAR).",
+    "Read \\(\\bar x\\), \\(\\Sigma x\\), \\(\\Sigma x^2\\), σx, sx, n; scroll down for minX, Q1, Med, Q3, maxX. Read σx for the standard deviation."
+   ]
+  },
+  "menuOptions": {
+   "nspire": [
+    "menu → Statistics → Stat Calculations → One-Variable Statistics",
+    "menu → Statistics → Stat Calculations → Linear Regression (mx+b)",
+    "menu → Statistics → Distributions → Normal Cdf"
+   ],
+   "ti84": [
+    "STAT → CALC → 1-Var Stats",
+    "STAT → CALC → LinReg(ax+b)",
+    "2nd → VARS (DISTR) → normalcdf("
+   ],
+   "cg50": [
+    "STAT → CALC → 1VAR",
+    "STAT → CALC → REG → X",
+    "STAT → DIST → NORM → Ncd"
+   ]
+  },
+  "steps": [
+   {
+    "parts": [
+     [
+      "c",
+      "Which calculator function gives the mean of a list?",
+      [
+       "One-variable statistics (1-Var Stats)",
+       "Normal Cdf",
+       "Linear regression"
+      ],
+      0,
+      "✓ 1-Var Stats gives the mean, the standard deviation and the quartiles in one go.",
+      "✗ A plain list of data needs One-variable statistics (1-Var Stats). It gives the mean, σ and the quartiles together."
+     ]
+    ],
+    "given": "times (min): \\(4,\\ 6,\\ 7,\\ 7,\\ 8,\\ 9,\\ 9,\\ 10,\\ 11,\\ 12,\\ 14,\\ 23\\)",
+    "label": "\\(\\bar x=\\)",
+    "tag": "TRY IT FIRST · enter your calculator’s answer",
+    "worked": "From GDC (1-Var Stats): \\(\\bar x=10\\)",
+    "title": "Find the mean time.",
+    "instr": [
+     "Enter the list on your own calculator.",
+     "Type the value.",
+     "You have two tries; then we show the answer."
+    ],
+    "fig": {
+     "kind": "box",
+     "vals": [
+      4,
+      6,
+      7,
+      7,
+      8,
+      9,
+      9,
+      10,
+      11,
+      12,
+      14,
+      23
+     ],
+     "box": false,
+     "caption": "The 12 times on a number line. The mean balances the dots; 23 sits well away from the rest."
+    },
+    "ans": 10,
+    "ok": "✓ \\(\\bar x=10\\) is right. The lesson covers the rest of the 1-Var output, which standard deviation the IB means, quartiles and outliers.",
+    "givenNote": "\\(12\\) students, time taken to finish a puzzle",
+    "t": "numeric",
+    "wrongs": [
+     [
+      9,
+      "\\(9\\) is the median, the middle value. The mean is \\(\\bar x\\)."
+     ],
+     [
+      120,
+      "\\(120\\) is \\(\\Sigma x\\); divide by \\(n=12\\)."
+     ],
+     [
+      9.5,
+      "\\(9.5\\) looks like a typing slip: check that all \\(12\\) values are in the list (n should read 12)."
+     ]
+    ],
+    "tol": 0.01,
+    "err": "GDC",
+    "byCalc": {
+     "nspire": {
+      "path": [
+       "Add a Lists & Spreadsheet page (ctrl + doc, or the + tab).",
+       "Click the header cell of column A, type a name such as time, press enter, then type the values down the column.",
+       "menu → 4: Statistics → 1: Stat Calculations → 1: One-Variable Statistics. Num of Lists: 1. OK.",
+       "X1 List: time. Frequency List: 1 (or the name of a frequency column). OK.",
+       "The results appear in the next columns: \\(\\bar x\\), \\(\\Sigma x\\), \\(\\Sigma x^2\\), sx, σx, n, MinX, Q1X, MedianX, Q3X, MaxX. Read σx for the standard deviation."
+      ]
+     },
+     "ti84": {
+      "path": [
+       "STAT → 1: Edit… Clear L1 first (▲ onto the L1 heading, CLEAR, ENTER), then type the values, ENTER after each.",
+       "STAT → ▶ CALC → 1: 1-Var Stats.",
+       "List: L1. FreqList: leave blank for a plain list, or L2 for a frequency table. Calculate.",
+       "Read \\(\\bar x\\), \\(\\Sigma x\\), \\(\\Sigma x^2\\), Sx, σx, n; scroll down for minX, Q1, Med, Q3, maxX. Read σx for the standard deviation."
+      ]
+     },
+     "cg50": {
+      "path": [
+       "MENU → STAT. Type the values into List 1, EXE after each.",
+       "F2 (CALC) → F6 (SET): 1Var XList: List1, 1Var Freq: 1 (or List2 for a frequency table). EXIT.",
+       "F1 (1VAR).",
+       "Read \\(\\bar x\\), \\(\\Sigma x\\), \\(\\Sigma x^2\\), σx, sx, n; scroll down for minX, Q1, Med, Q3, maxX. Read σx for the standard deviation."
+      ]
+     }
+    }
+   },
+   {
+    "tag": "NOTE · SL 4.3",
+    "code": "from GDC: \\(\\bar x=10,\\ \\sigma=4.71,\\ n=12\\)\n\\(Q_1=7,\\ \\text{median}=9,\\ Q_3=11.5\\)",
+    "title": "What 1-Var Stats gives you",
+    "fig": {
+     "kind": "box",
+     "vals": [
+      4,
+      6,
+      7,
+      7,
+      8,
+      9,
+      9,
+      10,
+      11,
+      12,
+      14,
+      23
+     ],
+     "box": false,
+     "caption": "n = 12 values. The 1-Var output describes this picture with numbers: centre (x̄, median), spread (σ, IQR), and the five-number summary."
+    },
+    "t": "note",
+    "byCalc": {
+     "nspire": {
+      "body": "One command, one screen of results:\n•  \\(\\bar x\\): the mean\n•  \\(\\Sigma x\\) and \\(\\Sigma x^2\\): the sums; useful for combined groups and “find the missing value”\n•  two standard deviations, sx and σx. In IB, “standard deviation” means σx.\n•  \\(n\\): the number of values. Check it matches the question before you read anything else.\n•  minX, \\(Q_1\\), median, \\(Q_3\\), maxX: the five-number summary, which is the box plot\n\nThe Nspire lists both: sx (sample) and σx (population). Read σx."
+     },
+     "ti84": {
+      "body": "One command, one screen of results:\n•  \\(\\bar x\\): the mean\n•  \\(\\Sigma x\\) and \\(\\Sigma x^2\\): the sums; useful for combined groups and “find the missing value”\n•  two standard deviations, sx and σx. In IB, “standard deviation” means σx.\n•  \\(n\\): the number of values. Check it matches the question before you read anything else.\n•  minX, \\(Q_1\\), median, \\(Q_3\\), maxX: the five-number summary, which is the box plot\n\nThe TI-84 lists Sx and then σx underneath it. Read σx, the lower one."
+     },
+     "cg50": {
+      "body": "One command, one screen of results:\n•  \\(\\bar x\\): the mean\n•  \\(\\Sigma x\\) and \\(\\Sigma x^2\\): the sums; useful for combined groups and “find the missing value”\n•  two standard deviations, sx and σx. In IB, “standard deviation” means σx.\n•  \\(n\\): the number of values. Check it matches the question before you read anything else.\n•  minX, \\(Q_1\\), median, \\(Q_3\\), maxX: the five-number summary, which is the box plot\n\nThe Casio lists σx and then sx. Read σx, the first one."
+     }
+    }
+   },
+   {
+    "given": "times (min): \\(4,\\ 6,\\ 7,\\ 7,\\ 8,\\ 9,\\ 9,\\ 10,\\ 11,\\ 12,\\ 14,\\ 23\\)",
+    "tag": "ACTIVITY · which number?",
+    "title": "“Find the standard deviation of the times.” Which value from the screen?",
+    "right": 0,
+    "t": "choice",
+    "opts": [
+     "\\(\\sigma x=4.71\\)",
+     "\\(sx=4.92\\)",
+     "\\(\\Sigma x^2=1466\\)"
+    ],
+    "err": "Concept",
+    "byCalc": {
+     "nspire": {
+      "ok": "✓ Right. IB uses the population standard deviation, σx. The Nspire lists both: sx (sample) and σx (population). Read σx.",
+      "bad": "✗ Not quite. IB uses σx, the population standard deviation; sx is the sample estimate and \\(\\Sigma x^2\\) is a sum. The Nspire lists both: sx (sample) and σx (population). Read σx."
+     },
+     "ti84": {
+      "ok": "✓ Right. IB uses the population standard deviation, σx. The TI-84 lists Sx and then σx underneath it. Read σx, the lower one.",
+      "bad": "✗ Not quite. IB uses σx, the population standard deviation; sx is the sample estimate and \\(\\Sigma x^2\\) is a sum. The TI-84 lists Sx and then σx underneath it. Read σx, the lower one."
+     },
+     "cg50": {
+      "ok": "✓ Right. IB uses the population standard deviation, σx. The Casio lists σx and then sx. Read σx, the first one.",
+      "bad": "✗ Not quite. IB uses σx, the population standard deviation; sx is the sample estimate and \\(\\Sigma x^2\\) is a sum. The Casio lists σx and then sx. Read σx, the first one."
+     }
+    }
+   },
+   {
+    "title": "Where it lives on your calculator",
+    "t": "note",
+    "body": "Two steps:\n•  type the data into a list\n•  run one-variable statistics on that list",
+    "byCalc": {
+     "nspire": {
+      "path": [
+       "Add a Lists & Spreadsheet page (ctrl + doc, or the + tab).",
+       "Click the header cell of column A, type a name such as time, press enter, then type the values down the column.",
+       "menu → 4: Statistics → 1: Stat Calculations → 1: One-Variable Statistics. Num of Lists: 1. OK.",
+       "X1 List: time. Frequency List: 1 (or the name of a frequency column). OK.",
+       "The results appear in the next columns: \\(\\bar x\\), \\(\\Sigma x\\), \\(\\Sigma x^2\\), sx, σx, n, MinX, Q1X, MedianX, Q3X, MaxX. Read σx for the standard deviation."
+      ],
+      "tag": "NOTE · TI-Nspire CX II"
+     },
+     "ti84": {
+      "path": [
+       "STAT → 1: Edit… Clear L1 first (▲ onto the L1 heading, CLEAR, ENTER), then type the values, ENTER after each.",
+       "STAT → ▶ CALC → 1: 1-Var Stats.",
+       "List: L1. FreqList: leave blank for a plain list, or L2 for a frequency table. Calculate.",
+       "Read \\(\\bar x\\), \\(\\Sigma x\\), \\(\\Sigma x^2\\), Sx, σx, n; scroll down for minX, Q1, Med, Q3, maxX. Read σx for the standard deviation."
+      ],
+      "tag": "NOTE · TI-84 Plus CE"
+     },
+     "cg50": {
+      "path": [
+       "MENU → STAT. Type the values into List 1, EXE after each.",
+       "F2 (CALC) → F6 (SET): 1Var XList: List1, 1Var Freq: 1 (or List2 for a frequency table). EXIT.",
+       "F1 (1VAR).",
+       "Read \\(\\bar x\\), \\(\\Sigma x\\), \\(\\Sigma x^2\\), σx, sx, n; scroll down for minX, Q1, Med, Q3, maxX. Read σx for the standard deviation."
+      ],
+      "tag": "NOTE · Casio fx-CG50"
+     }
+    }
+   },
+   {
+    "given": "times (min): \\(4,\\ 6,\\ 7,\\ 7,\\ 8,\\ 9,\\ 9,\\ 10,\\ 11,\\ 12,\\ 14,\\ 23\\)",
+    "tag": "ACTIVITY · menu choice",
+    "ok": "✓ Right. One list of values, one command.",
+    "right": 0,
+    "t": "choice",
+    "bad": "✗ Not quite. Regression needs two lists (x and y); Normal Cdf is for a probability. A single list of data is one-variable statistics.",
+    "err": "GDC",
+    "byCalc": {
+     "nspire": {
+      "title": "On your TI-Nspire CX II, which path gives the mean and standard deviation of a list?",
+      "opts": [
+       "menu → Statistics → Stat Calculations → One-Variable Statistics",
+       "menu → Statistics → Stat Calculations → Linear Regression (mx+b)",
+       "menu → Statistics → Distributions → Normal Cdf"
+      ]
+     },
+     "ti84": {
+      "title": "On your TI-84 Plus CE, which path gives the mean and standard deviation of a list?",
+      "opts": [
+       "STAT → CALC → 1-Var Stats",
+       "STAT → CALC → LinReg(ax+b)",
+       "2nd → VARS (DISTR) → normalcdf("
+      ]
+     },
+     "cg50": {
+      "title": "On your Casio fx-CG50, which path gives the mean and standard deviation of a list?",
+      "opts": [
+       "STAT → CALC → 1VAR",
+       "STAT → CALC → REG → X",
+       "STAT → DIST → NORM → Ncd"
+      ]
+     }
+    }
+   },
+   {
+    "t": "numeric",
+    "parts": [
+     [
+      "c",
+      "Which symbol on the results screen?",
+      [
+       "σx",
+       "sx",
+       "\\(\\Sigma x\\)"
+      ],
+      0,
+      "✓ σx, the population standard deviation.",
+      "✗ IB means σx. sx is the sample estimate (slightly bigger); \\(\\Sigma x\\) is the sum of the values."
+     ]
+    ],
+    "tag": "ACTIVITY · enter your calculator’s answer",
+    "given": "times (min): \\(4,\\ 6,\\ 7,\\ 7,\\ 8,\\ 9,\\ 9,\\ 10,\\ 11,\\ 12,\\ 14,\\ 23\\)",
+    "title": "Find the standard deviation of the times.",
+    "instr": [
+     "1-Var Stats on the same list.",
+     "Type the value to 3 significant figures."
+    ],
+    "label": "\\(\\sigma=\\)",
+    "ans": 4.7081,
+    "tol": 0.006,
+    "worked": "From GDC: \\(\\sigma=4.71\\)   (σx on the 1-Var screen)",
+    "ok": "✓ \\(4.71\\). On average the times sit about \\(4.7\\) minutes from the mean of \\(10\\).",
+    "wrongs": [
+     [
+      4.9175,
+      "\\(4.92\\) is sx, the sample standard deviation. IB uses σx."
+     ],
+     [
+      22.17,
+      "\\(22.2\\) is the variance \\(\\sigma^2\\). Take the square root, or read σx directly."
+     ],
+     [
+      4.5,
+      "\\(4.5\\) is the IQR, \\(Q_3-Q_1\\)."
+     ]
+    ],
+    "err": "Reading"
+   },
+   {
+    "t": "note",
+    "fig": {
+     "kind": "box",
+     "vals": [
+      4,
+      6,
+      7,
+      7,
+      8,
+      9,
+      9,
+      10,
+      11,
+      12,
+      14,
+      23
+     ],
+     "box": true,
+     "caption": "Box plot from the 1-Var output: Q1 = 7, median = 9, Q3 = 11.5. The box holds the middle half of the data."
+    },
+    "tag": "NOTE · SL 4.2, 4.3",
+    "title": "Median, quartiles and the IQR",
+    "body": "From the same screen:\n•  median: the middle value, with half the data on each side\n•  \\(Q_1\\) and \\(Q_3\\): a quarter and three quarters of the way through the ordered data\n•  \\(\\mathrm{IQR}=Q_3-Q_1\\): the width of the box, the spread of the middle half\n\nIB accepts the GDC’s quartiles; different hand methods can give slightly different values, so write “from GDC”.\n\nThe median and IQR are not pulled around by an extreme value; the mean and σ are. With the \\(23\\) in the list, \\(\\bar x=10\\) sits above the median of \\(9\\).",
+    "code": "median \\(=9\\), \\(Q_1=7\\), \\(Q_3=11.5\\)\n\\(\\mathrm{IQR}=Q_3-Q_1=11.5-7=4.5\\)"
+   },
+   {
+    "t": "numeric",
+    "parts": [
+     [
+      "n",
+      "From the 1-Var screen, \\(Q_1=\\)",
+      "\\(Q_1=\\)",
+      7,
+      0.01,
+      "✓ \\(Q_1=7\\).",
+      [
+       [
+        7.5,
+        "That is a hand method that includes the median in each half; the GDC gives \\(7\\)."
+       ],
+       [
+        9,
+        "That is the median."
+       ]
+      ]
+     ],
+     [
+      "n",
+      "And \\(Q_3=\\)",
+      "\\(Q_3=\\)",
+      11.5,
+      0.01,
+      "✓ \\(Q_3=11.5\\). Now subtract.",
+      [
+       [
+        12,
+        "That is a hand method; the GDC gives \\(11.5\\)."
+       ],
+       [
+        23,
+        "That is the maximum."
+       ]
+      ]
+     ]
+    ],
+    "tag": "ACTIVITY · enter your calculator’s answer",
+    "given": "times (min): \\(4,\\ 6,\\ 7,\\ 7,\\ 8,\\ 9,\\ 9,\\ 10,\\ 11,\\ 12,\\ 14,\\ 23\\)",
+    "title": "Find the interquartile range of the times.",
+    "instr": [
+     "Scroll down the 1-Var screen for \\(Q_1\\) and \\(Q_3\\).",
+     "Type the IQR."
+    ],
+    "label": "\\(\\mathrm{IQR}=\\)",
+    "ans": 4.5,
+    "tol": 0.01,
+    "worked": "From GDC: \\(Q_1=7\\), \\(Q_3=11.5\\)\n\\(\\mathrm{IQR}=11.5-7=4.5\\)",
+    "ok": "✓ \\(\\mathrm{IQR}=4.5\\) minutes: the middle half of the students finished within a \\(4.5\\)-minute band.",
+    "wrongs": [
+     [
+      19,
+      "\\(19\\) is the range, max − min. The IQR is \\(Q_3-Q_1\\)."
+     ],
+     [
+      7,
+      "That is \\(Q_1\\) alone."
+     ],
+     [
+      11.5,
+      "That is \\(Q_3\\) alone."
+     ]
+    ],
+    "err": "Reading"
+   },
+   {
+    "t": "note",
+    "fig": {
+     "kind": "box",
+     "vals": [
+      4,
+      6,
+      7,
+      7,
+      8,
+      9,
+      9,
+      10,
+      11,
+      12,
+      14,
+      23
+     ],
+     "box": true,
+     "outliers": true,
+     "caption": "Upper fence Q3 + 1.5 × IQR = 18.25. The whisker stops at 14, the last value inside the fence; 23 is plotted as an outlier."
+    },
+    "tag": "NOTE · SL 4.2",
+    "title": "Outliers",
+    "body": "A value is an outlier if it lies more than \\(1.5\\times\\mathrm{IQR}\\) beyond the box:\n•  below \\(Q_1-1.5\\times\\mathrm{IQR}\\)\n•  above \\(Q_3+1.5\\times\\mathrm{IQR}\\)\n\nFor the times: \\(11.5+1.5\\times4.5=18.25\\), so \\(23\\) is an outlier; \\(7-6.75=0.25\\), so nothing at the low end.\n\nOn a box plot, whiskers stop at the last value inside the fences and outliers are marked with a cross or dot. Show the fence calculation; that is where the mark is.",
+    "code": "upper fence: \\(Q_3+1.5\\times\\mathrm{IQR}=11.5+6.75=18.25\\)\n\\(23>18.25\\), so \\(23\\) is an outlier"
+   },
+   {
+    "t": "choice",
+    "tag": "ACTIVITY · outlier check",
+    "given": "times (min): \\(4,\\ 6,\\ 7,\\ 7,\\ 8,\\ 9,\\ 9,\\ 10,\\ 11,\\ 12,\\ 14,\\ 23\\)",
+    "givenNote": "\\(Q_1=7\\), \\(Q_3=11.5\\)",
+    "title": "Is \\(23\\) an outlier?",
+    "opts": [
+     "Yes: \\(Q_3+1.5\\times\\mathrm{IQR}=11.5+6.75=18.25\\) and \\(23>18.25\\)",
+     "No: \\(23\\) is within \\(3\\sigma\\) of the mean",
+     "Cannot tell without the mean"
+    ],
+    "right": 0,
+    "ok": "✓ Right, and the fence calculation is what the examiner wants to see.",
+    "bad": "✗ Not quite. The IB test uses the quartiles: \\(Q_3+1.5\\times\\mathrm{IQR}=18.25\\), and \\(23\\) is above it. The mean and σ are not part of the test.",
+    "err": "Concept"
+   },
+   {
+    "t": "choice",
+    "tag": "ACTIVITY · write the line",
+    "given": "times (min): \\(4,\\ 6,\\ 7,\\ 7,\\ 8,\\ 9,\\ 9,\\ 10,\\ 11,\\ 12,\\ 14,\\ 23\\)",
+    "title": "Which line earns the marks for “find the mean and standard deviation of the times”?",
+    "opts": [
+     "from GDC: \\(\\bar x=10\\), \\(\\sigma=4.71\\)",
+     "1-Var Stats L1",
+     "\\(\\bar x=10\\), \\(s=4.92\\)"
+    ],
+    "right": 0,
+    "ok": "✓ Right. Name the quantities, give the IB’s σ, 3 s.f.",
+    "bads": [
+     "✓",
+     "✗ The calculator command earns nothing. Write the values: \\(\\bar x=10\\), \\(\\sigma=4.71\\).",
+     "✗ \\(4.92\\) is the sample standard deviation sx; IB wants σx \\(=4.71\\)."
+    ],
+    "err": "Writing"
+   },
+   {
+    "tag": "NOTE · SL 4.3",
+    "code": "\\(\\bar x=\\dfrac{\\Sigma fx}{\\Sigma f}=\\dfrac{0(5)+1(8)+2(6)+3(3)+4(2)+5(1)}{25}=\\dfrac{42}{25}=1.68\\)",
+    "title": "Data in a frequency table",
+    "fig": {
+     "kind": "bars",
+     "vals": [
+      5,
+      8,
+      6,
+      3,
+      2,
+      1
+     ],
+     "labels": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5"
+     ],
+     "lo": null,
+     "hi": null,
+     "caption": "The frequency table as a bar chart: 25 matches in total. The mean is a weighted average of 0 to 5, weighted by the heights."
+    },
+    "t": "note",
+    "byCalc": {
+     "nspire": {
+      "body": "Do not type \\(0\\) five times and \\(1\\) eight times. Use two lists:\n•  the values \\(x\\) in one list\n•  the frequencies \\(f\\) in a second list, and tell 1-Var Stats that it is the frequency list\n\nThe calculator then treats each value as if it appeared \\(f\\) times: \\(n=\\Sigma f=25\\), and \\(\\bar x=\\dfrac{\\Sigma fx}{\\Sigma f}\\).\n\nOn the Nspire, put the values in one column (say x) and the frequencies in another (say f), then set Frequency List: f in the One-Variable Statistics dialog."
+     },
+     "ti84": {
+      "body": "Do not type \\(0\\) five times and \\(1\\) eight times. Use two lists:\n•  the values \\(x\\) in one list\n•  the frequencies \\(f\\) in a second list, and tell 1-Var Stats that it is the frequency list\n\nThe calculator then treats each value as if it appeared \\(f\\) times: \\(n=\\Sigma f=25\\), and \\(\\bar x=\\dfrac{\\Sigma fx}{\\Sigma f}\\).\n\nOn the TI-84, put the values in L1 and the frequencies in L2, then set FreqList: L2 in 1-Var Stats."
+     },
+     "cg50": {
+      "body": "Do not type \\(0\\) five times and \\(1\\) eight times. Use two lists:\n•  the values \\(x\\) in one list\n•  the frequencies \\(f\\) in a second list, and tell 1-Var Stats that it is the frequency list\n\nThe calculator then treats each value as if it appeared \\(f\\) times: \\(n=\\Sigma f=25\\), and \\(\\bar x=\\dfrac{\\Sigma fx}{\\Sigma f}\\).\n\nOn the Casio, put the values in List 1 and the frequencies in List 2, then in CALC → SET choose 1Var Freq: List2."
+     }
+    }
+   },
+   {
+    "t": "numeric",
+    "parts": [
+     [
+      "c",
+      "How do you enter the table?",
+      [
+       "Values \\(0\\) to \\(5\\) in one list, frequencies in a second list, and set the frequency list",
+       "Values \\(0\\) to \\(5\\) in one list only",
+       "Frequencies \\(5,8,6,3,2,1\\) in one list only"
+      ],
+      0,
+      "✓ Two lists, with the frequency list set.",
+      "✗ Both lists are needed: the values, and the frequencies as the frequency list. One list alone averages the wrong numbers."
+     ]
+    ],
+    "tag": "ACTIVITY · enter your calculator’s answer",
+    "given": "\\(\\begin{array}{c|cccccc} \\text{goals } x & 0 & 1 & 2 & 3 & 4 & 5 \\\\ \\hline \\text{matches } f & 5 & 8 & 6 & 3 & 2 & 1 \\end{array}\\)",
+    "givenNote": "goals scored per match over \\(25\\) matches",
+    "title": "Find the mean number of goals per match.",
+    "instr": [
+     "Two lists; set the frequency list.",
+     "Type the value to 3 significant figures."
+    ],
+    "label": "\\(\\bar x=\\)",
+    "ans": 1.68,
+    "tol": 0.005,
+    "worked": "From GDC (1-Var Stats with frequency list): \\(\\bar x=1.68\\), \\(n=25\\)",
+    "ok": "✓ \\(1.68\\) goals per match. Check \\(n=25\\) on the screen: that confirms the frequency list was used.",
+    "wrongs": [
+     [
+      2.5,
+      "\\(2.5\\) is the mean of \\(0,1,2,3,4,5\\) with the frequencies ignored. Set the frequency list."
+     ],
+     [
+      4.1667,
+      "\\(4.17\\) is the mean of the frequencies: the lists are the wrong way round."
+     ],
+     [
+      1.7,
+      "\\(1.7\\) is close but not \\(3\\) s.f. of \\(1.68\\): check the frequencies were typed exactly."
+     ]
+    ],
+    "err": "GDC"
+   },
+   {
+    "t": "numeric",
+    "parts": [
+     [
+      "c",
+      "What goes in the value list for grouped data?",
+      [
+       "The class midpoints: \\(45,\\ 55,\\ 65,\\ 75\\)",
+       "The lower bounds: \\(40,\\ 50,\\ 60,\\ 70\\)",
+       "The class widths: \\(10,\\ 10,\\ 10,\\ 10\\)"
+      ],
+      0,
+      "✓ Midpoints, with the frequencies as the frequency list.",
+      "✗ Each class is represented by its midpoint: \\(45,\\ 55,\\ 65,\\ 75\\). That is why the mean is an estimate."
+     ]
+    ],
+    "tag": "ACTIVITY · enter your calculator’s answer",
+    "given": "\\(\\begin{array}{c|cccc} \\text{mass (kg)} & 40\\le m<50 & 50\\le m<60 & 60\\le m<70 & 70\\le m<80 \\\\ \\hline f & 6 & 11 & 9 & 4 \\end{array}\\)",
+    "givenNote": "masses of \\(30\\) parcels, grouped",
+    "title": "Find an estimate of the mean mass.",
+    "instr": [
+     "Midpoints as the values, frequencies as the frequency list.",
+     "Type the value to 3 significant figures."
+    ],
+    "label": "\\(\\bar x\\approx\\)",
+    "ans": 58.667,
+    "tol": 0.05,
+    "worked": "midpoints \\(45,\\ 55,\\ 65,\\ 75\\); frequencies \\(6,\\ 11,\\ 9,\\ 4\\)\nFrom GDC: \\(\\bar x=58.7\\) kg   (\\(n=30\\))",
+    "ok": "✓ \\(58.7\\) kg. It is an estimate because every parcel in a class is treated as if it had the midpoint mass.",
+    "wrongs": [
+     [
+      53.667,
+      "\\(53.7\\) uses the lower bounds \\(40,50,60,70\\). Use the midpoints."
+     ],
+     [
+      63.667,
+      "\\(63.7\\) uses the upper bounds. Use the midpoints."
+     ],
+     [
+      60,
+      "\\(60\\) is the mean of the midpoints with the frequencies ignored."
+     ]
+    ],
+    "err": "Concept"
+   },
+   {
+    "t": "note",
+    "tag": "NOTE · SL 4.3",
+    "title": "Scaling and shifting every value",
+    "body": "If every value is changed to \\(y=ax+b\\):\n•  the mean follows the same rule: \\(\\bar y=a\\bar x+b\\)\n•  so do the median and the quartiles\n•  the spread is only affected by \\(a\\): \\(\\sigma_y=|a|\\,\\sigma_x\\) and \\(\\mathrm{IQR}_y=|a|\\,\\mathrm{IQR}_x\\)\n\nAdding or subtracting a constant slides the whole data set along; the spread does not change. Multiplying stretches it.",
+    "code": "times in seconds: \\(y=60x\\)\n\\(\\bar y=60\\times10=600\\), \\(\\sigma_y=60\\times4.71=283\\)\nthen \\(y-30\\): mean \\(570\\), σ still \\(283\\)"
+   },
+   {
+    "t": "numeric",
+    "parts": [
+     [
+      "c",
+      "Each time is multiplied by \\(60\\) and then \\(30\\) is subtracted. Which of these changes σ?",
+      [
+       "Only the \\(\\times60\\)",
+       "Both the \\(\\times60\\) and the \\(-30\\)",
+       "Only the \\(-30\\)"
+      ],
+      0,
+      "✓ Subtracting \\(30\\) slides everything; the spread is unchanged.",
+      "✗ Subtracting a constant moves every value by the same amount, so the spread does not change. Only the \\(\\times60\\) affects σ."
+     ]
+    ],
+    "tag": "ACTIVITY · no calculator needed",
+    "given": "\\(\\bar x=10\\), \\(\\sigma=4.7081\\) (minutes)",
+    "title": "The times are converted to seconds and \\(30\\) seconds is subtracted from each. Find the new standard deviation.",
+    "instr": [
+     "\\(\\sigma_y=|a|\\,\\sigma_x\\).",
+     "Type the value to 3 significant figures."
+    ],
+    "label": "\\(\\sigma_y=\\)",
+    "ans": 282.49,
+    "tol": 0.6,
+    "worked": "\\(y=60x-30\\)\n\\(\\sigma_y=60\\times4.7081=282\\) seconds",
+    "ok": "✓ \\(282\\) s. The \\(-30\\) made no difference to σ; the mean would be \\(60\\times10-30=570\\).",
+    "wrongs": [
+     [
+      252.49,
+      "\\(252\\) subtracted \\(30\\) from σ as well. A shift does not change the spread."
+     ],
+     [
+      570,
+      "\\(570\\) is the new mean, not σ."
+     ],
+     [
+      4.7081,
+      "That is the old σ. Multiplying every value by \\(60\\) multiplies σ by \\(60\\)."
+     ]
+    ],
+    "err": "Concept"
+   },
+   {
+    "t": "numeric",
+    "parts": [
+     [
+      "n",
+      "The total of the \\(8\\) scores is \\(\\Sigma x=\\)",
+      "\\(\\Sigma x=\\)",
+      100,
+      0.01,
+      "✓ \\(8\\times12.5=100\\).",
+      [
+       [
+        12.5,
+        "That is the mean; multiply by \\(8\\)."
+       ]
+      ]
+     ],
+     [
+      "n",
+      "With \\(9\\) scores and mean \\(13\\), the new total is",
+      "\\(\\Sigma x=\\)",
+      117,
+      0.01,
+      "✓ \\(9\\times13=117\\). The ninth score is the difference.",
+      [
+       [
+        13,
+        "That is the new mean; multiply by \\(9\\)."
+       ],
+       [
+        104,
+        "That is \\(8\\times13\\); there are now \\(9\\) scores."
+       ]
+      ]
+     ]
+    ],
+    "tag": "EXAM-STYLE PART · 3 marks · hints available",
+    "given": "\\(8\\) scores, \\(\\bar x=12.5\\)",
+    "givenNote": "a ninth score is added and the mean becomes \\(13\\)",
+    "title": "Find the ninth score.",
+    "instr": [
+     "Work with totals, \\(\\Sigma x=n\\bar x\\).",
+     "Type the value.",
+     "Hints are available below if you need them."
+    ],
+    "label": "ninth score \\(=\\)",
+    "ans": 17,
+    "tol": 0.01,
+    "worked": "\\(\\Sigma x=8\\times12.5=100\\)\nnew total \\(=9\\times13=117\\)\nninth score \\(=117-100=17\\)",
+    "ok": "✓ \\(17\\). Mean questions with a missing value are always about totals: \\(\\Sigma x=n\\bar x\\).",
+    "wrongs": [
+     [
+      0.5,
+      "\\(0.5\\) is the change in the mean, not the score."
+     ],
+     [
+      117,
+      "\\(117\\) is the new total; subtract the old total \\(100\\)."
+     ],
+     [
+      13,
+      "\\(13\\) is the new mean."
+     ]
+    ],
+    "hints": [
+     "The mean is the total divided by \\(n\\), so the total is \\(n\\bar x\\).",
+     "Old total \\(8\\times12.5\\); new total \\(9\\times13\\).",
+     "The ninth score is new total minus old total."
+    ],
+    "err": "Reading"
+   },
+   {
+    "t": "choice",
+    "tag": "ACTIVITY · no calculator · Paper 1",
+    "given": "\\(\\bar x=20\\), \\(\\sigma=4\\)",
+    "givenNote": "a Paper 1 question",
+    "title": "Every value is doubled and then \\(3\\) is added. What are the new mean and standard deviation?",
+    "opts": [
+     "\\(\\bar y=43\\), \\(\\sigma_y=8\\)",
+     "\\(\\bar y=43\\), \\(\\sigma_y=11\\)",
+     "\\(\\bar y=40\\), \\(\\sigma_y=8\\)"
+    ],
+    "right": 0,
+    "ok": "✓ Right. \\(y=2x+3\\): mean \\(2(20)+3=43\\); σ is scaled by \\(2\\) only, \\(8\\).",
+    "bad": "✗ Not quite. \\(y=2x+3\\): the mean follows the rule, \\(2(20)+3=43\\); σ is affected only by the \\(\\times2\\), so \\(\\sigma_y=8\\).",
+    "err": "Concept"
+   },
+   {
+    "t": "finish",
+    "tag": "LESSON COMPLETE",
+    "title": "1-variable statistics: Learn passed"
+   }
+  ]
+ },
+ "drill": {
+  "intro": "Each gives data as a list, a frequency table or grouped classes. Enter it correctly, run one-variable statistics, read the right numbers (σx, not sx) and type them to 3 significant figures. SL 4.2–4.3 (also HL).",
+  "challengeIntro": "mean and σ from Σx and Σx², a change of units, a missing value from the mean, and a combined mean of two groups. Optional: getting them wrong cannot undo your drill result.",
+  "keys": {
+   "nspire": [
+    "Add a Lists & Spreadsheet page. Name column A (e.g. x) in its header cell and type the values down it. For a frequency table, name column B (e.g. f) and type the frequencies; for grouped data type the class midpoints in x.",
+    "menu → 4: Statistics → 1: Stat Calculations → 1: One-Variable Statistics. Num of Lists: 1, OK.",
+    "X1 List: x. Frequency List: 1 for a plain list, or f for a table. OK.",
+    "Check n first. Then read x̄, σx (not sx), and scroll for MinX, Q1X, MedianX, Q3X, MaxX.",
+    "IQR = Q3X − Q1X. Outlier fences: Q1X − 1.5·IQR and Q3X + 1.5·IQR, by hand.",
+    "Σx and Σx² are on the same screen for combined-group and missing-value questions.",
+    "Round only at the end, to 3 significant figures."
+   ],
+   "ti84": [
+    "STAT → 1: Edit… Clear L1 (▲ to the heading, CLEAR, ENTER) and type the values. For a frequency table type the frequencies in L2; for grouped data type class midpoints in L1.",
+    "STAT → ▶ CALC → 1: 1-Var Stats.",
+    "List: L1. FreqList: blank for a plain list, or L2 for a table. Calculate.",
+    "Check n first. Then read x̄ and σx (the lower of the two standard deviations, not Sx); scroll down for minX, Q1, Med, Q3, maxX.",
+    "IQR = Q3 − Q1. Outlier fences: Q1 − 1.5·IQR and Q3 + 1.5·IQR, by hand.",
+    "Σx and Σx² are on the same screen for combined-group and missing-value questions.",
+    "Round only at the end, to 3 significant figures."
+   ],
+   "cg50": [
+    "MENU → STAT. Type the values into List 1 (EXE after each). For a frequency table type the frequencies in List 2; for grouped data type class midpoints in List 1.",
+    "F2 (CALC) → F6 (SET): 1Var XList: List1; 1Var Freq: 1 for a plain list, or List2 for a table. EXIT.",
+    "F1 (1VAR).",
+    "Check n first. Then read x̄ and σx (listed before sx); scroll down for minX, Q1, Med, Q3, maxX.",
+    "IQR = Q3 − Q1. Outlier fences: Q1 − 1.5·IQR and Q3 + 1.5·IQR, by hand.",
+    "Σx and Σx² are on the same screen for combined-group and missing-value questions.",
+    "Round only at the end, to 3 significant figures."
+   ]
+  },
+  "sets": [
+   [
+    {
+     "parts": [
+      [
+       "c",
+       "Which calculator function?",
+       [
+        "One-variable statistics on the list",
+        "Normal Cdf",
+        "Linear regression"
+       ],
+       0,
+       "✓",
+       "✗ A single list of data: one-variable statistics (1-Var Stats)."
+      ],
+      [
+       "c",
+       "Which standard deviation does the IB want?",
+       [
+        "σx (population)",
+        "sx (sample)",
+        "\\(\\Sigma x^2\\)"
+       ],
+       0,
+       "✓ σx.",
+       "✗ IB uses σx, the population standard deviation; sx is the sample estimate."
+      ]
+     ],
+     "fig": {
+      "box": {
+       "vals": [
+        12,
+        15,
+        15,
+        18,
+        20,
+        22,
+        25,
+        31
+       ],
+       "outliers": false
+      },
+      "caption": "The 8 ages; the mean 19.75 is the balance point."
+     },
+     "name": "D1 Mean and σ",
+     "given": "data: \\(12,\\ 15,\\ 15,\\ 18,\\ 20,\\ 22,\\ 25,\\ 31\\)",
+     "givenNote": "ages of \\(8\\) members of a club",
+     "q": "Find the mean and the standard deviation.",
+     "label": "\\(\\bar x=\\)",
+     "label2": "\\(\\sigma=\\)",
+     "ans": 19.75,
+     "ans2": 5.7825,
+     "tol": 0.006,
+     "target": 90,
+     "line": "from GDC: \\(\\bar x=19.75\\), \\(\\sigma=5.78\\)",
+     "steps": [
+      [
+       "Read it",
+       "A plain list: type it into one list and run 1-Var Stats."
+      ],
+      [
+       "Screen",
+       "\\(\\bar x=19.75\\), σx \\(=5.7825\\), sx \\(=6.18\\), \\(n=8\\)."
+      ],
+      [
+       "Answer",
+       "\\(\\bar x=19.75\\), \\(\\sigma=5.78\\). Check \\(n=8\\) before reading anything else."
+      ]
+     ],
+     "wrongs": [
+      [
+       6.1818,
+       "\\(6.18\\) is sx, the sample standard deviation. IB uses σx \\(=5.78\\)."
+      ],
+      [
+       19,
+       "\\(19\\) is the median."
+      ],
+      [
+       158,
+       "\\(158\\) is \\(\\Sigma x\\); divide by \\(n=8\\)."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "Which calculator function?",
+       [
+        "One-variable statistics on the list",
+        "Normal Cdf",
+        "Linear regression"
+       ],
+       0,
+       "✓",
+       "✗ A single list of data: one-variable statistics (1-Var Stats)."
+      ],
+      [
+       "n",
+       "First, \\(Q_1=\\)",
+       "\\(Q_1=\\)",
+       4.3,
+       0.01,
+       "✓",
+       [
+        [
+         4.5,
+         "The GDC gives \\(4.3\\), the mean of \\(4.1\\) and \\(4.5\\)."
+        ]
+       ]
+      ],
+      [
+       "n",
+       "And \\(Q_3=\\)",
+       "\\(Q_3=\\)",
+       7.1,
+       0.01,
+       "✓ Now subtract.",
+       [
+        [
+         7.9,
+         "The GDC gives \\(7.1\\), the mean of \\(6.3\\) and \\(7.9\\)."
+        ]
+       ]
+      ]
+     ],
+     "fig": {
+      "box": {
+       "vals": [
+        3.2,
+        4.1,
+        4.5,
+        5,
+        5.8,
+        6.3,
+        7.9,
+        9.6
+       ],
+       "outliers": false
+      },
+      "caption": "Box from Q1 = 4.3 to Q3 = 7.1; the median line at 5.4."
+     },
+     "name": "D2 Median and IQR",
+     "given": "data: \\(3.2,\\ 4.1,\\ 4.5,\\ 5.0,\\ 5.8,\\ 6.3,\\ 7.9,\\ 9.6\\)",
+     "givenNote": "reaction times, seconds",
+     "q": "Find the median and the interquartile range.",
+     "label": "median \\(=\\)",
+     "label2": "\\(\\mathrm{IQR}=\\)",
+     "ans": 5.4,
+     "ans2": 2.8,
+     "tol": 0.01,
+     "target": 90,
+     "line": "from GDC: median \\(=5.4\\), \\(Q_1=4.3\\), \\(Q_3=7.1\\), \\(\\mathrm{IQR}=2.8\\)",
+     "steps": [
+      [
+       "Read it",
+       "Scroll down the 1-Var screen for \\(Q_1\\), Med, \\(Q_3\\)."
+      ],
+      [
+       "Screen",
+       "\\(Q_1=4.3\\), Med \\(=5.4\\), \\(Q_3=7.1\\)."
+      ],
+      [
+       "IQR",
+       "\\(\\mathrm{IQR}=Q_3-Q_1=7.1-4.3=2.8\\)."
+      ],
+      [
+       "Answer",
+       "median \\(5.4\\) s, IQR \\(2.8\\) s. Write “from GDC” next to the quartiles."
+      ]
+     ],
+     "wrongs": [
+      [
+       4.3,
+       "\\(4.3\\) is \\(Q_1\\)."
+      ],
+      [
+       7.1,
+       "\\(7.1\\) is \\(Q_3\\); the IQR is \\(Q_3-Q_1\\)."
+      ],
+      [
+       6.4,
+       "\\(6.4\\) is the range, max − min."
+      ],
+      [
+       5.8,
+       "\\(5.8\\) is the mean, not the median."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "The outlier rule uses",
+       [
+        "\\(Q_3+1.5\\times\\mathrm{IQR}\\)",
+        "\\(\\bar x+2\\sigma\\)",
+        "\\(Q_3+\\mathrm{IQR}\\)"
+       ],
+       0,
+       "✓",
+       "✗ IB uses \\(Q_3+1.5\\times\\mathrm{IQR}\\) and \\(Q_1-1.5\\times\\mathrm{IQR}\\)."
+      ],
+      [
+       "n",
+       "\\(\\mathrm{IQR}=\\)",
+       "\\(\\mathrm{IQR}=\\)",
+       10,
+       0.01,
+       "✓ \\(35-25=10\\).",
+       [
+        [
+         20,
+         "That is the range."
+        ]
+       ]
+      ]
+     ],
+     "fig": {
+      "box": {
+       "vals": [
+        21,
+        23,
+        25,
+        27,
+        27,
+        30,
+        32,
+        35,
+        38,
+        41
+       ],
+       "outliers": true
+      },
+      "caption": "Q1 = 25, Q3 = 35. Upper fence 50 is beyond the maximum 41, so no outliers."
+     },
+     "name": "D3 Outlier fence",
+     "given": "data: \\(21,\\ 23,\\ 25,\\ 27,\\ 27,\\ 30,\\ 32,\\ 35,\\ 38,\\ 41\\)",
+     "givenNote": "marks of \\(10\\) students",
+     "q": "Find the upper boundary for outliers, \\(Q_3+1.5\\times\\mathrm{IQR}\\), and state whether any mark is an outlier.",
+     "label": "upper fence \\(=\\)",
+     "ans": 50,
+     "tol": 0.01,
+     "target": 110,
+     "line": "from GDC: \\(Q_1=25\\), \\(Q_3=35\\); \\(Q_3+1.5\\times\\mathrm{IQR}=35+15=50\\); no outliers",
+     "steps": [
+      [
+       "Read it",
+       "Outliers are judged against the quartiles, not the mean."
+      ],
+      [
+       "Screen",
+       "\\(Q_1=25\\), \\(Q_3=35\\), so \\(\\mathrm{IQR}=10\\)."
+      ],
+      [
+       "Fence",
+       "\\(Q_3+1.5\\times10=50\\). The largest mark is \\(41<50\\): no outliers. (Lower fence \\(25-15=10\\).)"
+      ],
+      [
+       "Answer",
+       "\\(50\\); no outliers. The fence calculation is the mark."
+      ]
+     ],
+     "wrongs": [
+      [
+       10,
+       "\\(10\\) is the lower fence \\(Q_1-1.5\\times\\mathrm{IQR}\\), or the IQR itself. The question asks for the upper fence."
+      ],
+      [
+       41,
+       "\\(41\\) is the maximum. The fence is \\(Q_3+1.5\\times\\mathrm{IQR}\\)."
+      ],
+      [
+       45,
+       "\\(45\\) is \\(Q_3+\\mathrm{IQR}\\); the rule uses \\(1.5\\times\\mathrm{IQR}\\)."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "How do you enter a frequency table?",
+       [
+        "Values in one list, frequencies in a second, frequency list set",
+        "Values in one list only",
+        "Frequencies in one list only"
+       ],
+       0,
+       "✓",
+       "✗ Two lists, and tell 1-Var Stats which is the frequency list. Check n = Σf on the screen."
+      ],
+      [
+       "c",
+       "Which standard deviation does the IB want?",
+       [
+        "σx (population)",
+        "sx (sample)",
+        "\\(\\Sigma x^2\\)"
+       ],
+       0,
+       "✓ σx.",
+       "✗ IB uses σx, the population standard deviation; sx is the sample estimate."
+      ]
+     ],
+     "fig": {
+      "bars": {
+       "vals": [
+        7,
+        12,
+        9,
+        5,
+        2
+       ],
+       "labels": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4"
+       ]
+      },
+      "caption": "Bar heights are the frequencies; the mean is pulled towards the tall bars at 1 and 2."
+     },
+     "name": "D4 Frequency table",
+     "given": "\\(\\begin{array}{c|ccccc} \\text{absences } x & 0 & 1 & 2 & 3 & 4 \\\\ \\hline \\text{students } f & 7 & 12 & 9 & 5 & 2 \\end{array}\\)",
+     "givenNote": "absences per student over a term, \\(35\\) students",
+     "q": "Find the mean and the standard deviation.",
+     "label": "\\(\\bar x=\\)",
+     "label2": "\\(\\sigma=\\)",
+     "ans": 1.5143,
+     "ans2": 1.1306,
+     "tol": 0.006,
+     "target": 110,
+     "line": "from GDC (frequency list): \\(\\bar x=1.51\\), \\(\\sigma=1.13\\), \\(n=35\\)",
+     "steps": [
+      [
+       "Read it",
+       "A frequency table: values in one list, frequencies in a second, frequency list set."
+      ],
+      [
+       "Check",
+       "\\(n=35\\) on the screen confirms the frequencies were used."
+      ],
+      [
+       "Screen",
+       "\\(\\bar x=1.5143\\), σx \\(=1.1306\\)."
+      ],
+      [
+       "Answer",
+       "\\(\\bar x=1.51\\), \\(\\sigma=1.13\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       2,
+       "\\(2\\) is the mean of \\(0,1,2,3,4\\) with the frequencies ignored. Set the frequency list."
+      ],
+      [
+       7,
+       "\\(7\\) is the mean of the frequencies: the lists are swapped."
+      ],
+      [
+       1.1472,
+       "\\(1.15\\) is sx. IB uses σx \\(=1.13\\)."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "What goes in the value list for grouped data?",
+       [
+        "The class midpoints",
+        "The lower bounds",
+        "The class widths"
+       ],
+       0,
+       "✓ Midpoints; the mean is then an estimate.",
+       "✗ Each class is represented by its midpoint."
+      ],
+      [
+       "c",
+       "How do you enter a frequency table?",
+       [
+        "Values in one list, frequencies in a second, frequency list set",
+        "Values in one list only",
+        "Frequencies in one list only"
+       ],
+       0,
+       "✓",
+       "✗ Two lists, and tell 1-Var Stats which is the frequency list. Check n = Σf on the screen."
+      ]
+     ],
+     "fig": {
+      "bars": {
+       "vals": [
+        4,
+        9,
+        14,
+        8,
+        5
+       ],
+       "labels": [
+        "10",
+        "30",
+        "50",
+        "70",
+        "90"
+       ]
+      },
+      "caption": "Each class drawn at its midpoint; heights are the frequencies."
+     },
+     "name": "D5 Grouped data",
+     "given": "\\(\\begin{array}{c|ccccc} \\text{time (s)} & 0\\le t<20 & 20\\le t<40 & 40\\le t<60 & 60\\le t<80 & 80\\le t<100 \\\\ \\hline f & 4 & 9 & 14 & 8 & 5 \\end{array}\\)",
+     "givenNote": "times of \\(40\\) runners, grouped",
+     "q": "Find estimates of the mean and the standard deviation.",
+     "label": "\\(\\bar x\\approx\\)",
+     "label2": "\\(\\sigma\\approx\\)",
+     "ans": 50.5,
+     "ans2": 23.016,
+     "tol": 0.06,
+     "target": 120,
+     "line": "midpoints \\(10,30,50,70,90\\); from GDC: \\(\\bar x=50.5\\), \\(\\sigma=23.0\\)",
+     "steps": [
+      [
+       "Read it",
+       "Grouped: each class is represented by its midpoint."
+      ],
+      [
+       "Lists",
+       "values \\(10,30,50,70,90\\); frequencies \\(4,9,14,8,5\\); \\(n=40\\)."
+      ],
+      [
+       "Screen",
+       "\\(\\bar x=50.5\\), σx \\(=23.016\\)."
+      ],
+      [
+       "Answer",
+       "mean \\(\\approx50.5\\) s, \\(\\sigma\\approx23.0\\) s. “Estimate” because of the midpoints."
+      ]
+     ],
+     "wrongs": [
+      [
+       40.5,
+       "\\(40.5\\) uses the lower bounds. Use the midpoints."
+      ],
+      [
+       60.5,
+       "\\(60.5\\) uses the upper bounds."
+      ],
+      [
+       23.31,
+       "\\(23.3\\) is sx. IB uses σx."
+      ],
+      [
+       50,
+       "\\(50\\) is the mean of the midpoints with frequencies ignored."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "\\(\\bar x=\\Sigma x/n\\).",
+      "\\(\\sigma^2=\\dfrac{\\Sigma x^2}{n}-\\bar x^2\\), then square-root."
+     ],
+     "parts": [
+      [
+       "n",
+       "\\(\\bar x=\\dfrac{\\Sigma x}{n}=\\)",
+       "\\(\\bar x=\\)",
+       9.5,
+       0.01,
+       "✓",
+       [
+        [
+         76,
+         "Divide by \\(n\\)."
+        ]
+       ]
+      ],
+      [
+       "c",
+       "The variance from the sums is",
+       [
+        "\\(\\dfrac{\\Sigma x^2}{n}-\\bar x^2\\)",
+        "\\(\\dfrac{\\Sigma x^2}{n}\\)",
+        "\\(\\left(\\dfrac{\\Sigma x}{n}\\right)^2\\)"
+       ],
+       0,
+       "✓",
+       "✗ \\(\\sigma^2=\\dfrac{\\Sigma x^2}{n}-\\bar x^2\\): mean of the squares minus the square of the mean."
+      ]
+     ],
+     "fig": null,
+     "name": "C1 From the sums",
+     "given": "\\(n=8\\), \\(\\Sigma x=76\\), \\(\\Sigma x^2=798\\)",
+     "givenNote": "the data itself is not given",
+     "q": "Find the mean and the standard deviation.",
+     "label": "\\(\\bar x=\\)",
+     "label2": "\\(\\sigma=\\)",
+     "ans": 9.5,
+     "ans2": 3.0822,
+     "tol": 0.006,
+     "target": 150,
+     "line": "\\(\\bar x=\\dfrac{76}{8}=9.5\\); \\(\\sigma=\\sqrt{\\dfrac{798}{8}-9.5^2}=\\sqrt{9.5}=3.08\\)",
+     "steps": [
+      [
+       "Read it",
+       "No list to type: use the formulas with the sums."
+      ],
+      [
+       "Mean",
+       "\\(\\bar x=\\dfrac{\\Sigma x}{n}=\\dfrac{76}{8}=9.5\\)."
+      ],
+      [
+       "Variance",
+       "\\(\\sigma^2=\\dfrac{\\Sigma x^2}{n}-\\bar x^2=\\dfrac{798}{8}-90.25=9.5\\)."
+      ],
+      [
+       "Answer",
+       "\\(\\sigma=\\sqrt{9.5}=3.08\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       9.5,
+       "That is the mean (and, by coincidence, the variance). The standard deviation is \\(\\sqrt{9.5}=3.08\\)."
+      ],
+      [
+       3.295,
+       "\\(3.30\\) divides by \\(n-1\\); IB uses \\(n\\)."
+      ],
+      [
+       99.75,
+       "\\(99.75\\) is \\(\\dfrac{\\Sigma x^2}{n}\\); subtract \\(\\bar x^2\\) before the root."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "Totals: the \\(8\\) ages sum to \\(158\\).",
+      "\\((158-31)/7\\) for the mean; the list for σ."
+     ],
+     "parts": [
+      [
+       "c",
+       "What changes?",
+       [
+        "Delete \\(31\\) from the list and run 1-Var Stats again; \\(n=7\\)",
+        "Subtract \\(31\\) from the old mean",
+        "Nothing: the mean stays the same"
+       ],
+       0,
+       "✓",
+       "✗ Edit the list and re-run; or use totals: \\((158-31)/7\\)."
+      ]
+     ],
+     "fig": {
+      "box": {
+       "vals": [
+        12,
+        15,
+        15,
+        18,
+        20,
+        22,
+        25
+       ],
+       "outliers": false
+      },
+      "caption": ""
+     },
+     "name": "C2 A value removed",
+     "given": "data: \\(12,\\ 15,\\ 15,\\ 18,\\ 20,\\ 22,\\ 25,\\ 31\\)",
+     "givenNote": "the oldest member, aged \\(31\\), leaves the club",
+     "q": "Find the mean and standard deviation of the ages of the remaining \\(7\\) members.",
+     "label": "\\(\\bar x=\\)",
+     "label2": "\\(\\sigma=\\)",
+     "ans": 18.143,
+     "ans2": 4.1894,
+     "tol": 0.006,
+     "target": 150,
+     "line": "remove \\(31\\): \\(\\bar x=18.1\\), \\(\\sigma=4.19\\) (were \\(19.75\\) and \\(5.78\\))",
+     "steps": [
+      [
+       "Edit",
+       "Delete \\(31\\) from the list; \\(n\\) becomes \\(7\\)."
+      ],
+      [
+       "Re-run",
+       "1-Var Stats: \\(\\bar x=18.143\\), σx \\(=4.1894\\)."
+      ],
+      [
+       "Answer",
+       "\\(\\bar x=18.1\\), \\(\\sigma=4.19\\). Removing the largest value lowers both the mean and the spread."
+      ]
+     ],
+     "wrongs": [
+      [
+       19.75,
+       "That is the mean of all \\(8\\); one has left."
+      ],
+      [
+       5.7825,
+       "The old σ."
+      ],
+      [
+       4.5251,
+       "\\(4.53\\) is sx for the \\(7\\); IB uses σx \\(=4.19\\)."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "Mean \\(\\times\\) n gives the total.",
+      "Subtract the known values; then put all eight into the list for σ."
+     ],
+     "parts": [
+      [
+       "n",
+       "The total of all \\(8\\) values, \\(\\Sigma x=n\\bar x=\\)",
+       "\\(\\Sigma x=\\)",
+       76,
+       0.01,
+       "✓",
+       [
+        [
+         9.5,
+         "Multiply by \\(8\\)."
+        ]
+       ]
+      ],
+      [
+       "n",
+       "The seven known values add to",
+       "sum \\(=\\)",
+       61,
+       0.01,
+       "✓ So \\(k=76-61\\).",
+       []
+      ]
+     ],
+     "fig": null,
+     "name": "C3 Missing value",
+     "given": "data: \\(5,\\ 7,\\ 8,\\ 8,\\ 9,\\ 11,\\ 13,\\ k\\)",
+     "givenNote": "the mean of the \\(8\\) values is \\(9.5\\)",
+     "q": "Find \\(k\\), then the standard deviation of the \\(8\\) values.",
+     "label": "\\(k=\\)",
+     "label2": "\\(\\sigma=\\)",
+     "ans": 15,
+     "ans2": 3.0822,
+     "tol": 0.01,
+     "target": 180,
+     "line": "\\(\\Sigma x=8\\times9.5=76\\); \\(k=76-61=15\\); from GDC \\(\\sigma=3.08\\)",
+     "steps": [
+      [
+       "Read it",
+       "A mean with a missing value: work with the total."
+      ],
+      [
+       "Total",
+       "\\(\\Sigma x=n\\bar x=76\\); the seven known values add to \\(61\\); \\(k=15\\)."
+      ],
+      [
+       "σ",
+       "Type all \\(8\\) values into a list; 1-Var Stats gives σx \\(=3.08\\)."
+      ],
+      [
+       "Answer",
+       "\\(k=15\\), \\(\\sigma=3.08\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       61,
+       "\\(61\\) is the sum of the seven known values; \\(k=76-61\\)."
+      ],
+      [
+       76,
+       "\\(76\\) is the total \\(\\Sigma x\\)."
+      ],
+      [
+       3.295,
+       "That is sx; IB uses σx \\(=3.08\\)."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "Total for each group is \\(n\\bar x\\).",
+      "Add the totals, divide by \\(12+18\\)."
+     ],
+     "parts": [
+      [
+       "c",
+       "Why not just average \\(64\\) and \\(72\\)?",
+       [
+        "The groups have different sizes, so weight by \\(n\\)",
+        "You can: the answer is \\(68\\)",
+        "Because the test was different"
+       ],
+       0,
+       "✓",
+       "✗ Different group sizes: the combined mean is the combined total over the combined \\(n\\)."
+      ],
+      [
+       "n",
+       "Total for group A \\(=\\)",
+       "\\(=\\)",
+       768,
+       0.01,
+       "✓",
+       []
+      ]
+     ],
+     "fig": null,
+     "name": "C4 Combined mean",
+     "given": "group A: \\(n=12\\), \\(\\bar x=64\\); group B: \\(n=18\\), \\(\\bar x=72\\)",
+     "givenNote": "two classes sit the same test",
+     "q": "Find the mean mark of all \\(30\\) students.",
+     "label": "combined mean \\(=\\)",
+     "ans": 68.8,
+     "tol": 0.01,
+     "target": 150,
+     "line": "\\(\\dfrac{12\\times64+18\\times72}{30}=\\dfrac{768+1296}{30}=68.8\\)",
+     "steps": [
+      [
+       "Read it",
+       "Means cannot be averaged directly when the groups differ in size: go back to totals."
+      ],
+      [
+       "Totals",
+       "A: \\(12\\times64=768\\); B: \\(18\\times72=1296\\)."
+      ],
+      [
+       "Combined",
+       "\\(\\dfrac{768+1296}{30}=\\dfrac{2064}{30}=68.8\\)."
+      ],
+      [
+       "Answer",
+       "\\(68.8\\), closer to \\(72\\) because group B is larger."
+      ]
+     ],
+     "wrongs": [
+      [
+       68,
+       "\\(68\\) is the average of the two means; the groups are not the same size."
+      ],
+      [
+       2064,
+       "\\(2064\\) is the combined total; divide by \\(30\\)."
+      ]
+     ]
+    }
+   ],
+   [
+    {
+     "parts": [
+      [
+       "c",
+       "Which calculator function?",
+       [
+        "One-variable statistics on the list",
+        "Normal Cdf",
+        "Linear regression"
+       ],
+       0,
+       "✓",
+       "✗ A single list of data: one-variable statistics (1-Var Stats)."
+      ],
+      [
+       "c",
+       "Which standard deviation does the IB want?",
+       [
+        "σx (population)",
+        "sx (sample)",
+        "\\(\\Sigma x^2\\)"
+       ],
+       0,
+       "✓ σx.",
+       "✗ IB uses σx, the population standard deviation; sx is the sample estimate."
+      ]
+     ],
+     "fig": {
+      "box": {
+       "vals": [
+        9,
+        11,
+        13,
+        13,
+        16,
+        19,
+        21,
+        26
+       ],
+       "outliers": false
+      },
+      "caption": "The 8 lengths."
+     },
+     "name": "D1 Mean and σ",
+     "given": "data: \\(9,\\ 11,\\ 13,\\ 13,\\ 16,\\ 19,\\ 21,\\ 26\\)",
+     "givenNote": "lengths of \\(8\\) leaves, cm",
+     "q": "Find the mean and the standard deviation.",
+     "label": "\\(\\bar x=\\)",
+     "label2": "\\(\\sigma=\\)",
+     "ans": 16,
+     "ans2": 5.3151,
+     "tol": 0.006,
+     "target": 90,
+     "line": "from GDC: \\(\\bar x=16\\), \\(\\sigma=5.32\\)",
+     "steps": [
+      [
+       "Read it",
+       "One list, 1-Var Stats."
+      ],
+      [
+       "Screen",
+       "\\(\\bar x=16\\), σx \\(=5.3151\\), sx \\(=5.68\\), \\(n=8\\)."
+      ],
+      [
+       "Answer",
+       "\\(\\bar x=16\\), \\(\\sigma=5.32\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       5.6821,
+       "\\(5.68\\) is sx. IB uses σx \\(=5.32\\)."
+      ],
+      [
+       14.5,
+       "\\(14.5\\) is the median."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "Which calculator function?",
+       [
+        "One-variable statistics on the list",
+        "Normal Cdf",
+        "Linear regression"
+       ],
+       0,
+       "✓",
+       "✗ A single list of data: one-variable statistics (1-Var Stats)."
+      ],
+      [
+       "n",
+       "\\(Q_1=\\)",
+       "\\(Q_1=\\)",
+       3.35,
+       0.01,
+       "✓",
+       []
+      ],
+      [
+       "n",
+       "\\(Q_3=\\)",
+       "\\(Q_3=\\)",
+       6.15,
+       0.01,
+       "✓ Subtract.",
+       []
+      ]
+     ],
+     "fig": {
+      "box": {
+       "vals": [
+        2.5,
+        3.1,
+        3.6,
+        4.4,
+        4.9,
+        5.5,
+        6.8,
+        8
+       ],
+       "outliers": false
+      },
+      "caption": "Box from 3.35 to 6.15, median 4.65."
+     },
+     "name": "D2 Median and IQR",
+     "given": "data: \\(2.5,\\ 3.1,\\ 3.6,\\ 4.4,\\ 4.9,\\ 5.5,\\ 6.8,\\ 8.0\\)",
+     "givenNote": "masses of \\(8\\) kittens, kg",
+     "q": "Find the median and the interquartile range.",
+     "label": "median \\(=\\)",
+     "label2": "\\(\\mathrm{IQR}=\\)",
+     "ans": 4.65,
+     "ans2": 2.8,
+     "tol": 0.01,
+     "target": 90,
+     "line": "from GDC: median \\(=4.65\\), \\(Q_1=3.35\\), \\(Q_3=6.15\\), \\(\\mathrm{IQR}=2.8\\)",
+     "steps": [
+      [
+       "Screen",
+       "\\(Q_1=3.35\\), Med \\(=4.65\\), \\(Q_3=6.15\\)."
+      ],
+      [
+       "IQR",
+       "\\(6.15-3.35=2.8\\)."
+      ],
+      [
+       "Answer",
+       "median \\(4.65\\), IQR \\(2.8\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       3.35,
+       "\\(Q_1\\)."
+      ],
+      [
+       6.15,
+       "\\(Q_3\\)."
+      ],
+      [
+       5.5,
+       "\\(5.5\\) is the range."
+      ],
+      [
+       4.85,
+       "\\(4.85\\) is the mean."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "The outlier rule uses",
+       [
+        "\\(Q_3+1.5\\times\\mathrm{IQR}\\)",
+        "\\(\\bar x+2\\sigma\\)",
+        "\\(Q_3+\\mathrm{IQR}\\)"
+       ],
+       0,
+       "✓",
+       "✗ \\(Q_3+1.5\\times\\mathrm{IQR}\\)."
+      ],
+      [
+       "n",
+       "\\(\\mathrm{IQR}=\\)",
+       "\\(\\mathrm{IQR}=\\)",
+       12,
+       0.01,
+       "✓",
+       [
+        [
+         29,
+         "Range."
+        ]
+       ]
+      ]
+     ],
+     "fig": {
+      "box": {
+       "vals": [
+        52,
+        55,
+        58,
+        60,
+        61,
+        63,
+        66,
+        70,
+        74,
+        81
+       ],
+       "outliers": true
+      },
+      "caption": "Upper fence 88, beyond the maximum."
+     },
+     "name": "D3 Outlier fence",
+     "given": "data: \\(52,\\ 55,\\ 58,\\ 60,\\ 61,\\ 63,\\ 66,\\ 70,\\ 74,\\ 81\\)",
+     "givenNote": "heart rates of \\(10\\) athletes",
+     "q": "Find the upper boundary for outliers, \\(Q_3+1.5\\times\\mathrm{IQR}\\), and state whether any value is an outlier.",
+     "label": "upper fence \\(=\\)",
+     "ans": 88,
+     "tol": 0.01,
+     "target": 110,
+     "line": "from GDC: \\(Q_1=58\\), \\(Q_3=70\\); \\(70+1.5\\times12=88\\); \\(81<88\\), no outliers",
+     "steps": [
+      [
+       "Screen",
+       "\\(Q_1=58\\), \\(Q_3=70\\), \\(\\mathrm{IQR}=12\\)."
+      ],
+      [
+       "Fence",
+       "\\(70+18=88\\); max \\(81<88\\): no outliers."
+      ],
+      [
+       "Answer",
+       "\\(88\\); none."
+      ]
+     ],
+     "wrongs": [
+      [
+       40,
+       "That is the lower fence."
+      ],
+      [
+       81,
+       "That is the maximum."
+      ],
+      [
+       82,
+       "\\(82\\) is \\(Q_3+\\mathrm{IQR}\\); use \\(1.5\\times\\mathrm{IQR}\\)."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "How do you enter a frequency table?",
+       [
+        "Values in one list, frequencies in a second, frequency list set",
+        "Values in one list only",
+        "Frequencies in one list only"
+       ],
+       0,
+       "✓",
+       "✗ Two lists, and tell 1-Var Stats which is the frequency list. Check n = Σf on the screen."
+      ],
+      [
+       "c",
+       "Which standard deviation does the IB want?",
+       [
+        "σx (population)",
+        "sx (sample)",
+        "\\(\\Sigma x^2\\)"
+       ],
+       0,
+       "✓ σx.",
+       "✗ IB uses σx, the population standard deviation; sx is the sample estimate."
+      ]
+     ],
+     "fig": {
+      "bars": {
+       "vals": [
+        4,
+        10,
+        11,
+        6,
+        3
+       ],
+       "labels": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+       ]
+      },
+      "caption": "Frequencies as bar heights."
+     },
+     "name": "D4 Frequency table",
+     "given": "\\(\\begin{array}{c|ccccc} \\text{rating } x & 1 & 2 & 3 & 4 & 5 \\\\ \\hline f & 4 & 10 & 11 & 6 & 3 \\end{array}\\)",
+     "givenNote": "ratings given by \\(34\\) customers",
+     "q": "Find the mean and the standard deviation.",
+     "label": "\\(\\bar x=\\)",
+     "label2": "\\(\\sigma=\\)",
+     "ans": 2.8235,
+     "ans2": 1.1238,
+     "tol": 0.006,
+     "target": 110,
+     "line": "from GDC (frequency list): \\(\\bar x=2.82\\), \\(\\sigma=1.12\\), \\(n=34\\)",
+     "steps": [
+      [
+       "Lists",
+       "values \\(1\\) to \\(5\\); frequencies \\(4,10,11,6,3\\); \\(n=34\\)."
+      ],
+      [
+       "Screen",
+       "\\(\\bar x=2.8235\\), σx \\(=1.1238\\)."
+      ],
+      [
+       "Answer",
+       "\\(2.82\\), \\(1.12\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       3,
+       "\\(3\\) ignores the frequencies."
+      ],
+      [
+       6.8,
+       "Mean of the frequencies: lists swapped."
+      ],
+      [
+       1.1407,
+       "sx; IB uses σx."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "What goes in the value list for grouped data?",
+       [
+        "The class midpoints",
+        "The lower bounds",
+        "The class widths"
+       ],
+       0,
+       "✓ Midpoints; the mean is then an estimate.",
+       "✗ Each class is represented by its midpoint."
+      ],
+      [
+       "c",
+       "How do you enter a frequency table?",
+       [
+        "Values in one list, frequencies in a second, frequency list set",
+        "Values in one list only",
+        "Frequencies in one list only"
+       ],
+       0,
+       "✓",
+       "✗ Two lists, and tell 1-Var Stats which is the frequency list. Check n = Σf on the screen."
+      ]
+     ],
+     "fig": {
+      "bars": {
+       "vals": [
+        7,
+        12,
+        10,
+        6
+       ],
+       "labels": [
+        "15",
+        "25",
+        "35",
+        "45"
+       ]
+      },
+      "caption": "Classes drawn at their midpoints."
+     },
+     "name": "D5 Grouped data",
+     "given": "\\(\\begin{array}{c|cccc} \\text{score} & 10\\le x<20 & 20\\le x<30 & 30\\le x<40 & 40\\le x<50 \\\\ \\hline f & 7 & 12 & 10 & 6 \\end{array}\\)",
+     "givenNote": "scores of \\(35\\) players, grouped",
+     "q": "Find estimates of the mean and the standard deviation.",
+     "label": "\\(\\bar x\\approx\\)",
+     "label2": "\\(\\sigma\\approx\\)",
+     "ans": 29.286,
+     "ans2": 9.9386,
+     "tol": 0.06,
+     "target": 120,
+     "line": "midpoints \\(15,25,35,45\\); from GDC: \\(\\bar x=29.3\\), \\(\\sigma=9.94\\)",
+     "steps": [
+      [
+       "Lists",
+       "midpoints \\(15,25,35,45\\); frequencies \\(7,12,10,6\\); \\(n=35\\)."
+      ],
+      [
+       "Screen",
+       "\\(\\bar x=29.286\\), σx \\(=9.9386\\)."
+      ],
+      [
+       "Answer",
+       "\\(29.3\\), \\(9.94\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       24.286,
+       "Lower bounds used."
+      ],
+      [
+       34.286,
+       "Upper bounds used."
+      ],
+      [
+       10.08,
+       "sx; IB uses σx."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "\\(\\bar x=\\Sigma x/n\\).",
+      "\\(\\sigma^2=\\Sigma x^2/n-\\bar x^2\\)."
+     ],
+     "parts": [
+      [
+       "n",
+       "\\(\\bar x=\\)",
+       "\\(\\bar x=\\)",
+       10,
+       0.01,
+       "✓",
+       []
+      ],
+      [
+       "c",
+       "The variance from the sums is",
+       [
+        "\\(\\dfrac{\\Sigma x^2}{n}-\\bar x^2\\)",
+        "\\(\\dfrac{\\Sigma x^2}{n}\\)",
+        "\\(\\left(\\dfrac{\\Sigma x}{n}\\right)^2\\)"
+       ],
+       0,
+       "✓",
+       "✗ Mean of squares minus square of mean."
+      ]
+     ],
+     "fig": null,
+     "name": "C1 From the sums",
+     "given": "\\(n=8\\), \\(\\Sigma x=80\\), \\(\\Sigma x^2=970\\)",
+     "givenNote": "the data itself is not given",
+     "q": "Find the mean and the standard deviation.",
+     "label": "\\(\\bar x=\\)",
+     "label2": "\\(\\sigma=\\)",
+     "ans": 10,
+     "ans2": 4.6098,
+     "tol": 0.006,
+     "target": 150,
+     "line": "\\(\\bar x=10\\); \\(\\sigma=\\sqrt{\\dfrac{970}{8}-100}=\\sqrt{21.25}=4.61\\)",
+     "steps": [
+      [
+       "Mean",
+       "\\(80/8=10\\)."
+      ],
+      [
+       "Variance",
+       "\\(121.25-100=21.25\\)."
+      ],
+      [
+       "Answer",
+       "\\(\\sigma=4.61\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       21.25,
+       "That is the variance; square-root it."
+      ],
+      [
+       4.928,
+       "Divides by \\(n-1\\); IB uses \\(n\\)."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "Totals: \\(128-26\\).",
+      "Divide by \\(7\\)."
+     ],
+     "parts": [
+      [
+       "c",
+       "What changes?",
+       [
+        "Delete \\(26\\) and re-run; \\(n=7\\)",
+        "Subtract \\(26\\) from the mean",
+        "Nothing"
+       ],
+       0,
+       "✓",
+       "✗ Edit and re-run."
+      ]
+     ],
+     "fig": {
+      "box": {
+       "vals": [
+        9,
+        11,
+        13,
+        13,
+        16,
+        19,
+        21
+       ],
+       "outliers": false
+      },
+      "caption": ""
+     },
+     "name": "C2 A value removed",
+     "given": "data: \\(9,\\ 11,\\ 13,\\ 13,\\ 16,\\ 19,\\ 21,\\ 26\\)",
+     "givenNote": "the longest leaf, \\(26\\) cm, is removed",
+     "q": "Find the mean and standard deviation of the remaining \\(7\\) lengths.",
+     "label": "\\(\\bar x=\\)",
+     "label2": "\\(\\sigma=\\)",
+     "ans": 14.571,
+     "ans2": 3.9949,
+     "tol": 0.006,
+     "target": 150,
+     "line": "remove \\(26\\): \\(\\bar x=14.6\\), \\(\\sigma=3.99\\)",
+     "steps": [
+      [
+       "Edit",
+       "Delete \\(26\\); \\(n=7\\)."
+      ],
+      [
+       "Re-run",
+       "\\(\\bar x=14.571\\), σx \\(=3.9949\\)."
+      ],
+      [
+       "Answer",
+       "\\(14.6\\), \\(3.99\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       16,
+       "Mean of all \\(8\\)."
+      ],
+      [
+       5.3151,
+       "Old σ."
+      ],
+      [
+       4.315,
+       "sx; IB uses σx."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "Total first.",
+      "Subtract, then list all eight for σ."
+     ],
+     "parts": [
+      [
+       "n",
+       "\\(\\Sigma x=n\\bar x=\\)",
+       "\\(\\Sigma x=\\)",
+       80,
+       0.01,
+       "✓",
+       []
+      ],
+      [
+       "n",
+       "The seven known values add to",
+       "sum \\(=\\)",
+       61,
+       0.01,
+       "✓",
+       []
+      ]
+     ],
+     "fig": null,
+     "name": "C3 Missing value",
+     "given": "data: \\(4,\\ 6,\\ 6,\\ 9,\\ 10,\\ 12,\\ 14,\\ k\\)",
+     "givenNote": "the mean of the \\(8\\) values is \\(10\\)",
+     "q": "Find \\(k\\), then the standard deviation of the \\(8\\) values.",
+     "label": "\\(k=\\)",
+     "label2": "\\(\\sigma=\\)",
+     "ans": 19,
+     "ans2": 4.6098,
+     "tol": 0.01,
+     "target": 180,
+     "line": "\\(\\Sigma x=80\\); \\(k=80-61=19\\); from GDC \\(\\sigma=4.61\\)",
+     "steps": [
+      [
+       "Total",
+       "\\(8\\times10=80\\); known values add to \\(61\\); \\(k=19\\)."
+      ],
+      [
+       "σ",
+       "All eight into a list: σx \\(=4.61\\)."
+      ],
+      [
+       "Answer",
+       "\\(19\\), \\(4.61\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       61,
+       "Sum of the known values."
+      ],
+      [
+       80,
+       "The total."
+      ],
+      [
+       4.928,
+       "sx."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "Totals: \\(n\\bar x\\).",
+      "Add, divide by \\(40\\)."
+     ],
+     "parts": [
+      [
+       "c",
+       "Why not average \\(58\\) and \\(66\\)?",
+       [
+        "Different group sizes: weight by \\(n\\)",
+        "You can: \\(62\\)",
+        "Different tests"
+       ],
+       0,
+       "✓",
+       "✗ Weight by group size."
+      ],
+      [
+       "n",
+       "Total for group A \\(=\\)",
+       "\\(=\\)",
+       870,
+       0.01,
+       "✓",
+       []
+      ]
+     ],
+     "fig": null,
+     "name": "C4 Combined mean",
+     "given": "group A: \\(n=15\\), \\(\\bar x=58\\); group B: \\(n=25\\), \\(\\bar x=66\\)",
+     "givenNote": "two groups sit the same test",
+     "q": "Find the mean of all \\(40\\) students.",
+     "label": "combined mean \\(=\\)",
+     "ans": 63,
+     "tol": 0.01,
+     "target": 150,
+     "line": "\\(\\dfrac{15\\times58+25\\times66}{40}=\\dfrac{870+1650}{40}=63\\)",
+     "steps": [
+      [
+       "Totals",
+       "\\(870\\) and \\(1650\\)."
+      ],
+      [
+       "Combined",
+       "\\(2520/40=63\\)."
+      ],
+      [
+       "Answer",
+       "\\(63\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       62,
+       "Average of the means; the groups differ in size."
+      ],
+      [
+       2520,
+       "The total; divide by \\(40\\)."
+      ]
+     ]
+    }
+   ]
+  ],
+  "rules": {
+   "coreItems": 5,
+   "challengeItems": 4,
+   "tries": 2,
+   "passCore": 4
+  }
+ },
+ "apply": {
+  "questions": [
+   {
+    "max": 8,
+    "stem": "The times, in minutes, taken by \\(10\\) students to complete a puzzle are:\n\\(12,\\ 15,\\ 15,\\ 17,\\ 18,\\ 20,\\ 22,\\ 25,\\ 27,\\ 34\\)",
+    "parts": [
+     {
+      "label": "(a)",
+      "marks": 2,
+      "text": "Find the mean and the standard deviation of the times.",
+      "ansLabel": "\\(\\bar x=\\)",
+      "ansLabel2": "\\(\\sigma=\\)",
+      "ans": 20.5,
+      "ans2": 6.3127,
+      "tol": 0.06,
+      "fig": {
+       "kind": "box",
+       "vals": [
+        12,
+        15,
+        15,
+        17,
+        18,
+        20,
+        22,
+        25,
+        27,
+        34
+       ],
+       "notes": [
+        [
+         20.5,
+         100,
+         "x̄ = 20.5",
+         "#B45309"
+        ]
+       ]
+      },
+      "figCap": "The 10 times on a number line; the mean is the balance point.",
+      "ms": [
+       [
+        "A1",
+        "\\(\\bar x=20.5\\)"
+       ],
+       [
+        "A1",
+        "\\(\\sigma=6.31\\)   (\\(6.3127\\); σx, not sx)"
+       ]
+      ],
+      "wrongs": [
+       [
+        6.6542,
+        "\\(6.65\\) is sx, the sample standard deviation. IB uses σx \\(=6.31\\)."
+       ],
+       [
+        19,
+        "\\(19\\) is the median, not the mean."
+       ]
+      ]
+     },
+     {
+      "label": "(b)",
+      "marks": 3,
+      "text": "Find the median and the interquartile range.",
+      "ansLabel": "median \\(=\\)",
+      "ansLabel2": "\\(\\mathrm{IQR}=\\)",
+      "ans": 19,
+      "ans2": 10,
+      "tol": 0.01,
+      "fig": {
+       "kind": "box",
+       "vals": [
+        12,
+        15,
+        15,
+        17,
+        18,
+        20,
+        22,
+        25,
+        27,
+        34
+       ]
+      },
+      "figCap": "Box from Q₁ = 15 to Q₃ = 25, median line at 19.",
+      "ms": [
+       [
+        "A1",
+        "median \\(=19\\) (mean of the 5th and 6th values)"
+       ],
+       [
+        "A1",
+        "\\(Q_1=15\\), \\(Q_3=25\\)"
+       ],
+       [
+        "A1",
+        "\\(\\mathrm{IQR}=10\\)"
+       ]
+      ],
+      "wrongs": [
+       [
+        20,
+        "\\(20\\) is the 6th value; with \\(10\\) values the median is the mean of the 5th and 6th: \\(19\\)."
+       ],
+       [
+        22,
+        "\\(22\\) is the range of the middle values read off wrongly; \\(Q_3-Q_1=25-15=10\\)."
+       ],
+       [
+        20.5,
+        "That is the mean."
+       ]
+      ]
+     },
+     {
+      "label": "(c)",
+      "marks": 3,
+      "text": "Determine whether \\(34\\) is an outlier.",
+      "ansLabel": "upper fence \\(=\\)",
+      "ans": 40,
+      "tol": 0.01,
+      "ftFrom": 1,
+      "ft": {
+       "$fn": "(m) => 25 + 1.5 * 10"
+      },
+      "fig": {
+       "kind": "box",
+       "vals": [
+        12,
+        15,
+        15,
+        17,
+        18,
+        20,
+        22,
+        25,
+        27,
+        34
+       ],
+       "outliers": true,
+       "notes": [
+        [
+         30,
+         100,
+         "fence: 25 + 1.5 × 10 = 40",
+         "#B45309"
+        ]
+       ]
+      },
+      "figCap": "Upper fence Q₃ + 1.5 × IQR = 40; 34 is below it, so not an outlier.",
+      "ms": [
+       [
+        "M1",
+        "\\(Q_3+1.5\\times\\mathrm{IQR}\\)"
+       ],
+       [
+        "A1",
+        "\\(25+15=40\\)"
+       ],
+       [
+        "R1",
+        "\\(34<40\\), so \\(34\\) is not an outlier"
+       ]
+      ],
+      "note": "R1 is a reasoning mark: the conclusion must be stated with the comparison. Enter the fence value; the conclusion is in the mark scheme.",
+      "wrongs": [
+       [
+        35,
+        "\\(35\\) is \\(Q_3+\\mathrm{IQR}\\); the rule uses \\(1.5\\times\\mathrm{IQR}\\)."
+       ],
+       [
+        34,
+        "That is the data value; the question wants the fence to compare it with."
+       ],
+       [
+        0,
+        "\\(0\\) is the lower fence, \\(15-15\\); the question is about the top end."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "max": 8,
+    "stem": "The number of goals scored by a football team in each of its matches last season is shown in the table.\n\\(\\begin{array}{c|cccccc} \\text{goals } x & 0 & 1 & 2 & 3 & 4 & 5 \\\\ \\hline \\text{frequency} & 4 & 9 & 11 & 8 & 5 & 3 \\end{array}\\)",
+    "parts": [
+     {
+      "label": "(a)",
+      "marks": 1,
+      "text": "Write down the number of matches played.",
+      "ansLabel": "\\(n=\\)",
+      "ans": 40,
+      "tol": 0.01,
+      "fig": {
+       "kind": "bars",
+       "vals": [
+        4,
+        9,
+        11,
+        8,
+        5,
+        3
+       ],
+       "labels": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+       ],
+       "showVals": true,
+       "notes": [
+        [
+         330,
+         40,
+         "Σf = 40",
+         "#B45309"
+        ]
+       ]
+      },
+      "figCap": "The frequencies add to 40.",
+      "ms": [
+       [
+        "A1",
+        "\\(\\Sigma f=40\\)"
+       ]
+      ],
+      "wrongs": [
+       [
+        15,
+        "\\(15\\) is \\(0+1+\\cdots+5\\), the sum of the scores; add the frequencies."
+       ],
+       [
+        6,
+        "\\(6\\) is the number of rows."
+       ]
+      ]
+     },
+     {
+      "label": "(b)",
+      "marks": 2,
+      "text": "Find the mean number of goals per match.",
+      "ansLabel": "\\(\\bar x=\\)",
+      "ans": 2.25,
+      "tol": 0.006,
+      "fig": {
+       "kind": "bars",
+       "vals": [
+        4,
+        9,
+        11,
+        8,
+        5,
+        3
+       ],
+       "labels": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+       ],
+       "lo": 2,
+       "hi": 2,
+       "notes": [
+        [
+         330,
+         40,
+         "x̄ = 90/40 = 2.25",
+         "#B45309"
+        ]
+       ]
+      },
+      "figCap": "Σfx = 90 over Σf = 40.",
+      "ms": [
+       [
+        "M1",
+        "\\(\\dfrac{\\Sigma fx}{\\Sigma f}=\\dfrac{90}{40}\\), or 1-Var Stats with the frequency list"
+       ],
+       [
+        "A1",
+        "\\(2.25\\)"
+       ]
+      ],
+      "wrongs": [
+       [
+        2.5,
+        "\\(2.5\\) is the mean of \\(0\\) to \\(5\\) with the frequencies ignored. Set the frequency list."
+       ],
+       [
+        6.667,
+        "\\(6.67\\) is the mean of the frequencies: lists swapped."
+       ]
+      ]
+     },
+     {
+      "label": "(c)",
+      "marks": 2,
+      "text": "Find the standard deviation of the number of goals.",
+      "ansLabel": "\\(\\sigma=\\)",
+      "ans": 1.3919,
+      "tol": 0.006,
+      "fig": {
+       "kind": "bars",
+       "vals": [
+        4,
+        9,
+        11,
+        8,
+        5,
+        3
+       ],
+       "labels": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+       ],
+       "lo": 1,
+       "hi": 3,
+       "notes": [
+        [
+         330,
+         40,
+         "σ = 1.39",
+         "#B45309"
+        ]
+       ]
+      },
+      "figCap": "Most matches lie within one σ (≈1.4 goals) of the mean 2.25.",
+      "ms": [
+       [
+        "M1",
+        "1-Var Stats with the frequency list; \\(n=40\\) checked"
+       ],
+       [
+        "A1",
+        "\\(1.39\\)   (\\(1.3919\\); σx)"
+       ]
+      ],
+      "wrongs": [
+       [
+        1.4097,
+        "\\(1.41\\) is sx; IB uses σx \\(=1.39\\)."
+       ],
+       [
+        1.9375,
+        "\\(1.94\\) is the variance; square-root it."
+       ]
+      ]
+     },
+     {
+      "label": "(d)",
+      "marks": 3,
+      "text": "For a cup competition, each match score is increased by \\(2\\) bonus goals. Write down the mean and the standard deviation of the new scores.",
+      "ansLabel": "new mean \\(=\\)",
+      "ansLabel2": "new \\(\\sigma=\\)",
+      "ans": 4.25,
+      "ans2": 1.3919,
+      "tol": 0.006,
+      "fig": {
+       "kind": "bars",
+       "vals": [
+        4,
+        9,
+        11,
+        8,
+        5,
+        3
+       ],
+       "labels": [
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7"
+       ],
+       "lo": 2,
+       "hi": 2,
+       "notes": [
+        [
+         330,
+         40,
+         "shifted by +2: same spread",
+         "#B45309"
+        ]
+       ]
+      },
+      "figCap": "Adding 2 slides every bar along; the shape (and σ) does not change.",
+      "ms": [
+       [
+        "A1",
+        "new mean \\(=2.25+2=4.25\\)"
+       ],
+       [
+        "A1",
+        "new \\(\\sigma=1.39\\), unchanged"
+       ],
+       [
+        "R1",
+        "adding a constant shifts the data but does not change the spread"
+       ]
+      ],
+      "wrongs": [
+       [
+        3.3919,
+        "Adding \\(2\\) does not change σ: the spread stays \\(1.39\\)."
+       ],
+       [
+        2.25,
+        "The mean moves up by \\(2\\): \\(4.25\\)."
+       ],
+       [
+        4.5,
+        "\\(4.5\\) is \\(2.25\\times2\\); the scores are increased by \\(2\\), not doubled."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "max": 8,
+    "stem": "The masses, \\(m\\) kg, of \\(50\\) parcels are grouped as shown.\n\\(\\begin{array}{c|ccccc} \\text{mass (kg)} & 30\\le m<40 & 40\\le m<50 & 50\\le m<60 & 60\\le m<70 & 70\\le m<80 \\\\ \\hline \\text{frequency} & 5 & 12 & 18 & 9 & 6 \\end{array}\\)",
+    "parts": [
+     {
+      "label": "(a)",
+      "marks": 1,
+      "text": "Write down the modal class.",
+      "opts": [
+       "\\(50\\le m<60\\)",
+       "\\(40\\le m<50\\)",
+       "\\(18\\)"
+      ],
+      "right": 0,
+      "bad": "The modal class is the class with the highest frequency: \\(50\\le m<60\\) (frequency \\(18\\)). The frequency itself is not the class.",
+      "fig": {
+       "kind": "bars",
+       "vals": [
+        5,
+        12,
+        18,
+        9,
+        6
+       ],
+       "labels": [
+        "35",
+        "45",
+        "55",
+        "65",
+        "75"
+       ],
+       "lo": 2,
+       "hi": 2
+      },
+      "figCap": "Classes drawn at their midpoints; the tallest bar is 50 ≤ m < 60.",
+      "ms": [
+       [
+        "A1",
+        "\\(50\\le m<60\\)"
+       ]
+      ]
+     },
+     {
+      "label": "(b)",
+      "marks": 3,
+      "text": "Calculate an estimate of the mean mass.",
+      "ansLabel": "\\(\\bar x\\approx\\)",
+      "ans": 54.8,
+      "tol": 0.06,
+      "fig": {
+       "kind": "bars",
+       "vals": [
+        5,
+        12,
+        18,
+        9,
+        6
+       ],
+       "labels": [
+        "35",
+        "45",
+        "55",
+        "65",
+        "75"
+       ],
+       "notes": [
+        [
+         330,
+         40,
+         "midpoints × frequencies",
+         "#B45309"
+        ]
+       ]
+      },
+      "figCap": "Each class represented by its midpoint: 35, 45, 55, 65, 75.",
+      "ms": [
+       [
+        "M1",
+        "midpoints \\(35,\\,45,\\,55,\\,65,\\,75\\) used"
+       ],
+       [
+        "M1",
+        "\\(\\dfrac{\\Sigma fx}{50}\\), or 1-Var Stats with midpoints and the frequency list"
+       ],
+       [
+        "A1",
+        "\\(54.8\\) kg"
+       ]
+      ],
+      "wrongs": [
+       [
+        49.8,
+        "\\(49.8\\) used the lower bounds; use the midpoints."
+       ],
+       [
+        59.8,
+        "\\(59.8\\) used the upper bounds."
+       ],
+       [
+        55,
+        "\\(55\\) is the mean of the midpoints with the frequencies ignored."
+       ]
+      ]
+     },
+     {
+      "label": "(c)",
+      "marks": 2,
+      "text": "Calculate an estimate of the standard deviation.",
+      "ansLabel": "\\(\\sigma\\approx\\)",
+      "ans": 11.4,
+      "tol": 0.06,
+      "fig": {
+       "kind": "bars",
+       "vals": [
+        5,
+        12,
+        18,
+        9,
+        6
+       ],
+       "labels": [
+        "35",
+        "45",
+        "55",
+        "65",
+        "75"
+       ],
+       "lo": 1,
+       "hi": 3,
+       "notes": [
+        [
+         330,
+         40,
+         "σ ≈ 11.4",
+         "#B45309"
+        ]
+       ]
+      },
+      "figCap": "σ ≈ 11.4 kg from the same midpoint data.",
+      "ms": [
+       [
+        "M1",
+        "1-Var Stats on the same lists"
+       ],
+       [
+        "A1",
+        "\\(11.4\\)   (\\(11.40\\); σx)"
+       ]
+      ],
+      "wrongs": [
+       [
+        11.52,
+        "\\(11.5\\) is sx; IB uses σx \\(=11.4\\)."
+       ],
+       [
+        130,
+        "\\(130\\) is the variance."
+       ]
+      ]
+     },
+     {
+      "label": "(d)",
+      "marks": 2,
+      "text": "Find the percentage of parcels with a mass of at least \\(60\\) kg.",
+      "ansLabel": "percentage \\(=\\)",
+      "ans": 30,
+      "tol": 0.01,
+      "fig": {
+       "kind": "bars",
+       "vals": [
+        5,
+        12,
+        18,
+        9,
+        6
+       ],
+       "labels": [
+        "35",
+        "45",
+        "55",
+        "65",
+        "75"
+       ],
+       "lo": 3,
+       "hi": 4,
+       "notes": [
+        [
+         330,
+         40,
+         "(9 + 6)/50",
+         "#B45309"
+        ]
+       ]
+      },
+      "figCap": "The last two classes: 15 of the 50 parcels.",
+      "ms": [
+       [
+        "M1",
+        "\\(\\dfrac{9+6}{50}\\)"
+       ],
+       [
+        "A1",
+        "\\(30\\%\\)"
+       ]
+      ],
+      "wrongs": [
+       [
+        15,
+        "\\(15\\) is the number of parcels; the question asks for a percentage of \\(50\\)."
+       ],
+       [
+        12,
+        "\\(12\\%\\) is \\(6/50\\): “at least \\(60\\)” includes the \\(60\\)–\\(70\\) class as well."
+       ],
+       [
+        0.3,
+        "As a percentage: \\(30\\)."
+       ]
+      ]
+     }
+    ]
+   }
+  ],
+  "passMark": 17,
+  "maxMarks": 24,
+  "lostMarksHint": "most lost marks here are reading sx instead of σx, forgetting the frequency list, and using class bounds instead of midpoints."
+ }
+}

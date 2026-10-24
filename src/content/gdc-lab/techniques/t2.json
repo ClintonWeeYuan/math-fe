@@ -1,0 +1,3383 @@
+{
+ "id": "t2",
+ "number": 2,
+ "title": "Zeros of a function",
+ "syllabus": "SL 2.4, 2.10",
+ "level": "SL (and HL)",
+ "lesson": {
+  "part1Ends": 10,
+  "calculatorPaths": {
+   "nspire": [
+    "Add a Graphs page. Type the function as f1(x), e.g. x^3 − 3x² + 1, and press enter.",
+    "If the crossings of the x-axis are not all on screen: menu → 4: Window/Zoom → 1: Window Settings, and set XMin, XMax, YMin, YMax.",
+    "menu → 6: Analyze Graph → 1: Zero. Click to the left of the crossing (lower bound), then to the right (upper bound). The zero appears as a point with its coordinates.",
+    "Repeat for each crossing of the x-axis. Write each x to 3 s.f.",
+    "Alternative: on a Calculator page, menu → 3: Algebra → 1: Numerical Solve, nSolve(f1(x) = 0, x, guess). One zero per guess."
+   ],
+   "ti84": [
+    "Press Y=. Type the function into Y1, e.g. X^3 − 3X² + 1. Press GRAPH.",
+    "If the crossings of the x-axis are not all on screen, press WINDOW and set Xmin, Xmax, Ymin, Ymax.",
+    "Press 2nd TRACE (CALC) → 2: zero.",
+    "Left Bound? Move the cursor to the left of the crossing, ENTER. Right Bound? Move to the right, ENTER. Guess? ENTER.",
+    "Read X = … at the bottom; Y = 0. Repeat for each crossing. Write each x to 3 s.f."
+   ],
+   "cg50": [
+    "MENU → GRAPH. Type the function into Y1, e.g. x^3 − 3x² + 1, EXE. F6 (DRAW).",
+    "If the crossings of the x-axis are not all on screen, SHIFT F3 (V-Window) and set Xmin, Xmax, Ymin, Ymax.",
+    "SHIFT F5 (G-Solv) → F1 (ROOT). The first zero appears with its coordinates.",
+    "Press ▶ to move to the next zero, if there is one.",
+    "Write each x to 3 s.f."
+   ]
+  },
+  "menuOptions": {
+   "nspire": [
+    "Graphs page → menu → Analyze Graph → Zero",
+    "Graphs page → menu → Analyze Graph → Intersection",
+    "Graphs page → menu → Trace"
+   ],
+   "ti84": [
+    "2nd TRACE (CALC) → 2: zero",
+    "2nd TRACE (CALC) → 5: intersect",
+    "TRACE"
+   ],
+   "cg50": [
+    "GRAPH → G-Solv → ROOT",
+    "GRAPH → G-Solv → INTSECT",
+    "GRAPH → Trace"
+   ]
+  },
+  "steps": [
+   {
+    "t": "numeric",
+    "parts": [
+     [
+      "c",
+      "What is a zero of \\(f\\)?",
+      [
+       "A value of \\(x\\) where \\(f(x)=0\\): the graph crosses the \\(x\\)-axis",
+       "The value of \\(f(0)\\): where the graph crosses the \\(y\\)-axis",
+       "The lowest point of the graph"
+      ],
+      0,
+      "✓ Zero, root, \\(x\\)-intercept: three names for the same thing.",
+      "✗ A zero is an \\(x\\) with \\(f(x)=0\\): where the graph crosses the \\(x\\)-axis. \\(f(0)\\) is the \\(y\\)-intercept, a different thing."
+     ]
+    ],
+    "fig": {
+     "kind": "graph",
+     "fns": [
+      {
+       "$fn": "(x) => x * x * x - 3 * x * x + 1"
+      }
+     ],
+     "xr": [
+      -2,
+      4
+     ],
+     "yr": [
+      -4,
+      4
+     ],
+     "pts": [
+      [
+       2.8794,
+       0,
+       "x = ?"
+      ]
+     ],
+     "caption": ""
+    },
+    "tag": "TRY IT FIRST · enter your calculator’s answer",
+    "given": "\\(f(x)=x^{3}-3x^{2}+1\\)",
+    "givenNote": "find the largest zero, to 3 significant figures",
+    "title": "Find the largest zero of \\(f(x)=x^{3}-3x^{2}+1\\).",
+    "instr": [
+     "Graph \\(f\\) on your own calculator and use the zero (root) tool.",
+     "Type the \\(x\\)-value to 3 significant figures.",
+     "You have two tries; then we show the answer."
+    ],
+    "label": "\\(x=\\)",
+    "ans": 2.8794,
+    "tol": 0.006,
+    "worked": "\\(f(x)=0\\)\nzeros (from GDC): \\(x=-0.532,\\ 0.653,\\ 2.88\\)\nlargest: \\(x=2.88\\)",
+    "ok": "✓ \\(x=2.88\\) is right. The lesson covers the tool, finding every zero, and what to write.",
+    "wrongs": [
+     [
+      1,
+      "\\(1\\) is \\(f(0)\\), the \\(y\\)-intercept. A zero is where \\(f(x)=0\\)."
+     ],
+     [
+      0.6527,
+      "\\(0.653\\) is the middle zero; the question asks for the largest."
+     ],
+     [
+      -0.5321,
+      "\\(-0.532\\) is the smallest zero."
+     ],
+     [
+      3,
+      "\\(3\\) is close, but \\(f(3)=1\\), not \\(0\\). Use the zero tool, not a guess."
+     ]
+    ],
+    "err": "GDC"
+   },
+   {
+    "t": "note",
+    "fig": {
+     "kind": "graph",
+     "fns": [
+      {
+       "$fn": "(x) => x * x * x - 3 * x * x + 1"
+      }
+     ],
+     "xr": [
+      -2,
+      4
+     ],
+     "yr": [
+      -4,
+      4
+     ],
+     "pts": [
+      [
+       -0.5321,
+       0,
+       "−0.532"
+      ],
+      [
+       0.6527,
+       0,
+       "0.653"
+      ],
+      [
+       2.8794,
+       0,
+       "2.88"
+      ]
+     ],
+     "caption": ""
+    },
+    "tag": "NOTE · SL 2.4",
+    "title": "Zero, root, \\(x\\)-intercept: one thing, three names",
+    "body": "A zero of \\(f\\) is a value of \\(x\\) with \\(f(x)=0\\):\n•  on the graph, it is where the curve crosses (or touches) the \\(x\\)-axis\n•  “the roots of \\(f(x)=0\\)” and “the \\(x\\)-intercepts of \\(y=f(x)\\)” mean the same values\n•  the \\(y\\)-coordinate is always \\(0\\), so the answer is just the \\(x\\)-value(s)\n\nNot to be confused with the \\(y\\)-intercept, \\(f(0)\\): here \\(f(0)=1\\).",
+    "code": "\\(f(x)=x^{3}-3x^{2}+1\\)\nzeros: \\(x=-0.532,\\ 0.653,\\ 2.88\\)   (3 s.f., from GDC)\n\\(y\\)-intercept: \\(f(0)=1\\)"
+   },
+   {
+    "t": "choice",
+    "tag": "ACTIVITY · same or different?",
+    "given": "\\(f(x)=x^{3}-3x^{2}+1\\)",
+    "title": "Which of these is NOT asking for the zeros of \\(f\\)?",
+    "opts": [
+     "Find the \\(y\\)-intercept of the graph of \\(f\\)",
+     "Solve \\(f(x)=0\\)",
+     "Find where the graph of \\(f\\) crosses the \\(x\\)-axis"
+    ],
+    "right": 0,
+    "ok": "✓ Right. The \\(y\\)-intercept is \\(f(0)\\); the other two are the zeros.",
+    "bads": [
+     "✓",
+     "✗ “Solve \\(f(x)=0\\)” is exactly the zeros. The odd one out is the \\(y\\)-intercept, \\(f(0)\\).",
+     "✗ Crossing the \\(x\\)-axis is exactly the zeros. The odd one out is the \\(y\\)-intercept, \\(f(0)\\)."
+    ],
+    "err": "Concept"
+   },
+   {
+    "title": "Where it lives on your calculator",
+    "t": "note",
+    "body": "Three moves:\n•  type the function\n•  set a window that shows every crossing of the \\(x\\)-axis\n•  run the zero (root) tool, once per crossing",
+    "byCalc": {
+     "nspire": {
+      "path": [
+       "Add a Graphs page. Type the function as f1(x), e.g. x^3 − 3x² + 1, and press enter.",
+       "If the crossings of the x-axis are not all on screen: menu → 4: Window/Zoom → 1: Window Settings, and set XMin, XMax, YMin, YMax.",
+       "menu → 6: Analyze Graph → 1: Zero. Click to the left of the crossing (lower bound), then to the right (upper bound). The zero appears as a point with its coordinates.",
+       "Repeat for each crossing of the x-axis. Write each x to 3 s.f.",
+       "Alternative: on a Calculator page, menu → 3: Algebra → 1: Numerical Solve, nSolve(f1(x) = 0, x, guess). One zero per guess."
+      ],
+      "tag": "NOTE · TI-Nspire CX II"
+     },
+     "ti84": {
+      "path": [
+       "Press Y=. Type the function into Y1, e.g. X^3 − 3X² + 1. Press GRAPH.",
+       "If the crossings of the x-axis are not all on screen, press WINDOW and set Xmin, Xmax, Ymin, Ymax.",
+       "Press 2nd TRACE (CALC) → 2: zero.",
+       "Left Bound? Move the cursor to the left of the crossing, ENTER. Right Bound? Move to the right, ENTER. Guess? ENTER.",
+       "Read X = … at the bottom; Y = 0. Repeat for each crossing. Write each x to 3 s.f."
+      ],
+      "tag": "NOTE · TI-84 Plus CE"
+     },
+     "cg50": {
+      "path": [
+       "MENU → GRAPH. Type the function into Y1, e.g. x^3 − 3x² + 1, EXE. F6 (DRAW).",
+       "If the crossings of the x-axis are not all on screen, SHIFT F3 (V-Window) and set Xmin, Xmax, Ymin, Ymax.",
+       "SHIFT F5 (G-Solv) → F1 (ROOT). The first zero appears with its coordinates.",
+       "Press ▶ to move to the next zero, if there is one.",
+       "Write each x to 3 s.f."
+      ],
+      "tag": "NOTE · Casio fx-CG50"
+     }
+    }
+   },
+   {
+    "given": "\\(f(x)=x^{3}-3x^{2}+1\\)",
+    "tag": "ACTIVITY · menu choice",
+    "ok": "✓ Right.",
+    "right": 0,
+    "t": "choice",
+    "bad": "✗ Not quite. Intersection is for two graphs crossing each other (technique 1); Trace only reads approximate values. One graph crossing the \\(x\\)-axis is the zero / root tool.",
+    "err": "GDC",
+    "byCalc": {
+     "nspire": {
+      "title": "On your TI-Nspire CX II, which tool finds where a graph crosses the \\(x\\)-axis?",
+      "opts": [
+       "Graphs page → menu → Analyze Graph → Zero",
+       "Graphs page → menu → Analyze Graph → Intersection",
+       "Graphs page → menu → Trace"
+      ]
+     },
+     "ti84": {
+      "title": "On your TI-84 Plus CE, which tool finds where a graph crosses the \\(x\\)-axis?",
+      "opts": [
+       "2nd TRACE (CALC) → 2: zero",
+       "2nd TRACE (CALC) → 5: intersect",
+       "TRACE"
+      ]
+     },
+     "cg50": {
+      "title": "On your Casio fx-CG50, which tool finds where a graph crosses the \\(x\\)-axis?",
+      "opts": [
+       "GRAPH → G-Solv → ROOT",
+       "GRAPH → G-Solv → INTSECT",
+       "GRAPH → Trace"
+      ]
+     }
+    }
+   },
+   {
+    "tag": "NOTE · SL 2.4",
+    "code": "cubic: up to \\(3\\) zeros; here all three are real\nbounds: one crossing between them, each time",
+    "title": "Finding every zero",
+    "fig": {
+     "kind": "graph",
+     "fns": [
+      {
+       "$fn": "(x) => x * x * x - 3 * x * x + 1"
+      }
+     ],
+     "xr": [
+      -2,
+      4
+     ],
+     "yr": [
+      -4,
+      4
+     ],
+     "pts": [
+      [
+       -0.5321,
+       0,
+       ""
+      ],
+      [
+       0.6527,
+       0,
+       ""
+      ],
+      [
+       2.8794,
+       0,
+       ""
+      ]
+     ],
+     "caption": ""
+    },
+    "t": "note",
+    "byCalc": {
+     "nspire": {
+      "body": "The tool finds one zero at a time, between the bounds you give it. To be sure you have them all:\n•  a polynomial of degree \\(n\\) has at most \\(n\\) zeros: a cubic, up to three\n•  the curve must cross the axis between your two bounds; put them close around one crossing\n•  a zero where the curve only touches the axis (no sign change) is a repeated root: the Nspire’s Zero tool wants a crossing between the two bounds; a touching zero can be found with Analyze Graph → Minimum (or Maximum) instead."
+     },
+     "ti84": {
+      "body": "The tool finds one zero at a time, between the bounds you give it. To be sure you have them all:\n•  a polynomial of degree \\(n\\) has at most \\(n\\) zeros: a cubic, up to three\n•  the curve must cross the axis between your two bounds; put them close around one crossing\n•  a zero where the curve only touches the axis (no sign change) is a repeated root: the TI-84’s zero tool needs a sign change between Left Bound and Right Bound; for a touching zero use CALC → 3: minimum (or 4: maximum) instead."
+     },
+     "cg50": {
+      "body": "The tool finds one zero at a time, between the bounds you give it. To be sure you have them all:\n•  a polynomial of degree \\(n\\) has at most \\(n\\) zeros: a cubic, up to three\n•  the curve must cross the axis between your two bounds; put them close around one crossing\n•  a zero where the curve only touches the axis (no sign change) is a repeated root: the Casio’s ROOT usually finds a touching zero; if it does not, use G-Solv → MIN (or MAX) instead."
+     }
+    }
+   },
+   {
+    "t": "numeric",
+    "parts": [
+     [
+      "c",
+      "How many zeros does \\(f(x)=x^{3}-3x^{2}+1\\) have?",
+      [
+       "Three: the graph crosses the axis three times",
+       "One",
+       "Two"
+      ],
+      0,
+      "✓ Three.",
+      "✗ Count the crossings on the graph: three. A cubic can have up to three."
+     ]
+    ],
+    "tag": "ACTIVITY · enter your calculator’s answer",
+    "given": "\\(f(x)=x^{3}-3x^{2}+1\\)",
+    "title": "Find the smallest zero of \\(f\\).",
+    "instr": [
+     "Bounds either side of the left-hand crossing.",
+     "Type the \\(x\\)-value to 3 significant figures."
+    ],
+    "label": "\\(x=\\)",
+    "ans": -0.5321,
+    "tol": 0.006,
+    "worked": "zero tool, bounds around the left crossing: \\(x=-0.532\\)",
+    "ok": "✓ \\(x=-0.532\\). All three: \\(-0.532\\), \\(0.653\\), \\(2.88\\).",
+    "wrongs": [
+     [
+      0.5321,
+      "Sign: the smallest zero is to the left of the \\(y\\)-axis, \\(x=-0.532\\)."
+     ],
+     [
+      0.6527,
+      "That is the middle zero."
+     ],
+     [
+      -0.53,
+      "\\(-0.53\\) is 2 s.f.; give \\(-0.532\\)."
+     ]
+    ],
+    "err": "Reading"
+   },
+   {
+    "t": "note",
+    "tag": "NOTE · what to write",
+    "title": "What the examiner wants to see",
+    "body": "A line that shows the method, then the values:\n•  “\\(f(x)=0\\)” or a sketch with the crossings marked\n•  the zeros as \\(x\\)-values, 3 s.f.: \\(x=-0.532,\\ 0.653,\\ 2.88\\)\n\nTwo habits that lose marks:\n•  writing a coordinate pair \\((2.88,\\,0)\\) when the question says “solve”; it wants \\(x\\)\n•  stopping after the first zero the tool finds",
+    "code": "\\(f(x)=0\\)\n\\(x=-0.532,\\ 0.653,\\ 2.88\\)   (3 s.f., from GDC)"
+   },
+   {
+    "t": "choice",
+    "tag": "ACTIVITY · write the line",
+    "given": "\\(f(x)=x^{3}-3x^{2}+1\\)",
+    "title": "Which answer earns full marks for “find the zeros of \\(f\\)”?",
+    "opts": [
+     "\\(x=-0.532,\\ 0.653,\\ 2.88\\)",
+     "\\((2.88,\\,0)\\)",
+     "\\(x=2.88\\)"
+    ],
+    "right": 0,
+    "ok": "✓ Right. All three, as \\(x\\)-values, 3 s.f.",
+    "bads": [
+     "✓",
+     "✗ A single coordinate pair: two zeros are missing, and “zeros” wants \\(x\\)-values.",
+     "✗ One of three. The tool finds one at a time; run it for each crossing."
+    ],
+    "err": "Writing"
+   },
+   {
+    "t": "numeric",
+    "parts": [
+     [
+      "c",
+      "The graph of \\(g\\) crosses the \\(x\\)-axis",
+      [
+       "Twice",
+       "Once",
+       "Three times"
+      ],
+      0,
+      "✓ Twice: once near \\(0.16\\), once near \\(3.1\\).",
+      "✗ \\(\\ln x-x+2\\) rises from \\(-\\infty\\), peaks at \\(x=1\\), then falls: two crossings."
+     ]
+    ],
+    "fig": {
+     "kind": "graph",
+     "fns": [
+      {
+       "$fn": "(x) => x > 0 ? Math.log(x) - x + 2 : NaN"
+      }
+     ],
+     "xr": [
+      0,
+      5
+     ],
+     "yr": [
+      -3,
+      2
+     ],
+     "pts": [
+      [
+       3.1462,
+       0,
+       "x = ?"
+      ],
+      [
+       0.1586,
+       0,
+       ""
+      ]
+     ],
+     "caption": ""
+    },
+    "tag": "PRACTICE · one more",
+    "given": "\\(g(x)=\\ln x-x+2\\)",
+    "title": "Find the larger zero of \\(g\\).",
+    "instr": [
+     "Graph \\(g\\); zero tool with bounds around the right-hand crossing.",
+     "Type \\(x\\) to 3 significant figures."
+    ],
+    "label": "\\(x=\\)",
+    "ans": 3.1462,
+    "tol": 0.006,
+    "worked": "\\(g(x)=0\\): zeros \\(x=0.159\\) and \\(x=3.15\\)\nlarger: \\(x=3.15\\)",
+    "ok": "✓ \\(x=3.15\\). Also \\(x=0.159\\); the question only asked for the larger.",
+    "wrongs": [
+     [
+      0.1586,
+      "That is the smaller zero."
+     ],
+     [
+      1,
+      "\\(1\\) is where \\(g\\) is at its maximum, \\(g(1)=1\\), not a zero."
+     ],
+     [
+      3.14,
+      "\\(3.14\\) is 3 s.f. of \\(\\pi\\), not of \\(3.1462\\). Read the screen: \\(3.15\\)."
+     ]
+    ],
+    "err": "GDC"
+   },
+   {
+    "t": "note",
+    "fig": {
+     "kind": "graph",
+     "fns": [
+      {
+       "$fn": "(x) => x * x * x - 5 * x + 1"
+      }
+     ],
+     "xr": [
+      -3,
+      3
+     ],
+     "yr": [
+      -6,
+      8
+     ],
+     "pts": [
+      [
+       -2.3301,
+       0,
+       ""
+      ],
+      [
+       0.2016,
+       0,
+       ""
+      ],
+      [
+       2.1284,
+       0,
+       "2.13"
+      ]
+     ],
+     "caption": ""
+    },
+    "tag": "NOTE · SL 2.10",
+    "title": "Any equation is a zero problem",
+    "body": "To solve \\(x^{3}=5x-1\\), move everything to one side: \\(x^{3}-5x+1=0\\). The solutions are the zeros of \\(f(x)=x^{3}-5x+1\\).\n•  one graph instead of two, and the zero tool instead of intersection\n•  either method is accepted; use the one you find quicker\n•  “show that there is a root between \\(2\\) and \\(3\\)”: show a sign change, \\(f(2)<0\\) and \\(f(3)>0\\), then find it",
+    "code": "\\(x^{3}=5x-1 \\Rightarrow x^{3}-5x+1=0\\)\nzeros: \\(x=-2.33,\\ 0.202,\\ 2.13\\)"
+   },
+   {
+    "t": "numeric",
+    "parts": [
+     [
+      "c",
+      "Which function do you graph?",
+      [
+       "\\(f(x)=x^{3}-5x+1\\)",
+       "\\(f(x)=x^{3}-5x\\)",
+       "\\(f(x)=x^{3}+5x-1\\)"
+      ],
+      0,
+      "✓ Everything on one side, signs kept.",
+      "✗ \\(x^{3}=5x-1\\) gives \\(x^{3}-5x+1=0\\): subtract \\(5x\\), add \\(1\\)."
+     ]
+    ],
+    "tag": "ACTIVITY · enter your calculator’s answer",
+    "given": "solve \\(x^{3}=5x-1\\)",
+    "title": "Find the largest solution of \\(x^{3}=5x-1\\), using the zero tool.",
+    "instr": [
+     "Rearrange to \\(f(x)=0\\), graph \\(f\\), zero tool.",
+     "Type \\(x\\) to 3 significant figures."
+    ],
+    "label": "\\(x=\\)",
+    "ans": 2.1284,
+    "tol": 0.006,
+    "worked": "\\(x^{3}-5x+1=0\\)\nzeros: \\(-2.33,\\ 0.202,\\ 2.13\\); largest \\(x=2.13\\)",
+    "ok": "✓ \\(x=2.13\\). Check with intersection if you like: \\(y=x^{3}\\) and \\(y=5x-1\\) cross at the same \\(x\\).",
+    "wrongs": [
+     [
+      0.2016,
+      "The middle zero."
+     ],
+     [
+      -2.3301,
+      "The smallest zero."
+     ],
+     [
+      2.2361,
+      "\\(2.24\\) is \\(\\sqrt5\\): solves \\(x^{3}=5x\\), without the \\(-1\\)."
+     ]
+    ],
+    "err": "Concept"
+   },
+   {
+    "t": "note",
+    "fig": {
+     "kind": "graph",
+     "fns": [
+      {
+       "$fn": "(t) => 20 + 15 * t - 4.9 * t * t"
+      }
+     ],
+     "xr": [
+      -2,
+      5
+     ],
+     "yr": [
+      -10,
+      40
+     ],
+     "pts": [
+      [
+       4.0653,
+       0,
+       "t = 4.07"
+      ],
+      [
+       -1.004,
+       0,
+       "reject"
+      ]
+     ],
+     "caption": ""
+    },
+    "tag": "NOTE · SL 2.10",
+    "title": "Zeros in a context",
+    "body": "“When does the ball hit the ground?” means \\(h(t)=0\\): a zero of \\(h\\).\n•  the model may give a zero that makes no sense (negative time, negative length): reject it, and say why\n•  give units: \\(t=4.07\\) seconds\n•  the domain of the story is your window: here \\(t\\ge0\\)",
+    "code": "\\(h(t)=20+15t-4.9t^{2}=0\\)\n\\(t=-1.00\\) (reject, \\(t\\ge0\\)) or \\(t=4.07\\)\nhits the ground after \\(4.07\\) s"
+   },
+   {
+    "t": "numeric",
+    "parts": [
+     [
+      "c",
+      "The ball hits the ground when",
+      [
+       "\\(h(t)=0\\)",
+       "\\(t=0\\)",
+       "\\(h(t)\\) is a maximum"
+      ],
+      0,
+      "✓ Height zero.",
+      "✗ On the ground, the height is \\(0\\): solve \\(h(t)=0\\)."
+     ],
+     [
+      "c",
+      "The zero tool gives \\(t=-1.00\\) and \\(t=4.07\\). Which is the answer?",
+      [
+       "\\(4.07\\): time cannot be negative",
+       "\\(-1.00\\): the smaller one",
+       "Both"
+      ],
+      0,
+      "✓ Reject the negative time.",
+      "✗ The ball is thrown at \\(t=0\\); a negative time is before the throw. Reject it."
+     ]
+    ],
+    "tag": "ACTIVITY · enter your calculator’s answer",
+    "given": "\\(h(t)=20+15t-4.9t^{2}\\)",
+    "givenNote": "height in metres of a ball, \\(t\\) seconds after it is thrown",
+    "title": "Find when the ball hits the ground.",
+    "instr": [
+     "Graph \\(h\\) with a window \\(0\\le t\\le5\\); zero tool.",
+     "Type \\(t\\) to 3 significant figures."
+    ],
+    "label": "\\(t=\\)",
+    "ans": 4.0653,
+    "tol": 0.006,
+    "worked": "\\(h(t)=0\\): \\(t=-1.00\\) (reject) or \\(t=4.07\\)\nhits the ground after \\(4.07\\) s",
+    "ok": "✓ \\(t=4.07\\) s. Write the rejection too: “\\(t=-1.00\\) rejected since \\(t\\ge0\\)”.",
+    "wrongs": [
+     [
+      -1.004,
+      "Negative time: reject it. The ball lands at \\(t=4.07\\)."
+     ],
+     [
+      1.5306,
+      "\\(1.53\\) is when the ball is highest (the maximum), not when it lands."
+     ],
+     [
+      20,
+      "\\(20\\) is \\(h(0)\\), the starting height."
+     ]
+    ],
+    "err": "Reading"
+   },
+   {
+    "t": "numeric",
+    "parts": [
+     [
+      "n",
+      "First check the given root: \\(f(2)=\\)",
+      "\\(f(2)=\\)",
+      0,
+      0.001,
+      "✓ \\(f(2)=8-24+18-2=0\\), so \\(x=2\\) is a zero.",
+      [
+       [
+        2,
+        "Substitute \\(x=2\\) into \\(f\\): \\(8-24+18-2\\)."
+       ]
+      ]
+     ],
+     [
+      "c",
+      "A cubic with a zero at \\(2\\) can have",
+      [
+       "Up to two more zeros",
+       "No more zeros",
+       "Exactly one more zero"
+      ],
+      0,
+      "✓ Up to three in total.",
+      "✗ A cubic has up to three zeros, so up to two more besides \\(x=2\\)."
+     ]
+    ],
+    "fig": {
+     "kind": "graph",
+     "fns": [
+      {
+       "$fn": "(x) => x * x * x - 6 * x * x + 9 * x - 2"
+      }
+     ],
+     "xr": [
+      -1,
+      5
+     ],
+     "yr": [
+      -4,
+      4
+     ],
+     "pts": [
+      [
+       0.2679,
+       0,
+       ""
+      ],
+      [
+       2,
+       0,
+       "2"
+      ],
+      [
+       3.7321,
+       0,
+       "x = ?"
+      ]
+     ],
+     "caption": ""
+    },
+    "tag": "EXAM-STYLE PART · 3 marks · hints available",
+    "given": "\\(f(x)=x^{3}-6x^{2}+9x-2\\)",
+    "givenNote": "\\(x=2\\) is a zero of \\(f\\)",
+    "title": "Find the other zeros of \\(f\\). Enter the largest.",
+    "instr": [
+     "Zero tool for the crossings either side of \\(x=2\\).",
+     "Type the largest zero to 3 significant figures.",
+     "Hints are available below if you need them."
+    ],
+    "label": "\\(x=\\)",
+    "ans": 3.7321,
+    "tol": 0.006,
+    "worked": "zeros (from GDC): \\(x=0.268,\\ 2,\\ 3.73\\)\nother zeros: \\(x=0.268\\) and \\(x=3.73\\)",
+    "ok": "✓ \\(x=3.73\\) (and \\(0.268\\)). On Paper 1 the same question is done by factorising: \\((x-2)(x^{2}-4x+1)\\), so \\(x=2\\pm\\sqrt3\\).",
+    "wrongs": [
+     [
+      2,
+      "\\(2\\) is the given zero; the question asks for the others."
+     ],
+     [
+      0.2679,
+      "That is the smaller of the other two; the box asks for the largest."
+     ],
+     [
+      3.7,
+      "\\(3.7\\) is 2 s.f.; give \\(3.73\\)."
+     ]
+    ],
+    "hints": [
+     "Graph \\(f\\): it crosses the axis three times.",
+     "Zero tool around the crossing near \\(0.3\\), and around the crossing near \\(3.7\\).",
+     "Exact values: \\(2\\pm\\sqrt3\\); the GDC gives \\(0.268\\) and \\(3.73\\)."
+    ],
+    "err": "Reading"
+   },
+   {
+    "t": "choice",
+    "tag": "ACTIVITY · no calculator · Paper 1",
+    "given": "\\(f(x)=x^{3}-6x^{2}+9x-2\\), \\(f(2)=0\\)",
+    "givenNote": "a Paper 1 question",
+    "title": "How do you find the other zeros without a calculator?",
+    "opts": [
+     "\\(x=2\\) is a zero, so \\((x-2)\\) is a factor: divide to get \\(x^{2}-4x+1\\), then the quadratic formula",
+     "Guess values of \\(x\\) until \\(f(x)=0\\)",
+     "Sketch the graph and read the crossings"
+    ],
+    "right": 0,
+    "ok": "✓ Right. Zero ⇒ factor (the factor theorem); the quotient gives the rest: \\(x=2\\pm\\sqrt3\\).",
+    "bad": "✗ Not quite. A known zero \\(x=2\\) gives a known factor \\((x-2)\\); divide, then solve the quadratic: \\(x=2\\pm\\sqrt3\\). Guessing and sketching cannot give exact values.",
+    "err": "Concept"
+   },
+   {
+    "t": "numeric",
+    "parts": [
+     [
+      "c",
+      "How many zeros can \\(x^{4}-5x^{2}+2\\) have?",
+      [
+       "Up to four",
+       "Up to two",
+       "Exactly one"
+      ],
+      0,
+      "✓ Degree \\(4\\): up to four, and here all four are real.",
+      "✗ Degree \\(4\\) means up to four zeros; this one has all four."
+     ]
+    ],
+    "fig": {
+     "kind": "graph",
+     "fns": [
+      {
+       "$fn": "(x) => x * x * x * x - 5 * x * x + 2"
+      }
+     ],
+     "xr": [
+      -3,
+      3
+     ],
+     "yr": [
+      -6,
+      6
+     ],
+     "pts": [
+      [
+       -2.1358,
+       0,
+       ""
+      ],
+      [
+       -0.6622,
+       0,
+       ""
+      ],
+      [
+       0.6622,
+       0,
+       ""
+      ],
+      [
+       2.1358,
+       0,
+       "x = ?"
+      ]
+     ],
+     "caption": ""
+    },
+    "tag": "PRACTICE · 1 of 2",
+    "given": "\\(f(x)=x^{4}-5x^{2}+2\\)",
+    "title": "Find the largest zero of \\(f\\).",
+    "instr": [
+     "Four crossings; zero tool on the right-hand one.",
+     "Type \\(x\\) to 3 significant figures."
+    ],
+    "label": "\\(x=\\)",
+    "ans": 2.1358,
+    "tol": 0.006,
+    "worked": "zeros: \\(\\pm0.662,\\ \\pm2.14\\); largest \\(x=2.14\\)",
+    "ok": "✓ \\(x=2.14\\). The symmetry (\\(\\pm\\)) is because only even powers appear.",
+    "wrongs": [
+     [
+      0.6622,
+      "That is the second-largest zero."
+     ],
+     [
+      2,
+      "\\(2\\) is close but \\(f(2)=-2\\). Use the tool."
+     ],
+     [
+      -2.1358,
+      "Sign: the largest is positive."
+     ]
+    ],
+    "err": "GDC"
+   },
+   {
+    "t": "numeric",
+    "parts": [
+     [
+      "c",
+      "Which function?",
+      [
+       "\\(f(x)=2^{x}-x-3\\)",
+       "\\(f(x)=2^{x}-x\\)",
+       "\\(f(x)=2^{x}+x+3\\)"
+      ],
+      0,
+      "✓",
+      "✗ \\(2^{x}=x+3\\) gives \\(2^{x}-x-3=0\\)."
+     ]
+    ],
+    "fig": {
+     "kind": "graph",
+     "fns": [
+      {
+       "$fn": "(x) => Math.pow(2, x) - x - 3"
+      }
+     ],
+     "xr": [
+      -4,
+      4
+     ],
+     "yr": [
+      -4,
+      6
+     ],
+     "pts": [
+      [
+       -2.8625,
+       0,
+       ""
+      ],
+      [
+       2.4449,
+       0,
+       "x = ?"
+      ]
+     ],
+     "caption": ""
+    },
+    "tag": "PRACTICE · 2 of 2",
+    "given": "solve \\(2^{x}=x+3\\)",
+    "title": "Find the larger solution of \\(2^{x}=x+3\\), using the zero tool.",
+    "instr": [
+     "Rearrange, graph, zero tool.",
+     "Type \\(x\\) to 3 significant figures."
+    ],
+    "label": "\\(x=\\)",
+    "ans": 2.4449,
+    "tol": 0.006,
+    "worked": "\\(2^{x}-x-3=0\\)\nzeros: \\(x=-2.86,\\ 2.44\\); larger \\(x=2.44\\)",
+    "ok": "✓ \\(x=2.44\\). That is the Learn rung done; the Drill times you.",
+    "wrongs": [
+     [
+      -2.8625,
+      "The smaller solution."
+     ],
+     [
+      1.585,
+      "\\(1.58\\) is \\(\\log_2 3\\): solves \\(2^{x}=3\\)."
+     ],
+     [
+      2.45,
+      "Rounding: \\(2.4449\\) is \\(2.44\\), not \\(2.45\\)."
+     ]
+    ],
+    "err": "GDC"
+   },
+   {
+    "t": "finish",
+    "tag": "LESSON COMPLETE",
+    "title": "Zeros of a function: Learn passed"
+   }
+  ]
+ },
+ "drill": {
+  "intro": "Each is a function whose zeros you find with the zero (root) tool: an exponential hump, a log with a restricted domain, a trig product with three zeros, a drug-concentration model, and an equation rearranged to \\(f(x)=0\\). Count the crossings, pick the right one, and type \\(x\\) to 3 significant figures. SL 2.4 and 2.10 (also HL).",
+  "challengeIntro": "a zero where the graph only touches the axis (where the zero tool can fail), a zero hidden off screen, trig zeros in an interval, and “show there is exactly one zero, then find it”. Optional: getting them wrong cannot undo your drill result.",
+  "keys": {
+   "nspire": [
+    "Graphs page: type the function as f1(x), enter. For an equation, move everything to one side first and graph that.",
+    "If a crossing of the x-axis is not on screen: menu → 4: Window/Zoom → 1: Window Settings; set XMin/XMax from the domain, YMin/YMax to fit.",
+    "menu → 6: Analyze Graph → 1: Zero. Click a lower bound to the left of one crossing and an upper bound to the right. The zero appears.",
+    "Repeat for every crossing; a degree-n polynomial has at most n zeros.",
+    "A touching zero (no sign change): use Analyze Graph → Minimum or Maximum instead.",
+    "Trig: radians (doc → Settings) unless the question says degrees.",
+    "Write the zeros as x-values, 3 s.f.; reject any that make no sense in the context and say why."
+   ],
+   "ti84": [
+    "Y=: type the function into Y1. For an equation, move everything to one side first and graph that. GRAPH.",
+    "If a crossing of the x-axis is not on screen: WINDOW; set Xmin/Xmax from the domain, Ymin/Ymax to fit.",
+    "2nd TRACE (CALC) → 2: zero. Left Bound? (left of the crossing) ENTER. Right Bound? ENTER. Guess? ENTER.",
+    "Repeat for every crossing; a degree-n polynomial has at most n zeros.",
+    "A touching zero (no sign change): use CALC → 3: minimum or 4: maximum instead.",
+    "Trig: MODE → RADIAN unless the question says degrees.",
+    "Write the zeros as x-values, 3 s.f.; reject any that make no sense in the context and say why."
+   ],
+   "cg50": [
+    "MENU → GRAPH: type the function into Y1. For an equation, move everything to one side first and graph that. F6 (DRAW).",
+    "If a crossing of the x-axis is not on screen: SHIFT F3 (V-Window); set Xmin/Xmax from the domain, Ymin/Ymax to fit.",
+    "SHIFT F5 (G-Solv) → F1 (ROOT). The first zero appears; press ▶ for the next.",
+    "Check you have every crossing; a degree-n polynomial has at most n zeros.",
+    "A touching zero: if ROOT misses it, use G-Solv → MIN or MAX instead.",
+    "Trig: SHIFT MENU (SET UP) → Angle: Rad unless the question says degrees.",
+    "Write the zeros as x-values, 3 s.f.; reject any that make no sense in the context and say why."
+   ]
+  },
+  "sets": [
+   [
+    {
+     "parts": [
+      [
+       "c",
+       "Which tool?",
+       [
+        "Zero / root, with bounds either side of one crossing",
+        "Intersection",
+        "Trace and read the screen"
+       ],
+       0,
+       "✓",
+       "✗ One graph crossing the x-axis: the zero (root) tool."
+      ],
+      [
+       "c",
+       "How many zeros?",
+       [
+        "Two: up through the axis, then back down",
+        "One",
+        "Three"
+       ],
+       0,
+       "✓ A hump that starts and ends below the axis crosses it twice.",
+       "✗ A hump that starts and ends below the axis crosses it twice."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => x*Math.exp(-x) - 0.2"
+        }
+       ],
+       "xr": [
+        -0.5,
+        5
+       ],
+       "yr": [
+        -0.4,
+        0.3
+       ],
+       "pts": [
+        [
+         0.2592,
+         0,
+         ""
+        ],
+        [
+         2.5426,
+         0,
+         "x = 2.54"
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "D1 Largest zero",
+     "given": "\\(f(x)=xe^{-x}-0.2\\)",
+     "givenNote": "",
+     "q": "Find the largest zero of \\(f\\).",
+     "label": "\\(x=\\)",
+     "ans": 2.5426,
+     "tol": 0.006,
+     "target": 90,
+     "line": "zeros at \\(x=0.259\\) and \\(x=2.54\\); largest \\(2.54\\)",
+     "steps": [
+      [
+       "Graph",
+       "The curve rises from \\(-0.2\\), peaks near \\(x=1\\) at \\(0.168\\), then falls back towards \\(-0.2\\): two crossings."
+      ],
+      [
+       "Tool",
+       "Zero tool twice: \\(x=0.2592\\) and \\(x=2.5426\\)."
+      ],
+      [
+       "Answer",
+       "Largest zero \\(x=2.54\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       0.2592,
+       "That is the smaller zero."
+      ],
+      [
+       1,
+       "\\(1\\) is where the peak is, not a zero."
+      ],
+      [
+       0.2,
+       "\\(0.2\\) is the constant."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "The domain of \\(f\\) is",
+       [
+        "\\(x>0\\), because of \\(\\ln x\\)",
+        "all real \\(x\\)",
+        "\\(x\\ge-3\\)"
+       ],
+       0,
+       "✓",
+       "✗ \\(\\ln x\\) is only defined for \\(x>0\\)."
+      ],
+      [
+       "c",
+       "How many zeros?",
+       [
+        "Two: down through the axis near \\(0.5\\), back up near \\(2.6\\)",
+        "One",
+        "Three"
+       ],
+       0,
+       "✓ The curve dips below the axis between its two zeros.",
+       "✗ The curve dips below the axis between its two zeros."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => x > 0 ? x*x - 4*Math.log(x) - 3 : NaN"
+        }
+       ],
+       "xr": [
+        0,
+        4
+       ],
+       "yr": [
+        -3,
+        6
+       ],
+       "pts": [
+        [
+         0.5032,
+         0,
+         "x = 0.503"
+        ],
+        [
+         2.6168,
+         0,
+         ""
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "D2 Smallest zero",
+     "given": "\\(f(x)=x^{2}-4\\ln x-3\\), \\(x>0\\)",
+     "givenNote": "",
+     "q": "Find the smallest zero of \\(f\\).",
+     "label": "\\(x=\\)",
+     "ans": 0.5032,
+     "tol": 0.006,
+     "target": 90,
+     "line": "zeros at \\(x=0.503\\) and \\(x=2.62\\); smallest \\(0.503\\)",
+     "steps": [
+      [
+       "Domain",
+       "\\(\\ln x\\) needs \\(x>0\\): the graph only exists to the right of the \\(y\\)-axis, and shoots up as \\(x\\to0\\)."
+      ],
+      [
+       "Tool",
+       "Zero tool: \\(x=0.5032\\) and \\(x=2.6168\\). Set Xmin just above \\(0\\) (e.g. \\(0.1\\)) so the left crossing is on screen."
+      ],
+      [
+       "Answer",
+       "Smallest zero \\(x=0.503\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       2.6168,
+       "That is the larger zero."
+      ],
+      [
+       0,
+       "\\(0\\) is outside the domain; the curve never reaches it."
+      ],
+      [
+       1.4142,
+       "\\(1.41\\) is where the minimum is (\\(f=-2.39\\)), not a zero."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "Mode?",
+       [
+        "Radians",
+        "Degrees",
+        "Does not matter"
+       ],
+       0,
+       "✓",
+       "✗ Radians."
+      ],
+      [
+       "c",
+       "How many zeros?",
+       [
+        "Three in \\(0\\le x\\le2\\pi\\)",
+        "Two",
+        "Infinitely many"
+       ],
+       0,
+       "✓ Count on the screen: two near the start, one near \\(4.8\\).",
+       "✗ Count on the screen: two near the start, one near \\(4.8\\)."
+      ],
+      [
+       "n",
+       "Smallest zero \\(=\\)",
+       "\\(x=\\)",
+       0.61,
+       0.006,
+       "✓",
+       []
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => x*Math.cos(x) - 0.5"
+        }
+       ],
+       "xr": [
+        0,
+        6.3
+       ],
+       "yr": [
+        -5,
+        7
+       ],
+       "pts": [
+        [
+         0.61,
+         0,
+         ""
+        ],
+        [
+         1.098,
+         0,
+         "x = 1.10"
+        ],
+        [
+         4.8164,
+         0,
+         ""
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "D3 All of them",
+     "given": "\\(f(x)=x\\cos x-0.5\\), \\(0\\le x\\le2\\pi\\)",
+     "givenNote": "radians",
+     "q": "Find all the zeros of \\(f\\) in the interval. Enter the middle one.",
+     "label": "\\(x=\\)",
+     "ans": 1.098,
+     "tol": 0.006,
+     "target": 110,
+     "line": "zeros at \\(x=0.610,\\ 1.10,\\ 4.82\\); middle \\(1.10\\)",
+     "steps": [
+      [
+       "Mode",
+       "Radians; window \\(0\\) to \\(2\\pi\\)."
+      ],
+      [
+       "Graph",
+       "\\(x\\cos x\\) oscillates with growing amplitude; subtracting \\(0.5\\) gives three crossings in the interval."
+      ],
+      [
+       "Tool",
+       "Zero tool three times: \\(0.6100\\), \\(1.0980\\), \\(4.8164\\)."
+      ],
+      [
+       "Answer",
+       "Middle zero \\(x=1.10\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       0.61,
+       "That is the smallest zero."
+      ],
+      [
+       4.8164,
+       "That is the largest."
+      ],
+      [
+       1.5708,
+       "\\(\\tfrac{\\pi}{2}\\) is where \\(\\cos x=0\\), so \\(f=-0.5\\) there: not a zero."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "The zeros of \\(C(t)-1\\) are",
+       [
+        "the times when \\(C=1\\): one rising, one falling",
+        "the times when \\(C=0\\)",
+        "the peak"
+       ],
+       0,
+       "✓",
+       "✗ Subtracting \\(1\\) moves the level to the axis."
+      ],
+      [
+       "c",
+       "Which zero answers the question?",
+       [
+        "the later one, after the peak",
+        "the earlier one",
+        "both"
+       ],
+       0,
+       "✓",
+       "✗ “Falls back to” means after the peak."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => 5*x*Math.exp(-0.5*x) - 1"
+        }
+       ],
+       "xr": [
+        0,
+        10
+       ],
+       "yr": [
+        -1.5,
+        3
+       ],
+       "pts": [
+        [
+         0.2237,
+         0,
+         ""
+        ],
+        [
+         7.1543,
+         0,
+         "t = 7.15"
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "D4 In context: back down to a level",
+     "given": "\\(C(t)=5te^{-0.5t}\\)",
+     "givenNote": "concentration of a drug in the blood, mg per litre, \\(t\\) hours after a dose",
+     "q": "The concentration rises, peaks, then falls. Find the time at which it falls back to \\(1\\) mg per litre.",
+     "label": "\\(t=\\)",
+     "ans": 7.1543,
+     "tol": 0.006,
+     "target": 110,
+     "line": "\\(C(t)-1=0\\): zeros at \\(t=0.224\\) (rising) and \\(t=7.15\\) (falling); answer \\(7.15\\) hours",
+     "steps": [
+      [
+       "Equation",
+       "“Falls back to \\(1\\)” is \\(C(t)=1\\): graph \\(g(t)=5te^{-0.5t}-1\\) and find its zeros (or intersect with \\(y=1\\))."
+      ],
+      [
+       "GDC",
+       "Zeros at \\(t=0.2237\\) and \\(t=7.1543\\). The first is on the way up."
+      ],
+      [
+       "Answer",
+       "\\(t=7.15\\) hours: the one after the peak."
+      ]
+     ],
+     "wrongs": [
+      [
+       0.2237,
+       "\\(0.224\\) is when it first reaches \\(1\\) on the way up; the question wants the fall back."
+      ],
+      [
+       2,
+       "\\(2\\) is the time of the peak."
+      ],
+      [
+       3.679,
+       "\\(3.68\\) is the peak concentration."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "Rearranged to one side:",
+       [
+        "\\(e^{0.5x}-x-2=0\\)",
+        "\\(e^{0.5x}=0\\)",
+        "\\(0.5x-x-2=0\\)"
+       ],
+       0,
+       "✓",
+       "✗ Move everything to one side: \\(e^{0.5x}-x-2\\)."
+      ],
+      [
+       "c",
+       "How many zeros?",
+       [
+        "Two",
+        "One",
+        "None"
+       ],
+       0,
+       "✓ The exponential starts below the line and overtakes it: two crossings.",
+       "✗ The exponential starts below the line and overtakes it: two crossings."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => Math.exp(0.5*x) - x - 2"
+        }
+       ],
+       "xr": [
+        -4,
+        5
+       ],
+       "yr": [
+        -2,
+        5
+       ],
+       "pts": [
+        [
+         -1.5361,
+         0,
+         ""
+        ],
+        [
+         3.3567,
+         0,
+         "x = 3.36"
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "D5 Equation → zero",
+     "given": "solve \\(e^{0.5x}=x+2\\)",
+     "givenNote": "",
+     "q": "Solve \\(e^{0.5x}=x+2\\). Enter the positive solution.",
+     "label": "positive \\(x=\\)",
+     "ans": 3.3567,
+     "tol": 0.006,
+     "target": 90,
+     "line": "\\(g(x)=e^{0.5x}-x-2\\); zeros at \\(x=-1.54\\) and \\(x=3.36\\)",
+     "steps": [
+      [
+       "Rearrange",
+       "Everything to one side: \\(g(x)=e^{0.5x}-x-2\\). Its zeros are the solutions."
+      ],
+      [
+       "Tool",
+       "Zero tool: \\(x=-1.5361\\) and \\(x=3.3567\\)."
+      ],
+      [
+       "Answer",
+       "Positive solution \\(x=3.36\\) (also \\(-1.54\\))."
+      ]
+     ],
+     "wrongs": [
+      [
+       -1.5361,
+       "That is the negative solution."
+      ],
+      [
+       5.3567,
+       "\\(5.36\\) is \\(y\\) at the crossing (\\(x+2\\))."
+      ],
+      [
+       1.3863,
+       "\\(1.39\\) is \\(2\\ln2\\): solves \\(e^{0.5x}=2\\), the \\(x\\) was dropped."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "Minimum tool near \\(x=1\\).",
+      "Check: \\(f(1)=0\\)."
+     ],
+     "parts": [
+      [
+       "c",
+       "At a touching zero the zero tool",
+       [
+        "may fail (no sign change): use the minimum tool or zoom in",
+        "works as normal",
+        "gives two answers"
+       ],
+       0,
+       "✓",
+       "✗ Zero tools look for a sign change; a touch has none."
+      ],
+      [
+       "c",
+       "How many zeros?",
+       [
+        "One",
+        "Two",
+        "None"
+       ],
+       0,
+       "✓ The curve touches the axis once and never crosses.",
+       "✗ The curve touches the axis once and never crosses."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => x > 0 ? x*x - 2*Math.log(x) - 1 : NaN"
+        }
+       ],
+       "xr": [
+        0,
+        3
+       ],
+       "yr": [
+        -0.5,
+        4
+       ],
+       "pts": [
+        [
+         1,
+         0,
+         "x = 1"
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "C1 A touching zero",
+     "given": "\\(f(x)=x^{2}-2\\ln x-1\\), \\(x>0\\)",
+     "givenNote": "",
+     "q": "Find the zero of \\(f\\), and state the number of zeros.",
+     "label": "\\(x=\\)",
+     "ans": 1,
+     "tol": 0.006,
+     "target": 150,
+     "line": "the curve touches the axis at \\(x=1\\): one (repeated) zero",
+     "steps": [
+      [
+       "Graph",
+       "The curve comes down to the axis at \\(x=1\\) and goes back up without crossing: it touches."
+      ],
+      [
+       "Tool",
+       "The zero tool can struggle at a touch (no sign change). Use the minimum tool: \\((1,\\,0)\\). Or zoom in to confirm it never crosses."
+      ],
+      [
+       "Answer",
+       "One zero, \\(x=1\\) (where \\(f(1)=1-0-1=0\\) and \\(f\\,\\!\\prime(1)=0\\))."
+      ]
+     ],
+     "wrongs": [
+      [
+       2,
+       "There is one zero, at \\(x=1\\)."
+      ],
+      [
+       0,
+       "\\(0\\) is outside the domain."
+      ],
+      [
+       0.5,
+       "\\(f(0.5)=0.636\\), not a zero."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "Ymin \\(\\approx-60\\).",
+      "Zero near \\(x=4\\)."
+     ],
+     "parts": [
+      [
+       "c",
+       "Nothing crosses in the standard window. Why?",
+       [
+        "\\(f(x)\\approx-50\\) for small \\(x\\): the graph is below the screen",
+        "There is no zero",
+        "The calculator is in degrees"
+       ],
+       0,
+       "✓ Lower Ymin.",
+       "✗ \\(e^{x}-50\\) starts near \\(-50\\); set Ymin below that."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => Math.exp(x) - 50"
+        }
+       ],
+       "xr": [
+        0,
+        6
+       ],
+       "yr": [
+        -60,
+        60
+       ],
+       "pts": [
+        [
+         3.912,
+         0,
+         "x = 3.91"
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "C2 Off screen",
+     "given": "\\(f(x)=e^{x}-50\\)",
+     "givenNote": "",
+     "q": "Find the zero of \\(f\\).",
+     "label": "\\(x=\\)",
+     "ans": 3.912,
+     "tol": 0.006,
+     "target": 150,
+     "line": "window to \\(x=6\\), \\(y\\) from \\(-60\\) to \\(60\\); zero at \\(x=3.91\\)",
+     "steps": [
+      [
+       "Window",
+       "In the standard window the graph sits at \\(y\\approx-50\\), off the bottom. Set Ymin \\(-60\\), Ymax \\(60\\), Xmax \\(6\\)."
+      ],
+      [
+       "Tool",
+       "Zero at \\(3.912\\)."
+      ],
+      [
+       "Answer",
+       "\\(x=3.91\\) (\\(=\\ln50\\))."
+      ]
+     ],
+     "wrongs": [
+      [
+       50,
+       "\\(50\\) is where the horizontal line would be; the zero is \\(x=\\ln50=3.91\\)."
+      ],
+      [
+       -49,
+       "\\(-49\\) is \\(f(0)\\)."
+      ],
+      [
+       3.9,
+       "\\(3.9\\) is 2 s.f.; give \\(3.91\\)."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "Radians, window \\(0\\) to \\(2\\pi\\).",
+      "Two crossings."
+     ],
+     "parts": [
+      [
+       "c",
+       "Mode?",
+       [
+        "Radians",
+        "Degrees",
+        "Does not matter"
+       ],
+       0,
+       "✓",
+       "✗ Radians."
+      ],
+      [
+       "c",
+       "How many zeros?",
+       [
+        "Two in \\(0\\le x\\le2\\pi\\)",
+        "One",
+        "Four"
+       ],
+       0,
+       "✓ The sine wave is above \\(\\frac12\\) once per cycle, giving two crossings.",
+       "✗ The sine wave is above \\(\\frac12\\) once per cycle, giving two crossings."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => 2*Math.sin(x) - 1"
+        }
+       ],
+       "xr": [
+        0,
+        6.3
+       ],
+       "yr": [
+        -3.5,
+        1.5
+       ],
+       "pts": [
+        [
+         0.5236,
+         0,
+         ""
+        ],
+        [
+         2.618,
+         0,
+         "x = 2.62"
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "C3 Trig zeros",
+     "given": "\\(f(x)=2\\sin x-1\\), \\(0\\le x\\le2\\pi\\)",
+     "givenNote": "radians",
+     "q": "Find the zeros of \\(f\\) in \\(0\\le x\\le2\\pi\\). Enter the larger.",
+     "label": "larger \\(x=\\)",
+     "ans": 2.618,
+     "tol": 0.006,
+     "target": 150,
+     "line": "zeros: \\(x=0.524\\ (\\pi/6)\\) and \\(x=2.62\\ (5\\pi/6)\\)",
+     "steps": [
+      [
+       "Mode",
+       "Radians; window \\(0\\) to \\(2\\pi\\approx6.28\\)."
+      ],
+      [
+       "Tool",
+       "Two crossings: \\(0.5236\\) and \\(2.618\\)."
+      ],
+      [
+       "Answer",
+       "\\(x=0.524,\\ 2.62\\); larger \\(2.62\\). Exact: \\(\\pi/6\\), \\(5\\pi/6\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       0.5236,
+       "The smaller zero."
+      ],
+      [
+       150,
+       "Degrees mode. Use radians."
+      ],
+      [
+       3.665,
+       "\\(3.67\\) is \\(7\\pi/6\\), where \\(2\\sin x+1=0\\)."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "\\(f(1)=1-3-1\\).",
+      "Then zero tool with bounds \\(1\\) and \\(2\\)."
+     ],
+     "parts": [
+      [
+       "c",
+       "To show a zero lies between \\(1\\) and \\(2\\)",
+       [
+        "show \\(f(1)\\) and \\(f(2)\\) have opposite signs",
+        "show \\(f(1.5)=0\\)",
+        "draw the graph"
+       ],
+       0,
+       "✓ A sign change (with continuity) guarantees a zero.",
+       "✗ Evaluate at both ends: opposite signs means the graph crosses in between."
+      ],
+      [
+       "n",
+       "\\(f(2)=\\)",
+       "\\(f(2)=\\)",
+       25,
+       0.01,
+       "✓ \\(-3\\) and \\(25\\): opposite signs.",
+       []
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => Math.pow(x, 5) - 3*x - 1"
+        }
+       ],
+       "xr": [
+        -1.6,
+        2
+       ],
+       "yr": [
+        -5,
+        8
+       ],
+       "pts": [
+        [
+         1.3888,
+         0,
+         "x = 1.39"
+        ],
+        [
+         -1.2146,
+         0,
+         ""
+        ],
+        [
+         -0.3347,
+         0,
+         ""
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "C4 Show, then find",
+     "given": "\\(f(x)=x^{5}-3x-1\\)",
+     "givenNote": "",
+     "q": "Show that \\(f\\) has a zero between \\(1\\) and \\(2\\), and find it. Enter \\(f(1)\\), then the zero.",
+     "label": "\\(f(1)=\\)",
+     "label2": "zero \\(x=\\)",
+     "ans": -3,
+     "ans2": 1.3888,
+     "tol": 0.006,
+     "target": 180,
+     "line": "\\(f(1)=-3<0\\), \\(f(2)=25>0\\): sign change, so a zero in \\((1,2)\\); zero at \\(x=1.39\\)",
+     "steps": [
+      [
+       "Show",
+       "\\(f(1)=1-3-1=-3\\) and \\(f(2)=32-6-1=25\\): a sign change, and \\(f\\) is continuous, so there is a zero between."
+      ],
+      [
+       "Tool",
+       "Zero with bounds \\(1\\) and \\(2\\): \\(1.3888\\)."
+      ],
+      [
+       "Answer",
+       "\\(x=1.39\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       25,
+       "That is \\(f(2)\\); the first box asks for \\(f(1)\\)."
+      ],
+      [
+       1.3888,
+       "That is the zero; first give \\(f(1)\\)."
+      ]
+     ]
+    }
+   ],
+   [
+    {
+     "parts": [
+      [
+       "c",
+       "Which tool?",
+       [
+        "Zero / root, with bounds either side of one crossing",
+        "Intersection",
+        "Trace and read the screen"
+       ],
+       0,
+       "✓",
+       "✗ One graph crossing the x-axis: the zero (root) tool."
+      ],
+      [
+       "c",
+       "How many zeros?",
+       [
+        "Two",
+        "One",
+        "Three"
+       ],
+       0,
+       "✓ Up through the axis, then back down.",
+       "✗ Up through the axis, then back down."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => x*Math.exp(-0.5*x) - 0.4"
+        }
+       ],
+       "xr": [
+        -0.5,
+        9
+       ],
+       "yr": [
+        -0.6,
+        0.5
+       ],
+       "pts": [
+        [
+         0.5183,
+         0,
+         ""
+        ],
+        [
+         5.0853,
+         0,
+         "x = 5.09"
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "D1 Largest zero",
+     "given": "\\(f(x)=xe^{-0.5x}-0.4\\)",
+     "givenNote": "",
+     "q": "Find the largest zero of \\(f\\).",
+     "label": "\\(x=\\)",
+     "ans": 5.0853,
+     "tol": 0.006,
+     "target": 90,
+     "line": "zeros at \\(x=0.518\\) and \\(x=5.09\\)",
+     "steps": [
+      [
+       "Graph",
+       "A hump starting and ending below the axis: two crossings."
+      ],
+      [
+       "Tool",
+       "Zero tool: \\(0.5183\\) and \\(5.0853\\)."
+      ],
+      [
+       "Answer",
+       "\\(x=5.09\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       0.5183,
+       "Smaller zero."
+      ],
+      [
+       2,
+       "That is the peak."
+      ],
+      [
+       0.4,
+       "The constant."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "Domain?",
+       [
+        "\\(x>0\\)",
+        "all real \\(x\\)",
+        "\\(x\\ge-2\\)"
+       ],
+       0,
+       "✓",
+       "✗ \\(\\ln x\\): \\(x>0\\)."
+      ],
+      [
+       "c",
+       "How many zeros?",
+       [
+        "Two",
+        "One",
+        "Three"
+       ],
+       0,
+       "✓ Down through the axis, then back up.",
+       "✗ Down through the axis, then back up."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => x > 0 ? x*x - 3*Math.log(x) - 2 : NaN"
+        }
+       ],
+       "xr": [
+        0,
+        3.5
+       ],
+       "yr": [
+        -2,
+        5
+       ],
+       "pts": [
+        [
+         0.5727,
+         0,
+         "x = 0.573"
+        ],
+        [
+         2.0312,
+         0,
+         ""
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "D2 Smallest zero",
+     "given": "\\(f(x)=x^{2}-3\\ln x-2\\), \\(x>0\\)",
+     "givenNote": "",
+     "q": "Find the smallest zero of \\(f\\).",
+     "label": "\\(x=\\)",
+     "ans": 0.5727,
+     "tol": 0.006,
+     "target": 90,
+     "line": "zeros at \\(x=0.573\\) and \\(x=2.03\\)",
+     "steps": [
+      [
+       "Domain",
+       "\\(x>0\\); the curve shoots up as \\(x\\to0\\)."
+      ],
+      [
+       "Tool",
+       "Zero tool: \\(0.5727\\) and \\(2.0312\\)."
+      ],
+      [
+       "Answer",
+       "\\(x=0.573\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       2.0312,
+       "Larger zero."
+      ],
+      [
+       0,
+       "Outside the domain."
+      ],
+      [
+       1.2247,
+       "That is the minimum point."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "Mode?",
+       [
+        "Radians",
+        "Degrees",
+        "Does not matter"
+       ],
+       0,
+       "✓",
+       "✗ Radians."
+      ],
+      [
+       "c",
+       "How many zeros?",
+       [
+        "Three",
+        "Two",
+        "Infinitely many"
+       ],
+       0,
+       "✓ Two early, one near \\(6.4\\).",
+       "✗ Two early, one near \\(6.4\\)."
+      ],
+      [
+       "n",
+       "Smallest zero \\(=\\)",
+       "\\(x=\\)",
+       1.1142,
+       0.006,
+       "✓",
+       []
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => x*Math.sin(x) - 1"
+        }
+       ],
+       "xr": [
+        0,
+        7
+       ],
+       "yr": [
+        -7,
+        5
+       ],
+       "pts": [
+        [
+         1.1142,
+         0,
+         ""
+        ],
+        [
+         2.7726,
+         0,
+         "x = 2.77"
+        ],
+        [
+         6.4391,
+         0,
+         ""
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "D3 All of them",
+     "given": "\\(f(x)=x\\sin x-1\\), \\(0\\le x\\le7\\)",
+     "givenNote": "radians",
+     "q": "Find all the zeros of \\(f\\) in the interval. Enter the middle one.",
+     "label": "\\(x=\\)",
+     "ans": 2.7726,
+     "tol": 0.006,
+     "target": 110,
+     "line": "zeros at \\(x=1.11,\\ 2.77,\\ 6.44\\)",
+     "steps": [
+      [
+       "Mode",
+       "Radians; window \\(0\\) to \\(7\\)."
+      ],
+      [
+       "Tool",
+       "Zero tool: \\(1.1142\\), \\(2.7726\\), \\(6.4391\\)."
+      ],
+      [
+       "Answer",
+       "Middle zero \\(x=2.77\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       1.1142,
+       "Smallest."
+      ],
+      [
+       6.4391,
+       "Largest."
+      ],
+      [
+       1.5708,
+       "\\(f(\\pi/2)=0.571\\): not a zero."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "The zeros of \\(C(t)-1.5\\) are",
+       [
+        "the times when \\(C=1.5\\)",
+        "the times when \\(C=0\\)",
+        "the peak"
+       ],
+       0,
+       "✓",
+       "✗ Level moved to the axis."
+      ],
+      [
+       "c",
+       "Which zero?",
+       [
+        "the later one",
+        "the earlier one",
+        "both"
+       ],
+       0,
+       "✓",
+       "✗ After the peak."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => 6*x*Math.exp(-0.4*x) - 1.5"
+        }
+       ],
+       "xr": [
+        0,
+        12
+       ],
+       "yr": [
+        -2,
+        4.5
+       ],
+       "pts": [
+        [
+         0.2796,
+         0,
+         ""
+        ],
+        [
+         8.9429,
+         0,
+         "t = 8.94"
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "D4 In context: back down to a level",
+     "given": "\\(C(t)=6te^{-0.4t}\\)",
+     "givenNote": "concentration in mg per litre, \\(t\\) hours after a dose",
+     "q": "Find the time at which the concentration falls back to \\(1.5\\) mg per litre.",
+     "label": "\\(t=\\)",
+     "ans": 8.9429,
+     "tol": 0.006,
+     "target": 110,
+     "line": "zeros of \\(C(t)-1.5\\): \\(t=0.280\\) and \\(t=8.94\\); answer \\(8.94\\) hours",
+     "steps": [
+      [
+       "Equation",
+       "\\(C(t)=1.5\\): zeros of \\(6te^{-0.4t}-1.5\\)."
+      ],
+      [
+       "GDC",
+       "\\(t=0.2796\\) (rising) and \\(t=8.9429\\) (falling)."
+      ],
+      [
+       "Answer",
+       "\\(t=8.94\\) hours."
+      ]
+     ],
+     "wrongs": [
+      [
+       0.2796,
+       "That is on the way up."
+      ],
+      [
+       2.5,
+       "The peak time."
+      ],
+      [
+       5.518,
+       "The peak concentration."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "Rearranged:",
+       [
+        "\\(e^{0.4x}-x-1.5=0\\)",
+        "\\(e^{0.4x}=0\\)",
+        "\\(0.4x-x-1.5=0\\)"
+       ],
+       0,
+       "✓",
+       "✗ Everything to one side."
+      ],
+      [
+       "c",
+       "How many zeros?",
+       [
+        "Two",
+        "One",
+        "None"
+       ],
+       0,
+       "✓ Exponential overtakes the line.",
+       "✗ Exponential overtakes the line."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => Math.exp(0.4*x) - x - 1.5"
+        }
+       ],
+       "xr": [
+        -3,
+        6
+       ],
+       "yr": [
+        -2,
+        5
+       ],
+       "pts": [
+        [
+         -0.763,
+         0,
+         ""
+        ],
+        [
+         4.4646,
+         0,
+         "x = 4.46"
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "D5 Equation → zero",
+     "given": "solve \\(e^{0.4x}=x+1.5\\)",
+     "givenNote": "",
+     "q": "Solve \\(e^{0.4x}=x+1.5\\). Enter the positive solution.",
+     "label": "positive \\(x=\\)",
+     "ans": 4.4646,
+     "tol": 0.006,
+     "target": 90,
+     "line": "\\(g(x)=e^{0.4x}-x-1.5\\); zeros at \\(x=-0.763\\) and \\(x=4.46\\)",
+     "steps": [
+      [
+       "Rearrange",
+       "\\(g(x)=e^{0.4x}-x-1.5\\)."
+      ],
+      [
+       "Tool",
+       "Zeros \\(-0.763\\) and \\(4.4646\\)."
+      ],
+      [
+       "Answer",
+       "\\(x=4.46\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       -0.763,
+       "Negative solution."
+      ],
+      [
+       5.9646,
+       "That is \\(y\\)."
+      ],
+      [
+       1.0137,
+       "\\(\\ln1.5/0.4\\): the \\(x\\) was dropped."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "\\((x-1)^{2}\\).",
+      "Two distinct."
+     ],
+     "parts": [
+      [
+       "c",
+       "At \\(x=1\\) the graph",
+       [
+        "touches: repeated zero",
+        "crosses",
+        "has an asymptote"
+       ],
+       0,
+       "✓",
+       "✗ Squared factor touches."
+      ],
+      [
+       "c",
+       "If the zero tool misses \\(x=1\\)",
+       [
+        "use the minimum tool, or the factor",
+        "it is not a zero",
+        "try degrees"
+       ],
+       0,
+       "✓",
+       "✗ Minimum on the axis."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => (x + 2)*(x - 1)*(x - 1)"
+        }
+       ],
+       "xr": [
+        -3.5,
+        3
+       ],
+       "yr": [
+        -4,
+        6
+       ],
+       "pts": [
+        [
+         -2,
+         0,
+         "x = −2"
+        ],
+        [
+         1,
+         0,
+         "x = 1"
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "C1 A touching zero",
+     "given": "\\(f(x)=(x+2)(x-1)^{2}\\)",
+     "givenNote": "",
+     "q": "How many distinct zeros does \\(f\\) have, and what is the largest? Enter the number, then the largest.",
+     "label": "number \\(=\\)",
+     "label2": "largest \\(=\\)",
+     "ans": 2,
+     "ans2": 1,
+     "tol": 0.01,
+     "target": 150,
+     "line": "zeros \\(x=-2\\) (crossing), \\(x=1\\) (touching); two distinct; largest \\(1\\)",
+     "steps": [
+      [
+       "Graph",
+       "Touches at \\(x=1\\): repeated factor."
+      ],
+      [
+       "Answer",
+       "Two; largest \\(1\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       3,
+       "Repeated factor: two distinct."
+      ],
+      [
+       -2,
+       "The smaller."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "Ymin \\(\\approx-150\\).",
+      "Near \\(x=5\\)."
+     ],
+     "parts": [
+      [
+       "c",
+       "Why no crossing in the standard window?",
+       [
+        "The graph starts near \\(-120\\), below the screen",
+        "No zero",
+        "Degrees"
+       ],
+       0,
+       "✓",
+       "✗ Lower Ymin."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => Math.exp(x) - 120"
+        }
+       ],
+       "xr": [
+        0,
+        7
+       ],
+       "yr": [
+        -150,
+        150
+       ],
+       "pts": [
+        [
+         4.7875,
+         0,
+         "x = 4.79"
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "C2 Off screen",
+     "given": "\\(f(x)=e^{x}-120\\)",
+     "givenNote": "",
+     "q": "Find the zero of \\(f\\).",
+     "label": "\\(x=\\)",
+     "ans": 4.7875,
+     "tol": 0.006,
+     "target": 150,
+     "line": "Ymin \\(-150\\); zero \\(4.79\\)",
+     "steps": [
+      [
+       "Window",
+       "Graph near \\(y=-120\\) at first: Ymin \\(-150\\), Ymax \\(150\\), Xmax \\(7\\)."
+      ],
+      [
+       "Answer",
+       "\\(4.79\\) (\\(=\\ln120\\))."
+      ]
+     ],
+     "wrongs": [
+      [
+       120,
+       "That is the constant; zero is \\(\\ln120\\)."
+      ],
+      [
+       -119,
+       "\\(f(0)\\)."
+      ],
+      [
+       4.8,
+       "2 s.f."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "Radians.",
+      "Two crossings."
+     ],
+     "parts": [
+      [
+       "c",
+       "Mode?",
+       [
+        "Radians",
+        "Degrees",
+        "Does not matter"
+       ],
+       0,
+       "✓",
+       "✗ Radians."
+      ],
+      [
+       "c",
+       "How many zeros?",
+       [
+        "Two",
+        "One",
+        "Four"
+       ],
+       0,
+       "✓ Two crossings in one cycle.",
+       "✗ Two crossings in one cycle."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => 2*Math.cos(x) - 1"
+        }
+       ],
+       "xr": [
+        0,
+        6.3
+       ],
+       "yr": [
+        -3.5,
+        1.5
+       ],
+       "pts": [
+        [
+         1.0472,
+         0,
+         ""
+        ],
+        [
+         5.236,
+         0,
+         "x = 5.24"
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "C3 Trig zeros",
+     "given": "\\(f(x)=2\\cos x-1\\), \\(0\\le x\\le2\\pi\\)",
+     "givenNote": "radians",
+     "q": "Find the zeros of \\(f\\) in \\(0\\le x\\le2\\pi\\). Enter the larger.",
+     "label": "larger \\(x=\\)",
+     "ans": 5.236,
+     "tol": 0.006,
+     "target": 150,
+     "line": "zeros \\(1.05\\ (\\pi/3)\\) and \\(5.24\\ (5\\pi/3)\\)",
+     "steps": [
+      [
+       "Mode",
+       "Radians."
+      ],
+      [
+       "Answer",
+       "\\(1.05,\\ 5.24\\); larger \\(5.24\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       1.0472,
+       "Smaller."
+      ],
+      [
+       300,
+       "Degrees mode."
+      ],
+      [
+       2.0944,
+       "\\(2\\pi/3\\): solves \\(2\\cos x+1=0\\)."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "Window \\(-5\\) to \\(5\\).",
+      "Zero tool near \\(x=1\\)."
+     ],
+     "parts": [
+      [
+       "c",
+       "Mode?",
+       [
+        "Radians",
+        "Degrees",
+        "Does not matter"
+       ],
+       0,
+       "✓",
+       "✗ Radians."
+      ],
+      [
+       "c",
+       "Why only one zero?",
+       [
+        "\\(|2\\cos x|\\le2\\), so \\(f<0\\) for \\(x<-2\\) and \\(f>0\\) for \\(x>2\\); in between the graph crosses once",
+        "cosine has one zero",
+        "the graph is a straight line"
+       ],
+       0,
+       "✓",
+       "✗ Bound the cosine: outside \\(-2\\le x\\le2\\) the sign of \\(f\\) is fixed; inside, one crossing."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => x - 2*Math.cos(x)"
+        }
+       ],
+       "xr": [
+        -5,
+        5
+       ],
+       "yr": [
+        -6,
+        6
+       ],
+       "pts": [
+        [
+         1.0299,
+         0,
+         "x = 1.03"
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "C4 Show, then find",
+     "given": "\\(f(x)=x-2\\cos x\\)",
+     "givenNote": "radians",
+     "q": "Show that \\(f\\) has exactly one zero, and find it.",
+     "label": "\\(x=\\)",
+     "ans": 1.0299,
+     "tol": 0.006,
+     "target": 150,
+     "line": "one zero, \\(x=1.03\\)",
+     "steps": [
+      [
+       "Show",
+       "\\(f\\,\\!\\prime(x)=1+2\\sin x\\) is not always positive, but on the screen the graph crosses the axis once: for \\(x<-2\\), \\(f<0\\) (since \\(|2\\cos x|\\le2\\)), for \\(x>2\\), \\(f>0\\), and between, one crossing at \\(x=1.03\\)."
+      ],
+      [
+       "Tool",
+       "Zero tool: \\(x=1.0299\\)."
+      ],
+      [
+       "Answer",
+       "\\(x=1.03\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       -1.0299,
+       "Sign."
+      ],
+      [
+       1.5708,
+       "\\(f(\\pi/2)=1.57\\), not zero."
+      ],
+      [
+       2,
+       "\\(2\\) is the amplitude of the cosine term."
+      ]
+     ]
+    }
+   ]
+  ],
+  "rules": {
+   "coreItems": 5,
+   "challengeItems": 4,
+   "tries": 2,
+   "passCore": 4
+  }
+ },
+ "apply": {
+  "questions": [
+   {
+    "max": 8,
+    "stem": "Let \\(f(x)=x^{3}-2x^{2}-5x+6\\).",
+    "parts": [
+     {
+      "label": "(a)",
+      "marks": 1,
+      "text": "Show that \\(x=1\\) is a zero of \\(f\\). Enter the value of \\(f(1)\\).",
+      "ansLabel": "\\(f(1)=\\)",
+      "ans": 0,
+      "tol": 0.001,
+      "fig": {
+       "kind": "graph",
+       "fns": [
+        {
+         "$fn": "(x) => x * x * x - 2 * x * x - 5 * x + 6"
+        }
+       ],
+       "xr": [
+        -3,
+        4
+       ],
+       "yr": [
+        -6,
+        10
+       ],
+       "pts": [
+        [
+         1,
+         0,
+         "x = 1"
+        ]
+       ]
+      },
+      "figCap": "The graph crosses the x-axis at x = 1.",
+      "ms": [
+       [
+        "A1",
+        "\\(f(1)=1-2-5+6=0\\), so \\(x=1\\) is a zero"
+       ]
+      ],
+      "wrongs": [
+       [
+        6,
+        "\\(6\\) is \\(f(0)\\); substitute \\(x=1\\)."
+       ],
+       [
+        1,
+        "Substitute: \\(1-2-5+6\\)."
+       ]
+      ]
+     },
+     {
+      "label": "(b)",
+      "marks": 3,
+      "text": "Find the other zeros of \\(f\\).",
+      "ansLabel": "smaller \\(=\\)",
+      "ansLabel2": "larger \\(=\\)",
+      "ans": -2,
+      "ans2": 3,
+      "tol": 0.006,
+      "fig": {
+       "kind": "graph",
+       "fns": [
+        {
+         "$fn": "(x) => x * x * x - 2 * x * x - 5 * x + 6"
+        }
+       ],
+       "xr": [
+        -3,
+        4
+       ],
+       "yr": [
+        -6,
+        10
+       ],
+       "pts": [
+        [
+         -2,
+         0,
+         "−2"
+        ],
+        [
+         1,
+         0,
+         "1"
+        ],
+        [
+         3,
+         0,
+         "3"
+        ]
+       ]
+      },
+      "figCap": "Three zeros: −2, 1, 3. The zero tool finds each one between its bounds.",
+      "ms": [
+       [
+        "M1",
+        "zero tool at each remaining crossing (or \\((x-1)\\) is a factor, divide)"
+       ],
+       [
+        "A1",
+        "\\(x=-2\\)"
+       ],
+       [
+        "A1",
+        "\\(x=3\\)"
+       ]
+      ],
+      "wrongs": [
+       [
+        1,
+        "\\(1\\) is the given zero; the question asks for the others."
+       ],
+       [
+        2,
+        "\\(2\\) is close but \\(f(2)=-4\\); use the tool."
+       ]
+      ]
+     },
+     {
+      "label": "(c)",
+      "marks": 1,
+      "text": "Write down the \\(y\\)-intercept of the graph of \\(f\\).",
+      "ansLabel": "\\(f(0)=\\)",
+      "ans": 6,
+      "tol": 0.001,
+      "fig": {
+       "kind": "graph",
+       "fns": [
+        {
+         "$fn": "(x) => x * x * x - 2 * x * x - 5 * x + 6"
+        }
+       ],
+       "xr": [
+        -3,
+        4
+       ],
+       "yr": [
+        -6,
+        10
+       ],
+       "pts": [
+        [
+         0,
+         6,
+         "(0, 6)"
+        ]
+       ]
+      },
+      "figCap": "The constant term: f(0) = 6.",
+      "ms": [
+       [
+        "A1",
+        "\\(6\\), i.e. the point \\((0,\\,6)\\)"
+       ]
+      ],
+      "wrongs": [
+       [
+        0,
+        "The \\(y\\)-intercept is \\(f(0)\\), the constant term \\(6\\)."
+       ],
+       [
+        -2,
+        "That is a zero (an \\(x\\)-intercept)."
+       ]
+      ]
+     },
+     {
+      "label": "(d)",
+      "marks": 3,
+      "text": "Find the coordinates of the local maximum point of \\(f\\).",
+      "ansLabel": "\\(x=\\)",
+      "ansLabel2": "\\(y=\\)",
+      "ans": -0.7863,
+      "ans2": 8.2088,
+      "tol": 0.006,
+      "fig": {
+       "kind": "graph",
+       "fns": [
+        {
+         "$fn": "(x) => x * x * x - 2 * x * x - 5 * x + 6"
+        }
+       ],
+       "xr": [
+        -3,
+        4
+       ],
+       "yr": [
+        -6,
+        10
+       ],
+       "pts": [
+        [
+         -0.7863,
+         8.2088,
+         "(−0.786, 8.21)"
+        ]
+       ]
+      },
+      "figCap": "Maximum tool between the zeros −2 and 1.",
+      "ms": [
+       [
+        "M1",
+        "maximum tool, bounds either side of the peak"
+       ],
+       [
+        "A1",
+        "\\(x=-0.786\\)"
+       ],
+       [
+        "A1",
+        "\\((-0.786,\\,8.21)\\)"
+       ]
+      ],
+      "wrongs": [
+       [
+        1.4529,
+        "\\(1.45\\) is the \\(x\\) of the local minimum."
+       ],
+       [
+        8.2088,
+        "That is \\(y\\); the first box asks for \\(x\\)."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "max": 8,
+    "stem": "A ball is thrown upwards. Its height above the ground, \\(h\\) metres, after \\(t\\) seconds is modelled by \\(h(t)=1.2+15t-4.9t^{2}\\).",
+    "parts": [
+     {
+      "label": "(a)",
+      "marks": 1,
+      "text": "Write down the height from which the ball is thrown.",
+      "ansLabel": "\\(h(0)=\\)",
+      "ans": 1.2,
+      "tol": 0.001,
+      "fig": {
+       "kind": "graph",
+       "fns": [
+        {
+         "$fn": "(t) => 1.2 + 15 * t - 4.9 * t * t"
+        }
+       ],
+       "xr": [
+        0,
+        3.5
+       ],
+       "yr": [
+        -2,
+        14
+       ],
+       "pts": [
+        [
+         0,
+         1.2,
+         "h(0) = 1.2"
+        ]
+       ]
+      },
+      "figCap": "At t = 0 the height is the constant term.",
+      "ms": [
+       [
+        "A1",
+        "\\(1.2\\) m"
+       ]
+      ],
+      "wrongs": [
+       [
+        15,
+        "\\(15\\) is the initial speed (the coefficient of \\(t\\))."
+       ],
+       [
+        0,
+        "The ball starts \\(1.2\\) m above the ground."
+       ]
+      ]
+     },
+     {
+      "label": "(b)",
+      "marks": 3,
+      "text": "Find the time at which the ball hits the ground.",
+      "ansLabel": "\\(t=\\)",
+      "ans": 3.1392,
+      "tol": 0.006,
+      "fig": {
+       "kind": "graph",
+       "fns": [
+        {
+         "$fn": "(t) => 1.2 + 15 * t - 4.9 * t * t"
+        }
+       ],
+       "xr": [
+        -0.5,
+        3.5
+       ],
+       "yr": [
+        -2,
+        14
+       ],
+       "pts": [
+        [
+         3.1392,
+         0,
+         "t = 3.14"
+        ],
+        [
+         -0.0776,
+         0,
+         "reject"
+        ]
+       ]
+      },
+      "figCap": "h(t) = 0: the positive zero. The negative zero is before the throw.",
+      "ms": [
+       [
+        "M1",
+        "\\(h(t)=0\\)"
+       ],
+       [
+        "A1",
+        "\\(t=3.14\\)   (\\(3.1392\\))"
+       ],
+       [
+        "R1",
+        "the other zero, \\(t=-0.0776\\), is rejected since \\(t\\ge0\\)"
+       ]
+      ],
+      "wrongs": [
+       [
+        -0.0776,
+        "Negative time: reject it. The ball lands at \\(t=3.14\\)."
+       ],
+       [
+        1.5306,
+        "\\(1.53\\) is when the ball is highest."
+       ],
+       [
+        3.0612,
+        "\\(3.06\\) is \\(2\\times1.53\\), the flight time if it had started at ground level; it started \\(1.2\\) m up."
+       ]
+      ]
+     },
+     {
+      "label": "(c)",
+      "marks": 2,
+      "text": "Find the maximum height reached by the ball.",
+      "ansLabel": "\\(h_{\\max}=\\)",
+      "ans": 12.68,
+      "tol": 0.06,
+      "fig": {
+       "kind": "graph",
+       "fns": [
+        {
+         "$fn": "(t) => 1.2 + 15 * t - 4.9 * t * t"
+        }
+       ],
+       "xr": [
+        0,
+        3.5
+       ],
+       "yr": [
+        -2,
+        14
+       ],
+       "pts": [
+        [
+         1.5306,
+         12.68,
+         "(1.53, 12.7)"
+        ]
+       ]
+      },
+      "figCap": "Maximum tool: the vertex.",
+      "ms": [
+       [
+        "M1",
+        "maximum tool (or \\(t=\\frac{15}{9.8}\\))"
+       ],
+       [
+        "A1",
+        "\\(12.7\\) m   (\\(12.68\\))"
+       ]
+      ],
+      "wrongs": [
+       [
+        1.5306,
+        "That is the time; the height is \\(12.7\\)."
+       ],
+       [
+        15,
+        "\\(15\\) is the initial speed."
+       ]
+      ]
+     },
+     {
+      "label": "(d)",
+      "marks": 2,
+      "text": "Find the length of time for which the ball is more than \\(8\\) m above the ground.",
+      "ansLabel": "time \\(=\\)",
+      "ans": 1.9545,
+      "tol": 0.012,
+      "fig": {
+       "kind": "graph",
+       "fns": [
+        {
+         "$fn": "(t) => 1.2 + 15 * t - 4.9 * t * t"
+        },
+        {
+         "$fn": "(t) => 8"
+        }
+       ],
+       "xr": [
+        0,
+        3.5
+       ],
+       "yr": [
+        -2,
+        14
+       ],
+       "pts": [
+        [
+         0.5534,
+         8,
+         "0.553"
+        ],
+        [
+         2.5079,
+         8,
+         "2.51"
+        ]
+       ]
+      },
+      "figCap": "h(t) = 8 at two times; the ball is above 8 m between them.",
+      "ms": [
+       [
+        "M1",
+        "\\(h(t)=8\\): \\(t=0.553\\) and \\(t=2.51\\)"
+       ],
+       [
+        "A1",
+        "\\(2.51-0.553=1.95\\) s"
+       ]
+      ],
+      "wrongs": [
+       [
+        2.5079,
+        "\\(2.51\\) is the second time; the question asks how long between the two."
+       ],
+       [
+        0.5534,
+        "That is the first time; subtract it from the second."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "max": 8,
+    "stem": "Let \\(f(x)=2\\sin x+1\\), for \\(0\\le x\\le2\\pi\\).",
+    "parts": [
+     {
+      "label": "(a)",
+      "marks": 1,
+      "text": "Write down the value of \\(f(0)\\).",
+      "ansLabel": "\\(f(0)=\\)",
+      "ans": 1,
+      "tol": 0.001,
+      "fig": {
+       "kind": "graph",
+       "fns": [
+        {
+         "$fn": "(x) => 2 * Math.sin(x) + 1"
+        }
+       ],
+       "xr": [
+        0,
+        6.3
+       ],
+       "yr": [
+        -2,
+        4
+       ],
+       "pts": [
+        [
+         0,
+         1,
+         "(0, 1)"
+        ]
+       ]
+      },
+      "figCap": "sin 0 = 0, so f(0) = 1.",
+      "ms": [
+       [
+        "A1",
+        "\\(1\\)"
+       ]
+      ],
+      "wrongs": [
+       [
+        0,
+        "\\(\\sin0=0\\), so \\(f(0)=0+1=1\\)."
+       ],
+       [
+        3,
+        "\\(3\\) is the maximum value of \\(f\\), not \\(f(0)\\)."
+       ]
+      ]
+     },
+     {
+      "label": "(b)",
+      "marks": 3,
+      "text": "Find the zeros of \\(f\\).",
+      "ansLabel": "smaller \\(=\\)",
+      "ansLabel2": "larger \\(=\\)",
+      "ans": 3.6652,
+      "ans2": 5.7596,
+      "tol": 0.006,
+      "fig": {
+       "kind": "graph",
+       "fns": [
+        {
+         "$fn": "(x) => 2 * Math.sin(x) + 1"
+        }
+       ],
+       "xr": [
+        0,
+        6.3
+       ],
+       "yr": [
+        -2,
+        4
+       ],
+       "pts": [
+        [
+         3.6652,
+         0,
+         "3.67"
+        ],
+        [
+         5.7596,
+         0,
+         "5.76"
+        ]
+       ]
+      },
+      "figCap": "Radians; two crossings where sin x = −½.",
+      "ms": [
+       [
+        "M1",
+        "\\(\\sin x=-\\tfrac12\\), or zero tool in radians"
+       ],
+       [
+        "A1",
+        "\\(x=3.67\\)   (\\(\\tfrac{7\\pi}{6}\\))"
+       ],
+       [
+        "A1",
+        "\\(x=5.76\\)   (\\(\\tfrac{11\\pi}{6}\\))"
+       ]
+      ],
+      "wrongs": [
+       [
+        210,
+        "Degrees mode. IB uses radians: \\(3.67\\) and \\(5.76\\)."
+       ],
+       [
+        0.5236,
+        "\\(0.524\\) solves \\(\\sin x=+\\tfrac12\\); here \\(\\sin x=-\\tfrac12\\)."
+       ]
+      ]
+     },
+     {
+      "label": "(c)",
+      "marks": 1,
+      "text": "State the number of solutions of \\(f(x)=0\\) for \\(0\\le x\\le4\\pi\\).",
+      "ansLabel": "number \\(=\\)",
+      "ans": 4,
+      "tol": 0.01,
+      "fig": {
+       "kind": "graph",
+       "fns": [
+        {
+         "$fn": "(x) => 2 * Math.sin(x) + 1"
+        }
+       ],
+       "xr": [
+        0,
+        12.6
+       ],
+       "yr": [
+        -2,
+        4
+       ],
+       "pts": [
+        [
+         3.6652,
+         0,
+         ""
+        ],
+        [
+         5.7596,
+         0,
+         ""
+        ],
+        [
+         9.9484,
+         0,
+         ""
+        ],
+        [
+         12.0428,
+         0,
+         ""
+        ]
+       ]
+      },
+      "figCap": "Two per period; two periods in 0 ≤ x ≤ 4π.",
+      "ms": [
+       [
+        "A1",
+        "\\(4\\)"
+       ]
+      ],
+      "wrongs": [
+       [
+        2,
+        "Two per period, and \\(4\\pi\\) is two periods: four."
+       ]
+      ]
+     },
+     {
+      "label": "(d)",
+      "marks": 3,
+      "text": "Solve \\(f(x)=2\\) for \\(0\\le x\\le2\\pi\\).",
+      "ansLabel": "smaller \\(=\\)",
+      "ansLabel2": "larger \\(=\\)",
+      "ans": 0.5236,
+      "ans2": 2.618,
+      "tol": 0.006,
+      "fig": {
+       "kind": "graph",
+       "fns": [
+        {
+         "$fn": "(x) => 2 * Math.sin(x) + 1"
+        },
+        {
+         "$fn": "(x) => 2"
+        }
+       ],
+       "xr": [
+        0,
+        6.3
+       ],
+       "yr": [
+        -2,
+        4
+       ],
+       "pts": [
+        [
+         0.5236,
+         2,
+         "0.524"
+        ],
+        [
+         2.618,
+         2,
+         "2.62"
+        ]
+       ]
+      },
+      "figCap": "Intersection of f with y = 2, or zeros of f(x) − 2.",
+      "ms": [
+       [
+        "M1",
+        "\\(2\\sin x+1=2\\), i.e. \\(\\sin x=\\tfrac12\\); graphs or zero tool on \\(f(x)-2\\)"
+       ],
+       [
+        "A1",
+        "\\(x=0.524\\)   (\\(\\tfrac{\\pi}{6}\\))"
+       ],
+       [
+        "A1",
+        "\\(x=2.62\\)   (\\(\\tfrac{5\\pi}{6}\\))"
+       ]
+      ],
+      "wrongs": [
+       [
+        30,
+        "Degrees mode."
+       ],
+       [
+        3.6652,
+        "That solves \\(f(x)=0\\), not \\(f(x)=2\\)."
+       ]
+      ]
+     }
+    ]
+   }
+  ],
+  "passMark": 17,
+  "maxMarks": 24,
+  "lostMarksHint": "most lost marks here are stopping after one zero, not rejecting the negative time with a reason, and degrees mode in a trig question."
+ }
+}

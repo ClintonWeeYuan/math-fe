@@ -1,0 +1,2720 @@
+{
+ "id": "t11",
+ "number": 11,
+ "title": "Binomial; least n",
+ "syllabus": "SL 4.8",
+ "level": "SL (and HL)",
+ "lesson": {
+  "part1Ends": 10,
+  "calculatorPaths": {
+   "nspire": [
+    "Open a Calculator page.",
+    "Press menu, then 6: Statistics, 5: Distributions. Binomial Pdf is D, Binomial Cdf is E.",
+    "Binomial Pdf dialog: Num Trials n, Prob Success p, X Value. Gives \\(\\mathrm{P}(X=k)\\).",
+    "Binomial Cdf dialog: Num Trials, Prob Success, Lower Bound, Upper Bound. Gives \\(\\mathrm{P}(a\\le X\\le b)\\) directly; for \\(\\mathrm{P}(X\\le k)\\) set Lower 0, Upper k."
+   ],
+   "ti84": [
+    "Press 2nd, then VARS to open DISTR, and scroll down.",
+    "binompdf(n, p, k) gives \\(\\mathrm{P}(X=k)\\).",
+    "binomcdf(n, p, k) gives \\(\\mathrm{P}(X\\le k)\\): everything from 0 up to and including k.",
+    "There is no upper-and-lower version: for \\(\\mathrm{P}(a\\le X\\le b)\\) use binomcdf(n, p, b) − binomcdf(n, p, a − 1)."
+   ],
+   "cg50": [
+    "Press MENU, choose STAT, then F5 (DIST), F5 (BINOMIAL).",
+    "F1 (Bpd): Data Variable, x = k, Numtrial = n, p. Gives \\(\\mathrm{P}(X=k)\\).",
+    "F2 (Bcd): Lower, Upper, Numtrial, p. Gives \\(\\mathrm{P}(\\text{Lower}\\le X\\le\\text{Upper})\\); for \\(\\mathrm{P}(X\\le k)\\) set Lower 0, Upper k.",
+    "Press EXE. Read p and round to 3 s.f."
+   ]
+  },
+  "menuOptions": {
+   "nspire": [
+    "menu → Statistics → Distributions → Binomial Pdf",
+    "menu → Statistics → Distributions → Binomial Cdf",
+    "menu → Statistics → Distributions → Normal Cdf"
+   ],
+   "ti84": [
+    "2nd → VARS (DISTR) → binompdf(",
+    "2nd → VARS (DISTR) → binomcdf(",
+    "2nd → VARS (DISTR) → normalcdf("
+   ],
+   "cg50": [
+    "STAT → DIST → BINOMIAL → Bpd",
+    "STAT → DIST → BINOMIAL → Bcd",
+    "STAT → DIST → NORM → Ncd"
+   ]
+  },
+  "steps": [
+   {
+    "parts": [
+     [
+      "c",
+      "Which function gives the probability of exactly \\(9\\) successes?",
+      [
+       "Binomial Pdf (one value of \\(k\\))",
+       "Binomial Cdf (up to and including \\(k\\))",
+       "Normal Cdf"
+      ],
+      0,
+      "✓ Pdf is for “exactly”.",
+      "✗ “Exactly \\(9\\)” is a single value: Binomial Pdf. Cdf adds up everything from \\(0\\) to \\(k\\)."
+     ]
+    ],
+    "given": "\\(X \\sim \\mathrm{B}(12,\\,0.7)\\)",
+    "label": "\\(\\mathrm{P}(X=9)=\\)",
+    "tag": "TRY IT FIRST · enter your calculator’s answer",
+    "worked": "\\(X \\sim \\mathrm{B}(12,\\,0.7)\\)\n\\(\\mathrm{P}(X=9)=0.240\\)   (Binomial Pdf, \\(n=12\\), \\(p=0.7\\), \\(k=9\\))",
+    "title": "Find the probability that the player scores exactly \\(9\\) of the \\(12\\).",
+    "instr": [
+     "Use your own calculator.",
+     "Type the value to 3 significant figures.",
+     "You have two tries; then we show the answer."
+    ],
+    "fig": {
+     "kind": "bars",
+     "lo": 9,
+     "hi": 9,
+     "caption": "X ~ B(12, 0.7): the heights are P(X = k) for k = 0 to 12. The bar at k = 9 is the one you want."
+    },
+    "ans": 0.2397,
+    "ok": "✓ \\(0.240\\) is right. The lesson covers when the binomial applies, Pdf versus Cdf, and the “at least” trap.",
+    "givenNote": "a player scores \\(70\\%\\) of free throws; \\(X\\) is the number scored out of \\(12\\)",
+    "t": "numeric",
+    "wrongs": [
+     [
+      0.7472,
+      "\\(0.747\\) is \\(\\mathrm{P}(X\\le9)\\), the Cdf: all of \\(0\\) to \\(9\\). “Exactly \\(9\\)” needs the Pdf."
+     ],
+     [
+      0.0015,
+      "\\(0.0015\\) is \\(\\mathrm{P}(X=3)\\): \\(p\\) and \\(1-p\\) were swapped. Success is scoring, \\(p=0.7\\)."
+     ]
+    ],
+    "tol": 0.0006,
+    "err": "GDC",
+    "byCalc": {
+     "nspire": {
+      "path": [
+       "Open a Calculator page.",
+       "Press menu, then 6: Statistics, 5: Distributions. Binomial Pdf is D, Binomial Cdf is E.",
+       "Binomial Pdf dialog: Num Trials n, Prob Success p, X Value. Gives \\(\\mathrm{P}(X=k)\\).",
+       "Binomial Cdf dialog: Num Trials, Prob Success, Lower Bound, Upper Bound. Gives \\(\\mathrm{P}(a\\le X\\le b)\\) directly; for \\(\\mathrm{P}(X\\le k)\\) set Lower 0, Upper k."
+      ]
+     },
+     "ti84": {
+      "path": [
+       "Press 2nd, then VARS to open DISTR, and scroll down.",
+       "binompdf(n, p, k) gives \\(\\mathrm{P}(X=k)\\).",
+       "binomcdf(n, p, k) gives \\(\\mathrm{P}(X\\le k)\\): everything from 0 up to and including k.",
+       "There is no upper-and-lower version: for \\(\\mathrm{P}(a\\le X\\le b)\\) use binomcdf(n, p, b) − binomcdf(n, p, a − 1)."
+      ]
+     },
+     "cg50": {
+      "path": [
+       "Press MENU, choose STAT, then F5 (DIST), F5 (BINOMIAL).",
+       "F1 (Bpd): Data Variable, x = k, Numtrial = n, p. Gives \\(\\mathrm{P}(X=k)\\).",
+       "F2 (Bcd): Lower, Upper, Numtrial, p. Gives \\(\\mathrm{P}(\\text{Lower}\\le X\\le\\text{Upper})\\); for \\(\\mathrm{P}(X\\le k)\\) set Lower 0, Upper k.",
+       "Press EXE. Read p and round to 3 s.f."
+      ]
+     }
+    }
+   },
+   {
+    "t": "note",
+    "fig": {
+     "kind": "bars",
+     "vals": true,
+     "lo": null,
+     "hi": null,
+     "caption": "The distribution of X ~ B(12, 0.7): 13 possible values, 0 to 12, with probabilities that add to 1. Most of the weight sits near np = 8.4."
+    },
+    "tag": "NOTE · SL 4.8",
+    "title": "When a situation is binomial",
+    "body": "A count \\(X\\) is binomial, \\(X \\sim \\mathrm{B}(n,\\,p)\\), when four things hold:\n•  a fixed number of trials, \\(n\\)\n•  each trial is a success or a failure\n•  the probability of success, \\(p\\), is the same every time\n•  the trials are independent\n\nTwelve free throws, each scored with probability \\(0.7\\), independently: \\(X \\sim \\mathrm{B}(12,\\,0.7)\\).\nWrite this line first in every binomial question; it earns the method mark.",
+    "code": "\\(X \\sim \\mathrm{B}(n,\\,p)\\), \\(X\\) = number of successes in \\(n\\) trials\n\\(\\mathrm{P}(X=k)=\\binom{n}{k}p^k(1-p)^{n-k}\\)   (formula booklet; the calculator does this)"
+   },
+   {
+    "t": "choice",
+    "tag": "ACTIVITY · is it binomial?",
+    "title": "Which of these counts is binomial?",
+    "opts": [
+     "The number of sixes in \\(10\\) rolls of a fair die",
+     "The number of aces in \\(5\\) cards dealt from a pack without replacement",
+     "The number of rolls until the first six"
+    ],
+    "right": 0,
+    "ok": "✓ Right. Fixed \\(n=10\\), success or not, constant \\(p=\\frac16\\), independent rolls: \\(\\mathrm{B}(10,\\,\\frac16)\\).",
+    "bad": "✗ Not quite. Cards without replacement change \\(p\\) each time, and “rolls until the first six” has no fixed \\(n\\). The sixes in \\(10\\) rolls are binomial: \\(\\mathrm{B}(10,\\,\\frac16)\\).",
+    "err": "Concept"
+   },
+   {
+    "title": "Where it lives on your calculator",
+    "t": "note",
+    "body": "Two functions:\n•  Pdf gives one bar: \\(\\mathrm{P}(X=k)\\)\n•  Cdf adds bars from the bottom up: \\(\\mathrm{P}(X\\le k)\\), or between two bounds where the model allows it",
+    "byCalc": {
+     "nspire": {
+      "path": [
+       "Open a Calculator page.",
+       "Press menu, then 6: Statistics, 5: Distributions. Binomial Pdf is D, Binomial Cdf is E.",
+       "Binomial Pdf dialog: Num Trials n, Prob Success p, X Value. Gives \\(\\mathrm{P}(X=k)\\).",
+       "Binomial Cdf dialog: Num Trials, Prob Success, Lower Bound, Upper Bound. Gives \\(\\mathrm{P}(a\\le X\\le b)\\) directly; for \\(\\mathrm{P}(X\\le k)\\) set Lower 0, Upper k."
+      ],
+      "tag": "NOTE · TI-Nspire CX II"
+     },
+     "ti84": {
+      "path": [
+       "Press 2nd, then VARS to open DISTR, and scroll down.",
+       "binompdf(n, p, k) gives \\(\\mathrm{P}(X=k)\\).",
+       "binomcdf(n, p, k) gives \\(\\mathrm{P}(X\\le k)\\): everything from 0 up to and including k.",
+       "There is no upper-and-lower version: for \\(\\mathrm{P}(a\\le X\\le b)\\) use binomcdf(n, p, b) − binomcdf(n, p, a − 1)."
+      ],
+      "tag": "NOTE · TI-84 Plus CE"
+     },
+     "cg50": {
+      "path": [
+       "Press MENU, choose STAT, then F5 (DIST), F5 (BINOMIAL).",
+       "F1 (Bpd): Data Variable, x = k, Numtrial = n, p. Gives \\(\\mathrm{P}(X=k)\\).",
+       "F2 (Bcd): Lower, Upper, Numtrial, p. Gives \\(\\mathrm{P}(\\text{Lower}\\le X\\le\\text{Upper})\\); for \\(\\mathrm{P}(X\\le k)\\) set Lower 0, Upper k.",
+       "Press EXE. Read p and round to 3 s.f."
+      ],
+      "tag": "NOTE · Casio fx-CG50"
+     }
+    }
+   },
+   {
+    "given": "\\(X \\sim \\mathrm{B}(12,\\,0.7)\\)",
+    "tag": "ACTIVITY · menu choice",
+    "ok": "✓ Right. Pdf for a single value.",
+    "right": 0,
+    "t": "choice",
+    "bad": "✗ Not quite. “Exactly \\(9\\)” is one value, so Binomial Pdf. Cdf accumulates from \\(0\\); Normal Cdf is a different distribution.",
+    "err": "GDC",
+    "byCalc": {
+     "nspire": {
+      "title": "On your TI-Nspire CX II, which path gives \\(\\mathrm{P}(X=9)\\)?",
+      "opts": [
+       "menu → Statistics → Distributions → Binomial Pdf",
+       "menu → Statistics → Distributions → Binomial Cdf",
+       "menu → Statistics → Distributions → Normal Cdf"
+      ]
+     },
+     "ti84": {
+      "title": "On your TI-84 Plus CE, which path gives \\(\\mathrm{P}(X=9)\\)?",
+      "opts": [
+       "2nd → VARS (DISTR) → binompdf(",
+       "2nd → VARS (DISTR) → binomcdf(",
+       "2nd → VARS (DISTR) → normalcdf("
+      ]
+     },
+     "cg50": {
+      "title": "On your Casio fx-CG50, which path gives \\(\\mathrm{P}(X=9)\\)?",
+      "opts": [
+       "STAT → DIST → BINOMIAL → Bpd",
+       "STAT → DIST → BINOMIAL → Bcd",
+       "STAT → DIST → NORM → Ncd"
+      ]
+     }
+    }
+   },
+   {
+    "tag": "NOTE",
+    "code": "“at most \\(8\\)”: \\(\\mathrm{P}(X\\le8)=\\mathrm{P}(X=0)+\\mathrm{P}(X=1)+\\cdots+\\mathrm{P}(X=8)\\)\n“fewer than \\(8\\)”: \\(\\mathrm{P}(X<8)=\\mathrm{P}(X\\le7)=\\mathrm{P}(X=0)+\\cdots+\\mathrm{P}(X=7)\\)",
+    "title": "The Cdf: “up to and including”",
+    "fig": {
+     "kind": "bars",
+     "lo": 0,
+     "hi": 8,
+     "caption": "P(X ≤ 8): the Cdf adds the bars from 0 up to and including 8."
+    },
+    "t": "note",
+    "byCalc": {
+     "nspire": {
+      "body": "\\(\\mathrm{P}(X\\le8)\\) is the sum of the bars for \\(0,1,\\ldots,8\\). The Cdf does that sum in one call. On the Nspire, Binomial Cdf takes a Lower and an Upper bound, so \\(\\mathrm{P}(X\\le8)\\) is Lower 0, Upper 8.\n\nThe words decide which bars are in. “At most \\(8\\)”, “no more than \\(8\\)” and “\\(8\\) or fewer” all allow a score of exactly \\(8\\), so the bar at \\(8\\) is in: \\(X\\le8\\), Upper \\(8\\).\n\n“Fewer than \\(8\\)” does not allow \\(8\\): that is \\(X<8\\). The calculator has no “less than” option, its upper bound is always included, so convert it yourself. \\(X\\) only takes whole numbers, so “less than \\(8\\)” is the same as “\\(7\\) or fewer”: \\(\\mathrm{P}(X<8)=\\mathrm{P}(X\\le7)\\), Upper \\(7\\). Typing \\(8\\) here adds one bar too many, the most common binomial slip in exams."
+     },
+     "ti84": {
+      "body": "\\(\\mathrm{P}(X\\le8)\\) is the sum of the bars for \\(0,1,\\ldots,8\\). The Cdf does that sum in one call. On the TI-84, binomcdf(n, p, k) is always “from 0 up to k”: binomcdf(12, 0.7, 8).\n\nThe words decide which bars are in. “At most \\(8\\)”, “no more than \\(8\\)” and “\\(8\\) or fewer” all allow a score of exactly \\(8\\), so the bar at \\(8\\) is in: \\(X\\le8\\), Upper \\(8\\).\n\n“Fewer than \\(8\\)” does not allow \\(8\\): that is \\(X<8\\). The calculator has no “less than” option, its upper bound is always included, so convert it yourself. \\(X\\) only takes whole numbers, so “less than \\(8\\)” is the same as “\\(7\\) or fewer”: \\(\\mathrm{P}(X<8)=\\mathrm{P}(X\\le7)\\), Upper \\(7\\). Typing \\(8\\) here adds one bar too many, the most common binomial slip in exams."
+     },
+     "cg50": {
+      "body": "\\(\\mathrm{P}(X\\le8)\\) is the sum of the bars for \\(0,1,\\ldots,8\\). The Cdf does that sum in one call. On the Casio, Bcd takes Lower and Upper, so \\(\\mathrm{P}(X\\le8)\\) is Lower 0, Upper 8.\n\nThe words decide which bars are in. “At most \\(8\\)”, “no more than \\(8\\)” and “\\(8\\) or fewer” all allow a score of exactly \\(8\\), so the bar at \\(8\\) is in: \\(X\\le8\\), Upper \\(8\\).\n\n“Fewer than \\(8\\)” does not allow \\(8\\): that is \\(X<8\\). The calculator has no “less than” option, its upper bound is always included, so convert it yourself. \\(X\\) only takes whole numbers, so “less than \\(8\\)” is the same as “\\(7\\) or fewer”: \\(\\mathrm{P}(X<8)=\\mathrm{P}(X\\le7)\\), Upper \\(7\\). Typing \\(8\\) here adds one bar too many, the most common binomial slip in exams."
+     }
+    }
+   },
+   {
+    "given": "\\(X \\sim \\mathrm{B}(12,\\,0.7)\\)",
+    "label": "\\(\\mathrm{P}(X\\le8)=\\)",
+    "tag": "ACTIVITY · enter your calculator’s answer",
+    "worked": "\\(\\mathrm{P}(X\\le8)=0.507\\)   (Binomial Cdf, \\(n=12\\), \\(p=0.7\\), \\(0\\) to \\(8\\))",
+    "title": "Find the probability that the player scores at most \\(8\\).",
+    "instr": [
+     "Cdf, up to and including \\(8\\).",
+     "Type the value to 3 significant figures."
+    ],
+    "ok": "✓ \\(0.507\\). Just over half the time the player scores \\(8\\) or fewer.",
+    "ans": 0.5075,
+    "t": "numeric",
+    "wrongs": [
+     [
+      0.2763,
+      "\\(0.276\\) is \\(\\mathrm{P}(X\\le7)\\): “at most \\(8\\)” includes the bar at \\(8\\)."
+     ],
+     [
+      0.7472,
+      "\\(0.747\\) is \\(\\mathrm{P}(X\\le9)\\): one bar too many."
+     ],
+     [
+      0.2311,
+      "\\(0.231\\) is \\(\\mathrm{P}(X=8)\\), the Pdf. “At most” needs the Cdf."
+     ]
+    ],
+    "tol": 0.0006,
+    "err": "Set-up",
+    "byCalc": {
+     "nspire": {
+      "parts": [
+       [
+        "c",
+        "“At most \\(8\\)” is",
+        [
+         "\\(\\mathrm{P}(X\\le8)\\): bars \\(0\\) to \\(8\\)",
+         "\\(\\mathrm{P}(X\\le7)\\)",
+         "\\(\\mathrm{P}(X=8)\\)"
+        ],
+        0,
+        "✓ Including \\(8\\).",
+        "✗ At most \\(8\\) includes \\(8\\): \\(\\mathrm{P}(X\\le8)\\)."
+       ],
+       [
+        "c",
+        "Which entries?",
+        [
+         "Binomial Cdf: \\(n=12\\), \\(p=0.7\\), Lower \\(0\\), Upper \\(8\\)",
+         "Binomial Pdf: \\(n=12\\), \\(p=0.7\\), \\(k=8\\)",
+         "Binomial Cdf: Lower \\(0\\), Upper \\(7\\)"
+        ],
+        0,
+        "✓",
+        "✗ Cdf up to and including \\(8\\)."
+       ]
+      ]
+     },
+     "ti84": {
+      "parts": [
+       [
+        "c",
+        "“At most \\(8\\)” is",
+        [
+         "\\(\\mathrm{P}(X\\le8)\\): bars \\(0\\) to \\(8\\)",
+         "\\(\\mathrm{P}(X\\le7)\\)",
+         "\\(\\mathrm{P}(X=8)\\)"
+        ],
+        0,
+        "✓ Including \\(8\\).",
+        "✗ At most \\(8\\) includes \\(8\\): \\(\\mathrm{P}(X\\le8)\\)."
+       ],
+       [
+        "c",
+        "Which entries?",
+        [
+         "binomcdf(12, 0.7, 8)",
+         "binompdf(12, 0.7, 8)",
+         "binomcdf(12, 0.7, 7)"
+        ],
+        0,
+        "✓",
+        "✗ Cdf up to and including \\(8\\)."
+       ]
+      ]
+     },
+     "cg50": {
+      "parts": [
+       [
+        "c",
+        "“At most \\(8\\)” is",
+        [
+         "\\(\\mathrm{P}(X\\le8)\\): bars \\(0\\) to \\(8\\)",
+         "\\(\\mathrm{P}(X\\le7)\\)",
+         "\\(\\mathrm{P}(X=8)\\)"
+        ],
+        0,
+        "✓ Including \\(8\\).",
+        "✗ At most \\(8\\) includes \\(8\\): \\(\\mathrm{P}(X\\le8)\\)."
+       ],
+       [
+        "c",
+        "Which entries?",
+        [
+         "Binomial Cdf: \\(n=12\\), \\(p=0.7\\), Lower \\(0\\), Upper \\(8\\)",
+         "Binomial Pdf: \\(n=12\\), \\(p=0.7\\), \\(k=8\\)",
+         "Binomial Cdf: Lower \\(0\\), Upper \\(7\\)"
+        ],
+        0,
+        "✓",
+        "✗ Cdf up to and including \\(8\\)."
+       ]
+      ]
+     }
+    }
+   },
+   {
+    "tag": "NOTE",
+    "code": "\\(\\mathrm{P}(X\\ge9)=1-\\mathrm{P}(X\\le8)\\)\n\\(\\mathrm{P}(X>9)=1-\\mathrm{P}(X\\le9)\\)",
+    "title": "“At least”: the off-by-one trap",
+    "fig": {
+     "kind": "bars",
+     "lo": 9,
+     "hi": 12,
+     "caption": "P(X ≥ 9) is the bars from 9 to 12. The calculator’s Cdf counts from 0, so take 1 − P(X ≤ 8)."
+    },
+    "t": "note",
+    "byCalc": {
+     "nspire": {
+      "body": "The Cdf counts from \\(0\\) upwards, so “at least” needs the complement. Be careful which bar is the last one removed:\n•  “at least \\(9\\)” keeps the bar at \\(9\\): \\(\\mathrm{P}(X\\ge9)=1-\\mathrm{P}(X\\le8)\\), not \\(1-\\mathrm{P}(X\\le9)\\)\n•  “more than \\(9\\)” drops the bar at \\(9\\): \\(X\\ge10\\), so \\(1-\\mathrm{P}(X\\le9)\\)\n\nWrite the statement with the complement; the examiner looks for it. (Or Binomial Cdf with Lower \\(9\\), Upper \\(12\\): the same value, but still write the statement.)"
+     },
+     "ti84": {
+      "body": "The Cdf counts from \\(0\\) upwards, so “at least” needs the complement. Be careful which bar is the last one removed:\n•  “at least \\(9\\)” keeps the bar at \\(9\\): \\(\\mathrm{P}(X\\ge9)=1-\\mathrm{P}(X\\le8)\\), not \\(1-\\mathrm{P}(X\\le9)\\)\n•  “more than \\(9\\)” drops the bar at \\(9\\): \\(X\\ge10\\), so \\(1-\\mathrm{P}(X\\le9)\\)\n\nWrite the statement with the complement; the examiner looks for it."
+     },
+     "cg50": {
+      "body": "The Cdf counts from \\(0\\) upwards, so “at least” needs the complement. Be careful which bar is the last one removed:\n•  “at least \\(9\\)” keeps the bar at \\(9\\): \\(\\mathrm{P}(X\\ge9)=1-\\mathrm{P}(X\\le8)\\), not \\(1-\\mathrm{P}(X\\le9)\\)\n•  “more than \\(9\\)” drops the bar at \\(9\\): \\(X\\ge10\\), so \\(1-\\mathrm{P}(X\\le9)\\)\n\nWrite the statement with the complement; the examiner looks for it. (Or Bcd with Lower \\(9\\), Upper \\(12\\): the same value, but still write the statement.)"
+     }
+    }
+   },
+   {
+    "t": "numeric",
+    "parts": [
+     [
+      "c",
+      "Which statement is right for “at least \\(9\\)”?",
+      [
+       "\\(\\mathrm{P}(X\\ge9)=1-\\mathrm{P}(X\\le8)\\)",
+       "\\(\\mathrm{P}(X\\ge9)=1-\\mathrm{P}(X\\le9)\\)",
+       "\\(\\mathrm{P}(X\\ge9)=\\mathrm{P}(X\\le9)\\)"
+      ],
+      0,
+      "✓ Everything except \\(0\\) to \\(8\\).",
+      "✗ At least \\(9\\) means \\(9,10,11,12\\): remove \\(0\\) to \\(8\\), so \\(1-\\mathrm{P}(X\\le8)\\)."
+     ]
+    ],
+    "tag": "ACTIVITY · enter your calculator’s answer",
+    "given": "\\(X \\sim \\mathrm{B}(12,\\,0.7)\\)",
+    "title": "Find the probability that the player scores at least \\(9\\).",
+    "instr": [
+     "Use the complement of a Cdf value.",
+     "Type the value to 3 significant figures."
+    ],
+    "label": "\\(\\mathrm{P}(X\\ge9)=\\)",
+    "ans": 0.4925,
+    "tol": 0.0006,
+    "worked": "\\(\\mathrm{P}(X\\ge9)=1-\\mathrm{P}(X\\le8)=1-0.5075=0.493\\)",
+    "ok": "✓ \\(0.493\\). Note that \\(\\mathrm{P}(X\\le8)+\\mathrm{P}(X\\ge9)=1\\): the two activities are complements.",
+    "wrongs": [
+     [
+      0.2528,
+      "\\(0.253\\) is \\(1-\\mathrm{P}(X\\le9)=\\mathrm{P}(X\\ge10)\\): the bar at \\(9\\) was removed by mistake."
+     ],
+     [
+      0.5075,
+      "\\(0.507\\) is \\(\\mathrm{P}(X\\le8)\\) itself: you forgot the “\\(1-\\)”."
+     ],
+     [
+      0.2397,
+      "\\(0.240\\) is \\(\\mathrm{P}(X=9)\\) alone."
+     ]
+    ],
+    "err": "Set-up"
+   },
+   {
+    "t": "choice",
+    "tag": "ACTIVITY · write the line",
+    "given": "\\(X \\sim \\mathrm{B}(12,\\,0.7)\\)",
+    "title": "Which line earns both marks for “find the probability that the player scores at least \\(9\\)”?",
+    "opts": [
+     "\\(\\mathrm{binomCdf}(12,\\,0.7,\\,9,\\,12)=0.493\\)",
+     "\\(X \\sim \\mathrm{B}(12,\\,0.7)\\), \\(\\mathrm{P}(X\\ge9)=1-\\mathrm{P}(X\\le8)=0.493\\)",
+     "\\(\\mathrm{P}(X\\ge9)=0.49\\)",
+     "\\(X \\sim \\mathrm{B}(12,\\,0.7)\\), \\(\\mathrm{P}(X>9)=0.493\\)"
+    ],
+    "right": 1,
+    "ok": "✓ Right. Model, statement with the complement, value to 3 s.f.",
+    "bads": [
+     "✗ Calculator syntax is not mathematics; it risks the method mark.",
+     "",
+     "✗ No model, no statement, and \\(0.49\\) is 2 s.f.",
+     "✗ The inequality is wrong: \\(X>9\\) excludes \\(9\\). The number is right but the statement is not."
+    ],
+    "err": "Communication"
+   },
+   {
+    "tag": "NOTE",
+    "code": "\\(\\mathrm{P}(7\\le X\\le10)=\\mathrm{P}(X\\le10)-\\mathrm{P}(X\\le6)\\)",
+    "title": "Between two values",
+    "fig": {
+     "kind": "bars",
+     "lo": 7,
+     "hi": 10,
+     "caption": "P(7 ≤ X ≤ 10): bars 7 to 10. From Cdf values: P(X ≤ 10) − P(X ≤ 6)."
+    },
+    "t": "note",
+    "byCalc": {
+     "nspire": {
+      "body": "\\(\\mathrm{P}(7\\le X\\le10)\\) is the bars \\(7,8,9,10\\). From Cdf values:\n•  take everything up to \\(10\\): \\(\\mathrm{P}(X\\le10)\\)\n•  remove everything up to \\(6\\): \\(\\mathrm{P}(X\\le6)\\)\n•  the bar at \\(7\\) must stay, so subtract \\(\\mathrm{P}(X\\le6)\\), not \\(\\mathrm{P}(X\\le7)\\)\n\nYour calculator’s Cdf takes both bounds directly (Lower \\(7\\), Upper \\(10\\)), but write the statement in Cdf form anyway; it is what the mark scheme shows."
+     },
+     "ti84": {
+      "body": "\\(\\mathrm{P}(7\\le X\\le10)\\) is the bars \\(7,8,9,10\\). From Cdf values:\n•  take everything up to \\(10\\): \\(\\mathrm{P}(X\\le10)\\)\n•  remove everything up to \\(6\\): \\(\\mathrm{P}(X\\le6)\\)\n•  the bar at \\(7\\) must stay, so subtract \\(\\mathrm{P}(X\\le6)\\), not \\(\\mathrm{P}(X\\le7)\\)\n\nOn the TI-84 this is binomcdf(12, 0.7, 10) − binomcdf(12, 0.7, 6)."
+     },
+     "cg50": {
+      "body": "\\(\\mathrm{P}(7\\le X\\le10)\\) is the bars \\(7,8,9,10\\). From Cdf values:\n•  take everything up to \\(10\\): \\(\\mathrm{P}(X\\le10)\\)\n•  remove everything up to \\(6\\): \\(\\mathrm{P}(X\\le6)\\)\n•  the bar at \\(7\\) must stay, so subtract \\(\\mathrm{P}(X\\le6)\\), not \\(\\mathrm{P}(X\\le7)\\)\n\nYour calculator’s Cdf takes both bounds directly (Lower \\(7\\), Upper \\(10\\)), but write the statement in Cdf form anyway; it is what the mark scheme shows."
+     }
+    }
+   },
+   {
+    "t": "numeric",
+    "parts": [
+     [
+      "c",
+      "Which subtraction keeps the bar at \\(7\\)?",
+      [
+       "\\(\\mathrm{P}(X\\le10)-\\mathrm{P}(X\\le6)\\)",
+       "\\(\\mathrm{P}(X\\le10)-\\mathrm{P}(X\\le7)\\)",
+       "\\(\\mathrm{P}(X\\le9)-\\mathrm{P}(X\\le6)\\)"
+      ],
+      0,
+      "✓ Remove \\(0\\) to \\(6\\) only.",
+      "✗ Subtracting \\(\\mathrm{P}(X\\le7)\\) removes the bar at \\(7\\) as well. Subtract \\(\\mathrm{P}(X\\le6)\\)."
+     ]
+    ],
+    "tag": "ACTIVITY · enter your calculator’s answer",
+    "given": "\\(X \\sim \\mathrm{B}(12,\\,0.7)\\)",
+    "title": "Find the probability that the player scores between \\(7\\) and \\(10\\) inclusive.",
+    "instr": [
+     "Two Cdf values, or both bounds in one call.",
+     "Type the value to 3 significant figures."
+    ],
+    "label": "\\(\\mathrm{P}(7\\le X\\le10)=\\)",
+    "ans": 0.7971,
+    "tol": 0.0006,
+    "worked": "\\(\\mathrm{P}(7\\le X\\le10)=\\mathrm{P}(X\\le10)-\\mathrm{P}(X\\le6)=0.9150-0.1178=0.797\\)",
+    "ok": "✓ \\(0.797\\).",
+    "wrongs": [
+     [
+      0.6386,
+      "\\(0.639\\) subtracts \\(\\mathrm{P}(X\\le7)\\): the bar at \\(7\\) was removed. Subtract \\(\\mathrm{P}(X\\le6)\\)."
+     ],
+     [
+      0.6293,
+      "\\(0.629\\) uses \\(\\mathrm{P}(X\\le9)\\): the bar at \\(10\\) is missing."
+     ]
+    ],
+    "err": "Set-up"
+   },
+   {
+    "t": "note",
+    "tag": "NOTE · SL 4.8",
+    "title": "Mean and variance",
+    "body": "For \\(X \\sim \\mathrm{B}(n,\\,p)\\), both in the formula booklet:\n•  mean: \\(\\mathrm{E}(X)=np\\)\n•  variance: \\(\\mathrm{Var}(X)=np(1-p)\\), so the standard deviation is \\(\\sqrt{np(1-p)}\\)\n\nFor the free throws, \\(\\mathrm{E}(X)=12\\times0.7=8.4\\): over many sets of \\(12\\), the player scores \\(8.4\\) on average.\n\nIf a question gives the mean and variance and asks for \\(n\\) and \\(p\\), divide one by the other: \\(\\dfrac{np(1-p)}{np}=1-p\\).",
+    "code": "\\(\\mathrm{E}(X)=np=8.4\\)\n\\(\\mathrm{Var}(X)=np(1-p)=12\\times0.7\\times0.3=2.52\\)"
+   },
+   {
+    "t": "numeric",
+    "parts": [
+     [
+      "c",
+      "Which formula?",
+      [
+       "\\(\\mathrm{Var}(X)=np(1-p)\\)",
+       "\\(\\mathrm{Var}(X)=np\\)",
+       "\\(\\mathrm{Var}(X)=\\sqrt{np(1-p)}\\)"
+      ],
+      0,
+      "✓",
+      "✗ \\(np\\) is the mean; the square root is the standard deviation. \\(\\mathrm{Var}(X)=np(1-p)\\)."
+     ]
+    ],
+    "tag": "ACTIVITY · enter your answer",
+    "given": "\\(Y \\sim \\mathrm{B}(20,\\,0.35)\\)",
+    "givenNote": "a new context: \\(20\\) seeds, each germinating with probability \\(0.35\\)",
+    "title": "Find \\(\\mathrm{Var}(Y)\\).",
+    "instr": [
+     "No calculator function: use the formula.",
+     "Type the value to 3 significant figures."
+    ],
+    "label": "\\(\\mathrm{Var}(Y)=\\)",
+    "ans": 4.55,
+    "tol": 0.006,
+    "worked": "\\(\\mathrm{Var}(Y)=np(1-p)=20\\times0.35\\times0.65=4.55\\)",
+    "ok": "✓ \\(4.55\\). The mean is \\(7\\) and the standard deviation \\(2.13\\).",
+    "wrongs": [
+     [
+      7,
+      "\\(7\\) is the mean \\(np\\)."
+     ],
+     [
+      2.133,
+      "\\(2.13\\) is the standard deviation. Variance is before the square root."
+     ],
+     [
+      4.2,
+      "\\(4.2\\) uses \\(0.6\\) for \\(1-p\\); \\(1-0.35=0.65\\)."
+     ]
+    ],
+    "err": "Concept"
+   },
+   {
+    "t": "note",
+    "tag": "NOTE · SL 4.8",
+    "title": "Least \\(n\\): “at least one”",
+    "body": "“How many trials are needed so that the probability of at least one success is more than \\(0.99\\)?”\n•  complement: \\(\\mathrm{P}(X\\ge1)=1-\\mathrm{P}(X=0)=1-(1-p)^n\\)\n•  condition: \\(1-(1-p)^n>0.99\\), i.e. \\((1-p)^n<0.01\\)\n•  solve: a table of values of \\(n\\), or logarithms; give the smallest whole number that works\n\nShow the values either side of the boundary; that is the method mark.",
+    "code": "Half-court shots, \\(p=0.1\\): \\(0.9^n<0.01\\)\n\\(n=43\\): \\(0.9^{43}=0.0108\\) ✗   \\(n=44\\): \\(0.9^{44}=0.0097\\) ✓\nLeast \\(n=44\\)"
+   },
+   {
+    "t": "numeric",
+    "parts": [
+     [
+      "c",
+      "The condition “at least one success with probability more than \\(0.99\\)” is",
+      [
+       "\\(1-(1-p)^n>0.99\\)",
+       "\\(p^n>0.99\\)",
+       "\\(np>0.99\\)"
+      ],
+      0,
+      "✓ Complement of “none”.",
+      "✗ \\(\\mathrm{P}(\\text{at least one})=1-\\mathrm{P}(\\text{none})=1-(1-p)^n\\)."
+     ],
+     [
+      "c",
+      "With \\(p=0.2\\), that becomes",
+      [
+       "\\(0.8^n<0.01\\)",
+       "\\(0.2^n<0.01\\)",
+       "\\(0.8^n>0.01\\)"
+      ],
+      0,
+      "✓ Now find the smallest \\(n\\) by table or logs.",
+      "✗ \\(1-p=0.8\\), and \\(1-0.8^n>0.99\\) rearranges to \\(0.8^n<0.01\\)."
+     ]
+    ],
+    "tag": "ACTIVITY · enter your answer",
+    "given": "\\(p=0.2\\)",
+    "givenNote": "a new context: each attempt succeeds with probability \\(0.2\\)",
+    "title": "Find the least \\(n\\) such that \\(\\mathrm{P}(\\text{at least one success})>0.99\\).",
+    "instr": [
+     "Set up the inequality, then use a table or logarithms.",
+     "Type a whole number."
+    ],
+    "label": "Least \\(n=\\)",
+    "ans": 21,
+    "tol": 0.01,
+    "placeholder": "__",
+    "worked": "\\(1-0.8^n>0.99 \\Rightarrow 0.8^n<0.01\\)\n\\(n=20\\): \\(0.8^{20}=0.0115\\) ✗   \\(n=21\\): \\(0.8^{21}=0.0092\\) ✓\nLeast \\(n=21\\)",
+    "ok": "✓ \\(21\\). Showing \\(n=20\\) and \\(n=21\\) either side of the boundary is the working.",
+    "wrongs": [
+     [
+      20,
+      "\\(20\\) gives \\(0.8^{20}=0.0115\\), which is not below \\(0.01\\). One more."
+     ],
+     [
+      0.99,
+      "That is the target probability, not \\(n\\)."
+     ]
+    ],
+    "err": "Reading"
+   },
+   {
+    "t": "numeric",
+    "parts": [
+     [
+      "c",
+      "First, for one player, the probability of scoring at least \\(9\\) of \\(12\\) is",
+      [
+       "\\(\\mathrm{P}(X\\ge9)=0.493\\), from earlier",
+       "\\(\\mathrm{P}(X=9)=0.240\\)",
+       "\\(\\mathrm{P}(X\\le9)=0.747\\)"
+      ],
+      0,
+      "✓",
+      "✗ At least \\(9\\): \\(0.493\\), as found in part 1."
+     ]
+    ],
+    "tag": "EXAM-STYLE PART · 2 marks · hints available",
+    "given": "\\(X \\sim \\mathrm{B}(12,\\,0.7)\\)",
+    "givenNote": "\\(50\\) players, each with the same \\(p=0.7\\), each taking \\(12\\) throws",
+    "title": "Find the expected number of players, out of \\(50\\), who score at least \\(9\\).",
+    "instr": [
+     "One player’s probability, then \\(n\\times p\\).",
+     "Type the value to 3 significant figures.",
+     "Hints are available below if you need them."
+    ],
+    "label": "Expected number \\(=\\)",
+    "ans": 24.63,
+    "tol": 0.1,
+    "worked": "\\(\\mathrm{P}(X\\ge9)=0.4925\\)\nExpected number \\(=50\\times0.4925=24.6\\)",
+    "ok": "✓ \\(24.6\\). A new binomial, \\(\\mathrm{B}(50,\\,0.4925)\\), sits on top of the first; its mean is \\(np\\).",
+    "wrongs": [
+     [
+      0.4925,
+      "That is one player’s probability. Multiply by \\(50\\)."
+     ],
+     [
+      12,
+      "\\(12\\) is the number of throws, not the expected number of players."
+     ]
+    ],
+    "hints": [
+     "Each player scores at least \\(9\\) with probability \\(0.4925\\).",
+     "The number of such players is \\(\\mathrm{B}(50,\\,0.4925)\\).",
+     "Expected value \\(=np=50\\times0.4925\\)."
+    ],
+    "err": "Reading"
+   },
+   {
+    "t": "choice",
+    "tag": "ACTIVITY · GDC or algebra? · Paper 1",
+    "given": "\\(X \\sim \\mathrm{B}(4,\\,\\tfrac13)\\)",
+    "givenNote": "a Paper 1 question",
+    "title": "“Show that \\(\\mathrm{P}(X=2)=\\dfrac{8}{27}\\).” Which method?",
+    "opts": [
+     "Algebra: \\(\\binom42\\left(\\tfrac13\\right)^2\\left(\\tfrac23\\right)^2=6\\times\\tfrac19\\times\\tfrac49=\\tfrac{24}{81}=\\tfrac{8}{27}\\)",
+     "Calculator: Binomial Pdf gives \\(0.296\\)"
+    ],
+    "right": 0,
+    "ok": "✓ Right. Paper 1 has no calculator, and “show that” with a fraction needs the formula with \\(\\binom{n}{k}\\).",
+    "bad": "✗ Paper 1 has no calculator, and \\(0.296\\) does not show \\(\\frac{8}{27}\\). Use the formula: \\(\\binom42(\\frac13)^2(\\frac23)^2=\\frac{8}{27}\\).",
+    "err": "Concept"
+   },
+   {
+    "t": "finish",
+    "tag": "LESSON COMPLETE",
+    "title": "Binomial pdf/cdf and least n: Learn passed"
+   }
+  ]
+ },
+ "drill": {
+  "intro": "Each describes a count of successes, \\(X \\sim \\mathrm{B}(n,\\,p)\\). Write the probability statement, choose Pdf or Cdf, mind the off-by-one on “at least”, and type the value to 3 significant figures. SL 4.8 (also HL).",
+  "challengeIntro": "a conditional probability, finding n and p from the mean and variance, a p that comes from a normal model, and a least-n with “at least two”. Optional: getting them wrong cannot undo your drill result.",
+  "keys": {
+   "nspire": [
+    "Write the probability statement first, e.g. P(X = 7) or P(X ≤ 10) = ?",
+    "Open a Calculator page: menu → 6: Statistics → 5: Distributions.",
+    "Exactly k: choose D: Binomial Pdf. Enter Num Trials n, Prob Success p, X Value k. OK.",
+    "At most k: choose E: Binomial Cdf. Enter n, p, Lower Bound 0, Upper Bound k.",
+    "At least k: Binomial Cdf with Lower Bound k, Upper Bound n (or 1 − binomCdf(n, p, 0, k − 1)).",
+    "Between a and b inclusive: Binomial Cdf with Lower Bound a, Upper Bound b.",
+    "Least n: menu → 2: Add Lists & Spreadsheet, or a table of 1 − (1 − p)^n (ctrl T on a Graphs page), and read the first n that meets the condition.",
+    "Copy the full value, then round to 3 significant figures."
+   ],
+   "ti84": [
+    "Write the probability statement first, e.g. P(X = 7) or P(X ≤ 10) = ?",
+    "Press 2nd then VARS to open DISTR; scroll down to the binomial functions.",
+    "Exactly k: binompdf(n, p, k). Press ENTER.",
+    "At most k: binomcdf(n, p, k). It always starts from 0.",
+    "At least k: 1 − binomcdf(n, p, k − 1). The “minus one” keeps the bar at k.",
+    "Between a and b inclusive: binomcdf(n, p, b) − binomcdf(n, p, a − 1).",
+    "Least n: Y= 1 − (1 − p)^X, then 2nd GRAPH (TABLE) and read down the table; or 2nd WINDOW (TBLSET) to set the start.",
+    "Round only at the end, to 3 significant figures."
+   ],
+   "cg50": [
+    "Write the probability statement first, e.g. P(X = 7) or P(X ≤ 10) = ?",
+    "MENU → STAT → F5 DIST → F5 BINOMIAL (or BINM).",
+    "Exactly k: F1 Bpd. Data: Variable, x = k, Numtrial = n, p = p. EXE.",
+    "At most k: F2 Bcd. Lower 0, Upper k, Numtrial n, p. EXE.",
+    "At least k: Bcd with Lower k, Upper n.",
+    "Between a and b inclusive: Bcd with Lower a, Upper b.",
+    "Least n: MENU → TABLE, Y1 = 1 − (1 − p)^X, set the range, and read down; or MENU → RUN-MAT and try values.",
+    "Round only at the end, to 3 significant figures."
+   ]
+  },
+  "sets": [
+   [
+    {
+     "parts": [
+      [
+       "c",
+       "Which probability statement matches the words?",
+       [
+        "\\(\\mathrm{P}(X=7)\\)",
+        "\\(\\mathrm{P}(X\\le7)\\)",
+        "\\(\\mathrm{P}(X\\ge7)\\)"
+       ],
+       0,
+       "✓ Exactly: one value.",
+       "✗ Exactly \\(7\\): \\(\\mathrm{P}(X=7)\\), a single bar."
+      ],
+      [
+       "c",
+       "Which calculator function, and which values?",
+       [
+        "Binomial Pdf: \\(n=20\\), \\(p=0.35\\), \\(k=7\\)",
+        "Binomial Cdf: \\(0\\) to \\(7\\)",
+        "Binomial Pdf: \\(n=7\\), \\(p=0.35\\), \\(k=20\\)"
+       ],
+       0,
+       "✓",
+       "✗ Pdf for one value; \\(n\\) is the number of trials, \\(20\\)."
+      ]
+     ],
+     "fig": {
+      "bars": {
+       "n": 20,
+       "p": 0.35,
+       "lo": 7,
+       "hi": 7
+      },
+      "caption": "One bar: P(X = 7) = 0.184."
+     },
+     "name": "D1 Exactly k",
+     "given": "\\(X \\sim \\mathrm{B}(20,\\,0.35)\\)",
+     "givenNote": "seeds that germinate, out of 20, each with probability 0.35",
+     "q": "Find the probability that exactly \\(7\\) seeds germinate.",
+     "label": "\\(\\mathrm{P}(X=7)=\\)",
+     "ans": 0.1844,
+     "tol": 0.0006,
+     "target": 90,
+     "line": "\\(X \\sim \\mathrm{B}(20,\\,0.35),\\ \\mathrm{P}(X=7)=0.184\\)",
+     "steps": [
+      [
+       "Read it",
+       "\\(20\\) independent trials, each a success with probability \\(0.35\\): \\(X \\sim \\mathrm{B}(20,\\,0.35)\\). “Exactly \\(7\\)” is one bar."
+      ],
+      [
+       "Statement",
+       "\\(\\mathrm{P}(X=7)\\)"
+      ],
+      [
+       "Calculator",
+       "Binomial Pdf with \\(n=20\\), \\(p=0.35\\), \\(k=7\\)."
+      ],
+      [
+       "Answer",
+       "\\(\\mathrm{P}(X=7)=0.184\\). Check: the mean is \\(7\\), so the bar at \\(7\\) should be the tallest, around \\(0.18\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       0.601,
+       "\\(0.601\\) is \\(\\mathrm{P}(X\\le7)\\), the Cdf. “Exactly” needs the Pdf."
+      ],
+      [
+       0.4166,
+       "\\(0.417\\) is \\(\\mathrm{P}(X\\le6)\\): Cdf again, one bar short."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "Which probability statement matches the words?",
+       [
+        "\\(\\mathrm{P}(X\\le10)\\)",
+        "\\(\\mathrm{P}(X<10)\\)",
+        "\\(\\mathrm{P}(X=10)\\)"
+       ],
+       0,
+       "✓ At most includes \\(10\\).",
+       "✗ At most \\(10\\) means \\(10\\) or fewer: \\(\\mathrm{P}(X\\le10)\\)."
+      ],
+      [
+       "c",
+       "Which calculator function, and which values?",
+       [
+        "Binomial Cdf: \\(n=15\\), \\(p=0.6\\), \\(0\\) to \\(10\\)",
+        "Binomial Cdf: \\(0\\) to \\(9\\)",
+        "Binomial Pdf: \\(k=10\\)"
+       ],
+       0,
+       "✓",
+       "✗ Cdf up to and including \\(10\\)."
+      ]
+     ],
+     "fig": {
+      "bars": {
+       "n": 15,
+       "p": 0.6,
+       "lo": 0,
+       "hi": 10
+      },
+      "caption": "Bars 0 to 10 add to 0.783."
+     },
+     "name": "D2 At most k",
+     "given": "\\(X \\sim \\mathrm{B}(15,\\,0.6)\\)",
+     "givenNote": "customers who buy, out of 15, each with probability 0.6",
+     "q": "Find the probability that at most \\(10\\) customers buy.",
+     "label": "\\(\\mathrm{P}(X\\le10)=\\)",
+     "ans": 0.7827,
+     "tol": 0.0006,
+     "target": 90,
+     "line": "\\(\\mathrm{P}(X\\le10)=0.783\\)",
+     "steps": [
+      [
+       "Read it",
+       "“At most \\(10\\)” includes \\(10\\): bars \\(0\\) to \\(10\\)."
+      ],
+      [
+       "Statement",
+       "\\(\\mathrm{P}(X\\le10)\\)"
+      ],
+      [
+       "Calculator",
+       "Binomial Cdf with \\(n=15\\), \\(p=0.6\\), from \\(0\\) to \\(10\\) (TI-84: binomcdf(15, 0.6, 10))."
+      ],
+      [
+       "Answer",
+       "\\(\\mathrm{P}(X\\le10)=0.783\\). Check: the mean is \\(9\\), so most of the distribution is at or below \\(10\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       0.5968,
+       "\\(0.597\\) is \\(\\mathrm{P}(X\\le9)\\): “at most \\(10\\)” includes the bar at \\(10\\)."
+      ],
+      [
+       0.1859,
+       "\\(0.186\\) is \\(\\mathrm{P}(X=10)\\), the Pdf."
+      ],
+      [
+       0.9095,
+       "\\(0.909\\) is \\(\\mathrm{P}(X\\le11)\\): one bar too many."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "Which probability statement matches the words?",
+       [
+        "\\(\\mathrm{P}(X\\ge4)=1-\\mathrm{P}(X\\le3)\\)",
+        "\\(\\mathrm{P}(X\\ge4)=1-\\mathrm{P}(X\\le4)\\)",
+        "\\(\\mathrm{P}(X\\ge4)=\\mathrm{P}(X\\le4)\\)"
+       ],
+       0,
+       "✓ Remove \\(0\\) to \\(3\\).",
+       "✗ At least \\(4\\) keeps the bar at \\(4\\): subtract \\(\\mathrm{P}(X\\le3)\\)."
+      ],
+      [
+       "n",
+       "Find \\(\\mathrm{P}(X\\le3)\\).",
+       "\\(\\mathrm{P}(X\\le3)=\\)",
+       0.7759,
+       0.0006,
+       "✓ \\(0.776\\). Now \\(1-0.776\\).",
+       [
+        [
+         0.9219,
+         "That is \\(\\mathrm{P}(X\\le4)\\)."
+        ]
+       ]
+      ]
+     ],
+     "fig": {
+      "bars": {
+       "n": 10,
+       "p": 0.25,
+       "lo": 4,
+       "hi": 10
+      },
+      "caption": "Bars 4 to 10: 1 − P(X ≤ 3)."
+     },
+     "name": "D3 At least k",
+     "given": "\\(X \\sim \\mathrm{B}(10,\\,0.25)\\)",
+     "givenNote": "faulty parts in a box of 10, each faulty with probability 0.25",
+     "q": "Find the probability that at least \\(4\\) parts are faulty.",
+     "label": "\\(\\mathrm{P}(X\\ge4)=\\)",
+     "ans": 0.2241,
+     "tol": 0.0006,
+     "target": 90,
+     "line": "\\(\\mathrm{P}(X\\ge4)=1-\\mathrm{P}(X\\le3)=0.224\\)",
+     "steps": [
+      [
+       "Read it",
+       "“At least \\(4\\)” is \\(4,5,\\ldots,10\\). The Cdf counts from \\(0\\), so use the complement."
+      ],
+      [
+       "Statement",
+       "\\(\\mathrm{P}(X\\ge4)=1-\\mathrm{P}(X\\le3)\\)"
+      ],
+      [
+       "Calculator",
+       "Binomial Cdf with \\(n=10\\), \\(p=0.25\\), \\(0\\) to \\(3\\) gives \\(0.7759\\); subtract from \\(1\\). (Nspire and Casio can also take Lower \\(4\\), Upper \\(10\\).)"
+      ],
+      [
+       "Answer",
+       "\\(1-0.7759=0.224\\). Check: the mean is \\(2.5\\), so \\(4\\) or more is well under half."
+      ]
+     ],
+     "wrongs": [
+      [
+       0.0781,
+       "\\(0.0781\\) is \\(1-\\mathrm{P}(X\\le4)=\\mathrm{P}(X\\ge5)\\): the bar at \\(4\\) was removed. Subtract \\(\\mathrm{P}(X\\le3)\\)."
+      ],
+      [
+       0.7759,
+       "\\(0.776\\) is \\(\\mathrm{P}(X\\le3)\\): you forgot the “\\(1-\\)”."
+      ],
+      [
+       0.146,
+       "\\(0.146\\) is \\(\\mathrm{P}(X=4)\\) alone."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "Which probability statement matches the words?",
+       [
+        "\\(\\mathrm{P}(X\\le14)-\\mathrm{P}(X\\le9)\\)",
+        "\\(\\mathrm{P}(X\\le14)-\\mathrm{P}(X\\le10)\\)",
+        "\\(\\mathrm{P}(X\\le13)-\\mathrm{P}(X\\le9)\\)"
+       ],
+       0,
+       "✓ Keep the bar at \\(10\\), include the bar at \\(14\\).",
+       "✗ Subtract everything up to \\(9\\) so that \\(10\\) stays; include \\(14\\)."
+      ]
+     ],
+     "fig": {
+      "bars": {
+       "n": 30,
+       "p": 0.4,
+       "lo": 10,
+       "hi": 14
+      },
+      "caption": "Bars 10 to 14: P(X ≤ 14) − P(X ≤ 9)."
+     },
+     "name": "D4 Between",
+     "given": "\\(X \\sim \\mathrm{B}(30,\\,0.4)\\)",
+     "givenNote": "correct answers out of 30 guesses, each right with probability 0.4",
+     "q": "Find the probability of between \\(10\\) and \\(14\\) correct answers inclusive.",
+     "label": "\\(\\mathrm{P}(10\\le X\\le14)=\\)",
+     "ans": 0.6483,
+     "tol": 0.0006,
+     "target": 110,
+     "line": "\\(\\mathrm{P}(10\\le X\\le14)=\\mathrm{P}(X\\le14)-\\mathrm{P}(X\\le9)=0.648\\)",
+     "steps": [
+      [
+       "Read it",
+       "Inclusive: bars \\(10\\) to \\(14\\)."
+      ],
+      [
+       "Statement",
+       "\\(\\mathrm{P}(10\\le X\\le14)=\\mathrm{P}(X\\le14)-\\mathrm{P}(X\\le9)\\)"
+      ],
+      [
+       "Calculator",
+       "Binomial Cdf with \\(n=30\\), \\(p=0.4\\): \\(0\\) to \\(14\\) gives \\(0.8246\\); \\(0\\) to \\(9\\) gives \\(0.1763\\). Or Lower \\(10\\), Upper \\(14\\) in one call where the model allows."
+      ],
+      [
+       "Answer",
+       "\\(0.8246-0.1763=0.648\\). Check: the mean is \\(12\\), in the middle of the band, so well over half."
+      ]
+     ],
+     "wrongs": [
+      [
+       0.5332,
+       "\\(0.533\\) subtracts \\(\\mathrm{P}(X\\le10)\\): the bar at \\(10\\) was removed. Subtract \\(\\mathrm{P}(X\\le9)\\)."
+      ],
+      [
+       0.5382,
+       "\\(0.538\\) uses \\(\\mathrm{P}(X\\le13)\\): the bar at \\(14\\) is missing."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "The condition is",
+       [
+        "\\(1-0.85^n>0.95\\)",
+        "\\(0.15^n>0.95\\)",
+        "\\(0.15n>0.95\\)"
+       ],
+       0,
+       "✓ Complement of no successes.",
+       "✗ \\(\\mathrm{P}(\\text{at least one})=1-\\mathrm{P}(\\text{none})=1-0.85^n\\)."
+      ],
+      [
+       "c",
+       "Rearranged:",
+       [
+        "\\(0.85^n<0.05\\)",
+        "\\(0.85^n>0.05\\)",
+        "\\(0.85^n<0.95\\)"
+       ],
+       0,
+       "✓ Table or logs from here.",
+       "✗ \\(1-0.85^n>0.95\\) gives \\(0.85^n<0.05\\)."
+      ]
+     ],
+     "fig": null,
+     "name": "D5 Least n",
+     "given": "\\(X \\sim \\mathrm{B}(1,\\,0.15)\\)",
+     "givenNote": "each attempt succeeds with probability 0.15; \\(n\\) attempts",
+     "q": "Find the least \\(n\\) such that the probability of at least one success is greater than \\(0.95\\).",
+     "label": "Least \\(n=\\)",
+     "ans": 19,
+     "tol": 0.01,
+     "target": 120,
+     "line": "\\(1-0.85^n>0.95 \\Rightarrow 0.85^n<0.05;\\ n=18: 0.0536,\\ n=19: 0.0456;\\ n=19\\)",
+     "steps": [
+      [
+       "Read it",
+       "“At least one” is the complement of “none”: \\(\\mathrm{P}(X\\ge1)=1-0.85^n\\)."
+      ],
+      [
+       "Inequality",
+       "\\(1-0.85^n>0.95\\), so \\(0.85^n<0.05\\)."
+      ],
+      [
+       "Calculator",
+       "A table of \\(0.85^n\\), or \\(n>\\dfrac{\\ln0.05}{\\ln0.85}=18.4\\). Show the values either side: \\(n=18\\) gives \\(0.0536\\) (too big), \\(n=19\\) gives \\(0.0456\\)."
+      ],
+      [
+       "Answer",
+       "Least \\(n=19\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       18,
+       "\\(18\\) gives \\(0.85^{18}=0.0536\\), not below \\(0.05\\). One more."
+      ],
+      [
+       20,
+       "\\(20\\) works but is not the least; \\(19\\) already satisfies it."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "Conditional: divide by the probability of the condition, \\(\\mathrm{P}(X\\ge1)\\).",
+      "Both are “at least” probabilities: \\(1-\\mathrm{P}(X\\le1)\\) and \\(1-\\mathrm{P}(X=0)\\)."
+     ],
+     "parts": [
+      [
+       "c",
+       "Which formula?",
+       [
+        "\\(\\dfrac{\\mathrm{P}(X\\ge2)}{\\mathrm{P}(X\\ge1)}\\)",
+        "\\(\\mathrm{P}(X\\ge2)\\times\\mathrm{P}(X\\ge1)\\)",
+        "\\(\\mathrm{P}(X\\ge2)-\\mathrm{P}(X\\ge1)\\)"
+       ],
+       0,
+       "✓ Conditional probability divides.",
+       "✗ \\(\\mathrm{P}(A\\mid B)=\\mathrm{P}(A\\cap B)/\\mathrm{P}(B)\\), and \\(A\\cap B=A\\) here."
+      ],
+      [
+       "n",
+       "Numerator: \\(\\mathrm{P}(X\\ge2)=1-\\mathrm{P}(X\\le1)\\).",
+       "\\(\\mathrm{P}(X\\ge2)=\\)",
+       0.7447,
+       0.0006,
+       "✓",
+       [
+        [
+         0.4482,
+         "\\(0.448\\) is \\(1-\\mathrm{P}(X\\le2)\\): the bar at \\(2\\) was removed. Subtract \\(\\mathrm{P}(X\\le1)=0.2553\\)."
+        ],
+        [
+         0.2553,
+         "That is \\(\\mathrm{P}(X\\le1)\\); subtract from \\(1\\)."
+        ]
+       ]
+      ],
+      [
+       "n",
+       "Denominator: \\(\\mathrm{P}(X\\ge1)=1-\\mathrm{P}(X=0)\\).",
+       "\\(\\mathrm{P}(X\\ge1)=\\)",
+       0.9424,
+       0.0006,
+       "✓ Now divide.",
+       [
+        [
+         0.0576,
+         "That is \\(\\mathrm{P}(X=0)\\); subtract from \\(1\\)."
+        ]
+       ]
+      ]
+     ],
+     "fig": {
+      "bars": {
+       "n": 8,
+       "p": 0.3,
+       "lo": 2,
+       "hi": 8
+      },
+      "caption": "Numerator: bars 2 to 8 (0.745). Denominator: bars 1 to 8 (0.942)."
+     },
+     "name": "C1 Conditional",
+     "given": "\\(X \\sim \\mathrm{B}(8,\\,0.3)\\)",
+     "givenNote": "hits out of 8 shots, each with probability 0.3",
+     "q": "Given that there is at least one hit, find the probability that there are at least two.",
+     "label": "\\(\\mathrm{P}(X\\ge2\\mid X\\ge1)=\\)",
+     "ans": 0.7903,
+     "tol": 0.0006,
+     "target": 150,
+     "line": "\\(\\mathrm{P}(X\\ge2\\mid X\\ge1)=\\dfrac{\\mathrm{P}(X\\ge2)}{\\mathrm{P}(X\\ge1)}=\\dfrac{0.7447}{0.9424}=0.790\\)",
+     "steps": [
+      [
+       "Read it",
+       "A condition: restrict to outcomes with at least one hit. \\(X\\ge2\\) and \\(X\\ge1\\) together is just \\(X\\ge2\\)."
+      ],
+      [
+       "Statement",
+       "\\(\\mathrm{P}(X\\ge2\\mid X\\ge1)=\\dfrac{\\mathrm{P}(X\\ge2)}{\\mathrm{P}(X\\ge1)}\\)"
+      ],
+      [
+       "Calculator",
+       "\\(\\mathrm{P}(X\\ge2)=1-\\mathrm{P}(X\\le1)=0.7447\\); \\(\\mathrm{P}(X\\ge1)=1-\\mathrm{P}(X=0)=0.9424\\)."
+      ],
+      [
+       "Answer",
+       "\\(0.7447\\div0.9424=0.790\\). Check: larger than \\(\\mathrm{P}(X\\ge2)\\) alone, as conditioning on a likely event should give."
+      ]
+     ],
+     "wrongs": [
+      [
+       0.7447,
+       "\\(0.745\\) is \\(\\mathrm{P}(X\\ge2)\\) alone. Divide by \\(\\mathrm{P}(X\\ge1)\\)."
+      ],
+      [
+       0.9424,
+       "\\(0.942\\) is the denominator."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "\\(\\mathrm{E}(X)=np\\) and \\(\\mathrm{Var}(X)=np(1-p)\\): divide one by the other.",
+      "\\(1-p=0.7\\), so \\(p=0.3\\), \\(n=20\\). Then Binomial Pdf."
+     ],
+     "parts": [
+      [
+       "c",
+       "From \\(np=6\\) and \\(np(1-p)=4.2\\), the quickest route to \\(p\\) is",
+       [
+        "Divide: \\(1-p=4.2\\div6\\)",
+        "Subtract: \\(np-np(1-p)=1.8\\)",
+        "Multiply: \\(n^2p^2(1-p)=25.2\\)"
+       ],
+       0,
+       "✓ \\(1-p=0.7\\).",
+       "✗ Dividing the variance by the mean leaves \\(1-p\\)."
+      ],
+      [
+       "n",
+       "So \\(p=\\)",
+       "\\(p=\\)",
+       0.3,
+       0.001,
+       "✓ \\(p=0.3\\), and \\(n=6\\div0.3=20\\).",
+       [
+        [
+         0.7,
+         "That is \\(1-p\\)."
+        ]
+       ]
+      ]
+     ],
+     "fig": {
+      "bars": {
+       "n": 20,
+       "p": 0.3,
+       "lo": 6,
+       "hi": 6
+      },
+      "caption": "X ~ B(20, 0.3): the bar at the mean, 6."
+     },
+     "name": "C2 From mean and variance",
+     "given": "\\(X \\sim \\mathrm{B}(20,\\,0.3)\\)",
+     "givenNote": "a binomial variable with \\(\\mathrm{E}(X)=6\\) and \\(\\mathrm{Var}(X)=4.2\\); \\(n\\) and \\(p\\) unknown",
+     "q": "Find \\(n\\) and \\(p\\), then find \\(\\mathrm{P}(X=6)\\). Enter the probability.",
+     "label": "\\(\\mathrm{P}(X=6)=\\)",
+     "ans": 0.1916,
+     "tol": 0.0006,
+     "target": 180,
+     "line": "\\(np=6,\\ np(1-p)=4.2 \\Rightarrow 1-p=0.7,\\ p=0.3,\\ n=20;\\ \\mathrm{P}(X=6)=0.192\\)",
+     "steps": [
+      [
+       "Read it",
+       "Two facts, two unknowns: \\(np=6\\) and \\(np(1-p)=4.2\\)."
+      ],
+      [
+       "Algebra",
+       "Divide: \\(\\dfrac{np(1-p)}{np}=1-p=\\dfrac{4.2}{6}=0.7\\), so \\(p=0.3\\) and \\(n=6\\div0.3=20\\)."
+      ],
+      [
+       "Calculator",
+       "Binomial Pdf with \\(n=20\\), \\(p=0.3\\), \\(k=6\\)."
+      ],
+      [
+       "Answer",
+       "\\(\\mathrm{P}(X=6)=0.192\\). Check: \\(6\\) is the mean, so this bar is the tallest."
+      ]
+     ],
+     "wrongs": [
+      [
+       0.3,
+       "That is \\(p\\). The question also asks for \\(\\mathrm{P}(X=6)\\)."
+      ],
+      [
+       0.608,
+       "\\(0.608\\) is \\(\\mathrm{P}(X\\le6)\\): Pdf, not Cdf."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "Find \\(p\\) with the normal distribution first.",
+      "Then \\(\\mathrm{B}(10,\\,p)\\) and the complement of zero."
+     ],
+     "parts": [
+      [
+       "n",
+       "First, for one bag: \\(p=\\mathrm{P}(M<480)\\).",
+       "\\(p=\\)",
+       0.0478,
+       0.0006,
+       "✓ \\(p=0.0478\\). Keep it stored.",
+       [
+        [
+         0.9522,
+         "Wrong tail."
+        ]
+       ]
+      ],
+      [
+       "c",
+       "The number of underweight bags out of \\(10\\) is",
+       [
+        "\\(X \\sim \\mathrm{B}(10,\\,0.0478)\\)",
+        "\\(X \\sim \\mathrm{N}(10,\\,0.0478)\\)",
+        "\\(X \\sim \\mathrm{B}(0.0478,\\,10)\\)"
+       ],
+       0,
+       "✓",
+       "✗ A count of successes in \\(10\\) trials is binomial, \\(\\mathrm{B}(n,\\,p)\\) with \\(n=10\\)."
+      ],
+      [
+       "c",
+       "“At least one” is",
+       [
+        "\\(1-\\mathrm{P}(X=0)\\)",
+        "\\(\\mathrm{P}(X=1)\\)",
+        "\\(10\\times p\\)"
+       ],
+       0,
+       "✓",
+       "✗ Complement of none."
+      ]
+     ],
+     "fig": null,
+     "name": "C3 p from a normal model",
+     "given": "\\(X \\sim \\mathrm{B}(10,\\,0.0478)\\)",
+     "givenNote": "bags of sugar with masses \\(\\mathrm{N}(500,\\,12^2)\\) g; a bag is underweight if under \\(480\\) g; \\(10\\) bags are chosen",
+     "q": "Find the probability that at least one of the \\(10\\) bags is underweight.",
+     "label": "\\(\\mathrm{P}(X\\ge1)=\\)",
+     "ans": 0.3872,
+     "tol": 0.0006,
+     "target": 180,
+     "line": "\\(p=\\mathrm{P}(M<480)=0.0478;\\ X \\sim \\mathrm{B}(10,\\,0.0478);\\ \\mathrm{P}(X\\ge1)=1-\\mathrm{P}(X=0)=0.387\\)",
+     "steps": [
+      [
+       "Read it",
+       "Two distributions. The normal gives the probability for one bag; the binomial counts bags."
+      ],
+      [
+       "Step 1: p",
+       "\\(p=\\mathrm{P}(M<480)\\) with \\(\\mu=500\\), \\(\\sigma=12\\): Normal Cdf gives \\(0.04779\\). Keep the full value."
+      ],
+      [
+       "Step 2: binomial",
+       "\\(X \\sim \\mathrm{B}(10,\\,0.04779)\\); \\(\\mathrm{P}(X\\ge1)=1-\\mathrm{P}(X=0)=1-0.95221^{10}\\)."
+      ],
+      [
+       "Answer",
+       "\\(1-0.6128=0.387\\). Check: about \\(5\\%\\) per bag, ten bags: a bit under \\(50\\%\\), since the chances overlap."
+      ]
+     ],
+     "wrongs": [
+      [
+       0.0478,
+       "That is \\(p\\) for one bag. Now the binomial over \\(10\\) bags."
+      ],
+      [
+       0.3076,
+       "\\(0.308\\) is \\(\\mathrm{P}(X=1)\\), exactly one. “At least one” is \\(1-\\mathrm{P}(X=0)\\)."
+      ],
+      [
+       0.478,
+       "\\(0.478\\) is \\(10p\\): probabilities do not add like that."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "\\(\\mathrm{P}(X\\ge2)=1-\\mathrm{P}(X\\le1)\\), with \\(n\\) in the Cdf.",
+      "Make a table of \\(n\\) against \\(1-\\mathrm{binomCdf}(n,\\,0.2,\\,0,\\,1)\\) and read off the first \\(n\\) at or above \\(0.9\\)."
+     ],
+     "parts": [
+      [
+       "c",
+       "Which expression must be at least \\(0.9\\)?",
+       [
+        "\\(1-\\mathrm{P}(X\\le1)\\)",
+        "\\(1-0.8^n\\)",
+        "\\(\\mathrm{P}(X=2)\\)"
+       ],
+       0,
+       "✓ Remove the bars at \\(0\\) and \\(1\\).",
+       "✗ \\(1-0.8^n\\) is “at least one”. At least two removes \\(X=0\\) and \\(X=1\\): \\(1-\\mathrm{P}(X\\le1)\\)."
+      ],
+      [
+       "n",
+       "With \\(n=17\\), find \\(1-\\mathrm{P}(X\\le1)\\).",
+       "\\(=\\)",
+       0.8818,
+       0.0006,
+       "✓ \\(0.882\\): not yet \\(0.9\\). Try the next \\(n\\).",
+       [
+        [
+         0.9009,
+         "That is \\(n=18\\)."
+        ]
+       ]
+      ]
+     ],
+     "fig": null,
+     "name": "C4 Least n for at least two",
+     "given": "\\(X \\sim \\mathrm{B}(1,\\,0.2)\\)",
+     "givenNote": "each trial succeeds with probability 0.2; \\(n\\) trials",
+     "q": "Find the least \\(n\\) such that \\(\\mathrm{P}(X\\ge2)\\ge0.9\\).",
+     "label": "Least \\(n=\\)",
+     "ans": 18,
+     "tol": 0.01,
+     "target": 180,
+     "line": "\\(\\mathrm{P}(X\\ge2)=1-\\mathrm{P}(X\\le1);\\ n=17: 0.882,\\ n=18: 0.901;\\ n=18\\)",
+     "steps": [
+      [
+       "Read it",
+       "“At least two” has no single-formula complement: \\(\\mathrm{P}(X\\ge2)=1-\\mathrm{P}(X\\le1)\\), and \\(\\mathrm{P}(X\\le1)\\) depends on \\(n\\) through the Cdf."
+      ],
+      [
+       "Method",
+       "Try values of \\(n\\) in Binomial Cdf (\\(0\\) to \\(1\\)) until \\(1-\\mathrm{P}(X\\le1)\\) first reaches \\(0.9\\). A table of \\(1-\\mathrm{binomCdf}(n,\\,0.2,\\,0,\\,1)\\) against \\(n\\) is fastest."
+      ],
+      [
+       "Values",
+       "\\(n=17\\): \\(0.882\\) (not enough). \\(n=18\\): \\(0.901\\) ✓"
+      ],
+      [
+       "Answer",
+       "Least \\(n=18\\). Show both values either side of the boundary."
+      ]
+     ],
+     "wrongs": [
+      [
+       17,
+       "\\(17\\) gives \\(0.882\\), below \\(0.9\\)."
+      ],
+      [
+       11,
+       "\\(11\\) is the answer for “at least one”. Here it is at least two."
+      ]
+     ]
+    }
+   ],
+   [
+    {
+     "parts": [
+      [
+       "c",
+       "Which probability statement matches the words?",
+       [
+        "\\(\\mathrm{P}(X=8)\\)",
+        "\\(\\mathrm{P}(X\\le8)\\)",
+        "\\(\\mathrm{P}(X\\ge8)\\)"
+       ],
+       0,
+       "✓",
+       "✗ Exactly: one bar."
+      ],
+      [
+       "c",
+       "Which calculator function, and which values?",
+       [
+        "Binomial Pdf: \\(n=16\\), \\(p=0.45\\), \\(k=8\\)",
+        "Binomial Cdf: \\(0\\) to \\(8\\)",
+        "Binomial Pdf: \\(n=8\\), \\(k=16\\)"
+       ],
+       0,
+       "✓",
+       "✗ Pdf, \\(n=16\\)."
+      ]
+     ],
+     "fig": {
+      "bars": {
+       "n": 16,
+       "p": 0.45,
+       "lo": 8,
+       "hi": 8
+      },
+      "caption": "One bar at 8."
+     },
+     "name": "D1 Exactly k",
+     "given": "\\(X \\sim \\mathrm{B}(16,\\,0.45)\\)",
+     "givenNote": "heads in 16 tosses of a biased coin, P(head) = 0.45",
+     "q": "Find the probability of exactly \\(8\\) heads.",
+     "label": "\\(\\mathrm{P}(X=8)=\\)",
+     "ans": 0.1812,
+     "tol": 0.0006,
+     "target": 90,
+     "line": "\\(\\mathrm{P}(X=8)=0.181\\)",
+     "steps": [
+      [
+       "Read it",
+       "\\(X \\sim \\mathrm{B}(16,\\,0.45)\\); one bar."
+      ],
+      [
+       "Statement",
+       "\\(\\mathrm{P}(X=8)\\)"
+      ],
+      [
+       "Calculator",
+       "Binomial Pdf, \\(n=16\\), \\(p=0.45\\), \\(k=8\\)."
+      ],
+      [
+       "Answer",
+       "\\(0.181\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       0.7441,
+       "\\(0.744\\) is the Cdf \\(\\mathrm{P}(X\\le8)\\)."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "Which probability statement matches the words?",
+       [
+        "\\(\\mathrm{P}(X\\le6)\\)",
+        "\\(\\mathrm{P}(X<6)\\)",
+        "\\(\\mathrm{P}(X=6)\\)"
+       ],
+       0,
+       "✓",
+       "✗ At most includes \\(6\\)."
+      ],
+      [
+       "c",
+       "Which calculator function, and which values?",
+       [
+        "Binomial Cdf: \\(0\\) to \\(6\\)",
+        "Binomial Cdf: \\(0\\) to \\(5\\)",
+        "Binomial Pdf: \\(k=6\\)"
+       ],
+       0,
+       "✓",
+       "✗ Up to and including \\(6\\)."
+      ]
+     ],
+     "fig": {
+      "bars": {
+       "n": 25,
+       "p": 0.3,
+       "lo": 0,
+       "hi": 6
+      },
+      "caption": "Bars 0 to 6."
+     },
+     "name": "D2 At most k",
+     "given": "\\(X \\sim \\mathrm{B}(25,\\,0.3)\\)",
+     "givenNote": "defective items out of 25, each defective with probability 0.3",
+     "q": "Find the probability that at most \\(6\\) are defective.",
+     "label": "\\(\\mathrm{P}(X\\le6)=\\)",
+     "ans": 0.3407,
+     "tol": 0.0006,
+     "target": 90,
+     "line": "\\(\\mathrm{P}(X\\le6)=0.341\\)",
+     "steps": [
+      [
+       "Read it",
+       "Bars \\(0\\) to \\(6\\)."
+      ],
+      [
+       "Statement",
+       "\\(\\mathrm{P}(X\\le6)\\)"
+      ],
+      [
+       "Calculator",
+       "Binomial Cdf, \\(n=25\\), \\(p=0.3\\), \\(0\\) to \\(6\\)."
+      ],
+      [
+       "Answer",
+       "\\(0.341\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       0.1935,
+       "\\(0.194\\) is \\(\\mathrm{P}(X\\le5)\\): include the bar at \\(6\\)."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "Which probability statement matches the words?",
+       [
+        "\\(1-\\mathrm{P}(X\\le7)\\)",
+        "\\(1-\\mathrm{P}(X\\le8)\\)",
+        "\\(\\mathrm{P}(X\\le8)\\)"
+       ],
+       0,
+       "✓",
+       "✗ Keep the bar at \\(8\\): subtract \\(\\mathrm{P}(X\\le7)\\)."
+      ],
+      [
+       "n",
+       "Find \\(\\mathrm{P}(X\\le7)\\).",
+       "\\(\\mathrm{P}(X\\le7)=\\)",
+       0.6956,
+       0.0006,
+       "✓ Now \\(1-0.696\\).",
+       [
+        [
+         0.8655,
+         "That is \\(\\mathrm{P}(X\\le8)\\)."
+        ]
+       ]
+      ]
+     ],
+     "fig": {
+      "bars": {
+       "n": 12,
+       "p": 0.55,
+       "lo": 8,
+       "hi": 12
+      },
+      "caption": "Bars 8 to 12."
+     },
+     "name": "D3 At least k",
+     "given": "\\(X \\sim \\mathrm{B}(12,\\,0.55)\\)",
+     "givenNote": "wins out of 12 games, each won with probability 0.55",
+     "q": "Find the probability of at least \\(8\\) wins.",
+     "label": "\\(\\mathrm{P}(X\\ge8)=\\)",
+     "ans": 0.3044,
+     "tol": 0.0006,
+     "target": 90,
+     "line": "\\(\\mathrm{P}(X\\ge8)=1-\\mathrm{P}(X\\le7)=0.304\\)",
+     "steps": [
+      [
+       "Read it",
+       "Bars \\(8\\) to \\(12\\): complement of \\(0\\) to \\(7\\)."
+      ],
+      [
+       "Statement",
+       "\\(\\mathrm{P}(X\\ge8)=1-\\mathrm{P}(X\\le7)\\)"
+      ],
+      [
+       "Calculator",
+       "Binomial Cdf \\(0\\) to \\(7\\) gives \\(0.6956\\); subtract from \\(1\\)."
+      ],
+      [
+       "Answer",
+       "\\(0.304\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       0.1345,
+       "\\(0.135\\) is \\(1-\\mathrm{P}(X\\le8)\\): the bar at \\(8\\) was removed."
+      ],
+      [
+       0.6956,
+       "\\(0.696\\) is \\(\\mathrm{P}(X\\le7)\\): forgot the complement."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "Which probability statement matches the words?",
+       [
+        "\\(\\mathrm{P}(X\\le9)-\\mathrm{P}(X\\le4)\\)",
+        "\\(\\mathrm{P}(X\\le9)-\\mathrm{P}(X\\le5)\\)",
+        "\\(\\mathrm{P}(X\\le8)-\\mathrm{P}(X\\le4)\\)"
+       ],
+       0,
+       "✓",
+       "✗ Keep \\(5\\), include \\(9\\)."
+      ]
+     ],
+     "fig": {
+      "bars": {
+       "n": 40,
+       "p": 0.2,
+       "lo": 5,
+       "hi": 9
+      },
+      "caption": "Bars 5 to 9."
+     },
+     "name": "D4 Between",
+     "given": "\\(X \\sim \\mathrm{B}(40,\\,0.2)\\)",
+     "givenNote": "late deliveries out of 40, each late with probability 0.2",
+     "q": "Find the probability of between \\(5\\) and \\(9\\) late deliveries inclusive.",
+     "label": "\\(\\mathrm{P}(5\\le X\\le9)=\\)",
+     "ans": 0.6559,
+     "tol": 0.0006,
+     "target": 110,
+     "line": "\\(\\mathrm{P}(X\\le9)-\\mathrm{P}(X\\le4)=0.656\\)",
+     "steps": [
+      [
+       "Read it",
+       "Bars \\(5\\) to \\(9\\)."
+      ],
+      [
+       "Statement",
+       "\\(\\mathrm{P}(X\\le9)-\\mathrm{P}(X\\le4)\\)"
+      ],
+      [
+       "Calculator",
+       "Two Cdf values: \\(0.7318-0.0759\\). Or Lower \\(5\\), Upper \\(9\\) where allowed."
+      ],
+      [
+       "Answer",
+       "\\(0.656\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       0.5704,
+       "\\(0.570\\) subtracts \\(\\mathrm{P}(X\\le5)\\): the bar at \\(5\\) was removed."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "The condition is",
+       [
+        "\\(1-0.92^n>0.9\\)",
+        "\\(0.08^n>0.9\\)",
+        "\\(0.08n>0.9\\)"
+       ],
+       0,
+       "✓",
+       "✗ Complement of none: \\(1-0.92^n\\)."
+      ],
+      [
+       "c",
+       "Rearranged:",
+       [
+        "\\(0.92^n<0.1\\)",
+        "\\(0.92^n>0.1\\)",
+        "\\(0.92^n<0.9\\)"
+       ],
+       0,
+       "✓",
+       "✗ \\(0.92^n<0.1\\)."
+      ]
+     ],
+     "fig": null,
+     "name": "D5 Least n",
+     "given": "\\(X \\sim \\mathrm{B}(1,\\,0.08)\\)",
+     "givenNote": "each ticket wins with probability 0.08; \\(n\\) tickets",
+     "q": "Find the least \\(n\\) such that the probability of at least one win is greater than \\(0.9\\).",
+     "label": "Least \\(n=\\)",
+     "ans": 28,
+     "tol": 0.01,
+     "target": 120,
+     "line": "\\(0.92^n<0.1;\\ n=27: 0.105,\\ n=28: 0.0968;\\ n=28\\)",
+     "steps": [
+      [
+       "Read it",
+       "At least one win: \\(1-0.92^n\\)."
+      ],
+      [
+       "Inequality",
+       "\\(1-0.92^n>0.9\\), so \\(0.92^n<0.1\\)."
+      ],
+      [
+       "Calculator",
+       "Table of \\(0.92^n\\), or \\(n>\\ln0.1/\\ln0.92=27.6\\). \\(n=27\\): \\(0.105\\); \\(n=28\\): \\(0.0968\\)."
+      ],
+      [
+       "Answer",
+       "Least \\(n=28\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       27,
+       "\\(27\\) gives \\(0.105\\), not below \\(0.1\\)."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "Divide by \\(\\mathrm{P}(X\\ge1)\\).",
+      "Both via complements of Cdf values."
+     ],
+     "parts": [
+      [
+       "c",
+       "Which formula?",
+       [
+        "\\(\\dfrac{\\mathrm{P}(X\\ge3)}{\\mathrm{P}(X\\ge1)}\\)",
+        "\\(\\mathrm{P}(X\\ge3)\\times\\mathrm{P}(X\\ge1)\\)",
+        "\\(\\mathrm{P}(X\\ge3)-\\mathrm{P}(X\\ge1)\\)"
+       ],
+       0,
+       "✓",
+       "✗ Divide."
+      ],
+      [
+       "n",
+       "\\(\\mathrm{P}(X\\ge3)=\\)",
+       "\\(\\mathrm{P}(X\\ge3)=\\)",
+       0.8327,
+       0.0006,
+       "✓",
+       [
+        [
+         0.9536,
+         "That is \\(1-\\mathrm{P}(X\\le1)\\): the bar at \\(2\\) must go too."
+        ]
+       ]
+      ],
+      [
+       "n",
+       "\\(\\mathrm{P}(X\\ge1)=\\)",
+       "\\(\\mathrm{P}(X\\ge1)=\\)",
+       0.994,
+       0.0006,
+       "✓ Divide.",
+       [
+        [
+         0.006,
+         "That is \\(\\mathrm{P}(X=0)\\)."
+        ]
+       ]
+      ]
+     ],
+     "fig": {
+      "bars": {
+       "n": 10,
+       "p": 0.4,
+       "lo": 3,
+       "hi": 10
+      },
+      "caption": "Numerator: bars 3 to 10."
+     },
+     "name": "C1 Conditional",
+     "given": "\\(X \\sim \\mathrm{B}(10,\\,0.4)\\)",
+     "givenNote": "successes out of 10, each with probability 0.4",
+     "q": "Given at least one success, find the probability of at least three.",
+     "label": "\\(\\mathrm{P}(X\\ge3\\mid X\\ge1)=\\)",
+     "ans": 0.8378,
+     "tol": 0.0006,
+     "target": 150,
+     "line": "\\(\\dfrac{\\mathrm{P}(X\\ge3)}{\\mathrm{P}(X\\ge1)}=\\dfrac{0.8327}{0.9940}=0.838\\)",
+     "steps": [
+      [
+       "Read it",
+       "Conditional; \\(X\\ge3\\) is inside \\(X\\ge1\\)."
+      ],
+      [
+       "Statement",
+       "\\(\\dfrac{\\mathrm{P}(X\\ge3)}{\\mathrm{P}(X\\ge1)}\\)"
+      ],
+      [
+       "Calculator",
+       "\\(1-\\mathrm{P}(X\\le2)=0.8327\\); \\(1-\\mathrm{P}(X=0)=0.9940\\)."
+      ],
+      [
+       "Answer",
+       "\\(0.838\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       0.8327,
+       "Numerator alone."
+      ],
+      [
+       0.994,
+       "Denominator alone."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "Divide variance by mean.",
+      "\\(p=0.3\\), \\(n=30\\)."
+     ],
+     "parts": [
+      [
+       "c",
+       "Quickest route to \\(p\\):",
+       [
+        "Divide: \\(1-p=6.3\\div9\\)",
+        "Subtract",
+        "Multiply"
+       ],
+       0,
+       "✓",
+       "✗ Variance over mean gives \\(1-p\\)."
+      ],
+      [
+       "n",
+       "\\(p=\\)",
+       "\\(p=\\)",
+       0.3,
+       0.001,
+       "✓ \\(n=30\\).",
+       [
+        [
+         0.7,
+         "That is \\(1-p\\)."
+        ]
+       ]
+      ]
+     ],
+     "fig": {
+      "bars": {
+       "n": 30,
+       "p": 0.3,
+       "lo": 9,
+       "hi": 9
+      },
+      "caption": "The bar at the mean, 9."
+     },
+     "name": "C2 From mean and variance",
+     "given": "\\(X \\sim \\mathrm{B}(30,\\,0.3)\\)",
+     "givenNote": "a binomial variable with \\(\\mathrm{E}(X)=9\\) and \\(\\mathrm{Var}(X)=6.3\\)",
+     "q": "Find \\(n\\) and \\(p\\), then \\(\\mathrm{P}(X=9)\\). Enter the probability.",
+     "label": "\\(\\mathrm{P}(X=9)=\\)",
+     "ans": 0.1573,
+     "tol": 0.0006,
+     "target": 180,
+     "line": "\\(1-p=6.3/9=0.7,\\ p=0.3,\\ n=30;\\ \\mathrm{P}(X=9)=0.157\\)",
+     "steps": [
+      [
+       "Read it",
+       "\\(np=9\\), \\(np(1-p)=6.3\\)."
+      ],
+      [
+       "Algebra",
+       "\\(1-p=0.7\\), \\(p=0.3\\), \\(n=30\\)."
+      ],
+      [
+       "Calculator",
+       "Binomial Pdf \\(n=30\\), \\(p=0.3\\), \\(k=9\\)."
+      ],
+      [
+       "Answer",
+       "\\(0.157\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       0.3,
+       "That is \\(p\\)."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "Normal first, for \\(p\\).",
+      "Then \\(1-\\mathrm{P}(X=0)\\)."
+     ],
+     "parts": [
+      [
+       "n",
+       "First, \\(p=\\mathrm{P}(T>140)\\).",
+       "\\(p=\\)",
+       0.0912,
+       0.0006,
+       "✓",
+       [
+        [
+         0.9088,
+         "Wrong tail."
+        ]
+       ]
+      ],
+      [
+       "c",
+       "The count of slow people out of \\(6\\) is",
+       [
+        "\\(\\mathrm{B}(6,\\,0.0912)\\)",
+        "\\(\\mathrm{N}(6,\\,0.0912)\\)",
+        "\\(\\mathrm{B}(0.0912,\\,6)\\)"
+       ],
+       0,
+       "✓",
+       "✗ \\(\\mathrm{B}(n,\\,p)\\)."
+      ],
+      [
+       "c",
+       "“At least one”:",
+       [
+        "\\(1-\\mathrm{P}(X=0)\\)",
+        "\\(\\mathrm{P}(X=1)\\)",
+        "\\(6p\\)"
+       ],
+       0,
+       "✓",
+       "✗ Complement of none."
+      ]
+     ],
+     "fig": null,
+     "name": "C3 p from a normal model",
+     "given": "\\(X \\sim \\mathrm{B}(6,\\,0.0912)\\)",
+     "givenNote": "reaction times \\(\\mathrm{N}(120,\\,15^2)\\) ms; a time over \\(140\\) ms is “slow”; \\(6\\) people are tested",
+     "q": "Find the probability that at least one of the \\(6\\) is slow.",
+     "label": "\\(\\mathrm{P}(X\\ge1)=\\)",
+     "ans": 0.4367,
+     "tol": 0.0006,
+     "target": 180,
+     "line": "\\(p=\\mathrm{P}(T>140)=0.0912;\\ \\mathrm{B}(6,\\,0.0912);\\ 1-\\mathrm{P}(X=0)=0.437\\)",
+     "steps": [
+      [
+       "Read it",
+       "Normal for one person, binomial for the count."
+      ],
+      [
+       "Step 1: p",
+       "\\(p=\\mathrm{P}(T>140)=0.09121\\)."
+      ],
+      [
+       "Step 2: binomial",
+       "\\(1-(1-p)^6=1-0.90879^6\\)."
+      ],
+      [
+       "Answer",
+       "\\(0.437\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       0.0912,
+       "That is \\(p\\)."
+      ],
+      [
+       0.5473,
+       "\\(0.547\\) is \\(6p\\): probabilities do not add."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "\\(1-\\mathrm{P}(X\\le1)\\) with \\(n\\) inside.",
+      "Table against \\(n\\)."
+     ],
+     "parts": [
+      [
+       "c",
+       "Which expression must reach \\(0.95\\)?",
+       [
+        "\\(1-\\mathrm{P}(X\\le1)\\)",
+        "\\(1-0.7^n\\)",
+        "\\(\\mathrm{P}(X=2)\\)"
+       ],
+       0,
+       "✓",
+       "✗ At least two removes \\(0\\) and \\(1\\)."
+      ],
+      [
+       "n",
+       "With \\(n=13\\): \\(1-\\mathrm{P}(X\\le1)=\\)",
+       "\\(=\\)",
+       0.9363,
+       0.0006,
+       "✓ Not yet. Try the next \\(n\\).",
+       [
+        [
+         0.9525,
+         "That is \\(n=14\\)."
+        ]
+       ]
+      ]
+     ],
+     "fig": null,
+     "name": "C4 Least n for at least two",
+     "given": "\\(X \\sim \\mathrm{B}(1,\\,0.3)\\)",
+     "givenNote": "each trial succeeds with probability 0.3",
+     "q": "Find the least \\(n\\) such that \\(\\mathrm{P}(X\\ge2)\\ge0.95\\).",
+     "label": "Least \\(n=\\)",
+     "ans": 14,
+     "tol": 0.01,
+     "target": 180,
+     "line": "\\(1-\\mathrm{P}(X\\le1);\\ n=13: 0.936,\\ n=14: 0.953;\\ n=14\\)",
+     "steps": [
+      [
+       "Read it",
+       "\\(\\mathrm{P}(X\\ge2)=1-\\mathrm{P}(X\\le1)\\)."
+      ],
+      [
+       "Method",
+       "Table of \\(1-\\mathrm{binomCdf}(n,\\,0.3,\\,0,\\,1)\\)."
+      ],
+      [
+       "Values",
+       "\\(n=13\\): \\(0.936\\); \\(n=14\\): \\(0.953\\) ✓"
+      ],
+      [
+       "Answer",
+       "Least \\(n=14\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       13,
+       "\\(13\\) gives \\(0.936\\)."
+      ]
+     ]
+    }
+   ]
+  ],
+  "rules": {
+   "coreItems": 5,
+   "challengeItems": 4,
+   "tries": 2,
+   "passCore": 4
+  }
+ },
+ "apply": {
+  "questions": [
+   {
+    "max": 7,
+    "stem": "A factory produces light bulbs. It is known that \\(5\\%\\) of the bulbs are defective. A random sample of \\(20\\) bulbs is taken, and \\(X\\) is the number of defective bulbs in the sample.",
+    "parts": [
+     {
+      "label": "(a)",
+      "marks": 2,
+      "text": "Find \\(\\mathrm{P}(X=2)\\).",
+      "ansLabel": "\\(\\mathrm{P}(X=2)=\\)",
+      "ans": 0.1887,
+      "tol": 0.0006,
+      "fig": {
+       "kind": "bars",
+       "vals": [
+        0.3585,
+        0.3774,
+        0.1887,
+        0.0596,
+        0.0133,
+        0.0022,
+        0.0003
+       ],
+       "labels": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+       ],
+       "lo": 2,
+       "hi": 2,
+       "showVals": true
+      },
+      "figCap": "X ~ B(20, 0.05): the bar at k = 2 (bars beyond 6 are too small to see).",
+      "ms": [
+       [
+        "M1",
+        "\\(X \\sim \\mathrm{B}(20,\\,0.05)\\) stated; binomial pdf with \\(k=2\\)"
+       ],
+       [
+        "A1",
+        "\\(0.189\\)   (\\(0.18868\\ldots\\))"
+       ]
+      ],
+      "wrongs": [
+       [
+        0.9245,
+        "\\(0.925\\) is \\(\\mathrm{P}(X\\le2)\\), the cdf. “\\(X=2\\)” is one bar: pdf."
+       ],
+       [
+        0.3774,
+        "That is \\(\\mathrm{P}(X=1)\\)."
+       ]
+      ]
+     },
+     {
+      "label": "(b)",
+      "marks": 2,
+      "text": "Find the probability that at most \\(2\\) bulbs are defective.",
+      "ansLabel": "\\(\\mathrm{P}(X\\le2)=\\)",
+      "ans": 0.9245,
+      "tol": 0.0006,
+      "fig": {
+       "kind": "bars",
+       "vals": [
+        0.3585,
+        0.3774,
+        0.1887,
+        0.0596,
+        0.0133,
+        0.0022,
+        0.0003
+       ],
+       "labels": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+       ],
+       "lo": 0,
+       "hi": 2
+      },
+      "figCap": "At most 2: the bars 0, 1 and 2 added (cdf up to 2).",
+      "ms": [
+       [
+        "M1",
+        "\\(\\mathrm{P}(X\\le2)\\), binomial cdf from \\(0\\) to \\(2\\)"
+       ],
+       [
+        "A1",
+        "\\(0.925\\)   (\\(0.92452\\ldots\\))"
+       ]
+      ],
+      "wrongs": [
+       [
+        0.7358,
+        "\\(0.736\\) is \\(\\mathrm{P}(X\\le1)\\): “at most \\(2\\)” includes the bar at \\(2\\)."
+       ],
+       [
+        0.1887,
+        "That is \\(\\mathrm{P}(X=2)\\) alone."
+       ]
+      ]
+     },
+     {
+      "label": "(c)",
+      "marks": 3,
+      "text": "Find the probability that at least one bulb is defective.",
+      "ansLabel": "\\(\\mathrm{P}(X\\ge1)=\\)",
+      "ans": 0.6415,
+      "tol": 0.0006,
+      "fig": {
+       "kind": "bars",
+       "vals": [
+        0.3585,
+        0.3774,
+        0.1887,
+        0.0596,
+        0.0133,
+        0.0022,
+        0.0003
+       ],
+       "labels": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+       ],
+       "lo": 1,
+       "hi": 6,
+       "notes": [
+        [
+         300,
+         40,
+         "1 − P(X = 0)",
+         "#B45309"
+        ]
+       ]
+      },
+      "figCap": "Everything except the bar at 0: the complement.",
+      "ms": [
+       [
+        "M1",
+        "\\(\\mathrm{P}(X\\ge1)=1-\\mathrm{P}(X=0)\\)"
+       ],
+       [
+        "A1",
+        "\\(\\mathrm{P}(X=0)=0.95^{20}=0.3585\\)"
+       ],
+       [
+        "A1",
+        "\\(0.642\\)   (\\(0.64151\\ldots\\))"
+       ]
+      ],
+      "wrongs": [
+       [
+        0.3585,
+        "That is \\(\\mathrm{P}(X=0)\\); subtract it from \\(1\\)."
+       ],
+       [
+        0.2642,
+        "\\(0.264\\) is \\(1-\\mathrm{P}(X\\le1)=\\mathrm{P}(X\\ge2)\\): the bar at \\(1\\) was removed too."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "max": 8,
+    "stem": "Seeds of a certain plant germinate with probability \\(0.8\\), independently of each other. A tray contains \\(10\\) seeds, and \\(X\\) is the number that germinate.",
+    "parts": [
+     {
+      "label": "(a)",
+      "marks": 2,
+      "text": "Find \\(\\mathrm{E}(X)\\) and \\(\\mathrm{Var}(X)\\).",
+      "ansLabel": "\\(\\mathrm{E}(X)=\\)",
+      "ansLabel2": "\\(\\mathrm{Var}(X)=\\)",
+      "ans": 8,
+      "ans2": 1.6,
+      "tol": 0.01,
+      "fig": {
+       "kind": "bars",
+       "vals": [
+        0.0001,
+        0.0008,
+        0.0055,
+        0.0264,
+        0.0881,
+        0.2013,
+        0.302,
+        0.2684,
+        0.1074
+       ],
+       "labels": [
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10"
+       ],
+       "lo": 6,
+       "hi": 6,
+       "notes": [
+        [
+         250,
+         30,
+         "mean np = 8",
+         "#B45309"
+        ]
+       ]
+      },
+      "figCap": "X ~ B(10, 0.8) peaks at the mean, np = 8.",
+      "ms": [
+       [
+        "A1",
+        "\\(\\mathrm{E}(X)=np=8\\)"
+       ],
+       [
+        "A1",
+        "\\(\\mathrm{Var}(X)=np(1-p)=1.6\\)"
+       ]
+      ],
+      "wrongs": [
+       [
+        1.265,
+        "\\(1.26\\) is the standard deviation \\(\\sqrt{1.6}\\); the variance is \\(1.6\\)."
+       ],
+       [
+        2,
+        "\\(2\\) is \\(n(1-p)\\), the expected number that do not germinate."
+       ]
+      ]
+     },
+     {
+      "label": "(b)",
+      "marks": 2,
+      "text": "Find the probability that at least \\(8\\) seeds in a tray germinate.",
+      "ansLabel": "\\(\\mathrm{P}(X\\ge8)=\\)",
+      "ans": 0.6778,
+      "tol": 0.0006,
+      "fig": {
+       "kind": "bars",
+       "vals": [
+        0.0001,
+        0.0008,
+        0.0055,
+        0.0264,
+        0.0881,
+        0.2013,
+        0.302,
+        0.2684,
+        0.1074
+       ],
+       "labels": [
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10"
+       ],
+       "lo": 6,
+       "hi": 8
+      },
+      "figCap": "At least 8: the bars 8, 9, 10, which is 1 − P(X ≤ 7).",
+      "ms": [
+       [
+        "M1",
+        "\\(\\mathrm{P}(X\\ge8)=1-\\mathrm{P}(X\\le7)\\)"
+       ],
+       [
+        "A1",
+        "\\(0.678\\)   (\\(0.67780\\ldots\\))"
+       ]
+      ],
+      "wrongs": [
+       [
+        0.3758,
+        "\\(0.376\\) is \\(1-\\mathrm{P}(X\\le8)=\\mathrm{P}(X\\ge9)\\): the bar at \\(8\\) was removed. Subtract \\(\\mathrm{P}(X\\le7)\\)."
+       ],
+       [
+        0.3222,
+        "\\(0.322\\) is \\(\\mathrm{P}(X\\le7)\\): forgot the “\\(1-\\)”."
+       ],
+       [
+        0.302,
+        "That is \\(\\mathrm{P}(X=8)\\) alone."
+       ]
+      ]
+     },
+     {
+      "label": "(c)",
+      "marks": 4,
+      "text": "Five trays are planted. Find the probability that exactly \\(3\\) of the \\(5\\) trays have at least \\(8\\) seeds germinating.",
+      "ansLabel": "\\(\\mathrm{P}(Y=3)=\\)",
+      "ans": 0.3233,
+      "tol": 0.0012,
+      "ftFrom": 1,
+      "ft": {
+       "$fn": "(p) => 10 * p * p * p * (1 - p) * (1 - p)"
+      },
+      "fig": {
+       "kind": "bars",
+       "vals": [
+        0.0035,
+        0.0362,
+        0.1523,
+        0.3203,
+        0.3369,
+        0.143
+       ],
+       "labels": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+       ],
+       "lo": 3,
+       "hi": 3,
+       "notes": [
+        [
+         90,
+         30,
+         "Y ~ B(5, 0.678)",
+         "#B45309"
+        ]
+       ]
+      },
+      "figCap": "A second binomial: the number of trays, Y ~ B(5, 0.678), with p from part (b).",
+      "ms": [
+       [
+        "M1",
+        "recognising a new binomial: \\(Y \\sim \\mathrm{B}(5,\\,0.6778)\\)"
+       ],
+       [
+        "A1",
+        "\\(p=0.6778\\) carried from (b), not rounded"
+       ],
+       [
+        "M1",
+        "binomial pdf with \\(n=5\\), \\(k=3\\): \\(\\binom53(0.6778)^{3}(0.3222)^{2}\\)"
+       ],
+       [
+        "A1",
+        "\\(0.323\\)   (\\(0.32328\\ldots\\))"
+       ]
+      ],
+      "note": "The structure, a binomial whose \\(p\\) is the answer to an earlier part, appears in almost every session. Follow-through applies to your (b).",
+      "wrongs": [
+       [
+        0.6778,
+        "That is the probability for one tray; the question is about \\(3\\) of \\(5\\) trays."
+       ],
+       [
+        0.2593,
+        "\\(0.259\\) is \\(\\binom53\\) left out, or \\(p\\) rounded to \\(0.68\\); keep the full value."
+       ],
+       [
+        0.3369,
+        "That is \\(\\mathrm{P}(Y=4)\\)."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "max": 9,
+    "stem": "An archer hits the target with probability \\(0.3\\) on each shot, independently.",
+    "parts": [
+     {
+      "label": "(a)",
+      "marks": 4,
+      "text": "Find the least number of shots the archer must take so that the probability of hitting the target at least once is greater than \\(0.95\\).",
+      "ansLabel": "least \\(n=\\)",
+      "ans": 9,
+      "tol": 0.01,
+      "fig": {
+       "kind": "bars",
+       "vals": [
+        0.5,
+        0.6568,
+        0.7599,
+        0.8319,
+        0.8824,
+        0.9176,
+        0.9424,
+        0.9596,
+        0.9718,
+        0.9802
+       ],
+       "labels": [
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12"
+       ],
+       "lo": 6,
+       "hi": 9,
+       "notes": [
+        [
+         220,
+         22,
+         "P(at least one hit) = 1 − 0.7ⁿ, against n",
+         "#4A5856"
+        ],
+        [
+         120,
+         50,
+         "first above 0.95 at n = 9",
+         "#B45309"
+        ]
+       ]
+      },
+      "figCap": "Bars show 1 − 0.7ⁿ for n = 3 to 12: the first to pass 0.95 is n = 9.",
+      "ms": [
+       [
+        "M1",
+        "\\(\\mathrm{P}(\\text{at least one})=1-0.7^{n}\\)"
+       ],
+       [
+        "M1",
+        "\\(1-0.7^{n}>0.95\\), i.e. \\(0.7^{n}<0.05\\)"
+       ],
+       [
+        "A1",
+        "\\(n=8\\): \\(0.0576\\) (fails); \\(n=9\\): \\(0.0404\\) (works) shown"
+       ],
+       [
+        "A1",
+        "least \\(n=9\\)"
+       ]
+      ],
+      "note": "Show the values either side of the boundary. A table of \\(0.7^{n}\\) on the GDC is the quickest way.",
+      "wrongs": [
+       [
+        8,
+        "\\(n=8\\) gives \\(1-0.7^{8}=0.942\\), not above \\(0.95\\). One more shot."
+       ],
+       [
+        10,
+        "\\(10\\) works but is not the least: \\(9\\) already gives \\(0.960\\)."
+       ],
+       [
+        0.9596,
+        "That is the probability at \\(n=9\\); the question asks for \\(n\\)."
+       ]
+      ]
+     },
+     {
+      "label": "(b)",
+      "marks": 2,
+      "text": "The archer takes \\(10\\) shots. Find the probability that exactly \\(3\\) shots hit the target.",
+      "ansLabel": "\\(\\mathrm{P}(X=3)=\\)",
+      "ans": 0.2668,
+      "tol": 0.0006,
+      "fig": {
+       "kind": "bars",
+       "vals": [
+        0.0282,
+        0.1211,
+        0.2335,
+        0.2668,
+        0.2001,
+        0.1029,
+        0.0368,
+        0.009,
+        0.0014
+       ],
+       "labels": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8"
+       ],
+       "lo": 3,
+       "hi": 3
+      },
+      "figCap": "X ~ B(10, 0.3): the bar at 3.",
+      "ms": [
+       [
+        "M1",
+        "\\(X \\sim \\mathrm{B}(10,\\,0.3)\\), pdf at \\(3\\)"
+       ],
+       [
+        "A1",
+        "\\(0.267\\)   (\\(0.26683\\ldots\\))"
+       ]
+      ],
+      "wrongs": [
+       [
+        0.6496,
+        "\\(0.650\\) is \\(\\mathrm{P}(X\\le3)\\): cdf, not pdf."
+       ],
+       [
+        0.2335,
+        "That is \\(\\mathrm{P}(X=2)\\)."
+       ]
+      ]
+     },
+     {
+      "label": "(c)",
+      "marks": 3,
+      "text": "Given that the archer hits the target at least once in the \\(10\\) shots, find the probability that exactly \\(3\\) shots hit the target.",
+      "ansLabel": "\\(\\mathrm{P}(X=3\\mid X\\ge1)=\\)",
+      "ans": 0.2746,
+      "tol": 0.0006,
+      "ftFrom": 1,
+      "ft": {
+       "$fn": "(b) => b / 0.9718"
+      },
+      "fig": {
+       "kind": "bars",
+       "vals": [
+        0.0282,
+        0.1211,
+        0.2335,
+        0.2668,
+        0.2001,
+        0.1029,
+        0.0368,
+        0.009,
+        0.0014
+       ],
+       "labels": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8"
+       ],
+       "lo": 1,
+       "hi": 8,
+       "notes": [
+        [
+         300,
+         40,
+         "denominator: all bars except 0",
+         "#4A5856"
+        ],
+        [
+         195,
+         24,
+         "numerator: bar at 3",
+         "#B45309"
+        ]
+       ]
+      },
+      "figCap": "Condition X ≥ 1 removes the bar at 0 from the denominator; the event X = 3 lies inside it.",
+      "ms": [
+       [
+        "M1",
+        "\\(\\dfrac{\\mathrm{P}(X=3)}{\\mathrm{P}(X\\ge1)}\\)"
+       ],
+       [
+        "A1",
+        "\\(\\mathrm{P}(X\\ge1)=1-0.7^{10}=0.9718\\)"
+       ],
+       [
+        "A1",
+        "\\(0.275\\)   (\\(0.27457\\ldots\\))"
+       ]
+      ],
+      "wrongs": [
+       [
+        0.2668,
+        "That is \\(\\mathrm{P}(X=3)\\) alone; divide by \\(\\mathrm{P}(X\\ge1)\\)."
+       ],
+       [
+        0.2593,
+        "\\(0.259\\) multiplied by \\(\\mathrm{P}(X\\ge1)\\); a condition divides."
+       ],
+       [
+        0.9718,
+        "That is the denominator."
+       ]
+      ]
+     }
+    ]
+   }
+  ],
+  "passMark": 17,
+  "maxMarks": 24,
+  "lostMarksHint": "most lost marks here are the off-by-one in “at least”, forgetting the second binomial built on an earlier probability, and not showing the values either side of the least n."
+ }
+}

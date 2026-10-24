@@ -9,6 +9,8 @@ import useMyAttemptsQuery from '@/hooks/diagnostic/useMyAttemptsQuery.ts'
 import useEsatModules from '@/hooks/diagnostic/useEsatModules.ts'
 import type { PublishedDiagnosticSet } from '@/client'
 import { BILLING_LIVE, formatSeasonPrice } from '@/lib/billing.ts'
+import type { PaperOffer } from '@/lib/billingApi.ts'
+import { singlePaperTier, TIER_COPY } from '@/lib/singlePapers.ts'
 import { trackEvent } from '@/lib/analytics.ts'
 import { MINI_FIRST_TESTS } from '@/lib/miniFirst.ts'
 import type { SeasonOffer } from '@/lib/billingApi.ts'
@@ -334,6 +336,10 @@ export function DiagnosticsCatalogPage({ test }: Props) {
                                 coveredTests={coveredTests}
                                 canBuy={canBuy}
                                 onOpen={toStartScreen}
+                                ownedPapers={billing?.ownedPapers ?? []}
+                                paperOffers={
+                                    BILLING_LIVE ? (billing?.paperOffers ?? []) : []
+                                }
                             />
                         ))}
                     </>
@@ -549,21 +555,38 @@ function ModuleBlock({
     coveredTests,
     canBuy,
     onOpen,
+    ownedPapers,
+    paperOffers,
 }: {
     group: Group
     coverage: Map<string, CoverageRow>
     coveredTests: string[]
     canBuy: boolean
     onOpen: (set: PublishedDiagnosticSet) => void
+    /** Single papers this student has bought. */
+    ownedPapers: string[]
+    /** Single papers on sale, per test. Empty while they are switched off. */
+    paperOffers: PaperOffer[]
 }) {
     const test = testFromSubject(group.subject)
     // A set whose subject names no test cannot be matched to a pass. The
     // server refuses it too, so showing it locked is the honest rendering.
     const unlocked = test !== undefined && coveredTests.includes(test)
     const minis = group.sets.filter(isMini)
+    // Challenge and Foundations papers have their own row: they are not a
+    // lettered set, and reuse those sets' questions.
+    const singles = group.sets
+        .filter((s) => singlePaperTier(s) !== null)
+        .sort((a, b) =>
+            (singlePaperTier(a) ?? '').localeCompare(singlePaperTier(b) ?? '')
+        )
     const full = group.sets
-        .filter((s) => !isMini(s))
+        .filter((s) => !isMini(s) && singlePaperTier(s) === null)
         .sort((a, b) => setLetter(a).localeCompare(setLetter(b), undefined, { numeric: true }))
+    const paperOffer = paperOffers.find((o) => o.test === test)
+    const paperPrice = paperOffer
+        ? formatSeasonPrice(paperOffer.priceAmount, paperOffer.priceCurrency)
+        : null
     const sample = full[0]
     const state = (s: PublishedDiagnosticSet) => stateFor(s, coverage.get(s.id), unlocked)
     // The paper to suggest next: the first one they can open and have not.
@@ -726,6 +749,65 @@ function ModuleBlock({
                                                   : ' '}
                                     </span>
                                 </button>
+                            )
+                        })}
+                    </div>
+                </>
+            )}
+
+            {singles.length > 0 && (
+                <>
+                    <p className="text-xs font-semibold text-slate-500 mt-4 mb-2">
+                        {paperOffer && !unlocked
+                            ? 'Single papers — buy just one'
+                            : 'Single papers'}
+                    </p>
+                    <div className="grid sm:grid-cols-2 gap-2.5">
+                        {singles.map((s) => {
+                            const tier = singlePaperTier(s)
+                            if (!tier) return null
+                            const owned = ownedPapers.includes(s.id)
+                            const st = stateFor(s, coverage.get(s.id), unlocked || owned)
+                            return (
+                                <div
+                                    key={s.id}
+                                    className="flex items-center justify-between gap-3 border border-slate-200 rounded-xl px-3.5 py-3"
+                                >
+                                    <div>
+                                        <p className="text-sm font-bold">
+                                            {TIER_COPY[tier].name}
+                                        </p>
+                                        <p className="text-xs text-slate-500">
+                                            {TIER_COPY[tier].blurb}
+                                        </p>
+                                        <p className="text-xs text-slate-500">
+                                            {s.questionCount} questions ·{' '}
+                                            {s.timeLimitMinutes} min
+                                            {owned
+                                                ? ' · yours'
+                                                : unlocked
+                                                  ? ' · in your Season Pass'
+                                                  : ''}
+                                        </p>
+                                    </div>
+                                    <Button
+                                        size="sm"
+                                        variant={st.kind === 'done' ? 'outline' : 'default'}
+                                        className="cursor-pointer whitespace-nowrap"
+                                        onClick={() => onOpen(s)}
+                                        aria-label={`${s.title}: ${describe(st)}`}
+                                    >
+                                        {st.kind === 'done'
+                                            ? `✓ ${st.label}`
+                                            : st.kind === 'resume'
+                                              ? 'Resume →'
+                                              : st.kind === 'locked'
+                                                ? paperPrice
+                                                    ? `Buy · ${paperPrice}`
+                                                    : '🔒 Unlock'
+                                                : 'Start →'}
+                                    </Button>
+                                </div>
                             )
                         })}
                     </div>

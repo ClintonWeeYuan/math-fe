@@ -217,3 +217,60 @@ describe('CheckoutReturnPage, after buying from a paper', () => {
         expect(screen.queryByText(/Start Physics/)).not.toBeInTheDocument()
     })
 })
+
+describe('CheckoutReturnPage, after buying one paper', () => {
+    const id = '4ef96f83-c5ce-4062-80a7-92c7cf8aea57'
+
+    it('waits for the paper, not for a pass', async () => {
+        const { rememberCheckoutPaper } = await import('@/lib/checkoutIntent.ts')
+        rememberCheckoutPaper(`/diagnostic/sets/${id}`, 'paper')
+        // A pass never arrives for a paper purchase; the paper does.
+        mockStatus.mockReturnValue({
+            data: { hasPass: false, coveredTests: [], seasons: [], ownedPapers: [] },
+            isError: false,
+        })
+        renderPage()
+        expect(mockStatus).toHaveBeenCalledWith({
+            signedIn: true,
+            pollUntilPass: true,
+            pollUntilPaper: id,
+        })
+        expect(screen.getByText(/Confirming your payment/i)).toBeInTheDocument()
+    })
+
+    it('confirms the paper and offers to start it', async () => {
+        const { rememberCheckoutPaper } = await import('@/lib/checkoutIntent.ts')
+        rememberCheckoutPaper(`/diagnostic/sets/${id}`, 'paper')
+        mockStatus.mockReturnValue({
+            data: {
+                hasPass: false,
+                coveredTests: [],
+                seasons: [],
+                ownedPapers: [id],
+                paperOffers: [
+                    { test: 'esat', lastDay: '2027-01-31', priceAmount: 1200, priceCurrency: 'GBP' },
+                ],
+            },
+            isError: false,
+        })
+        renderPage()
+        expect(screen.getByText(/paper unlocked/i)).toBeInTheDocument()
+        expect(screen.getByText(/before 31 January 2027/)).toBeInTheDocument()
+        const buttons = screen.getAllByRole('button')
+        expect(buttons[0]).toHaveTextContent('Start Physics Set D →')
+        act(() => buttons[0].click())
+        expect(mockNavigate).toHaveBeenCalledWith(`/diagnostic/sets/${id}`)
+    })
+
+    it('does not mistake an earlier paper for a pass still on its way', async () => {
+        const { rememberCheckoutPaper } = await import('@/lib/checkoutIntent.ts')
+        // Buying the pass from a paper they already own.
+        rememberCheckoutPaper(`/diagnostic/sets/${id}`, 'pass')
+        mockStatus.mockReturnValue({
+            data: { hasPass: false, coveredTests: [], seasons: [], ownedPapers: [id] },
+            isError: false,
+        })
+        renderPage()
+        expect(screen.getByText(/Confirming your payment/i)).toBeInTheDocument()
+    })
+})

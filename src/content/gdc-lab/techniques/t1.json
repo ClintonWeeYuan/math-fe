@@ -1,0 +1,3337 @@
+{
+ "id": "t1",
+ "number": 1,
+ "title": "Where two curves meet",
+ "syllabus": "SL 2.4, 2.10",
+ "level": "SL (and HL)",
+ "lesson": {
+  "part1Ends": 10,
+  "calculatorPaths": {
+   "nspire": [
+    "Start clean: add a new Graphs page (ctrl + doc → Add Graphs), or on an existing one press ctrl + G, arrow up to each old function and press del so last question’s graphs do not confuse the picture.",
+    "Enter the two functions: in the entry line type the left-hand side as f1(x), e.g. e^(x) (use the eˣ key), press enter. Press tab (or ctrl + G) to reopen the entry line, which now says f2(x); type the right-hand side, e.g. 5 − x², and press enter. A constant right-hand side is a horizontal line: f2(x) = 2.",
+    "See every crossing: menu → 4: Window/Zoom → A: Zoom – Fit shows the whole of both graphs; or 1: Window Settings and type XMin/XMax from the domain in the question and YMin/YMax to fit the values. Count the crossings on screen against a quick sketch before you measure any.",
+    "menu → 6: Analyze Graph → 4: Intersection. Click to the left of the crossing (lower bound), then to the right (upper bound). The point and its coordinates appear. Repeat for each crossing.",
+    "More significant figures: hover on the coordinates and press + (the plus key) to show more digits, − for fewer. To change it for the whole document: doc → 7: Settings → Display Digits → Float 6 (or more).",
+    "The x-coordinate is the solution; write it to 3 s.f. Give the y-coordinate only when coordinates or a value are asked for."
+   ],
+   "ti84": [
+    "Start clean: press Y= and CLEAR each old line (arrow to Y1, CLEAR; arrow down, CLEAR) so last question’s graphs do not confuse the picture.",
+    "Enter the two functions: in Y1 type the left-hand side, e.g. e^(X) (2nd LN gives eˣ; X is the X,T,θ,n key). Arrow down to Y2 and type the right-hand side, e.g. 5 − X². A constant right-hand side is a horizontal line: Y2 = 2.",
+    "See every crossing: press GRAPH; if you cannot see the crossings, ZOOM → 0: ZoomFit shows the whole of both graphs, or press WINDOW and type Xmin/Xmax from the domain in the question and Ymin/Ymax to fit the values. Count the crossings on screen against a quick sketch before you measure any.",
+    "2nd TRACE (CALC) → 5: intersect. First curve? ENTER. Second curve? ENTER. Guess? Move the cursor close to the crossing you want with ◀ ▶, then ENTER. Read X = … at the bottom. Repeat with a different Guess for each crossing.",
+    "More significant figures: the intersect screen already shows up to 10 digits. If values look rounded, press MODE and set the second line to FLOAT (not a fixed number of decimal places).",
+    "X is the solution; write it to 3 s.f. Give Y only when coordinates or a value are asked for."
+   ],
+   "cg50": [
+    "Start clean: MENU → GRAPH, highlight each old Y line and press F2 (DEL) → F1 (YES), or DEL, so last question’s graphs do not confuse the picture.",
+    "Enter the two functions: in Y1 type the left-hand side, e.g. eˣ (SHIFT ln), then EXE. In Y2 type the right-hand side, e.g. 5 − x², EXE. A constant right-hand side is a horizontal line: Y2 = 2.",
+    "See every crossing: F6 (DRAW); if you cannot see the crossings, F2 (ZOOM) → F5 (AUTO) fits the whole graph, or SHIFT F3 (V-Window) and type Xmin/Xmax from the domain in the question and Ymin/Ymax to fit the values. Count the crossings on screen against a quick sketch before you measure any.",
+    "SHIFT F5 (G-Solv) → F5 (INTSECT). The first crossing appears with its coordinates at the bottom; press ▶ to move to the next crossing.",
+    "More significant figures: SHIFT MENU (SET UP) → Display → Norm 1 (or Fix with the number of places you want) so coordinates show their full precision.",
+    "X is the solution; write it to 3 s.f. Give Y only when coordinates or a value are asked for."
+   ]
+  },
+  "menuOptions": {
+   "nspire": [
+    "Graphs page → menu → Analyze Graph → Intersection",
+    "Graphs page → menu → Analyze Graph → Zero",
+    "Calculator page → menu → Statistics"
+   ],
+   "ti84": [
+    "2nd TRACE (CALC) → 5: intersect",
+    "2nd TRACE (CALC) → 2: zero",
+    "STAT → CALC → 1-Var Stats"
+   ],
+   "cg50": [
+    "GRAPH → G-Solv → INTSECT",
+    "GRAPH → G-Solv → ROOT",
+    "STAT → CALC → 1VAR"
+   ]
+  },
+  "steps": [
+   {
+    "t": "numeric",
+    "parts": [
+     [
+      "c",
+      "How do you solve an equation like this on a GDC?",
+      [
+       "Graph \\(y=e^{x}\\) and \\(y=5-x^{2}\\), then find where they cross",
+       "Type it into the home screen and press enter",
+       "Graph \\(y=e^{x}\\) only and read off \\(x\\) when \\(y=5\\)"
+      ],
+      0,
+      "✓ Two graphs, one for each side; the solution is the \\(x\\) where they meet.",
+      "✗ Make each side of the equation a graph: \\(y=e^{x}\\) and \\(y=5-x^{2}\\). Where they cross, both sides are equal, so that \\(x\\) solves the equation."
+     ]
+    ],
+    "fig": {
+     "kind": "graph",
+     "fns": [
+      {
+       "$fn": "(x) => Math.exp(x)"
+      },
+      {
+       "$fn": "(x) => 5 - x * x"
+      }
+     ],
+     "xr": [
+      -3,
+      3
+     ],
+     "yr": [
+      -2,
+      8
+     ],
+     "pts": [
+      [
+       1.2411,
+       3.4596,
+       "x = ?"
+      ]
+     ],
+     "caption": "y = eˣ (solid) and y = 5 − x² (dashed). Where they cross, both sides are equal. The question asks for the positive crossing."
+    },
+    "tag": "TRY IT FIRST · enter your calculator’s answer",
+    "given": "solve \\(e^{x}=5-x^{2}\\)",
+    "givenNote": "find the positive solution, to 3 significant figures",
+    "title": "Solve \\(e^{x}=5-x^{2}\\) for \\(x>0\\).",
+    "instr": [
+     "Graph both sides on your own calculator and find the intersection.",
+     "Type the \\(x\\)-coordinate to 3 significant figures.",
+     "You have two tries; then we show the answer."
+    ],
+    "label": "\\(x=\\)",
+    "ans": 1.2411,
+    "tol": 0.006,
+    "worked": "\\(y_1=e^{x}\\), \\(y_2=5-x^{2}\\)\nintersection (from GDC): \\((1.24,\\,3.46)\\)\n\\(x=1.24\\)",
+    "ok": "✓ \\(x=1.24\\) is right. The lesson covers the method, the window, finding every crossing, and what to write.",
+    "wrongs": [
+     [
+      3.4596,
+      "\\(3.46\\) is the \\(y\\)-coordinate of the crossing. The solution of the equation is the \\(x\\)-coordinate, \\(1.24\\)."
+     ],
+     [
+      -2.2114,
+      "\\(-2.21\\) is the other crossing. The question asked for \\(x>0\\)."
+     ],
+     [
+      1.6094,
+      "\\(1.61\\) is \\(\\ln5\\): that solves \\(e^{x}=5\\), not \\(e^{x}=5-x^{2}\\)."
+     ]
+    ],
+    "err": "GDC"
+   },
+   {
+    "t": "note",
+    "fig": {
+     "kind": "graph",
+     "fns": [
+      {
+       "$fn": "(x) => Math.exp(x)"
+      },
+      {
+       "$fn": "(x) => 5 - x * x"
+      }
+     ],
+     "xr": [
+      -3,
+      3
+     ],
+     "yr": [
+      -2,
+      8
+     ],
+     "pts": [
+      [
+       1.2411,
+       3.4596,
+       "(1.24, 3.46)"
+      ],
+      [
+       -2.2114,
+       0.1096,
+       "(−2.21, 0.110)"
+      ]
+     ],
+     "caption": "Both crossings. Each x-coordinate is a solution of eˣ = 5 − x²."
+    },
+    "tag": "NOTE · SL 2.10",
+    "title": "Equation → two graphs → intersection",
+    "body": "Any equation can be solved by graphing:\n•  left side as \\(y_1\\), right side as \\(y_2\\), exactly as written\n•  find where the graphs cross: at that point \\(y_1=y_2\\)\n•  the \\(x\\)-coordinate of the crossing is the solution; the \\(y\\)-coordinate is the common value\n\nThere can be more than one crossing. Each one is a solution; the question may ask for all of them, or only one (“for \\(x>0\\)”, “the larger root”).",
+    "code": "\\(e^{x}=5-x^{2}\\)\n\\(y_1=e^{x}\\), \\(y_2=5-x^{2}\\)\nintersections: \\(x=-2.21,\\ x=1.24\\)   (3 s.f., from GDC)"
+   },
+   {
+    "t": "choice",
+    "tag": "ACTIVITY · set it up",
+    "given": "solve \\(\\ln x=3-x\\)",
+    "title": "Which two graphs do you draw?",
+    "opts": [
+     "\\(y_1=\\ln x\\) and \\(y_2=3-x\\)",
+     "\\(y_1=\\ln x\\) and \\(y_2=3\\)",
+     "\\(y_1=\\ln x-3\\) and \\(y_2=x\\)"
+    ],
+    "right": 0,
+    "ok": "✓ Right. Each side as written; nothing rearranged, so nothing can go wrong.",
+    "bads": [
+     "✓",
+     "✗ The right-hand side is \\(3-x\\), not \\(3\\). Graph each side exactly as written.",
+     "✗ That rearrangement is valid, but it is a chance to make a sign error. Graph each side as written: \\(y_1=\\ln x\\), \\(y_2=3-x\\)."
+    ],
+    "err": "Concept"
+   },
+   {
+    "title": "Where it lives on your calculator",
+    "t": "note",
+    "body": "Three moves:\n•  type both sides as two functions\n•  set a window where the crossing is visible\n•  run the intersection tool and read \\(x\\)",
+    "byCalc": {
+     "nspire": {
+      "path": [
+       "Start clean: add a new Graphs page (ctrl + doc → Add Graphs), or on an existing one press ctrl + G, arrow up to each old function and press del so last question’s graphs do not confuse the picture.",
+       "Enter the two functions: in the entry line type the left-hand side as f1(x), e.g. e^(x) (use the eˣ key), press enter. Press tab (or ctrl + G) to reopen the entry line, which now says f2(x); type the right-hand side, e.g. 5 − x², and press enter. A constant right-hand side is a horizontal line: f2(x) = 2.",
+       "See every crossing: menu → 4: Window/Zoom → A: Zoom – Fit shows the whole of both graphs; or 1: Window Settings and type XMin/XMax from the domain in the question and YMin/YMax to fit the values. Count the crossings on screen against a quick sketch before you measure any.",
+       "menu → 6: Analyze Graph → 4: Intersection. Click to the left of the crossing (lower bound), then to the right (upper bound). The point and its coordinates appear. Repeat for each crossing.",
+       "More significant figures: hover on the coordinates and press + (the plus key) to show more digits, − for fewer. To change it for the whole document: doc → 7: Settings → Display Digits → Float 6 (or more).",
+       "The x-coordinate is the solution; write it to 3 s.f. Give the y-coordinate only when coordinates or a value are asked for."
+      ],
+      "tag": "NOTE · TI-Nspire CX II"
+     },
+     "ti84": {
+      "path": [
+       "Start clean: press Y= and CLEAR each old line (arrow to Y1, CLEAR; arrow down, CLEAR) so last question’s graphs do not confuse the picture.",
+       "Enter the two functions: in Y1 type the left-hand side, e.g. e^(X) (2nd LN gives eˣ; X is the X,T,θ,n key). Arrow down to Y2 and type the right-hand side, e.g. 5 − X². A constant right-hand side is a horizontal line: Y2 = 2.",
+       "See every crossing: press GRAPH; if you cannot see the crossings, ZOOM → 0: ZoomFit shows the whole of both graphs, or press WINDOW and type Xmin/Xmax from the domain in the question and Ymin/Ymax to fit the values. Count the crossings on screen against a quick sketch before you measure any.",
+       "2nd TRACE (CALC) → 5: intersect. First curve? ENTER. Second curve? ENTER. Guess? Move the cursor close to the crossing you want with ◀ ▶, then ENTER. Read X = … at the bottom. Repeat with a different Guess for each crossing.",
+       "More significant figures: the intersect screen already shows up to 10 digits. If values look rounded, press MODE and set the second line to FLOAT (not a fixed number of decimal places).",
+       "X is the solution; write it to 3 s.f. Give Y only when coordinates or a value are asked for."
+      ],
+      "tag": "NOTE · TI-84 Plus CE"
+     },
+     "cg50": {
+      "path": [
+       "Start clean: MENU → GRAPH, highlight each old Y line and press F2 (DEL) → F1 (YES), or DEL, so last question’s graphs do not confuse the picture.",
+       "Enter the two functions: in Y1 type the left-hand side, e.g. eˣ (SHIFT ln), then EXE. In Y2 type the right-hand side, e.g. 5 − x², EXE. A constant right-hand side is a horizontal line: Y2 = 2.",
+       "See every crossing: F6 (DRAW); if you cannot see the crossings, F2 (ZOOM) → F5 (AUTO) fits the whole graph, or SHIFT F3 (V-Window) and type Xmin/Xmax from the domain in the question and Ymin/Ymax to fit the values. Count the crossings on screen against a quick sketch before you measure any.",
+       "SHIFT F5 (G-Solv) → F5 (INTSECT). The first crossing appears with its coordinates at the bottom; press ▶ to move to the next crossing.",
+       "More significant figures: SHIFT MENU (SET UP) → Display → Norm 1 (or Fix with the number of places you want) so coordinates show their full precision.",
+       "X is the solution; write it to 3 s.f. Give Y only when coordinates or a value are asked for."
+      ],
+      "tag": "NOTE · Casio fx-CG50"
+     }
+    }
+   },
+   {
+    "given": "solve \\(e^{x}=5-x^{2}\\)",
+    "tag": "ACTIVITY · menu choice",
+    "ok": "✓ Right.",
+    "right": 0,
+    "t": "choice",
+    "bad": "✗ Not quite. Zero / root finds where one graph crosses the \\(x\\)-axis (technique 2). Two graphs crossing each other is the intersection tool.",
+    "err": "GDC",
+    "byCalc": {
+     "nspire": {
+      "title": "On your TI-Nspire CX II, which tool finds where two graphs cross?",
+      "opts": [
+       "Graphs page → menu → Analyze Graph → Intersection",
+       "Graphs page → menu → Analyze Graph → Zero",
+       "Calculator page → menu → Statistics"
+      ]
+     },
+     "ti84": {
+      "title": "On your TI-84 Plus CE, which tool finds where two graphs cross?",
+      "opts": [
+       "2nd TRACE (CALC) → 5: intersect",
+       "2nd TRACE (CALC) → 2: zero",
+       "STAT → CALC → 1-Var Stats"
+      ]
+     },
+     "cg50": {
+      "title": "On your Casio fx-CG50, which tool finds where two graphs cross?",
+      "opts": [
+       "GRAPH → G-Solv → INTSECT",
+       "GRAPH → G-Solv → ROOT",
+       "STAT → CALC → 1VAR"
+      ]
+     }
+    }
+   },
+   {
+    "tag": "NOTE · SL 2.4",
+    "code": "\\(e^{x}\\): rises steeply for \\(x>0\\), flat near \\(0\\) for \\(x<0\\)\n\\(5-x^{2}\\): a ∩ parabola\nso two crossings: one each side of the \\(y\\)-axis",
+    "title": "The window, and finding every crossing",
+    "fig": {
+     "kind": "graph",
+     "fns": [
+      {
+       "$fn": "(x) => Math.exp(x)"
+      },
+      {
+       "$fn": "(x) => 5 - x * x"
+      }
+     ],
+     "xr": [
+      -3,
+      3
+     ],
+     "yr": [
+      -2,
+      8
+     ],
+     "pts": [
+      [
+       -2.2114,
+       0.1096,
+       "x = −2.21"
+      ]
+     ],
+     "caption": "The second crossing, near x = −2.2, is easy to miss: both curves are close to the axis there. Zoom out or check the sketch."
+    },
+    "t": "note",
+    "byCalc": {
+     "nspire": {
+      "body": "The calculator only finds a crossing it can see.\n•  if the graphs do not cross on screen, change the window; use the domain in the question for Xmin and Xmax\n•  after one intersection, look for others: zoom out, or ask “how many times should these shapes cross?”\n•  a quick sketch of the two shapes tells you how many solutions to expect\n\nOn the Nspire: menu → 4: Window/Zoom → 1: Window Settings. XMin, XMax, YMin, YMax."
+     },
+     "ti84": {
+      "body": "The calculator only finds a crossing it can see.\n•  if the graphs do not cross on screen, change the window; use the domain in the question for Xmin and Xmax\n•  after one intersection, look for others: zoom out, or ask “how many times should these shapes cross?”\n•  a quick sketch of the two shapes tells you how many solutions to expect\n\nOn the TI-84: WINDOW, then Xmin, Xmax, Ymin, Ymax. ZOOM → 6: ZStandard resets to −10 to 10."
+     },
+     "cg50": {
+      "body": "The calculator only finds a crossing it can see.\n•  if the graphs do not cross on screen, change the window; use the domain in the question for Xmin and Xmax\n•  after one intersection, look for others: zoom out, or ask “how many times should these shapes cross?”\n•  a quick sketch of the two shapes tells you how many solutions to expect\n\nOn the Casio: SHIFT F3 (V-Window), then Xmin, Xmax, Ymin, Ymax. F1 (INIT) resets."
+     }
+    }
+   },
+   {
+    "t": "numeric",
+    "parts": [
+     [
+      "c",
+      "How many solutions does \\(e^{x}=5-x^{2}\\) have?",
+      [
+       "Two: the parabola crosses the exponential once on each side",
+       "One",
+       "Infinitely many"
+      ],
+      0,
+      "✓ Two.",
+      "✗ The ∩ parabola rises then falls; \\(e^{x}\\) is always rising. They cross once on the left and once on the right: two solutions."
+     ]
+    ],
+    "tag": "ACTIVITY · enter your calculator’s answer",
+    "given": "solve \\(e^{x}=5-x^{2}\\)",
+    "title": "Find the negative solution of \\(e^{x}=5-x^{2}\\).",
+    "instr": [
+     "Same two graphs; find the other intersection.",
+     "Type the \\(x\\)-coordinate to 3 significant figures."
+    ],
+    "label": "\\(x=\\)",
+    "ans": -2.2114,
+    "tol": 0.006,
+    "worked": "second intersection (from GDC): \\((-2.21,\\,0.110)\\)\n\\(x=-2.21\\)",
+    "ok": "✓ \\(x=-2.21\\). Both solutions: \\(x=-2.21\\) and \\(x=1.24\\).",
+    "wrongs": [
+     [
+      2.2114,
+      "Sign: the crossing is on the left of the \\(y\\)-axis, \\(x=-2.21\\)."
+     ],
+     [
+      0.1096,
+      "\\(0.110\\) is the \\(y\\)-coordinate."
+     ],
+     [
+      -2.2361,
+      "\\(-2.24\\) is \\(-\\sqrt5\\), where \\(5-x^{2}=0\\). The crossing is slightly to the right of that."
+     ]
+    ],
+    "err": "Reading"
+   },
+   {
+    "t": "note",
+    "tag": "NOTE · what to write",
+    "title": "What the examiner wants to see",
+    "body": "A calculator answer still needs a line of working:\n•  the two functions you graphed, or a small sketch with the crossing marked\n•  the solution: \\(x=1.24\\) (3 s.f.)\n\nTwo habits that lose marks:\n•  giving the \\(y\\)-coordinate, or both coordinates, when the question asked for \\(x\\)\n•  rounding to 2 s.f. “because the graph is only approximate”: the GDC value is exact enough; give 3 s.f.",
+    "code": "sketch of \\(y=e^{x}\\) and \\(y=5-x^{2}\\), crossings marked\n\\(x=-2.21\\) or \\(x=1.24\\)   (3 s.f.)"
+   },
+   {
+    "t": "choice",
+    "tag": "ACTIVITY · write the line",
+    "given": "solve \\(e^{x}=5-x^{2}\\)",
+    "title": "Which answer earns full marks for “solve \\(e^{x}=5-x^{2}\\)”?",
+    "opts": [
+     "Graphs of \\(y=e^{x}\\) and \\(y=5-x^{2}\\) sketched; \\(x=-2.21\\) or \\(x=1.24\\)",
+     "\\((-2.21,\\,0.110)\\) and \\((1.24,\\,3.46)\\)",
+     "\\(x\\approx1.2\\)"
+    ],
+    "right": 0,
+    "ok": "✓ Right. Both solutions, as \\(x\\)-values, 3 s.f., with the graphs named.",
+    "bads": [
+     "✓",
+     "✗ The question says “solve”, so it wants \\(x\\)-values, not coordinates. And both of them.",
+     "✗ One solution is missing, and \\(1.2\\) is 2 s.f. Give \\(x=-2.21\\) or \\(x=1.24\\)."
+    ],
+    "err": "Writing"
+   },
+   {
+    "t": "numeric",
+    "parts": [
+     [
+      "c",
+      "Which two graphs?",
+      [
+       "\\(y_1=\\ln x\\), \\(y_2=2-x\\)",
+       "\\(y_1=\\ln x\\), \\(y_2=2\\)",
+       "\\(y_1=x\\), \\(y_2=2\\)"
+      ],
+      0,
+      "✓",
+      "✗ Each side as written: \\(y_1=\\ln x\\) and \\(y_2=2-x\\)."
+     ]
+    ],
+    "fig": {
+     "kind": "graph",
+     "fns": [
+      {
+       "$fn": "(x) => x > 0 ? Math.log(x) : NaN"
+      },
+      {
+       "$fn": "(x) => 2 - x"
+      }
+     ],
+     "xr": [
+      0,
+      4
+     ],
+     "yr": [
+      -2,
+      3
+     ],
+     "pts": [
+      [
+       1.5571,
+       0.4429,
+       "x = ?"
+      ]
+     ],
+     "caption": "y = ln x (solid) and y = 2 − x (dashed) cross once: ln x only rises, 2 − x only falls."
+    },
+    "tag": "PRACTICE · one more",
+    "given": "solve \\(\\ln x=2-x\\)",
+    "title": "Solve \\(\\ln x=2-x\\).",
+    "instr": [
+     "Two graphs, intersection.",
+     "Type \\(x\\) to 3 significant figures."
+    ],
+    "label": "\\(x=\\)",
+    "ans": 1.5571,
+    "tol": 0.006,
+    "worked": "\\(y_1=\\ln x\\), \\(y_2=2-x\\)\nintersection (from GDC): \\((1.56,\\,0.443)\\)\n\\(x=1.56\\)",
+    "ok": "✓ \\(x=1.56\\). One crossing, because \\(\\ln x\\) only rises and \\(2-x\\) only falls.",
+    "wrongs": [
+     [
+      0.4429,
+      "That is the \\(y\\)-coordinate."
+     ],
+     [
+      7.389,
+      "\\(7.39\\) is \\(e^{2}\\), the solution of \\(\\ln x=2\\). The right-hand side is \\(2-x\\)."
+     ],
+     [
+      2,
+      "\\(2\\) is where \\(2-x=0\\), not the crossing."
+     ]
+    ],
+    "err": "GDC"
+   },
+   {
+    "t": "note",
+    "fig": {
+     "kind": "graph",
+     "fns": [
+      {
+       "$fn": "(t) => 500 * Math.exp(0.1 * t)"
+      },
+      {
+       "$fn": "(t) => 2000 - 80 * t"
+      }
+     ],
+     "xr": [
+      0,
+      20
+     ],
+     "yr": [
+      0,
+      2200
+     ],
+     "pts": [
+      [
+       9.2455,
+       1260.4,
+       "(9.25, 1260)"
+      ]
+     ],
+     "caption": "P = 500e^(0.1t) rising, Q = 2000 − 80t falling. They are equal at t ≈ 9.25, when both are about 1260."
+    },
+    "tag": "NOTE · SL 2.10",
+    "title": "Equations from a context",
+    "body": "A “story” is a word problem: the equation is not written for you, it is hidden in a context (two populations, cost and revenue, two temperatures). The same three moves apply, with two extras:\n•  write the equation first: “equal” means \\(P=Q\\), so \\(500e^{0.1t}=2000-80t\\)\n•  the \\(x\\)-coordinate answers “when?”; the \\(y\\)-coordinate answers “how many?”, so read both\n•  give units, and round sensibly: \\(t=9.25\\) years; a population of \\(1260\\), not \\(1260.36\\)",
+    "code": "\\(P=Q\\): \\(500e^{0.1t}=2000-80t\\)\nintersection: \\((9.25,\\,1260)\\)\nequal after \\(9.25\\) years, when both are about \\(1260\\)"
+   },
+   {
+    "t": "numeric",
+    "parts": [
+     [
+      "c",
+      "Which equation?",
+      [
+       "\\(500e^{0.1t}=2000-80t\\)",
+       "\\(500e^{0.1t}=2000\\)",
+       "\\(500e^{0.1t}-80t=2000\\)"
+      ],
+      0,
+      "✓ Set the two populations equal.",
+      "✗ “The same size” means \\(P=Q\\): \\(500e^{0.1t}=2000-80t\\)."
+     ],
+     [
+      "n",
+      "The crossing is at \\(t=\\)",
+      "\\(t=\\)",
+      9.2455,
+      0.01,
+      "✓ \\(t=9.25\\). Now the population at that time.",
+      [
+       [
+        1260.4,
+        "That is the population, the \\(y\\)-coordinate. First give \\(t\\)."
+       ]
+      ]
+     ]
+    ],
+    "fig": {
+     "kind": "graph",
+     "fns": [
+      {
+       "$fn": "(t) => 500 * Math.exp(0.1 * t)"
+      },
+      {
+       "$fn": "(t) => 2000 - 80 * t"
+      }
+     ],
+     "xr": [
+      0,
+      20
+     ],
+     "yr": [
+      0,
+      2200
+     ],
+     "pts": [
+      [
+       9.2455,
+       1260.4,
+       "t = ?"
+      ]
+     ],
+     "caption": "Read both coordinates of the crossing."
+    },
+    "tag": "ACTIVITY · enter your calculator’s answer",
+    "given": "\\(P=500e^{0.1t}\\), \\(Q=2000-80t\\)",
+    "givenNote": "two populations, \\(t\\) years from now",
+    "title": "Find the size of the populations when they are equal.",
+    "instr": [
+     "Graph \\(P\\) and \\(Q\\) against \\(t\\); window \\(0\\le t\\le20\\), \\(0\\le y\\le2200\\).",
+     "Type the population to 3 significant figures."
+    ],
+    "label": "population \\(=\\)",
+    "ans": 1260.4,
+    "tol": 2,
+    "worked": "\\(500e^{0.1t}=2000-80t\\)\nintersection (from GDC): \\((9.25,\\,1260)\\)\nequal after \\(9.25\\) years, population \\(\\approx1260\\)",
+    "ok": "✓ About \\(1260\\). A question like this usually has two parts: when (\\(t\\)), and how many (\\(y\\)).",
+    "wrongs": [
+     [
+      9.2455,
+      "That is \\(t\\), the time. The question asks for the size: the \\(y\\)-coordinate."
+     ],
+     [
+      2000,
+      "\\(2000\\) is \\(Q\\) at \\(t=0\\)."
+     ],
+     [
+      500,
+      "\\(500\\) is \\(P\\) at \\(t=0\\)."
+     ]
+    ],
+    "err": "Reading"
+   },
+   {
+    "t": "note",
+    "tag": "NOTE · SL 2.4",
+    "title": "Domains, windows and radians",
+    "body": "Three checks before you press intersect:\n•  the domain in the question is your window: “for \\(0\\le x\\le5\\)” means Xmin \\(0\\), Xmax \\(5\\), and only crossings inside count\n•  if the function involves \\(\\sin\\), \\(\\cos\\) or \\(\\tan\\), the calculator must be in radians (IB uses radians unless degrees are written)\n•  a \\(y\\)-range that is too small hides the crossing; too large squashes it. Use the values in the question as a guide",
+    "code": "window = the domain of the question\nmode = radians for trig\nthen: intersect, and look for more than one"
+   },
+   {
+    "t": "numeric",
+    "parts": [
+     [
+      "n",
+      "The \\(x\\)-coordinate of \\(P\\) is",
+      "\\(x=\\)",
+      1.8933,
+      0.006,
+      "✓ \\(x=1.89\\). Now \\(y\\).",
+      [
+       [
+        -0.7866,
+        "That is \\(y\\); give \\(x\\) first."
+       ]
+      ]
+     ]
+    ],
+    "fig": {
+     "kind": "graph",
+     "fns": [
+      {
+       "$fn": "(x) => x * x * x - 4 * x"
+      },
+      {
+       "$fn": "(x) => 3 - 2 * x"
+      }
+     ],
+     "xr": [
+      -3,
+      3
+     ],
+     "yr": [
+      -6,
+      8
+     ],
+     "pts": [
+      [
+       1.8933,
+       -0.7866,
+       "P"
+      ]
+     ],
+     "caption": "y = x³ − 4x (solid) and y = 3 − 2x (dashed) meet once, at P."
+    },
+    "tag": "EXAM-STYLE PART · 3 marks · hints available",
+    "given": "\\(f(x)=x^{3}-4x\\), \\(g(x)=3-2x\\)",
+    "givenNote": "the graphs of \\(f\\) and \\(g\\) intersect at the point \\(P\\)",
+    "title": "Find the coordinates of \\(P\\). Enter the \\(y\\)-coordinate.",
+    "instr": [
+     "Graph \\(f\\) and \\(g\\); intersection.",
+     "Type the \\(y\\)-coordinate to 3 significant figures.",
+     "Hints are available below if you need them."
+    ],
+    "label": "\\(y=\\)",
+    "ans": -0.7866,
+    "tol": 0.006,
+    "worked": "\\(y_1=x^{3}-4x\\), \\(y_2=3-2x\\)\nintersection (from GDC): \\(P(1.89,\\,-0.787)\\)",
+    "ok": "✓ \\(P(1.89,\\,-0.787)\\). “Coordinates” means both numbers, as a pair.",
+    "wrongs": [
+     [
+      1.8933,
+      "That is the \\(x\\)-coordinate; the box asks for \\(y\\)."
+     ],
+     [
+      0.7866,
+      "Sign: \\(P\\) is below the \\(x\\)-axis, \\(y=-0.787\\)."
+     ],
+     [
+      3,
+      "\\(3\\) is \\(g(0)\\), not the crossing."
+     ]
+    ],
+    "hints": [
+     "Two graphs: \\(y=x^{3}-4x\\) and \\(y=3-2x\\).",
+     "A cubic and a line can meet up to three times; here the window \\(-3\\le x\\le3\\) shows only one crossing.",
+     "The intersection tool gives both coordinates: write them as \\((x,\\,y)\\)."
+    ],
+    "err": "Reading"
+   },
+   {
+    "t": "choice",
+    "tag": "ACTIVITY · no calculator · Paper 1",
+    "given": "solve \\(x^{2}=2x+3\\)",
+    "givenNote": "a Paper 1 question",
+    "title": "Which method?",
+    "opts": [
+     "Algebra: \\(x^{2}-2x-3=0\\), \\((x-3)(x+1)=0\\), \\(x=3\\) or \\(x=-1\\)",
+     "Graph \\(y=x^{2}\\) and \\(y=2x+3\\) and read the crossings",
+     "Trial and error"
+    ],
+    "right": 0,
+    "ok": "✓ Right. Paper 1 has no calculator; the same question with \\(e^{x}\\) in it would be a Paper 2 intersection.",
+    "bad": "✗ Paper 1 has no calculator. Rearrange and factorise: \\((x-3)(x+1)=0\\). Save the intersection tool for Paper 2, where the equation cannot be solved by algebra.",
+    "err": "Concept"
+   },
+   {
+    "t": "numeric",
+    "parts": [
+     [
+      "c",
+      "How many crossings do you expect?",
+      [
+       "One: \\(e^{-x}\\) falls, \\(x^{2}-1\\) rises for \\(x>0\\)",
+       "None",
+       "Two"
+      ],
+      0,
+      "✓ One, for \\(x>0\\).",
+      "✗ For \\(x>0\\), \\(e^{-x}\\) only falls and \\(x^{2}-1\\) only rises, so they cross exactly once."
+     ]
+    ],
+    "fig": {
+     "kind": "graph",
+     "fns": [
+      {
+       "$fn": "(x) => Math.exp(-x)"
+      },
+      {
+       "$fn": "(x) => x * x - 1"
+      }
+     ],
+     "xr": [
+      -1,
+      3
+     ],
+     "yr": [
+      -2,
+      4
+     ],
+     "pts": [
+      [
+       1.1478,
+       0.3173,
+       "x = ?"
+      ]
+     ],
+     "caption": "y = e^(−x) (solid) and y = x² − 1 (dashed), for x > 0."
+    },
+    "tag": "PRACTICE · 1 of 3",
+    "given": "solve \\(e^{-x}=x^{2}-1\\), \\(x>0\\)",
+    "title": "Solve \\(e^{-x}=x^{2}-1\\) for \\(x>0\\).",
+    "instr": [
+     "Two graphs, intersection.",
+     "Type \\(x\\) to 3 significant figures."
+    ],
+    "label": "\\(x=\\)",
+    "ans": 1.1478,
+    "tol": 0.006,
+    "worked": "\\(y_1=e^{-x}\\), \\(y_2=x^{2}-1\\)\nintersection: \\((1.15,\\,0.317)\\); \\(x=1.15\\)",
+    "ok": "✓ \\(x=1.15\\).",
+    "wrongs": [
+     [
+      0.3173,
+      "That is \\(y\\)."
+     ],
+     [
+      1,
+      "\\(1\\) is where \\(x^{2}-1=0\\), not the crossing."
+     ],
+     [
+      -1.1478,
+      "The question says \\(x>0\\)."
+     ]
+    ],
+    "err": "GDC"
+   },
+   {
+    "t": "numeric",
+    "parts": [
+     [
+      "c",
+      "Before you graph: which mode?",
+      [
+       "Either: no trig here",
+       "Degrees",
+       "Radians"
+      ],
+      0,
+      "✓ No trig, so mode does not matter.",
+      "✗ There is no \\(\\sin\\), \\(\\cos\\) or \\(\\tan\\) here, so the angle mode makes no difference."
+     ]
+    ],
+    "fig": {
+     "kind": "graph",
+     "fns": [
+      {
+       "$fn": "(x) => Math.pow(2, x)"
+      },
+      {
+       "$fn": "(x) => 6 - x"
+      }
+     ],
+     "xr": [
+      -1,
+      4
+     ],
+     "yr": [
+      0,
+      10
+     ],
+     "pts": [
+      [
+       2,
+       4,
+       "x = ?"
+      ]
+     ],
+     "caption": ""
+    },
+    "tag": "PRACTICE · 2 of 3",
+    "given": "solve \\(2^{x}=6-x\\)",
+    "title": "Solve \\(2^{x}=6-x\\).",
+    "instr": [
+     "Two graphs, intersection.",
+     "Type \\(x\\)."
+    ],
+    "label": "\\(x=\\)",
+    "ans": 2,
+    "tol": 0.006,
+    "worked": "\\(y_1=2^{x}\\), \\(y_2=6-x\\)\nintersection: \\((2,\\,4)\\); \\(x=2\\)",
+    "ok": "✓ \\(x=2\\) exactly: check, \\(2^{2}=4=6-2\\). When the GDC shows a whole number, say so.",
+    "wrongs": [
+     [
+      4,
+      "That is \\(y\\)."
+     ],
+     [
+      6,
+      "\\(6\\) is where \\(6-x=0\\)."
+     ],
+     [
+      2.585,
+      "\\(2.58\\) is \\(\\log_2 6\\): solves \\(2^{x}=6\\), not \\(2^{x}=6-x\\)."
+     ]
+    ],
+    "err": "GDC"
+   },
+   {
+    "t": "numeric",
+    "parts": [
+     [
+      "c",
+      "The number of solutions of \\(e^{x}=3-x\\) is",
+      [
+       "One",
+       "Two",
+       "None"
+      ],
+      0,
+      "✓ Rising meets falling: once.",
+      "✗ \\(e^{x}\\) rises, \\(3-x\\) falls: they cross exactly once."
+     ]
+    ],
+    "fig": {
+     "kind": "graph",
+     "fns": [
+      {
+       "$fn": "(x) => Math.exp(x)"
+      },
+      {
+       "$fn": "(x) => 3 - x"
+      }
+     ],
+     "xr": [
+      -2,
+      3
+     ],
+     "yr": [
+      -1,
+      6
+     ],
+     "pts": [
+      [
+       0.7921,
+       2.2079,
+       "x = ?"
+      ]
+     ],
+     "caption": "y = eˣ (solid) and y = 3 − x (dashed)."
+    },
+    "tag": "PRACTICE · 3 of 3",
+    "given": "solve \\(e^{x}=3-x\\)",
+    "title": "Solve \\(e^{x}=3-x\\).",
+    "instr": [
+     "Two graphs, intersection.",
+     "Type \\(x\\) to 3 significant figures."
+    ],
+    "label": "\\(x=\\)",
+    "ans": 0.7921,
+    "tol": 0.006,
+    "worked": "\\(y_1=e^{x}\\), \\(y_2=3-x\\)\nintersection: \\((0.792,\\,2.21)\\); \\(x=0.792\\)",
+    "ok": "✓ \\(x=0.792\\). That is the Learn rung done; the Drill times you.",
+    "wrongs": [
+     [
+      2.2079,
+      "That is \\(y\\)."
+     ],
+     [
+      1.0986,
+      "\\(1.10\\) is \\(\\ln3\\): solves \\(e^{x}=3\\)."
+     ],
+     [
+      0.79,
+      "Close, but \\(0.79\\) is 2 s.f.; give \\(0.792\\)."
+     ]
+    ],
+    "err": "GDC"
+   },
+   {
+    "t": "finish",
+    "tag": "LESSON COMPLETE",
+    "title": "Where two curves meet: Learn passed"
+   }
+  ]
+ },
+ "drill": {
+  "intro": "Each is an equation to solve by graphing both sides and finding the intersection: an exponential, a log, a square root, a model from a story (cost and revenue, or a logistic population), and coordinates. Count the crossings, pick the right one, and type \\(x\\) to 3 significant figures. SL 2.4 and 2.10 (also HL).",
+  "challengeIntro": "counting every crossing of a trig equation, a crossing hidden off screen, an inequality, and an absolute-value graph with two crossings close together. Optional: getting them wrong cannot undo your drill result.",
+  "keys": {
+   "nspire": [
+    "Graphs page: type the left-hand side as f1(x), enter; tab (or ctrl + G) and type the right-hand side as f2(x), enter. A constant right-hand side is a horizontal line, e.g. f2(x) = 2.",
+    "If the crossing is not on screen: menu → 4: Window/Zoom → 1: Window Settings; set XMin/XMax from the domain in the question, YMin/YMax to fit the values.",
+    "menu → 6: Analyze Graph → 4: Intersection. Click a lower bound to the left of the crossing and an upper bound to the right. The coordinates appear.",
+    "Repeat for every crossing the question asks for; count them against a quick sketch.",
+    "Trig: check the mode is radians (doc → Settings) unless the question says degrees.",
+    "Write the \\(x\\)-coordinate (3 s.f.) as the solution; the \\(y\\)-coordinate only if coordinates or a value are asked for."
+   ],
+   "ti84": [
+    "Y=: type the left-hand side into Y1 and the right-hand side into Y2. A constant right-hand side is a horizontal line, e.g. Y2 = 2. GRAPH.",
+    "If the crossing is not on screen: WINDOW; set Xmin/Xmax from the domain in the question, Ymin/Ymax to fit the values.",
+    "2nd TRACE (CALC) → 5: intersect. First curve? ENTER. Second curve? ENTER. Guess? move near the crossing you want, ENTER.",
+    "Repeat with a different Guess for every crossing the question asks for; count them against a quick sketch.",
+    "Trig: MODE → RADIAN unless the question says degrees.",
+    "Write X (3 s.f.) as the solution; Y only if coordinates or a value are asked for."
+   ],
+   "cg50": [
+    "MENU → GRAPH: type the left-hand side into Y1 and the right-hand side into Y2. A constant right-hand side is a horizontal line, e.g. Y2 = 2. F6 (DRAW).",
+    "If the crossing is not on screen: SHIFT F3 (V-Window); set Xmin/Xmax from the domain in the question, Ymin/Ymax to fit the values.",
+    "SHIFT F5 (G-Solv) → F5 (INTSECT). The first crossing appears; press ▶ for the next one.",
+    "Count the crossings against a quick sketch; make sure you have the one the question asks for.",
+    "Trig: SHIFT MENU (SET UP) → Angle: Rad unless the question says degrees.",
+    "Write X (3 s.f.) as the solution; Y only if coordinates or a value are asked for."
+   ]
+  },
+  "sets": [
+   [
+    {
+     "parts": [
+      [
+       "c",
+       "Which two graphs?",
+       [
+        "\\(y_1=e^{x}\\) and \\(y_2=3x\\)",
+        "\\(y_1=e^{x}\\) and \\(y_2=3\\)",
+        "\\(y_1=e^{x}-3\\) and \\(y_2=x\\)"
+       ],
+       0,
+       "✓ Each side as written.",
+       "✗ Graph each side of the equation exactly as written: \\(y_1=e^{x}\\) and \\(y_2=3x\\)."
+      ],
+      [
+       "c",
+       "How many crossings do you expect?",
+       [
+        "Two",
+        "One",
+        "None"
+       ],
+       0,
+       "✓ A line through the origin cuts the rising curve twice; you need the smaller \\(x\\).",
+       "✗ A line through the origin cuts the rising curve twice; you need the smaller \\(x\\)."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => Math.exp(x)"
+        },
+        {
+         "$fn": "(x) => 3*x"
+        }
+       ],
+       "xr": [
+        -1,
+        3
+       ],
+       "yr": [
+        -2,
+        8
+       ],
+       "pts": [
+        [
+         0.6191,
+         1.857,
+         "x = 0.619"
+        ],
+        [
+         1.5121,
+         4.536,
+         "x = 1.51"
+        ]
+       ]
+      },
+      "caption": "y = eˣ and y = 3x cross twice; the smaller x is 0.619."
+     },
+     "name": "D1 Two crossings",
+     "given": "solve \\(e^{x}=3x\\)",
+     "givenNote": "give the smaller solution",
+     "q": "Solve \\(e^{x}=3x\\). Enter the smaller solution.",
+     "label": "\\(x=\\)",
+     "ans": 0.6191,
+     "tol": 0.006,
+     "target": 90,
+     "line": "\\(y_1=e^{x}\\), \\(y_2=3x\\); intersections at \\(x=0.619\\) and \\(x=1.51\\); smaller: \\(0.619\\)",
+     "steps": [
+      [
+       "Set up",
+       "\\(y_1=e^{x}\\), \\(y_2=3x\\). A curve bending up and a line through the origin: two crossings."
+      ],
+      [
+       "GDC",
+       "Intersections: \\((0.619,\\,1.86)\\) and \\((1.51,\\,4.54)\\)."
+      ],
+      [
+       "Answer",
+       "Smaller solution \\(x=0.619\\). Write both if the question says “solve”."
+      ]
+     ],
+     "wrongs": [
+      [
+       1.5121,
+       "\\(1.51\\) is the larger solution; the question asks for the smaller."
+      ],
+      [
+       1.857,
+       "\\(1.86\\) is the \\(y\\)-coordinate of the first crossing."
+      ],
+      [
+       1.0986,
+       "\\(1.10\\) is \\(\\ln3\\): solves \\(e^{x}=3\\), not \\(e^{x}=3x\\)."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "Which two graphs?",
+       [
+        "\\(y_1=\\ln x\\) and \\(y_2=4-x^{2}\\)",
+        "\\(y_1=\\ln x\\) and \\(y_2=4\\)",
+        "\\(y_1=x\\) and \\(y_2=4-x^{2}\\)"
+       ],
+       0,
+       "✓ Each side as written.",
+       "✗ Graph each side of the equation exactly as written: \\(y_1=\\ln x\\) and \\(y_2=4-x^{2}\\)."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => x > 0 ? Math.log(x) : NaN"
+        },
+        {
+         "$fn": "(x) => 4 - x*x"
+        }
+       ],
+       "xr": [
+        0,
+        3
+       ],
+       "yr": [
+        -3,
+        5
+       ],
+       "pts": [
+        [
+         1.8411,
+         0.6104,
+         "x = 1.84"
+        ]
+       ]
+      },
+      "caption": "y = ln x and y = 4 − x² cross once, at x = 1.84."
+     },
+     "name": "D2 Log and parabola",
+     "given": "solve \\(\\ln x=4-x^{2}\\)",
+     "givenNote": "",
+     "q": "Solve \\(\\ln x=4-x^{2}\\).",
+     "label": "\\(x=\\)",
+     "ans": 1.8411,
+     "tol": 0.006,
+     "target": 90,
+     "line": "\\(y_1=\\ln x\\), \\(y_2=4-x^{2}\\); intersection \\((1.84,\\,0.610)\\); \\(x=1.84\\)",
+     "steps": [
+      [
+       "Set up",
+       "\\(y_1=\\ln x\\) (only for \\(x>0\\)), \\(y_2=4-x^{2}\\)."
+      ],
+      [
+       "How many",
+       "\\(\\ln x\\) rises, the parabola falls for \\(x>0\\): one crossing."
+      ],
+      [
+       "Answer",
+       "\\(x=1.84\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       0.6104,
+       "That is \\(y\\)."
+      ],
+      [
+       2,
+       "\\(2\\) is where \\(4-x^{2}=0\\), not the crossing."
+      ],
+      [
+       54.6,
+       "\\(54.6\\) is \\(e^{4}\\): solves \\(\\ln x=4\\)."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "Which two graphs?",
+       [
+        "\\(y_1=\\sqrt{x+2}\\) and \\(y_2=0.5x\\)",
+        "\\(y_1=x+2\\) and \\(y_2=0.25x^{2}\\)",
+        "\\(y_1=\\sqrt{x}+2\\) and \\(y_2=0.5x\\)"
+       ],
+       0,
+       "✓ Each side as written.",
+       "✗ Graph each side of the equation exactly as written: \\(y_1=\\sqrt{x+2}\\) and \\(y_2=0.5x\\)."
+      ],
+      [
+       "c",
+       "How many crossings do you expect?",
+       [
+        "One: a root curve rises more and more slowly, a line through the origin catches it once",
+        "Two",
+        "None"
+       ],
+       0,
+       "✓ Only one crossing on the graph; the second “solution” from squaring is spurious.",
+       "✗ Only one crossing on the graph; the second “solution” from squaring is spurious."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => x >= -2 ? Math.sqrt(x + 2) : NaN"
+        },
+        {
+         "$fn": "(x) => 0.5*x"
+        }
+       ],
+       "xr": [
+        -3,
+        8
+       ],
+       "yr": [
+        -2,
+        4
+       ],
+       "pts": [
+        [
+         5.4641,
+         2.732,
+         "x = 5.46"
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "D3 Root and line",
+     "given": "solve \\(\\sqrt{x+2}=0.5x\\)",
+     "givenNote": "",
+     "q": "Solve \\(\\sqrt{x+2}=0.5x\\).",
+     "label": "\\(x=\\)",
+     "ans": 5.4641,
+     "tol": 0.006,
+     "target": 90,
+     "line": "\\(y_1=\\sqrt{x+2}\\), \\(y_2=0.5x\\); one crossing, \\(x=5.46\\)",
+     "steps": [
+      [
+       "Set up",
+       "\\(y_1=\\sqrt{x+2}\\) (exists for \\(x\\ge-2\\)), \\(y_2=0.5x\\)."
+      ],
+      [
+       "GDC",
+       "The line is below the root curve until they meet once: intersection \\((5.46,\\,2.73)\\)."
+      ],
+      [
+       "Answer",
+       "\\(x=5.46\\). Squaring by hand gives \\(x=-1.46\\) too, but that is not a solution: \\(0.5x<0\\) there while \\(\\sqrt{x+2}\\ge0\\). The graph never shows it."
+      ]
+     ],
+     "wrongs": [
+      [
+       -1.4641,
+       "\\(-1.46\\) comes from squaring both sides; the graphs do not cross there (\\(0.5x\\) is negative). Only \\(5.46\\)."
+      ],
+      [
+       2.732,
+       "\\(2.73\\) is the \\(y\\)-coordinate."
+      ],
+      [
+       -2,
+       "\\(-2\\) is where \\(\\sqrt{x+2}\\) starts, not a crossing."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "Which equation?",
+       [
+        "\\(40n-0.2n^{2}=200+15n\\)",
+        "\\(40n-0.2n^{2}=0\\)",
+        "\\(200+15n=0\\)"
+       ],
+       0,
+       "✓ \\(R=C\\).",
+       "✗ “Revenue equals cost”: set \\(R=C\\)."
+      ],
+      [
+       "c",
+       "How many crossings do you expect?",
+       [
+        "Two: a ∩ parabola crosses a line twice",
+        "One",
+        "None"
+       ],
+       0,
+       "✓ The revenue parabola rises then falls, so it meets the cost line twice; take the smaller \\(n\\).",
+       "✗ The revenue parabola rises then falls, so it meets the cost line twice; take the smaller \\(n\\)."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => 200 + 15*x"
+        },
+        {
+         "$fn": "(x) => 40*x - 0.2*x*x"
+        }
+       ],
+       "xr": [
+        0,
+        130
+       ],
+       "yr": [
+        0,
+        2200
+       ],
+       "pts": [
+        [
+         8.5904,
+         328.9,
+         "n = 8.59"
+        ],
+        [
+         116.41,
+         1946,
+         ""
+        ]
+       ]
+      },
+      "caption": "C (solid) and R (dashed) are equal at n = 8.59 and again at n = 116."
+     },
+     "name": "D4 In context",
+     "given": "\\(C=200+15n\\), \\(R=40n-0.2n^{2}\\)",
+     "givenNote": "cost and revenue, in dollars, for \\(n\\) items",
+     "q": "Find the value of \\(n\\) at which revenue equals cost, and hence the smallest whole number of items for which revenue is at least the cost. Enter the crossing value of \\(n\\), then the whole number.",
+     "label": "crossing \\(n=\\)",
+     "label2": "smallest whole \\(n=\\)",
+     "ans": 8.5904,
+     "ans2": 9,
+     "tol": 0.006,
+     "target": 110,
+     "line": "\\(R=C\\): \\(40n-0.2n^{2}=200+15n\\); intersection at \\(n=8.59\\) (and \\(116\\)); smallest \\(8.59\\)",
+     "steps": [
+      [
+       "Equation",
+       "“Revenue equals cost” is \\(R=C\\): \\(40n-0.2n^{2}=200+15n\\)."
+      ],
+      [
+       "GDC",
+       "Graph both against \\(n\\), window \\(0\\le n\\le130\\): crossings at \\(n=8.59\\) and \\(n=116\\)."
+      ],
+      [
+       "Answer",
+       "Crossing at \\(n=8.59\\). Items are whole, so the first whole number of items with \\(R\\ge C\\) is \\(n=9\\) (check: \\(R(9)=343.8>C(9)=335\\))."
+      ]
+     ],
+     "wrongs": [
+      [
+       116.41,
+       "\\(116\\) is the other crossing; the question asks for the smallest."
+      ],
+      [
+       328.9,
+       "\\(329\\) is the cost/revenue at the crossing, the \\(y\\)-coordinate."
+      ],
+      [
+       200,
+       "\\(200\\) is the fixed cost."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "Which two graphs?",
+       [
+        "\\(y_1=2^{x}\\) and \\(y_2=6-x\\)",
+        "\\(y_1=2^{x}\\) and \\(y_2=6\\)",
+        "\\(y_1=2x\\) and \\(y_2=6-x\\)"
+       ],
+       0,
+       "✓ Each side as written.",
+       "✗ Graph each side of the equation exactly as written: \\(y_1=2^{x}\\) and \\(y_2=6-x\\)."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => Math.pow(2, x)"
+        },
+        {
+         "$fn": "(x) => 6 - x"
+        }
+       ],
+       "xr": [
+        -1,
+        4
+       ],
+       "yr": [
+        0,
+        10
+       ],
+       "pts": [
+        [
+         2,
+         4,
+         "P(2, 4)"
+        ]
+       ]
+      },
+      "caption": "y = 2ˣ and y = 6 − x meet at P(2, 4)."
+     },
+     "name": "D5 Coordinates",
+     "given": "solve \\(2^{x}=6-x\\)",
+     "givenNote": "the graphs meet at \\(P\\)",
+     "q": "Find the coordinates of \\(P\\), where \\(y=2^{x}\\) meets \\(y=6-x\\).",
+     "label": "\\(x=\\)",
+     "label2": "\\(y=\\)",
+     "ans": 2,
+     "ans2": 4,
+     "tol": 0.006,
+     "target": 90,
+     "line": "\\(y_1=2^{x}\\), \\(y_2=6-x\\); \\(P(2,\\,4)\\)",
+     "steps": [
+      [
+       "Set up",
+       "\\(y_1=2^{x}\\), \\(y_2=6-x\\): one crossing (rising meets falling)."
+      ],
+      [
+       "GDC",
+       "Intersection \\((2,\\,4)\\). Check: \\(2^{2}=4\\) and \\(6-2=4\\)."
+      ],
+      [
+       "Answer",
+       "\\(P(2,\\,4)\\). Both coordinates, as a pair."
+      ]
+     ],
+     "wrongs": [
+      [
+       4,
+       "\\(4\\) is \\(y\\); the first box asks for \\(x\\)."
+      ],
+      [
+       6,
+       "\\(6\\) is where \\(6-x=0\\)."
+      ],
+      [
+       2.585,
+       "\\(2.58\\) is \\(\\log_2 6\\): solves \\(2^{x}=6\\)."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "Radians. Window \\(-4\\le x\\le4\\).",
+      "Count the crossings including the one at the origin."
+     ],
+     "parts": [
+      [
+       "c",
+       "Mode?",
+       [
+        "Radians",
+        "Degrees",
+        "Does not matter"
+       ],
+       0,
+       "✓ Radians, always, unless the question writes degrees.",
+       "✗ IB trig is in radians unless degrees are written in the question."
+      ],
+      [
+       "c",
+       "How many crossings do you expect?",
+       [
+        "Three, including \\(x=0\\)",
+        "Two",
+        "One"
+       ],
+       0,
+       "✓ The line passes through the origin, where \\(\\sin0=0\\), and cuts the wave once each side.",
+       "✗ The line passes through the origin, where \\(\\sin0=0\\), and cuts the wave once each side."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => Math.sin(x)"
+        },
+        {
+         "$fn": "(x) => x/3"
+        }
+       ],
+       "xr": [
+        -4,
+        4
+       ],
+       "yr": [
+        -1.5,
+        1.5
+       ],
+       "pts": [
+        [
+         -2.2789,
+         -0.7596,
+         ""
+        ],
+        [
+         0,
+         0,
+         "0"
+        ],
+        [
+         2.2789,
+         0.7596,
+         "x = 2.28"
+        ]
+       ]
+      },
+      "caption": "y = sin x and y = x/3: three crossings, including the origin."
+     },
+     "name": "C1 Count them all",
+     "given": "solve \\(\\sin x=\\dfrac{x}{3}\\)",
+     "givenNote": "radians; \\(-4\\le x\\le4\\)",
+     "q": "How many solutions are there, and what is the largest? Enter the number of solutions, then the largest solution.",
+     "label": "number \\(=\\)",
+     "label2": "largest \\(x=\\)",
+     "ans": 3,
+     "ans2": 2.2789,
+     "tol": 0.006,
+     "target": 150,
+     "line": "\\(y_1=\\sin x\\), \\(y_2=\\frac{x}{3}\\); crossings at \\(x=-2.28,\\ 0,\\ 2.28\\); three, largest \\(2.28\\)",
+     "steps": [
+      [
+       "Set up",
+       "\\(y_1=\\sin x\\), \\(y_2=\\frac{x}{3}\\), radians, window \\(-4\\le x\\le4\\)."
+      ],
+      [
+       "Count",
+       "The line through the origin cuts the sine wave at \\(0\\) and once on each side: three crossings. The origin is easy to miss as “a crossing”."
+      ],
+      [
+       "GDC",
+       "\\(x=-2.28\\), \\(0\\), \\(2.28\\)."
+      ],
+      [
+       "Answer",
+       "Three solutions; largest \\(x=2.28\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       2,
+       "There are three: do not forget \\(x=0\\), where both sides are \\(0\\)."
+      ],
+      [
+       0.7596,
+       "\\(0.760\\) is \\(y\\) at the largest crossing."
+      ],
+      [
+       130.6,
+       "\\(131\\): the calculator was in degrees. IB uses radians."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "Where is \\(y=100-x\\) when \\(x\\) is small? Near \\(y=100\\).",
+      "Ymax \\(\\approx120\\), Xmax \\(\\approx6\\)."
+     ],
+     "parts": [
+      [
+       "c",
+       "In the standard window no crossing shows. What do you change?",
+       [
+        "Ymax, to about \\(120\\), so that \\(100-x\\) is on screen",
+        "Xmin, to \\(-100\\)",
+        "Nothing: there is no solution"
+       ],
+       0,
+       "✓",
+       "✗ The line \\(100-x\\) sits near \\(y=100\\); raise Ymax so you can see it."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => Math.exp(x)"
+        },
+        {
+         "$fn": "(x) => 100 - x"
+        }
+       ],
+       "xr": [
+        0,
+        6
+       ],
+       "yr": [
+        0,
+        120
+       ],
+       "pts": [
+        [
+         4.5585,
+         95.44,
+         "x = 4.56"
+        ]
+       ]
+      },
+      "caption": "With Ymax = 120 the crossing appears at x = 4.56."
+     },
+     "name": "C2 A crossing off screen",
+     "given": "solve \\(e^{x}=100-x\\)",
+     "givenNote": "",
+     "q": "Solve \\(e^{x}=100-x\\).",
+     "label": "\\(x=\\)",
+     "ans": 4.5585,
+     "tol": 0.006,
+     "target": 150,
+     "line": "\\(y_1=e^{x}\\), \\(y_2=100-x\\); window to \\(y=120\\); intersection \\((4.56,\\,95.4)\\); \\(x=4.56\\)",
+     "steps": [
+      [
+       "Set up",
+       "\\(y_1=e^{x}\\), \\(y_2=100-x\\)."
+      ],
+      [
+       "Window",
+       "In the standard window (\\(-10\\) to \\(10\\)) nothing crosses: \\(100-x\\) is off the top. Set Ymax to about \\(120\\), Xmax to \\(6\\)."
+      ],
+      [
+       "GDC",
+       "Intersection \\((4.56,\\,95.4)\\)."
+      ],
+      [
+       "Answer",
+       "\\(x=4.56\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       95.44,
+       "That is \\(y\\)."
+      ],
+      [
+       4.605,
+       "\\(4.61\\) is \\(\\ln100\\): solves \\(e^{x}=100\\), close but not it."
+      ],
+      [
+       100,
+       "\\(100\\) is where \\(100-x=0\\)."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "\\(y_2=2\\) is a horizontal line; find the crossing.",
+      "Then read which side has \\(x\\,e^{x}\\) above \\(2\\)."
+     ],
+     "parts": [
+      [
+       "c",
+       "The right-hand side is just \\(2\\). What is \\(y_2\\)?",
+       [
+        "The horizontal line \\(y_2=2\\)",
+        "Nothing: you cannot graph a number",
+        "\\(y_2=2x\\)"
+       ],
+       0,
+       "✓",
+       "✗ A constant is a horizontal line."
+      ],
+      [
+       "c",
+       "After finding the crossing, the solution of \\(y_1>y_2\\) is",
+       [
+        "the \\(x\\)-values where the \\(y_1\\) graph is above the \\(y_2\\) graph: \\(x>\\) the critical value",
+        "the crossing itself: \\(x=\\) the critical value",
+        "the \\(x\\)-values where the \\(y_1\\) graph is below the \\(y_2\\) graph"
+       ],
+       0,
+       "✓",
+       "✗ An inequality asks where one graph is above the other, not just where they meet."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => x*Math.exp(x)"
+        },
+        {
+         "$fn": "(x) => 2"
+        }
+       ],
+       "xr": [
+        -1,
+        2
+       ],
+       "yr": [
+        -1,
+        6
+       ],
+       "pts": [
+        [
+         0.8526,
+         2,
+         "x = 0.853"
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "C3 Inequality (HL)",
+     "given": "solve \\(x\\,e^{x}>2\\)",
+     "givenNote": "HL 2.15: an inequality, solved graphically",
+     "q": "Solve the inequality \\(x\\,e^{x}>2\\). Enter the critical value of \\(x\\).",
+     "label": "critical \\(x=\\)",
+     "ans": 0.8526,
+     "tol": 0.006,
+     "target": 150,
+     "line": "\\(y_1=x\\,e^{x}\\), \\(y_2=2\\) cross at \\(x=0.853\\); \\(y_1>y_2\\) to the right: \\(x>0.853\\)",
+     "steps": [
+      [
+       "Set up",
+       "Graph both sides: \\(y_1=x\\,e^{x}\\) and the horizontal line \\(y_2=2\\)."
+      ],
+      [
+       "Crossing",
+       "Intersection at \\((0.853,\\,2)\\)."
+      ],
+      [
+       "Which side",
+       "Where is \\(y_1\\) above \\(y_2\\)? To the right of the crossing (for \\(x<0\\), \\(x\\,e^{x}\\) is negative)."
+      ],
+      [
+       "Answer",
+       "\\(x>0.853\\). The answer to an inequality is a region, written with the critical value."
+      ]
+     ],
+     "wrongs": [
+      [
+       2,
+       "\\(2\\) is \\(y\\), the horizontal line."
+      ],
+      [
+       0.6931,
+       "\\(0.693\\) is \\(\\ln2\\): solves \\(e^{x}=2\\), but the left side is \\(x\\,e^{x}\\)."
+      ],
+      [
+       -0.8526,
+       "The crossing is at \\(x=+0.853\\); for negative \\(x\\) the left side is negative, never above \\(2\\)."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "Type abs(x−2) for \\(y_1\\).",
+      "Zoom in around \\(x=2\\): two crossings there plus one far left."
+     ],
+     "parts": [
+      [
+       "c",
+       "\\(y=|x-2|\\) is",
+       [
+        "a V shape with its vertex at \\((2,\\,0)\\)",
+        "a parabola",
+        "a straight line"
+       ],
+       0,
+       "✓",
+       "✗ The absolute value folds the line \\(y=x-2\\) up at \\(x=2\\): a V."
+      ],
+      [
+       "c",
+       "Near the vertex of the V",
+       [
+        "two crossings sit close together: zoom in before choosing bounds",
+        "there is exactly one crossing",
+        "there are no crossings"
+       ],
+       0,
+       "✓",
+       "✗ The decreasing curve cuts the left arm just before the vertex and the right arm just after: two close crossings."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => Math.abs(x - 2)"
+        },
+        {
+         "$fn": "(x) => Math.exp(-x)"
+        }
+       ],
+       "xr": [
+        -2,
+        4
+       ],
+       "yr": [
+        -0.5,
+        4
+       ],
+       "pts": [
+        [
+         -1.1462,
+         3.1462,
+         ""
+        ],
+        [
+         1.8414,
+         0.1586,
+         ""
+        ],
+        [
+         2.12,
+         0.12,
+         "x = 2.12"
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "C4 Absolute value: close crossings",
+     "given": "solve \\(|x-2|=e^{-x}\\)",
+     "givenNote": "",
+     "q": "How many solutions are there, and what is the largest? Enter the number of solutions, then the largest solution.",
+     "label": "number \\(=\\)",
+     "label2": "largest \\(x=\\)",
+     "ans": 3,
+     "ans2": 2.12,
+     "tol": 0.006,
+     "target": 150,
+     "line": "\\(y_1=|x-2|\\) (a V), \\(y_2=e^{-x}\\); crossings at \\(x=-1.15,\\ 1.84,\\ 2.12\\)",
+     "steps": [
+      [
+       "Set up",
+       "\\(y_1=|x-2|\\): a V with its vertex at \\((2,\\,0)\\). \\(y_2=e^{-x}\\): decreasing. abs( ) is in the catalog / MATH NUM."
+      ],
+      [
+       "Count",
+       "The curve cuts the left arm of the V far out (\\(x=-1.15\\)) and both arms near the vertex: three crossings. Zoom in near \\(x=2\\): the last two are close together."
+      ],
+      [
+       "Answer",
+       "Three solutions; largest \\(x=2.12\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       2,
+       "There are three: two of them sit close together near the vertex of the V, so zoom in around \\(x=2\\)."
+      ],
+      [
+       1.8414,
+       "\\(1.84\\) is the middle crossing; the right arm of the V meets the curve again at \\(2.12\\)."
+      ]
+     ]
+    }
+   ],
+   [
+    {
+     "parts": [
+      [
+       "c",
+       "Which two graphs?",
+       [
+        "\\(y_1=e^{x}\\) and \\(y_2=4x\\)",
+        "\\(y_1=e^{x}\\) and \\(y_2=4\\)",
+        "\\(y_1=e^{x}-4\\) and \\(y_2=x\\)"
+       ],
+       0,
+       "✓ Each side as written.",
+       "✗ Graph each side of the equation exactly as written: \\(y_1=e^{x}\\) and \\(y_2=4x\\)."
+      ],
+      [
+       "c",
+       "How many crossings do you expect?",
+       [
+        "Two",
+        "One",
+        "None"
+       ],
+       0,
+       "✓ The line cuts the curve twice.",
+       "✗ The line cuts the curve twice."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => Math.exp(x)"
+        },
+        {
+         "$fn": "(x) => 4*x"
+        }
+       ],
+       "xr": [
+        -1,
+        3
+       ],
+       "yr": [
+        -2,
+        10
+       ],
+       "pts": [
+        [
+         0.3574,
+         1.4296,
+         "x = 0.357"
+        ],
+        [
+         2.1533,
+         8.613,
+         "x = 2.15"
+        ]
+       ]
+      },
+      "caption": "Two crossings; the smaller is 0.357."
+     },
+     "name": "D1 Two crossings",
+     "given": "solve \\(e^{x}=4x\\)",
+     "givenNote": "give the smaller solution",
+     "q": "Solve \\(e^{x}=4x\\). Enter the smaller solution.",
+     "label": "\\(x=\\)",
+     "ans": 0.3574,
+     "tol": 0.006,
+     "target": 90,
+     "line": "\\(y_1=e^{x}\\), \\(y_2=4x\\); \\(x=0.357\\) and \\(2.15\\); smaller \\(0.357\\)",
+     "steps": [
+      [
+       "Set up",
+       "\\(y_1=e^{x}\\), \\(y_2=4x\\): two crossings."
+      ],
+      [
+       "GDC",
+       "\\((0.357,\\,1.43)\\) and \\((2.15,\\,8.61)\\)."
+      ],
+      [
+       "Answer",
+       "\\(x=0.357\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       2.1533,
+       "The larger one."
+      ],
+      [
+       1.4296,
+       "That is \\(y\\)."
+      ],
+      [
+       1.3863,
+       "\\(\\ln4\\): solves \\(e^{x}=4\\)."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "Which two graphs?",
+       [
+        "\\(y_1=\\ln x\\) and \\(y_2=3-x\\)",
+        "\\(y_1=\\ln x\\) and \\(y_2=3\\)",
+        "\\(y_1=x\\) and \\(y_2=3-x\\)"
+       ],
+       0,
+       "✓ Each side as written.",
+       "✗ Graph each side of the equation exactly as written: \\(y_1=\\ln x\\) and \\(y_2=3-x\\)."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => x > 0 ? Math.log(x) : NaN"
+        },
+        {
+         "$fn": "(x) => 3 - x"
+        }
+       ],
+       "xr": [
+        0,
+        4
+       ],
+       "yr": [
+        -2,
+        3
+       ],
+       "pts": [
+        [
+         2.2079,
+         0.7921,
+         "x = 2.21"
+        ]
+       ]
+      },
+      "caption": "One crossing at x = 2.21."
+     },
+     "name": "D2 Log and line",
+     "given": "solve \\(\\ln x=3-x\\)",
+     "givenNote": "",
+     "q": "Solve \\(\\ln x=3-x\\).",
+     "label": "\\(x=\\)",
+     "ans": 2.2079,
+     "tol": 0.006,
+     "target": 90,
+     "line": "\\(y_1=\\ln x\\), \\(y_2=3-x\\); \\((2.21,\\,0.792)\\); \\(x=2.21\\)",
+     "steps": [
+      [
+       "Set up",
+       "\\(y_1=\\ln x\\), \\(y_2=3-x\\): one crossing."
+      ],
+      [
+       "Answer",
+       "\\(x=2.21\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       0.7921,
+       "That is \\(y\\)."
+      ],
+      [
+       3,
+       "Where \\(3-x=0\\)."
+      ],
+      [
+       20.09,
+       "\\(e^{3}\\): solves \\(\\ln x=3\\)."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "Which two graphs?",
+       [
+        "\\(y_1=\\sqrt{x+3}\\) and \\(y_2=0.4x\\)",
+        "\\(y_1=x+3\\) and \\(y_2=0.16x^{2}\\)",
+        "\\(y_1=\\sqrt{x}+3\\) and \\(y_2=0.4x\\)"
+       ],
+       0,
+       "✓ Each side as written.",
+       "✗ Graph each side of the equation exactly as written: \\(y_1=\\sqrt{x+3}\\) and \\(y_2=0.4x\\)."
+      ],
+      [
+       "c",
+       "How many crossings do you expect?",
+       [
+        "One",
+        "Two",
+        "None"
+       ],
+       0,
+       "✓ The line catches the root curve once; squaring adds a spurious value.",
+       "✗ The line catches the root curve once; squaring adds a spurious value."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => x >= -3 ? Math.sqrt(x + 3) : NaN"
+        },
+        {
+         "$fn": "(x) => 0.4*x"
+        }
+       ],
+       "xr": [
+        -4,
+        11
+       ],
+       "yr": [
+        -2,
+        5
+       ],
+       "pts": [
+        [
+         8.465,
+         3.386,
+         "x = 8.47"
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "D3 Root and line",
+     "given": "solve \\(\\sqrt{x+3}=0.4x\\)",
+     "givenNote": "",
+     "q": "Solve \\(\\sqrt{x+3}=0.4x\\).",
+     "label": "\\(x=\\)",
+     "ans": 8.465,
+     "tol": 0.006,
+     "target": 90,
+     "line": "\\(y_1=\\sqrt{x+3}\\), \\(y_2=0.4x\\); one crossing, \\(x=8.47\\)",
+     "steps": [
+      [
+       "Set up",
+       "\\(y_1=\\sqrt{x+3}\\), \\(y_2=0.4x\\)."
+      ],
+      [
+       "GDC",
+       "Intersection \\((8.47,\\,3.39)\\)."
+      ],
+      [
+       "Answer",
+       "\\(x=8.47\\); the negative value from squaring is spurious."
+      ]
+     ],
+     "wrongs": [
+      [
+       -2.215,
+       "Spurious: \\(0.4x<0\\) there."
+      ],
+      [
+       3.386,
+       "That is \\(y\\)."
+      ],
+      [
+       -3,
+       "Where the root starts."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "Which equation?",
+       [
+        "\\(\\dfrac{800}{1+7e^{-0.4t}}=500\\)",
+        "\\(800=500\\)",
+        "\\(7e^{-0.4t}=500\\)"
+       ],
+       0,
+       "✓ Set the model equal to the level.",
+       "✗ “Reaches \\(500\\)”: \\(N(t)=500\\)."
+      ],
+      [
+       "c",
+       "Typing the model: the denominator",
+       [
+        "needs brackets: 800/(1+7e^(−0.4x))",
+        "does not need brackets",
+        "should be typed as a separate function"
+       ],
+       0,
+       "✓ Without brackets the calculator divides \\(800\\) by \\(1\\) only.",
+       "✗ 800/1+7e^(−0.4x) means \\(800+7e^{-0.4x}\\). Bracket the whole denominator."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => 800/(1 + 7*Math.exp(-0.4*x))"
+        },
+        {
+         "$fn": "(x) => 500"
+        }
+       ],
+       "xr": [
+        0,
+        20
+       ],
+       "yr": [
+        0,
+        900
+       ],
+       "pts": [
+        [
+         6.1418,
+         500,
+         "t = 6.14"
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "D4 In context: a model reaches a level",
+     "given": "\\(N(t)=\\dfrac{800}{1+7e^{-0.4t}}\\)",
+     "givenNote": "number of fish in a lake, \\(t\\) years after stocking",
+     "q": "Find how long it takes for the population to reach \\(500\\).",
+     "label": "\\(t=\\)",
+     "ans": 6.1418,
+     "tol": 0.006,
+     "target": 110,
+     "line": "\\(N(t)=500\\): \\(y_1=800/(1+7e^{-0.4t})\\), \\(y_2=500\\); \\(t=6.14\\) years",
+     "steps": [
+      [
+       "Equation",
+       "“Reaches \\(500\\)” is \\(N(t)=500\\)."
+      ],
+      [
+       "GDC",
+       "Graph \\(y_1=800/(1+7e^{-0.4x})\\) with brackets round the whole denominator, and \\(y_2=500\\), window \\(0\\le x\\le20\\), \\(0\\le y\\le900\\)."
+      ],
+      [
+       "Answer",
+       "Intersection at \\(t=6.14\\) years."
+      ]
+     ],
+     "wrongs": [
+      [
+       800,
+       "\\(800\\) is the long-run population, not a time."
+      ],
+      [
+       100,
+       "\\(100\\) is \\(N(0)\\)."
+      ],
+      [
+       500,
+       "\\(500\\) is the level, not the time."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "Which two graphs?",
+       [
+        "\\(y_1=3^{x}\\) and \\(y_2=10-x\\)",
+        "\\(y_1=3^{x}\\) and \\(y_2=10\\)",
+        "\\(y_1=3x\\) and \\(y_2=10-x\\)"
+       ],
+       0,
+       "✓ Each side as written.",
+       "✗ Graph each side of the equation exactly as written: \\(y_1=3^{x}\\) and \\(y_2=10-x\\)."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => Math.pow(3, x)"
+        },
+        {
+         "$fn": "(x) => 10 - x"
+        }
+       ],
+       "xr": [
+        -1,
+        3
+       ],
+       "yr": [
+        0,
+        14
+       ],
+       "pts": [
+        [
+         1.9037,
+         8.096,
+         "P"
+        ]
+       ]
+      },
+      "caption": "P(1.90, 8.10)."
+     },
+     "name": "D5 Coordinates",
+     "given": "solve \\(3^{x}=10-x\\)",
+     "givenNote": "the graphs meet at \\(P\\)",
+     "q": "Find the coordinates of \\(P\\), where \\(y=3^{x}\\) meets \\(y=10-x\\).",
+     "label": "\\(x=\\)",
+     "label2": "\\(y=\\)",
+     "ans": 1.9037,
+     "ans2": 8.096,
+     "tol": 0.006,
+     "target": 90,
+     "line": "\\(P(1.90,\\,8.10)\\)",
+     "steps": [
+      [
+       "Set up",
+       "\\(y_1=3^{x}\\), \\(y_2=10-x\\): one crossing."
+      ],
+      [
+       "GDC",
+       "\\((1.90,\\,8.10)\\)."
+      ],
+      [
+       "Answer",
+       "\\(P(1.90,\\,8.10)\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       8.096,
+       "That is \\(y\\)."
+      ],
+      [
+       10,
+       "Where \\(10-x=0\\)."
+      ],
+      [
+       2.096,
+       "\\(\\log_3 10\\): solves \\(3^{x}=10\\)."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "Radians; window \\(-4\\) to \\(4\\).",
+      "Count on both sides of the \\(y\\)-axis."
+     ],
+     "parts": [
+      [
+       "c",
+       "Mode?",
+       [
+        "Radians",
+        "Degrees",
+        "Does not matter"
+       ],
+       0,
+       "✓",
+       "✗ Radians."
+      ],
+      [
+       "c",
+       "How many crossings do you expect?",
+       [
+        "Three",
+        "Two",
+        "One"
+       ],
+       0,
+       "✓ Two on the left, one on the right.",
+       "✗ Two on the left, one on the right."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => Math.cos(x)"
+        },
+        {
+         "$fn": "(x) => x/4"
+        }
+       ],
+       "xr": [
+        -4,
+        4
+       ],
+       "yr": [
+        -1.5,
+        1.5
+       ],
+       "pts": [
+        [
+         -3.5953,
+         -0.8988,
+         ""
+        ],
+        [
+         -2.1333,
+         -0.5333,
+         ""
+        ],
+        [
+         1.2524,
+         0.3131,
+         "x = 1.25"
+        ]
+       ]
+      },
+      "caption": "Three crossings."
+     },
+     "name": "C1 Count them all",
+     "given": "solve \\(\\cos x=\\dfrac{x}{4}\\)",
+     "givenNote": "radians; \\(-4\\le x\\le4\\)",
+     "q": "How many solutions are there, and what is the largest? Enter the number, then the largest solution.",
+     "label": "number \\(=\\)",
+     "label2": "largest \\(x=\\)",
+     "ans": 3,
+     "ans2": 1.2524,
+     "tol": 0.006,
+     "target": 150,
+     "line": "crossings at \\(-3.60,\\ -2.13,\\ 1.25\\); three, largest \\(1.25\\)",
+     "steps": [
+      [
+       "Set up",
+       "Radians; window \\(-4\\le x\\le4\\)."
+      ],
+      [
+       "Count",
+       "Three crossings."
+      ],
+      [
+       "Answer",
+       "Three; largest \\(1.25\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       2,
+       "Three: look on the left too."
+      ],
+      [
+       0.3131,
+       "That is \\(y\\)."
+      ],
+      [
+       71.8,
+       "Degrees mode. Use radians."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "\\(200-2x\\) is near \\(y=200\\).",
+      "Ymax \\(\\approx250\\)."
+     ],
+     "parts": [
+      [
+       "c",
+       "Nothing crosses in the standard window. Change",
+       [
+        "Ymax, to about \\(250\\)",
+        "Xmin, to \\(-200\\)",
+        "Nothing"
+       ],
+       0,
+       "✓",
+       "✗ Raise Ymax."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => Math.exp(x)"
+        },
+        {
+         "$fn": "(x) => 200 - 2*x"
+        }
+       ],
+       "xr": [
+        0,
+        7
+       ],
+       "yr": [
+        0,
+        250
+       ],
+       "pts": [
+        [
+         5.2444,
+         189.5,
+         "x = 5.24"
+        ]
+       ]
+      },
+      "caption": "With Ymax = 250 the crossing is visible."
+     },
+     "name": "C2 A crossing off screen",
+     "given": "solve \\(e^{x}=200-2x\\)",
+     "givenNote": "",
+     "q": "Solve \\(e^{x}=200-2x\\).",
+     "label": "\\(x=\\)",
+     "ans": 5.2444,
+     "tol": 0.006,
+     "target": 150,
+     "line": "window to \\(y=250\\); \\((5.24,\\,189.5)\\); \\(x=5.24\\)",
+     "steps": [
+      [
+       "Window",
+       "Raise Ymax to about \\(250\\), Xmax \\(7\\)."
+      ],
+      [
+       "GDC",
+       "\\((5.24,\\,189.5)\\)."
+      ],
+      [
+       "Answer",
+       "\\(5.24\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       189.5,
+       "That is \\(y\\)."
+      ],
+      [
+       5.298,
+       "\\(\\ln200\\): solves \\(e^{x}=200\\)."
+      ],
+      [
+       100,
+       "Where \\(200-2x=0\\)."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "\\(y_2=3\\).",
+      "Which side is above?"
+     ],
+     "parts": [
+      [
+       "c",
+       "What is \\(y_2\\)?",
+       [
+        "The horizontal line \\(y_2=3\\)",
+        "Nothing",
+        "\\(y_2=3x\\)"
+       ],
+       0,
+       "✓",
+       "✗ A constant is a horizontal line."
+      ],
+      [
+       "c",
+       "The solution of \\(y_1>y_2\\) is",
+       [
+        "where the \\(y_1\\) graph is above \\(y_2\\): \\(x>\\) the critical value",
+        "the crossing itself: \\(x=\\) the critical value",
+        "where the \\(y_1\\) graph is below \\(y_2\\)"
+       ],
+       0,
+       "✓",
+       "✗ Where one graph is above the other."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => x*x*Math.exp(x)"
+        },
+        {
+         "$fn": "(x) => 3"
+        }
+       ],
+       "xr": [
+        -3,
+        2
+       ],
+       "yr": [
+        -1,
+        8
+       ],
+       "pts": [
+        [
+         1.0332,
+         3,
+         "x = 1.03"
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "C3 Inequality (HL)",
+     "given": "solve \\(x^{2}e^{x}>3\\)",
+     "givenNote": "HL 2.15: an inequality, solved graphically",
+     "q": "Solve the inequality \\(x^{2}e^{x}>3\\). Enter the critical value of \\(x\\).",
+     "label": "critical \\(x=\\)",
+     "ans": 1.0332,
+     "tol": 0.006,
+     "target": 150,
+     "line": "crossing at \\(x=1.03\\); \\(x^{2}e^{x}>3\\) for \\(x>1.03\\)",
+     "steps": [
+      [
+       "Set up",
+       "\\(y_1=x^{2}e^{x}\\), \\(y_2=3\\)."
+      ],
+      [
+       "Crossing",
+       "\\((1.03,\\,3)\\). For \\(x<0\\), \\(x^{2}e^{x}\\) stays below \\(0.55\\), so no second crossing."
+      ],
+      [
+       "Answer",
+       "\\(x>1.03\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       3,
+       "That is \\(y\\)."
+      ],
+      [
+       1.0986,
+       "\\(\\ln3\\): solves \\(e^{x}=3\\)."
+      ],
+      [
+       -1.0332,
+       "No crossing for negative \\(x\\): the left side never reaches \\(3\\) there."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "abs(x−1) for \\(y_1\\).",
+      "One crossing on each arm of the V."
+     ],
+     "parts": [
+      [
+       "c",
+       "\\(y=|x-1|\\) is",
+       [
+        "a V with vertex at \\((1,\\,0)\\)",
+        "a parabola",
+        "a line"
+       ],
+       0,
+       "✓",
+       "✗ A V."
+      ],
+      [
+       "c",
+       "How many crossings do you expect?",
+       [
+        "Two: the parabola cuts each arm of the V once",
+        "One",
+        "Four"
+       ],
+       0,
+       "✓ One crossing on each arm.",
+       "✗ One crossing on each arm."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => Math.abs(x - 1)"
+        },
+        {
+         "$fn": "(x) => 3 - x*x"
+        }
+       ],
+       "xr": [
+        -3,
+        3
+       ],
+       "yr": [
+        -2,
+        4
+       ],
+       "pts": [
+        [
+         -1,
+         2,
+         ""
+        ],
+        [
+         1.5616,
+         0.5616,
+         "x = 1.56"
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "C4 Absolute value and a parabola",
+     "given": "solve \\(|x-1|=3-x^{2}\\)",
+     "givenNote": "",
+     "q": "Solve \\(|x-1|=3-x^{2}\\). Enter the positive solution.",
+     "label": "positive \\(x=\\)",
+     "ans": 1.5616,
+     "tol": 0.006,
+     "target": 150,
+     "line": "\\(y_1=|x-1|\\) (a V), \\(y_2=3-x^{2}\\); crossings at \\(x=-1\\) and \\(x=1.56\\)",
+     "steps": [
+      [
+       "Set up",
+       "\\(y_1=|x-1|\\): a V with vertex \\((1,\\,0)\\). \\(y_2=3-x^{2}\\)."
+      ],
+      [
+       "GDC",
+       "Two crossings: \\((-1,\\,2)\\) and \\((1.56,\\,0.562)\\)."
+      ],
+      [
+       "Answer",
+       "Positive solution \\(x=1.56\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       -1,
+       "That is the negative solution."
+      ],
+      [
+       2,
+       "\\(2\\) comes from solving \\(1-x=3-x^{2}\\) by hand, but that arm of the V only exists for \\(x<1\\): the graphs do not meet there."
+      ],
+      [
+       0.5616,
+       "\\(0.562\\) is the \\(y\\)-coordinate."
+      ]
+     ]
+    }
+   ]
+  ],
+  "rules": {
+   "coreItems": 5,
+   "challengeItems": 4,
+   "tries": 2,
+   "passCore": 4
+  }
+ },
+ "apply": {
+  "questions": [
+   {
+    "max": 8,
+    "stem": "Let \\(f(x)=e^{x}\\) and \\(g(x)=4-x^{2}\\).",
+    "parts": [
+     {
+      "label": "(a)",
+      "marks": 1,
+      "text": "State the number of points of intersection of the graphs of \\(f\\) and \\(g\\).",
+      "opts": [
+       "Two",
+       "One",
+       "Three"
+      ],
+      "right": 0,
+      "bad": "The ∩ parabola \\(4-x^{2}\\) crosses the rising curve \\(e^{x}\\) once on each side of the \\(y\\)-axis: two points.",
+      "fig": {
+       "kind": "graph",
+       "fns": [
+        {
+         "$fn": "(x) => Math.exp(x)"
+        },
+        {
+         "$fn": "(x) => 4 - x * x"
+        }
+       ],
+       "xr": [
+        -3,
+        3
+       ],
+       "yr": [
+        -2,
+        6
+       ],
+       "pts": [
+        [
+         -1.9646,
+         0.1402,
+         ""
+        ],
+        [
+         1.058,
+         2.8806,
+         ""
+        ]
+       ]
+      },
+      "figCap": "y = eˣ (solid) and y = 4 − x² (dashed) cross twice.",
+      "ms": [
+       [
+        "A1",
+        "two"
+       ]
+      ]
+     },
+     {
+      "label": "(b)",
+      "marks": 3,
+      "text": "Find the \\(x\\)-coordinates of the points of intersection.",
+      "ansLabel": "\\(x_1=\\)",
+      "ansLabel2": "\\(x_2=\\)",
+      "ans": -1.9646,
+      "ans2": 1.058,
+      "tol": 0.006,
+      "fig": {
+       "kind": "graph",
+       "fns": [
+        {
+         "$fn": "(x) => Math.exp(x)"
+        },
+        {
+         "$fn": "(x) => 4 - x * x"
+        }
+       ],
+       "xr": [
+        -3,
+        3
+       ],
+       "yr": [
+        -2,
+        6
+       ],
+       "pts": [
+        [
+         -1.9646,
+         0.1402,
+         "x = −1.96"
+        ],
+        [
+         1.058,
+         2.8806,
+         "x = 1.06"
+        ]
+       ]
+      },
+      "figCap": "Intersection tool at each crossing.",
+      "ms": [
+       [
+        "M1",
+        "\\(e^{x}=4-x^{2}\\), graphs of both sides (or a sketch)"
+       ],
+       [
+        "A1",
+        "\\(x=-1.96\\)   (\\(-1.9646\\))"
+       ],
+       [
+        "A1",
+        "\\(x=1.06\\)   (\\(1.0580\\))"
+       ]
+      ],
+      "wrongs": [
+       [
+        0.1402,
+        "That is the \\(y\\)-coordinate of the first point; enter the \\(x\\)-values."
+       ],
+       [
+        1.386,
+        "\\(1.39\\) is \\(\\ln4\\): solves \\(e^{x}=4\\), not \\(e^{x}=4-x^{2}\\)."
+       ],
+       [
+        -2,
+        "\\(-2\\) is where \\(4-x^{2}=0\\), close to but not the crossing."
+       ]
+      ]
+     },
+     {
+      "label": "(c)",
+      "marks": 2,
+      "text": "Find the coordinates of the point of intersection \\(P\\) for which \\(x>0\\).",
+      "ansLabel": "\\(y=\\)",
+      "ans": 2.8806,
+      "tol": 0.006,
+      "ftFrom": 0,
+      "ft": {
+       "$fn": "(x) => Math.exp(x)"
+      },
+      "fig": {
+       "kind": "graph",
+       "fns": [
+        {
+         "$fn": "(x) => Math.exp(x)"
+        },
+        {
+         "$fn": "(x) => 4 - x * x"
+        }
+       ],
+       "xr": [
+        -3,
+        3
+       ],
+       "yr": [
+        -2,
+        6
+       ],
+       "pts": [
+        [
+         1.058,
+         2.8806,
+         "P(1.06, 2.88)"
+        ]
+       ]
+      },
+      "figCap": "Both coordinates of P from the intersection tool.",
+      "ms": [
+       [
+        "A1",
+        "\\(x=1.06\\) from (b)"
+       ],
+       [
+        "A1",
+        "\\(P(1.06,\\,2.88)\\)"
+       ]
+      ],
+      "wrongs": [
+       [
+        1.058,
+        "That is \\(x\\); the box asks for \\(y\\) (enter \\(y\\); \\(x\\) is from (b))."
+       ],
+       [
+        4,
+        "\\(4\\) is \\(g(0)\\), not \\(g(1.06)\\)."
+       ]
+      ]
+     },
+     {
+      "label": "(d)",
+      "marks": 2,
+      "text": "Hence write down the solution of the inequality \\(e^{x}<4-x^{2}\\). (HL)",
+      "opts": [
+       "\\(-1.96<x<1.06\\)",
+       "\\(x<-1.96\\) or \\(x>1.06\\)",
+       "\\(x<1.06\\)"
+      ],
+      "right": 0,
+      "bad": "Between the two crossings the solid curve \\(e^{x}\\) lies below the dashed parabola, so \\(e^{x}<4-x^{2}\\) exactly for \\(-1.96<x<1.06\\).",
+      "fig": {
+       "kind": "graph",
+       "fns": [
+        {
+         "$fn": "(x) => Math.exp(x)"
+        },
+        {
+         "$fn": "(x) => 4 - x * x"
+        }
+       ],
+       "xr": [
+        -3,
+        3
+       ],
+       "yr": [
+        -2,
+        6
+       ],
+       "pts": [
+        [
+         -1.9646,
+         0.1402,
+         "−1.96"
+        ],
+        [
+         1.058,
+         2.8806,
+         "1.06"
+        ]
+       ],
+       "notes": [
+        [
+         -0.4,
+         4.6,
+         "eˣ below the parabola here",
+         "#B45309"
+        ]
+       ]
+      },
+      "figCap": "Where is the solid curve below the dashed one? Between the crossings.",
+      "ms": [
+       [
+        "A1",
+        "\\(-1.96<x<1.06\\)"
+       ],
+       [
+        "A1",
+        "strict inequalities, using the values from (b)"
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "max": 8,
+    "stem": "The populations of two towns, \\(t\\) years after 2020, are modelled by \\(A(t)=1200e^{0.05t}\\) and \\(B(t)=2000-40t\\).",
+    "parts": [
+     {
+      "label": "(a)",
+      "marks": 1,
+      "text": "Write down the population of town A in 2020.",
+      "ansLabel": "\\(A(0)=\\)",
+      "ans": 1200,
+      "tol": 0.01,
+      "fig": {
+       "kind": "graph",
+       "fns": [
+        {
+         "$fn": "(t) => 1200 * Math.exp(0.05 * t)"
+        },
+        {
+         "$fn": "(t) => 2000 - 40 * t"
+        }
+       ],
+       "xr": [
+        0,
+        20
+       ],
+       "yr": [
+        0,
+        3500
+       ],
+       "pts": [
+        [
+         0,
+         1200,
+         "A(0) = 1200"
+        ]
+       ]
+      },
+      "figCap": "At t = 0, e⁰ = 1.",
+      "ms": [
+       [
+        "A1",
+        "\\(1200\\)"
+       ]
+      ],
+      "wrongs": [
+       [
+        2000,
+        "\\(2000\\) is \\(B(0)\\), town B."
+       ],
+       [
+        1261.5,
+        "\\(1261\\) is \\(A(1)\\); at \\(t=0\\), \\(e^{0}=1\\)."
+       ]
+      ]
+     },
+     {
+      "label": "(b)",
+      "marks": 3,
+      "text": "Find the year in which the two populations are equal.",
+      "ansLabel": "\\(t=\\)",
+      "ans": 7.1365,
+      "tol": 0.006,
+      "fig": {
+       "kind": "graph",
+       "fns": [
+        {
+         "$fn": "(t) => 1200 * Math.exp(0.05 * t)"
+        },
+        {
+         "$fn": "(t) => 2000 - 40 * t"
+        }
+       ],
+       "xr": [
+        0,
+        20
+       ],
+       "yr": [
+        0,
+        3500
+       ],
+       "pts": [
+        [
+         7.1365,
+         1714.5,
+         "(7.14, 1715)"
+        ]
+       ]
+      },
+      "figCap": "A rising, B falling: equal once, at t ≈ 7.14, i.e. during 2027.",
+      "ms": [
+       [
+        "M1",
+        "\\(1200e^{0.05t}=2000-40t\\), solved graphically"
+       ],
+       [
+        "A1",
+        "\\(t=7.14\\)"
+       ],
+       [
+        "A1",
+        "2027"
+       ]
+      ],
+      "note": "The box takes \\(t\\); the year, 2027, completes the answer. “The year” means \\(2020+7.14\\), so during 2027.",
+      "wrongs": [
+       [
+        1714.5,
+        "That is the population when they are equal; the question asks when."
+       ],
+       [
+        2027,
+        "Enter \\(t\\) (the year is \\(2020+t\\))."
+       ],
+       [
+        20,
+        "\\(20\\) is the edge of the window."
+       ]
+      ]
+     },
+     {
+      "label": "(c)",
+      "marks": 1,
+      "text": "Find the population of each town at that time.",
+      "ansLabel": "population \\(=\\)",
+      "ans": 1714.5,
+      "tol": 6,
+      "ftFrom": 0,
+      "ft": {
+       "$fn": "(t) => 1200 * Math.exp(0.05 * t)"
+      },
+      "fig": {
+       "kind": "graph",
+       "fns": [
+        {
+         "$fn": "(t) => 1200 * Math.exp(0.05 * t)"
+        },
+        {
+         "$fn": "(t) => 2000 - 40 * t"
+        }
+       ],
+       "xr": [
+        0,
+        20
+       ],
+       "yr": [
+        0,
+        3500
+       ],
+       "pts": [
+        [
+         7.1365,
+         1714.5,
+         "y = 1715"
+        ]
+       ]
+      },
+      "figCap": "The y-coordinate of the crossing.",
+      "ms": [
+       [
+        "A1",
+        "\\(1710\\) (3 s.f.; \\(1714.5\\))"
+       ]
+      ],
+      "wrongs": [
+       [
+        7.1365,
+        "That is \\(t\\); the population is the \\(y\\)-coordinate."
+       ],
+       [
+        1200,
+        "That is \\(A(0)\\)."
+       ]
+      ]
+     },
+     {
+      "label": "(d)",
+      "marks": 3,
+      "text": "Find the value of \\(t\\) when the population of town A first exceeds that of town B by \\(500\\).",
+      "ansLabel": "\\(t=\\)",
+      "ans": 10.861,
+      "tol": 0.06,
+      "fig": {
+       "kind": "graph",
+       "fns": [
+        {
+         "$fn": "(t) => 1200 * Math.exp(0.05 * t) - (2000 - 40 * t)"
+        },
+        {
+         "$fn": "(t) => 500"
+        }
+       ],
+       "xr": [
+        0,
+        20
+       ],
+       "yr": [
+        -1000,
+        2500
+       ],
+       "pts": [
+        [
+         10.861,
+         500,
+         "t = 10.9"
+        ]
+       ]
+      },
+      "figCap": "Graph the difference A − B (solid) against the line y = 500 (dashed).",
+      "ms": [
+       [
+        "M1",
+        "\\(A(t)-B(t)=500\\), i.e. \\(1200e^{0.05t}-(2000-40t)=500\\)"
+       ],
+       [
+        "M1",
+        "graphs of \\(A-B\\) and \\(y=500\\) (or \\(A\\) and \\(B+500\\)), intersection"
+       ],
+       [
+        "A1",
+        "\\(t=10.9\\)   (\\(10.86\\))"
+       ]
+      ],
+      "wrongs": [
+       [
+        7.1365,
+        "That is when they are equal; now A must be \\(500\\) more than B."
+       ],
+       [
+        9.3,
+        "\\(9.3\\) solves \\(A=2000\\) or a mis-set equation; the condition is \\(A-B=500\\)."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "max": 8,
+    "stem": "Let \\(f(x)=x^{3}-4x\\) and \\(g(x)=2x+1\\).",
+    "parts": [
+     {
+      "label": "(a)",
+      "marks": 3,
+      "text": "Find the \\(x\\)-coordinates of the points where the graphs of \\(f\\) and \\(g\\) intersect. Enter the smallest and the largest.",
+      "ansLabel": "smallest \\(x=\\)",
+      "ansLabel2": "largest \\(x=\\)",
+      "ans": -2.3615,
+      "ans2": 2.5289,
+      "tol": 0.006,
+      "fig": {
+       "kind": "graph",
+       "fns": [
+        {
+         "$fn": "(x) => x * x * x - 4 * x"
+        },
+        {
+         "$fn": "(x) => 2 * x + 1"
+        }
+       ],
+       "xr": [
+        -3,
+        3
+       ],
+       "yr": [
+        -6,
+        8
+       ],
+       "pts": [
+        [
+         -2.3615,
+         -3.723,
+         "−2.36"
+        ],
+        [
+         -0.1674,
+         0.6652,
+         "−0.167"
+        ],
+        [
+         2.5289,
+         6.0578,
+         "2.53"
+        ]
+       ]
+      },
+      "figCap": "A cubic and a line: three crossings.",
+      "ms": [
+       [
+        "M1",
+        "\\(x^{3}-4x=2x+1\\), graphs of both"
+       ],
+       [
+        "A1",
+        "\\(x=-2.36\\) and \\(x=2.53\\)"
+       ],
+       [
+        "A1",
+        "\\(x=-0.167\\) (all three found)"
+       ]
+      ],
+      "wrongs": [
+       [
+        -0.1674,
+        "That is the middle crossing; enter the smallest and the largest."
+       ],
+       [
+        2,
+        "\\(2\\) is a zero of \\(f\\), not a crossing with \\(g\\)."
+       ]
+      ]
+     },
+     {
+      "label": "(b)",
+      "marks": 2,
+      "text": "Write down the coordinates of the point of intersection that lies in the second quadrant.",
+      "ansLabel": "\\(x=\\)",
+      "ansLabel2": "\\(y=\\)",
+      "ans": -0.1674,
+      "ans2": 0.6652,
+      "tol": 0.006,
+      "fig": {
+       "kind": "graph",
+       "fns": [
+        {
+         "$fn": "(x) => x * x * x - 4 * x"
+        },
+        {
+         "$fn": "(x) => 2 * x + 1"
+        }
+       ],
+       "xr": [
+        -3,
+        3
+       ],
+       "yr": [
+        -6,
+        8
+       ],
+       "pts": [
+        [
+         -0.1674,
+         0.6652,
+         "(−0.167, 0.665)"
+        ]
+       ]
+      },
+      "figCap": "Second quadrant: x negative, y positive.",
+      "ms": [
+       [
+        "A1",
+        "identifying the point with \\(x<0\\), \\(y>0\\)"
+       ],
+       [
+        "A1",
+        "\\((-0.167,\\,0.665)\\)"
+       ]
+      ],
+      "wrongs": [
+       [
+        -2.3615,
+        "That point has \\(y=-3.72<0\\): third quadrant."
+       ],
+       [
+        2.5289,
+        "First quadrant."
+       ]
+      ]
+     },
+     {
+      "label": "(c)",
+      "marks": 3,
+      "text": "Solve the inequality \\(f(x)>g(x)\\). (HL)",
+      "opts": [
+       "\\(-2.36<x<-0.167\\) or \\(x>2.53\\)",
+       "\\(x<-2.36\\) or \\(-0.167<x<2.53\\)",
+       "\\(x>2.53\\) only"
+      ],
+      "right": 0,
+      "bad": "Read where the cubic (solid) is above the line (dashed): between the first two crossings, and to the right of the third.",
+      "fig": {
+       "kind": "graph",
+       "fns": [
+        {
+         "$fn": "(x) => x * x * x - 4 * x"
+        },
+        {
+         "$fn": "(x) => 2 * x + 1"
+        }
+       ],
+       "xr": [
+        -3,
+        3
+       ],
+       "yr": [
+        -6,
+        8
+       ],
+       "pts": [
+        [
+         -2.3615,
+         -3.723,
+         ""
+        ],
+        [
+         -0.1674,
+         0.6652,
+         ""
+        ],
+        [
+         2.5289,
+         6.0578,
+         ""
+        ]
+       ],
+       "notes": [
+        [
+         -1.3,
+         3.2,
+         "f above g",
+         "#B45309"
+        ],
+        [
+         2.85,
+         7.2,
+         "f above g",
+         "#B45309"
+        ]
+       ]
+      },
+      "figCap": "The cubic is above the line on two separate intervals.",
+      "ms": [
+       [
+        "M1",
+        "using the three intersections from (a)"
+       ],
+       [
+        "A1",
+        "\\(-2.36<x<-0.167\\)"
+       ],
+       [
+        "A1",
+        "\\(x>2.53\\)"
+       ]
+      ]
+     }
+    ]
+   }
+  ],
+  "passMark": 17,
+  "maxMarks": 24,
+  "lostMarksHint": "most lost marks here are a missed second crossing, reporting y when x was asked, and the year instead of t (or the reverse)."
+ }
+}

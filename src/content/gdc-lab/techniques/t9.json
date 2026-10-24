@@ -1,0 +1,2966 @@
+{
+ "id": "t9",
+ "number": 9,
+ "title": "Inverse normal",
+ "syllabus": "SL 4.9",
+ "level": "SL (and HL)",
+ "lesson": {
+  "part1Ends": 8,
+  "calculatorPaths": {
+   "nspire": [
+    "Open a Calculator page.",
+    "Press menu, then 6: Statistics, 5: Distributions, 3: Inverse Normal.",
+    "Fill the dialog: Area, \\(\\mu\\), \\(\\sigma\\). The area is always the area to the left of the value you want.",
+    "Press OK. The line shows invNorm(0.9,170,8) and the value, 180.25."
+   ],
+   "ti84": [
+    "Press 2nd then VARS to open DISTR.",
+    "Choose 3: invNorm(.",
+    "Enter area, \\(\\mu\\), \\(\\sigma\\). On OS 5.x a Tail option appears: LEFT is the default; RIGHT and CENTER save a subtraction.",
+    "Paste and press ENTER."
+   ],
+   "cg50": [
+    "MENU, STAT, then F5 (DIST).",
+    "F1 (NORM), then F3 (InvN).",
+    "Set Tail to Left (or Right, or Central), then Area, \\(\\sigma\\), \\(\\mu\\). Note: \\(\\sigma\\) before \\(\\mu\\).",
+    "Press EXE. The screen shows xInv."
+   ]
+  },
+  "menuOptions": {
+   "nspire": [
+    "menu → Statistics → Distributions → Normal Cdf",
+    "menu → Statistics → Distributions → Inverse Normal",
+    "menu → Statistics → Stat Calculations → One-Variable Statistics"
+   ],
+   "ti84": [
+    "2nd → VARS (DISTR) → 2: normalcdf(",
+    "2nd → VARS (DISTR) → 3: invNorm(",
+    "STAT → CALC → 1: 1-Var Stats"
+   ],
+   "cg50": [
+    "STAT → DIST → NORM → Ncd",
+    "STAT → DIST → NORM → InvN",
+    "STAT → CALC → 1VAR"
+   ]
+  },
+  "steps": [
+   {
+    "parts": [
+     [
+      "c",
+      "Which probability statement matches the words?",
+      [
+       "\\(\\mathrm{P}(X<h)=0.9\\)",
+       "\\(\\mathrm{P}(X>h)=0.9\\)",
+       "\\(\\mathrm{P}(X<h)=0.1\\)"
+      ],
+      0,
+      "✓ \\(90\\%\\) are shorter, so \\(0.9\\) lies to the left of \\(h\\).",
+      "✗ Shorter than \\(h\\) means less than \\(h\\): \\(\\mathrm{P}(X<h)=0.9\\)."
+     ],
+     [
+      "c",
+      "Which function turns an area into a value on the axis?",
+      [
+       "Inverse Normal: Area (to the LEFT), \\(\\mu\\), \\(\\sigma\\)",
+       "Normal Cdf with the percentage as the upper bound",
+       "One-variable statistics"
+      ],
+      0,
+      "✓ Area in, value out.",
+      "✗ Normal Cdf goes the other way (value in, area out). Inverse Normal takes the left area and gives the value."
+     ]
+    ],
+    "given": "\\(X \\sim \\mathrm{N}(170,\\,8^2)\\)",
+    "label": "\\(h=\\)",
+    "tag": "TRY IT FIRST · enter your calculator’s answer",
+    "worked": "\\(\\mathrm{P}(X<h)=0.9\\)\n\\(h=\\mathrm{invNorm}(0.9,\\,170,\\,8)=180.25\\), so \\(h=180\\) cm",
+    "title": "\\(90\\%\\) of students are shorter than a height \\(h\\). Find \\(h\\).",
+    "instr": [
+     "Use your own calculator.",
+     "Type the value it gives, to 3 significant figures.",
+     "You have two tries; then we show the answer."
+    ],
+    "fig": {
+     "kind": "shade",
+     "lo": null,
+     "hi": 180.25,
+     "ticks": [
+      [
+       170,
+       "μ = 170"
+      ],
+      [
+       180.25,
+       "h = ?"
+      ]
+     ],
+     "notes": [
+      [
+       163,
+       100,
+       "area 0.9",
+       "#08504C"
+      ]
+     ],
+     "caption": "Shaded: 90% of students are shorter than h. The area is known; the value h is what we want."
+    },
+    "ans": 180.25,
+    "placeholder": "___",
+    "ok": "✓ \\(180\\) is right. The lesson shows where this lives on your calculator, which area to enter, and what to write for the marks.",
+    "givenNote": "heights of students, in cm",
+    "t": "numeric",
+    "wrongs": [
+     [
+      159.75,
+      "\\(159.7\\) comes from entering area \\(0.1\\). \\(90\\%\\) shorter than \\(h\\) means \\(0.9\\) of the area is to the left of \\(h\\)."
+     ],
+     [
+      0.9,
+      "\\(0.9\\) is the area you were given. The question asks for the height \\(h\\): use the inverse normal, not Normal Cdf."
+     ]
+    ],
+    "tol": 0.3,
+    "err": "Set-up",
+    "unit": "cm",
+    "byCalc": {
+     "nspire": {
+      "path": [
+       "Open a Calculator page.",
+       "Press menu, then 6: Statistics, 5: Distributions, 3: Inverse Normal.",
+       "Fill the dialog: Area, \\(\\mu\\), \\(\\sigma\\). The area is always the area to the left of the value you want.",
+       "Press OK. The line shows invNorm(0.9,170,8) and the value, 180.25."
+      ]
+     },
+     "ti84": {
+      "path": [
+       "Press 2nd then VARS to open DISTR.",
+       "Choose 3: invNorm(.",
+       "Enter area, \\(\\mu\\), \\(\\sigma\\). On OS 5.x a Tail option appears: LEFT is the default; RIGHT and CENTER save a subtraction.",
+       "Paste and press ENTER."
+      ]
+     },
+     "cg50": {
+      "path": [
+       "MENU, STAT, then F5 (DIST).",
+       "F1 (NORM), then F3 (InvN).",
+       "Set Tail to Left (or Right, or Central), then Area, \\(\\sigma\\), \\(\\mu\\). Note: \\(\\sigma\\) before \\(\\mu\\).",
+       "Press EXE. The screen shows xInv."
+      ]
+     }
+    }
+   },
+   {
+    "t": "note",
+    "fig": {
+     "kind": "shade",
+     "lo": null,
+     "hi": 180.25,
+     "ticks": [
+      [
+       170,
+       "μ = 170"
+      ],
+      [
+       180.25,
+       "h = 180.25"
+      ]
+     ],
+     "notes": [
+      [
+       163,
+       100,
+       "area 0.9 (given)",
+       "#08504C"
+      ],
+      [
+       188,
+       60,
+       "h (wanted)",
+       "#12201E"
+      ]
+     ],
+     "caption": "Step 1 again, as a picture: the shaded area 0.9 was given; the value h on the axis is what you had to find."
+    },
+    "tag": "NOTE",
+    "title": "The inverse normal does the opposite job",
+    "body": "In the last lesson you used Normal Cdf. You gave it a value, such as \\(160\\), and it told you the area to the left of that value: \\(\\mathrm{P}(X<160)=0.106\\). The area is a probability.\n\nStep 1 was the other way round. You were given the area (\\(90\\%\\) of students are shorter than \\(h\\), so the area to the left of \\(h\\) is \\(0.9\\)) and asked for the value \\(h\\). The function for that is Inverse Normal: you give it the area, it gives you the value on the axis.\n\nTwo rules that make or break every inverse-normal question:\n•  The area you type is always the area to the LEFT of the value you want. “\\(90\\%\\) shorter than \\(h\\)” is a left area already: type \\(0.9\\).\n•  If the question gives a percentage ABOVE, change it to below first. “The tallest \\(7\\%\\) are above \\(k\\)” means \\(93\\%\\) are below \\(k\\): type \\(0.93\\).",
+    "code": "Normal Cdf:      you give a value \\(160\\)  \\(\\longrightarrow\\)  it gives an area \\(0.106\\)\nInverse Normal:  you give an area \\(0.9\\)  \\(\\longrightarrow\\)  it gives a value \\(h=180.25\\)"
+   },
+   {
+    "title": "Where it lives on your calculator",
+    "t": "note",
+    "body": "",
+    "byCalc": {
+     "nspire": {
+      "path": [
+       "Open a Calculator page.",
+       "Press menu, then 6: Statistics, 5: Distributions, 3: Inverse Normal.",
+       "Fill the dialog: Area, \\(\\mu\\), \\(\\sigma\\). The area is always the area to the left of the value you want.",
+       "Press OK. The line shows invNorm(0.9,170,8) and the value, 180.25."
+      ],
+      "tag": "NOTE · TI-Nspire CX II"
+     },
+     "ti84": {
+      "path": [
+       "Press 2nd then VARS to open DISTR.",
+       "Choose 3: invNorm(.",
+       "Enter area, \\(\\mu\\), \\(\\sigma\\). On OS 5.x a Tail option appears: LEFT is the default; RIGHT and CENTER save a subtraction.",
+       "Paste and press ENTER."
+      ],
+      "tag": "NOTE · TI-84 Plus CE"
+     },
+     "cg50": {
+      "path": [
+       "MENU, STAT, then F5 (DIST).",
+       "F1 (NORM), then F3 (InvN).",
+       "Set Tail to Left (or Right, or Central), then Area, \\(\\sigma\\), \\(\\mu\\). Note: \\(\\sigma\\) before \\(\\mu\\).",
+       "Press EXE. The screen shows xInv."
+      ],
+      "tag": "NOTE · Casio fx-CG50"
+     }
+    }
+   },
+   {
+    "given": "\\(X \\sim \\mathrm{N}(170,\\,8^2)\\)",
+    "tag": "ACTIVITY · menu choice",
+    "ok": "✓ Right. Inverse Normal turns an area into a value.",
+    "right": 1,
+    "givenNote": "heights of students, in cm",
+    "t": "choice",
+    "bad": "✗ Not quite. Normal Cdf turns a value into an area; one-variable statistics summarises data. Inverse Normal turns an area into a value.",
+    "err": "GDC",
+    "byCalc": {
+     "nspire": {
+      "title": "On your TI-Nspire CX II, which function gives a height from a percentage?",
+      "opts": [
+       "menu → Statistics → Distributions → Normal Cdf",
+       "menu → Statistics → Distributions → Inverse Normal",
+       "menu → Statistics → Stat Calculations → One-Variable Statistics"
+      ]
+     },
+     "ti84": {
+      "title": "On your TI-84 Plus CE, which function gives a height from a percentage?",
+      "opts": [
+       "2nd → VARS (DISTR) → 2: normalcdf(",
+       "2nd → VARS (DISTR) → 3: invNorm(",
+       "STAT → CALC → 1: 1-Var Stats"
+      ]
+     },
+     "cg50": {
+      "title": "On your Casio fx-CG50, which function gives a height from a percentage?",
+      "opts": [
+       "STAT → DIST → NORM → Ncd",
+       "STAT → DIST → NORM → InvN",
+       "STAT → CALC → 1VAR"
+      ]
+     }
+    }
+   },
+   {
+    "t": "choice",
+    "fig": {
+     "kind": "shade",
+     "lo": null,
+     "hi": 159.75,
+     "ticks": [
+      [
+       159.75,
+       "159.7"
+      ],
+      [
+       170,
+       "μ = 170"
+      ]
+     ],
+     "notes": [
+      [
+       154,
+       118,
+       "area 0.1",
+       "#7A3A06"
+      ]
+     ],
+     "caption": "Area 0.1 to the left lands at the 10th percentile, 159.7 cm: on the wrong side of the mean."
+    },
+    "tag": "ACTIVITY · spot the error",
+    "given": "\\(X \\sim \\mathrm{N}(170,\\,8^2)\\)",
+    "title": "A student wants the height that \\(90\\%\\) of students are below, and enters area \\(0.1\\). What will the calculator give?",
+    "opts": [
+     "A height above \\(170\\)",
+     "A height below \\(170\\)",
+     "Exactly \\(170\\)",
+     "An error message"
+    ],
+    "right": 1,
+    "ok": "✓ Right. Area \\(0.1\\) to the left gives the 10th percentile, \\(159.7\\) cm. Sketch first: \\(90\\%\\) below means the value sits on the right of the mean.",
+    "bad": "✗ Not quite. Area \\(0.1\\) to the left gives the 10th percentile, \\(159.7\\) cm, below the mean. Sketch first: \\(90\\%\\) below means the value is on the right.",
+    "err": "Set-up"
+   },
+   {
+    "tag": "NOTE",
+    "code": "\\(\\mathrm{P}(X>k)=0.07\\), so \\(\\mathrm{P}(X<k)=0.93\\)\n\\(k=181.8\\)",
+    "title": "Upper tails",
+    "fig": {
+     "kind": "shade",
+     "lo": 181.81,
+     "hi": null,
+     "ticks": [
+      [
+       170,
+       "μ = 170"
+      ],
+      [
+       181.81,
+       "k"
+      ]
+     ],
+     "notes": [
+      [
+       166,
+       100,
+       "area 0.93 to the left",
+       "#4A5856"
+      ],
+      [
+       187,
+       118,
+       "7%",
+       "#B45309"
+      ]
+     ],
+     "caption": "“The tallest 7% are above k”: 7% in the upper tail, so 93% to the left of k."
+    },
+    "t": "note",
+    "byCalc": {
+     "nspire": {
+      "body": "“The tallest \\(7\\%\\) are above \\(k\\)” means \\(93\\%\\) are below \\(k\\). The Nspire takes a left area only, so enter \\(0.93\\).\n\nWrite the statement, then the value:"
+     },
+     "ti84": {
+      "body": "“The tallest \\(7\\%\\) are above \\(k\\)” means \\(93\\%\\) are below \\(k\\). Enter \\(0.93\\) with Tail LEFT, or \\(0.07\\) with Tail RIGHT. Either way, write the statement as a left or right probability, not as the calculator option.\n\nWrite the statement, then the value:"
+     },
+     "cg50": {
+      "body": "“The tallest \\(7\\%\\) are above \\(k\\)” means \\(93\\%\\) are below \\(k\\). Enter \\(0.93\\) with Tail Left, or \\(0.07\\) with Tail Right. Either way, write the statement as a probability, not as the Tail setting.\n\nWrite the statement, then the value:"
+     }
+    }
+   },
+   {
+    "t": "numeric",
+    "tag": "ACTIVITY · enter your calculator’s answer",
+    "given": "\\(X \\sim \\mathrm{N}(170,\\,8^2)\\)",
+    "givenNote": "heights of students, in cm",
+    "parts": [
+     [
+      "c",
+      "Which LEFT area goes into Inverse Normal?",
+      [
+       "\\(0.93\\): \\(7\\%\\) above means \\(93\\%\\) below",
+       "\\(0.07\\)",
+       "\\(0.5\\)"
+      ],
+      0,
+      "✓ Convert the percentage above to below.",
+      "✗ The tallest \\(7\\%\\) are above \\(k\\), so \\(93\\%\\) are below: enter \\(0.93\\)."
+     ]
+    ],
+    "title": "Find the height above which the tallest \\(7\\%\\) of students lie.",
+    "instr": [
+     "Decide the area to the left of the value first.",
+     "Type the value to 3 significant figures."
+    ],
+    "label": "\\(k=\\)",
+    "unit": "cm",
+    "ans": 181.81,
+    "tol": 0.3,
+    "placeholder": "___",
+    "worked": "\\(\\mathrm{P}(X>k)=0.07\\), so \\(\\mathrm{P}(X<k)=0.93\\)\n\\(k=\\mathrm{invNorm}(0.93,\\,170,\\,8)=181.8\\), so \\(k=182\\) cm",
+    "ok": "✓ \\(182\\). The tallest \\(7\\%\\) are above \\(181.8\\) cm. Now the line that earns the marks.",
+    "wrongs": [
+     [
+      158.19,
+      "\\(158.2\\) comes from entering \\(0.07\\) as a left area. The tallest \\(7\\%\\) are in the upper tail: left area \\(0.93\\)."
+     ],
+     [
+      0.93,
+      "\\(0.93\\) is the area. The question wants the height \\(k\\)."
+     ]
+    ],
+    "err": "Set-up"
+   },
+   {
+    "t": "choice",
+    "tag": "ACTIVITY · write the line",
+    "given": "\\(X \\sim \\mathrm{N}(170,\\,8^2)\\)",
+    "title": "Which line earns the method mark for “find the height above which the tallest \\(7\\%\\) lie”?",
+    "opts": [
+     "\\(\\mathrm{invNorm}(0.93,\\,170,\\,8)=181.8\\)",
+     "\\(\\mathrm{P}(X<k)=0.93,\\ k=182\\)",
+     "\\(k=182\\)",
+     "\\(\\mathrm{P}(X>k)=0.93,\\ k=182\\)"
+    ],
+    "right": 1,
+    "ok": "✓ Right. A probability statement with the correct area, then the value.",
+    "bads": [
+     "✗ Calculator syntax is not mathematics: this risks the method mark.",
+     "",
+     "✗ No statement at all: the answer mark at most.",
+     "✗ The tail is written the wrong way round, even though the number is right. Examiners mark the statement."
+    ],
+    "err": "Communication"
+   },
+   {
+    "t": "note",
+    "fig": {
+     "kind": "shade",
+     "lo": 164.6,
+     "hi": 175.4,
+     "ticks": [
+      [
+       164.6,
+       "Q₁"
+      ],
+      [
+       170,
+       "μ"
+      ],
+      [
+       175.4,
+       "Q₃"
+      ]
+     ],
+     "notes": [
+      [
+       170,
+       100,
+       "middle 50%",
+       "#08504C"
+      ],
+      [
+       156,
+       128,
+       "25%",
+       "#4A5856"
+      ],
+      [
+       184,
+       128,
+       "25%",
+       "#4A5856"
+      ]
+     ],
+     "caption": "Q₁ has 25% below it, Q₃ has 75% below. The IQR is the width of the middle band."
+    },
+    "tag": "NOTE",
+    "title": "Quartiles and the IQR",
+    "body": "•  \\(Q_1\\) has \\(25\\%\\) below it: Inverse Normal with area \\(0.25\\)\n•  \\(Q_3\\) has \\(75\\%\\) below it: area \\(0.75\\)\n•  \\(\\mathrm{IQR}=Q_3-Q_1\\)\n\nFor any normal variable the IQR is about \\(1.35\\sigma\\): a quick check on your answer.",
+    "code": "\\(Q_1=\\mathrm{invNorm}(0.25,\\,170,\\,8)=164.6\\)\n\\(Q_3=\\mathrm{invNorm}(0.75,\\,170,\\,8)=175.4\\)\n\\(\\mathrm{IQR}=175.4-164.6=10.8\\)"
+   },
+   {
+    "t": "numeric",
+    "tag": "ACTIVITY · enter your calculator’s answer",
+    "given": "\\(X \\sim \\mathrm{N}(170,\\,8^2)\\)",
+    "givenNote": "heights of students, in cm",
+    "parts": [
+     [
+      "c",
+      "Which LEFT area goes into Inverse Normal?",
+      [
+       "\\(0.25\\) for \\(Q_1\\) and \\(0.75\\) for \\(Q_3\\)",
+       "\\(0.5\\)",
+       "\\(0.75\\) only"
+      ],
+      0,
+      "✓",
+      "✗ \\(Q_1\\) has \\(25\\%\\) below, \\(Q_3\\) has \\(75\\%\\) below."
+     ],
+     [
+      "n",
+      "Find \\(Q_3\\).",
+      "\\(Q_3=\\)",
+      175.4,
+      0.06,
+      "✓ \\(175.4\\).",
+      [
+       [
+        164.6,
+        "That is \\(Q_1\\)."
+       ]
+      ]
+     ],
+     [
+      "n",
+      "Find \\(Q_1\\).",
+      "\\(Q_1=\\)",
+      164.6,
+      0.06,
+      "✓ \\(164.6\\). Subtract for the IQR.",
+      [
+       [
+        175.4,
+        "That is \\(Q_3\\)."
+       ]
+      ]
+     ]
+    ],
+    "title": "Find the interquartile range of the heights.",
+    "instr": [
+     "Find \\(Q_1\\) and \\(Q_3\\) with two inverse-normal calls.",
+     "Type the IQR to 3 significant figures."
+    ],
+    "label": "\\(\\mathrm{IQR}=\\)",
+    "unit": "cm",
+    "ans": 10.79,
+    "tol": 0.06,
+    "placeholder": "__._",
+    "worked": "\\(Q_1=164.6,\\ Q_3=175.4\\)\n\\(\\mathrm{IQR}=175.4-164.6=10.8\\) cm",
+    "ok": "✓ \\(10.8\\). Check: \\(1.35\\times8=10.8\\).",
+    "wrongs": [
+     [
+      175.4,
+      "\\(175.4\\) is \\(Q_3\\) alone. The IQR is \\(Q_3-Q_1\\)."
+     ],
+     [
+      5.4,
+      "\\(5.40\\) is half the IQR, \\(Q_3-\\mu\\). Subtract \\(Q_1\\), not the mean."
+     ],
+     [
+      16,
+      "\\(16\\) is \\(2\\sigma\\). Quartiles sit at \\(\\pm0.674\\sigma\\), not \\(\\pm\\sigma\\)."
+     ]
+    ],
+    "err": "Reading"
+   },
+   {
+    "tag": "NOTE",
+    "code": "\\(\\mathrm{P}(X<a)=0.05 \\Rightarrow a=156.8\\)\n\\(\\mathrm{P}(X<b)=0.95 \\Rightarrow b=183.2\\)",
+    "title": "Symmetric intervals",
+    "fig": {
+     "kind": "shade",
+     "lo": 156.84,
+     "hi": 183.16,
+     "ticks": [
+      [
+       156.84,
+       "a"
+      ],
+      [
+       170,
+       "μ"
+      ],
+      [
+       183.16,
+       "b"
+      ]
+     ],
+     "notes": [
+      [
+       170,
+       100,
+       "middle 90%",
+       "#08504C"
+      ],
+      [
+       152,
+       128,
+       "5%",
+       "#B45309"
+      ],
+      [
+       188,
+       128,
+       "5%",
+       "#B45309"
+      ]
+     ],
+     "caption": "“The middle 90% lies between a and b”: 10% is left over, shared equally by the two tails."
+    },
+    "t": "note",
+    "byCalc": {
+     "nspire": {
+      "body": "“The middle \\(90\\%\\) lies between \\(a\\) and \\(b\\)” leaves \\(10\\%\\) for the two tails, \\(5\\%\\) each:\n•  \\(a\\): area to the left \\(0.05\\)\n•  \\(b\\): area to the left \\(0.95\\)\n\nSketch it; the two tails share what is left. Two inverse-normal calls, or one call and symmetry: \\(a=170-(b-170)\\)."
+     },
+     "ti84": {
+      "body": "“The middle \\(90\\%\\) lies between \\(a\\) and \\(b\\)” leaves \\(10\\%\\) for the two tails, \\(5\\%\\) each:\n•  \\(a\\): area to the left \\(0.05\\)\n•  \\(b\\): area to the left \\(0.95\\)\n\nSketch it; the two tails share what is left. The CENTER tail option does both ends at once: invNorm(0.90, 170, 8, CENTER)."
+     },
+     "cg50": {
+      "body": "“The middle \\(90\\%\\) lies between \\(a\\) and \\(b\\)” leaves \\(10\\%\\) for the two tails, \\(5\\%\\) each:\n•  \\(a\\): area to the left \\(0.05\\)\n•  \\(b\\): area to the left \\(0.95\\)\n\nSketch it; the two tails share what is left. The Central tail option does both ends at once with Area 0.9."
+     }
+    }
+   },
+   {
+    "t": "choice",
+    "fig": {
+     "kind": "three"
+    },
+    "tag": "ACTIVITY · sketch match",
+    "given": "\\(X \\sim \\mathrm{N}(170,\\,8^2)\\)",
+    "title": "The middle \\(90\\%\\) of heights lie between \\(a\\) and \\(b\\). Which sketch, and which areas go into the inverse normal?",
+    "opts": [
+     "A: \\(0.90\\) only",
+     "B: \\(0.05\\) and \\(0.95\\)",
+     "C: \\(0.45\\) and \\(0.55\\)"
+    ],
+    "right": 1,
+    "ok": "✓ Right. \\(90\\%\\) in the middle leaves \\(10\\%\\) outside, \\(5\\%\\) in each tail.",
+    "bad": "✗ Not quite. A single area \\(0.9\\) gives one point, the 90th percentile. The middle \\(90\\%\\) leaves \\(5\\%\\) in each tail: areas \\(0.05\\) and \\(0.95\\), sketch B.",
+    "err": "Set-up"
+   },
+   {
+    "t": "numeric",
+    "tag": "ACTIVITY · enter your calculator’s answer",
+    "given": "\\(X \\sim \\mathrm{N}(170,\\,8^2)\\)",
+    "givenNote": "heights of students, in cm",
+    "parts": [
+     [
+      "c",
+      "Which LEFT area goes into Inverse Normal?",
+      [
+       "\\(0.95\\): \\(5\\%\\) in the upper tail",
+       "\\(0.9\\)",
+       "\\(0.45\\)"
+      ],
+      0,
+      "✓",
+      "✗ The middle \\(90\\%\\) leaves \\(0.05\\) above \\(b\\): area \\(0.95\\)."
+     ]
+    ],
+    "title": "Find \\(b\\), the upper end of the middle \\(90\\%\\).",
+    "instr": [
+     "Which area is to the left of \\(b\\)?",
+     "Type the value to 3 significant figures."
+    ],
+    "label": "\\(b=\\)",
+    "unit": "cm",
+    "ans": 183.16,
+    "tol": 0.3,
+    "placeholder": "___",
+    "worked": "\\(\\mathrm{P}(X<b)=0.95\\)\n\\(b=\\mathrm{invNorm}(0.95,\\,170,\\,8)=183.2\\), so \\(b=183\\) cm",
+    "ok": "✓ \\(183\\). Now the lower end.",
+    "wrongs": [
+     [
+      180.25,
+      "\\(180.3\\) comes from area \\(0.90\\). The upper end of the middle \\(90\\%\\) has \\(0.95\\) to its left."
+     ],
+     [
+      159.75,
+      "\\(159.7\\) is a lower-end value (area \\(0.1\\)). You want the upper end, \\(b\\)."
+     ],
+     [
+      156.84,
+      "\\(156.8\\) is \\(a\\), the lower end. The question asks for \\(b\\)."
+     ]
+    ],
+    "err": "Set-up"
+   },
+   {
+    "t": "numeric",
+    "tag": "ACTIVITY · enter your calculator’s answer",
+    "given": "\\(X \\sim \\mathrm{N}(170,\\,8^2)\\)",
+    "givenNote": "heights of students, in cm",
+    "carry": [
+     "Middle \\(90\\%\\): \\(0.05\\) in each tail",
+     "\\(b=183.2\\) from the previous step, \\(13.2\\) above the mean"
+    ],
+    "parts": [
+     [
+      "c",
+      "Which LEFT area goes into Inverse Normal?",
+      [
+       "\\(0.05\\)",
+       "\\(0.1\\)",
+       "\\(0.9\\)"
+      ],
+      0,
+      "✓ Or use symmetry: \\(a=170-(b-170)\\).",
+      "✗ \\(5\\%\\) lies below \\(a\\): area \\(0.05\\)."
+     ]
+    ],
+    "title": "Find \\(a\\), the lower end of the middle \\(90\\%\\).",
+    "instr": [
+     "Use area \\(0.05\\) in the inverse normal, or symmetry: \\(a\\) is as far below the mean as \\(b\\) is above it.",
+     "Type the value to 3 significant figures."
+    ],
+    "label": "\\(a=\\)",
+    "unit": "cm",
+    "ans": 156.84,
+    "tol": 0.3,
+    "placeholder": "___",
+    "worked": "\\(\\mathrm{P}(X<a)=0.05\\)\n\\(a=\\mathrm{invNorm}(0.05,\\,170,\\,8)=156.8\\), so \\(a=157\\) cm\nCheck by symmetry: \\(170-13.2=156.8\\)",
+    "ok": "✓ \\(157\\). By symmetry \\(a\\) and \\(b\\) are both \\(13.2\\) from the mean.",
+    "wrongs": [
+     [
+      159.75,
+      "\\(159.7\\) comes from area \\(0.10\\). The lower tail holds \\(5\\%\\): area \\(0.05\\)."
+     ],
+     [
+      183.16,
+      "\\(183.2\\) is \\(b\\). The question asks for \\(a\\)."
+     ]
+    ],
+    "err": "Set-up"
+   },
+   {
+    "t": "numeric",
+    "tag": "EXAM-STYLE PART · 2 marks · hints available",
+    "given": "\\(S \\sim \\mathrm{N}(62,\\,11^2)\\)",
+    "givenNote": "exam scores",
+    "parts": [
+     [
+      "c",
+      "Which LEFT area goes into Inverse Normal?",
+      [
+       "\\(0.9\\): top \\(10\\%\\) above, so \\(90\\%\\) below",
+       "\\(0.1\\)",
+       "\\(0.95\\)"
+      ],
+      0,
+      "✓",
+      "✗ Top \\(10\\%\\) above the cut-off: \\(0.9\\) below."
+     ]
+    ],
+    "title": "The top \\(10\\%\\) of candidates get grade A. Find the lowest score that earns an A.",
+    "instr": [
+     "Write the probability statement first.",
+     "Type the value to 3 significant figures.",
+     "Hints are available below if you need them."
+    ],
+    "label": "Lowest A score \\(=\\)",
+    "ans": 76.1,
+    "tol": 0.15,
+    "placeholder": "__._",
+    "worked": "\\(\\mathrm{P}(S<k)=0.9\\)\n\\(k=\\mathrm{invNorm}(0.9,\\,62,\\,11)=76.1\\)   M1 A1",
+    "ok": "✓ \\(76.1\\). Top \\(10\\%\\) means \\(90\\%\\) below the cut-off.",
+    "wrongs": [
+     [
+      47.9,
+      "\\(47.9\\) comes from area \\(0.1\\). The top \\(10\\%\\) are above the cut-off, so \\(0.9\\) is below it."
+     ]
+    ],
+    "hints": [
+     "Which area is below the cut-off score?",
+     "The top \\(10\\%\\) are above it, so \\(0.90\\) is below.",
+     "Inverse normal with area \\(0.9\\), \\(\\mu=62\\), \\(\\sigma=11\\)."
+    ],
+    "err": "Set-up"
+   },
+   {
+    "t": "choice",
+    "tag": "ACTIVITY · GDC or algebra?",
+    "given": "\\(X \\sim \\mathrm{N}(170,\\,8^2)\\)",
+    "givenNote": "a Paper 1 question",
+    "title": "“The top \\(16\\%\\) of heights lie above \\(k\\). Find \\(k\\).” Which method?",
+    "opts": [
+     "Calculator: inverse normal with area \\(0.84\\)",
+     "Algebra: \\(16\\%\\) above means \\(k=\\mu+\\sigma=178\\)"
+    ],
+    "right": 1,
+    "ok": "✓ Right. \\(68\\%\\) within one \\(\\sigma\\) leaves \\(16\\%\\) in each tail, so \\(k=170+8=178\\). No calculator needed, or allowed, on Paper 1.",
+    "bad": "✗ Paper 1 has no calculator. \\(68\\%\\) within one \\(\\sigma\\) leaves \\(32\\%\\) outside, \\(16\\%\\) in each tail: \\(k=\\mu+\\sigma=178\\). On Paper 2 the GDC gives \\(178.0\\).",
+    "err": "Concept"
+   },
+   {
+    "t": "note",
+    "tag": "NOTE",
+    "title": "Units and rounding",
+    "body": "•  The answer is a height, mass or time, in the question’s units: write them.\n•  Give 3 significant figures unless the context says otherwise.\n•  A cut-off that must be a whole number (a score, a count) needs a decision: say which way you rounded and why.\n\n“The lowest whole-number score earning an A is \\(77\\), since \\(76.1\\) is the boundary and \\(76\\) falls below it.”",
+    "code": "\\(k=76.1\\)  (3 s.f.)\nWhole-number cut-off: \\(77\\), rounded up so that the top \\(10\\%\\) are included"
+   },
+   {
+    "t": "finish",
+    "tag": "LESSON COMPLETE",
+    "title": "Inverse normal: Learn passed"
+   }
+  ]
+ },
+ "drill": {
+  "challengeIntro": "a symmetric interval, stacked grade boundaries, a boundary from a count, and the IQR in terms of σ. Optional: getting them wrong cannot undo your drill result.",
+  "keys": {
+   "nspire": [
+    "Decide the LEFT area first: “below k” gives it directly; “above k” means 1 − p; a middle interval leaves half of the rest in each tail.",
+    "Open a Calculator page.",
+    "Press menu, then 6: Statistics, 5: Distributions, 3: Inverse Normal.",
+    "Area: the left area you decided in step 1.",
+    "μ: the mean. σ: the standard deviation (never the variance).",
+    "Press OK. The value on the axis appears; round to 3 s.f. For an interval, repeat for the other end or use symmetry."
+   ],
+   "ti84": [
+    "Decide which tail the words describe: “below k” is LEFT, “above k” is RIGHT, “middle p” is CENTER.",
+    "Press 2nd, then VARS (DISTR), then 3: invNorm(.",
+    "area: the probability in the question (for RIGHT or CENTER, the tail option does the conversion for you).",
+    "μ: the mean. σ: the standard deviation (never the variance).",
+    "Tail: choose LEFT, RIGHT or CENTER to match step 1 (OS 5.x; older OS is LEFT only, so enter 1 − p for a right tail).",
+    "Select Paste, then press ENTER. Round to 3 s.f. Write the statement as P(X < k) = … on paper, not the Tail word."
+   ],
+   "cg50": [
+    "Decide which tail the words describe: “below k” is Left, “above k” is Right, “middle p” is Central.",
+    "Press MENU, choose STAT, press EXE.",
+    "Press F5 (DIST), then F1 (NORM), then F3 (InvN).",
+    "Tail: set Left, Right or Central to match step 1. Area: the probability in the question.",
+    "σ first: the standard deviation. Then μ: the mean. Casio asks for σ before μ.",
+    "Press EXE. The value shows as xInv (Central gives both ends). Round to 3 s.f."
+   ]
+  },
+  "sets": [
+   [
+    {
+     "fig": {
+      "lo": null,
+      "hi": -0.524,
+      "ticks": [
+       [
+        -0.524,
+        "k = 47.9"
+       ]
+      ],
+      "notes": [
+       [
+        -1.42,
+        118,
+        "0.3"
+       ]
+      ],
+      "caption": "Shade everything to the left of k = 47.9: the area is 0.3."
+     },
+     "parts": [
+      [
+       "c",
+       "Which probability statement matches the words?",
+       [
+        "\\(\\mathrm{P}(X<k)=0.3\\)",
+        "\\(\\mathrm{P}(X>k)=0.3\\)",
+        "\\(\\mathrm{P}(X<k)=0.7\\)"
+       ],
+       0,
+       "✓ “Below which \\(30\\%\\) lie”: \\(30\\%\\) to the left of \\(k\\).",
+       "✗ \\(30\\%\\) of apples are lighter than \\(k\\): \\(\\mathrm{P}(X<k)=0.3\\)."
+      ],
+      [
+       "c",
+       "Which function turns an area into a value on the axis?",
+       [
+        "Inverse Normal: Area (to the LEFT), \\(\\mu\\), \\(\\sigma\\)",
+        "Normal Cdf with the percentage as the upper bound",
+        "One-variable statistics"
+       ],
+       0,
+       "✓ Area in, value out.",
+       "✗ Normal Cdf goes the other way (value in, area out). Inverse Normal takes the left area and gives the value."
+      ]
+     ],
+     "name": "D1 Apples",
+     "given": "\\(X \\sim \\mathrm{N}(50,\\,4^2)\\)",
+     "givenNote": "masses of apples, in grams",
+     "q": "Find the mass below which \\(30\\%\\) of apples lie.",
+     "label": "\\(k=\\)",
+     "unit": "g",
+     "ans": 47.9,
+     "target": 90,
+     "line": "\\(\\mathrm{P}(X<k)=0.3,\\ k=47.9\\)",
+     "steps": [
+      [
+       "Read it",
+       "\\(X \\sim \\mathrm{N}(50,\\,4^2)\\). We are given a percentage (\\(30\\%\\)) and asked for the mass \\(k\\) on the axis: inverse normal."
+      ],
+      [
+       "Statement",
+       "\\(\\mathrm{P}(X<k)=0.3\\). “Below which \\(30\\%\\) lie” is already a left area, so no conversion."
+      ],
+      [
+       "Calculator",
+       "Inverse Normal with Area \\(=0.3\\), \\(\\mu=50\\), \\(\\sigma=4\\)."
+      ],
+      [
+       "Answer",
+       "\\(k=47.9\\) g. Check: less than \\(30\\%\\) is below the mean, so \\(k\\) must be below \\(50\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       52.1,
+       "\\(52.1\\) comes from entering area \\(0.7\\). “Below which \\(30\\%\\) lie” is a left area of \\(0.3\\)."
+      ],
+      [
+       0.3,
+       "\\(0.3\\) is the area you were given. You need the value \\(k\\) on the axis: use invNorm, not normalCdf."
+      ]
+     ]
+    },
+    {
+     "fig": {
+      "lo": 1.036,
+      "hi": null,
+      "ticks": [
+       [
+        1.036,
+        "t = 136"
+       ]
+      ],
+      "notes": [
+       [
+        1.94,
+        118,
+        "0.15"
+       ]
+      ],
+      "caption": "Shade everything to the right of t = 136: the area is 0.15."
+     },
+     "parts": [
+      [
+       "c",
+       "Which LEFT area goes into Inverse Normal?",
+       [
+        "\\(0.85\\): the slowest \\(15\\%\\) are above \\(t\\), so \\(85\\%\\) are below",
+        "\\(0.15\\)",
+        "\\(0.5\\)"
+       ],
+       0,
+       "✓ Convert the right tail to a left area.",
+       "✗ Slowest means longest: \\(\\mathrm{P}(X>t)=0.15\\), so \\(\\mathrm{P}(X<t)=0.85\\). Enter \\(0.85\\)."
+      ]
+     ],
+     "name": "D2 Reaction times",
+     "given": "\\(X \\sim \\mathrm{N}(120,\\,15^2)\\)",
+     "givenNote": "reaction times, in milliseconds",
+     "q": "The slowest \\(15\\%\\) of reaction times are above \\(t\\). Find \\(t\\).",
+     "label": "\\(t=\\)",
+     "unit": "ms",
+     "ans": 135.5,
+     "tol": 0.6,
+     "target": 90,
+     "line": "\\(\\mathrm{P}(X>t)=0.15 \\Rightarrow \\mathrm{P}(X<t)=0.85,\\ t=136\\)",
+     "steps": [
+      [
+       "Read it",
+       "\\(X \\sim \\mathrm{N}(120,\\,15^2)\\). “The slowest \\(15\\%\\)” are the longest times, in the right tail above \\(t\\)."
+      ],
+      [
+       "Statement",
+       "\\(\\mathrm{P}(X>t)=0.15\\), so \\(\\mathrm{P}(X<t)=0.85\\). The calculator needs the left area, \\(0.85\\)."
+      ],
+      [
+       "Calculator",
+       "Inverse Normal with Area \\(=0.85\\), \\(\\mu=120\\), \\(\\sigma=15\\) (TI-84 or Casio: Area \\(0.15\\) with Tail RIGHT does the same)."
+      ],
+      [
+       "Answer",
+       "\\(t=135.5\\), so \\(t=136\\) ms. Check: \\(t\\) must be above the mean, since only \\(15\\%\\) are slower."
+      ]
+     ],
+     "wrongs": [
+      [
+       104.5,
+       "\\(104.5\\) comes from using \\(0.15\\) as a left area. The slowest \\(15\\%\\) sit in the right tail: left area \\(0.85\\)."
+      ],
+      [
+       0.85,
+       "\\(0.85\\) is the left area. The question wants the time \\(t\\), from invNorm."
+      ]
+     ]
+    },
+    {
+     "fig": {
+      "lo": -1.282,
+      "hi": 1.282,
+      "ticks": [
+       [
+        -1.282,
+        "a = 936"
+       ],
+       [
+        1.282,
+        "b = 1064"
+       ]
+      ],
+      "notes": [
+       [
+        0,
+        100,
+        "0.8"
+       ]
+      ],
+      "caption": "Middle 80% shaded; 0.1 left in each tail. a is at area 0.1, b at area 0.9."
+     },
+     "parts": [
+      [
+       "c",
+       "Which LEFT area goes into Inverse Normal?",
+       [
+        "\\(0.1\\) for \\(a\\) and \\(0.9\\) for \\(b\\)",
+        "\\(0.8\\) for \\(b\\)",
+        "\\(0.2\\) for \\(a\\) and \\(0.8\\) for \\(b\\)"
+       ],
+       0,
+       "✓ The middle \\(80\\%\\) leaves \\(10\\%\\) in each tail.",
+       "✗ \\(20\\%\\) is left over, shared equally: \\(0.1\\) in each tail, so areas \\(0.1\\) and \\(0.9\\)."
+      ],
+      [
+       "n",
+       "Find \\(a\\), the lower end (Area \\(0.1\\)).",
+       "\\(a=\\)",
+       935.9,
+       0.6,
+       "✓ \\(a=936\\). By symmetry \\(b\\) is the same distance above the mean.",
+       [
+        [
+         1042.1,
+         "Area \\(0.8\\) was entered."
+        ]
+       ]
+      ]
+     ],
+     "name": "D3 Bulb lifetimes",
+     "given": "\\(X \\sim \\mathrm{N}(1000,\\,50^2)\\)",
+     "givenNote": "lifetimes, in hours",
+     "q": "The middle \\(80\\%\\) of lifetimes lie between \\(a\\) and \\(b\\). Find \\(a\\) and \\(b\\).",
+     "label": "\\(a=\\)",
+     "label2": "\\(b=\\)",
+     "unit": "h",
+     "ans": 936,
+     "ans2": 1064,
+     "tol": 0.6,
+     "target": 120,
+     "line": "\\(\\mathrm{P}(X<a)=0.1,\\ \\mathrm{P}(X<b)=0.9;\\ a=936,\\ b=1064\\)",
+     "steps": [
+      [
+       "Read it",
+       "\\(X \\sim \\mathrm{N}(1000,\\,50^2)\\). “The middle \\(80\\%\\)” leaves \\(20\\%\\) outside, shared equally: \\(10\\%\\) in each tail."
+      ],
+      [
+       "Statement",
+       "\\(\\mathrm{P}(X<a)=0.1\\) and \\(\\mathrm{P}(X<b)=0.9\\)"
+      ],
+      [
+       "Calculator",
+       "Inverse Normal twice with \\(\\mu=1000\\), \\(\\sigma=50\\): Area \\(0.1\\) gives \\(a\\); Area \\(0.9\\) gives \\(b\\). (TI-84 CENTER or Casio Central with Area \\(0.8\\) gives both at once.)"
+      ],
+      [
+       "Answer",
+       "\\(a=936\\), \\(b=1064\\). Check: symmetric about \\(1000\\), each \\(64\\) away; \\(\\mu\\pm\\sigma\\) (\\(950\\) to \\(1050\\)) would hold only \\(68\\%\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       1042,
+       "\\(1042\\) comes from entering area \\(0.8\\). The middle \\(80\\%\\) leaves \\(0.1\\) in each tail: use \\(0.1\\) and \\(0.9\\)."
+      ],
+      [
+       950,
+       "\\(950\\) and \\(1050\\) are \\(\\mu \\pm \\sigma\\), which holds \\(68\\%\\), not \\(80\\%\\)."
+      ],
+      [
+       1050,
+       "\\(950\\) and \\(1050\\) are \\(\\mu \\pm \\sigma\\), which holds \\(68\\%\\), not \\(80\\%\\)."
+      ]
+     ]
+    },
+    {
+     "fig": {
+      "lo": -0.674,
+      "hi": 0.674,
+      "ticks": [
+       [
+        -0.674,
+        "Q₁"
+       ],
+       [
+        0.674,
+        "Q₃"
+       ]
+      ],
+      "notes": [
+       [
+        0,
+        100,
+        "0.5"
+       ]
+      ],
+      "caption": "Q₁ at area 0.25, Q₃ at area 0.75. The IQR is the width of the shaded band: 0.540."
+     },
+     "parts": [
+      [
+       "c",
+       "Which LEFT area goes into Inverse Normal?",
+       [
+        "\\(0.25\\) for \\(Q_1\\) and \\(0.75\\) for \\(Q_3\\)",
+        "\\(0.5\\)",
+        "\\(0.75\\) only"
+       ],
+       0,
+       "✓ Quartiles sit at \\(25\\%\\) and \\(75\\%\\).",
+       "✗ \\(Q_1\\) has \\(25\\%\\) below it, \\(Q_3\\) has \\(75\\%\\)."
+      ],
+      [
+       "n",
+       "Find \\(Q_3\\) (Area \\(0.75\\)).",
+       "\\(Q_3=\\)",
+       3.47,
+       0.006,
+       "✓ \\(3.470\\).",
+       [
+        [
+         2.93,
+         "That is \\(Q_1\\)."
+        ]
+       ]
+      ],
+      [
+       "n",
+       "Find \\(Q_1\\) (Area \\(0.25\\)).",
+       "\\(Q_1=\\)",
+       2.93,
+       0.006,
+       "✓ \\(2.930\\). Now subtract.",
+       [
+        [
+         3.47,
+         "That is \\(Q_3\\)."
+        ]
+       ]
+      ]
+     ],
+     "name": "D4 Bolts",
+     "given": "\\(X \\sim \\mathrm{N}(3.2,\\,0.4^2)\\)",
+     "givenNote": "lengths of bolts, in cm",
+     "q": "Find the interquartile range of the bolt lengths.",
+     "label": "\\(\\mathrm{IQR}=\\)",
+     "unit": "cm",
+     "ans": 0.54,
+     "disp": "0.540",
+     "tol": 0.002,
+     "target": 120,
+     "line": "\\(Q_1=\\mathrm{invNorm}(0.25),\\ Q_3=\\mathrm{invNorm}(0.75),\\ \\mathrm{IQR}=Q_3-Q_1=0.540\\)",
+     "steps": [
+      [
+       "Read it",
+       "\\(X \\sim \\mathrm{N}(3.2,\\,0.4^2)\\). The interquartile range is \\(Q_3-Q_1\\); \\(Q_1\\) has \\(25\\%\\) below it and \\(Q_3\\) has \\(75\\%\\) below it."
+      ],
+      [
+       "Statement",
+       "\\(\\mathrm{P}(X<Q_1)=0.25,\\quad \\mathrm{P}(X<Q_3)=0.75,\\quad \\mathrm{IQR}=Q_3-Q_1\\)"
+      ],
+      [
+       "Calculator",
+       "Inverse Normal with \\(\\mu=3.2\\), \\(\\sigma=0.4\\): Area \\(0.75\\) gives \\(Q_3=3.470\\); Area \\(0.25\\) gives \\(Q_1=2.930\\)."
+      ],
+      [
+       "Answer",
+       "\\(\\mathrm{IQR}=3.470-2.930=0.540\\) cm. Check: for any normal distribution \\(\\mathrm{IQR}\\approx1.35\\sigma=0.54\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       3.47,
+       "\\(3.47\\) is \\(Q_3\\) alone. The IQR is \\(Q_3-Q_1\\)."
+      ],
+      [
+       0.8,
+       "\\(0.8\\) is \\(2\\sigma\\). Quartiles sit at \\(\\pm0.674\\sigma\\), not \\(\\pm\\sigma\\)."
+      ],
+      [
+       0.27,
+       "\\(0.27\\) is \\(Q_3-\\mu\\), half the IQR. Subtract \\(Q_1\\), not the mean."
+      ]
+     ]
+    },
+    {
+     "fig": {
+      "lo": 1.96,
+      "hi": null,
+      "ticks": [
+       [
+        1.96,
+        "k = 69.8"
+       ]
+      ],
+      "notes": [
+       [
+        2.86,
+        118,
+        "0.025"
+       ]
+      ],
+      "caption": "Shade everything to the right of k = 69.8: the area is 0.025."
+     },
+     "parts": [
+      [
+       "n",
+       "\\(X \\sim \\mathrm{N}(60,\\,25)\\): what is \\(\\sigma\\)?",
+       "\\(\\sigma=\\)",
+       5,
+       0.01,
+       "✓ \\(\\sqrt{25}=5\\).",
+       [
+        [
+         25,
+         "That is the variance."
+        ]
+       ]
+      ],
+      [
+       "c",
+       "Which LEFT area goes into Inverse Normal?",
+       [
+        "\\(0.975\\): \\(\\mathrm{P}(X>k)=0.025\\) means \\(\\mathrm{P}(X<k)=0.975\\)",
+        "\\(0.025\\)",
+        "\\(0.95\\)"
+       ],
+       0,
+       "✓ Right tail converted.",
+       "✗ \\(\\mathrm{P}(X>k)=0.025\\) is a right tail: left area \\(1-0.025=0.975\\)."
+      ]
+     ],
+     "name": "D5 Variance given",
+     "given": "\\(X \\sim \\mathrm{N}(60,\\,25)\\)",
+     "givenNote": "note how the distribution is written",
+     "q": "Find \\(k\\) such that \\(\\mathrm{P}(X>k)=0.025\\).",
+     "label": "\\(k=\\)",
+     "ans": 69.8,
+     "target": 90,
+     "line": "\\(\\sigma=5,\\ \\mathrm{P}(X<k)=0.975,\\ k=69.8\\)",
+     "steps": [
+      [
+       "Read it",
+       "\\(X \\sim \\mathrm{N}(60,\\,25)\\) gives the variance, so \\(\\sigma=5\\). \\(\\mathrm{P}(X>k)=0.025\\) is a right tail."
+      ],
+      [
+       "Statement",
+       "\\(\\mathrm{P}(X<k)=1-0.025=0.975\\)"
+      ],
+      [
+       "Calculator",
+       "Inverse Normal with Area \\(=0.975\\), \\(\\mu=60\\), \\(\\sigma=5\\) (not \\(25\\))."
+      ],
+      [
+       "Answer",
+       "\\(k=69.8\\). Check: \\(0.975\\) sits at \\(+1.96\\sigma\\), and \\(60+1.96\\times5=69.8\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       109,
+       "\\(109\\) comes from entering \\(25\\) as \\(\\sigma\\). The question gives the variance; \\(\\sigma=5\\)."
+      ],
+      [
+       50.2,
+       "\\(50.2\\) comes from using \\(0.025\\) as a left area. \\(\\mathrm{P}(X>k)\\) is a right tail: left area \\(0.975\\)."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "\\(|X-120|<k\\) means \\(120-k<X<120+k\\): a symmetric interval about the mean holding \\(90\\%\\).",
+      "Each tail holds \\(5\\%\\). Find the upper end with \\(\\mathrm{invNorm}(0.95,\\,120,\\,15)\\), then subtract \\(120\\)."
+     ],
+     "fig": {
+      "lo": -1.645,
+      "hi": 1.645,
+      "ticks": [
+       [
+        -1.645,
+        "120 − k"
+       ],
+       [
+        1.645,
+        "120 + k"
+       ]
+      ],
+      "notes": [
+       [
+        0,
+        100,
+        "0.9"
+       ]
+      ],
+      "caption": "Symmetric about the mean, 0.05 in each tail: the upper end is at area 0.95."
+     },
+     "parts": [
+      [
+       "c",
+       "Which LEFT area goes into Inverse Normal?",
+       [
+        "\\(0.95\\): the band leaves \\(0.05\\) in each tail",
+        "\\(0.9\\)",
+        "\\(0.45\\)"
+       ],
+       0,
+       "✓ Then the upper end is \\(120+k\\).",
+       "✗ \\(0.1\\) outside, \\(0.05\\) per tail: upper end at area \\(0.95\\)."
+      ],
+      [
+       "n",
+       "Find the upper end, \\(120+k\\).",
+       "\\(120+k=\\)",
+       144.67,
+       0.1,
+       "✓ \\(144.67\\). Subtract the mean for \\(k\\).",
+       [
+        [
+         139.2,
+         "Area \\(0.9\\) was used."
+        ]
+       ]
+      ]
+     ],
+     "name": "C1 Symmetric interval",
+     "given": "\\(X \\sim \\mathrm{N}(120,\\,15^2)\\)",
+     "givenNote": "reaction times, in milliseconds",
+     "q": "Find \\(k\\) such that \\(\\mathrm{P}(|X-120|<k)=0.9\\).",
+     "label": "\\(k=\\)",
+     "unit": "ms",
+     "ans": 24.7,
+     "tol": 0.1,
+     "target": 150,
+     "line": "\\(\\mathrm{P}(120-k<X<120+k)=0.9,\\ 120+k=\\mathrm{invNorm}(0.95,\\,120,\\,15)=144.7,\\ k=24.7\\)",
+     "steps": [
+      [
+       "Read it",
+       "\\(X \\sim \\mathrm{N}(120,\\,15^2)\\). \\(|X-120|<k\\) means \\(120-k<X<120+k\\): a band symmetric about the mean holding \\(90\\%\\)."
+      ],
+      [
+       "Statement",
+       "\\(0.05\\) in each tail, so \\(\\mathrm{P}(X<120+k)=0.95\\)."
+      ],
+      [
+       "Calculator",
+       "Inverse Normal with Area \\(=0.95\\), \\(\\mu=120\\), \\(\\sigma=15\\) gives the upper end, \\(144.67\\)."
+      ],
+      [
+       "Answer",
+       "\\(k=144.67-120=24.7\\) ms. Check: \\(k=1.645\\sigma\\), the familiar \\(90\\%\\) multiplier."
+      ]
+     ],
+     "wrongs": [
+      [
+       144.7,
+       "\\(144.7\\) is the upper end of the interval, \\(120+k\\). Subtract the mean to get \\(k\\)."
+      ],
+      [
+       19.2,
+       "\\(19.2\\) comes from area \\(0.9\\) on one side. A symmetric \\(90\\%\\) leaves \\(0.05\\) in each tail: use \\(0.95\\)."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "Grades stack from the top: A is the top \\(10\\%\\), B the next \\(20\\%\\). What fraction scores below the lowest B?",
+      "Below the lowest B score lies everyone except the top \\(30\\%\\): left area \\(0.7\\)."
+     ],
+     "fig": {
+      "lo": 0.524,
+      "hi": null,
+      "ticks": [
+       [
+        0.524,
+        "67.8"
+       ],
+       [
+        1.282,
+        "76.1"
+       ]
+      ],
+      "notes": [
+       [
+        0.85,
+        100,
+        "B"
+       ],
+       [
+        1.9,
+        118,
+        "A"
+       ],
+       [
+        -1.3,
+        122,
+        "0.7 below",
+        "#4A5856"
+       ]
+      ],
+      "caption": "A is the top 10%, B the next 20%: the B boundary has 0.7 to its left."
+     },
+     "parts": [
+      [
+       "c",
+       "Which LEFT area goes into Inverse Normal?",
+       [
+        "\\(0.7\\): A and B together are the top \\(30\\%\\)",
+        "\\(0.8\\)",
+        "\\(0.9\\)"
+       ],
+       0,
+       "✓ Everyone below the lowest B is \\(70\\%\\).",
+       "✗ Above the lowest B score are A (\\(10\\%\\)) and B (\\(20\\%\\)): \\(30\\%\\), so \\(70\\%\\) below."
+      ]
+     ],
+     "name": "C2 Stacked grades",
+     "given": "\\(X \\sim \\mathrm{N}(62,\\,11^2)\\)",
+     "givenNote": "test scores",
+     "q": "The top \\(10\\%\\) of candidates get grade A and the next \\(20\\%\\) get grade B. Find the lowest score that earns a B.",
+     "label": "Lowest B score \\(=\\)",
+     "ans": 67.8,
+     "tol": 0.1,
+     "target": 150,
+     "line": "\\(\\mathrm{P}(X<k)=1-0.1-0.2=0.7,\\ k=67.8\\)",
+     "steps": [
+      [
+       "Read it",
+       "\\(X \\sim \\mathrm{N}(62,\\,11^2)\\). Grades stack from the top: A is the top \\(10\\%\\), B the next \\(20\\%\\). The lowest B score has A and B above it, \\(30\\%\\) in total."
+      ],
+      [
+       "Statement",
+       "\\(\\mathrm{P}(X<k)=1-0.30=0.7\\)"
+      ],
+      [
+       "Calculator",
+       "Inverse Normal with Area \\(=0.7\\), \\(\\mu=62\\), \\(\\sigma=11\\)."
+      ],
+      [
+       "Answer",
+       "\\(k=67.8\\). Check: it must be below the A boundary (Area \\(0.9\\) gives \\(76.1\\)) and above the mean."
+      ]
+     ],
+     "wrongs": [
+      [
+       76.1,
+       "\\(76.1\\) is the lowest A score (area \\(0.9\\)). B starts lower: area \\(0.7\\)."
+      ],
+      [
+       71.3,
+       "\\(71.3\\) comes from area \\(0.8\\). A and B together take the top \\(30\\%\\), so the left area is \\(0.7\\)."
+      ],
+      [
+       56.2,
+       "\\(56.2\\) comes from area \\(0.3\\). You want the boundary with \\(30\\%\\) above it, so \\(70\\%\\) below."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "Turn the count into a proportion first: \\(40\\) out of \\(500\\) is \\(0.08\\).",
+      "On average \\(8\\%\\) of bulbs exceed \\(t\\): \\(\\mathrm{P}(X>t)=0.08\\), so left area \\(0.92\\)."
+     ],
+     "fig": {
+      "lo": 1.405,
+      "hi": null,
+      "ticks": [
+       [
+        1.405,
+        "t = 1070"
+       ]
+      ],
+      "notes": [
+       [
+        2.31,
+        118,
+        "0.08"
+       ]
+      ],
+      "caption": "Shade everything to the right of t = 1070: the area is 0.08."
+     },
+     "parts": [
+      [
+       "n",
+       "Turn the count into a proportion: \\(40\\) of \\(500\\).",
+       "\\(\\mathrm{P}(X>t)=\\)",
+       0.08,
+       0.0006,
+       "✓ \\(0.08\\).",
+       [
+        [
+         40,
+         "Divide by \\(500\\)."
+        ]
+       ]
+      ],
+      [
+       "c",
+       "Which LEFT area goes into Inverse Normal?",
+       [
+        "\\(0.92\\): \\(\\mathrm{P}(X>t)=0.08\\) means \\(\\mathrm{P}(X<t)=0.92\\)",
+        "\\(0.08\\)",
+        "\\(0.4\\)"
+       ],
+       0,
+       "✓",
+       "✗ Right tail \\(0.08\\): left area \\(0.92\\)."
+      ]
+     ],
+     "name": "C3 From a count",
+     "given": "\\(X \\sim \\mathrm{N}(1000,\\,50^2)\\)",
+     "givenNote": "lifetimes of a batch of 500 bulbs, in hours",
+     "q": "On average, exactly \\(40\\) of the \\(500\\) bulbs last longer than \\(t\\) hours. Find \\(t\\).",
+     "label": "\\(t=\\)",
+     "unit": "h",
+     "ans": 1070,
+     "tol": 0.6,
+     "target": 150,
+     "line": "\\(\\mathrm{P}(X>t)=\\tfrac{40}{500}=0.08,\\ \\mathrm{P}(X<t)=0.92,\\ t=1070\\)",
+     "steps": [
+      [
+       "Read it",
+       "\\(X \\sim \\mathrm{N}(1000,\\,50^2)\\). A count out of a batch must first become a proportion: \\(40\\) of \\(500\\) is \\(0.08\\)."
+      ],
+      [
+       "Statement",
+       "\\(\\mathrm{P}(X>t)=0.08\\), so \\(\\mathrm{P}(X<t)=0.92\\)."
+      ],
+      [
+       "Calculator",
+       "Inverse Normal with Area \\(=0.92\\), \\(\\mu=1000\\), \\(\\sigma=50\\)."
+      ],
+      [
+       "Answer",
+       "\\(t=1070\\) hours. Check: \\(8\\%\\) is a small upper tail, so \\(t\\) is above the mean."
+      ]
+     ],
+     "wrongs": [
+      [
+       930,
+       "\\(930\\) comes from using \\(0.08\\) as a left area. Longer-lasting bulbs are in the right tail: left area \\(0.92\\)."
+      ],
+      [
+       1013,
+       "\\(1013\\) comes from area \\(0.6\\). The proportion is \\(40 \\div 500 = 0.08\\), not \\(40\\%\\)."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "No numbers are given, so choose \\(\\mu=0,\\ \\sigma=1\\): the IQR of \\(Z\\).",
+      "\\(Q_3=\\mathrm{invNorm}(0.75,\\,0,\\,1)\\) and \\(Q_1=-Q_3\\). The IQR is \\(2Q_3\\), in units of \\(\\sigma\\)."
+     ],
+     "fig": {
+      "lo": -0.674,
+      "hi": 0.674,
+      "ticks": [
+       [
+        -0.674,
+        "−0.674σ"
+       ],
+       [
+        0.674,
+        "+0.674σ"
+       ]
+      ],
+      "notes": [
+       [
+        0,
+        100,
+        "0.5"
+       ]
+      ],
+      "caption": "Quartiles sit at ±0.674σ, so the IQR is 1.35σ."
+     },
+     "parts": [
+      [
+       "c",
+       "No numbers given. What can you use?",
+       [
+        "\\(\\mu=0\\), \\(\\sigma=1\\): the IQR then comes out in units of \\(\\sigma\\)",
+        "It cannot be done",
+        "Any \\(\\mu\\) but \\(\\sigma\\) must be known"
+       ],
+       0,
+       "✓",
+       "✗ Choose \\(\\mu=0\\), \\(\\sigma=1\\); every value is then a multiple of \\(\\sigma\\)."
+      ],
+      [
+       "n",
+       "Find \\(Q_3\\) (Area \\(0.75\\), \\(\\mu=0\\), \\(\\sigma=1\\)).",
+       "\\(Q_3=\\)",
+       0.6745,
+       0.0006,
+       "✓ \\(0.6745\\); by symmetry \\(Q_1=-0.6745\\).",
+       [
+        [
+         -0.6745,
+         "That is \\(Q_1\\)."
+        ]
+       ]
+      ]
+     ],
+     "name": "C4 IQR in terms of σ",
+     "given": "\\(X \\sim \\mathrm{N}(\\mu,\\,\\sigma^2)\\)",
+     "givenNote": "no numbers given",
+     "q": "Show that the interquartile range is \\(c\\sigma\\), and find \\(c\\) to 3 significant figures.",
+     "label": "\\(c=\\)",
+     "ans": 1.35,
+     "tol": 0.006,
+     "target": 150,
+     "line": "\\(Q_3=\\mathrm{invNorm}(0.75,\\,0,\\,1)=0.674,\\ \\mathrm{IQR}=2(0.674)\\sigma=1.35\\sigma\\)",
+     "steps": [
+      [
+       "Read it",
+       "No numbers: the result holds for every normal distribution, so pick the simplest one, \\(\\mu=0\\), \\(\\sigma=1\\). Then any value we find is already “in units of \\(\\sigma\\)”."
+      ],
+      [
+       "Statement",
+       "\\(\\mathrm{P}(Z<Q_3)=0.75\\), \\(\\mathrm{P}(Z<Q_1)=0.25\\), \\(\\mathrm{IQR}=Q_3-Q_1\\)"
+      ],
+      [
+       "Calculator",
+       "Inverse Normal with Area \\(=0.75\\), \\(\\mu=0\\), \\(\\sigma=1\\) gives \\(Q_3=0.6745\\). By symmetry \\(Q_1=-0.6745\\)."
+      ],
+      [
+       "Answer",
+       "\\(\\mathrm{IQR}=0.6745-(-0.6745)=1.349\\), so \\(\\mathrm{IQR}=1.35\\sigma\\) and \\(c=1.35\\). This is the quick check used in every IQR question."
+      ]
+     ],
+     "wrongs": [
+      [
+       0.674,
+       "\\(0.674\\) is \\(Q_3\\) alone, half the IQR. Double it."
+      ],
+      [
+       1,
+       "Quartiles sit at \\(\\pm0.674\\sigma\\), so the IQR is not \\(\\sigma\\)."
+      ]
+     ]
+    }
+   ],
+   [
+    {
+     "fig": {
+      "lo": null,
+      "hi": -0.842,
+      "ticks": [
+       [
+        -0.842,
+        "k = 170"
+       ]
+      ],
+      "notes": [
+       [
+        -1.74,
+        118,
+        "0.2"
+       ]
+      ],
+      "caption": "Shade everything to the left of k = 170: the area is 0.2."
+     },
+     "parts": [
+      [
+       "c",
+       "Which probability statement matches the words?",
+       [
+        "\\(\\mathrm{P}(X<k)=0.2\\)",
+        "\\(\\mathrm{P}(X>k)=0.2\\)",
+        "\\(\\mathrm{P}(X<k)=0.8\\)"
+       ],
+       0,
+       "✓",
+       "✗ \\(20\\%\\) lighter than \\(k\\): \\(\\mathrm{P}(X<k)=0.2\\)."
+      ],
+      [
+       "c",
+       "Which function turns an area into a value on the axis?",
+       [
+        "Inverse Normal: Area (to the LEFT), \\(\\mu\\), \\(\\sigma\\)",
+        "Normal Cdf with the percentage as the upper bound",
+        "One-variable statistics"
+       ],
+       0,
+       "✓ Area in, value out.",
+       "✗ Normal Cdf goes the other way (value in, area out). Inverse Normal takes the left area and gives the value."
+      ]
+     ],
+     "name": "D1 Oranges",
+     "given": "\\(X \\sim \\mathrm{N}(180,\\,12^2)\\)",
+     "givenNote": "masses of oranges, in grams",
+     "q": "Find the mass below which \\(20\\%\\) of oranges lie.",
+     "label": "\\(k=\\)",
+     "unit": "g",
+     "ans": 169.9,
+     "tol": 0.1,
+     "target": 90,
+     "line": "\\(\\mathrm{P}(X<k)=0.2,\\ k=170\\)",
+     "steps": [
+      [
+       "Read it",
+       "\\(X \\sim \\mathrm{N}(180,\\,12^2)\\). Given \\(20\\%\\), asked for the mass: inverse normal with a left area."
+      ],
+      [
+       "Statement",
+       "\\(\\mathrm{P}(X<k)=0.2\\)"
+      ],
+      [
+       "Calculator",
+       "Inverse Normal with Area \\(=0.2\\), \\(\\mu=180\\), \\(\\sigma=12\\)."
+      ],
+      [
+       "Answer",
+       "\\(k=169.9\\), so \\(170\\) g. Check: below the mean, as \\(20\\%<50\\%\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       190.1,
+       "\\(190.1\\) comes from area \\(0.8\\). “Below which \\(20\\%\\) lie” is a left area of \\(0.2\\)."
+      ]
+     ]
+    },
+    {
+     "fig": {
+      "lo": 1.282,
+      "hi": null,
+      "ticks": [
+       [
+        1.282,
+        "t = 52.7"
+       ]
+      ],
+      "notes": [
+       [
+        2.18,
+        118,
+        "0.1"
+       ]
+      ],
+      "caption": "Shade everything to the right of t = 52.7: the area is 0.1."
+     },
+     "parts": [
+      [
+       "c",
+       "Which LEFT area goes into Inverse Normal?",
+       [
+        "\\(0.9\\): slowest \\(10\\%\\) above, so \\(90\\%\\) below",
+        "\\(0.1\\)",
+        "\\(0.5\\)"
+       ],
+       0,
+       "✓",
+       "✗ Right tail \\(0.1\\) becomes left area \\(0.9\\)."
+      ]
+     ],
+     "name": "D2 Journey times",
+     "given": "\\(X \\sim \\mathrm{N}(45,\\,6^2)\\)",
+     "givenNote": "journey times, in minutes",
+     "q": "The slowest \\(10\\%\\) of journeys take longer than \\(t\\) minutes. Find \\(t\\).",
+     "label": "\\(t=\\)",
+     "unit": "min",
+     "ans": 52.7,
+     "tol": 0.1,
+     "target": 90,
+     "line": "\\(\\mathrm{P}(X>t)=0.1 \\Rightarrow \\mathrm{P}(X<t)=0.9,\\ t=52.7\\)",
+     "steps": [
+      [
+       "Read it",
+       "\\(X \\sim \\mathrm{N}(45,\\,6^2)\\). The slowest \\(10\\%\\) are the longest journeys: right tail."
+      ],
+      [
+       "Statement",
+       "\\(\\mathrm{P}(X>t)=0.1\\), so \\(\\mathrm{P}(X<t)=0.9\\)."
+      ],
+      [
+       "Calculator",
+       "Inverse Normal with Area \\(=0.9\\), \\(\\mu=45\\), \\(\\sigma=6\\)."
+      ],
+      [
+       "Answer",
+       "\\(t=52.7\\) minutes. Check: above the mean."
+      ]
+     ],
+     "wrongs": [
+      [
+       37.3,
+       "\\(37.3\\) comes from using \\(0.1\\) as a left area. The slowest \\(10\\%\\) are in the right tail: left area \\(0.9\\)."
+      ]
+     ]
+    },
+    {
+     "fig": {
+      "lo": -1.645,
+      "hi": 1.645,
+      "ticks": [
+       [
+        -1.645,
+        "a = 467"
+       ],
+       [
+        1.645,
+        "b = 533"
+       ]
+      ],
+      "notes": [
+       [
+        0,
+        100,
+        "0.9"
+       ]
+      ],
+      "caption": "Middle 90% shaded; 0.05 in each tail."
+     },
+     "parts": [
+      [
+       "c",
+       "Which LEFT area goes into Inverse Normal?",
+       [
+        "\\(0.05\\) for \\(a\\) and \\(0.95\\) for \\(b\\)",
+        "\\(0.9\\) for \\(b\\)",
+        "\\(0.1\\) and \\(0.9\\)"
+       ],
+       0,
+       "✓",
+       "✗ Middle \\(90\\%\\): \\(0.05\\) per tail."
+      ],
+      [
+       "n",
+       "Find \\(a\\) (Area \\(0.05\\)).",
+       "\\(a=\\)",
+       467.1,
+       0.6,
+       "✓ \\(467\\).",
+       [
+        [
+         525.6,
+         "Area \\(0.9\\) was used."
+        ]
+       ]
+      ]
+     ],
+     "name": "D3 Rice",
+     "given": "\\(X \\sim \\mathrm{N}(500,\\,20^2)\\)",
+     "givenNote": "masses of bags of rice, in grams",
+     "q": "The middle \\(90\\%\\) of masses lie between \\(a\\) and \\(b\\). Find \\(a\\) and \\(b\\).",
+     "label": "\\(a=\\)",
+     "label2": "\\(b=\\)",
+     "unit": "g",
+     "ans": 467,
+     "ans2": 533,
+     "tol": 0.6,
+     "target": 120,
+     "line": "\\(\\mathrm{P}(X<a)=0.05,\\ \\mathrm{P}(X<b)=0.95;\\ a=467,\\ b=533\\)",
+     "steps": [
+      [
+       "Read it",
+       "\\(X \\sim \\mathrm{N}(500,\\,20^2)\\). Middle \\(90\\%\\): \\(5\\%\\) in each tail."
+      ],
+      [
+       "Statement",
+       "\\(\\mathrm{P}(X<a)=0.05\\), \\(\\mathrm{P}(X<b)=0.95\\)"
+      ],
+      [
+       "Calculator",
+       "Inverse Normal twice with \\(\\mu=500\\), \\(\\sigma=20\\): Areas \\(0.05\\) and \\(0.95\\)."
+      ],
+      [
+       "Answer",
+       "\\(a=467\\), \\(b=533\\). Check: each is \\(1.645\\sigma=32.9\\) from the mean."
+      ]
+     ],
+     "wrongs": [
+      [
+       525.6,
+       "\\(525.6\\) comes from area \\(0.9\\). The middle \\(90\\%\\) leaves \\(0.05\\) in each tail."
+      ],
+      [
+       480,
+       "\\(480\\) and \\(520\\) are \\(\\mu \\pm \\sigma\\): \\(68\\%\\), not \\(90\\%\\)."
+      ],
+      [
+       520,
+       "\\(480\\) and \\(520\\) are \\(\\mu \\pm \\sigma\\): \\(68\\%\\), not \\(90\\%\\)."
+      ]
+     ]
+    },
+    {
+     "fig": {
+      "lo": -0.674,
+      "hi": 0.674,
+      "ticks": [
+       [
+        -0.674,
+        "Q₁"
+       ],
+       [
+        0.674,
+        "Q₃"
+       ]
+      ],
+      "notes": [
+       [
+        0,
+        100,
+        "0.5"
+       ]
+      ],
+      "caption": "The IQR is the width of the shaded band: 0.270."
+     },
+     "parts": [
+      [
+       "c",
+       "Which LEFT area goes into Inverse Normal?",
+       [
+        "\\(0.25\\) and \\(0.75\\)",
+        "\\(0.5\\)",
+        "\\(0.75\\) only"
+       ],
+       0,
+       "✓",
+       "✗ Quartiles at \\(25\\%\\) and \\(75\\%\\)."
+      ],
+      [
+       "n",
+       "Find \\(Q_3\\).",
+       "\\(Q_3=\\)",
+       5.135,
+       0.006,
+       "✓",
+       [
+        [
+         4.865,
+         "That is \\(Q_1\\)."
+        ]
+       ]
+      ],
+      [
+       "n",
+       "Find \\(Q_1\\).",
+       "\\(Q_1=\\)",
+       4.865,
+       0.006,
+       "✓ Subtract.",
+       [
+        [
+         5.135,
+         "That is \\(Q_3\\)."
+        ]
+       ]
+      ]
+     ],
+     "name": "D4 Screws",
+     "given": "\\(X \\sim \\mathrm{N}(5.0,\\,0.2^2)\\)",
+     "givenNote": "lengths of screws, in cm",
+     "q": "Find the interquartile range of the screw lengths.",
+     "label": "\\(\\mathrm{IQR}=\\)",
+     "unit": "cm",
+     "ans": 0.27,
+     "disp": "0.270",
+     "tol": 0.002,
+     "target": 120,
+     "line": "\\(\\mathrm{IQR}=Q_3-Q_1=5.135-4.865=0.270\\)",
+     "steps": [
+      [
+       "Read it",
+       "\\(X \\sim \\mathrm{N}(5.0,\\,0.2^2)\\). IQR \\(=Q_3-Q_1\\) with areas \\(0.75\\) and \\(0.25\\)."
+      ],
+      [
+       "Statement",
+       "\\(\\mathrm{P}(X<Q_1)=0.25,\\quad \\mathrm{P}(X<Q_3)=0.75\\)"
+      ],
+      [
+       "Calculator",
+       "Inverse Normal with \\(\\mu=5\\), \\(\\sigma=0.2\\): Area \\(0.75\\) gives \\(5.135\\); Area \\(0.25\\) gives \\(4.865\\)."
+      ],
+      [
+       "Answer",
+       "\\(\\mathrm{IQR}=5.135-4.865=0.270\\) cm. Check: \\(1.35\\times0.2=0.27\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       5.13,
+       "\\(5.13\\) is \\(Q_3\\) alone. Subtract \\(Q_1\\)."
+      ],
+      [
+       0.4,
+       "\\(0.4\\) is \\(2\\sigma\\), not the IQR."
+      ]
+     ]
+    },
+    {
+     "fig": {
+      "lo": 2.326,
+      "hi": null,
+      "ticks": [
+       [
+        2.326,
+        "k = 89.3"
+       ]
+      ],
+      "notes": [
+       [
+        3.23,
+        118,
+        "0.01"
+       ]
+      ],
+      "caption": "Shade everything to the right of k = 89.3: the area is 0.01."
+     },
+     "parts": [
+      [
+       "n",
+       "\\(X \\sim \\mathrm{N}(80,\\,16)\\): \\(\\sigma\\)?",
+       "\\(\\sigma=\\)",
+       4,
+       0.01,
+       "✓",
+       [
+        [
+         16,
+         "Variance."
+        ]
+       ]
+      ],
+      [
+       "c",
+       "Which LEFT area goes into Inverse Normal?",
+       [
+        "\\(0.99\\)",
+        "\\(0.01\\)",
+        "\\(0.95\\)"
+       ],
+       0,
+       "✓",
+       "✗ \\(\\mathrm{P}(X>k)=0.01\\): left area \\(0.99\\)."
+      ]
+     ],
+     "name": "D5 Variance given",
+     "given": "\\(X \\sim \\mathrm{N}(80,\\,16)\\)",
+     "givenNote": "note how the distribution is written",
+     "q": "Find \\(k\\) such that \\(\\mathrm{P}(X>k)=0.01\\).",
+     "label": "\\(k=\\)",
+     "ans": 89.3,
+     "tol": 0.1,
+     "target": 90,
+     "line": "\\(\\sigma=4,\\ \\mathrm{P}(X<k)=0.99,\\ k=89.3\\)",
+     "steps": [
+      [
+       "Read it",
+       "\\(X \\sim \\mathrm{N}(80,\\,16)\\): \\(\\sigma=4\\). \\(\\mathrm{P}(X>k)=0.01\\) is a right tail."
+      ],
+      [
+       "Statement",
+       "\\(\\mathrm{P}(X<k)=0.99\\)"
+      ],
+      [
+       "Calculator",
+       "Inverse Normal with Area \\(=0.99\\), \\(\\mu=80\\), \\(\\sigma=4\\)."
+      ],
+      [
+       "Answer",
+       "\\(k=89.3\\). Check: \\(0.99\\) is at \\(+2.33\\sigma\\), and \\(80+2.33\\times4=89.3\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       117.2,
+       "\\(117.2\\) comes from entering \\(16\\) as \\(\\sigma\\). \\(\\sigma=4\\)."
+      ],
+      [
+       70.7,
+       "\\(70.7\\) comes from using \\(0.01\\) as a left area. Right tail: left area \\(0.99\\)."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "A symmetric interval about the mean: \\(50-k<X<50+k\\) holds \\(95\\%\\).",
+      "Each tail holds \\(2.5\\%\\): \\(50+k=\\mathrm{invNorm}(0.975,\\,50,\\,4)\\)."
+     ],
+     "fig": {
+      "lo": -1.96,
+      "hi": 1.96,
+      "ticks": [
+       [
+        -1.96,
+        "50 − k"
+       ],
+       [
+        1.96,
+        "50 + k"
+       ]
+      ],
+      "notes": [
+       [
+        0,
+        100,
+        "0.95"
+       ]
+      ],
+      "caption": "0.025 in each tail: the upper end is at area 0.975."
+     },
+     "parts": [
+      [
+       "c",
+       "Which LEFT area goes into Inverse Normal?",
+       [
+        "\\(0.975\\): \\(0.025\\) per tail",
+        "\\(0.95\\)",
+        "\\(0.475\\)"
+       ],
+       0,
+       "✓",
+       "✗ \\(0.05\\) outside, \\(0.025\\) per tail."
+      ],
+      [
+       "n",
+       "Find the upper end, \\(50+k\\).",
+       "\\(50+k=\\)",
+       57.84,
+       0.05,
+       "✓ Subtract \\(50\\).",
+       [
+        [
+         56.58,
+         "Area \\(0.95\\) was used."
+        ]
+       ]
+      ]
+     ],
+     "name": "C1 Symmetric interval",
+     "given": "\\(X \\sim \\mathrm{N}(50,\\,4^2)\\)",
+     "givenNote": "masses of apples, in grams",
+     "q": "Find \\(k\\) such that \\(\\mathrm{P}(|X-50|<k)=0.95\\).",
+     "label": "\\(k=\\)",
+     "unit": "g",
+     "ans": 7.84,
+     "tol": 0.02,
+     "target": 150,
+     "line": "\\(50+k=\\mathrm{invNorm}(0.975,\\,50,\\,4)=57.84,\\ k=7.84\\)",
+     "steps": [
+      [
+       "Read it",
+       "\\(X \\sim \\mathrm{N}(50,\\,4^2)\\). \\(|X-50|<k\\) is the band \\(50-k<X<50+k\\) holding \\(95\\%\\): \\(2.5\\%\\) in each tail."
+      ],
+      [
+       "Statement",
+       "\\(\\mathrm{P}(X<50+k)=0.975\\)"
+      ],
+      [
+       "Calculator",
+       "Inverse Normal with Area \\(=0.975\\), \\(\\mu=50\\), \\(\\sigma=4\\) gives \\(57.84\\)."
+      ],
+      [
+       "Answer",
+       "\\(k=57.84-50=7.84\\) g. Check: \\(k=1.96\\sigma\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       57.8,
+       "\\(57.8\\) is \\(50+k\\). Subtract the mean."
+      ],
+      [
+       6.58,
+       "\\(6.58\\) comes from area \\(0.95\\) on one side. Use \\(0.975\\)."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "A is the top \\(15\\%\\), B the next \\(25\\%\\): together the top \\(40\\%\\).",
+      "Left area below the lowest B score is \\(0.6\\)."
+     ],
+     "fig": {
+      "lo": 0.253,
+      "hi": null,
+      "ticks": [
+       [
+        0.253,
+        "68.8"
+       ],
+       [
+        1.036,
+        "71.1"
+       ]
+      ],
+      "notes": [
+       [
+        0.65,
+        100,
+        "B"
+       ],
+       [
+        1.7,
+        118,
+        "A"
+       ],
+       [
+        -1.3,
+        122,
+        "0.6 below",
+        "#4A5856"
+       ]
+      ],
+      "caption": "A is the top 15%, B the next 25%: the B boundary has 0.6 to its left."
+     },
+     "parts": [
+      [
+       "c",
+       "Which LEFT area goes into Inverse Normal?",
+       [
+        "\\(0.6\\): A and B are the top \\(40\\%\\)",
+        "\\(0.75\\)",
+        "\\(0.85\\)"
+       ],
+       0,
+       "✓",
+       "✗ \\(15\\%+25\\%=40\\%\\) above: \\(0.6\\) below."
+      ]
+     ],
+     "name": "C2 Stacked grades",
+     "given": "\\(X \\sim \\mathrm{N}(68,\\,3^2)\\)",
+     "givenNote": "test scores",
+     "q": "The top \\(15\\%\\) get grade A and the next \\(25\\%\\) get grade B. Find the lowest score that earns a B.",
+     "label": "Lowest B score \\(=\\)",
+     "ans": 68.8,
+     "tol": 0.1,
+     "target": 150,
+     "line": "\\(\\mathrm{P}(X<k)=0.6,\\ k=68.8\\)",
+     "steps": [
+      [
+       "Read it",
+       "\\(X \\sim \\mathrm{N}(68,\\,3^2)\\). A is the top \\(15\\%\\), B the next \\(25\\%\\): \\(40\\%\\) above the lowest B score."
+      ],
+      [
+       "Statement",
+       "\\(\\mathrm{P}(X<k)=0.6\\)"
+      ],
+      [
+       "Calculator",
+       "Inverse Normal with Area \\(=0.6\\), \\(\\mu=68\\), \\(\\sigma=3\\)."
+      ],
+      [
+       "Answer",
+       "\\(k=68.8\\). Check: just above the mean, since \\(0.6\\) is just above \\(0.5\\)."
+      ]
+     ],
+     "wrongs": [
+      [
+       71.1,
+       "\\(71.1\\) is the lowest A score (area \\(0.85\\))."
+      ],
+      [
+       70,
+       "\\(70.0\\) comes from area \\(0.75\\). A and B together are the top \\(40\\%\\): area \\(0.6\\)."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "\\(30\\) out of \\(200\\) is \\(0.15\\).",
+      "\\(\\mathrm{P}(X>t)=0.15\\): left area \\(0.85\\)."
+     ],
+     "fig": {
+      "lo": 1.036,
+      "hi": null,
+      "ticks": [
+       [
+        1.036,
+        "t = 260"
+       ]
+      ],
+      "notes": [
+       [
+        1.94,
+        118,
+        "0.15"
+       ]
+      ],
+      "caption": "Shade everything to the right of t = 260: the area is 0.15."
+     },
+     "parts": [
+      [
+       "n",
+       "\\(30\\) of \\(200\\) as a proportion:",
+       "\\(\\mathrm{P}(X>t)=\\)",
+       0.15,
+       0.0006,
+       "✓",
+       [
+        [
+         30,
+         "Divide by \\(200\\)."
+        ]
+       ]
+      ],
+      [
+       "c",
+       "Which LEFT area goes into Inverse Normal?",
+       [
+        "\\(0.85\\)",
+        "\\(0.15\\)",
+        "\\(0.3\\)"
+       ],
+       0,
+       "✓",
+       "✗ Right tail \\(0.15\\): left area \\(0.85\\)."
+      ]
+     ],
+     "name": "C3 From a count",
+     "given": "\\(X \\sim \\mathrm{N}(250,\\,10^2)\\)",
+     "givenNote": "diameters of a batch of 200 bolts, in μm",
+     "q": "On average, exactly \\(30\\) of the \\(200\\) bolts have a diameter greater than \\(t\\). Find \\(t\\).",
+     "label": "\\(t=\\)",
+     "unit": "μm",
+     "ans": 260.4,
+     "tol": 0.5,
+     "target": 150,
+     "line": "\\(\\mathrm{P}(X>t)=0.15,\\ t=\\mathrm{invNorm}(0.85,\\,250,\\,10)=260\\)",
+     "steps": [
+      [
+       "Read it",
+       "\\(X \\sim \\mathrm{N}(250,\\,10^2)\\). \\(30\\) of \\(200\\) bolts is a proportion of \\(0.15\\)."
+      ],
+      [
+       "Statement",
+       "\\(\\mathrm{P}(X>t)=0.15\\), so \\(\\mathrm{P}(X<t)=0.85\\)."
+      ],
+      [
+       "Calculator",
+       "Inverse Normal with Area \\(=0.85\\), \\(\\mu=250\\), \\(\\sigma=10\\)."
+      ],
+      [
+       "Answer",
+       "\\(t=260.4\\), so \\(260\\) μm."
+      ]
+     ],
+     "wrongs": [
+      [
+       239.6,
+       "\\(239.6\\) comes from using \\(0.15\\) as a left area."
+      ],
+      [
+       255.2,
+       "\\(255.2\\) comes from area \\(0.7\\). The proportion is \\(30 \\div 200=0.15\\)."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "Choose \\(\\mu=0,\\ \\sigma=1\\).",
+      "A central \\(90\\%\\) leaves \\(0.05\\) in each tail: \\(c=\\mathrm{invNorm}(0.95,\\,0,\\,1)\\)."
+     ],
+     "fig": {
+      "lo": -1.645,
+      "hi": 1.645,
+      "ticks": [
+       [
+        -1.645,
+        "μ − cσ"
+       ],
+       [
+        1.645,
+        "μ + cσ"
+       ]
+      ],
+      "notes": [
+       [
+        0,
+        100,
+        "0.9"
+       ]
+      ],
+      "caption": "0.05 in each tail, so c = invNorm(0.95) = 1.64."
+     },
+     "parts": [
+      [
+       "c",
+       "No numbers given. What can you use?",
+       [
+        "\\(\\mu=0\\), \\(\\sigma=1\\)",
+        "It cannot be done",
+        "Only \\(\\mu\\) matters"
+       ],
+       0,
+       "✓",
+       "✗ Choose \\(\\mu=0\\), \\(\\sigma=1\\)."
+      ],
+      [
+       "c",
+       "Which LEFT area goes into Inverse Normal?",
+       [
+        "\\(0.95\\): middle \\(90\\%\\) leaves \\(0.05\\) per tail",
+        "\\(0.9\\)",
+        "\\(0.45\\)"
+       ],
+       0,
+       "✓ \\(c\\) is the value at area \\(0.95\\).",
+       "✗ \\(0.05\\) per tail: area \\(0.95\\)."
+      ]
+     ],
+     "name": "C4 In terms of σ",
+     "given": "\\(X \\sim \\mathrm{N}(\\mu,\\,\\sigma^2)\\)",
+     "givenNote": "no numbers given",
+     "q": "The middle \\(90\\%\\) of values lie within \\(c\\sigma\\) of the mean. Find \\(c\\) to 3 significant figures.",
+     "label": "\\(c=\\)",
+     "ans": 1.64,
+     "tol": 0.006,
+     "target": 150,
+     "line": "\\(c=\\mathrm{invNorm}(0.95,\\,0,\\,1)=1.64\\)",
+     "steps": [
+      [
+       "Read it",
+       "The middle \\(90\\%\\) lies within \\(c\\sigma\\) of the mean. With \\(\\mu=0\\), \\(\\sigma=1\\), the upper end of the band is \\(c\\) itself."
+      ],
+      [
+       "Statement",
+       "\\(0.05\\) in each tail: \\(\\mathrm{P}(Z<c)=0.95\\)"
+      ],
+      [
+       "Calculator",
+       "Inverse Normal with Area \\(=0.95\\), \\(\\mu=0\\), \\(\\sigma=1\\)."
+      ],
+      [
+       "Answer",
+       "\\(c=1.645\\), so \\(c=1.64\\) (3 s.f.). Check: \\(1.645\\) is the multiplier behind every \\(90\\%\\) interval."
+      ]
+     ],
+     "wrongs": [
+      [
+       1.28,
+       "\\(1.28\\) comes from area \\(0.9\\). Each tail holds \\(0.05\\): use \\(0.95\\)."
+      ],
+      [
+       3.29,
+       "\\(3.29\\) is the full width \\(2c\\). The question asks for the half-width \\(c\\)."
+      ]
+     ]
+    }
+   ]
+  ],
+  "rules": {
+   "coreItems": 5,
+   "challengeItems": 4,
+   "tries": 2,
+   "passCore": 4
+  }
+ },
+ "apply": {
+  "questions": [
+   {
+    "max": 7,
+    "stem": "The heights of students at a school are normally distributed with mean \\(170\\) cm and standard deviation \\(8\\) cm.",
+    "parts": [
+     {
+      "label": "(a)",
+      "marks": 2,
+      "text": "Find the probability that a randomly chosen student is taller than \\(180\\) cm.",
+      "ansLabel": "\\(\\mathrm{P}(H>180)=\\)",
+      "ans": 0.1056,
+      "tol": 0.0006,
+      "fig": {
+       "lo": 1.25,
+       "mu": "170",
+       "ticks": [
+        [
+         1.25,
+         "180"
+        ]
+       ],
+       "notes": [
+        [
+         2.1,
+         118,
+         "0.106"
+        ]
+       ]
+      },
+      "figCap": "Right tail above 180.",
+      "ms": [
+       [
+        "M1",
+        "\\(\\mathrm{P}(H>180)\\), or a sketch with the right tail shaded"
+       ],
+       [
+        "A1",
+        "\\(0.106\\)   (\\(0.10565\\ldots\\))"
+       ]
+      ],
+      "wrongs": [
+       [
+        0.8944,
+        "Wrong tail: taller than \\(180\\) is the upper tail."
+       ]
+      ]
+     },
+     {
+      "label": "(b)",
+      "marks": 3,
+      "text": "\\(20\\%\\) of the students are shorter than \\(h\\) cm. Find the value of \\(h\\).",
+      "ansLabel": "\\(h=\\)",
+      "ans": 163.27,
+      "tol": 0.6,
+      "disp": "163",
+      "fig": {
+       "hi": -0.8416,
+       "mu": "170",
+       "ticks": [
+        [
+         -0.8416,
+         "h"
+        ]
+       ],
+       "notes": [
+        [
+         -1.7,
+         118,
+         "0.2"
+        ],
+        [
+         -0.84,
+         60,
+         "area in → value out",
+         "#B45309"
+        ]
+       ]
+      },
+      "figCap": "The area 0.2 is given; Inverse Normal returns the value h on the axis.",
+      "ms": [
+       [
+        "M1",
+        "\\(\\mathrm{P}(H<h)=0.2\\), or a sketch with \\(0.2\\) shaded on the left"
+       ],
+       [
+        "A1",
+        "\\(z=-0.8416\\), or inverse normal with area \\(0.2\\)"
+       ],
+       [
+        "A1",
+        "\\(h=163\\) cm   (\\(163.27\\))"
+       ]
+      ],
+      "note": "The area typed into Inverse Normal is always the area to the left: \\(0.2\\) here, as given.",
+      "wrongs": [
+       [
+        176.73,
+        "\\(176.7\\) used area \\(0.8\\): that is the height \\(80\\%\\) are shorter than. Here \\(20\\%\\) are shorter."
+       ],
+       [
+        -0.8416,
+        "That is \\(z\\); the question asks for the height \\(h\\)."
+       ],
+       [
+        0.2,
+        "That is the given probability; the answer is a height."
+       ]
+      ]
+     },
+     {
+      "label": "(c)",
+      "marks": 2,
+      "text": "The middle \\(90\\%\\) of heights lie between \\(a\\) cm and \\(b\\) cm. Find \\(a\\) and \\(b\\).",
+      "ansLabel": "\\(a=\\)",
+      "ansLabel2": "\\(b=\\)",
+      "ans": 156.84,
+      "ans2": 183.16,
+      "tol": 0.6,
+      "fig": {
+       "lo": -1.6449,
+       "hi": 1.6449,
+       "mu": "170",
+       "ticks": [
+        [
+         -1.6449,
+         "a"
+        ],
+        [
+         1.6449,
+         "b"
+        ]
+       ],
+       "notes": [
+        [
+         0,
+         100,
+         "0.9"
+        ],
+        [
+         -2.4,
+         118,
+         "0.05"
+        ],
+        [
+         2.4,
+         118,
+         "0.05"
+        ]
+       ]
+      },
+      "figCap": "Middle 90% leaves 5% in each tail: a at area 0.05, b at area 0.95.",
+      "ms": [
+       [
+        "M1",
+        "\\(5\\%\\) in each tail: areas \\(0.05\\) and \\(0.95\\)"
+       ],
+       [
+        "A1",
+        "\\(a=157\\), \\(b=183\\)   (\\(156.84\\), \\(183.16\\))"
+       ]
+      ],
+      "wrongs": [
+       [
+        163.27,
+        "That is the \\(20\\%\\) value from (b); the middle \\(90\\%\\) uses \\(0.05\\) and \\(0.95\\)."
+       ],
+       [
+        159.75,
+        "\\(159.7\\) used area \\(0.1\\): the tails share \\(10\\%\\), so each is \\(0.05\\)."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "max": 8,
+    "stem": "The scores in an examination are normally distributed with mean \\(62\\) and standard deviation \\(11\\).",
+    "parts": [
+     {
+      "label": "(a)",
+      "marks": 2,
+      "text": "Find the probability that a candidate scores less than \\(50\\).",
+      "ansLabel": "\\(\\mathrm{P}(S<50)=\\)",
+      "ans": 0.1377,
+      "tol": 0.0006,
+      "fig": {
+       "hi": -1.0909,
+       "mu": "62",
+       "ticks": [
+        [
+         -1.0909,
+         "50"
+        ]
+       ],
+       "notes": [
+        [
+         -1.9,
+         118,
+         "0.138"
+        ]
+       ]
+      },
+      "figCap": "Left tail below 50.",
+      "ms": [
+       [
+        "M1",
+        "\\(\\mathrm{P}(S<50)\\)"
+       ],
+       [
+        "A1",
+        "\\(0.138\\)   (\\(0.13767\\ldots\\))"
+       ]
+      ],
+      "wrongs": [
+       [
+        0.8623,
+        "Wrong tail."
+       ]
+      ]
+     },
+     {
+      "label": "(b)",
+      "marks": 3,
+      "text": "The top \\(8\\%\\) of candidates are awarded a grade A. Find the lowest score that earns a grade A.",
+      "ansLabel": "lowest A score \\(=\\)",
+      "ans": 77.46,
+      "tol": 0.6,
+      "disp": "77.5",
+      "fig": {
+       "lo": 1.4051,
+       "mu": "62",
+       "ticks": [
+        [
+         1.4051,
+         "k"
+        ]
+       ],
+       "notes": [
+        [
+         2.3,
+         118,
+         "0.08"
+        ],
+        [
+         -1.2,
+         100,
+         "0.92 below k",
+         "#4A5856"
+        ]
+       ]
+      },
+      "figCap": "Top 8% means 92% below the boundary: use area 0.92.",
+      "ms": [
+       [
+        "M1",
+        "\\(\\mathrm{P}(S<k)=0.92\\) (converting “top \\(8\\%\\)” to a left area)"
+       ],
+       [
+        "A1",
+        "\\(z=1.4051\\), or inverse normal with area \\(0.92\\)"
+       ],
+       [
+        "A1",
+        "\\(77.5\\)   (\\(77.46\\); accept \\(78\\) if the context says whole marks)"
+       ]
+      ],
+      "note": "The classic slip: typing \\(0.08\\) gives the bottom \\(8\\%\\). Convert “above” to “below” first.",
+      "wrongs": [
+       [
+        46.54,
+        "\\(46.5\\) used area \\(0.08\\): that is the bottom \\(8\\%\\). The top \\(8\\%\\) have \\(92\\%\\) below them."
+       ],
+       [
+        1.4051,
+        "That is \\(z\\); the question asks for a score."
+       ]
+      ]
+     },
+     {
+      "label": "(c)",
+      "marks": 3,
+      "text": "The pass mark is set so that \\(85\\%\\) of candidates pass. Find the pass mark.",
+      "ansLabel": "pass mark \\(=\\)",
+      "ans": 50.6,
+      "tol": 0.06,
+      "fig": {
+       "lo": -1.0364,
+       "mu": "62",
+       "ticks": [
+        [
+         -1.0364,
+         "p"
+        ]
+       ],
+       "notes": [
+        [
+         0.4,
+         100,
+         "0.85"
+        ],
+        [
+         -1.9,
+         118,
+         "0.15"
+        ]
+       ]
+      },
+      "figCap": "85% pass means 15% below the pass mark: use area 0.15.",
+      "ms": [
+       [
+        "M1",
+        "\\(\\mathrm{P}(S<p)=0.15\\)"
+       ],
+       [
+        "A1",
+        "\\(z=-1.0364\\)"
+       ],
+       [
+        "A1",
+        "\\(50.6\\)   (\\(50.599\\ldots\\))"
+       ]
+      ],
+      "wrongs": [
+       [
+        73.4,
+        "\\(73.4\\) used area \\(0.85\\): that would mean \\(85\\%\\) fail. \\(85\\%\\) pass means \\(15\\%\\) are below the pass mark."
+       ],
+       [
+        -1.0364,
+        "That is \\(z\\); the answer is a score."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "max": 9,
+    "stem": "The lifetime, \\(L\\) hours, of a battery is normally distributed with mean \\(520\\) and standard deviation \\(35\\).",
+    "parts": [
+     {
+      "label": "(a)",
+      "marks": 3,
+      "text": "Find the interquartile range of the lifetimes.",
+      "ansLabel": "\\(\\mathrm{IQR}=\\)",
+      "ans": 47.21,
+      "tol": 0.06,
+      "fig": {
+       "lo": -0.6745,
+       "hi": 0.6745,
+       "mu": "520",
+       "ticks": [
+        [
+         -0.6745,
+         "Q₁"
+        ],
+        [
+         0.6745,
+         "Q₃"
+        ]
+       ],
+       "notes": [
+        [
+         0,
+         100,
+         "0.5"
+        ],
+        [
+         -1.6,
+         118,
+         "0.25"
+        ],
+        [
+         1.6,
+         118,
+         "0.25"
+        ]
+       ]
+      },
+      "figCap": "Q₁ at area 0.25, Q₃ at area 0.75; the IQR is the width of the middle half.",
+      "ms": [
+       [
+        "M1",
+        "areas \\(0.25\\) and \\(0.75\\): \\(Q_1=496.4\\), \\(Q_3=543.6\\)"
+       ],
+       [
+        "M1",
+        "\\(Q_3-Q_1\\)"
+       ],
+       [
+        "A1",
+        "\\(47.2\\)   (\\(47.21\\); \\(=2\\times0.6745\\times35\\))"
+       ]
+      ],
+      "wrongs": [
+       [
+        496.39,
+        "That is \\(Q_1\\); the IQR is \\(Q_3-Q_1\\)."
+       ],
+       [
+        543.61,
+        "That is \\(Q_3\\)."
+       ],
+       [
+        23.61,
+        "\\(23.6\\) is \\(Q_3-\\mu\\), half the IQR."
+       ]
+      ]
+     },
+     {
+      "label": "(b)",
+      "marks": 3,
+      "text": "A batch contains \\(400\\) batteries. Find the expected number of batteries in the batch that last longer than \\(560\\) hours.",
+      "ansLabel": "expected number \\(=\\)",
+      "ans": 50.62,
+      "tol": 0.5,
+      "disp": "50.6",
+      "fig": {
+       "lo": 1.1429,
+       "mu": "520",
+       "ticks": [
+        [
+         1.1429,
+         "560"
+        ]
+       ],
+       "notes": [
+        [
+         2.1,
+         118,
+         "0.127"
+        ],
+        [
+         2.6,
+         60,
+         "0.127 × 400 = 50.6",
+         "#B45309"
+        ]
+       ]
+      },
+      "figCap": "Right tail above 560, then multiply by 400.",
+      "ms": [
+       [
+        "M1",
+        "\\(\\mathrm{P}(L>560)=0.1265\\ldots\\)"
+       ],
+       [
+        "M1",
+        "\\(400\\times0.1265\\ldots\\)"
+       ],
+       [
+        "A1",
+        "\\(50.6\\)   (accept \\(51\\))"
+       ]
+      ],
+      "wrongs": [
+       [
+        0.1265,
+        "That is the probability for one battery; multiply by \\(400\\)."
+       ],
+       [
+        349.4,
+        "\\(349\\) is the expected number that last \\(560\\) hours or less."
+       ],
+       [
+        52,
+        "\\(52\\) came from rounding \\(p\\) to \\(0.13\\) first; keep the full value."
+       ]
+      ]
+     },
+     {
+      "label": "(c)",
+      "marks": 3,
+      "text": "The manufacturer guarantees a lifetime of \\(k\\) hours, chosen so that only \\(2\\%\\) of batteries fail before \\(k\\) hours. Find \\(k\\).",
+      "ansLabel": "\\(k=\\)",
+      "ans": 448.12,
+      "tol": 0.6,
+      "disp": "448",
+      "fig": {
+       "hi": -2.0537,
+       "mu": "520",
+       "ticks": [
+        [
+         -2.0537,
+         "k"
+        ]
+       ],
+       "notes": [
+        [
+         -2.9,
+         118,
+         "0.02"
+        ]
+       ]
+      },
+      "figCap": "Only 2% below k: area 0.02 on the left, inverse normal.",
+      "ms": [
+       [
+        "M1",
+        "\\(\\mathrm{P}(L<k)=0.02\\)"
+       ],
+       [
+        "A1",
+        "\\(z=-2.0537\\)"
+       ],
+       [
+        "A1",
+        "\\(k=448\\) hours   (\\(448.12\\))"
+       ]
+      ],
+      "wrongs": [
+       [
+        591.88,
+        "\\(592\\) used area \\(0.98\\): that is the lifetime \\(2\\%\\) exceed. The guarantee is about the bottom \\(2\\%\\)."
+       ],
+       [
+        -2.0537,
+        "That is \\(z\\); the answer is a number of hours."
+       ]
+      ]
+     }
+    ]
+   }
+  ],
+  "passMark": 17,
+  "maxMarks": 24,
+  "lostMarksHint": "most lost marks here are typing an upper-tail percentage as if it were a left area, and reporting z instead of the value on the axis."
+ }
+}

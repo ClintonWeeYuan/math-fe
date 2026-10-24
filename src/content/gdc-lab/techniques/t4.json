@@ -1,0 +1,3792 @@
+{
+ "id": "t4",
+ "number": 4,
+ "title": "Trig equation in an interval",
+ "syllabus": "SL 3.7, 3.8",
+ "level": "SL (and HL)",
+ "lesson": {
+  "part1Ends": 10,
+  "calculatorPaths": {
+   "nspire": [
+    "Check the angle mode: doc → 7: Settings → Angle: Radian (the status bar shows RAD).",
+    "Add a Graphs page. Type the left-hand side as f1(x), e.g. 2sin(2x), enter; tab, type the right-hand side as f2(x), e.g. 1, enter.",
+    "menu → 4: Window/Zoom → 1: Window Settings: XMin and XMax equal to the interval in the question (for \\(0\\le x\\le2\\pi\\), XMin 0, XMax 2π; you can type 2π). YMin/YMax to fit, e.g. −3 to 3.",
+    "menu → 6: Analyze Graph → 4: Intersection, lower bound to the left of one crossing, upper bound to the right. Repeat for every crossing in the window.",
+    "Count the crossings against the period: \\(\\sin(2x)\\) has period \\(\\pi\\), so two crossings per period, four on \\(0\\le x\\le2\\pi\\)."
+   ],
+   "ti84": [
+    "Check the mode: MODE → RADIAN (not DEGREE).",
+    "Y=: Y1 = 2sin(2X), Y2 = 1. GRAPH.",
+    "WINDOW: Xmin and Xmax equal to the interval in the question (for \\(0\\le x\\le2\\pi\\), Xmin 0, Xmax 2π; type 2π using 2nd ^). Ymin/Ymax to fit, e.g. −3 to 3.",
+    "2nd TRACE (CALC) → 5: intersect. First curve ENTER, Second curve ENTER, Guess: move the cursor near one crossing, ENTER. Repeat with a new Guess for every crossing.",
+    "Count the crossings against the period: \\(\\sin(2x)\\) has period \\(\\pi\\), so two per period, four on \\(0\\le x\\le2\\pi\\)."
+   ],
+   "cg50": [
+    "Check the angle mode: SHIFT MENU (SET UP) → Angle: Rad.",
+    "MENU → GRAPH: Y1 = 2sin(2x), Y2 = 1. F6 (DRAW).",
+    "SHIFT F3 (V-Window): Xmin and Xmax equal to the interval in the question (for \\(0\\le x\\le2\\pi\\), 0 and 2π; SHIFT EXP gives π). Ymin/Ymax to fit, e.g. −3 to 3.",
+    "SHIFT F5 (G-Solv) → F5 (INTSECT). The first crossing appears; press ▶ to move to each of the others.",
+    "Count the crossings against the period: \\(\\sin(2x)\\) has period \\(\\pi\\), so two per period, four on \\(0\\le x\\le2\\pi\\)."
+   ]
+  },
+  "menuOptions": {
+   "nspire": [
+    "Settings → Angle: Radian; then Graphs → Analyze Graph → Intersection",
+    "Settings → Angle: Degree; then Graphs → Analyze Graph → Intersection",
+    "Graphs → Analyze Graph → Maximum"
+   ],
+   "ti84": [
+    "MODE → RADIAN; then 2nd TRACE (CALC) → 5: intersect",
+    "MODE → DEGREE; then 2nd TRACE (CALC) → 5: intersect",
+    "2nd TRACE (CALC) → 4: maximum"
+   ],
+   "cg50": [
+    "SET UP → Angle: Rad; then G-Solv → INTSECT",
+    "SET UP → Angle: Deg; then G-Solv → INTSECT",
+    "G-Solv → MAX"
+   ]
+  },
+  "steps": [
+   {
+    "t": "numeric",
+    "parts": [
+     [
+      "c",
+      "Before anything else, the calculator must be in",
+      [
+       "radians",
+       "degrees",
+       "either: it makes no difference"
+      ],
+      0,
+      "✓ Radians. The interval \\(0\\le x\\le2\\pi\\) is in radians, and so is every IB trig question unless it says degrees.",
+      "✗ Radians: the interval is written in terms of \\(\\pi\\). In degrees mode the crossings land in the wrong places."
+     ],
+     [
+      "c",
+      "Which graphs?",
+      [
+       "\\(y_1=2\\sin2x\\) and \\(y_2=1\\)",
+       "\\(y_1=\\sin2x\\) and \\(y_2=1\\)",
+       "\\(y_1=2\\sin x\\) and \\(y_2=1\\)"
+      ],
+      0,
+      "✓ Each side as written.",
+      "✗ Graph the equation exactly as written: \\(y_1=2\\sin2x\\), \\(y_2=1\\)."
+     ]
+    ],
+    "fig": {
+     "kind": "graph",
+     "fns": [
+      {
+       "$fn": "(x) => 2 * Math.sin(2 * x)"
+      },
+      {
+       "$fn": "(x) => 1"
+      }
+     ],
+     "xr": [
+      0,
+      6.2832
+     ],
+     "yr": [
+      -3,
+      3
+     ],
+     "pts": [
+      [
+       0.2618,
+       1,
+       "x = ?"
+      ],
+      [
+       1.309,
+       1,
+       ""
+      ],
+      [
+       3.4034,
+       1,
+       ""
+      ],
+      [
+       4.4506,
+       1,
+       ""
+      ]
+     ],
+     "caption": ""
+    },
+    "tag": "TRY IT FIRST · enter your calculator’s answer",
+    "given": "solve \\(2\\sin2x=1\\), \\(0\\le x\\le2\\pi\\)",
+    "givenNote": "find the smallest solution, to 3 significant figures",
+    "title": "Solve \\(2\\sin2x=1\\) for \\(0\\le x\\le2\\pi\\). Enter the smallest solution.",
+    "instr": [
+     "Radians. Graph both sides with the window \\(0\\le x\\le2\\pi\\); intersection.",
+     "Type the smallest \\(x\\) to 3 significant figures.",
+     "You have two tries; then we show the answer."
+    ],
+    "label": "\\(x=\\)",
+    "ans": 0.2618,
+    "tol": 0.0006,
+    "worked": "\\(y_1=2\\sin2x\\), \\(y_2=1\\), window \\(0\\le x\\le2\\pi\\)\ncrossings: \\(x=0.262,\\ 1.31,\\ 3.40,\\ 4.45\\)\nsmallest: \\(x=0.262\\)   (\\(=\\tfrac{\\pi}{12}\\))",
+    "ok": "✓ \\(x=0.262\\) is right. The lesson covers the mode, the window, counting the crossings and what to write.",
+    "wrongs": [
+     [
+      15,
+      "\\(15\\): degrees mode. The interval is in radians; switch and try again."
+     ],
+     [
+      0.5236,
+      "\\(0.524\\) solves \\(2\\sin x=1\\): the \\(2x\\) inside the sine was dropped. With \\(2x\\), the crossings are twice as close together."
+     ],
+     [
+      1.309,
+      "\\(1.31\\) is the second solution; the question asks for the smallest."
+     ],
+     [
+      0.26,
+      "\\(0.26\\) is 2 s.f.; give \\(0.262\\)."
+     ]
+    ],
+    "err": "GDC"
+   },
+   {
+    "t": "note",
+    "fig": {
+     "kind": "graph",
+     "fns": [
+      {
+       "$fn": "(x) => 2 * Math.sin(2 * x)"
+      },
+      {
+       "$fn": "(x) => 1"
+      }
+     ],
+     "xr": [
+      0,
+      6.2832
+     ],
+     "yr": [
+      -3,
+      3
+     ],
+     "pts": [
+      [
+       0.2618,
+       1,
+       "0.262"
+      ],
+      [
+       1.309,
+       1,
+       "1.31"
+      ],
+      [
+       3.4034,
+       1,
+       "3.40"
+      ],
+      [
+       4.4506,
+       1,
+       "4.45"
+      ]
+     ],
+     "caption": ""
+    },
+    "tag": "NOTE · SL 3.8",
+    "title": "A trig equation is an intersection with a window",
+    "body": "Nothing new in the method; three things are new in the details:\n•  radians, unless the question says degrees\n•  the window is the interval in the question: Xmin and Xmax are its ends\n•  there are usually several crossings; the question wants all of them\n\n\\(2\\sin2x=1\\) on \\(0\\le x\\le2\\pi\\): four crossings, \\(x=0.262,\\ 1.31,\\ 3.40,\\ 4.45\\).",
+    "code": "\\(y_1=2\\sin2x\\), \\(y_2=1\\); radians; window \\(0\\le x\\le2\\pi\\)\n\\(x=0.262,\\ 1.31,\\ 3.40,\\ 4.45\\)   (3 s.f.)"
+   },
+   {
+    "t": "choice",
+    "tag": "ACTIVITY · set the window",
+    "given": "solve \\(\\cos x=0.3\\), \\(0\\le x\\le2\\pi\\)",
+    "title": "Which window settings match the question?",
+    "opts": [
+     "Xmin \\(=0\\), Xmax \\(=2\\pi\\) (\\(\\approx6.28\\)), Ymin \\(=-2\\), Ymax \\(=2\\)",
+     "Xmin \\(=-10\\), Xmax \\(=10\\) (standard window)",
+     "Xmin \\(=0\\), Xmax \\(=360\\)"
+    ],
+    "right": 0,
+    "ok": "✓ Right. The x-window is the interval; the y-window just needs to show the curve.",
+    "bads": [
+     "✓",
+     "✗ The standard window shows crossings outside \\(0\\le x\\le2\\pi\\) too, and it is easy to report one of those by mistake. Match the window to the interval.",
+     "✗ \\(360\\) is degrees. The interval \\(0\\le x\\le2\\pi\\) is radians: Xmax \\(=2\\pi\\approx6.28\\)."
+    ],
+    "err": "Concept"
+   },
+   {
+    "title": "Where it lives on your calculator",
+    "t": "note",
+    "byCalc": {
+     "nspire": {
+      "path": [
+       "Check the angle mode: doc → 7: Settings → Angle: Radian (the status bar shows RAD).",
+       "Add a Graphs page. Type the left-hand side as f1(x), e.g. 2sin(2x), enter; tab, type the right-hand side as f2(x), e.g. 1, enter.",
+       "menu → 4: Window/Zoom → 1: Window Settings: XMin and XMax equal to the interval in the question (for \\(0\\le x\\le2\\pi\\), XMin 0, XMax 2π; you can type 2π). YMin/YMax to fit, e.g. −3 to 3.",
+       "menu → 6: Analyze Graph → 4: Intersection, lower bound to the left of one crossing, upper bound to the right. Repeat for every crossing in the window.",
+       "Count the crossings against the period: \\(\\sin(2x)\\) has period \\(\\pi\\), so two crossings per period, four on \\(0\\le x\\le2\\pi\\)."
+      ],
+      "tag": "NOTE · TI-Nspire CX II",
+      "body": "Four moves:\n•  set radians\n•  type both sides as two functions\n•  set Xmin and Xmax to the interval\n•  run the intersection tool at every crossing\n\nType 2π for XMax: the π key is on the keypad (or ctrl + the catalog)."
+     },
+     "ti84": {
+      "path": [
+       "Check the mode: MODE → RADIAN (not DEGREE).",
+       "Y=: Y1 = 2sin(2X), Y2 = 1. GRAPH.",
+       "WINDOW: Xmin and Xmax equal to the interval in the question (for \\(0\\le x\\le2\\pi\\), Xmin 0, Xmax 2π; type 2π using 2nd ^). Ymin/Ymax to fit, e.g. −3 to 3.",
+       "2nd TRACE (CALC) → 5: intersect. First curve ENTER, Second curve ENTER, Guess: move the cursor near one crossing, ENTER. Repeat with a new Guess for every crossing.",
+       "Count the crossings against the period: \\(\\sin(2x)\\) has period \\(\\pi\\), so two per period, four on \\(0\\le x\\le2\\pi\\)."
+      ],
+      "tag": "NOTE · TI-84 Plus CE",
+      "body": "Four moves:\n•  set radians\n•  type both sides as two functions\n•  set Xmin and Xmax to the interval\n•  run the intersection tool at every crossing\n\nType 2π for Xmax: π is 2nd ^. The calculator shows 6.2831853…."
+     },
+     "cg50": {
+      "path": [
+       "Check the angle mode: SHIFT MENU (SET UP) → Angle: Rad.",
+       "MENU → GRAPH: Y1 = 2sin(2x), Y2 = 1. F6 (DRAW).",
+       "SHIFT F3 (V-Window): Xmin and Xmax equal to the interval in the question (for \\(0\\le x\\le2\\pi\\), 0 and 2π; SHIFT EXP gives π). Ymin/Ymax to fit, e.g. −3 to 3.",
+       "SHIFT F5 (G-Solv) → F5 (INTSECT). The first crossing appears; press ▶ to move to each of the others.",
+       "Count the crossings against the period: \\(\\sin(2x)\\) has period \\(\\pi\\), so two per period, four on \\(0\\le x\\le2\\pi\\)."
+      ],
+      "tag": "NOTE · Casio fx-CG50",
+      "body": "Four moves:\n•  set radians\n•  type both sides as two functions\n•  set Xmin and Xmax to the interval\n•  run the intersection tool at every crossing\n\nType 2π for Xmax: π is SHIFT EXP."
+     }
+    }
+   },
+   {
+    "given": "solve \\(2\\sin2x=1\\), \\(0\\le x\\le2\\pi\\)",
+    "tag": "ACTIVITY · menu choice",
+    "ok": "✓ Right. Radians first, then intersection.",
+    "right": 0,
+    "t": "choice",
+    "bad": "✗ Not quite. Degrees puts the crossings in the wrong place for an interval written with \\(\\pi\\), and the maximum tool finds a peak, not a solution. Radians, then intersection.",
+    "err": "GDC",
+    "byCalc": {
+     "nspire": {
+      "title": "On your TI-Nspire CX II, which settings and tool solve a trig equation in an interval?",
+      "opts": [
+       "Settings → Angle: Radian; then Graphs → Analyze Graph → Intersection",
+       "Settings → Angle: Degree; then Graphs → Analyze Graph → Intersection",
+       "Graphs → Analyze Graph → Maximum"
+      ]
+     },
+     "ti84": {
+      "title": "On your TI-84 Plus CE, which settings and tool solve a trig equation in an interval?",
+      "opts": [
+       "MODE → RADIAN; then 2nd TRACE (CALC) → 5: intersect",
+       "MODE → DEGREE; then 2nd TRACE (CALC) → 5: intersect",
+       "2nd TRACE (CALC) → 4: maximum"
+      ]
+     },
+     "cg50": {
+      "title": "On your Casio fx-CG50, which settings and tool solve a trig equation in an interval?",
+      "opts": [
+       "SET UP → Angle: Rad; then G-Solv → INTSECT",
+       "SET UP → Angle: Deg; then G-Solv → INTSECT",
+       "G-Solv → MAX"
+      ]
+     }
+    }
+   },
+   {
+    "t": "note",
+    "fig": {
+     "kind": "graph",
+     "fns": [
+      {
+       "$fn": "(x) => 2 * Math.sin(2 * x)"
+      },
+      {
+       "$fn": "(x) => 1"
+      }
+     ],
+     "xr": [
+      0,
+      6.2832
+     ],
+     "yr": [
+      -3,
+      3
+     ],
+     "pts": [
+      [
+       0.2618,
+       1,
+       ""
+      ],
+      [
+       1.309,
+       1,
+       ""
+      ],
+      [
+       3.4034,
+       1,
+       ""
+      ],
+      [
+       4.4506,
+       1,
+       ""
+      ]
+     ],
+     "caption": ""
+    },
+    "tag": "NOTE · SL 3.7",
+    "title": "How many solutions should there be?",
+    "body": "Know the count before you press intersect, so a missing one is noticed:\n•  \\(\\sin\\) or \\(\\cos\\) equal to a value strictly between \\(-1\\) and \\(1\\): two solutions per period\n•  \\(\\sin(2x)\\) has period \\(\\pi\\), so \\(0\\le x\\le2\\pi\\) holds two periods: four solutions\n•  \\(\\sin(3x)\\): period \\(\\tfrac{2\\pi}{3}\\), three periods, six solutions\n\nIf a crossing sits exactly on an endpoint, check whether the interval includes it (\\(\\le\\) or \\(<\\)).",
+    "code": "period of \\(\\sin(bx)\\) is \\(\\tfrac{2\\pi}{b}\\)\nsolutions on \\(0\\le x\\le2\\pi\\): \\(2\\times b\\) (for a value strictly between \\(-1\\) and \\(1\\))"
+   },
+   {
+    "t": "numeric",
+    "parts": [
+     [
+      "c",
+      "How many solutions does \\(2\\sin2x=1\\) have on \\(0\\le x\\le2\\pi\\)?",
+      [
+       "Four: two periods of \\(\\sin2x\\), two crossings each",
+       "Two",
+       "Eight"
+      ],
+      0,
+      "✓ Four.",
+      "✗ \\(\\sin2x\\) completes two periods on \\(0\\le x\\le2\\pi\\), with two crossings of \\(y=1\\) in each: four."
+     ]
+    ],
+    "tag": "ACTIVITY · enter your calculator’s answer",
+    "given": "solve \\(2\\sin2x=1\\), \\(0\\le x\\le2\\pi\\)",
+    "title": "Find all four solutions. Enter the largest.",
+    "instr": [
+     "Intersection at each crossing in the window.",
+     "Type the largest \\(x\\) to 3 significant figures."
+    ],
+    "label": "largest \\(x=\\)",
+    "ans": 4.4506,
+    "tol": 0.006,
+    "worked": "crossings: \\(0.262,\\ 1.31,\\ 3.40,\\ 4.45\\)\nlargest \\(x=4.45\\)   (\\(=\\tfrac{17\\pi}{12}\\))",
+    "ok": "✓ \\(x=4.45\\). All four: \\(0.262,\\ 1.31,\\ 3.40,\\ 4.45\\).",
+    "wrongs": [
+     [
+      3.4034,
+      "\\(3.40\\) is the third solution; there is one more before \\(2\\pi\\)."
+     ],
+     [
+      5.76,
+      "\\(5.76\\) is \\(\\tfrac{11\\pi}{6}\\), a solution of \\(\\sin x=-\\tfrac12\\): wrong equation."
+     ],
+     [
+      255,
+      "Degrees mode."
+     ]
+    ],
+    "err": "Reading"
+   },
+   {
+    "t": "note",
+    "tag": "NOTE · what to write",
+    "title": "What the examiner wants to see",
+    "body": "List every solution in the interval, in radians, 3 s.f.:\n•  the two graphs (or “by GDC”) and a sketch with the crossings marked\n•  \\(x=0.262,\\ 1.31,\\ 3.40,\\ 4.45\\)\n\nExact forms (\\(\\tfrac{\\pi}{12}\\), \\(\\tfrac{5\\pi}{12}\\), …) are welcome but not required on Paper 2. Two habits that lose marks: one solution missing, and a value outside the interval included.",
+    "code": "\\(2\\sin2x=1\\), \\(0\\le x\\le2\\pi\\)\n\\(x=0.262,\\ 1.31,\\ 3.40,\\ 4.45\\)   (3 s.f.)"
+   },
+   {
+    "t": "choice",
+    "tag": "ACTIVITY · write the line",
+    "given": "solve \\(2\\sin2x=1\\), \\(0\\le x\\le2\\pi\\)",
+    "title": "Which answer earns full marks?",
+    "opts": [
+     "\\(x=0.262,\\ 1.31,\\ 3.40,\\ 4.45\\)",
+     "\\(x=0.262,\\ 1.31\\)",
+     "\\(x=15^\\circ,\\ 75^\\circ,\\ 195^\\circ,\\ 255^\\circ\\)"
+    ],
+    "right": 0,
+    "ok": "✓ Right. All four, in radians.",
+    "bads": [
+     "✓",
+     "✗ Two solutions are missing: \\(\\sin2x\\) repeats every \\(\\pi\\), so the pattern happens again on \\(\\pi\\le x\\le2\\pi\\).",
+     "✗ The interval is in radians, so the answers must be too: \\(0.262,\\ 1.31,\\ 3.40,\\ 4.45\\)."
+    ],
+    "err": "Writing"
+   },
+   {
+    "t": "numeric",
+    "parts": [
+     [
+      "c",
+      "How many solutions on \\(0\\le x\\le2\\pi\\)?",
+      [
+       "Two",
+       "One",
+       "Four"
+      ],
+      0,
+      "✓ \\(\\cos x\\) has period \\(2\\pi\\): one period, two crossings.",
+      "✗ One period of \\(\\cos x\\) fits in \\(0\\le x\\le2\\pi\\), and a horizontal line crosses it twice."
+     ]
+    ],
+    "fig": {
+     "kind": "graph",
+     "fns": [
+      {
+       "$fn": "(x) => Math.cos(x)"
+      },
+      {
+       "$fn": "(x) => 0.3"
+      }
+     ],
+     "xr": [
+      0,
+      6.2832
+     ],
+     "yr": [
+      -1.5,
+      1.5
+     ],
+     "pts": [
+      [
+       1.2661,
+       0.3,
+       ""
+      ],
+      [
+       5.0171,
+       0.3,
+       "x = ?"
+      ]
+     ],
+     "caption": ""
+    },
+    "tag": "PRACTICE · one more",
+    "given": "solve \\(\\cos x=0.3\\), \\(0\\le x\\le2\\pi\\)",
+    "title": "Solve \\(\\cos x=0.3\\) for \\(0\\le x\\le2\\pi\\). Enter the larger solution.",
+    "instr": [
+     "Radians; window \\(0\\) to \\(2\\pi\\); intersection twice.",
+     "Type the larger \\(x\\) to 3 significant figures."
+    ],
+    "label": "larger \\(x=\\)",
+    "ans": 5.0171,
+    "tol": 0.006,
+    "worked": "crossings: \\(x=1.27\\) and \\(x=5.02\\)\nlarger \\(x=5.02\\)   (\\(=2\\pi-1.266\\))",
+    "ok": "✓ \\(x=5.02\\). The two solutions are symmetric about \\(\\pi\\): \\(1.27\\) and \\(2\\pi-1.27\\).",
+    "wrongs": [
+     [
+      1.2661,
+      "That is the smaller solution."
+     ],
+     [
+      287.5,
+      "Degrees mode."
+     ],
+     [
+      4.3,
+      "\\(4.3\\) is not a crossing; use the tool rather than reading the screen."
+     ]
+    ],
+    "err": "GDC"
+   },
+   {
+    "t": "note",
+    "fig": {
+     "kind": "graph",
+     "fns": [
+      {
+       "$fn": "function (x) { var c = Math.cos(x); return Math.abs(c) < 0.03 ? NaN : Math.tan(x); }"
+      },
+      {
+       "$fn": "(x) => 2"
+      }
+     ],
+     "xr": [
+      -3.1416,
+      3.1416
+     ],
+     "yr": [
+      -6,
+      6
+     ],
+     "pts": [
+      [
+       -2.0344,
+       2,
+       "−2.03",
+       "end"
+      ],
+      [
+       1.1071,
+       2,
+       "1.11",
+       "end"
+      ]
+     ],
+     "caption": ""
+    },
+    "tag": "NOTE · SL 3.7",
+    "title": "tan, and intervals that start below zero",
+    "body": "Two extra checks:\n•  \\(\\tan x\\) has period \\(\\pi\\) and vertical asymptotes at \\(x=\\pm\\tfrac{\\pi}{2},\\ \\pm\\tfrac{3\\pi}{2},\\ldots\\); a horizontal line crosses it once per period, never at an asymptote\n•  an interval like \\(-\\pi\\le x\\le\\pi\\) means Xmin \\(=-\\pi\\): negative solutions are expected\n\n\\(\\tan x=2\\) on \\(-\\pi\\le x\\le\\pi\\): two periods, two solutions, \\(x=-2.03\\) and \\(x=1.11\\).",
+    "code": "\\(\\tan x=2\\), \\(-\\pi\\le x\\le\\pi\\)\n\\(x=1.11\\) or \\(x=1.11-\\pi=-2.03\\)"
+   },
+   {
+    "t": "numeric",
+    "parts": [
+     [
+      "c",
+      "How many solutions does \\(\\tan x=2\\) have on \\(-\\pi\\le x\\le\\pi\\)?",
+      [
+       "Two: one per period of \\(\\tan\\), and the interval holds two periods",
+       "Four",
+       "One"
+      ],
+      0,
+      "✓ Two.",
+      "✗ \\(\\tan\\) crosses a horizontal line once per period (\\(\\pi\\)); \\(-\\pi\\) to \\(\\pi\\) is two periods: two solutions."
+     ]
+    ],
+    "tag": "ACTIVITY · enter your calculator’s answer",
+    "given": "solve \\(\\tan x=2\\), \\(-\\pi\\le x\\le\\pi\\)",
+    "title": "Solve \\(\\tan x=2\\) for \\(-\\pi\\le x\\le\\pi\\). Enter the negative solution.",
+    "instr": [
+     "Radians; window \\(-\\pi\\) to \\(\\pi\\), \\(y\\) from \\(-6\\) to \\(6\\); intersection.",
+     "Type the negative \\(x\\) to 3 significant figures."
+    ],
+    "label": "negative \\(x=\\)",
+    "ans": -2.0344,
+    "tol": 0.006,
+    "worked": "crossings: \\(x=-2.03\\) and \\(x=1.11\\)",
+    "ok": "✓ \\(x=-2.03\\), which is \\(1.11-\\pi\\): the solutions of a tan equation differ by \\(\\pi\\).",
+    "wrongs": [
+     [
+      1.1071,
+      "That is the positive solution."
+     ],
+     [
+      -1.1071,
+      "Sign slip: \\(\\tan(-1.11)=-2\\). The negative solution is \\(1.11-\\pi=-2.03\\)."
+     ],
+     [
+      -116.6,
+      "Degrees mode."
+     ]
+    ],
+    "err": "Reading"
+   },
+   {
+    "t": "note",
+    "fig": {
+     "kind": "graph",
+     "fns": [
+      {
+       "$fn": "(t) => 3 * Math.sin(Math.PI * t / 6) + 5"
+      },
+      {
+       "$fn": "(t) => 6.5"
+      }
+     ],
+     "xr": [
+      0,
+      12
+     ],
+     "yr": [
+      0,
+      9
+     ],
+     "pts": [
+      [
+       1,
+       6.5,
+       "t = 1"
+      ],
+      [
+       5,
+       6.5,
+       "t = 5"
+      ]
+     ],
+     "caption": ""
+    },
+    "tag": "NOTE · SL 3.7",
+    "title": "Models: the equation comes from the story",
+    "body": "The height of water in a harbour is \\(h(t)=3\\sin\\left(\\tfrac{\\pi t}{6}\\right)+5\\) metres, \\(t\\) hours after midnight.\n•  “when is the water \\(6.5\\) m deep?” means \\(3\\sin\\left(\\tfrac{\\pi t}{6}\\right)+5=6.5\\)\n•  the interval is the time period asked about: the first \\(12\\) hours, \\(0\\le t\\le12\\)\n•  the model is in radians (the \\(\\pi\\) inside says so); answers are times, with units",
+    "code": "\\(y_1=3\\sin(\\pi t/6)+5\\), \\(y_2=6.5\\), window \\(0\\le t\\le12\\)\n\\(t=1\\) and \\(t=5\\): 1 am and 5 am"
+   },
+   {
+    "t": "numeric",
+    "parts": [
+     [
+      "c",
+      "Which equation?",
+      [
+       "\\(3\\sin\\left(\\tfrac{\\pi t}{6}\\right)+5=6.5\\)",
+       "\\(3\\sin\\left(\\tfrac{\\pi t}{6}\\right)=6.5\\)",
+       "\\(\\sin t=6.5\\)"
+      ],
+      0,
+      "✓ Set \\(h(t)\\) equal to \\(6.5\\).",
+      "✗ Set the whole model equal to \\(6.5\\): \\(3\\sin(\\pi t/6)+5=6.5\\)."
+     ]
+    ],
+    "tag": "ACTIVITY · enter your calculator’s answer",
+    "given": "\\(h(t)=3\\sin\\left(\\tfrac{\\pi t}{6}\\right)+5\\), \\(0\\le t\\le12\\)",
+    "givenNote": "height of water in metres, \\(t\\) hours after midnight",
+    "title": "Find the second time in the first \\(12\\) hours at which the water is \\(6.5\\) m deep.",
+    "instr": [
+     "Radians; window \\(0\\le t\\le12\\); intersection with \\(y=6.5\\).",
+     "Type \\(t\\)."
+    ],
+    "label": "\\(t=\\)",
+    "ans": 5,
+    "tol": 0.01,
+    "worked": "crossings: \\(t=1\\) and \\(t=5\\)\nsecond time: \\(t=5\\), i.e. 5 am",
+    "ok": "✓ \\(t=5\\): 5 am. Exactly \\(5\\), because \\(\\sin(5\\pi/6)=\\tfrac12\\).",
+    "wrongs": [
+     [
+      1,
+      "That is the first time; the question asks for the second."
+     ],
+     [
+      13,
+      "\\(13\\) is a solution, but outside the first \\(12\\) hours."
+     ],
+     [
+      8,
+      "\\(8\\) is the maximum height, not a time."
+     ]
+    ],
+    "err": "Reading"
+   },
+   {
+    "t": "numeric",
+    "parts": [
+     [
+      "c",
+      "Window?",
+      [
+       "\\(0\\le x\\le\\pi\\), \\(y\\) from \\(-4\\) to \\(4\\)",
+       "\\(0\\le x\\le2\\pi\\)",
+       "\\(-10\\) to \\(10\\)"
+      ],
+      0,
+      "✓ The interval is \\(0\\le x\\le\\pi\\).",
+      "✗ The question says \\(0\\le x\\le\\pi\\): that is the window."
+     ],
+     [
+      "c",
+      "How many solutions on \\(0\\le x\\le\\pi\\)?",
+      [
+       "Two",
+       "One",
+       "Four"
+      ],
+      0,
+      "✓ Period \\(\\pi\\): one full period, two crossings.",
+      "✗ \\(\\sin(2x-1)\\) has period \\(\\pi\\), so the interval holds one period: two crossings."
+     ]
+    ],
+    "fig": {
+     "kind": "graph",
+     "fns": [
+      {
+       "$fn": "(x) => 3 * Math.sin(2 * x - 1)"
+      },
+      {
+       "$fn": "(x) => 2"
+      }
+     ],
+     "xr": [
+      0,
+      3.1416
+     ],
+     "yr": [
+      -4,
+      4
+     ],
+     "pts": [
+      [
+       0.8649,
+       2,
+       "0.865"
+      ],
+      [
+       1.7059,
+       2,
+       "x = ?"
+      ]
+     ],
+     "caption": ""
+    },
+    "tag": "EXAM-STYLE PART · 4 marks · hints available",
+    "given": "solve \\(3\\sin(2x-1)=2\\), \\(0\\le x\\le\\pi\\)",
+    "title": "Solve \\(3\\sin(2x-1)=2\\) for \\(0\\le x\\le\\pi\\). Enter the larger solution.",
+    "instr": [
+     "Radians; window \\(0\\le x\\le\\pi\\); intersection at both crossings.",
+     "Type the larger \\(x\\) to 3 significant figures.",
+     "Hints are available below if you need them."
+    ],
+    "label": "larger \\(x=\\)",
+    "ans": 1.7059,
+    "tol": 0.006,
+    "worked": "\\(y_1=3\\sin(2x-1)\\), \\(y_2=2\\), window \\(0\\le x\\le\\pi\\)\ncrossings: \\(x=0.865\\) and \\(x=1.71\\)",
+    "ok": "✓ \\(x=1.71\\) (and \\(0.865\\)). Four marks: graphs, both solutions, interval respected.",
+    "wrongs": [
+     [
+      0.8649,
+      "That is the smaller solution."
+     ],
+     [
+      1.2297,
+      "\\(1.23\\) solves \\(3\\sin(2x)=2\\): the \\(-1\\) inside was dropped."
+     ],
+     [
+      4.847,
+      "\\(4.85\\) is a solution outside \\(0\\le x\\le\\pi\\)."
+     ]
+    ],
+    "hints": [
+     "Graph \\(y=3\\sin(2x-1)\\) and \\(y=2\\) with Xmin \\(0\\), Xmax \\(\\pi\\).",
+     "Two crossings: near \\(0.9\\) and near \\(1.7\\).",
+     "Report both, 3 s.f."
+    ],
+    "err": "Reading"
+   },
+   {
+    "t": "choice",
+    "tag": "ACTIVITY · no calculator · Paper 1",
+    "given": "solve \\(\\sin x=\\tfrac12\\), \\(0\\le x\\le2\\pi\\)",
+    "givenNote": "a Paper 1 question",
+    "title": "How is this done without a GDC?",
+    "opts": [
+     "Exact values: \\(\\sin\\tfrac{\\pi}{6}=\\tfrac12\\), and by symmetry \\(x=\\pi-\\tfrac{\\pi}{6}\\); so \\(x=\\tfrac{\\pi}{6},\\ \\tfrac{5\\pi}{6}\\)",
+     "Sketch \\(y=\\sin x\\) and read the crossings to 3 s.f.",
+     "It cannot be done without a calculator"
+    ],
+    "right": 0,
+    "ok": "✓ Right. Paper 1 trig equations use the exact values and the symmetry of the graph (or the unit circle).",
+    "bad": "✗ Paper 1 expects exact answers: \\(\\sin\\tfrac{\\pi}{6}=\\tfrac12\\), and the second solution is \\(\\pi-\\tfrac{\\pi}{6}=\\tfrac{5\\pi}{6}\\). A sketch gives decimals, which do not earn the marks.",
+    "err": "Concept"
+   },
+   {
+    "t": "numeric",
+    "parts": [
+     [
+      "c",
+      "How many solutions on \\(0\\le x\\le\\pi\\)?",
+      [
+       "Three",
+       "Two",
+       "Six"
+      ],
+      0,
+      "✓ \\(\\cos(3x)\\) has period \\(\\tfrac{2\\pi}{3}\\): one and a half periods in \\(0\\le x\\le\\pi\\), giving three crossings of \\(y=-1\\).",
+      "✗ Period \\(\\tfrac{2\\pi}{3}\\); \\(0\\le x\\le\\pi\\) is one and a half periods: three crossings here."
+     ]
+    ],
+    "fig": {
+     "kind": "graph",
+     "fns": [
+      {
+       "$fn": "(x) => 2 * Math.cos(3 * x)"
+      },
+      {
+       "$fn": "(x) => -1"
+      }
+     ],
+     "xr": [
+      0,
+      3.1416
+     ],
+     "yr": [
+      -3,
+      3
+     ],
+     "pts": [
+      [
+       0.6981,
+       -1,
+       ""
+      ],
+      [
+       1.3963,
+       -1,
+       ""
+      ],
+      [
+       2.7925,
+       -1,
+       "x = ?"
+      ]
+     ],
+     "caption": ""
+    },
+    "tag": "PRACTICE · 1 of 2",
+    "given": "solve \\(2\\cos3x=-1\\), \\(0\\le x\\le\\pi\\)",
+    "title": "Solve \\(2\\cos3x=-1\\) for \\(0\\le x\\le\\pi\\). Enter the largest solution.",
+    "instr": [
+     "Radians; window \\(0\\le x\\le\\pi\\); intersection.",
+     "Type the largest \\(x\\) to 3 significant figures."
+    ],
+    "label": "largest \\(x=\\)",
+    "ans": 2.7925,
+    "tol": 0.006,
+    "worked": "crossings: \\(x=0.698,\\ 1.40,\\ 2.79\\)\nlargest \\(x=2.79\\)   (\\(=\\tfrac{8\\pi}{9}\\))",
+    "ok": "✓ \\(x=2.79\\). Three solutions: \\(\\tfrac{2\\pi}{9},\\ \\tfrac{4\\pi}{9},\\ \\tfrac{8\\pi}{9}\\).",
+    "wrongs": [
+     [
+      1.3963,
+      "That is the middle solution."
+     ],
+     [
+      2.0944,
+      "\\(2.09\\) is \\(\\tfrac{2\\pi}{3}\\), a solution of \\(2\\cos x=-1\\): the \\(3x\\) was dropped."
+     ],
+     [
+      160,
+      "Degrees mode."
+     ]
+    ],
+    "err": "GDC"
+   },
+   {
+    "t": "numeric",
+    "parts": [
+     [
+      "c",
+      "Rearranged, the equation is",
+      [
+       "\\(\\sin x=0.75\\)",
+       "\\(\\sin x=0.3\\)",
+       "\\(\\sin x=-0.75\\)"
+      ],
+      0,
+      "✓ Or graph \\(4\\sin x-3\\) against \\(y=0\\): same crossings.",
+      "✗ \\(4\\sin x=3\\), so \\(\\sin x=0.75\\). Either rearrange, or graph the left side as written against \\(y=0\\)."
+     ]
+    ],
+    "fig": {
+     "kind": "graph",
+     "fns": [
+      {
+       "$fn": "(x) => 4 * Math.sin(x) - 3"
+      }
+     ],
+     "xr": [
+      0,
+      6.2832
+     ],
+     "yr": [
+      -8,
+      2
+     ],
+     "pts": [
+      [
+       0.8481,
+       0,
+       ""
+      ],
+      [
+       2.2935,
+       0,
+       "x = ?"
+      ]
+     ],
+     "caption": ""
+    },
+    "tag": "PRACTICE · 2 of 2",
+    "given": "solve \\(4\\sin x-3=0\\), \\(0\\le x\\le2\\pi\\)",
+    "title": "Solve \\(4\\sin x-3=0\\) for \\(0\\le x\\le2\\pi\\). Enter the larger solution.",
+    "instr": [
+     "Radians; window \\(0\\) to \\(2\\pi\\); zeros of the left side, or intersection with \\(y=0\\).",
+     "Type the larger \\(x\\) to 3 significant figures."
+    ],
+    "label": "larger \\(x=\\)",
+    "ans": 2.2935,
+    "tol": 0.006,
+    "worked": "\\(\\sin x=0.75\\): \\(x=0.848\\) and \\(x=\\pi-0.848=2.29\\)",
+    "ok": "✓ \\(x=2.29\\). That is the Learn rung done; the Drill times you.",
+    "wrongs": [
+     [
+      0.8481,
+      "That is the smaller solution."
+     ],
+     [
+      131.4,
+      "Degrees mode."
+     ],
+     [
+      5.4351,
+      "\\(5.44\\) solves \\(\\sin x=-0.75\\): sign slip in the rearrangement."
+     ]
+    ],
+    "err": "GDC"
+   },
+   {
+    "t": "finish",
+    "tag": "LESSON COMPLETE",
+    "title": "Trig equation in an interval: Learn passed"
+   }
+  ]
+ },
+ "drill": {
+  "intro": "Each asks you to solve a trig equation in a given interval: sine, cosine, tan, a double angle, and a model where the equation comes from the story. Radians unless told otherwise, window = the interval, intersection at every crossing, and type to 3 significant figures. SL 3.7 and 3.8 (also HL).",
+  "challengeIntro": "a shift inside the bracket, a question in degrees, an interval from \\(-\\pi\\) to \\(\\pi\\), and a triple angle with six solutions. Optional: getting them wrong cannot undo your drill result.",
+  "keys": {
+   "nspire": [
+    "Angle mode: doc → 7: Settings → Angle: Radian (Degree only if the question says degrees).",
+    "Graphs page: left side as f1(x), right side as f2(x). menu → 4: Window/Zoom → 1: Window Settings: XMin/XMax = the ends of the interval (type 2π as needed); YMin/YMax to fit.",
+    "menu → 6: Analyze Graph → 4: Intersection, lower and upper bound around one crossing. Repeat for every crossing in the window.",
+    "Count first: sin or cos equal to a value gives two solutions per period; period of sin(bx) is 2π/b; tan gives one per period of π.",
+    "An interval from −π: XMin = −π; negative solutions are expected.",
+    "Models: set the whole model equal to the value; the window is the time period asked about.",
+    "Write every solution in the interval, 3 s.f., in the units of the interval (radians or degrees)."
+   ],
+   "ti84": [
+    "MODE → RADIAN (DEGREE only if the question says degrees).",
+    "Y=: Y1 = left side, Y2 = right side. WINDOW: Xmin/Xmax = the ends of the interval (π is 2nd ^); Ymin/Ymax to fit. GRAPH.",
+    "2nd TRACE (CALC) → 5: intersect, ENTER, ENTER, then Guess near one crossing, ENTER. Repeat with a new Guess for every crossing.",
+    "Count first: sin or cos equal to a value gives two solutions per period; period of sin(bX) is 2π/b; tan gives one per period of π.",
+    "An interval from −π: Xmin = −π; negative solutions are expected.",
+    "Models: set the whole model equal to the value; the window is the time period asked about.",
+    "Write every solution in the interval, 3 s.f., in the units of the interval (radians or degrees)."
+   ],
+   "cg50": [
+    "SHIFT MENU (SET UP) → Angle: Rad (Deg only if the question says degrees).",
+    "MENU → GRAPH: Y1 = left side, Y2 = right side. SHIFT F3 (V-Window): Xmin/Xmax = the ends of the interval (π is SHIFT EXP); Ymin/Ymax to fit. F6 (DRAW).",
+    "SHIFT F5 (G-Solv) → F5 (INTSECT); ▶ moves to each further crossing.",
+    "Count first: sin or cos equal to a value gives two solutions per period; period of sin(bx) is 2π/b; tan gives one per period of π.",
+    "An interval from −π: Xmin = −π; negative solutions are expected.",
+    "Models: set the whole model equal to the value; the window is the time period asked about.",
+    "Write every solution in the interval, 3 s.f., in the units of the interval (radians or degrees)."
+   ]
+  },
+  "sets": [
+   [
+    {
+     "parts": [
+      [
+       "c",
+       "Mode?",
+       [
+        "Radians",
+        "Degrees",
+        "Does not matter"
+       ],
+       0,
+       "✓ The interval is in radians.",
+       "✗ The interval is written with \\(\\pi\\): radians."
+      ],
+      [
+       "c",
+       "Which two graphs?",
+       [
+        "\\(y_1=\\sin x\\) and \\(y_2=0.4\\)",
+        "\\(y_1=\\sin x-0.4\\) and \\(y_2=0.4\\)",
+        "\\(y_1=x\\) and \\(y_2=0.4\\)"
+       ],
+       0,
+       "✓ Each side as written.",
+       "✗ Graph each side of the equation exactly as written: \\(y_1=\\sin x\\) and \\(y_2=0.4\\)."
+      ],
+      [
+       "c",
+       "How many crossings do you expect?",
+       [
+        "Two: one period of \\(\\sin x\\), two crossings",
+        "One",
+        "Four"
+       ],
+       0,
+       "✓ One period of \\(\\sin x\\) in \\(0\\le x\\le2\\pi\\), crossed twice.",
+       "✗ One period of \\(\\sin x\\) in \\(0\\le x\\le2\\pi\\), crossed twice."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => Math.sin(x)"
+        },
+        {
+         "$fn": "(x) => 0.4"
+        }
+       ],
+       "xr": [
+        0,
+        6.2832
+       ],
+       "yr": [
+        -1.5,
+        1.5
+       ],
+       "pts": [
+        [
+         0.4115,
+         0.4,
+         "0.412"
+        ],
+        [
+         2.7301,
+         0.4,
+         "x = ?"
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "D1 sin equal to a value",
+     "given": "solve \\(\\sin x=0.4\\), \\(0\\le x\\le2\\pi\\)",
+     "givenNote": "",
+     "q": "Enter the larger solution.",
+     "label": "larger \\(x=\\)",
+     "ans": 2.7301,
+     "tol": 0.006,
+     "target": 90,
+     "line": "\\(y_1=\\sin x\\), \\(y_2=0.4\\), window \\(0\\le x\\le2\\pi\\); \\(x=0.412,\\ 2.73\\)",
+     "steps": [
+      [
+       "Mode",
+       "Radians."
+      ],
+      [
+       "Graphs",
+       "\\(y_1=\\sin x\\), \\(y_2=0.4\\); window \\(0\\le x\\le2\\pi\\)."
+      ],
+      [
+       "Crossings",
+       "Intersection at each: \\(x=0.412,\\ 2.73\\)."
+      ],
+      [
+       "Answer",
+       "All solutions in the interval, 3 s.f.: \\(x=0.412,\\ 2.73\\). Enter the larger solution."
+      ]
+     ],
+     "wrongs": [
+      [
+       0.4115,
+       "That is the smaller solution."
+      ],
+      [
+       156.4,
+       "Degrees mode."
+      ],
+      [
+       3.553,
+       "\\(3.55\\) is \\(\\pi+0.412\\): that is the symmetry for a negative value. For \\(\\sin x=0.4\\) the second solution is \\(\\pi-0.412=2.73\\)."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "Mode?",
+       [
+        "Radians",
+        "Degrees",
+        "Does not matter"
+       ],
+       0,
+       "✓ The interval is in radians.",
+       "✗ The interval is written with \\(\\pi\\): radians."
+      ],
+      [
+       "c",
+       "Which graphs?",
+       [
+        "\\(y_1=2\\cos x+1\\) and \\(y_2=0\\) (or the zeros of \\(y_1\\))",
+        "\\(y_1=\\cos x\\) and \\(y_2=1\\)",
+        "\\(y_1=2\\cos x\\) and \\(y_2=1\\)"
+       ],
+       0,
+       "✓ As written, against \\(y=0\\); or rearrange to \\(\\cos x=-\\tfrac12\\).",
+       "✗ Either graph the left side against \\(y=0\\), or rearrange correctly: \\(\\cos x=-\\tfrac12\\)."
+      ],
+      [
+       "c",
+       "How many crossings do you expect?",
+       [
+        "Two",
+        "One",
+        "Four"
+       ],
+       0,
+       "✓ One period of \\(\\cos x\\); the line crosses it twice.",
+       "✗ One period of \\(\\cos x\\); the line crosses it twice."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => 2*Math.cos(x)+1"
+        },
+        {
+         "$fn": "(x) => 0"
+        }
+       ],
+       "xr": [
+        0,
+        6.2832
+       ],
+       "yr": [
+        -2,
+        4
+       ],
+       "pts": [
+        [
+         2.0944,
+         0,
+         "x = ?"
+        ],
+        [
+         4.1888,
+         0,
+         "4.19"
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "D2 Rearrange first (or not)",
+     "given": "solve \\(2\\cos x+1=0\\), \\(0\\le x\\le2\\pi\\)",
+     "givenNote": "",
+     "q": "Enter the smaller solution.",
+     "label": "smaller \\(x=\\)",
+     "ans": 2.0944,
+     "tol": 0.006,
+     "target": 90,
+     "line": "\\(y_1=2\\cos x+1\\), \\(y_2=0\\), window \\(0\\le x\\le2\\pi\\); \\(x=2.09,\\ 4.19\\)",
+     "steps": [
+      [
+       "Mode",
+       "Radians."
+      ],
+      [
+       "Graphs",
+       "\\(y_1=2\\cos x+1\\), \\(y_2=0\\); window \\(0\\le x\\le2\\pi\\)."
+      ],
+      [
+       "Crossings",
+       "Intersection at each: \\(x=2.09,\\ 4.19\\)."
+      ],
+      [
+       "Answer",
+       "All solutions in the interval, 3 s.f.: \\(x=2.09,\\ 4.19\\). Enter the smaller solution."
+      ]
+     ],
+     "wrongs": [
+      [
+       4.1888,
+       "That is the larger solution."
+      ],
+      [
+       1.0472,
+       "\\(1.05\\) solves \\(\\cos x=+\\tfrac12\\): sign slip when rearranging."
+      ],
+      [
+       120,
+       "Degrees mode."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "Mode?",
+       [
+        "Radians",
+        "Degrees",
+        "Does not matter"
+       ],
+       0,
+       "✓ The interval is in radians.",
+       "✗ The interval is written with \\(\\pi\\): radians."
+      ],
+      [
+       "c",
+       "Window?",
+       [
+        "Xmin \\(0\\), Xmax \\(2\\pi\\)",
+        "Xmin \\(0\\), Xmax \\(\\pi\\)",
+        "Xmin \\(-10\\), Xmax \\(10\\)"
+       ],
+       0,
+       "✓ The window is the interval in the question.",
+       "✗ The window is the interval in the question."
+      ],
+      [
+       "c",
+       "How many crossings do you expect?",
+       [
+        "Four: \\(\\sin2x\\) has period \\(\\pi\\), two periods, two crossings each",
+        "Two",
+        "Eight"
+       ],
+       0,
+       "✓ Period \\(\\pi\\), so two periods in \\(0\\le x\\le2\\pi\\): four crossings.",
+       "✗ Period \\(\\pi\\), so two periods in \\(0\\le x\\le2\\pi\\): four crossings."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => Math.sin(2*x)"
+        },
+        {
+         "$fn": "(x) => 0.6"
+        }
+       ],
+       "xr": [
+        0,
+        6.2832
+       ],
+       "yr": [
+        -1.5,
+        1.5
+       ],
+       "pts": [
+        [
+         0.3218,
+         0.6,
+         ""
+        ],
+        [
+         1.249,
+         0.6,
+         ""
+        ],
+        [
+         3.4633,
+         0.6,
+         ""
+        ],
+        [
+         4.3906,
+         0.6,
+         "x = ?"
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "D3 Double angle: four solutions",
+     "given": "solve \\(\\sin2x=0.6\\), \\(0\\le x\\le2\\pi\\)",
+     "givenNote": "",
+     "q": "Enter the number of solutions, then the largest one.",
+     "label": "number of solutions \\(=\\)",
+     "label2": "largest \\(x=\\)",
+     "ans": 4,
+     "ans2": 4.3906,
+     "tol": 0.01,
+     "target": 110,
+     "line": "\\(y_1=\\sin2x\\), \\(y_2=0.6\\), window \\(0\\le x\\le2\\pi\\); \\(x=0.322,\\ 1.25,\\ 3.46,\\ 4.39\\)",
+     "steps": [
+      [
+       "Mode",
+       "Radians."
+      ],
+      [
+       "Graphs",
+       "\\(y_1=\\sin2x\\), \\(y_2=0.6\\); window \\(0\\le x\\le2\\pi\\)."
+      ],
+      [
+       "Crossings",
+       "Intersection at each: \\(x=0.322,\\ 1.25,\\ 3.46,\\ 4.39\\). Two per period of \\(\\pi\\)."
+      ],
+      [
+       "Answer",
+       "All solutions in the interval, 3 s.f.: \\(x=0.322,\\ 1.25,\\ 3.46,\\ 4.39\\). Enter the number of solutions, then the largest one."
+      ]
+     ],
+     "wrongs": [
+      [
+       2,
+       "There are four: \\(\\sin2x\\) repeats every \\(\\pi\\), so the two crossings in the first period happen again."
+      ],
+      [
+       8,
+       "Four. Two per period, two periods."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "Mode?",
+       [
+        "Radians",
+        "Degrees",
+        "Does not matter"
+       ],
+       0,
+       "✓ The interval is in radians.",
+       "✗ The interval is written with \\(\\pi\\): radians."
+      ],
+      [
+       "c",
+       "How many crossings do you expect?",
+       [
+        "Two: \\(\\tan\\) has period \\(\\pi\\), one crossing per period",
+        "Four",
+        "One"
+       ],
+       0,
+       "✓ The line crosses \\(\\tan x\\) once in each period of \\(\\pi\\): two crossings.",
+       "✗ The line crosses \\(\\tan x\\) once in each period of \\(\\pi\\): two crossings."
+      ],
+      [
+       "c",
+       "The solutions of \\(\\tan x=k\\) differ by",
+       [
+        "\\(\\pi\\)",
+        "\\(2\\pi\\)",
+        "\\(\\tfrac{\\pi}{2}\\)"
+       ],
+       0,
+       "✓ So the second is the first plus \\(\\pi\\).",
+       "✗ \\(\\tan\\) repeats every \\(\\pi\\): the solutions differ by \\(\\pi\\)."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => Math.abs(Math.cos(x)) < 0.03 ? NaN : Math.tan(x)"
+        },
+        {
+         "$fn": "(x) => -1.5"
+        }
+       ],
+       "xr": [
+        0,
+        6.2832
+       ],
+       "yr": [
+        -6,
+        6
+       ],
+       "pts": [
+        [
+         2.1588,
+         -1.5,
+         "x = ?",
+         "end"
+        ],
+        [
+         5.3004,
+         -1.5,
+         "5.30",
+         "end"
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "D4 tan",
+     "given": "solve \\(\\tan x=-1.5\\), \\(0\\le x\\le2\\pi\\)",
+     "givenNote": "",
+     "q": "Enter the smaller solution.",
+     "label": "smaller \\(x=\\)",
+     "ans": 2.1588,
+     "tol": 0.006,
+     "target": 90,
+     "line": "\\(y_1=\\tan x\\), \\(y_2=-1.5\\), window \\(0\\le x\\le2\\pi\\); \\(x=2.16,\\ 5.30\\)",
+     "steps": [
+      [
+       "Mode",
+       "Radians."
+      ],
+      [
+       "Graphs",
+       "\\(y_1=\\tan x\\), \\(y_2=-1.5\\); window \\(0\\le x\\le2\\pi\\)."
+      ],
+      [
+       "Crossings",
+       "Intersection at each: \\(x=2.16,\\ 5.30\\)."
+      ],
+      [
+       "Answer",
+       "All solutions in the interval, 3 s.f.: \\(x=2.16,\\ 5.30\\). Enter the smaller solution."
+      ]
+     ],
+     "wrongs": [
+      [
+       -0.9828,
+       "\\(-0.983\\) is \\(\\arctan(-1.5)\\), outside the interval. Add \\(\\pi\\): \\(2.16\\)."
+      ],
+      [
+       5.3004,
+       "That is the larger solution."
+      ],
+      [
+       123.7,
+       "Degrees mode."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "Mode?",
+       [
+        "Radians",
+        "Degrees",
+        "Does not matter"
+       ],
+       0,
+       "✓ The interval is in radians.",
+       "✗ The interval is written with \\(\\pi\\): radians."
+      ],
+      [
+       "c",
+       "Which equation?",
+       [
+        "\\(4\\cos\\left(\\tfrac{\\pi t}{12}\\right)+10=12\\)",
+        "\\(4\\cos\\left(\\tfrac{\\pi t}{12}\\right)=12\\)",
+        "\\(\\cos t=12\\)"
+       ],
+       0,
+       "✓ The whole model equals \\(12\\).",
+       "✗ Set \\(T(t)=12\\): \\(4\\cos(\\pi t/12)+10=12\\)."
+      ],
+      [
+       "c",
+       "Window?",
+       [
+        "Xmin \\(0\\), Xmax \\(24\\)",
+        "Xmin \\(0\\), Xmax \\(2\\pi\\)",
+        "Xmin \\(-10\\), Xmax \\(10\\)"
+       ],
+       0,
+       "✓ The interval is the day: \\(0\\le t\\le24\\).",
+       "✗ The interval is the day: \\(0\\le t\\le24\\)."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => 4*Math.cos(Math.PI*x/12)+10"
+        },
+        {
+         "$fn": "(x) => 12"
+        }
+       ],
+       "xr": [
+        0,
+        24
+       ],
+       "yr": [
+        0,
+        16
+       ],
+       "pts": [
+        [
+         4,
+         12,
+         "t = 4"
+        ],
+        [
+         20,
+         12,
+         "t = 20"
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "D5 Model: temperature",
+     "given": "\\(T(t)=4\\cos\\left(\\tfrac{\\pi t}{12}\\right)+10\\), \\(0\\le t\\le24\\)",
+     "givenNote": "temperature in \\(^\\circ\\)C, \\(t\\) hours after midnight",
+     "q": "Find the two times at which the temperature is \\(12^\\circ\\)C. Enter the earlier, then the later.",
+     "label": "\\(t=\\)",
+     "label2": "later \\(t=\\)",
+     "ans": 4,
+     "ans2": 20,
+     "tol": 0.01,
+     "target": 110,
+     "line": "\\(y_1=4\\cos(\\pi t/12)+10\\), \\(y_2=12\\), window \\(0\\le t\\le24\\); \\(x=4,\\ 20\\)",
+     "steps": [
+      [
+       "Mode",
+       "Degrees."
+      ],
+      [
+       "Graphs",
+       "\\(y_1=4\\cos(\\pi t/12)+10\\), \\(y_2=12\\); window \\(0\\le t\\le24\\)."
+      ],
+      [
+       "Crossings",
+       "Intersection at each: \\(x=4,\\ 20\\)."
+      ],
+      [
+       "Answer",
+       "All solutions in the interval, 3 s.f.: \\(x=4,\\ 20\\). Find the two times at which the temperature is \\(12^\\circ\\)C. Enter the earlier, then the later."
+      ]
+     ],
+     "wrongs": [
+      [
+       14,
+       "\\(14\\) is the maximum temperature, not a time."
+      ],
+      [
+       12,
+       "\\(12\\) is when the temperature is lowest (\\(6^\\circ\\)C)."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "Type \\(3\\sin(2x-1)\\) exactly, bracket and all.",
+      "Two crossings between \\(0\\) and \\(\\pi\\)."
+     ],
+     "parts": [
+      [
+       "c",
+       "Mode?",
+       [
+        "Radians",
+        "Degrees",
+        "Does not matter"
+       ],
+       0,
+       "✓ The interval is in radians.",
+       "✗ The interval is written with \\(\\pi\\): radians."
+      ],
+      [
+       "c",
+       "Window?",
+       [
+        "Xmin \\(0\\), Xmax \\(\\pi\\)",
+        "Xmin \\(0\\), Xmax \\(2\\pi\\)",
+        "Xmin \\(-\\pi\\), Xmax \\(\\pi\\)"
+       ],
+       0,
+       "✓ The interval is \\(0\\le x\\le\\pi\\).",
+       "✗ The interval is \\(0\\le x\\le\\pi\\)."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => 3*Math.sin(2*x-1)"
+        },
+        {
+         "$fn": "(x) => 2"
+        }
+       ],
+       "xr": [
+        0,
+        3.1416
+       ],
+       "yr": [
+        -4,
+        4
+       ],
+       "pts": [
+        [
+         0.8649,
+         2,
+         "0.865"
+        ],
+        [
+         1.7059,
+         2,
+         "x = ?"
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "C1 Shift inside",
+     "given": "solve \\(3\\sin(2x-1)=2\\), \\(0\\le x\\le\\pi\\)",
+     "givenNote": "",
+     "q": "Enter the larger solution.",
+     "label": "larger \\(x=\\)",
+     "ans": 1.7059,
+     "tol": 0.006,
+     "target": 150,
+     "line": "\\(y_1=3\\sin(2x-1)\\), \\(y_2=2\\), window \\(0\\le x\\le\\pi\\); \\(x=0.865,\\ 1.71\\)",
+     "steps": [
+      [
+       "Mode",
+       "Radians."
+      ],
+      [
+       "Graphs",
+       "\\(y_1=3\\sin(2x-1)\\), \\(y_2=2\\); window \\(0\\le x\\le\\pi\\)."
+      ],
+      [
+       "Crossings",
+       "Intersection at each: \\(x=0.865,\\ 1.71\\)."
+      ],
+      [
+       "Answer",
+       "All solutions in the interval, 3 s.f.: \\(x=0.865,\\ 1.71\\). Enter the larger solution."
+      ]
+     ],
+     "wrongs": [
+      [
+       0.8649,
+       "Smaller solution."
+      ],
+      [
+       1.2297,
+       "The \\(-1\\) inside was dropped."
+      ],
+      [
+       4.847,
+       "Outside the interval."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "Switch to degrees mode.",
+      "Second solution is \\(180^\\circ\\) minus the first."
+     ],
+     "parts": [
+      [
+       "c",
+       "Mode?",
+       [
+        "Degrees",
+        "Radians",
+        "Does not matter"
+       ],
+       0,
+       "✓ The interval is \\(0\\le x\\le360\\): degrees.",
+       "✗ The interval is \\(0\\le x\\le360\\) and the equation has \\(x^\\circ\\): degrees mode."
+      ],
+      [
+       "c",
+       "Window?",
+       [
+        "Xmin \\(0\\), Xmax \\(360\\)",
+        "Xmin \\(0\\), Xmax \\(2\\pi\\)",
+        "Xmin \\(0\\), Xmax \\(180\\)"
+       ],
+       0,
+       "✓ Degrees: the window is \\(0\\) to \\(360\\).",
+       "✗ Degrees: the window is \\(0\\) to \\(360\\)."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => 2*Math.sin(x*Math.PI/180)"
+        },
+        {
+         "$fn": "(x) => 1.2"
+        }
+       ],
+       "xr": [
+        0,
+        360
+       ],
+       "yr": [
+        -3,
+        3
+       ],
+       "pts": [
+        [
+         36.87,
+         1.2,
+         "36.9"
+        ],
+        [
+         143.13,
+         1.2,
+         "x = ?"
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "C2 Degrees",
+     "given": "solve \\(2\\sin x^\\circ=1.2\\), \\(0\\le x\\le360\\)",
+     "givenNote": "",
+     "q": "Enter the larger solution.",
+     "label": "larger \\(x=\\)",
+     "ans": 143.13,
+     "tol": 0.6,
+     "target": 150,
+     "line": "\\(y_1=2\\sin x\\), \\(y_2=1.2\\), window \\(0\\le x\\le360\\); \\(x=36.9,\\ 143\\)",
+     "steps": [
+      [
+       "Mode",
+       "Degrees."
+      ],
+      [
+       "Graphs",
+       "\\(y_1=2\\sin x\\), \\(y_2=1.2\\); window \\(0\\le x\\le360\\)."
+      ],
+      [
+       "Crossings",
+       "Intersection at each: \\(x=36.9,\\ 143\\)."
+      ],
+      [
+       "Answer",
+       "All solutions in the interval, 3 s.f.: \\(x=36.9,\\ 143\\). Enter the larger solution."
+      ]
+     ],
+     "wrongs": [
+      [
+       36.87,
+       "Smaller solution."
+      ],
+      [
+       2.498,
+       "Radians mode; this question is in degrees."
+      ],
+      [
+       216.87,
+       "\\(217\\) is \\(180+36.9\\), the symmetry for a negative value. For a positive sine the second solution is \\(180-36.9=143\\)."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "Xmin is \\(-\\pi\\).",
+      "The two solutions are \\(\\pm\\) the same number."
+     ],
+     "parts": [
+      [
+       "c",
+       "Mode?",
+       [
+        "Radians",
+        "Degrees",
+        "Does not matter"
+       ],
+       0,
+       "✓ The interval is in radians.",
+       "✗ The interval is written with \\(\\pi\\): radians."
+      ],
+      [
+       "c",
+       "Window?",
+       [
+        "Xmin \\(-\\pi\\), Xmax \\(\\pi\\)",
+        "Xmin \\(0\\), Xmax \\(2\\pi\\)",
+        "Xmin \\(0\\), Xmax \\(\\pi\\)"
+       ],
+       0,
+       "✓ The interval starts at \\(-\\pi\\).",
+       "✗ The interval starts at \\(-\\pi\\)."
+      ],
+      [
+       "c",
+       "How many crossings do you expect?",
+       [
+        "Two, symmetric: \\(\\cos\\) is even, so \\(\\pm1.77\\)",
+        "One",
+        "Four"
+       ],
+       0,
+       "✓ \\(\\cos(-x)=\\cos x\\): the solutions are \\(\\pm1.77\\).",
+       "✗ \\(\\cos(-x)=\\cos x\\): the solutions are \\(\\pm1.77\\)."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => Math.cos(x)"
+        },
+        {
+         "$fn": "(x) => -0.2"
+        }
+       ],
+       "xr": [
+        -3.1416,
+        3.1416
+       ],
+       "yr": [
+        -1.5,
+        1.5
+       ],
+       "pts": [
+        [
+         -1.7722,
+         -0.2,
+         "x = ?"
+        ],
+        [
+         1.7722,
+         -0.2,
+         "1.77"
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "C3 Interval from −π to π",
+     "given": "solve \\(\\cos x=-0.2\\), \\(-\\pi\\le x\\le\\pi\\)",
+     "givenNote": "",
+     "q": "Enter the negative solution.",
+     "label": "negative \\(x=\\)",
+     "ans": -1.7722,
+     "tol": 0.006,
+     "target": 150,
+     "line": "\\(y_1=\\cos x\\), \\(y_2=-0.2\\), window \\(-\\pi\\le x\\le\\pi\\); \\(x=-1.77,\\ 1.77\\)",
+     "steps": [
+      [
+       "Mode",
+       "Radians."
+      ],
+      [
+       "Graphs",
+       "\\(y_1=\\cos x\\), \\(y_2=-0.2\\); window \\(-\\pi\\le x\\le\\pi\\)."
+      ],
+      [
+       "Crossings",
+       "Intersection at each: \\(x=-1.77,\\ 1.77\\)."
+      ],
+      [
+       "Answer",
+       "All solutions in the interval, 3 s.f.: \\(x=-1.77,\\ 1.77\\). Enter the negative solution."
+      ]
+     ],
+     "wrongs": [
+      [
+       1.7722,
+       "That is the positive one."
+      ],
+      [
+       4.511,
+       "\\(4.51\\) is a solution on \\(0\\le x\\le2\\pi\\), but outside \\(-\\pi\\le x\\le\\pi\\); subtract \\(2\\pi\\): \\(-1.77\\)."
+      ],
+      [
+       -1.369,
+       "\\(-1.37\\) solves \\(\\cos x=+0.2\\)."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "Period \\(\\tfrac{2\\pi}{3}\\), so three periods.",
+      "Largest crossing near \\(4.98\\)."
+     ],
+     "parts": [
+      [
+       "c",
+       "Mode?",
+       [
+        "Radians",
+        "Degrees",
+        "Does not matter"
+       ],
+       0,
+       "✓ The interval is in radians.",
+       "✗ The interval is written with \\(\\pi\\): radians."
+      ],
+      [
+       "c",
+       "How many crossings do you expect?",
+       [
+        "Six: period \\(\\tfrac{2\\pi}{3}\\), three periods, two each",
+        "Two",
+        "Three"
+       ],
+       0,
+       "✓ Period \\(\\tfrac{2\\pi}{3}\\): three periods in \\(0\\le x\\le2\\pi\\), two crossings each: six.",
+       "✗ Period \\(\\tfrac{2\\pi}{3}\\): three periods in \\(0\\le x\\le2\\pi\\), two crossings each: six."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => Math.sin(3*x)"
+        },
+        {
+         "$fn": "(x) => 0.7"
+        }
+       ],
+       "xr": [
+        0,
+        6.2832
+       ],
+       "yr": [
+        -1.5,
+        1.5
+       ],
+       "pts": [
+        [
+         0.2585,
+         0.7,
+         ""
+        ],
+        [
+         0.7887,
+         0.7,
+         ""
+        ],
+        [
+         2.3529,
+         0.7,
+         ""
+        ],
+        [
+         2.8831,
+         0.7,
+         ""
+        ],
+        [
+         4.4473,
+         0.7,
+         ""
+        ],
+        [
+         4.9775,
+         0.7,
+         "x = ?"
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "C4 Triple angle: count them",
+     "given": "solve \\(\\sin3x=0.7\\), \\(0\\le x\\le2\\pi\\)",
+     "givenNote": "",
+     "q": "Enter the number of solutions, then the largest.",
+     "label": "number of solutions \\(=\\)",
+     "label2": "largest \\(x=\\)",
+     "ans": 6,
+     "ans2": 4.9775,
+     "tol": 0.01,
+     "target": 180,
+     "line": "\\(y_1=\\sin3x\\), \\(y_2=0.7\\), window \\(0\\le x\\le2\\pi\\); \\(x=0.258,\\ 0.789,\\ 2.35,\\ 2.88,\\ 4.45,\\ 4.98\\)",
+     "steps": [
+      [
+       "Mode",
+       "Radians."
+      ],
+      [
+       "Graphs",
+       "\\(y_1=\\sin3x\\), \\(y_2=0.7\\); window \\(0\\le x\\le2\\pi\\)."
+      ],
+      [
+       "Crossings",
+       "Intersection at each: \\(x=0.258,\\ 0.789,\\ 2.35,\\ 2.88,\\ 4.45,\\ 4.98\\). Six crossings: three periods, two each."
+      ],
+      [
+       "Answer",
+       "All solutions in the interval, 3 s.f.: \\(x=0.258,\\ 0.789,\\ 2.35,\\ 2.88,\\ 4.45,\\ 4.98\\). Enter the number of solutions, then the largest."
+      ]
+     ],
+     "wrongs": [
+      [
+       2,
+       "Six: \\(\\sin3x\\) completes three periods, two crossings each."
+      ],
+      [
+       3,
+       "Six, not three: two crossings in each of three periods."
+      ]
+     ]
+    }
+   ],
+   [
+    {
+     "parts": [
+      [
+       "c",
+       "Mode?",
+       [
+        "Radians",
+        "Degrees",
+        "Does not matter"
+       ],
+       0,
+       "✓ The interval is in radians.",
+       "✗ The interval is written with \\(\\pi\\): radians."
+      ],
+      [
+       "c",
+       "Which two graphs?",
+       [
+        "\\(y_1=\\sin x\\) and \\(y_2=0.7\\)",
+        "\\(y_1=\\sin x-0.7\\) and \\(y_2=0.7\\)",
+        "\\(y_1=x\\) and \\(y_2=0.7\\)"
+       ],
+       0,
+       "✓ Each side as written.",
+       "✗ Graph each side of the equation exactly as written: \\(y_1=\\sin x\\) and \\(y_2=0.7\\)."
+      ],
+      [
+       "c",
+       "How many crossings do you expect?",
+       [
+        "Two",
+        "One",
+        "Four"
+       ],
+       0,
+       "✓ One period, two crossings.",
+       "✗ One period, two crossings."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => Math.sin(x)"
+        },
+        {
+         "$fn": "(x) => 0.7"
+        }
+       ],
+       "xr": [
+        0,
+        6.2832
+       ],
+       "yr": [
+        -1.5,
+        1.5
+       ],
+       "pts": [
+        [
+         0.7754,
+         0.7,
+         "0.775"
+        ],
+        [
+         2.3662,
+         0.7,
+         "x = ?"
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "D1 sin equal to a value",
+     "given": "solve \\(\\sin x=0.7\\), \\(0\\le x\\le2\\pi\\)",
+     "givenNote": "",
+     "q": "Enter the larger solution.",
+     "label": "larger \\(x=\\)",
+     "ans": 2.3662,
+     "tol": 0.006,
+     "target": 90,
+     "line": "\\(y_1=\\sin x\\), \\(y_2=0.7\\), window \\(0\\le x\\le2\\pi\\); \\(x=0.775,\\ 2.37\\)",
+     "steps": [
+      [
+       "Mode",
+       "Radians."
+      ],
+      [
+       "Graphs",
+       "\\(y_1=\\sin x\\), \\(y_2=0.7\\); window \\(0\\le x\\le2\\pi\\)."
+      ],
+      [
+       "Crossings",
+       "Intersection at each: \\(x=0.775,\\ 2.37\\)."
+      ],
+      [
+       "Answer",
+       "All solutions in the interval, 3 s.f.: \\(x=0.775,\\ 2.37\\). Enter the larger solution."
+      ]
+     ],
+     "wrongs": [
+      [
+       0.7754,
+       "Smaller solution."
+      ],
+      [
+       135.6,
+       "Degrees mode."
+      ],
+      [
+       3.917,
+       "\\(3.92\\) is \\(\\pi+0.775\\): wrong symmetry. Second solution \\(\\pi-0.775=2.37\\)."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "Mode?",
+       [
+        "Radians",
+        "Degrees",
+        "Does not matter"
+       ],
+       0,
+       "✓ The interval is in radians.",
+       "✗ The interval is written with \\(\\pi\\): radians."
+      ],
+      [
+       "c",
+       "Which graphs?",
+       [
+        "\\(y_1=2\\cos x-1\\) and \\(y_2=0\\) (or the zeros of \\(y_1\\))",
+        "\\(y_1=\\cos x\\) and \\(y_2=-1\\)",
+        "\\(y_1=2\\cos x\\) and \\(y_2=-1\\)"
+       ],
+       0,
+       "✓",
+       "✗ Left side against \\(y=0\\), or \\(\\cos x=\\tfrac12\\)."
+      ],
+      [
+       "c",
+       "How many crossings do you expect?",
+       [
+        "Two",
+        "One",
+        "Four"
+       ],
+       0,
+       "✓ One period of \\(\\cos x\\), two crossings.",
+       "✗ One period of \\(\\cos x\\), two crossings."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => 2*Math.cos(x)-1"
+        },
+        {
+         "$fn": "(x) => 0"
+        }
+       ],
+       "xr": [
+        0,
+        6.2832
+       ],
+       "yr": [
+        -4,
+        2
+       ],
+       "pts": [
+        [
+         1.0472,
+         0,
+         "1.05"
+        ],
+        [
+         5.236,
+         0,
+         "x = ?"
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "D2 Rearrange first (or not)",
+     "given": "solve \\(2\\cos x-1=0\\), \\(0\\le x\\le2\\pi\\)",
+     "givenNote": "",
+     "q": "Enter the larger solution.",
+     "label": "larger \\(x=\\)",
+     "ans": 5.236,
+     "tol": 0.006,
+     "target": 90,
+     "line": "\\(y_1=2\\cos x-1\\), \\(y_2=0\\), window \\(0\\le x\\le2\\pi\\); \\(x=1.05,\\ 5.24\\)",
+     "steps": [
+      [
+       "Mode",
+       "Radians."
+      ],
+      [
+       "Graphs",
+       "\\(y_1=2\\cos x-1\\), \\(y_2=0\\); window \\(0\\le x\\le2\\pi\\)."
+      ],
+      [
+       "Crossings",
+       "Intersection at each: \\(x=1.05,\\ 5.24\\)."
+      ],
+      [
+       "Answer",
+       "All solutions in the interval, 3 s.f.: \\(x=1.05,\\ 5.24\\). Enter the larger solution."
+      ]
+     ],
+     "wrongs": [
+      [
+       1.0472,
+       "Smaller solution."
+      ],
+      [
+       2.0944,
+       "\\(2.09\\) solves \\(\\cos x=-\\tfrac12\\): sign slip."
+      ],
+      [
+       300,
+       "Degrees mode."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "Mode?",
+       [
+        "Radians",
+        "Degrees",
+        "Does not matter"
+       ],
+       0,
+       "✓ The interval is in radians.",
+       "✗ The interval is written with \\(\\pi\\): radians."
+      ],
+      [
+       "c",
+       "Window?",
+       [
+        "Xmin \\(0\\), Xmax \\(2\\pi\\)",
+        "Xmin \\(0\\), Xmax \\(\\pi\\)",
+        "Xmin \\(-10\\), Xmax \\(10\\)"
+       ],
+       0,
+       "✓ The window is the interval.",
+       "✗ The window is the interval."
+      ],
+      [
+       "c",
+       "How many crossings do you expect?",
+       [
+        "Four: period \\(\\pi\\), two periods, two each",
+        "Two",
+        "Eight"
+       ],
+       0,
+       "✓ Period \\(\\pi\\): four crossings in \\(0\\le x\\le2\\pi\\).",
+       "✗ Period \\(\\pi\\): four crossings in \\(0\\le x\\le2\\pi\\)."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => Math.cos(2*x)"
+        },
+        {
+         "$fn": "(x) => 0.3"
+        }
+       ],
+       "xr": [
+        0,
+        6.2832
+       ],
+       "yr": [
+        -1.5,
+        1.5
+       ],
+       "pts": [
+        [
+         0.6331,
+         0.3,
+         ""
+        ],
+        [
+         2.5085,
+         0.3,
+         ""
+        ],
+        [
+         3.7746,
+         0.3,
+         ""
+        ],
+        [
+         5.6501,
+         0.3,
+         "x = ?"
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "D3 Double angle: four solutions",
+     "given": "solve \\(\\cos2x=0.3\\), \\(0\\le x\\le2\\pi\\)",
+     "givenNote": "",
+     "q": "Enter the number of solutions, then the largest one.",
+     "label": "number of solutions \\(=\\)",
+     "label2": "largest \\(x=\\)",
+     "ans": 4,
+     "ans2": 5.6501,
+     "tol": 0.01,
+     "target": 110,
+     "line": "\\(y_1=\\cos2x\\), \\(y_2=0.3\\), window \\(0\\le x\\le2\\pi\\); \\(x=0.633,\\ 2.51,\\ 3.77,\\ 5.65\\)",
+     "steps": [
+      [
+       "Mode",
+       "Radians."
+      ],
+      [
+       "Graphs",
+       "\\(y_1=\\cos2x\\), \\(y_2=0.3\\); window \\(0\\le x\\le2\\pi\\)."
+      ],
+      [
+       "Crossings",
+       "Intersection at each: \\(x=0.633,\\ 2.51,\\ 3.77,\\ 5.65\\). Two per period of \\(\\pi\\)."
+      ],
+      [
+       "Answer",
+       "All solutions in the interval, 3 s.f.: \\(x=0.633,\\ 2.51,\\ 3.77,\\ 5.65\\). Enter the number of solutions, then the largest one."
+      ]
+     ],
+     "wrongs": [
+      [
+       2,
+       "Four: the pattern repeats after \\(\\pi\\)."
+      ],
+      [
+       8,
+       "Four."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "Mode?",
+       [
+        "Radians",
+        "Degrees",
+        "Does not matter"
+       ],
+       0,
+       "✓ The interval is in radians.",
+       "✗ The interval is written with \\(\\pi\\): radians."
+      ],
+      [
+       "c",
+       "How many crossings do you expect?",
+       [
+        "Two: one per period of \\(\\pi\\)",
+        "Four",
+        "One"
+       ],
+       0,
+       "✓ One crossing per period of \\(\\tan\\).",
+       "✗ One crossing per period of \\(\\tan\\)."
+      ],
+      [
+       "c",
+       "The solutions of \\(\\tan x=k\\) differ by",
+       [
+        "\\(\\pi\\)",
+        "\\(2\\pi\\)",
+        "\\(\\tfrac{\\pi}{2}\\)"
+       ],
+       0,
+       "✓",
+       "✗ \\(\\pi\\)."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => Math.abs(Math.cos(x)) < 0.03 ? NaN : Math.tan(x)"
+        },
+        {
+         "$fn": "(x) => 2.5"
+        }
+       ],
+       "xr": [
+        0,
+        6.2832
+       ],
+       "yr": [
+        -6,
+        6
+       ],
+       "pts": [
+        [
+         1.1903,
+         2.5,
+         "1.19",
+         "end"
+        ],
+        [
+         4.3319,
+         2.5,
+         "x = ?",
+         "end"
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "D4 tan",
+     "given": "solve \\(\\tan x=2.5\\), \\(0\\le x\\le2\\pi\\)",
+     "givenNote": "",
+     "q": "Enter the larger solution.",
+     "label": "larger \\(x=\\)",
+     "ans": 4.3319,
+     "tol": 0.006,
+     "target": 90,
+     "line": "\\(y_1=\\tan x\\), \\(y_2=2.5\\), window \\(0\\le x\\le2\\pi\\); \\(x=1.19,\\ 4.33\\)",
+     "steps": [
+      [
+       "Mode",
+       "Radians."
+      ],
+      [
+       "Graphs",
+       "\\(y_1=\\tan x\\), \\(y_2=2.5\\); window \\(0\\le x\\le2\\pi\\)."
+      ],
+      [
+       "Crossings",
+       "Intersection at each: \\(x=1.19,\\ 4.33\\)."
+      ],
+      [
+       "Answer",
+       "All solutions in the interval, 3 s.f.: \\(x=1.19,\\ 4.33\\). Enter the larger solution."
+      ]
+     ],
+     "wrongs": [
+      [
+       1.1903,
+       "Smaller solution."
+      ],
+      [
+       1.9513,
+       "\\(1.95\\) is \\(\\pi-1.19\\): that symmetry is for sine, not tan. Add \\(\\pi\\): \\(4.33\\)."
+      ],
+      [
+       248.2,
+       "Degrees mode."
+      ]
+     ]
+    },
+    {
+     "parts": [
+      [
+       "c",
+       "Mode?",
+       [
+        "Radians",
+        "Degrees",
+        "Does not matter"
+       ],
+       0,
+       "✓ The interval is in radians.",
+       "✗ The interval is written with \\(\\pi\\): radians."
+      ],
+      [
+       "c",
+       "Which equation?",
+       [
+        "\\(5\\sin\\left(\\tfrac{\\pi t}{6}\\right)+12=14.5\\)",
+        "\\(5\\sin\\left(\\tfrac{\\pi t}{6}\\right)=14.5\\)",
+        "\\(\\sin t=14.5\\)"
+       ],
+       0,
+       "✓",
+       "✗ Set \\(h(t)=14.5\\)."
+      ],
+      [
+       "c",
+       "Window?",
+       [
+        "Xmin \\(0\\), Xmax \\(24\\)",
+        "Xmin \\(0\\), Xmax \\(12\\)",
+        "Xmin \\(0\\), Xmax \\(2\\pi\\)"
+       ],
+       0,
+       "✓ The interval is the full day, \\(0\\le t\\le24\\).",
+       "✗ The interval is the full day, \\(0\\le t\\le24\\)."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => 5*Math.sin(Math.PI*x/6)+12"
+        },
+        {
+         "$fn": "(x) => 14.5"
+        }
+       ],
+       "xr": [
+        0,
+        24
+       ],
+       "yr": [
+        4,
+        20
+       ],
+       "pts": [
+        [
+         1,
+         14.5,
+         ""
+        ],
+        [
+         5,
+         14.5,
+         ""
+        ],
+        [
+         13,
+         14.5,
+         ""
+        ],
+        [
+         17,
+         14.5,
+         "t = ?"
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "D5 Model: tide",
+     "given": "\\(h(t)=5\\sin\\left(\\tfrac{\\pi t}{6}\\right)+12\\), \\(0\\le t\\le24\\)",
+     "givenNote": "depth of water in metres, \\(t\\) hours after midnight",
+     "q": "Find the times at which the depth is \\(14.5\\) m. Enter the number of times, then the last one.",
+     "label": "number of times \\(=\\)",
+     "label2": "last \\(t=\\)",
+     "ans": 4,
+     "ans2": 17,
+     "tol": 0.01,
+     "target": 110,
+     "line": "\\(y_1=5\\sin(\\pi t/6)+12\\), \\(y_2=14.5\\), window \\(0\\le t\\le24\\); \\(x=1,\\ 5,\\ 13,\\ 17\\)",
+     "steps": [
+      [
+       "Mode",
+       "Degrees."
+      ],
+      [
+       "Graphs",
+       "\\(y_1=5\\sin(\\pi t/6)+12\\), \\(y_2=14.5\\); window \\(0\\le t\\le24\\)."
+      ],
+      [
+       "Crossings",
+       "Intersection at each: \\(x=1,\\ 5,\\ 13,\\ 17\\)."
+      ],
+      [
+       "Answer",
+       "All solutions in the interval, 3 s.f.: \\(x=1,\\ 5,\\ 13,\\ 17\\). Find the times at which the depth is \\(14.5\\) m. Enter the number of times, then the last one."
+      ]
+     ],
+     "wrongs": [
+      [
+       2,
+       "Period \\(12\\) hours, so the two times in the first \\(12\\) hours happen again: four."
+      ],
+      [
+       17,
+       "That is the last time; the first box asks how many."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "Type \\(2\\sin(3x+1)\\) exactly.",
+      "Crossings near \\(0.54\\), \\(1.94\\) and \\(2.63\\)."
+     ],
+     "parts": [
+      [
+       "c",
+       "Mode?",
+       [
+        "Radians",
+        "Degrees",
+        "Does not matter"
+       ],
+       0,
+       "✓ The interval is in radians.",
+       "✗ The interval is written with \\(\\pi\\): radians."
+      ],
+      [
+       "c",
+       "Window?",
+       [
+        "Xmin \\(0\\), Xmax \\(\\pi\\)",
+        "Xmin \\(0\\), Xmax \\(2\\pi\\)",
+        "Xmin \\(-\\pi\\), Xmax \\(\\pi\\)"
+       ],
+       0,
+       "✓ The interval is \\(0\\le x\\le\\pi\\).",
+       "✗ The interval is \\(0\\le x\\le\\pi\\)."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => 2*Math.sin(3*x+1)"
+        },
+        {
+         "$fn": "(x) => 1"
+        }
+       ],
+       "xr": [
+        0,
+        3.1416
+       ],
+       "yr": [
+        -3,
+        3
+       ],
+       "pts": [
+        [
+         0.5393,
+         1,
+         ""
+        ],
+        [
+         1.9356,
+         1,
+         ""
+        ],
+        [
+         2.6337,
+         1,
+         "x = ?"
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "C1 Shift inside",
+     "given": "solve \\(2\\sin(3x+1)=1\\), \\(0\\le x\\le\\pi\\)",
+     "givenNote": "",
+     "q": "Enter the number of solutions, then the largest.",
+     "label": "number of solutions \\(=\\)",
+     "label2": "largest \\(x=\\)",
+     "ans": 3,
+     "ans2": 2.6337,
+     "tol": 0.01,
+     "target": 150,
+     "line": "\\(y_1=2\\sin(3x+1)\\), \\(y_2=1\\), window \\(0\\le x\\le\\pi\\); \\(x=0.539,\\ 1.94,\\ 2.63\\)",
+     "steps": [
+      [
+       "Mode",
+       "Radians."
+      ],
+      [
+       "Graphs",
+       "\\(y_1=2\\sin(3x+1)\\), \\(y_2=1\\); window \\(0\\le x\\le\\pi\\)."
+      ],
+      [
+       "Crossings",
+       "Intersection at each: \\(x=0.539,\\ 1.94,\\ 2.63\\)."
+      ],
+      [
+       "Answer",
+       "All solutions in the interval, 3 s.f.: \\(x=0.539,\\ 1.94,\\ 2.63\\). Enter the number of solutions, then the largest."
+      ]
+     ],
+     "wrongs": [
+      [
+       2,
+       "Three: the \\(+1\\) shifts the curve so that a third crossing just fits before \\(\\pi\\)."
+      ],
+      [
+       4,
+       "Three in this interval."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "Degrees mode.",
+      "Second solution is \\(360^\\circ\\) minus the first."
+     ],
+     "parts": [
+      [
+       "c",
+       "Mode?",
+       [
+        "Degrees",
+        "Radians",
+        "Does not matter"
+       ],
+       0,
+       "✓ The interval is \\(0\\le x\\le360\\): degrees.",
+       "✗ The interval is \\(0\\le x\\le360\\) and the equation has \\(x^\\circ\\): degrees mode."
+      ],
+      [
+       "c",
+       "Window?",
+       [
+        "Xmin \\(0\\), Xmax \\(360\\)",
+        "Xmin \\(0\\), Xmax \\(2\\pi\\)",
+        "Xmin \\(0\\), Xmax \\(180\\)"
+       ],
+       0,
+       "✓ Degrees: \\(0\\) to \\(360\\).",
+       "✗ Degrees: \\(0\\) to \\(360\\)."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => 3*Math.cos(x*Math.PI/180)"
+        },
+        {
+         "$fn": "(x) => 1.8"
+        }
+       ],
+       "xr": [
+        0,
+        360
+       ],
+       "yr": [
+        -4,
+        4
+       ],
+       "pts": [
+        [
+         53.13,
+         1.8,
+         "53.1"
+        ],
+        [
+         306.87,
+         1.8,
+         "x = ?"
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "C2 Degrees",
+     "given": "solve \\(3\\cos x^\\circ=1.8\\), \\(0\\le x\\le360\\)",
+     "givenNote": "",
+     "q": "Enter the larger solution.",
+     "label": "larger \\(x=\\)",
+     "ans": 306.87,
+     "tol": 0.6,
+     "target": 150,
+     "line": "\\(y_1=3\\cos x\\), \\(y_2=1.8\\), window \\(0\\le x\\le360\\); \\(x=53.1,\\ 307\\)",
+     "steps": [
+      [
+       "Mode",
+       "Degrees."
+      ],
+      [
+       "Graphs",
+       "\\(y_1=3\\cos x\\), \\(y_2=1.8\\); window \\(0\\le x\\le360\\)."
+      ],
+      [
+       "Crossings",
+       "Intersection at each: \\(x=53.1,\\ 307\\)."
+      ],
+      [
+       "Answer",
+       "All solutions in the interval, 3 s.f.: \\(x=53.1,\\ 307\\). Enter the larger solution."
+      ]
+     ],
+     "wrongs": [
+      [
+       53.13,
+       "Smaller solution."
+      ],
+      [
+       126.87,
+       "\\(127\\) is \\(180-53.1\\): that symmetry is for sine. For cosine the second solution is \\(360-53.1=307\\)."
+      ],
+      [
+       5.356,
+       "Radians mode."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "Xmin is \\(-\\pi\\).",
+      "Both solutions are negative."
+     ],
+     "parts": [
+      [
+       "c",
+       "Mode?",
+       [
+        "Radians",
+        "Degrees",
+        "Does not matter"
+       ],
+       0,
+       "✓ The interval is in radians.",
+       "✗ The interval is written with \\(\\pi\\): radians."
+      ],
+      [
+       "c",
+       "Window?",
+       [
+        "Xmin \\(-\\pi\\), Xmax \\(\\pi\\)",
+        "Xmin \\(0\\), Xmax \\(2\\pi\\)",
+        "Xmin \\(0\\), Xmax \\(\\pi\\)"
+       ],
+       0,
+       "✓ The interval starts at \\(-\\pi\\).",
+       "✗ The interval starts at \\(-\\pi\\)."
+      ],
+      [
+       "c",
+       "How many crossings do you expect?",
+       [
+        "Two, both negative",
+        "One",
+        "Two, one of each sign"
+       ],
+       0,
+       "✓ A negative sine value happens where the curve is below the axis: \\(-\\pi<x<0\\).",
+       "✗ A negative sine value happens where the curve is below the axis: \\(-\\pi<x<0\\)."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => Math.sin(x)"
+        },
+        {
+         "$fn": "(x) => -0.35"
+        }
+       ],
+       "xr": [
+        -3.1416,
+        3.1416
+       ],
+       "yr": [
+        -1.5,
+        1.5
+       ],
+       "pts": [
+        [
+         -2.784,
+         -0.35,
+         "−2.78"
+        ],
+        [
+         -0.3576,
+         -0.35,
+         "x = ?",
+         "end"
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "C3 Interval from −π to π",
+     "given": "solve \\(\\sin x=-0.35\\), \\(-\\pi\\le x\\le\\pi\\)",
+     "givenNote": "",
+     "q": "Enter the solution closer to zero.",
+     "label": "\\(x=\\)",
+     "ans": -0.3576,
+     "tol": 0.006,
+     "target": 150,
+     "line": "\\(y_1=\\sin x\\), \\(y_2=-0.35\\), window \\(-\\pi\\le x\\le\\pi\\); \\(x=-2.78,\\ -0.358\\)",
+     "steps": [
+      [
+       "Mode",
+       "Radians."
+      ],
+      [
+       "Graphs",
+       "\\(y_1=\\sin x\\), \\(y_2=-0.35\\); window \\(-\\pi\\le x\\le\\pi\\)."
+      ],
+      [
+       "Crossings",
+       "Intersection at each: \\(x=-2.78,\\ -0.358\\)."
+      ],
+      [
+       "Answer",
+       "All solutions in the interval, 3 s.f.: \\(x=-2.78,\\ -0.358\\). Enter the solution closer to zero."
+      ]
+     ],
+     "wrongs": [
+      [
+       -2.784,
+       "That is the one further from zero."
+      ],
+      [
+       5.9256,
+       "\\(5.93\\) is a solution on \\(0\\le x\\le2\\pi\\), outside this interval; subtract \\(2\\pi\\): \\(-0.358\\)."
+      ],
+      [
+       0.3576,
+       "Sign: \\(\\sin(0.358)=+0.35\\)."
+      ]
+     ]
+    },
+    {
+     "hard": true,
+     "hints": [
+      "Period \\(\\tfrac{\\pi}{2}\\), four periods.",
+      "Smallest crossing near \\(0.34\\)."
+     ],
+     "parts": [
+      [
+       "c",
+       "Mode?",
+       [
+        "Radians",
+        "Degrees",
+        "Does not matter"
+       ],
+       0,
+       "✓ The interval is in radians.",
+       "✗ The interval is written with \\(\\pi\\): radians."
+      ],
+      [
+       "c",
+       "How many crossings do you expect?",
+       [
+        "Eight: period \\(\\tfrac{\\pi}{2}\\), four periods, two each",
+        "Two",
+        "Four"
+       ],
+       0,
+       "✓ Period \\(\\tfrac{\\pi}{2}\\): four periods, two crossings each: eight.",
+       "✗ Period \\(\\tfrac{\\pi}{2}\\): four periods, two crossings each: eight."
+      ]
+     ],
+     "fig": {
+      "graph": {
+       "fns": [
+        {
+         "$fn": "(x) => Math.cos(4*x)"
+        },
+        {
+         "$fn": "(x) => 0.2"
+        }
+       ],
+       "xr": [
+        0,
+        6.2832
+       ],
+       "yr": [
+        -1.5,
+        1.5
+       ],
+       "pts": [
+        [
+         0.3424,
+         0.2,
+         "x = ?"
+        ],
+        [
+         1.2284,
+         0.2,
+         ""
+        ],
+        [
+         1.9132,
+         0.2,
+         ""
+        ],
+        [
+         2.7992,
+         0.2,
+         ""
+        ],
+        [
+         3.484,
+         0.2,
+         ""
+        ],
+        [
+         4.37,
+         0.2,
+         ""
+        ],
+        [
+         5.0548,
+         0.2,
+         ""
+        ],
+        [
+         5.9408,
+         0.2,
+         ""
+        ]
+       ]
+      },
+      "caption": ""
+     },
+     "name": "C4 Quadruple angle: count them",
+     "given": "solve \\(\\cos4x=0.2\\), \\(0\\le x\\le2\\pi\\)",
+     "givenNote": "",
+     "q": "Enter the number of solutions, then the smallest.",
+     "label": "number of solutions \\(=\\)",
+     "label2": "smallest \\(x=\\)",
+     "ans": 8,
+     "ans2": 0.3424,
+     "tol": 0.01,
+     "target": 180,
+     "line": "\\(y_1=\\cos4x\\), \\(y_2=0.2\\), window \\(0\\le x\\le2\\pi\\); \\(x=0.342,\\ 1.23,\\ 1.91,\\ 2.80,\\ 3.48,\\ 4.37,\\ 5.05,\\ 5.94\\)",
+     "steps": [
+      [
+       "Mode",
+       "Radians."
+      ],
+      [
+       "Graphs",
+       "\\(y_1=\\cos4x\\), \\(y_2=0.2\\); window \\(0\\le x\\le2\\pi\\)."
+      ],
+      [
+       "Crossings",
+       "Intersection at each: \\(x=0.342,\\ 1.23,\\ 1.91,\\ 2.80,\\ 3.48,\\ 4.37,\\ 5.05,\\ 5.94\\). Eight crossings: four periods, two each."
+      ],
+      [
+       "Answer",
+       "All solutions in the interval, 3 s.f.: \\(x=0.342,\\ 1.23,\\ 1.91,\\ 2.80,\\ 3.48,\\ 4.37,\\ 5.05,\\ 5.94\\). Enter the number of solutions, then the smallest."
+      ]
+     ],
+     "wrongs": [
+      [
+       4,
+       "Eight: four periods, two crossings each."
+      ],
+      [
+       2,
+       "Eight."
+      ]
+     ]
+    }
+   ]
+  ],
+  "rules": {
+   "coreItems": 5,
+   "challengeItems": 4,
+   "tries": 2,
+   "passCore": 4
+  }
+ },
+ "apply": {
+  "questions": [
+   {
+    "max": 8,
+    "stem": "Let \\(f(x)=2\\sin2x\\), for \\(0\\le x\\le2\\pi\\).",
+    "parts": [
+     {
+      "label": "(a)",
+      "marks": 2,
+      "text": "Write down the amplitude and the period of \\(f\\).",
+      "ansLabel": "amplitude \\(=\\)",
+      "ansLabel2": "period \\(=\\)",
+      "ans": 2,
+      "ans2": 3.1416,
+      "tol": 0.006,
+      "fig": {
+       "kind": "graph",
+       "fns": [
+        {
+         "$fn": "(x) => 2 * Math.sin(2 * x)"
+        }
+       ],
+       "xr": [
+        0,
+        6.2832
+       ],
+       "yr": [
+        -3,
+        3
+       ],
+       "pts": [
+        [
+         0.7854,
+         2,
+         "max 2"
+        ],
+        [
+         3.927,
+         2,
+         "max 2 again"
+        ],
+        [
+         2.3562,
+         -2,
+         ""
+        ]
+       ],
+       "notes": [
+        [
+         1.75,
+         -2.65,
+         "min −2",
+         "#B45309"
+        ]
+       ]
+      },
+      "figCap": "Amplitude 2 (from −2 to 2); one full wave from 0 to π, so period π.",
+      "ms": [
+       [
+        "A1",
+        "amplitude \\(2\\)"
+       ],
+       [
+        "A1",
+        "period \\(\\pi\\)   (\\(=\\tfrac{2\\pi}{2}\\), \\(3.14\\))"
+       ]
+      ],
+      "wrongs": [
+       [
+        6.2832,
+        "Period of \\(\\sin2x\\) is \\(\\tfrac{2\\pi}{2}=\\pi\\), not \\(2\\pi\\): the \\(2\\) inside halves the period."
+       ],
+       [
+        4,
+        "\\(4\\) is the distance from \\(-2\\) to \\(2\\); the amplitude is half that, \\(2\\)."
+       ]
+      ]
+     },
+     {
+      "label": "(b)",
+      "marks": 4,
+      "text": "Solve \\(f(x)=1\\) for \\(0\\le x\\le2\\pi\\). Enter the smallest and the largest solutions.",
+      "ansLabel": "smallest \\(x=\\)",
+      "ansLabel2": "largest \\(x=\\)",
+      "ans": 0.2618,
+      "ans2": 4.4506,
+      "tol": 0.006,
+      "fig": {
+       "kind": "graph",
+       "fns": [
+        {
+         "$fn": "(x) => 2 * Math.sin(2 * x)"
+        },
+        {
+         "$fn": "(x) => 1"
+        }
+       ],
+       "xr": [
+        0,
+        6.2832
+       ],
+       "yr": [
+        -3,
+        3
+       ],
+       "pts": [
+        [
+         0.2618,
+         1,
+         "0.262"
+        ],
+        [
+         1.309,
+         1,
+         "1.31"
+        ],
+        [
+         3.4034,
+         1,
+         "3.40"
+        ],
+        [
+         4.4506,
+         1,
+         "4.45"
+        ]
+       ]
+      },
+      "figCap": "y = 1 crosses the curve four times: two in each period.",
+      "ms": [
+       [
+        "M1",
+        "graphs of \\(y=2\\sin2x\\) and \\(y=1\\), radians, window \\(0\\le x\\le2\\pi\\)"
+       ],
+       [
+        "A1",
+        "\\(x=0.262\\) and \\(1.31\\)"
+       ],
+       [
+        "A1",
+        "\\(x=3.40\\) and \\(4.45\\)"
+       ],
+       [
+        "A1",
+        "all four, none outside the interval (exact: \\(\\tfrac{\\pi}{12},\\tfrac{5\\pi}{12},\\tfrac{13\\pi}{12},\\tfrac{17\\pi}{12}\\))"
+       ]
+      ],
+      "note": "Four solutions: \\(\\sin2x\\) has period \\(\\pi\\), two periods in the interval, two crossings each.",
+      "wrongs": [
+       [
+        1.309,
+        "\\(1.31\\) is the second solution; the smallest is \\(0.262\\)."
+       ],
+       [
+        0.5236,
+        "\\(0.524\\) solves \\(2\\sin x=1\\): the \\(2x\\) was dropped."
+       ],
+       [
+        15,
+        "Degrees mode."
+       ],
+       [
+        3.4034,
+        "\\(3.40\\) is the third; one more crossing at \\(4.45\\)."
+       ]
+      ]
+     },
+     {
+      "label": "(c)",
+      "marks": 2,
+      "text": "Find the values of \\(x\\) for which \\(f(x)=2\\). Enter the smaller, then the larger.",
+      "ansLabel": "smaller \\(x=\\)",
+      "ansLabel2": "larger \\(x=\\)",
+      "ans": 0.7854,
+      "ans2": 3.927,
+      "tol": 0.006,
+      "fig": {
+       "kind": "graph",
+       "fns": [
+        {
+         "$fn": "(x) => 2 * Math.sin(2 * x)"
+        },
+        {
+         "$fn": "(x) => 2"
+        }
+       ],
+       "xr": [
+        0,
+        6.2832
+       ],
+       "yr": [
+        -3,
+        3
+       ],
+       "pts": [
+        [
+         0.7854,
+         2,
+         "0.785"
+        ],
+        [
+         3.927,
+         2,
+         "3.93"
+        ]
+       ]
+      },
+      "figCap": "y = 2 touches the curve at its maxima: one per period, so two solutions.",
+      "ms": [
+       [
+        "A1",
+        "\\(x=0.785\\)   (\\(\\tfrac{\\pi}{4}\\))"
+       ],
+       [
+        "A1",
+        "\\(x=3.93\\)   (\\(\\tfrac{5\\pi}{4}\\)); only two, since \\(2\\) is the maximum value"
+       ]
+      ],
+      "note": "The line touches rather than crosses; the maximum tool gives the same points as intersection.",
+      "wrongs": [
+       [
+        1.5708,
+        "\\(1.57\\) is \\(\\tfrac{\\pi}{2}\\), where \\(\\sin x=1\\); here the argument is \\(2x\\), so \\(2x=\\tfrac{\\pi}{2}\\), \\(x=0.785\\)."
+       ],
+       [
+        45,
+        "Degrees mode."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "max": 8,
+    "stem": "The depth of water in a harbour, \\(h\\) metres, \\(t\\) hours after midnight, is modelled by \\(h(t)=3\\sin\\left(\\tfrac{\\pi t}{6}\\right)+5\\), for \\(0\\le t\\le24\\).",
+    "parts": [
+     {
+      "label": "(a)",
+      "marks": 1,
+      "text": "Write down the maximum depth of water.",
+      "ansLabel": "\\(h_{\\max}=\\)",
+      "ans": 8,
+      "tol": 0.01,
+      "fig": {
+       "kind": "graph",
+       "fns": [
+        {
+         "$fn": "(t) => 3 * Math.sin(Math.PI * t / 6) + 5"
+        }
+       ],
+       "xr": [
+        0,
+        24
+       ],
+       "yr": [
+        0,
+        10
+       ],
+       "pts": [
+        [
+         3,
+         8,
+         "max 8 m"
+        ],
+        [
+         15,
+         8,
+         ""
+        ]
+       ]
+      },
+      "figCap": "Maximum = 5 + 3 = 8 m, at t = 3 and t = 15.",
+      "ms": [
+       [
+        "A1",
+        "\\(8\\) m   (\\(5+3\\))"
+       ]
+      ],
+      "wrongs": [
+       [
+        3,
+        "\\(3\\) is the amplitude (and the time of the first high tide); the depth is \\(5+3=8\\)."
+       ],
+       [
+        5,
+        "\\(5\\) is the mean depth."
+       ]
+      ]
+     },
+     {
+      "label": "(b)",
+      "marks": 1,
+      "text": "Write down the period of the model.",
+      "ansLabel": "period \\(=\\)",
+      "ans": 12,
+      "tol": 0.01,
+      "fig": {
+       "kind": "graph",
+       "fns": [
+        {
+         "$fn": "(t) => 3 * Math.sin(Math.PI * t / 6) + 5"
+        }
+       ],
+       "xr": [
+        0,
+        24
+       ],
+       "yr": [
+        0,
+        10
+       ],
+       "pts": [
+        [
+         3,
+         8,
+         "t = 3"
+        ],
+        [
+         15,
+         8,
+         "t = 15"
+        ]
+       ]
+      },
+      "figCap": "One full tide cycle takes 12 hours: 2π ÷ (π/6).",
+      "ms": [
+       [
+        "A1",
+        "\\(12\\) hours   (\\(\\tfrac{2\\pi}{\\pi/6}\\))"
+       ]
+      ],
+      "wrongs": [
+       [
+        6,
+        "\\(6\\) is half the period; \\(\\tfrac{2\\pi}{\\pi/6}=12\\)."
+       ],
+       [
+        24,
+        "\\(24\\) is the interval, which holds two periods."
+       ]
+      ]
+     },
+     {
+      "label": "(c)",
+      "marks": 4,
+      "text": "Find the times during the day at which the depth is \\(6.5\\) m. Enter the number of times, then the last of them.",
+      "ansLabel": "number of times \\(=\\)",
+      "ansLabel2": "last \\(t=\\)",
+      "ans": 4,
+      "ans2": 17,
+      "tol": 0.01,
+      "fig": {
+       "kind": "graph",
+       "fns": [
+        {
+         "$fn": "(t) => 3 * Math.sin(Math.PI * t / 6) + 5"
+        },
+        {
+         "$fn": "(t) => 6.5"
+        }
+       ],
+       "xr": [
+        0,
+        24
+       ],
+       "yr": [
+        0,
+        10
+       ],
+       "pts": [
+        [
+         1,
+         6.5,
+         "1",
+         "end"
+        ],
+        [
+         5,
+         6.5,
+         "5"
+        ],
+        [
+         13,
+         6.5,
+         "13",
+         "end"
+        ],
+        [
+         17,
+         6.5,
+         "17"
+        ]
+       ]
+      },
+      "figCap": "y = 6.5 crosses twice per 12-hour period: four times in the day.",
+      "ms": [
+       [
+        "M1",
+        "\\(3\\sin\\left(\\tfrac{\\pi t}{6}\\right)+5=6.5\\), graphs with window \\(0\\le t\\le24\\), radians"
+       ],
+       [
+        "A1",
+        "\\(t=1\\) and \\(t=5\\)"
+       ],
+       [
+        "A1",
+        "\\(t=13\\) and \\(t=17\\)"
+       ],
+       [
+        "A1",
+        "stated as times: 01:00, 05:00, 13:00, 17:00"
+       ]
+      ],
+      "wrongs": [
+       [
+        2,
+        "Two in the first \\(12\\) hours, and the pattern repeats: four in the day."
+       ],
+       [
+        5,
+        "\\(5\\) is the second time; the last is \\(17\\)."
+       ]
+      ]
+     },
+     {
+      "label": "(d)",
+      "marks": 2,
+      "text": "A boat can only enter the harbour when the depth is at least \\(6.5\\) m. Find how long, in total, the boat can enter during the first \\(12\\) hours.",
+      "ansLabel": "hours \\(=\\)",
+      "ans": 4,
+      "tol": 0.01,
+      "ftFrom": 2,
+      "ft": {
+       "$fn": "(n, t) => 4"
+      },
+      "fig": {
+       "kind": "graph",
+       "fns": [
+        {
+         "$fn": "(t) => 3 * Math.sin(Math.PI * t / 6) + 5"
+        },
+        {
+         "$fn": "(t) => 6.5"
+        }
+       ],
+       "xr": [
+        0,
+        12
+       ],
+       "yr": [
+        0,
+        10
+       ],
+       "pts": [
+        [
+         1,
+         6.5,
+         "1",
+         "end"
+        ],
+        [
+         5,
+         6.5,
+         "t = 5"
+        ]
+       ],
+       "notes": [
+        [
+         3.3,
+         9.4,
+         "h ≥ 6.5 from t = 1 to t = 5",
+         "#0B6E69"
+        ]
+       ]
+      },
+      "figCap": "The curve is above 6.5 between t = 1 and t = 5: 4 hours.",
+      "ms": [
+       [
+        "M1",
+        "depth \\(\\ge6.5\\) between the crossings \\(t=1\\) and \\(t=5\\)"
+       ],
+       [
+        "A1",
+        "\\(4\\) hours"
+       ]
+      ],
+      "note": "Where the curve is above the line is the answer to an inequality: from one crossing to the next.",
+      "wrongs": [
+       [
+        8,
+        "\\(8\\) would be two windows; in the first \\(12\\) hours only \\(1\\le t\\le5\\) is above \\(6.5\\)."
+       ],
+       [
+        5,
+        "That is the end of the window; the length is \\(5-1=4\\)."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "max": 8,
+    "stem": "Let \\(g(x)=\\cos2x+2\\sin x\\), for \\(0\\le x\\le2\\pi\\).",
+    "parts": [
+     {
+      "label": "(a)",
+      "marks": 3,
+      "text": "Find the zeros of \\(g\\). Enter the smaller, then the larger.",
+      "ansLabel": "smaller \\(x=\\)",
+      "ansLabel2": "larger \\(x=\\)",
+      "ans": 3.5163,
+      "ans2": 5.9085,
+      "tol": 0.006,
+      "fig": {
+       "kind": "graph",
+       "fns": [
+        {
+         "$fn": "(x) => Math.cos(2 * x) + 2 * Math.sin(x)"
+        }
+       ],
+       "xr": [
+        0,
+        6.2832
+       ],
+       "yr": [
+        -3.5,
+        2
+       ],
+       "pts": [
+        [
+         3.5163,
+         0,
+         "3.52"
+        ],
+        [
+         5.9085,
+         0,
+         "5.91"
+        ]
+       ]
+      },
+      "figCap": "Zero tool at each crossing of the x-axis: two of them.",
+      "ms": [
+       [
+        "M1",
+        "zero tool (or intersection with \\(y=0\\)), radians, window \\(0\\le x\\le2\\pi\\)"
+       ],
+       [
+        "A1",
+        "\\(x=3.52\\)"
+       ],
+       [
+        "A1",
+        "\\(x=5.91\\)"
+       ]
+      ],
+      "note": "Not a single sine or cosine: no period shortcut. Count the crossings on the screen; here there are two.",
+      "wrongs": [
+       [
+        5.9085,
+        "That is the larger zero."
+       ],
+       [
+        201.5,
+        "Degrees mode."
+       ],
+       [
+        0,
+        "\\(g(0)=1\\), not zero."
+       ]
+      ]
+     },
+     {
+      "label": "(b)",
+      "marks": 2,
+      "text": "Find the maximum value of \\(g\\).",
+      "ansLabel": "\\(g_{\\max}=\\)",
+      "ans": 1.5,
+      "tol": 0.006,
+      "fig": {
+       "kind": "graph",
+       "fns": [
+        {
+         "$fn": "(x) => Math.cos(2 * x) + 2 * Math.sin(x)"
+        }
+       ],
+       "xr": [
+        0,
+        6.2832
+       ],
+       "yr": [
+        -3.5,
+        2
+       ],
+       "pts": [
+        [
+         0.5236,
+         1.5,
+         "(0.524, 1.5)"
+        ],
+        [
+         2.618,
+         1.5,
+         "(2.62, 1.5)"
+        ]
+       ]
+      },
+      "figCap": "Two equal peaks: the maximum value is 1.5.",
+      "ms": [
+       [
+        "M1",
+        "maximum tool on either peak"
+       ],
+       [
+        "A1",
+        "\\(1.5\\)   (at \\(x=\\tfrac{\\pi}{6}\\) and \\(\\tfrac{5\\pi}{6}\\))"
+       ]
+      ],
+      "wrongs": [
+       [
+        0.5236,
+        "That is the \\(x\\) of the first peak; the value is \\(y=1.5\\)."
+       ],
+       [
+        3,
+        "\\(\\cos2x\\) and \\(\\sin x\\) never both equal \\(1\\) at the same \\(x\\); the actual maximum is \\(1.5\\)."
+       ]
+      ]
+     },
+     {
+      "label": "(c)",
+      "marks": 3,
+      "text": "Solve \\(g(x)=-1\\) for \\(0\\le x\\le2\\pi\\). Enter the smaller, then the larger solution.",
+      "ansLabel": "smaller \\(x=\\)",
+      "ansLabel2": "larger \\(x=\\)",
+      "ans": 3.8078,
+      "ans2": 5.617,
+      "tol": 0.006,
+      "fig": {
+       "kind": "graph",
+       "fns": [
+        {
+         "$fn": "(x) => Math.cos(2 * x) + 2 * Math.sin(x)"
+        },
+        {
+         "$fn": "(x) => -1"
+        }
+       ],
+       "xr": [
+        0,
+        6.2832
+       ],
+       "yr": [
+        -3.5,
+        2
+       ],
+       "pts": [
+        [
+         3.8078,
+         -1,
+         "3.81",
+         "end"
+        ],
+        [
+         5.617,
+         -1,
+         "5.62"
+        ],
+        [
+         4.7124,
+         -3,
+         ""
+        ]
+       ],
+       "notes": [
+        [
+         3.9,
+         -3.3,
+         "min −3",
+         "#B45309"
+        ]
+       ]
+      },
+      "figCap": "y = −1 crosses the curve twice, either side of the trough at (4.71, −3).",
+      "ms": [
+       [
+        "M1",
+        "graphs of \\(y=g(x)\\) and \\(y=-1\\), intersection"
+       ],
+       [
+        "A1",
+        "\\(x=3.81\\)"
+       ],
+       [
+        "A1",
+        "\\(x=5.62\\)"
+       ]
+      ],
+      "wrongs": [
+       [
+        4.7124,
+        "\\(4.71\\) is the minimum point (\\(g=-3\\)), not a crossing of \\(y=-1\\)."
+       ],
+       [
+        3.5163,
+        "\\(3.52\\) is a zero of \\(g\\), where \\(g=0\\), not \\(-1\\)."
+       ],
+       [
+        218.2,
+        "Degrees mode."
+       ]
+      ]
+     }
+    ]
+   }
+  ],
+  "passMark": 17,
+  "maxMarks": 24,
+  "lostMarksHint": "most lost marks here are degrees mode, a missed crossing in the second period, and a solution reported from outside the interval."
+ }
+}
