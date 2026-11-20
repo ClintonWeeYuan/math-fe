@@ -1,4 +1,5 @@
 import { LatexText } from '@/components/diagnostic/LatexText.tsx'
+import { QuestionDiagram } from '@/components/diagnostic/QuestionDiagram.tsx'
 import type { DiagnosticQuestionResponse } from '@/client'
 
 type Props = {
@@ -24,10 +25,9 @@ export function StudentQuestionPreview({ question }: Props) {
 
             {question.diagramUrl && (
                 <div className="rounded-md border bg-gray-50 p-3">
-                    <img
+                    <QuestionDiagram
                         src={question.diagramUrl}
                         alt="Question diagram"
-                        className="max-h-72"
                     />
                 </div>
             )}

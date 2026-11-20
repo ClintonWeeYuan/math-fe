@@ -3,6 +3,7 @@ import type {
     StudentDiagnosticQuestionResponse,
 } from '@/client'
 import { LatexText } from '@/components/diagnostic/LatexText.tsx'
+import { QuestionDiagram } from '@/components/diagnostic/QuestionDiagram.tsx'
 import { Button } from '@/components/ui/button.tsx'
 import { cn } from '@/lib/utils.ts'
 import { Flag } from 'lucide-react'
@@ -74,10 +75,9 @@ export function QuestionPane({
 
             {question.diagramUrl && (
                 <div className="rounded-md border p-3 bg-gray-50">
-                    <img
+                    <QuestionDiagram
                         src={question.diagramUrl}
                         alt="Question diagram"
-                        className="max-h-80"
                     />
                 </div>
             )}
