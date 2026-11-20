@@ -30,7 +30,9 @@ import { Link } from 'react-router-dom'
 import useBillingStatusQuery from '@/hooks/billing/useBillingStatusQuery.ts'
 import useStartCheckoutMutation from '@/hooks/billing/useStartCheckoutMutation.ts'
 import { SeasonChoice } from '@/components/billing/SeasonChoice.tsx'
-import type { SeasonOffer } from '@/lib/billingApi.ts'
+import { SinglePaperOffer } from '@/components/billing/SinglePaperOffer.tsx'
+import type { PaperOffer, SeasonOffer } from '@/lib/billingApi.ts'
+import { singlePaperTier, TIER_COPY } from '@/lib/singlePapers.ts'
 import {
     rememberCheckoutIntent,
     takeCheckoutIntent,
@@ -207,7 +209,20 @@ export function SetInstructionsPage() {
     const seasons = allSeasons.filter((s) => s.test === setTest)
     const testName = setTest === 'tmua' ? 'TMUA' : 'ESAT'
     const covered = setTest !== undefined && coveredTests.includes(setTest)
-    const needsPass = !isFree && !covered
+    // A Challenge or Foundations paper, which can also be bought alone.
+    const tier = singlePaperTier(preview)
+    const ownsPaper = setId !== undefined && (billing?.ownedPapers ?? []).includes(setId)
+    const paperOffer = tier
+        ? billing?.paperOffers?.find((o) => o.test === setTest)
+        : undefined
+    const needsPass = !isFree && !covered && !ownsPaper
+    const buyPaper = () => {
+        if (!setId) return
+        trackEvent('unlock_clicked', {
+            metadata: { source: 'start_page', season: null, paper: setId },
+        })
+        startCheckout({ paperId: setId })
+    }
 
     return (
         <div className="mx-auto mt-12 flex max-w-2xl flex-col gap-6 px-4">
@@ -313,6 +328,7 @@ export function SetInstructionsPage() {
                     // Pass" to get them here. Saying only "sign in to start"
                     // would spring the price on them one screen later.
                     seasons={isFree ? [] : seasons}
+                    paperOffer={isFree ? undefined : paperOffer}
                     // The generated client predates this field. Regenerating
                     // it here would pull in a whole generator-version
                     // migration — 15 files — into a change about one page, so
@@ -360,23 +376,40 @@ export function SetInstructionsPage() {
                             <div className="flex flex-col gap-3">
                                 <p className="text-sm text-gray-600">
                                     {seasons.length > 0
-                                        ? `This paper is part of the ${testName} Season Pass.`
-                                        : `This paper is part of the ${testName} Season Pass, which isn’t on sale yet. Set A is free to sit in the meantime.`}
+                                        ? tier && paperOffer
+                                            ? `This ${TIER_COPY[tier].name.toLowerCase()} is part of the ${testName} Season Pass, or you can buy it on its own.`
+                                            : `This paper is part of the ${testName} Season Pass.`
+                                        : tier && paperOffer
+                                          ? `This ${TIER_COPY[tier].name.toLowerCase()} can be bought on its own.`
+                                          : `This paper is part of the ${testName} Season Pass, which isn’t on sale yet. Set A is free to sit in the meantime.`}
                                 </p>
-                                {seasons.length > 0 ? (
-                                    <SeasonChoice
-                                        seasons={seasons}
-                                        isPending={isCheckoutPending}
-                                        onChoose={(season) => {
-                                            trackEvent('unlock_clicked', {
-                                                metadata: {
-                                                    source: 'start_page',
-                                                    season,
-                                                },
-                                            })
-                                            startCheckout({ season })
-                                        }}
-                                    />
+                                {seasons.length > 0 || (tier && paperOffer) ? (
+                                    <>
+                                        {seasons.length > 0 && (
+                                            <SeasonChoice
+                                                seasons={seasons}
+                                                isPending={isCheckoutPending}
+                                                onChoose={(season) => {
+                                                    trackEvent('unlock_clicked', {
+                                                        metadata: {
+                                                            source: 'start_page',
+                                                            season,
+                                                        },
+                                                    })
+                                                    startCheckout({ season })
+                                                }}
+                                            />
+                                        )}
+                                        {tier && paperOffer && (
+                                            <SinglePaperOffer
+                                                tier={tier}
+                                                offer={paperOffer}
+                                                onBuy={buyPaper}
+                                                isPending={isCheckoutPending}
+                                                besidePass={seasons.length > 0}
+                                            />
+                                        )}
+                                    </>
                                 ) : (
                                     /* Nothing on sale: an unlock CTA would
                                        dead-end, so say so rather than imply a
@@ -438,8 +471,11 @@ function SignInToSit({
     minutes,
     isMini,
     seasons,
+    paperOffer,
 }: {
     subject?: string | null
+    /** Set when this paper can also be bought on its own. */
+    paperOffer?: PaperOffer
     /** On-sale seasons, when this paper is behind the Season Pass. Empty for
      *  a free paper, or when there is nothing on sale. */
     seasons: SeasonOffer[]
@@ -451,6 +487,9 @@ function SignInToSit({
 }) {
     const navigate = useNavigate()
     const samples = samplesFor(subject)
+    const paperPrice = paperOffer
+        ? formatSeasonPrice(paperOffer.priceAmount, paperOffer.priceCurrency)
+        : null
 
     return (
         <>
@@ -521,6 +560,8 @@ function SignInToSit({
                             {formatSeasonEnd(seasons[0].lastDay)}
                             {nextSittingNote(seasons[0].lastDay)}, and you can
                             buy it straight after signing in.
+                            {paperOffer &&
+                                ` Or buy just this paper${paperPrice ? ` for ${paperPrice}` : ''}.`}
                         </div>
                     )}
                     <div>

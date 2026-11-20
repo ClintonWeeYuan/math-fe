@@ -11,8 +11,11 @@ import {
 import useListPublishedSetsQuery from '@/hooks/diagnostic/useListPublishedSetsQuery.ts'
 import {
     forgetCheckoutPaper,
+    peekCheckoutKind,
     peekCheckoutPaper,
 } from '@/lib/checkoutIntent.ts'
+import { formatSeasonEnd } from '@/lib/billing.ts'
+import { testFromSubject } from '@/lib/diagnosticNextSteps.ts'
 
 /**
  * How long to keep waiting before switching to the "we have your payment,
@@ -46,19 +49,28 @@ export function CheckoutReturnPage() {
 
     const [waitedTooLong, setWaitedTooLong] = useState(false)
 
+    // The paper they were opening when they chose to buy, if they started
+    // from one, and whether they bought that paper alone or the pass. Read
+    // once: the page re-renders while it waits.
+    const [paperId] = useState(peekCheckoutPaper)
+    const [kind] = useState(peekCheckoutKind)
+    const boughtPaper = kind === 'paper' && paperId !== null
+
     const { data, isError } = useBillingStatusQuery({
         signedIn: true,
         pollUntilPass: true,
+        // A single paper never makes hasPass true, so wait for the paper.
+        pollUntilPaper: boughtPaper ? paperId : undefined,
     })
-    const hasPass = data?.hasPass === true
+    // The purchase this page is waiting for has been granted.
+    const landed = boughtPaper
+        ? (data?.ownedPapers ?? []).includes(paperId)
+        : data?.hasPass === true
     // Passes are per test, so where "browse the papers" should go depends on
     // what was actually bought. Sending a TMUA buyer to the combined listing
     // opens on the ESAT subjects their pass does not cover.
     const browsePath = diagnosticsPathFor(data?.coveredTests)
 
-    // The paper they were opening when they chose to buy, if they started
-    // from one. Read once: the page re-renders while it waits for the pass.
-    const [paperId] = useState(peekCheckoutPaper)
     const { data: allSets } = useListPublishedSetsQuery()
     const paper = paperId ? allSets?.find((s) => s.id === paperId) : undefined
     const go = (path: string) => {
@@ -67,10 +79,10 @@ export function CheckoutReturnPage() {
     }
 
     useEffect(() => {
-        if (hasPass) return
+        if (landed) return
         const timer = setTimeout(() => setWaitedTooLong(true), PATIENCE_MS)
         return () => clearTimeout(timer)
-    }, [hasPass])
+    }, [landed])
 
     // Every screen that renders differently for a pass holder — the report's
     // Skills Radar, the catalogue's locked cards, the results dashboard — is
@@ -78,13 +90,42 @@ export function CheckoutReturnPage() {
     // each page to know about billing.
     const invalidated = useRef(false)
     useEffect(() => {
-        if (!hasPass || invalidated.current) return
+        if (!landed || invalidated.current) return
         invalidated.current = true
         void queryClient.invalidateQueries({ queryKey: ['diagnostic-report'] })
         void queryClient.invalidateQueries({ queryKey: ['my-attempts'] })
-    }, [hasPass, queryClient])
+    }, [landed, queryClient])
 
-    if (hasPass) {
+    if (landed && boughtPaper) {
+        const offer = data?.paperOffers?.find(
+            (o) => o.test === testFromSubject(paper?.subject)
+        )
+        return (
+            <Shell title="You're in — paper unlocked">
+                <p className="text-gray-600">
+                    Sit it whenever you&apos;re ready
+                    {offer ? ` before ${formatSeasonEnd(offer.lastDay)}` : ''}.
+                    Afterwards you&apos;ll get its worked solutions and your
+                    full skill-by-skill report.
+                </p>
+                <div className="flex flex-wrap gap-3">
+                    <Button onClick={() => go(`/diagnostic/sets/${paperId}`)}>
+                        {paper
+                            ? `Start ${paperTitle(paper.title)} →`
+                            : 'Go to your paper →'}
+                    </Button>
+                    <Button
+                        variant="outline"
+                        onClick={() => go('/my-results')}
+                    >
+                        See my results
+                    </Button>
+                </div>
+            </Shell>
+        )
+    }
+
+    if (landed) {
         return (
             <Shell title="You're in — Season Pass unlocked">
                 <p className="text-gray-600">
@@ -129,8 +170,10 @@ export function CheckoutReturnPage() {
                     bank over something that will resolve itself. */}
                 <p className="text-gray-600">
                     {paid
-                        ? "Your payment went through. We're waiting on the confirmation that unlocks your pass — this usually takes a second, so it's worth a refresh."
-                        : "We couldn't confirm a Season Pass on your account."}{' '}
+                        ? `Your payment went through. We're waiting on the confirmation that unlocks your ${boughtPaper ? 'paper' : 'pass'} — this usually takes a second, so it's worth a refresh.`
+                        : boughtPaper
+                          ? "We couldn't confirm this paper on your account."
+                          : "We couldn't confirm a Season Pass on your account."}{' '}
                     If it still isn't showing in a few minutes, email{' '}
                     <a
                         className="underline underline-offset-4"

@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import {
     forgetCheckoutPaper,
+    peekCheckoutKind,
     peekCheckoutPaper,
     rememberCheckoutPaper,
     rememberCheckoutIntent,
@@ -70,5 +71,27 @@ describe('the paper a checkout started from', () => {
         vi.advanceTimersByTime(2 * 60 * 60_000 + 1)
         expect(peekCheckoutPaper()).toBeNull()
         vi.useRealTimers()
+    })
+})
+
+describe('what a checkout was for', () => {
+    const id = '4ef96f83-c5ce-4062-80a7-92c7cf8aea57'
+
+    it('remembers a single-paper purchase', () => {
+        rememberCheckoutPaper(`/diagnostic/sets/${id}`, 'paper')
+        expect(peekCheckoutKind()).toBe('paper')
+        expect(peekCheckoutPaper()).toBe(id)
+        forgetCheckoutPaper()
+    })
+
+    it('reads as the pass by default, and for entries from before', () => {
+        rememberCheckoutPaper(`/diagnostic/sets/${id}`)
+        expect(peekCheckoutKind()).toBe('pass')
+        localStorage.setItem(
+            'jomexam.checkoutPaper',
+            JSON.stringify({ path: `/diagnostic/sets/${id}`, at: Date.now() })
+        )
+        expect(peekCheckoutKind()).toBe('pass')
+        forgetCheckoutPaper()
     })
 })

@@ -22,6 +22,7 @@ import useBillingStatusQuery from '@/hooks/billing/useBillingStatusQuery.ts'
 import useListPublishedSetsQuery from '@/hooks/diagnostic/useListPublishedSetsQuery.ts'
 import { testFromSubject } from '@/lib/diagnosticNextSteps.ts'
 import { useCheckoutCancelledNotice } from '@/lib/checkoutIntent.ts'
+import { isSinglePaper } from '@/lib/singlePapers.ts'
 
 /**
  * The student's own post-exam report (§6). Fetches the owner-scoped report and
@@ -105,7 +106,8 @@ export function DiagnosticReportPage() {
         ? (testSets ?? []).filter(
               (s) =>
                   !s.isFree &&
-                  (s as { format?: 'mini' | 'full' }).format !== 'mini'
+                  (s as { format?: 'mini' | 'full' }).format !== 'mini' &&
+                  !isSinglePaper(s)
           ).length || undefined
         : undefined
 

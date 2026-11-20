@@ -26,6 +26,10 @@ let signedIn = false
 let attempts: StudentAttempt[] = []
 /** The ESAT modules they have chosen; null until they choose. */
 let esatModules: EsatModule[] | null = null
+/** Single papers on sale; empty while they are switched off. */
+let paperOffers: { test: string; lastDay: string; priceAmount: number; priceCurrency: string }[] = []
+/** Single papers the student owns. */
+let ownedPapers: string[] = []
 
 vi.mock('@/lib/billing.ts', async (importOriginal) => ({
     ...(await importOriginal<typeof import('@/lib/billing.ts')>()),
@@ -55,6 +59,8 @@ vi.mock('@/hooks/billing/useBillingStatusQuery.ts', () => ({
                             },
                         ]
                       : [],
+                  paperOffers,
+                  ownedPapers,
               }
             : undefined,
     }),
@@ -163,6 +169,8 @@ beforeEach(() => {
     seasonsOnSale = true
     attempts = []
     esatModules = null
+    paperOffers = []
+    ownedPapers = []
 })
 
 describe('the module blocks', () => {
@@ -466,5 +474,66 @@ describe('TMUA: the mini first, for a newcomer', () => {
         mockSets.mockReturnValue({ data: esatCatalogue(), isLoading: false })
         renderPage('esat')
         expect(screen.queryByText(/Start here:/)).not.toBeInTheDocument()
+    })
+})
+
+describe('single papers', () => {
+    const challenge = full(SUBJECTS.physics, 'X', {
+        id: 'phys-challenge',
+        title: 'ESAT Physics — Challenge Paper',
+        singlePaper: 'challenge',
+    } as Partial<PublishedDiagnosticSet>)
+    const foundations = full(SUBJECTS.physics, 'Y', {
+        id: 'phys-foundations',
+        title: 'ESAT Physics — Foundations Paper',
+        singlePaper: 'foundations',
+    } as Partial<PublishedDiagnosticSet>)
+    const catalogue = () => [...esatCatalogue(), foundations, challenge]
+
+    beforeEach(() => {
+        billingLive = true
+        signedIn = true
+        esatModules = ['maths_1', 'physics']
+        mockSets.mockReturnValue({ data: catalogue(), isLoading: false })
+    })
+
+    it('get their own row, not a lettered tile', () => {
+        renderPage('esat')
+        const physics = module('Physics')
+        expect(within(physics).getByText('Challenge paper')).toBeInTheDocument()
+        expect(within(physics).getByText('Foundations paper')).toBeInTheDocument()
+        // Not among the full-paper tiles.
+        expect(
+            within(physics).queryByRole('button', { name: /^ESAT Physics — Challenge Paper: start$/ })
+        ).not.toBeInTheDocument()
+        expect(within(physics).queryByTitle('ESAT Physics — Challenge Paper')).not.toBeInTheDocument()
+    })
+
+    it('show the single-paper price once they are on sale', () => {
+        paperOffers = [{ test: 'esat', lastDay: '2027-01-31', priceAmount: 1200, priceCurrency: 'GBP' }]
+        renderPage('esat')
+        const physics = module('Physics')
+        expect(within(physics).getAllByRole('button', { name: /Challenge Paper/ })[0]).toHaveTextContent('Buy · £12.00')
+        fireEvent.click(within(physics).getAllByRole('button', { name: /Challenge Paper/ })[0])
+        expect(mockNavigate).toHaveBeenCalledWith('/diagnostic/sets/phys-challenge')
+    })
+
+    it('open for the student who bought one', () => {
+        paperOffers = [{ test: 'esat', lastDay: '2027-01-31', priceAmount: 1200, priceCurrency: 'GBP' }]
+        ownedPapers = ['phys-challenge']
+        renderPage('esat')
+        const physics = module('Physics')
+        const buttons = within(physics).getAllByRole('button', { name: /Physics — (Challenge|Foundations) Paper/ })
+        expect(buttons[0]).toHaveTextContent('Start →')
+        expect(buttons[1]).toHaveTextContent('Buy · £12.00')
+    })
+
+    it('are in the Season Pass for a pass holder', () => {
+        coveredTests = ['esat']
+        renderPage('esat')
+        const physics = module('Physics')
+        expect(within(physics).getAllByText(/in your Season Pass/).length).toBeGreaterThan(0)
+        const challengeButton = within(physics).getAllByRole('button', { name: /Challenge Paper/ })[0]
+        expect(challengeButton).toHaveTextContent('Start →')
     })
 })

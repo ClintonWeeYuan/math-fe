@@ -1,5 +1,8 @@
 import { useMutation } from '@tanstack/react-query'
-import { createCheckoutSession } from '@/lib/billingApi.ts'
+import {
+    createCheckoutSession,
+    createPaperCheckoutSession,
+} from '@/lib/billingApi.ts'
 import { toast } from 'sonner'
 import { rememberCheckoutPaper } from '@/lib/checkoutIntent.ts'
 
@@ -10,6 +13,8 @@ type Variables = {
     /** Where Stripe returns an abandoning student. Defaults to the page they
      *  are on, which is almost always what you want. */
     returnPath?: string
+    /** Buy this one single paper instead of a pass. */
+    paperId?: string
 }
 
 /**
@@ -26,16 +31,19 @@ type Variables = {
  */
 export default function useStartCheckoutMutation() {
     return useMutation({
-        mutationFn: async ({ season, returnPath }: Variables = {}) => {
+        mutationFn: async ({ season, returnPath, paperId }: Variables = {}) => {
             const from =
                 returnPath ??
                 (typeof window !== 'undefined'
                     ? window.location.pathname
                     : undefined)
-            const url = await createCheckoutSession(season, from)
+            const url = paperId
+                ? await createPaperCheckoutSession(paperId, from)
+                : await createCheckoutSession(season, from)
             // So the return page can offer the paper they were opening,
-            // rather than the whole catalogue.
-            rememberCheckoutPaper(from)
+            // rather than the whole catalogue — and knows which purchase to
+            // wait for.
+            rememberCheckoutPaper(from, paperId ? 'paper' : 'pass')
             // assign, not replace: the student should be able to come back
             // with the browser's back button if they change their mind on
             // Stripe's page.
